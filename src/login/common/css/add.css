@@ -1,0 +1,252 @@
+/* -----------------------------------------------------------------------------------
+2019-12-01 Button styles geändert
+2020-04-09 background-clip:padding-box; für table.scroll thead tr th
+           um border sichtbar zu machen wenn background farbe gesetzt ist
+2020-04-12 .dropbtn überarbeitet und z-index:2; für table.scroll thead dazugegeben
+------------------------------------------------------------------------------------ */
+
+    fieldset   { background-color:white; border-radius:15px; border:1px solid blue; margin:10px 0 10px 0}
+    legend     { background-color:white;color:darkblue;font-weight:bold;font-size:110%;}
+    div.white  { background-color:white; border-style:none; padding:5px 10px 5px;}
+    div.debug  { background-color:orange;}
+    div.resize { border: 2px solid;
+                 padding: 0px; width: 100%; height: 4in;
+                 resize: both;
+                 overflow: auto;background-color:white;
+               }
+ /* ============================================ Headings ===================================================== */
+ h1         {text-align:center;background-color:white;margin-top:0px;margin-bottom:0px;}
+ h2         {text-align:center;background-color:white;margin-top:0px;margin-bottom:0px;}
+ h3         {                  background-color:white;margin-top:0px;margin-bottom:0px;}
+ h4         {                  background-color:white;margin-top:0px;margin-bottom:0px;color:darkblue;font-weight:bold;}
+
+    label      { font-weight: bold; }
+    pre.debug  {background-color:orange;}
+    span.label {display:inline-block; width:9em; text-align:right; font-weight:bold; background-color:yellow; }
+    .error     { color:red;  }
+    span.info  { font-size:small; font-style:italic; }
+
+    span.error { color:red;  font-weight:bold;animation-name:blinkingText;animation-duration:3s;
+animation-timing-function:ease;animation-iteration-count:infinite;}
+@keyframesblinkingText{0%,60%{opacity:1;}
+100%{opacity:0.4;color:black;}}
+    ul.kat     { margin-top:0px; margin-bottom:0px; font-size:small; }
+
+
+    input.error{ color:black; /*border-color:red; border-width:3pt;*/}
+    td.label   { text-align:right ;vertical-align:top;     margin-left:0px; font-weight:bold;}
+    td.input   { text-align:left  ;vertical-align:bottom; }
+    .List-grid-container { display: grid; grid-template-columns: auto auto ; grid-gap: 2em;} /* f�r List.... scripts*/
+    .List-grid-container.list > div {}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 2px dotted blue;
+    color: blue;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 35em;
+    background-color: white;
+    color:black;
+    text-align: left;
+    border-radius: 6px;
+    border:3px solid blue;
+    padding: 5px;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+/*   top: -5px;
+    left: 3em;
+     margin-left: -10px;
+     */
+}
+
+.tooltip:hover .tooltiptext {placement: auto; visibility: visible; }
+.fa-check                   { color: green; }
+.fa-remove                  { color: red; }
+
+/* ============================================ Buttons und links ====================================================== */
+button      {font-size:18px;font-weight:bold;color:blue;font-family:Arial,sans-serif;padding:0px 6px 0px 4px;margin:1px;
+             background-color:white;border:4px solid blue;border-radius:12px}
+button.green{border-color:green;color:green}
+button.red  {border-color:red;  color:red}
+button.chg{color:red;border-style:none}
+
+a           {color:blue;font-weight:bold;text-decoration:underline;text-decoration-color:blue}
+a.button    {-webkit-appearance:button;cursor:pointer;padding:4px;border:4px solid blue;border-radius:15px;text-decoration-line:none;font-weight:bold;background-color:white;font-size:110%}
+
+/* ================================= dropdown Button mit Aktionen =================================== */
+.dropbtn {background-color:inherit;color:blue;padding:5px;border:none;text-decoration:underline;text-decoration-style:dotted} /* Dropdown Button */
+.dropdown {position:relative;display:inline-block;font-size:120%} /* container <div> - to position dropdown content */
+.dropdown-content {display:none;position:absolute;background-color:#f0f0f0;min-width:15em;border:2px solid blue;z-index:1} /* Dropdown Content (Hidden by Default) */
+.dropdown-content a {padding:5px;background-color:white;display:block} /* Links inside dropdown */
+.dropdown-content a:hover {background-color:#ccc} /* color of dropdown links on hover */
+.dropdown:hover .dropdown-content {display:block} /* Show the dropdown menu on hover */
+.dropdown:hover .dropbtn {background-color:yellow} /* Change dropdown button when the dropdown content is shown */
+
+/* =====================================  Tabelle mit fixem header ========================================= */
+table.scroll thead       {z-index:2;position:sticky; top:0;}
+table.scroll thead tr th {vertical-align:middle;text-align:left;padding:0px;margin:0px;border:1px solid black;background-color:#E0E0FF;background-clip:padding-box}
+table.scroll tbody tr td {vertical-align:middle;text-align:left;border-left:1px solid black}
+table, th, td {border: 1px solid black; } /* width: 100%;*/
+
+/* =====================================  img mit Border und padding ======================================= */
+img {
+  border: 2px solid blue;
+  border-radius: 2px;
+  /*
+  padding: 2px; 2px; 2px; 2px;
+  width: 150px;
+  */
+}
+
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+/* ===========================   force always Scrollbars ======================================================== */
+body {
+  overflow-y: visible; /* Show vertical scrollbar */
+  /* overflow-x: scroll; Show horizontal scrollbar */
+}
+
+/*img mit Abstand und Rahmen */
+img {
+  border: 2px solid #ddd;
+  border-radius: 2px;
+  padding: 1px 1px 5px 5px;
+  margin: 10px;
+  /* width: 150px; */
+}
+
+img:hover {
+  box-shadow: 2px 2px 2px 2px rgba(0, 140, 186, 0.5);
+}
+
+.cont{border:1px solid grey;
+}
+/*
+@media print{.nav{display:none;
+}
+*/
+@media print{
+.w3-navbar,.w3-sidenav,.w3-topnav,.nav {display:none}
+
+table, th,td { border: 1px solid black;}
+td {vertical-align: top;}
+
+ body {
+    margin: 0;
+    color: #000;
+    background-color: #fff;
+  }
+
+h1,h2 {
+  break-before: always;
+}
+
+}
+
+strong{
+-weight: bold;
+}
+
+font.footer {
+  font-size: 0.7em;
+  display: flex;
+  width: 100vw;
+  position: absolute;
+  bottom: 2rem;
+  color: rgb(147, 147, 147);
+  justify-content: center;
+  transition: var(--transition-1);
+}
+
+/*
+definitione für autocomplete
+*/
+ #suggestions {
+            border: 1px solid #ccc;
+            display: none;
+            position: absolute;
+            background: white;
+            z-index: 1000;
+        }
+  .suggestion {
+            padding: 5px;
+            cursor: pointer;
+        }
+  .suggestion:hover {
+            background-color: #f0f0f0;
+        }
+
+		.autocomplete-suggestions { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+		.autocomplete-no-suggestion { padding: 2px 5px;}
+		.autocomplete-selected { background: #F0F0F0; }
+		.autocomplete-suggestions strong { font-weight: bold; color: #000; }
+		.autocomplete-group { padding: 2px 5px; font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }
+
+
+/*}*/
+/*
+img {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 10em) {
+  img {
+    width: 50%;
+    height: 50%
+    float: right;
+    margin: 0 0 1em 1em;
+  }
+}
+
+@media (min-width: 25em) {
+  img {
+    width: 75%;
+    height: 75%;
+  }
+}
+
+
+<svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+  <polygon fill="blue" points="2,2 5,2 5,3 3,3 3,9 9,9 9,7 10,7 10,10 2,10"/>
+  <polygon points="6.2,2 10,2 10,5.8 8.6,4.4 6.5,6.5 5.5,5.5 7.6,3.4"/>
+</svg>
+
+
+
+
+a {
+  padding-right: 2em;
+  color: blue;
+  background: url("data:image/svg+xml,%3Csvg%20viewBox...%20fill%3D%22blue%22%20...") no-repeat right;
+}
+
+a:hover,
+a:focus {
+  color: purple;
+  background: #fffbf0 url("data:image/svg+xml,%3Csvg%20viewBox...%20fill%3D%22purple%22%20") no-repeat right;
+}
+
+a[href^="http"] {
+  background: url("data:image/svg+xml,%3Csvg%20viewBox...") no-repeat right;
+}
+
+a[href^="http"]:hover,
+a[href^="http"]:focus {
+  background: #fffbf0 url("data:image/svg+xml,%3Csvg%20viewBox...") no-repeat right;
+}
+
+*/
+
+header {
+  border-color: skyblue; /*transparent */
+}
+
