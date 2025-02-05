@@ -4,7 +4,7 @@
  * Basis der Seite, einlesen Configuration, Externe Seite
  *
  * @author josef Rohowsky - neu 2014
- *        letzte Änderung 2024, Änderung der Struktur, neue Schutzmechanismen, neu einterne Einteilung
+ *        letzte Änderung 2025, Änderung der Struktur, neue Schutzmechanismen, neu einterne Einteilung
  */
 
 session_start();
@@ -30,6 +30,7 @@ if (!is_file($path2ROOT."login/common/config_d.ini") ||  !is_file($path2ROOT."lo
  */
 require $path2ROOT .  'login/common/Funcs.inc.php'; // Diverse Unterprogramme
 require $path2ROOT .  'login/common/VF_Comm_Funcs.inc.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILE
 
@@ -37,19 +38,21 @@ $db = linkDB('VFH');
 
 $logo = 'JA';
 $header = "";
+$form_start = True;
 $header .= "<style>nav{float:left;width:320px;margin:10px;border:3px solid grey;}.cont{border:1px solid grey;}@media print{.nav{display:none;}}</style>  \n";
 
-HTML_header('Hauptseite', '', $header, 'Form', '75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+BA_HTML_header('Start- Seite', $header, '1P', '75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini',True,INI_SCANNER_NORMAL);
 $cnt_m = count($ini_arr['Modules']);
 
-# print_r($ini_arr);echo "<br>l 047 ini arr <br>";
 if (isset($ini_arr['Modules']) && $cnt_m >10){ # && $cnt_m >10
+    
+    # echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/2013_01_top_72.png'>";
+
 ?>
 
-<img src="imgs/cr_2013_01_top_72.png" alt="imgs/2013_01_top_72.png"
-     class="w3-image">
 <br />
 
 <div class='w3-third'>
@@ -213,11 +216,11 @@ if ($_SERVER['SERVER_ADDR'] == "136.243.155.235") { # || $_SERVER['SERVER_ADDR']
 <?php
 
 } else {
-    echo "Konfigurations- Fehler. Konfirguration der <b>Module</b> neu aufsetzen. <br>";
+    echo "Konfigurations- Fehler. Konfiguration der <b>Module</b> neu aufsetzen. <br>";
 }
 
 echo "</div>";
 
-HTML_trailer();
+BA_HTML_trailer();
 ?>
 
