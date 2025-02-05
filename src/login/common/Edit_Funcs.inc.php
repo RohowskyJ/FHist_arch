@@ -116,9 +116,7 @@ function Edit_Separator_Zeile($text) # Trennzeile in Edit
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Separator_Zeile");
     
     echo "<div class='w3-container' style='width:100%; background:#e4e4e4; padding-left:3%; padding-right:3%;'>";
-    # echo "<div style='font-size:110%; 'text-align:left;background-color:#d6eaf8;'>$text</div>";
-    echo "<p class='w3-large  ' style= 'width:auto'>$text</p>";
-    #echo "<p class='ed-blk-head '>$text</p>";
+    echo "<p class='w3-medium  ' style= 'width:auto'><b>$text</b></p>";
     echo "</div>";
     
         
@@ -758,8 +756,8 @@ function Edit_Tabellen_Header($text = '')
         echo "<span class='error'>" . "$Errors Fehlermeldung(en). Vervollständigen/Korrigieren Sie die Eingabefelder des Formulares." . "</span><br>";
     }#ecf2f9
     
-    echo "<div class='w3-container' style='width:100%; background:#e6e6e6; padding-left:3%; padding-right:3%;'>";
-    echo "<p class=' w3-xlarge'>$text</p>";
+    echo "<div class='w3-container' style='width:100%; background:#cfcfcf; padding-left:2%; padding-right:2%;'>";
+    echo "<p class='w3-large'><b>$text</b></p>";
     echo "</div>";
     
     echo '</div>';
