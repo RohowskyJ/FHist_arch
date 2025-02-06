@@ -160,11 +160,11 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         echo '<fieldset>';
     }
    
-    if (!isset($form_start) || !$form_start) {
+    if (isset($form_start) && $form_start) {
         echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data'>";
     }
    
-    BA_flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_HTML_Header");
+    BA_flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_Header");
 }
 
 // Ende von function BA_HTML_Header 
@@ -178,7 +178,7 @@ function BA_HTML_trailer()
 {
     global $module, $path2ROOT;
 
-    BA_flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_HTML_trailer");
+    BA_flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
    
    ?>
     <br>
