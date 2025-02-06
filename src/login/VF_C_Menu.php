@@ -16,10 +16,10 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT .  'login/common/VF_Comm_Funcs.inc.php';
+require $path2ROOT .  'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT .  'login/common/BA_HTML_Funcs.lib.php';
-require $path2ROOT .  'login/common/Funcs.inc.php';
-require $path2ROOT .  'login/common/Edit_Funcs.inc.php';
+require $path2ROOT .  'login/common/BA_Funcs.lib.php';
+require $path2ROOT .  'login/common/BA_Edit_Funcs.lib.php';
 
 $N = False;
 if (isset($_GET['N'])) {$N = True;}
@@ -142,9 +142,6 @@ if ($emailadr != "" && $password != "") { // Login auf erlaubt prüfen, zugriffe
             $phase_p = "1";
         }
 
-        # echo '<form id="test" name="test" method="post" action="VF_C_Menu.php">';
-        # echo "L 0143 pwchg $pwchg phase_p $phase_p <br/>";
-        # echo "";
         VF_Log_Pw_Chg();
 
         echo "<input name=\"pwchg\" type=\"hidden\" id=\"pwchg\" value=\"$pwchg\"/>";
@@ -176,7 +173,7 @@ if ($emailadr != "" && $password != "") { // Login auf erlaubt prüfen, zugriffe
 VF_Count_add();
 
 if ($debug) {
-    echo "L 175: nach einlesen zugr <br>";
+    echo "L 176: nach einlesen zugr <br>";
     print_r($_SESSION[$module]);
     echo "<br>";
 }

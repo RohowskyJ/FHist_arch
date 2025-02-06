@@ -12,8 +12,8 @@ $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
  *
  * @var string $path2ROOT
  */
-require $path2ROOT.'login/common/Funcs.inc.php' ;  // Diverse Unterprogramme
-
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
+require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 $flow_list = False;
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
@@ -21,7 +21,7 @@ initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $
 $logo = 'JA';
 
 $header = "";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Referate',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Referate',$header,'Form','75em');
 echo "<div  class='w3-container'>";
 ?>
 
@@ -91,10 +91,9 @@ Leiter: Karl Zehetner,
 Uniformen, Auszeichnungen, ...<br/>
 </p>
 
-
 <center>
 <br><br>
-<a href="../">
+<a href="index.php">
     Zur Startseite</a>
 </center>
 

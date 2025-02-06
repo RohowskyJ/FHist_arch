@@ -1,9 +1,11 @@
 <?php
+$debug = True;
 if ($debug) {
     echo "<pre class=debug>Proj_Conf_Edit_ph1.inc.php ist gestarted</pre>";
 }
-
+var_dump($_FILES);
 $uploaddir = $path2ROOT . "login/common/imgs/";
+/*
 $target1 = "";
 if (! empty($_FILES['uploaddatei_1'])) {
     $pict1 = basename($_FILES['uploaddatei_1']['name']);
@@ -22,10 +24,20 @@ if ($target1 != "") {
     $lngth = count($fn);
     $neu['c_logo'] = $fn[$lngth - 1];
 }
-
+*/
 #$c_logo = "";
 if (isset($_FILES)) {
     $_SESSION[$module]['sign'] = $c_logo = VF_Upload_Pic('sign', $path2ROOT."login/common/imgs/", "", "");
+}
+if (isset($_FILES['uploaddatei_1']['name'])) {
+
+    if ($_FILES['uploaddatei_01']['name'] != "" ) {
+        $neu['c_logo'] = VF_Upload($uploaddir, '01');
+    }
+
+    if ($_FILES['uploaddatei_02']['name'] != "" ) {
+        $neu['c_1page'] = VF_Upload($uploaddir, '02');
+    }
 }
 
 $updas_s = "\n[Config]\n";
@@ -80,7 +92,9 @@ foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     if ($name == "c_logo") {
         $updas_s .= "sign = '$value'\n ";
     }
-    
+    if ($name == "c_1page") {
+        $updas_s .= "fpage = '$value'\n ";
+    }
     if ($name == "c_Homepage") {
         $updas_s .= "homp = '$value'\n ";
     }

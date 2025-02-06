@@ -5,21 +5,20 @@ $path2ROOT = "../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
- require $path2ROOT.'login/common/Funcs.inc.php' ;  // Diverse Unterprogramme
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
+require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Ziele der Feuerwehrhistoriker in NÖ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
 <body class="w3-container ">
 <div class="w3-content ">  <!-- max-width:45em; margin:5em;--->
 <fieldset>
-
-<h1>Feuerwehrhistoriker in Niederösterreich</h1>
 
 <h2>Unsere Ziele im Detail</h2>
 
@@ -99,9 +98,14 @@ zurück gegriffen werden kann und der keiner räumlichen und personellen Enge
 eines Museums unterliegt.
 </p>
 
+<center>
+<br><br>
+<a href="index.php">
+    Zur Startseite</a>
+</center>
 
 </fieldset>
 </div>
 <?php
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

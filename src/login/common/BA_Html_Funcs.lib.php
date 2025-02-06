@@ -50,23 +50,24 @@ if ($debug) {
  *
  * @param string $title
  *            <title> tag text
- * @param string $stitle
- *            Unter- usatz- ) Titel
  * @param string $head
  *            zusätzliche <head> Zeilen. Auch <style>......</style
  * @param string $type
- *            Form der Seite =Form Ausgabe <body><fieldset><header</Fieldset><fieldset> aus
- *            != Form gibt nur <body></fieldset aus
- *
+ *            Form der Seite 
+ *             == Form Ausgabe <body><fieldset><header</Fieldset><fieldset> aus
+ *             == List gibt nur <body></fieldset aus
+ *             == 1P Erste Seite: gibt das Bild aber kein Logo aus
+ * @param string $width die Breite des Schirmes (div)
  *
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
- * @global string $logo NEIN: keine Anzeige des Logo
  * @global bool $prot lädt prototybe.js
  */
-function BA_HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '90em', $PrtCtrl = "print")
+function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 // --------------------------------------------------------------------------------
 {
-    global $path2ROOT, $module, $logo, $prot, $actor, $Anfix, $noform,$form_start;
+    global $path2ROOT, $module, $logo, $prot, $actor, $Anfix, $form_start;
+    
+    if (!isset($form_start)) {$form_start = True;}
     
     echo "<!DOCTYPE html>";
     echo "<html lang='de'>"; # style='overflow-x:scroll;'
@@ -112,32 +113,22 @@ function BA_HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '9
         $actor = $_SERVER["PHP_SELF"];
     }
     
+    echo "<body class='w3-container' style='max-width:$width;' >"; //
+    echo '<fieldset>'; ## ganze seite
+    
+    echo "<div class='w3-container' id='header'><fieldset><header>";  // Seitenkopf start
+    echo "<div class='w3-row'>";
+    echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
+    
     if ($type == 'Form') {
-        echo "<body class='w3-container' style='max-width:$width;' >"; //
-        echo '<fieldset>'; ## FS 1 -
+
+        echo "<div class='w3-col s9 m10 l11 '>"; // div langer Teil
         
-        ?>
-           <div class='w3-container' id='header'>
-    <fieldset>
-    <header>
-    
-       <div class='w3-row'>
-          <div class='w3-col s9 m10 l11 '>
-            <label><?php echo "<div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div>"?><br>
-            <p class='w3-center w3-xlarge'><?php echo $title ?></p>
-          </div>
-          <div class='w3-col s3 m2 l1 ' >
-          <logo>
-             <img  src= '<?php echo $path2ROOT?>login/common/imgs/<?php echo $ini_arr['Config']['sign'];?>' width='90%'> 
-          </logo> 
-        </div>
-    </div>
-    
-    </header>
-    </fieldset>
-   
-   <?php 
-       
+        echo "<p class='w3-center w3-xlarge'> $title </p>";
+        echo "</div>"; // Ende langer Teil
+        echo "<div class='w3-col s3 m2 l1 ' >"; // div kurzer Teil
+        echo "<logo><img  src= '".$path2ROOT."login/common/imgs/".$ini_arr['Config']['sign']."' width='90%'></logo>";
+        echo "</div>"; // ende kurzer Teil
         if ($ini_arr['Config']['wart'] == "N") {} else {
             
             if ($ini_arr['Config']['wart'] == "J") {
@@ -147,13 +138,28 @@ function BA_HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '9
                 echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
             }
         }
-
-       echo '</div>';                               ## div 1 end - titeln und Logo
-       echo "<fieldset>"; ## FS 2 Institution und Titel
-    } else {
+        
+        echo "</div>"; // Ende w3-row
+        echo "</div><fieldset>"; ## Ende Seitenkopf
+    } elseif ($type == '1P') {
+        echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/2013_01_top_72.png' width='98%'>";
+        if ($ini_arr['Config']['wart'] == "N") {} else {
+            
+            if ($ini_arr['Config']['wart'] == "J") {
+                echo "<p class='error' style='font-size: 1.875em;'>Wartungsarbeiten - nur Abfragen möglich - keine Änderungen</p>";
+            }
+            if ($ini_arr['Config']['wart'] == "U") {
+                echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
+            }
+        }
+        
+        echo "</div>"; // Ende w3-row
+        echo "</div><fieldset>"; ## Ende Seitenkopf
+    } else { // List
         echo "<body class='w3-container'  style='max-width:$width;'>";
         echo '<fieldset>';
     }
+   
     if (!isset($form_start) || !$form_start) {
         echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data'>";
     }
@@ -161,7 +167,8 @@ function BA_HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '9
     BA_flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_HTML_Header");
 }
 
-// Ende von function
+// Ende von function BA_HTML_Header 
+
 
 /**
  * Unterprogramm gibt passend zu HTML_Header den trailer aus
@@ -177,15 +184,15 @@ function BA_HTML_trailer()
     <br>
     <footer class='footer'>
     <div class='copyrights' style='font-size: 0.7rem'>
-    Copyright &copy; <span id='year'>
+    Copyright &copy; 2016 - <span id='year'>
     <script>document.getElementById('year').innerHTML = new Date().getFullYear();</script>
     </span>
-    Josef Rohowsky - All Rights Reserved
+    Josef Rohowsky - alle Rechte vorbehalten - All Rights Reserved
     </div>
     </footer>
-    </form>";
+    </form>
     
-    </div></fieldset></body></html>"; 
+    </div></fieldset></body></html>" 
     <?php 
 }
 

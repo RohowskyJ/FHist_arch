@@ -24,9 +24,10 @@ $path2ROOT = "../../";
 $debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/Funcs.inc.php'; // Diverse Unterprogramme
-require $path2ROOT . 'login/common/VF_Const.inc.php';
-require $path2ROOT . 'login/common/PHP_Mail_Funcs.inc.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php'; // Diverse Unterprogramme
+require $path2ROOT . 'login/common/BA_Funcs.lib.php'; // Diverse Unterprogramme
+require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
@@ -106,12 +107,12 @@ if ($phase == 1) {
 }
 
 $header = "";
-HTML_header('Meine Nachricht an die Feuerwehrhistoriker in NÖ', '', $header, 'Form', '75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Meine Nachricht an die Feuerwehrhistoriker in NÖ',  $header, 'Form', '75em');
 
 switch ($phase) {
     case 0:
         require 'VF_EM_Edit_ph0.inc.php';
         break;
 }
-HTML_trailer();
+BA_HTML_trailer();
 ?>

@@ -68,7 +68,11 @@ Periodische Sicherung der Daten
 </ol>
      </div>
 
-
+<center>
+<br><br>
+<a href="../index.php">
+    Zur Startseite</a>
+</center>
 </fieldset>
 </div>
 <?php

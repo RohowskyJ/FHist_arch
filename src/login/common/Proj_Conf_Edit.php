@@ -24,11 +24,11 @@ $path2ROOT = "../../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
-require $path2ROOT . 'login/common/VF_Int_Conf_Const.inc.php';
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Int_Conf_Const.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
 initial_debug();
 
@@ -71,6 +71,7 @@ $Tabellen_Spalten_COMMENT['c_mode'] = 'Betriebsmodus';
 $Tabellen_Spalten_COMMENT['c_Wartung'] = 'Wartungsmodus';
 $Tabellen_Spalten_COMMENT['c_Wart_Grund'] = 'Wartungsgrund, Information';
 $Tabellen_Spalten_COMMENT['c_logo'] = 'Logo (Signatur)';
+$Tabellen_Spalten_COMMENT['c_1page'] = 'Bild der 1. Seite';
 $Tabellen_Spalten_COMMENT['c_Eignr'] = 'Eigentümer- Nummer';
 $Tabellen_Spalten_COMMENT['c_Homepage'] = 'Homepage (URL)';
 
@@ -101,7 +102,7 @@ if ($phase == 0) {
         
         $neu['c_Institution'] = $ini_arr["Config"]['inst'];
         $neu['c_Vereinsreg'] = $ini_arr["Config"]['vreg'];
-        $neu['c_Eignr'] = $ini_arr["Config"]['defeign'];
+        $neu['c_Eignr'] = $ini_arr["Config"]['eignr'];
         $neu['c_Verantwort'] = $ini_arr["Config"]['vant'];
         $neu['c_email'] = $ini_arr["Config"]['vema'];
         $neu['c_Ver_Tel'] = $ini_arr["Config"]['vtel'];
@@ -109,6 +110,7 @@ if ($phase == 0) {
         $neu['c_Wartung'] = $ini_arr["Config"]['wart'];
         $neu['c_Wart_Grund'] = $ini_arr["Config"]['warg'];
         $neu['c_logo'] = $ini_arr["Config"]['sign'];
+        $neu['c_1page'] = $ini_arr["Config"]['fpage'];
         $neu['c_Homepage'] = $ini_arr["Config"]['homp'];
     } else {
         $neu['c_Institution'] = "Organisations- Bezeichnung";
@@ -121,6 +123,7 @@ if ($phase == 0) {
         $neu['c_Wartung'] = 'N';
         $neu['c_Wart_Grund'] = "";
         $neu['c_logo'] = 'Signet.jpg';
+        $neu['c_1page'] = 'Bild_1_Seite.png';
         $neu['c_Homepage'] = 'https://www.homepage-Name.at';
     }
     if (is_file($path2ROOT . 'login/common/config_m.ini')) {

@@ -19,7 +19,7 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/Funcs.inc.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 
 $flow_list = False;

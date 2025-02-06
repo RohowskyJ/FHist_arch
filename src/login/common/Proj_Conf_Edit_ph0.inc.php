@@ -48,8 +48,26 @@ Edit_Select_Feld('c_Wartung', array(
 
 Edit_Daten_Feld('c_Wart_Grund', 100);
 
+echo "<input type='hidden' name='c_logo' value='".$neu['c_logo']."' >";
+echo "<input type='hidden' name='c_1page' value='".$neu['c_1page']."' >";
+
+/*
 Edit_Daten_feld('c_logo', 50);
 Edit_Upload_file('c_logo');
+
+Edit_Daten_feld('c_1page', 50);
+Edit_Upload_file('c_1page');
+
+*/
+
+$Feldlaenge = "100px";
+
+$pic_arr = array(
+    "01" => "|||c_logo",
+    "02" => "|||c_1page"
+);
+VF_Multi_Foto($pic_arr);
+
 
 const Ja_Nein = array(
     'J' => 'Ja',
