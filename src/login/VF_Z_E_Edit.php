@@ -22,7 +22,6 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -87,6 +86,7 @@ if ($phase == 0) {
         $neu['ei_internet'] = $neu['ei_sterbdat'] = $neu['ei_abgdat'] = $neu['ei_neueigner'] = $neu['ei_wlpriv'] = $neu['ei_vopriv'] = "";
         $neu['ei_wlmus'] = $neu['ei_vomus'] = $neu['ei_wlinv'] = $neu['ei_voinv'] = $neu['ei_voinf'] = $neu['ei_vofo'] = "";
         $neu['ei_voar'] = $neu['ei_drwvs'] = $neu['ei_drneu'] = $neu['ei_uidaend'] = $neu['ei_aenddat'] = "";
+        $neu['ei_urh_kurzz'] = $neu['ei_media'] = '';
     } else {
         $sql = "SELECT * FROM fh_eigentuemer ";
 
@@ -135,4 +135,32 @@ switch ($phase) {
         header("Location: VF_Z_E_List.php");
         break;
 }
-BA_HTML_trailer();?>
+BA_HTML_trailer();
+
+/**
+ * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
+ *
+ * Funktion wird vom List_Funcs einmal pro Datensatz aufgerufen.
+ * Die Felder die Funktioen auslösen sollen oder anders angezeigt werden sollen, werden hier entsprechend geändert
+ *
+ *
+ * @param array $row
+ * @param string $tabelle
+ * @return boolean immer true
+ *
+ * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
+ * @global string $T_List Auswahl der Listen- Art
+ * @global string $module Modul-Name für $_SESSION[$module] - Parameter
+ */
+function modifyRow(array &$row, $tabelle)
+{
+    global $path2ROOT, $T_List, $module;
+    
+    $fs_flnr = $row['fs_flnr'];
+    $row['fs_flnr'] = "<a href='VF_Z_E_U_Ed.php?ID=$fs_flnr'  >" . $fs_flnr . "</a>";
+    
+    # -------------------------------------------------------------------------------------------------------------------------
+    return True;
+} # Ende von Function modifyRow
+
+?>

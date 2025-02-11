@@ -47,6 +47,11 @@ echo "<input type='hidden' name='ei_mitglnr' value='".$neu['ei_mitglnr']."' />";
   Edit_Daten_Feld('ei_abgdat',10,'',"type='date'");
   Edit_Daten_Feld('ei_neueigner',50);
   # =========================================================================================================
+  Edit_Separator_Zeile('Urheber- Daten');
+  # =======================================================================================================
+  Edit_Daten_Feld('ei_urh_kurzz',15,'Kurzzeichen für Foto- Name');
+  Edit_Daten_Feld('ei_media',15,'A,F,V .. Audio,Foto,Video');
+  # =========================================================================================================
   Edit_Separator_Zeile('Verantwortlicher (Bei Organisaton)');
   # =========================================================================================================
   Edit_Daten_Feld('kont_name',100);
@@ -75,10 +80,14 @@ echo "<input type='hidden' name='ei_mitglnr' value='".$neu['ei_mitglnr']."' />";
   # =========================================================================================================
   Edit_Daten_Feld('ei_uidaend');
   Edit_Daten_Feld('ei_aenddat');
-  
  
 # =========================================================================================================
-  Edit_Tabellen_Trailer();
+  Edit_Tabellen_Trailer(); 
+
+  if ($neu['ei_org_typ'] != "Privat") {
+      require "VF_Z_E_U_List.inc.php";
+  }
+  
   if ( $_SESSION[$module]['all_upd'] ) 
   {
           echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";

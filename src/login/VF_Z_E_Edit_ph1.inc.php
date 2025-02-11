@@ -52,7 +52,8 @@ if ($neu['ei_id'] == "0") { // NeuItem
                 kont_name , ei_fwkz ,
                 ei_grdgj , ei_titel , ei_vname , ei_name , ei_dgr , ei_adresse ,
                 ei_plz , ei_ort , ei_tel , ei_fax , ei_handy , ei_email ,
-                ei_internet , ei_sterbdat , ei_abgdat , ei_neueigner , ei_wlpriv , ei_vopriv ,
+                ei_internet , ei_sterbdat , ei_abgdat , 
+                ei_urh_kurzz, ei_media, ei_neueigner , ei_wlpriv , ei_vopriv ,
                 ei_wlmus , ei_vomus , ei_wlinv , ei_voinv , ei_voinf , ei_vofo ,
                 ei_voar , ei_drwvs , ei_drneu , ei_uidaend , ei_aenddat
               ) VALUE (
@@ -60,7 +61,8 @@ if ($neu['ei_id'] == "0") { // NeuItem
                '$neu[kont_name]','$neu[ei_fwkz]',
                '$neu[ei_grdgj]','$neu[ei_titel]','$neu[ei_vname]','$neu[ei_name]','$neu[ei_dgr]','$neu[ei_adresse]',
                '$neu[ei_plz]','$neu[ei_ort]','$neu[ei_tel]','$neu[ei_fax]','$neu[ei_handy]','$neu[ei_email]',
-               '$neu[ei_internet]','$neu[ei_sterbdat]','$neu[ei_abgdat]','$neu[ei_neueigner]','$neu[ei_wlpriv]','$neu[ei_vopriv]',
+               '$neu[ei_internet]','$neu[ei_sterbdat]','$neu[ei_abgdat]',
+               '$neu[ei_urh_kurzz]','$neu[ei_media]','$neu[ei_neueigner]','$neu[ei_wlpriv]','$neu[ei_vopriv]',
                '$neu[ei_wlmus]','$neu[ei_vomus]','$neu[ei_wlinv]','$neu[ei_voinv]','$neu[ei_voinf]','$neu[ei_vofo]',
                '$neu[ei_voar]','$neu[ei_drwvs]','$neu[ei_drneu]','$p_uid',now()
                )";
