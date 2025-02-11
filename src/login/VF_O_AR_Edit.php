@@ -1,15 +1,17 @@
 <?php
 
 /**
- * Mitgliederverwaltung, Wartung
- * 
- * @author Josef Rohowsky - neu 2020
+ * Liste der öffentlichen Archive und Bibliotheken, Wartung
+ *
+ * @author Josef Rohowsky - neu 2018
+ *
  */
 session_start();
 
-const Module_Name = 'MVW';
+# die SESSION am leben halten
+const Module_Name = 'OEF';
 $module = Module_Name;
-$tabelle = 'fh_mitglieder';
+$tabelle = 'fh_falinks';
 
 const Prefix = '';
 
@@ -29,20 +31,24 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
 $flow_list = False;
 
-$form_start = True;
-BA_HTML_header('Mitglieder- Verwaltung','', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+$LinkDB_database  = '';
+$db = LinkDB('VFH');
 
-initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
+initial_debug();
 
 // ============================================================================================================
 // Eingabenerfassung und defauls
 // ============================================================================================================
 
-$LinkDB_database = '';
-$db = LinkDB('VFH');
+if (isset($_GET['ID'])) {
+    $fa_id = $_GET['ID'];
+} else {
+    $fa_id = "";
+}
 
 // ============================================================================================================
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
@@ -52,52 +58,44 @@ if (isset($_POST['phase'])) {
 } else {
     $phase = 0;
 }
-if (isset($_GET['ID'])) {
-    $mi_id = $_GET['ID'];
-} else {
-    $mi_id = "";
-}
-if (isset($_POST['mi_id'])) {
-    $mi_id = $_POST['mi_id'];
+if (isset($_POST['fa_id'])) {
+    $fa_id = $_POST['fa_id'];
 }
 
 if ($phase == 99) {
-    header('Location: VF_M_List.php');
+    header('Location: VF_O_Verw.php');
 }
-$Edit_Funcs_FeldName = true; // Feldname der Tabelle wird nicht angezeigt !!
+
+BA_HTML_header('Bibliothek- und Archiv- Links  Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
 
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
 
-Tabellen_Spalten_parms($db, 'fh_mitglieder');
+Tabellen_Spalten_parms($db, 'fh_falinks');
 
 # -------------------------------------------------------------------------------------------------------
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
 # -------------------------------------------------------------------------------------------------------
 if ($phase == 0) {
-    if ($mi_id == 0) {
-        $neu['mi_id'] = $mi_id;
-        $neu['mi_anrede'] = "Hr.";
-        $neu['mi_mtyp'] = $neu['mi_org_typ'] = $neu['mi_org_name'] = $neu['mi_name'] = $neu['mi_vname'] = $neu['mi_titel'] = "";
-        $neu['mi_n_titel'] = $neu['mi_dgr'] = $neu['mi_gebtag'] = $neu['mi_staat'] = $neu['mi_plz'] = $neu['mi_ort'] = $neu['mi_anschr'] = "";
-        $neu['mi_tel_handy'] = $neu['mi_handy'] = $neu['mi_fax'] = $neu['mi_email'] = $neu['mi_email_status'] = $neu['mi_vorst_funct'] = $neu['mi_ref_leit'] = "";
-        $neu['mi_ref_int_2'] = $neu['mi_ref_int_3'] = $neu['mi_ref_int_4'] = "";
-        $neu['mi_sterbdat'] = $neu['mi_beitritt'] = $neu['mi_austrdat'] = $neu['mi_m_beitr'] = $neu['mi_m_abo'] = $neu['mi_m_beitr_bez'] = $neu['mi_m_abo_bez'] = $neu['mi_abo_ausg'] = "";
-        $neu['mi_einv_art'] = $neu['mi_einversterkl'] = $neu['mi_einv_dat'] = $neu['mi_uidaend'] = $neu['mi_aenddat'] = "";
+    if ($fa_id == "0") {
+        $neu['fa_id'] = $fa_id;
+        $neu['fa_link'] = $neu['fa_text'] = $neu['fa_aenduid'] = $neu['fa_aenddat'] = "";
     } else {
-        $sql = "SELECT * FROM fh_mitglieder";
+        $sql = "SELECT * FROM fh_falinks";
 
-        if ($mi_id != '') {
-            $sql .= " WHERE mi_id = '$mi_id'";
+        if ($fa_id != '') {
+            $sql .= " WHERE fa_id = '$fa_id'";
         }
 
-        $result = SQL_QUERY($db, $sql);
+        $result = mysqli_query($db, $sql) or die('Lesen Satz $now_fa_id nicht möglich: ' . mysqli_error($db));
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {
             if ($num_rows == 0) {
-                if ($mi_id != '') {
-                    echo "<p style='color:red;font-size:150%;font-weight:bold;' >Keine Mitglied mit der mi_id Nummer $mi_id gefunden</p>";
+                if ($now_fa_id != '') {
+                    echo "<p style='color:red;font-size:150%;font-weight:bold;' >Keine Bericht mit der fa_id Nummer $now_fa_id gefunden</p>";
                 }
             }
 
@@ -105,30 +103,27 @@ if ($phase == 0) {
             exit();
         }
         $neu = mysqli_fetch_array($result);
- 
         if ($debug) {
             echo '<pre class=debug>';
             echo '<hr>$neu: ';
-            var_dump($neu);
+            print_r($neu);
             echo '</pre>';
         }
     }
 }
 
 if ($phase == 1) {
-
-    foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
-    }
+    
 }
+
 
 switch ($phase) {
     case 0:
-        require ('VF_M_Edit_ph0.inc.php');
+        require ('VF_O_AR_Edit_ph0.inc.php');
         break;
     case 1:
-        require "VF_M_Edit_ph1.inc.php";
+        require "VF_O_AR_Edit_ph1.inc.php";
         break;
 }
-BA_HTML_trailer();
+HTML_trailer();
 ?>
