@@ -1,7 +1,7 @@
 <?php
 
-require "../VF_Foto_Funcs.inc.php";
-require "../VF_Const.inc.php";
+require "../VF_Foto_Funcs.lib.php";
+require "../VF_Const.lib.php";
 
 $debug_log = False;
 if ($debug_log) {file_put_contents('debug.log', "BA_Upl_loc L 007 " . PHP_EOL, FILE_APPEND);}

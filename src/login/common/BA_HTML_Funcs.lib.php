@@ -84,9 +84,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3.css'  type='text/css'>";
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
-    #echo " <link rel='alternate stylesheet' href='" . $path2ROOT . "login/common/css/color_blue.css' type='text/css' title='standard'>";
-    
-
+   
     if (isset($prot) && $prot) {
         echo "<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
     }
@@ -116,12 +114,12 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     echo "<body class='w3-container' style='max-width:$width;' >"; //
     echo '<fieldset>'; ## ganze seite
     
-    echo "<div class='w3-container' id='header'><fieldset><header>";  // Seitenkopf start
-    echo "<div class='w3-row'>";
-    echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
+    
     
     if ($type == 'Form') {
-
+        echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
+        echo "<div class='w3-row'>";
+        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
         echo "<div class='w3-col s9 m10 l11 '>"; // div langer Teil
         
         echo "<p class='w3-center w3-xlarge'> $title </p>";
@@ -142,6 +140,9 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         echo "</div>"; // Ende w3-row
         echo "</div><fieldset>"; ## Ende Seitenkopf
     } elseif ($type == '1P') {
+        echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
+        echo "<div class='w3-row'>";
+        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
         echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/2013_01_top_72.png' width='98%'>";
         if ($ini_arr['Config']['wart'] == "N") {} else {
             
@@ -156,15 +157,19 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         echo "</div>"; // Ende w3-row
         echo "</div><fieldset>"; ## Ende Seitenkopf
     } else { // List
-        echo "<body class='w3-container'  style='max-width:$width;'>";
-        echo '<fieldset>';
+        
+        echo "<div class='w3-row'>";
+        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
+        echo "</div>"; // Ende w3-row
+        #echo "<body class='w3-container'  style='max-width:$width;'>";
+        #echo '<fieldset>';
     }
    
     if (isset($form_start) && $form_start) {
         echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data'>";
     }
    
-    BA_flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_Header");
+    flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_Header");
 }
 
 // Ende von function BA_HTML_Header 
@@ -178,7 +183,7 @@ function BA_HTML_trailer()
 {
     global $module, $path2ROOT;
 
-    BA_flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
+    flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
    
    ?>
     <br>
@@ -197,26 +202,4 @@ function BA_HTML_trailer()
 }
 
 // Ende von function
-
-/**
- * Aufzeichnen der Aufrufe
- *
- *
- * @param string $id
- *            Modul- Name
- * @param string $text
- *            Log- Text
- */
-function BA_flow_add($id, $text)
-{
-    global $flow_list, $path2ROOT;
-    
-    if ($flow_list) {
-        $date = date("Ymd-H");
-        $dsn = $path2ROOT . "login/flow/" . $date . "_$id.flow";
-        $datei = fopen($dsn, 'at');
-        fputs($datei, mb_convert_encoding($text . "\n", "ISO-8859-1"));
-        fclose($datei);
-    }
-} # ende Function flow_add
 

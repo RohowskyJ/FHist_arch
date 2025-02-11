@@ -27,7 +27,7 @@ const Prefix = '';
  */
 $path2ROOT = "../../../";
 $debug = False;
-require $path2ROOT . 'login/common/Funcs.inc.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 
 
 if (isset($_GET["term"])) {

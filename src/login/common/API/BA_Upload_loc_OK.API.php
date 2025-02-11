@@ -1,7 +1,7 @@
 <?php
 session_start();
-require "../VF_Foto_Funcs.inc.php";
-require "../VF_Const.inc.php";
+require "../VF_Foto_Funcs.lib.php";
+require "../VF_Const.lib.php";
 
 #var_dump($_SESSION['OEF']);
 
