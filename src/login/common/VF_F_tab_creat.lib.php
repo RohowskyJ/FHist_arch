@@ -1,7 +1,7 @@
 <?php 
-## Constante vür Referat 7
-
-Const VF_Foto_Video = array("A"=>"Audio","F"=>"Foto","I"=>"Film","V"=>"Video");
+/**
+ * Erstellung von Tabellen, wenn nötig.
+ */
 
 ## Tabellen neu anlegen, falls noch nicht existent, Referat5 
 

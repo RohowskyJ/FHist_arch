@@ -36,6 +36,7 @@
  *  - VF_Eig_Ausw       - Autokomplete Auswahl Eigner
  *  - VF_Multi_Dropdown - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl
  *  - VF_Sel_Eigner     - Eigentümer- Auswahl für Berechtigungen (wieder aktiviert)
+ *  - VF_Sel_Eign_Urheb - Urheber- Auswahl aus Eigentümer- Datei
  */
 
 if ($debug) {
@@ -1965,7 +1966,79 @@ function VF_Sel_Eigner($FeldName, $sub_funct)
     return $opt_val_ei;
 }
 
-// Ende von function VF_Sel_Eigner   
+// Ende von function VF_Sel_Eignentümer- Datei   
+
+/**
+ * Suche der Urheberinformation in Eigentümerdaten
+ * Einlesen der Daten von fh_eigentuemer und fh_eign_urh
+ * Ausgabewerte werden in $_SESSION[$module]['URHEBER']
+ */
+ 
+function VF_Sel_Eign_Urheb($ei_id,$urh_abk='')
+{
+    global $debug, $db, $module,$flow_list ;
+    
+    if ($debug) {
+        echo "<pre class=debug>Eigent. Auswahl L Beg: ei_id  $ei_id urh_abk $urh_abk <pre>";
+    }
+    $opt_val_ei = array();
+    $sql = "SELECT * FROM `fh_eigentuemer` WHERE ei_id=$ei_id  ORDER BY ei_name ASC";
+    $return_bl = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
+    /*
+    if ($sub_funct == 0) {
+        $opt_val_ei['Neueingabe'] = "Neuen Datensatz eingeben";
+    }
+    if ($sub_funct == 81) {
+        $opt_val_ei['0'] = "keine Auswahl getroffen";
+    }
+    */
+    while ($row = mysqli_fetch_object($return_bl)) {
+        
+        if ($row->ei_org_typ == 'Privat') {
+            $ei_fotograf = $row->ei_name." ". $row->ei_vname;
+        } else {
+            $ei_fotograf = $row->ei_org_typ." ". $row->ei_org_name;
+        }
+        $ei_media = $row->ei_media;
+        $ei_urh_kurzz = $row->ei_urh_kurzz;
+        $_SESSION[$module]['URHEBER']['ei_id'] = $row->ei_id;
+        $_SESSION[$module]['URHEBER'][$row->ei_id] = 
+            array('ei_media' => $ei_media, 'ei_fotograf' => $ei_fotograf,'ei_urh_kurzz' => $ei_urh_kurzz);
+        if (strlen($ei_media) <  2 ){
+            $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] = array('fs_urh_nr' =>$row->ei_id,'fs_fotograf'=>  $ei_fotograf,
+                'fs_urh_kurzz'=> $ei_urh_kurzz ,'fs_typ'=> $ei_media);
+        }
+        /**
+         * einlesen der urh erweiterungsdaten
+         */
+        $sql_u = "SELECT * FROM fh_eign_urh WHERE fs_eigner = $row->ei_id";
+        $return_u = SQL_QUERY($db,$sql_u);
+        if ($return_u) {
+            WHILE ($row_u = mysqli_fetch_object($return_u)) {
+                if ($row_u->fs_urh_kurzz == $urh_abk ) {
+                    $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
+                    array('fs_urh_nr' =>$row_u->fs_urh_nr,'fs_fotograf'=>$row_u->fs_fotograf,
+                        'fs_urh_kurzz'=>$row_u->fs_urh_kurzz ,'fs_typ'=>$row_u->fs_typ);
+                }
+            }
+   
+        }
+
+        
+    }
+    
+    mysqli_free_result($return_bl);
+    mysqli_free_result($return_u);
+    
+    if ($debug) {
+        echo "<pre class=debug>F SeL_Eigner L End:  <pre>";
+    }
+
+    return True;
+}
+
+// Ende von function VF_Sel_Eign_Urheb   
+
 /**
  * Ende der Bibliothek
  *

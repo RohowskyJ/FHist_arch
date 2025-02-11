@@ -39,6 +39,11 @@ const VF_JN = array(
     'N' => 'Nein'
 );
 
+/**
+ * Konstante für Urheber- Zuodnung, Media- Definition
+ * @var array
+ */
+Const VF_Foto_Video = array("A"=>"Audio","F"=>"Foto","I"=>"Film","V"=>"Video");
 
 /**
  * Definiton der Konstante für die Einteilung der abgespeicherten, herunterladbarer Dokumente
