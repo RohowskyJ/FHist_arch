@@ -59,7 +59,7 @@ Edit_Daten_feld('c_1page', 50);
 Edit_Upload_file('c_1page');
 
 */
-
+$pict_path = 'imgs/';
 $Feldlaenge = "100px";
 
 $pic_arr = array(

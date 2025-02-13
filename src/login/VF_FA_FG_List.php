@@ -20,7 +20,6 @@ $tabelle = 'fz_beschr';
  */
 $path2ROOT = "../";
 
-$debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.inc';

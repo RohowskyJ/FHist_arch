@@ -105,7 +105,7 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-echo "<p><a href='VF_FM_GE_List.php'>Zurück zur Liste</a></p>";
+echo "<p><a href='VF_FM_GE_List.php?ID='.$_SESSION[$module]['fm_sammlung']>Zurück zur Liste</a></p>";
 
 # =========================================================================================================
 

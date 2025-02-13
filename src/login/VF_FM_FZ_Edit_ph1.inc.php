@@ -136,7 +136,7 @@ if ($neu['fm_id'] == 0) { # neueingabe
     # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
-    header("Location: VF_FM_List.php");
+    header("Location: VF_FM_List.php?ID=".$_SESSION[$module]['fm_sammlung']);
 }
 
 # =========================================================================================================

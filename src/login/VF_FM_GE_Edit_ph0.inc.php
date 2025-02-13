@@ -161,7 +161,7 @@ if ($_SESSION[$module]['all_upd']) {
 }
 
 
-echo "<p><a href='VF_FM_List.php'>Zurück zur Liste</a></p>";
+echo "<p><a href='VF_FM_List.php?ID='.$_SESSION[$module]['fm_sammlung']>Zurück zur Liste</a></p>";
 
 # =========================================================================================================
 

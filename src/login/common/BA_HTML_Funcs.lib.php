@@ -39,7 +39,7 @@
  */
 
 if ($debug) {
-    echo "L 042: VF_Common_Funcs.inc.php ist geladen. <br/>";
+    echo "L 042: VF_HTML_Funcs.inc.php ist geladen. <br/>";
 }
 
 

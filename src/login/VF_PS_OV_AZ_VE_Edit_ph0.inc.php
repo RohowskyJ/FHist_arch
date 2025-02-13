@@ -77,7 +77,7 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-echo "<p><a href='VF_PS_OV_AD_Edit.php?ID=" . $_SESSION[$module]['fw_id'] . ">Zurück zur Liste</a></p>";
+echo "<p><a href='VF_PS_OV_AD_Edit.php?ID=" . $_SESSION[$module]['fw_id'] . "'>Zurück zur Liste</a></p>";
 
 echo "</div>";
 # =========================================================================================================

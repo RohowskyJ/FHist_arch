@@ -99,7 +99,7 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-echo "<p><a href='VF_FA_FZ_Edit.php?fz_id=" . $_SESSION[$module]['fz_id'] . ">Zurück zur Liste</a></p>";
+echo "<p><a href='VF_FA_FZ_Edit.php?fz_id=" . $_SESSION[$module]['fz_id'] . "'>Zurück zur Liste</a></p>";
 
 echo "</div>";
 

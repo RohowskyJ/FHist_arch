@@ -27,15 +27,15 @@
    
     $debug = False; // Debug output Ein/Aus Schalter
 
-    require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
-    require $path2ROOT . 'login/common/VF_Const.inc.php';
+    require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+    require $path2ROOT . 'login/common/VF_Const.lib.php';
 
-    require $path2ROOT . 'login/common/Funcs.inc.php';
-    require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-    require $path2ROOT . 'login/common/List_Funcs.inc.php';
-    require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
+    require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+    require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+    require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+    require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-    $flow_list = True;
+    $flow_list = False;
 
     $LinkDB_database = '';
     $db = LinkDB('VFH');

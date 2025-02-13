@@ -10,7 +10,7 @@
 session_start(); // wird erst mir v2 (php > 7.0.x) aktiviert
 
 $module = 'MVW';
-$debug = True;
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 /**

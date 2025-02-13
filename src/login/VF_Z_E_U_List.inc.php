@@ -21,7 +21,7 @@ $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle);
 $ei_id = $neu['ei_id'];
 
 $select = " WHERE `fs_eigner` = '$ei_id' ";
-$sort = " ORDER BY fs_fm_id ASC";
+$sort = " ORDER BY fs_eigner ASC";
 $sql = "SELECT * FROM `$tabelle` $select  $sort ";
 echo "L 028 sql $sql <br>";
 switch ($T_List) {

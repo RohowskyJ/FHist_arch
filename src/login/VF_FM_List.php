@@ -22,6 +22,7 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
+require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
@@ -67,8 +68,8 @@ if (! isset($_SESSION['Eigner']['eig_eigner'])) {
     $_SESSION['Eigner']['eig_eigner'] = "";
 }
 
-if (! isset($_SESSION[$module]['sammlung'])) {
-    $_SESSION[$module]['sammlung'] = 'MU';
+if (! isset($_SESSION[$module]['fmsammlung'])) {
+    $_SESSION[$module]['fm_sammlung'] = 'MU';
 }
 
 /**
@@ -84,7 +85,7 @@ BA_HTML_header('Muskelbedientes des Eigentümers ' . $_SESSION['Eigner']['eig_ei
 
 initial_debug();
 
-
+var_dump($_GET);
 VF_chk_valid(); // Test auf gültigen Login- String
 
 VF_set_module_p(); // Setzen Variable für Update, Berechtigung
@@ -106,8 +107,12 @@ if ($phase == 99) {
 /**
  * neue Sammlung auswählen
  */
-if (isset($_GET['ID']) && $_GET['ID'] == "NextSam") {
-    $_SESSION[$module]['sammlung'] = "MU";
+if (isset($_GET['ID'])) {
+   if ($_GET['ID'] == "NextSam") {
+       $_SESSION[$module]['fm_sammlung'] = "MU";
+   } else {
+       $sammlg = $_SESSION[$module]['fm_sammlung'] = $_GET['ID'];
+   }    
 }
 
 /**
@@ -116,7 +121,7 @@ if (isset($_GET['ID']) && $_GET['ID'] == "NextSam") {
 if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" && $_SESSION['VF_Prim']['mode'] == 'Mandanten') {
     $_SESSION['Eigner']['eig_eigner'] = "";
 }
-$_SESSION[$module]['sammlung'] = 'MU';
+# $_SESSION[$module]['sammlung'] = 'MU';
 
 if (isset($post['select_string'])) {
     $select_string = $postT['select_string'];
@@ -142,22 +147,26 @@ if (isset($_POST['auto']) ) {
  * Sammlung auswählen, Input- Analyse
  */
 if (isset($_POST['level1'])) {
-    $sammlg = $_SESSION[$module]['sammlung'] = VF_Multi_Sel_Input();
+    $response = VF_Multi_Sel_Input();
+    if ($response == "" || $response == "Nix" ) {
+        $sammlg = $_SESSION[$module]['fm_sammlung'] = "MU_F";
+    } else {
+        $sammlg = $_SESSION[$module]['fm_sammlung'] = $response;
+    }
 }
-
 /**
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
-if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "MU") { 
+if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung'] == "MU") { 
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            VF_Eig_Ausw();
+            BA_Auto_Compl('Eigent','Eigentümer');
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
     }
         
-    if ($_SESSION[$module]['sammlung'] == "MU"){
+    if ($_SESSION[$module]['fm_sammlung'] == "MU"){
         /**
          * Parameter für den Aufruf von Multi-Dropdown
          *
@@ -210,11 +219,11 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
 
     $sql = $sql_where = $orderBy = "";
     
-    if (substr($_SESSION[$module]['sammlung'],0,4)  == 'MU_F') {   # Mukelgezogene - Fahrzeuge
+    if (substr($_SESSION[$module]['fm_sammlung'],0,4)  == 'MU_F') {   # Mukelgezogene - Fahrzeuge
        
         require "VF_FM_FZ_List.inc.php";
  
-    } elseif (substr($_SESSION[$module]['sammlung'],0,4)  == 'MU_G')  {  # Muskel betriebene Geräte
+    } elseif (substr($_SESSION[$module]['fm_sammlung'],0,4)  == 'MU_G')  {  # Muskel betriebene Geräte
         
         require "VF_FM_GE_List.inc.php";
         

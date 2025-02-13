@@ -69,7 +69,7 @@ if ($_SESSION[$module]['all_upd'] || $_SESSION['VF_Prim']['p_uid'] == $neu['fu_i
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-echo "<p><a href='VF_M_Unterst_List.php>Zurück zur Liste</a></p>";
+echo "<p><a href='VF_M_Unterst_List.php'>Zurück zur Liste</a></p>";
 
 echo "</fieldset></div>";
 

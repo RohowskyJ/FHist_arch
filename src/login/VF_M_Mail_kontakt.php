@@ -17,10 +17,10 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/VF_Const.inc.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
-require $path2ROOT . 'login/common/PHP_Mail_Funcs.inc.php';
+require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -95,6 +95,7 @@ if ($phase == 1 or ! empty($EMail)) {
     if (! empty($sender_row['message'])) {
         $Errors ++;
         $Err_EMail .= $sender_row['message'];
+        $phase = 0;
     } else {
         $_SESSION['send'] = $sender_row;
     }

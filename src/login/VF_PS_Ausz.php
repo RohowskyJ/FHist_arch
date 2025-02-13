@@ -20,11 +20,12 @@ $path2ROOT          = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php' ;
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php' ;
  
-require $path2ROOT . 'login/common/VF_Const.inc.php';
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -51,7 +52,7 @@ VF_Count_add();
   
   if (isset($_GET['proj'])) {$_SESSION[$module]['proj'] = $_GET['proj'];}
   
-  HTML_header('Auswahl der Stifter (Staatlich, Privat, CTIF) ','','','Form','70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width 
+  BA_HTML_header('Auswahl der Stifter (Staatlich, Privat, CTIF) ','','Form','70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width 
  
   echo "</div>";
   
@@ -88,10 +89,6 @@ VF_Count_add();
   echo "<div class='w3-row' >"; // Beginn der Einheit Ausgab
   echo "<a href='VF_PS_OV_O_Edit.php?ID=3755'>CTIF</a>";
   echo "</div>";
-  
-  
- 
 
-
-HTML_trailer();
+BA_HTML_trailer();
 ?>

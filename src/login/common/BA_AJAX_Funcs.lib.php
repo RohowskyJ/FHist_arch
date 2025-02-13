@@ -54,11 +54,11 @@ function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
     global $debug, $module, $flow_list, $tit_eig_leih;
     
     flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Compl" );
-    
     ?>
+    
     <input type='hidden' id="proc" value=<?php echo $Proc; ?>">
     
-    <div class='w3-container' style='background-color: PeachPuff '>
+    <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
          <div class='w3-container w3-light-blue'>
              <b>Auswahl des <?php echo $titel; ?>s</b>
          </div>
@@ -66,51 +66,48 @@ function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
              <label for='Level_e'>Namen des <?php echo $titel ?>s eingeben &nbsp;  </label> 
          </div>
          <div class='w3-container w3-twothird'>   
-             <input class='w3-input' type='text' id='autocomplete' name='auto' placeholder='<?php echo $titel ?>l Name eingeben...' /> <!-- Zur Auswahl auf den gewünschten Namen klicken"  -->
+             <input class='w3-input' type='text' id='autocomplete' name='auto' placeholder='<?php echo $titel ?>- Name eingeben...' /> <!-- Zur Auswahl auf den gewünschten Namen klicken"  -->
              <div id='suggestions'></div>
          </div>
      </div>    
              
     <script>
-           document.observe("dom:loaded", function() {
-            $('autocomplete').observe('keyup', function() {
-                var query = this.value;
-                var proc = $("proc");
-console.log(query);
-                if (query.length > 2) { // Nur abfragen, wenn mehr als 2 Zeichen eingegeben wurden
-                    new Ajax.Request('common/API/BA_Auto_compl.API.php', { // 
-                        method: 'get',
-                        parameters: { query: query, proc: proc },
-                        console.log(parameters);
-                        onSuccess: function(response) {
-                            var suggestions = response.responseText.evalJSON(); // JSON-Antwort parsen
-                            var suggestionsDiv = $('suggestions');
-                            suggestionsDiv.update(''); // Vorherige Vorschläge löschen
-
-                            if (suggestions.length > 0) {
-                                suggestions.forEach(function(suggestion) {
-                                    var div = new Element('div', { class: 'suggestion' });
-                                    div.update(suggestion);
-                                    div.observe('click', function() {
-                                        $('autocomplete').value = suggestion; // Wert ins Eingabefeld setzen
-                                        suggestionsDiv.hide(); // Vorschläge ausblenden
-                                    });
-                                    suggestionsDiv.insert(div);
-                                });
-                                suggestionsDiv.show(); // Vorschläge anzeigen
-                            } else {
-                                suggestionsDiv.hide(); // Keine Vorschläge, also ausblenden
-                            }
-                        }
-                    });
-                } else {
-                    $('suggestions').hide(); // Eingabe zu kurz, Vorschläge ausblenden
+       document.observe("dom:loaded", function() {
+        var inputField = $("autocomplete");
+        var suggestionsBox = $("suggestions");
+        var proc = $("proc");
+        
+        inputField.observe("keyup", function() {
+            var query = this.value.trim();
+    
+            if(query.length > 0) {
+                new Ajax.Request('common/API/BA_Auto_Compl.API.php', { 
+                    method: 'post',
+                    parameters: { query : query, proc: proc },
+                    onSuccess: function(response) {
+                        suggestionsBox.update(response.responseText);
+                        suggestionsBox.setStyle({ display: 'block' });
+                    }
+                });
+            } else {
+                suggestionsBox.update('');
+                suggestionsBox.setStyle({ display: 'none' });
+            }
+        });
+            
+            suggestionsBox.observe("click", function(event) {
+                var target = event.findElement('.autocomplete-suggestion');
+                if(target) {
+                    inputField.value = target.innerHTML;
+                    suggestionsBox.update('');
+                    suggestionsBox.setStyle({ display: 'none' });
                 }
             });
-        });
-        </script>
+    });
+    </script>
         
     <?php 
+
 } # end Funct VF_Eig_Ausw
 
 /**

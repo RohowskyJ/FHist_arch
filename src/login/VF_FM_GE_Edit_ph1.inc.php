@@ -141,7 +141,7 @@ if ($neu['mg_id'] == 0) { # neueingabe
     $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
 }
 
-header("Location: VF_FM_List.php");
+header("Location: VF_FM_List.php?ID=".$_SESSION[$module]['fm_sammlung']);
 
 # =========================================================================================================
 

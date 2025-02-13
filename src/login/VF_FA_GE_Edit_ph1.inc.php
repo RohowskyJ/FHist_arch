@@ -242,7 +242,7 @@ if ($neu['ge_id'] == 0) { # neueingabe
     $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
 }
 
-header("Location: VF_FA_List.php");
+header("Location: VF_FA_List.php?ID=".$_SESSION[$module]['fz_sammlung']);
 
 # =========================================================================================================
 

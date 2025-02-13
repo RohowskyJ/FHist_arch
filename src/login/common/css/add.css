@@ -92,7 +92,20 @@ table.scroll thead       {z-index:2;position:sticky; top:0;}
 table.scroll thead tr th {vertical-align:middle;text-align:left;padding:0px;margin:0px;border:1px solid black;background-color:#E0E0FF;background-clip:padding-box}
 table.scroll tbody tr td {vertical-align:middle;text-align:left;border-left:1px solid black}
 table, th, td {border: 1px solid black; } /* width: 100%;*/
-
+/* th,th,.sort-indicator für JS- Table sort */
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    cursor: pointer;
+    background-color: #f2f2f2;
+}
+.sort-indicator {
+    margin-left: 5px;
+    font-size: 0.8em;
+}
 /* =====================================  img mit Border und padding ======================================= */
 img {
   border: 2px solid blue;

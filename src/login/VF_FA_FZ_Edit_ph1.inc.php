@@ -225,7 +225,7 @@ if ($neu['fz_id'] == 0) { # neueingabe
     }
 }
 
-header("Location: VF_FA_List.php");
+header("Location: VF_FA_List.php?ID=".$_SESSION[$module]['fz_sammlung']);
 
 # =========================================================================================================
 

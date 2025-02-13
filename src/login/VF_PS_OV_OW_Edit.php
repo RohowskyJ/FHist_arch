@@ -23,12 +23,13 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Const.inc.php';
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-require $path2ROOT . 'login/common/List_Funcs.inc.php';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -178,12 +179,12 @@ if ($phase == 1) {
     }
 }
 
-HTML_header('Orts- Wappen - Verwaltung', 'Änderungsdienst', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Orts- Wappen - Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:
         require ('VF_PS_OV_OW_Edit_ph0.inc.php');
         break;
 }
-HTML_trailer();
+BA_HTML_trailer();
 ?>

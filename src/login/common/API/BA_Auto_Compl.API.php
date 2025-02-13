@@ -90,7 +90,8 @@ foreach ($srch_arr as $company) {
 function eigent ($term) {
     global $db, $module, $srch_arr;
     
-    $eintragen = "f Eig  $tem \n";
+    $dsn = "api_log";
+    $eintragen = "f Eig  $term L 094\n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
@@ -100,7 +101,7 @@ function eigent ($term) {
     $result = SQL_QUERY($db, $query);
     
     if (mysqli_num_rows($result) > 0) {
-        $eintragen = "num row > 0 \n";
+        $eintragen = "num row > 0 \L 0104n";
         
         $datei = fopen($dsn, "a");
         fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
@@ -113,7 +114,7 @@ function eigent ($term) {
                 "label" => $val,
                 "var" => $val
             );
-            echo '<div class="suggestion">' . htmlspecialchars($val) . '</div>';
+            echo '<div class="autocomplete-suggestion">' . htmlspecialchars($val) . '</div>';
         }
     } else {
         echo "<p style='color:red'>User not found...</p>";

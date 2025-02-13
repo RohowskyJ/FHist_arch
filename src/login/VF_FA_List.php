@@ -20,8 +20,9 @@ $tabelle = ''; # mu_geraet
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
+require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
@@ -105,22 +106,19 @@ if ($phase == 99) {
 /**
  * neue Sammlung auswählen
  */
-if (isset($_GET['ID']) && $_GET['ID'] == "NextSam") {
-    $_SESSION[$module]['sammlung'] = "MA";
-}
-
-/**
- * neuen Eigentümer auswählen
- */
-if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
-    if ($_SESSION['Eigner']['eig_eigner'] == "") {
-        VF_Eig_Ausw();
+if (isset($_GET['ID'])) {
+    if ($_GET['ID'] == "NextSam") {
+        $_SESSION[$module]['fm_sammlung'] = "MA";
+    } else {
+        $sammlg = $_SESSION[$module]['fm_sammlung'] = $_GET['ID'];
     }
-} else {
-    $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+}
+if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") {
+    $_SESSION['Eigner']['eig_eigner'] = "";
 }
 
-$_SESSION[$module]['sammlung'] = 'MA';
+
+# $_SESSION[$module]['sammlung'] = 'MA';
 
 if (isset($post['select_string'])) {
     $select_string = $postT['select_string'];
@@ -148,7 +146,7 @@ if (isset($_POST['auto']) ) {
 if (isset($_POST['level1'])) {
     $response = VF_Multi_Sel_Input();
     if ($response == "" || $response == "Nix" ) {
-        
+        $sammlg = $_SESSION[$module]['sammlung'] = "MA_F";
     } else {
         $sammlg = $_SESSION[$module]['sammlung'] = $response;
     }
@@ -158,11 +156,21 @@ if (isset($_POST['level1'])) {
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "MA") { 
-    
+    /**VF_Eig_Ausw
+     * neuen Eigentümer auswählen
+     */
+    if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten" ){
+        if ($_SESSION['Eigner']['eig_eigner'] == "") {
+            BA_Auto_Compl('Eigent','Eigentümer');
+        }
+    } else {
+        $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+    }
+    /*
     if ($_SESSION['Eigner']['eig_eigner'] == "") {
         VF_Eig_Ausw();
     }
-    
+    */
     if ($_SESSION[$module]['sammlung'] == "MA"){
         /**
          * Parameter für den Aufruf von Multi-Dropdown

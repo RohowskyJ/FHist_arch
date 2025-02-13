@@ -198,7 +198,7 @@ if ($_SESSION[$module]['all_upd']) {
 }
 
 
-echo "<p><a href='VF_FA_List.php'>Zurück zur Liste</a></p>"; 
+echo "<p><a href='VF_FA_List.php?ID='.$_SESSION[$module]['fz_sammlung']>Zurück zur Liste</a></p>"; 
 
 # =========================================================================================================
 

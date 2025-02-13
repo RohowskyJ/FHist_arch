@@ -37,8 +37,7 @@ Edit_Separator_Zeile('Statut (Gesetz), Deschreibung');
 echo "<input type='hidden' name='ab_statut' value='" . $neu['ab_statut'] . "'>";
 echo "<input type='hidden' name='ab_erklaerung' value='" . $neu['ab_erklaerung'] . "'>";
 
-# $pict_path = "Beschreibungen/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
-$pict_path = "Beschreibungen/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
+$pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
 
 $Feldlaenge = "100px";
 Edit_Show_Pict(Prefix . 'ab_statut', # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
@@ -91,7 +90,7 @@ $tabelle)
     # echo "L 86: \$tabelle $tabelle <br/>";
 
     if ($tabelle == "az_auszeich") {} elseif ($tabelle == "az_ausz_ctif") {
-        $pict_path = "Beschreibungen/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
+        $pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
         $ac_id = $row['ac_id'];
         $row['ac_id'] = "<a href='VF_PS_OV_AZ_CT_Edit.php?ID=$ac_id' >" . $ac_id . "</a>";
 
@@ -127,7 +126,7 @@ $tabelle)
             $row['ac_teiln_v'] = "<a href='$p1' target='Auszeichng' > <img src='$p1' alter='$p1' width='70px'>  Groß </a>";
         }
     } elseif ($tabelle == "az_ausz_ve") {
-        $pict_path = "Beschreibungen/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
+        $pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
         $av_id = $row['av_id'];
         $row['av_id'] = "<a href='VF_PS_OV_AZ_VE_Edit.php?ID=$av_id' >" . $av_id . "</a>";
         if ($row['av_bild_v'] != "") {
@@ -150,7 +149,7 @@ $tabelle)
         $ad_id = $row['ad_id'];
         $row['ad_id'] = "<a href='VF_PS_OV_AE_Edit.php?ID=$ad_id' >" . $ad_id . "</a>";
 
-        $stat_path = "Beschreibungen/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/stat/";
+        $stat_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/stat/";
         if ($row['ad_statut'] != "") {
             $ad_statut = $row['ad_statut'];
             $row['ad_statut'] = "<a href='$stat_path$ad_statut' target='_new' >$ad_statut</a>";
