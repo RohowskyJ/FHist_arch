@@ -77,7 +77,7 @@ if (isset($_POST['phase'])) {
     $phase = 0;
 }
 
-if (!isset($_SESSION[$module]['Fo']['URHEBER'] )) {
+if (!isset($_SESSION[$module]['URHEBER'] )) {
     $_SESSION['Eigner']['eig_eigner'] = "";
     $_SESSION[$module]['Fo']['URHEBER'] = array();
 }

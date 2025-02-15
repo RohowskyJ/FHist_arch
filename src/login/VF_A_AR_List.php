@@ -55,7 +55,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -77,7 +77,6 @@ $sk = $_SESSION['VF_Prim']['SK'];
 # ==========================================Arc_List=================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-$title = "";
 
 $header = "";
 $prot = True;
@@ -173,7 +172,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
         if ($AO_Arr[0] != "" && $AO_Arr[0] !='00'){
             $AO_A = explode(".",$AO_Arr[0]);
             $_SESSION[$module]['ad_sg'] = $AO_A[0];
-            $_SESSION[$module]['ad_subsg'] = $AO_A[1];
+            if (isset($AO_A[1])) {
+                $_SESSION[$module]['ad_subsg'] = $AO_A[1];
+            }
+            
         }
         if ($AO_cnt >= 2) {
             if ($AO_Arr[1] != "" && $AO_Arr[1] !='00'){
@@ -282,8 +284,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
         $ret_cr = Cr_n_ar_chivdt($tabelle);
     }
 
-    $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_m); # lesen der Tabellen Spalten Informationen
-
+    $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
+    
+    $Tabellen_Spalten_COMMENT['ad_doc_date'] .= " und Nummer";
+ 
     $Tabellen_Spalten = array(
         'ad_id',
         'ad_doc_date',
@@ -302,7 +306,11 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
 
     if (isset($_SESSION[$module]['ad_sg']) && $_SESSION[$module]['ad_sg'] != "") {
         if ($_SESSION[$module]['ad_sg'] != "" && $_SESSION[$module]['ad_sg'] !='00'){
-            $sql_where = " WHERE ad_sg='".$_SESSION[$module]['ad_sg']."' AND ad_subsg='".$_SESSION[$module]['ad_subsg']."' ";
+            $sql_where = " WHERE ad_sg='".$_SESSION[$module]['ad_sg']."' ";
+            if (isset($_SESSION[$module]['ad_subsg']) && $_SESSION[$module]['ad_subsg'] != "")  {
+                $sql_where .= " AND ad_subsg='".$_SESSION[$module]['ad_subsg']."' ";
+            }
+
         }
         if (isset($_SESSION[$module]['ad_lcsg']) && $_SESSION[$module]['ad_lcsg'] != "" && $_SESSION[$module]['ad_lcsg'] !='00'){
             $sql_where .= " AND ad_lcsg='".$_SESSION[$module]['ad_lcsg']."' ";
@@ -371,7 +379,7 @@ function modifyRow(array &$row, $tabelle)
         case "ar_chivd":
             $ad_id = $row['ad_id'];
             $row['ad_id'] = "<a href='VF_A_AR_Edit.php?ad_id=$ad_id' >" . $ad_id . "</a> <br/>";
-            $row['ad_id'] .= "V:" . $row['ad_eignr'] . "-" . $row['ad_sg'] . "." . $row['ad_subsg'] . "." . $row['ad_lcsg'] . "." . $row['ad_lcssg'] . "-" . $row['ad_ao_fortlnr'];
+            # $row['ad_id'] .= "V:" . $row['ad_eignr'] . "-" . $row['ad_sg'] . "." . $row['ad_subsg'] . "." . $row['ad_lcsg'] . "." . $row['ad_lcssg'] . "-" . $row['ad_ao_fortlnr'];
 
             if ($row['ad_type'] != "") {
                 $ad_type = $row['ad_type'];
@@ -382,7 +390,8 @@ function modifyRow(array &$row, $tabelle)
                 $row['ad_type'] = VF_Arc_Format[$ad_format] . "<br/>" . $row['ad_type'];
             }
 
-            # $pictPath = "referat5/".$row['ad_eignr']."/".$row['ad_sg']."/".$row['ad_subsg']."/";
+            $row['ad_doc_date'] .= "<br>V:" . $row['ad_eignr'] . "- " . $row['ad_sg'] . "." . $row['ad_subsg'] . "." . $row['ad_lcsg'] . "." . $row['ad_lcssg'] . "-" . $row['ad_ao_fortlnr'];;
+            
             $pictPath = "AOrd_Verz/" . $row['ad_eignr'] . "/" . $row['ad_sg'] . "/" . $row['ad_subsg'] . "/";
             if ($row['ad_doc_1'] != "") {
                 $ad_doc_1 = $row['ad_doc_1'];

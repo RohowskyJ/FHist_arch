@@ -50,7 +50,7 @@ if (! isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE'] = array(
         "SelectAnzeige" => "EIN",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige" => "Ein",
+        "DropdownAnzeige" => "Aus",
         "LangListe" => "Ein",
         "VarTableHight" => "Ein",
         "CSVDatei" => "Aus"
@@ -181,7 +181,7 @@ function modifyRow(array &$row, $tabelle)
                 $row['Urh_Erw'] = "";
             }
             $ei_id = $row['ei_id'];
-            $row['ei_id'] = "<input type='radio' id='$ei_id' name='ei_id' value='$ei_id'><label for id='$ei_id'> &nbsp; $ei_id</label>";
+            $row['ei_id'] = "<input type='radio' id='$ei_id' name='ei_id' value='$ei_id'> <label for id='$ei_id'> &nbsp; $ei_id</label>"; // 
             
             $row['ei_name']  .= " ".$row['ei_vname'];
        

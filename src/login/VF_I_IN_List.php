@@ -53,7 +53,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
         "select_string"       => "",
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -77,7 +77,6 @@ $prot = True; // Prototype.js laden
 BA_HTML_header('Inventar des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'],  $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
-
 
 VF_chk_valid(); // Test auf gültigen Login- String
 
@@ -273,7 +272,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     #}
     
     
-    List_Action_Bar($tabelle_m, "Inventar des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
+    List_Action_Bar($tabelle, "Inventar des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 
     # ===========================================================================================================
     # Die Sammlungs- Auswahl anzeigen:
@@ -318,21 +317,21 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     $titel  = 'Welche Sammlung soll angezeigt werden: ';
     VF_Multi_Dropdown($in_val,$titel);
     
-    $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_m); # lesen der Tabellen Spalten Informationen
+    $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
     
     $sql = "SELECT * FROM $tabelle ";
     
     $Tabellen_Spalten = array(
         'in_id',
-        'in_invnr',
         'in_sammlg',
         'in_bezeichnung',
-        'in_beschreibg',
         'in_hersteller',
         'in_linkerkl',
         'in_foto_1'
     );
-    $Tabellen_Spalten_style['in_id'] = $Tabellen_Spalten_style['in_sammlg'] = 'text-align:center;';
+    $Tabellen_Spalten_COMMENT['in_sammlg'] ." ". $Tabellen_Spalten_COMMENT['in_invnr'];
+    
+    $Tabellen_Spalten_style['in_id'] = 'text-align:center;';
     
     $sql_where = "";
     
@@ -395,7 +394,9 @@ function modifyRow(array &$row, $tabelle)
             if ($row['in_neueigner'] > 0) { # OR !is_null($row['in_neueigner'])
                 $row['in_bezeichnung'] .= "<br><span class='error'>Abgegeben</span>";
             }
-
+            
+            $row['in_sammlg'] .=  " - ".$row['in_invnr'];
+            
             break;
     }
  
