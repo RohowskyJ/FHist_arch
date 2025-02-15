@@ -26,7 +26,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
         "select_string"       => "",
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropDownAnzeige"     => "Ein",
+        "DropDownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -55,6 +55,7 @@ echo "<fieldset>";
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle);
+$Tabellen_Spalten = array('zt_id','zt_name','zt_herausg','zt_internet','zt_email','zt_daten');
 
 $Tabellen_Spalten_style['zt_id'] = 
 $Tabellen_Spalten_style['ei_mitglnr'] = $Tabellen_Spalten_style['va_begzt'] = 'text-align:center;';

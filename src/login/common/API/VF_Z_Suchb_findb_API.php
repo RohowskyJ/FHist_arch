@@ -3,6 +3,15 @@ $path2ROOT = "../";
 
 $debug = False;
 
+/* */
+$dsn = "findbuch.log";
+$eintragen = Date("Y-m-d H:i:s")."\n";
+$eintragen .= "started \n";
+$datei = fopen($dsn, "a");
+fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+fclose($datei);
+/* */
+echo "findb gestartet";
 $ini_d = $path2ROOT . "config_d.ini";
 $ini_arr = parse_ini_file($ini_d, True, INI_SCANNER_NORMAL);
 
@@ -44,7 +53,14 @@ if (isset($ini_arr)) { # (isset($ini_arr[$server_name])){
     mysqli_set_charset($db, 'utf8');
     $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
 }
-
+/* */
+ $dsn = "findbuch.log";
+ $eintragen = Date("Y-m-d H:i:s")."\n";
+ $eintragen .= "Findbuch regen gestartet \n";
+ $datei = fopen($dsn, "a");
+ fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+ fclose($datei);
+/* */
 require $path2ROOT . 'BA_Funcs.lib.php'; // Diverse allgemeine Unterprogramme
 require $path2ROOT . 'VF_Comm_Funcs.lib.php';
 
@@ -86,6 +102,14 @@ foreach ($ar_arr as $ar_table => $ar) {
         continue;
     }
     $sql_in = "SELECT * FROM `$ar_table` ORDER BY ad_id ";
+    /* */
+     $dsn = "findbuch.log";
+     $eintragen = Date("Y-m-d H:i:s")."\n";
+     $eintragen .= "sql_in $sql_in  \n";
+     $datei = fopen($dsn, "a");
+     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+     fclose($datei);
+     /* */
     $return_in = SQL_QUERY($db, $sql_in);
     $find_sum = 0;
     while ($row = mysqli_fetch_object($return_in)) {

@@ -53,7 +53,7 @@ if (! isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE'] = array(
         "SelectAnzeige" => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige" => "Ein",
+        "DropdownAnzeige" => "Aus",
         "LangListe" => "Ein",
         "VarTableHight" => "Ein",
         "CSVDatei" => "Aus"
@@ -214,9 +214,7 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
         'mu_adresse_a',
         'mu_plz_a',
         'mu_ort_a',
-        'mu_bildnam_1',
-        'mu_uidaend',
-        'mu_aenddat'
+        'mu_bildnam_1'
     );
 }
 

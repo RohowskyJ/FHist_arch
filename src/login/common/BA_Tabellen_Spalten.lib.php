@@ -110,7 +110,7 @@ function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
             $Tabellen_Spalten_typ[$column] = 'text';
         }
     }
-/*
+/* 
     if ($debug) {
         echo '<pre class=debug>$Tabellen_Spalten: ';
         print_r($Tabellen_Spalten);

@@ -119,8 +119,8 @@ $Tabellen_Spalten = array(
 );
 $Tabellen_Spalten_style['fm_eignr'] = $Tabellen_Spalten_style['fm_id'] = $Tabellen_Spalten_style['fm_baujahr'] = 'text-align:center;';
 
-if ($_SESSION[$module]['sammlung']) {
-    $sql_where = " WHERE fm_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
+if ($_SESSION[$module]['fm_sammlung']) {
+    $sql_where = " WHERE fm_sammlg LIKE '%".$_SESSION[$module]['fm_sammlung']."%' ";
 }
 
 $orderBy = "  ";

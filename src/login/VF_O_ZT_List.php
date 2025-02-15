@@ -56,7 +56,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -139,7 +139,7 @@ if ($_SESSION[$module]['zt_id'] == "") {
 
     $header = "";
     
-   BA_HTML_header('Zeitungs- Inhaltsverzeichnis ' . $_SESSION[$module]['zt_name'], '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+    BA_HTML_header('Zeitungs- Inhaltsverzeichnis ' . $_SESSION[$module]['zt_name'], '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
     
     echo "<fieldset>";
 
@@ -155,6 +155,8 @@ if ($_SESSION[$module]['zt_id'] == "") {
     $tabelle = $tabelle_m . "_" . $_SESSION[$module]['zt_id'];
 
     $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
+    
+    $Tabellen_Spalten = array('ih_id','ih_zt_id', 'ih_jahr','ih_kateg', 'ih_sg','ih_titel','ih_autor','ih_seite','ih_spalte','ih_fwehr');
 
     $return = Cr_n_zt_inhalt($tabelle);
     if ($return != True) {
@@ -184,6 +186,8 @@ if ($_SESSION[$module]['zt_id'] == "") {
 
     $sql .= $sql_where . $sql_orderBy;
 
+    $zus_text = "Zeitschrift: ".$_SESSION[$module]['zt_name'].", ". $T_list_texte[$T_List] ;
+    
     List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
     
     echo "</fieldset>";
@@ -241,9 +245,15 @@ function modifyRow(array &$row,$tabelle)
             }
 
             if ($row['ih_ssg'] != "0" && $row['ih_ssg'] != "") {
-                $row['ih_ssg'] = VF_ZT_Sub_Sachg[$row['ih_ssg']];
+                $row['ih_sg'] .= "<br> ".VF_ZT_Sub_Sachg[$row['ih_ssg']];
             }
 
+            $row['ih_jahr'] .= "-".$row['ih_nr'];
+            
+            $row['ih_titel'] .= "<br> ".$row['ih_titelerw'];
+            
+            $row['ih_email'] .= "<br>Tel: ".$row['ih_tel']."<br>Fax: ".$row['ih_fax'];
+            
             break;
     }
 

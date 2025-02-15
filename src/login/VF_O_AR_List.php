@@ -53,7 +53,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
         "select_string"       => "",
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -129,9 +129,7 @@ $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen 
 $Tabellen_Spalten = array(
     'fa_id',
     'fa_text',
-    'fa_link',
-    'fa_aenduid',
-    'fa_aenddat'
+    'fa_link'
 );
 
 $Tabellen_Spalten_style['fa_id'] = 

@@ -85,7 +85,7 @@ BA_HTML_header('Muskelbedientes des Eigentümers ' . $_SESSION['Eigner']['eig_ei
 
 initial_debug();
 
-var_dump($_GET);
+# var_dump($_GET);
 VF_chk_valid(); // Test auf gültigen Login- String
 
 VF_set_module_p(); // Setzen Variable für Update, Berechtigung
@@ -120,6 +120,7 @@ if (isset($_GET['ID'])) {
  */
 if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" && $_SESSION['VF_Prim']['mode'] == 'Mandanten') {
     $_SESSION['Eigner']['eig_eigner'] = "";
+    $_SESSION[$module]['fm_sammlung'] = "MU";
 }
 # $_SESSION[$module]['sammlung'] = 'MU';
 
@@ -154,6 +155,7 @@ if (isset($_POST['level1'])) {
         $sammlg = $_SESSION[$module]['fm_sammlung'] = $response;
     }
 }
+
 /**
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
@@ -274,7 +276,7 @@ function modifyRow(array &$row, $tabelle)
                 $fm_foto_1 = $row['fm_foto_1'];
                 $p1 = $pict_path . $row['fm_foto_1'];
 
-                $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'>  $fm_foto_1  </a>";
+                $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fm_foto_1  </a>";
             }
 
             break;
@@ -288,7 +290,7 @@ function modifyRow(array &$row, $tabelle)
                 $mg_foto_1 = $row['mg_foto_1'];
                 $p1 = $pict_path . $row['mg_foto_1'];
                 
-                $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  $mg_foto_1  </a>";
+                $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'><br>  $mg_foto_1  </a>";
             }
             
             break;

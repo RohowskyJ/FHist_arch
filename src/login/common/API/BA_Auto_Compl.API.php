@@ -11,8 +11,6 @@
  */
 session_start();
 
-
-
 const Module_Name = 'Eigner-Search';
 $module = Module_Name;
 $tabelle = "";
@@ -48,7 +46,7 @@ if (isset($_POST['proc'])) {
 
 $LinkDB_database = "";
 $db = LinkDB('VFH'); // Connect zur Datenbank
-
+/**/
 $dsn = "autocomp.log";
 $eintragen = Date("Y-m-d H:i:s")."\n";
 $eintragen .= "term $term \n";
@@ -57,16 +55,17 @@ $eintragen .= "proc $proc \n";
 $datei = fopen($dsn, "a");
 fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
 fclose($datei);
-
+/**/
 $srch_arr = array();
 
 if (isset($term)) {
+    /*
     $eintragen = " isset term term $term \n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    
+    */
     if ($proc == "Eigent") {
         eigent($term);
     }
@@ -89,24 +88,25 @@ foreach ($srch_arr as $company) {
 
 function eigent ($term) {
     global $db, $module, $srch_arr;
-    
+    /*
     $dsn = "api_log";
     $eintragen = "f Eig  $term L 094\n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    
+    */
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%' LIMIT 100";
     $result = SQL_QUERY($db, $query);
     
     if (mysqli_num_rows($result) > 0) {
+        /*
         $eintragen = "num row > 0 \L 0104n";
         
         $datei = fopen($dsn, "a");
         fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
         fclose($datei);
-        
+        */
         while ($user = mysqli_fetch_array($result)) {
             $lab = $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
             $val = $user['ei_id'] . "- " . $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];

@@ -33,7 +33,6 @@ switch ($T_List) {
     case "Alle":
         $Tabellen_Spalten = array(
         'fz_id',
-        'fz_invnr',
         'fz_sammlg',
         'fz_name',
         'fz_taktbez',

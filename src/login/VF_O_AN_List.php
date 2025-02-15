@@ -53,7 +53,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
         "select_string"       => "",
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -114,11 +114,11 @@ if (isset($_POST['select_string'])) {
 # ===========================================================================================
 if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
     $T_list_texte = array(
-        "Alle" => "Alle verfügbaren Dokumente "
+        "Alle" => "Alle verfügbaren Einträge "
     );
 } else {
     $T_list_texte = array(
-        "Alle" => "Alle verfügbaren Dokumente ",
+        "Alle" => "Alle verfügbaren Einträge ",
         "NeuItem" => "<a href='VF_O_AN_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
     );
 }
@@ -126,7 +126,6 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-# $title = "Fahrzeuge des Eigentümers ".$_SESSION[$module]['eignr'] ;
 
 BA_HTML_header('Marktplatz - Biete/Suche', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -148,13 +147,11 @@ $Tabellen_Spalten = array(
     'bs_email_2',
     'bs_bild_1',
     'bs_bild_2',
-    'bs_bild_3',
-    'bs_aenduid',
-    'bs_aenddate'
+    'bs_bild_3'
 );
 
 $Tabellen_Spalten_style['bs_id'] =
-$Tabellen_Spalten_style['bs_typ'] = $Tabellen_Spalten_style['ei_staat'] = 'text-align:center;';
+$Tabellen_Spalten_style['bs_typ'] = 'text-align:center;';
 
 $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Buch - Daten ändern: Auf die Zahl in Spalte <q>bs_id</q> Klicken.</li>';
 switch ($T_List) {

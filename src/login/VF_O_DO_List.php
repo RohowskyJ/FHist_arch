@@ -37,7 +37,6 @@ $db = LinkDB('VFH');
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-# $title = "Fahrzeuge des Eigentümers ".$_SESSION[$module]['eignr'] ;
 
 BA_HTML_header('Dokumentations- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -51,7 +50,7 @@ initial_debug();
  *
  * @global array $_SESSION['VF_LISTE']
  *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
+ *   - SpaltenNamenAnzeige    Ein: Anzeige der Spaltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -61,7 +60,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -150,9 +149,7 @@ $Tabellen_Spalten = array(
     'dk_Titel',
     'dk_Author',
     'dk_Urspr',
-    'dk_Dsn',
-    'dk_aenduid',
-    'dk_aenddat'
+    'dk_Dsn'
 );
 
 $Tabellen_Spalten_style['dk_nr'] = 
@@ -195,7 +192,7 @@ echo "</div>";
 # ===========================================================================================================
 $sql = "SELECT * FROM $tabelle ";
 
-if ($sel_thema != "" ) {
+if ($sel_thema != "0" ) {
     $sql .= " WHERE dk_Thema = '$sel_thema' ";
 }
 

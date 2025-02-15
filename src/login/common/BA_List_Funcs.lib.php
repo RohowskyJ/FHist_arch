@@ -232,7 +232,7 @@ function List_Prolog($id, $T_List_Texte)
     # Dropdown Listen Anzeige
     # -----------------------------------------------------------------------------------------------------------------
     if (! isset($_SESSION["VF_LISTE"]['DropdownAnzeige'])) {
-        $DropdownAnzeige = 'Ein'; # der default Wert
+        $DropdownAnzeige = 'Aus'; # der default Wert
     }
     if (isset($_GET['DropdownAnzeige'])) {
         $DropdownAnzeige = $_GET['DropdownAnzeige'];
@@ -657,7 +657,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
 {
     global $debug, $path2ROOT, $module, $List_parm, 
     $Tabellen_Spalten, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_tabelle, $Tabellen_Spalten_typ, $Tabellen_Spalten_style, 
-    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name;
+    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text;
 
     flow_add($module, "List_Funcs.inc Funct: List_Create");
 
@@ -665,6 +665,9 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
         echo "<pre class=debug style='color:red;'><b>Function List_Create in List_Funcs.inc</b></pre>";
     }
    
+    if (!isset($zus_text)) {
+        $zus_text = "";
+    }
     if (!isset($Kateg_name)) {
         $kKateg_Name = "";
     }
@@ -762,8 +765,8 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
         echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql_1<br>$sql_2</pre>";
     }
     echo "\n<div class=white>";
-    echo "<b>$zeilen Eintragungen mit den gewählten Kriterien $Kateg_Name gefunden.</b>";
-
+    echo "<b>$zeilen Eintragungen mit den gewählten Kriterien $Kateg_Name gefunden. $zus_text</b>";
+  
     if ($_SESSION['VF_LISTE']['CSVDatei'] == "Ein") {
         if (isset($csv_DSN)) {
             echo " <a href='$csv_DSN'>CSV Version ansehen</a>";
@@ -826,7 +829,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
 <!-- Tabelle Ausgeben                                                                                    -->
 <!-- =================================================================================================== -->
 
-<table class='w3-table w3-striped w3-hoverable scroll'
+<table id='myTable' class='w3-table w3-striped w3-hoverable scroll js-sort-table'
 	style='border: 1px solid black; background-color: white; margin: 0px;'>
 
 	<!-- =================================================================================================== -->
@@ -840,18 +843,37 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
 
     foreach ($Tabellen_Spalten as $key => $column_name) # ================ für alle Spalten =================
     {
+
         if (mb_strpos($hide_columns, " $column_name ") !== false) {
             continue;
         } # skip hidden column
+        $j = $i;
         $i ++; # Spaltenzähler
-        echo "\n    <th>";
-
+        # echo "\n  <th onclick='sortTable($j)'>";
+        if (!isset($Tabellen_Spalten_typ[$column_name])) {
+            echo "\n <th class='js-sort-none' title=\"class=&quot;js-sort-none&quot;\">";
+        } else {
+            switch ($Tabellen_Spalten_typ[$column_name]) {
+                case "num":
+                    echo "\n <th class='js-sort-number' title=\"class=&quot;js-sort-number&quot;\">";
+                    break;
+                case "text":
+                    echo "\n <th <th class='js-sort-string' title=\"class=&quot;js-sort-string&quot;\">";
+                    break;
+                default:
+                    echo "\n <th class='js-sort-none' title=\"class=&quot;js-sort-none&quot;\">";
+                   break; 
+            }
+        }
+            
         if ($DropdownAnzeige == 'Ein') {
             echo "<div class='dropdown'>";
         }
 
         # -------------------------------------------- Spalten Überschriften -----------------------------------------
+
         $Pfeil = '';
+      
         if ($column_name == $List_parm['sort_column'] & # Sortierrichtungs Pfeil nur für diese Spalte anzeigen
         $zeilen > 1) # Sortierrichtungs Pfeil nur anzeigen wenn es mehrere Zeilen gibt
         {
@@ -869,6 +891,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
         } else {
             $txt = str_replace("_", " ", $column_name);
         }
+
 
         if ($DropdownAnzeige == 'Ein') {
             echo " <button class='dropbtn'>$txt</button>$Pfeil";
@@ -1030,7 +1053,10 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
             fputs($datei, mb_convert_encoding("$CSV_Text\n;Ende der Liste. $zeilen Datenzeilen", "ISO-8859-1"));
             fclose($datei);
         }
+
     }
+    echo "<script src='common/javascript/sort-table.min.js' async></script>";
+
 
     beenden:
 }

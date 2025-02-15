@@ -106,10 +106,10 @@ $Tabellen_Spalten = array(
     'mg_foto_1'
 );
 $Tabellen_Spalten_style['mg_eignr'] = $Tabellen_Spalten_style['mg_id'] = $Tabellen_Spalten_style['mg_baujahr'] = 'text-align:center;';
-# dzt nicht $sql_where=" WHERE fm_sammlg = '".$_SESSION[$module]['sammlung']."' " ;
+
 $sql_where = "";
-if ($_SESSION[$module]['sammlung'] != "") {
-    $sql_where = " WHERE mg_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
+if ($_SESSION[$module]['fm_sammlung'] != "") {
+    $sql_where = " WHERE mg_sammlg LIKE '%".$_SESSION[$module]['fm_sammlung']."%' ";
 }
 
 $orderBy = "  ";

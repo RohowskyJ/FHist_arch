@@ -54,7 +54,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
         "select_string"       => "",
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -76,12 +76,12 @@ if (! isset($_SESSION[$module]['sammlung'])) {
  * Haeder ausgeben, body und form
  */
 
-$title = "Muskelbedientes des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
+#$title = "Muskelbedientes des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
 
 $header = "";
 
 $prot = True; // Prototype.js laden
-BA_HTML_header('Muskelbedientes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Maschinengetriebenes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -108,17 +108,15 @@ if ($phase == 99) {
  */
 if (isset($_GET['ID'])) {
     if ($_GET['ID'] == "NextSam") {
-        $_SESSION[$module]['fm_sammlung'] = "MA";
+        $_SESSION[$module]['sammlung'] = "MA";
     } else {
-        $sammlg = $_SESSION[$module]['fm_sammlung'] = $_GET['ID'];
+        $sammlg = $_SESSION[$module]['sammlung'] = $_GET['ID'];
     }
 }
 if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") {
     $_SESSION['Eigner']['eig_eigner'] = "";
+    $_SESSION[$module]['sammlung'] = "MA";
 }
-
-
-# $_SESSION[$module]['sammlung'] = 'MA';
 
 if (isset($post['select_string'])) {
     $select_string = $postT['select_string'];
@@ -164,13 +162,9 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
             BA_Auto_Compl('Eigent','Eigentümer');
         }
     } else {
-        $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+        $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
     }
-    /*
-    if ($_SESSION['Eigner']['eig_eigner'] == "") {
-        VF_Eig_Ausw();
-    }
-    */
+   
     if ($_SESSION[$module]['sammlung'] == "MA"){
         /**
          * Parameter für den Aufruf von Multi-Dropdown
@@ -279,7 +273,7 @@ function modifyRow(array &$row, $tabelle)
                 $fz_bild_1 = $row['fz_bild_1'];
                 $p1 = $pict_path . $row['fz_bild_1'];
 
-                $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'>  $fz_bild_1  </a>";
+                $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fz_bild_1  </a>";
             }
 
             break;
@@ -293,7 +287,7 @@ function modifyRow(array &$row, $tabelle)
                 $ge_foto_1 = $row['ge_foto_1'];
                 $p1 = $pict_path . $row['ge_foto_1'];
                 
-                $row['ge_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  $ge_foto_1  </a>";
+                $row['ge_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'><br> $ge_foto_1  </a>";
             }
             
             break;
