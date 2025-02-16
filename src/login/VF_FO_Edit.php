@@ -97,9 +97,9 @@ if ($phase == 0) {
 
     if ($_SESSION[$module]['fo_id'] == 0) {
 
-        $fo_typ = $_SESSION[$module]['URHEBER']['ur_media'];
-        $fo_eigner = $_SESSION[$module]['URHEBER']['fs_urh_nr'];
-        $fo_urheber = $_SESSION[$module]['URHEBER']['fs_fotograf'];
+        $fo_typ = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'];
+        $fo_eigner = $_SESSION[$module]['URHEBER']['ei_id'];
+        $fo_urheber = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['fotogr'];
 
         $pict_path = "../login/AOrd_Verz/" . $fo_eigner . "/09/"; # 06/";
 

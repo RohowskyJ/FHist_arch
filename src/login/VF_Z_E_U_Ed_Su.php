@@ -11,7 +11,7 @@ session_start();
 
 const Module_Name = 'OEF';
 $module = Module_Name;
-$tabelle = 'fh_urh_erw_n';
+$tabelle = 'fh_eign_urh';
 
 const Prefix = '';
 
@@ -24,13 +24,13 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
-require $path2ROOT . 'login/common/VF_Const.inc.php';
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-require $path2ROOT . 'login/common/List_Funcs.inc.php';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
 $flow_list = False;
 
@@ -62,7 +62,7 @@ if (isset($_GET['fs_flnr'])) {
 }
 
 if ($phase == 99) {
-    header('Location: VF_FO_U_Edit.php?ID=$fs_flnr');
+    header('Location: VF_FO_Z_E_List.php');
 }
 $Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
 
@@ -83,13 +83,14 @@ if ($phase == 0) {
 
     if ($fs_flnr == 0) {
         $neu['fs_flnr'] = 0;
-        $neu['fs_fm_id'] = $_SESSION[$module]['URHEBER']['fm_id'];
         $neu['fs_eigner'] = $_SESSION[$module]['URHEBER']['fm_eigner'];
         $neu['fs_typ'] = $_SESSION[$module]['URHEBER']['fm_typ'];
         $neu['fs_fotograf'] = $_SESSION[$module]['URHEBER']['fm_urheber'];
         $neu['fs_urh_kurzz'] = "";
         $neu['fs_urh_nr'] = "";
-        $meu['fs_urh_verzeich'] = "";
+        $neu['fs_urh_verzeich'] = "";
+        $Neu['fs_anz_verze'] = 0;
+        $neu['fs_anz_dateien'] = 0;
         
         $neu['fs_uidaend'] = $neu['fs_aenddat'] = "";
     } else {
@@ -134,10 +135,10 @@ HTML_header('Urheber', '', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLin
 
 switch ($phase) {
     case 0:
-        require ('VF_FO_U_Ed_Su_ph0.inc.php');
+        require ('VF_Z_E_U_Ed_Su_ph0.inc.php');
         break;
     case 1:
-        require ('VF_FO_U_Ed_Su_ph1.inc.php');
+        require ('VF_Z_E_U_Ed_Su_ph1.inc.php');
         break;
 }
 HTML_trailer();

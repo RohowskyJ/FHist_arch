@@ -158,7 +158,7 @@ function modifyRow(array &$row, $tabelle)
 
     #var_dump($row);
     switch ($s_tab) {
-        
+        /*
         case "fh_urheb":
             $fm_id = $row['fm_id'];
             $fm_typ = $row['fm_typ'];
@@ -176,6 +176,7 @@ function modifyRow(array &$row, $tabelle)
             $fm_typ = $row['fm_typ'];
             
             break;
+            */
         case "fh_eigen":
             if (!isset($row['Urh_Erw'])) {
                 $row['Urh_Erw'] = "";
@@ -189,9 +190,7 @@ function modifyRow(array &$row, $tabelle)
                 $sql_u = "SELECT * FROM fh_eign_urh WHERE  fs_eigner=$ei_id ";
                 $ret_u = SQL_QUERY($db,$sql_u);
                 WHILE ( $row_u = mysqli_fetch_object($ret_u)) {
-                    # var_dump($row_u);
-                    console_log($row_u->fs_urh_kurzz);
-                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz'> <label for= > $row_u->fs_fotograf $row_u->fs_urh_kurzz    </label><br>";
+                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz    </label><br>";
                 } 
             } else  {
                 
@@ -200,7 +199,7 @@ function modifyRow(array &$row, $tabelle)
         case "fo_todat":
             $bpfad = $row['fo_basepath'];
             $zuspfad = $row['fo_zus_pfad'];
-            if ($_SESSION[$module]['URHEBER']['ur_media'] == "F") {
+            if ($_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'] == "F") {   
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
             } else {
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
@@ -224,7 +223,7 @@ function modifyRow(array &$row, $tabelle)
                 $pfad = $fo_aufn_d . "/";
             }
 
-            if ($_SESSION[$module]['URHEBER']['ur_media'] == "F") {
+            if ($_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'] == "F") {
                 $row['fo_basepath'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&fo_aufn_s=$fo_aufn_s&pf=$bpfad&zupf=$zuspfad'  target='_blanc'>" . $fo_aufn_d . " </a> Fotos "; 
             }
 

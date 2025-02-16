@@ -55,7 +55,7 @@ if (! isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE'] = array(
         "SelectAnzeige" => "Aus",
         "SpaltenNamenAnzeige" => "Ein",
-        "DropDownAnzeige" => "Ein",
+        "DropDownAnzeige" => "Aus",
         "LangListe" => "Aus",
         "VarTableHight" => "Ein",
         "CSVDatei" => "Aus"
@@ -95,9 +95,10 @@ if ($phase == 99) {
 
 Tabellen_Spalten_parms($db, Tabellen_Name);
 
-if (!isset($_SESSION[$module]['Fo']['Urheber_List'])) {
-    VF_Sel_Urheber_n();
-}
+unset($_SESSION[$module]['Urheber_List']);
+
+VF_Sel_Urheber_n();
+
 
 // ==============================================================================================================
 if ($phase == 95) // Einlesen Berichsts- Datum
@@ -362,7 +363,7 @@ function modifyRow(array &$row, $tabelle)
                 if ($ret_foto) {
                     $row_foto = mysqli_fetch_assoc($ret_foto);
 
-                    if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+                    if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
                         $pict_path .= $row_foto['fo_eigner'] . "/09/06/";
                     } else {
                         $pict_path .= $row_foto['fo_eigner'] . "/09/07/";
@@ -379,7 +380,7 @@ function modifyRow(array &$row, $tabelle)
                     if ($row_foto['fo_dsn'] != "") {
                         $dsn = $row_foto['fo_dsn'];
 
-                        if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+                        if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
                             $row['vb_foto'] = "<a href='$pict_path$dsn' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
                             $DsName = "<a href='VF_FO_Detail.php?id=$vb_foto&eig=$urh' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
                         } else {
@@ -394,15 +395,15 @@ function modifyRow(array &$row, $tabelle)
                         }
                     }
                     
-                    $row['vb_foto'] = "$DsName<br>" . $_SESSION[$module]['Fo']['URHEBER']['fm_urheber'];
+                    $row['vb_foto'] = "$DsName<br>" . $_SESSION[$module]['URHEBER']['BE']['ei_urheber'];
                     $row['fo_begltxt'] = "<textarea id='fo_begltxt_$fo_urh' name='fo_begltxt_$fo_urh' rows='4' cols='50'>" . $row_foto['fo_begltxt'] . "</textarea>"; 
                 }
 
                 $vb_unter = $row['vb_unter'];
-                $row['vb_unter'] = "<input type='text' name='vb_unter_$vd_flnr' id='vb_unter_$vd_flnr' value='$vb_unter' maxlength='4'>";
-
                 $vb_suffix = $row['vb_suffix'];
-                $row['vb_suffix'] = "<input type='text' name='vb_suffix_$vd_flnr' id='vb_suffix_$vd_flnr' value='$vb_suffix' maxlength='4'>";
+                $row['vb_unter'] = "Unterseite: <input type='text' name='vb_unter_$vd_flnr' id='vb_unter_$vd_flnr' value='$vb_unter' maxlength='4'>";
+                                
+                $row['vb_unter'] .= "<br>Sortierung: <input type='text' name='vb_suffix_$vd_flnr' id='vb_suffix_$vd_flnr' value='$vb_suffix' maxlength='4'>";
 
                 $vb_titel = $row['vb_titel'];
                 $row['vb_titel'] = "<input type='text' name='vb_titel_$vd_flnr' id='vb_titel_$vd_flnr' value='$vb_titel' maxlength='60'>";
@@ -411,7 +412,7 @@ function modifyRow(array &$row, $tabelle)
 
         case "fo_todat":
 
-            if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+            if ($_SESSION[$module]['URHEBER']['BE']['fm_typ'] == "F") {
                 $pict_path .= $row['fo_eigner'] . "/09/06/";
             } else {
                 $pict_path .= $row['fo_eigner'] . "/09/07/";

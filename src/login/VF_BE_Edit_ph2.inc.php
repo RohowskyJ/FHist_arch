@@ -101,15 +101,17 @@ foreach ($arr_fot as $name => $value) # für alle Felder aus der tabelle
     }
 
     $valuer = explode("|", $value); # key: Recnr, 0: Urh, 1 Feld, 2 Inhalt
+    
+    $eig= $_SESSION['Eigner']['eig_eigner'];
+    
+    $sql = "UPDATE `fo_todaten_$eig` SET fo_begltxt='$valuer[2]' $update_dat WHERE fo_id='$name' ";
+    echo "L 0108 sql $sql <br>";
+    $result = SQL_QUERY($db, $sql);
+    if ($debug) {
+        echo '<pre class=debug> L 0111:  \$sql $sql </pre>';
+    }
 }
-$eig= $_SESSION['Eigner']['eig_eigner'];
 
-$sql = "UPDATE `fo_todaten_$eig` SET fo_begltxt='$valuer[2]' $update_dat WHERE fo_id='$name' ";
-
-$result = SQL_QUERY($db, $sql);
-if ($debug) {
-    echo '<pre class=debug> L 0111:  \$sql $sql </pre>';
-}
 
 if ($debug) {echo "<pre class=debug>VF_O_BE_Edit_ph2.inc.php ist beendet</pre>";}
     

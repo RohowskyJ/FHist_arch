@@ -15,7 +15,7 @@ if (! isset($_SESSION[$module]['URHEBER'])) {
     VF_Z_U_Sel_List($_SESSION[$module]['URHEBER']['fm_eigner']);
 }
 */
-if ($_SESSION[$module]['URHEBER']['ur_media'] == "F") {
+if ($_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'] == "F") {
     $media = "Foto";
 } else {
     $media = "Video";

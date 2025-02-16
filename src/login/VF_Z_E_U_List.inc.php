@@ -9,7 +9,7 @@
  */
 $T_list_texte = array(
     "Alle" => "Alle Daten anzeigen",
-    "NeuItem" => "<a href='VF_FO_U_Ed_Su.php?ID=0' >Neuen Datensatz eingeben</a>"
+    "NeuItem" => "<a href='VF_Z_E_U_Ed_Su.php?ID=0' >Neuen Datensatz eingeben</a>"
 );
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
@@ -43,11 +43,14 @@ switch ($T_List) {
      */
     default:
         $Tabellen_Spalten = array(
-            'fs_flnr',
-            'fs_fm_id',
-            'fs_eigner',
-            'fs_fotograf',
-            'fs_urh_kurzz'
+        'fs_flnr',
+        'fs_eigner',
+        'fs_fotograf',
+        'fs_urh_nr',
+        'fs_urh_kurzz',
+        'fs_urh_verzeichn',
+        'fs_anz_verze',
+        'fs_anz_dateien'
         );
         break;
 }

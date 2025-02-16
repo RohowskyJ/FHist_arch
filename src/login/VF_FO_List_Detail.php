@@ -242,7 +242,7 @@ Function Fo_Tab_gener() {
      * Tabelle einlesen für Aufnahmedatum
      */
     
-    $fo_typ = $_SESSION[$module]['URHEBER']['ur_media'];
+    $fo_typ = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'];
     $tabelle_g = "fo_todaten_".$_SESSION[$module]['URHEBER']['ei_id'];
     $sql_g = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' ";
     #echo "L 0244 sql_g $sql_g <br>";

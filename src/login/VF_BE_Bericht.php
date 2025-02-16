@@ -192,7 +192,7 @@ function modifyRow(array &$row, $tabelle)
             break;
 
         case "fo_todat":
-            if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+            if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
             } else {
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/07/";
@@ -212,7 +212,7 @@ function modifyRow(array &$row, $tabelle)
             if ($row['fo_dsn'] != "") {
                 $dsn = $row['fo_dsn'];
                
-                if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+                if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
                     $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
                 } else {
                     $video = "

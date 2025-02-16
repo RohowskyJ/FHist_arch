@@ -83,6 +83,9 @@ if ($neu['ei_id'] == "0") { // NeuItem
         if ($name == "phase") {
             continue;
         } #
+        if ($name == "tabelle") {
+            continue;
+        } 
 
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
@@ -100,6 +103,25 @@ if ($neu['ei_id'] == "0") { // NeuItem
 
         echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
         $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
+    }
+    
+    if (strlen($neu['ei_media']) > 2 ){ // erweiterung angelegt? je medium ein Record!
+        $med_arr = explode(",",$neu['ei_media']);
+        foreach($med_arr as $medium) {
+            $sql_m = "SELECT * FROM fh_eign_urh WHERE fs_eigner='".$neu['ei_id']."'  AND fs_typ='$medium' AND fs_urh_kurzz ='".$neu['ei_urh_kurzz']."' " ;
+            $ret_m = SQL_QUERY($db,$sql_m);
+            $num_rows = mysqli_num_rows($ret_m);
+            echo "L 0114 num_rows $num_rows <br>";
+            if ($num_rows === 0 ) {
+                $sql_i = "INSERT INTO fh_eign_urh (fs_eigner,fs_typ,fs_fotograf,fs_urh_kurzz,fs_uidaend
+                      ) VALUE (
+                        '$neu[ei_id]','$medium','".$neu['ei_org_typ']." ".$neu['ei_org_name']."','$neu[ei_urh_kurzz]','$p_uid'
+                       ) ";
+                $ret_i = SQL_QUERY($db,$sql_i);
+            }
+            
+        }
+        
     }
 }
 

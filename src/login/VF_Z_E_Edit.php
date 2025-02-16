@@ -22,7 +22,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = True; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -157,7 +157,7 @@ function modifyRow(array &$row, $tabelle)
     global $path2ROOT, $T_List, $module;
     
     $fs_flnr = $row['fs_flnr'];
-    $row['fs_flnr'] = "<a href='VF_Z_E_U_Ed.php?ID=$fs_flnr'  >" . $fs_flnr . "</a>";
+    $row['fs_flnr'] = "<a href='VF_Z_E_U_Ed_Su.php?ID=$fs_flnr'  >" . $fs_flnr . "</a>";
     
     # -------------------------------------------------------------------------------------------------------------------------
     return True;

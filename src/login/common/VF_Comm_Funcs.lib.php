@@ -629,32 +629,39 @@ function VF_Displ_Urheb_n($urhebernr, $typ = "F")
         echo "<pre class=debug>VF Displ_Urheb_n L 687 Beg: \$urhebernr $urhebernr fm_typ $fm_typ <pre>";
     }
     
-    $sql = "SELECT * FROM `fh_urheber_n` WHERE `fm_eigner` = '$urhebernr' AND fm_typ = '$fm_typ' ";
+    $sql = "SELECT * FROM `fh_eigentuemer` WHERE `ei_id`='$urhebernr' ";
     
     $return_ur = SQL_QUERY($db, $sql);
     
     while ($row = mysqli_fetch_object($return_ur)) {
-        if ($typ == $row->fm_typ) {
-            $_SESSION[$module]['Fo']['URHEBER']['fm_id'] = $row->fm_id;
-            $_SESSION[$module]['Fo']['URHEBER']['fm_eigner'] = $row->fm_eigner;
-            $_SESSION[$module]['Fo']['URHEBER']['fm_urheber'] = $row->fm_urheber;
-            $_SESSION[$module]['Fo']['URHEBER']['fm_urh_kurzz'] = $row->fm_urh_kurzz;
-            $_SESSION[$module]['Fo']['URHEBER']['fm_typ'] = $row->fm_typ;
+        
+            $_SESSION[$module]['URHEBER']['BE']['ei_id'] = $row->ei_id;
             
-            $sql_urh_det = "SELECT * from fh_urh_erw_n WHERE fs_eigner='$row->fm_eigner' AND fs_typ = '$row->fm_typ' ";
+            if ($row->ei_org_typ == "") {
+                $urheber = $row->name ." .$row->ei_vname";
+            } else {
+                $urheber = $row->ei_org_typ ." ". $row->ei_org_name;
+            }
+            $_SESSION[$module]['URHEBER']['BE']['ei_urheber'] = $urheber;
+            
+            $_SESSION[$module]['URHEBER']['BE']['ei_urh_kurzz'] = $row->ei_urh_kurzz;
+            $_SESSION[$module]['URHEBER']['BE']['ei_media'] = $row->ei_media;
+            
+            $sql_urh_det = "SELECT * from fh_eign_urh WHERE fs_eigner='$row->ei_id' AND fs_typ = '$fm_typ' ";
             $return_urh_det = SQL_QUERY($db, $sql_urh_det);
             $num_rec = mysqli_num_rows($return_urh_det);
             if ($num_rec > 0) {
                 # $num_r_u_d = mysqli_num_rows($return_urh_det);
-                $_SESSION[$module]['Fo']['URHEBER']['urh_abk'] = array();
+                $_SESSION[$module]['URHEBER']['BE']['urh_abk'] = array();
                 while ($row_urh_d = mysqli_fetch_object($return_urh_det)) {
-                    $_SESSION[$module]['Fo']['URHEBER']['urh_abk'][$row_urh_d->fs_urh_kurzz] = $row_urh_d->fs_fotograf;
+                    $_SESSION[$module]['URHEBER']['BE']['urh_abk'][$row_urh_d->fs_urh_nr][$row_urh_d->fs_urh_kurzz] = $row_urh_d->fs_fotograf;
+                    
                 }
                 
                 break;
             }
 
-        }
+        
     }
     
     mysqli_free_result($return_ur);
@@ -1243,20 +1250,20 @@ function VF_Sel_Urheber_n()
     
     $urheb_arr[0] = "Kein Urheber ausgewählt.";
     
-    $sql_ur = "SELECT fm_id,fm_eigner,fm_urheber,fm_typ,fm_urh_kurzz FROM `fh_urheber_n`  ORDER BY fm_id ASC ";
+    $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC ";
     
     $return_ur = SQL_QUERY($db, $sql_ur);
     
     while ($row = mysqli_fetch_object($return_ur)) {
-       
-        if ($row->fm_urh_kurzz == "" || $row->fm_urh_kurzz == " ") {
-            continue;
+        
+        if ($row->ei_org_typ == 'Privat') {
+            $fotogr = $row->ei_name ." ". $row->ei_vname;
+        } else {
+            $fotogr = $row->ei_org_typ ." ".$row->ei_org_name;
         }
-        
-        $fm_id = $row->fm_id;
-        $fm_typ = $row->fm_typ;
-        
-        $sql_su = "SELECT * FROM fh_urh_erw_n WHERE fs_fm_id='$fm_id' AND fs_typ='$fm_typ' ";
+        $_SESSION[$module]['Urheber_List'][$row->ei_id] =  array('ei_media'=>$row->ei_media,'ei_fotograf'=>$fotogr, 'ei_urh_kurzz'=>$row->ei_urh_kurzz );       
+            
+        $sql_su = "SELECT * FROM fh_eign_urh WHERE fs_eigner='$row->ei_id'  ";
         
         $return_su = SQL_QUERY($db, $sql_su);
         
@@ -1265,16 +1272,29 @@ function VF_Sel_Urheber_n()
         if ($num_rec > 0) {
             while ($row_su = mysqli_fetch_object($return_su)) {
                
-                $_SESSION[$module]['Fo']['Urheber_List'][$row->fm_eigner][$row_su->fs_flnr]['Typ'] = $fm_typ;
-                $_SESSION[$module]['Fo']['Urheber_List'][$row->fm_eigner][$row_su->fs_flnr]['Kurz'] = $row_su->fs_urh_kurzz;
-                $_SESSION[$module]['Fo']['Urheber_List'][$row->fm_eigner][$row_su->fs_flnr]['Name'] = $row_su->fs_fotograf;
-                $urheb_arr[$row->fm_eigner] = $row_su->fs_fotograf;
+                $_SESSION[$module]['Urheber_List'][$row->ei_id][$row_su->fs_urh_kurzz] = array('typ' => $row_su->fs_typ,'fotogr'=>$row_su->fs_fotograf,'urh_nr'=>$row_su->fs_urh_nr);
+                
+                $urheb_arr[$row->ei_id] = $row_su->fs_fotograf;
             }
         }
         
         
     }
-    
+    /**
+     * Feststellen der Urheber- Nummer bei Organisation
+     * $_SESSION[$module]['URHEBER'][$urh_nr] = Eigentümer- Nummer
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_media'] = Media Kennung A,F,I,V  Audio, Foto, Film, Video
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_fotograf'] = Name der Org (Verfüger) oder Name des Urhebers
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_urh_kurzz'] = Urheber- Kennzeichen, wenn kein urh_kenzz ausgewählt ist
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk'] array
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urhnr'] = Eigentümer- Nummer des Urhebers (wenn <> $urh_nr, diese nutzen)
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_fotograf'] = Name des Urhebers für Anzeige bei Bild
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urh_kurzz'] = Kennzeichen des Urhebers (für Dateinamens- Beginn)
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_typ'] = für die Zuordnung im Archiv
+     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_verz'] = für ein Verzeichnis
+     *
+     * $_SESSION[$module]['URHEBER']['Media]['urh_nr']= array(['urh_nr]['type']['kurzz']['fotogr']['verz'])
+     */
     mysqli_free_result($return_ur);
     mysqli_free_result($return_su);
 }

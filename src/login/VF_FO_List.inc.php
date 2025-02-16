@@ -11,9 +11,6 @@ if ($debug) {
     echo "<pre class=debug>VF_FO_List.inc.php ist gestarted</pre>";
 }
 
-# VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
-# VF_Displ_Urheb_n($_SESSION['Eigner']['eig_eigner']);
-
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
@@ -29,37 +26,40 @@ $T_list_texte = array(
  * $_SESSION[$module]['URHEBER'][$urh_nr] = Eigentümer- Nummer
  * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_media'] = Media Kennung A,F,I,V  Audio, Foto, Film, Video
  * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_fotograf'] = Name der Org (Verfüger) oder Name des Urhebers
- * $_SESSION[$module]['URHEBER'][$urh_nr][ei_urh_kurzz'] = Urheber- Kennzeichen, wenn kein urh_kenzz ausgewählt ist
+ * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_urh_kurzz'] = Urheber- Kennzeichen, wenn kein urh_kenzz ausgewählt ist
  * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk'] array
  * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urhnr'] = Eigentümer- Nummer des Urhebers (wenn <> $urh_nr, diese nutzen)
  * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_fotograf'] = Name des Urhebers für Anzeige bei Bild
  * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urh_kurzz'] = Kennzeichen des Urhebers (für Dateinamens- Beginn)
  * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_typ'] = für die Zuordnung im Archiv
+ * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_verz'] = für ein Verzeichnis
+ * 
+ * $_SESSION[$module]['URHEBER']['Media]['urh_nr']= array(['urh_nr]['type']['kurzz']['fotogr']['verz'])
  */
 $eignr = $_SESSION['Eigner']['eig_eigner'];
-/*
-if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk'])) {  // erweiterte Daten vorhanden
-    
-} else {
-    $_SESSION[$module]['URHEBER'][$eignr]['urh_abk'] = array();
-    $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
-    array('fs_urh_nr' => $_SESSION[$module]['URHEBER'][$eignr],'fs_fotograf'=>  $ei_fotograf,
-        'fs_urh_kurzz'=> $ei_urh_kurzzz ,'fs_typ'=> $ei_media);
-}
-*/
-if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urhnr']) && 
-        $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urhnr'] == $_SESSION[$module]['URHEBER'][$urh_nr]  ) {
-    $urh_nr = $_SESSION[$module]['URHEBER'][$eignr];
-    $ur_media = $_SESSION[$module]['URHEBER'][$eignr]['ei_media'];
-} else {
-    if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk'])) {
-        $urh_nr = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urh_nr'];
-        $ur_media = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_typ'];
-    }   
-}
-$_SESSION[$module]['URHEBER']['ur_media'] = $ur_media;
 
-$tabelle .= "_" . $urh_nr;
+$_SESSION[$module]['URHEBER']['Media']['urh_nr'] = $eignr;
+if (strlen($_SESSION[$module]['URHEBER'][$eignr]['ei_media']) == 1) {
+    $typ = $_SESSION[$module]['URHEBER'][$eignr]['ei_media'];
+} else {
+    $t_a = explode(",",$_SESSION[$module]['URHEBER'][$eignr]['ei_media']);
+    $typ = $t_a[0];
+}
+$_SESSION[$module]['URHEBER']['Media']['urh_nr'] = array('ei_id'=>$eignr,'type'=> $typ,'kurzz'=>$_SESSION[$module]['URHEBER'][$eignr]['ei_urh_kurzz'],
+    'fotogr'=>$_SESSION[$module]['URHEBER'][$eignr]['ei_fotograf'],'verz'=> "");
+
+# var_dump($_SESSION[$module]['URHEBER']['Media']['urh_nr']);
+if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk'] )) { // definierte Erweiterungen
+    if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urhnr']) &&
+            $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urhnr'] != $_SESSION[$module]['URHEBER'][$urh_nr]  ) {
+                $_SESSION[$module]['URHEBER']['Media']['urh_nr'] = array('ei_id'=>$_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urhnr'],'type'=> $type,'kurzz'=>$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urh_kurzz'],
+                'fotogr'=>$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_fotograf'],'verz'=> $_SESSION[$module]['URHEBER'][$eigner]['urh_abk']['fs_verz']); 
+        }
+}     
+# var_dump($_SESSION[$module]['URHEBER']['Media']['urh_nr']);
+$ur_media = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'];
+
+$tabelle .= "_" . $eignr;
 echo "<fieldset>";
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -71,9 +71,7 @@ $Tabellen_Spalten = array(
     'fo_basepath',
     'fo_begltxt',
     'fo_suchb',
-    'fo_typ',
-    'fo_media',
-    'fo_aenddat'
+    'fo_media' 
 );
 $Tabellen_Spalten_COMMENT['fo_basepath'] = "Pfad zu den Fotos";
 

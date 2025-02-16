@@ -54,7 +54,7 @@ if ($neu['fm_id'] != 0 ) {
         
         $_SESSION[$module]['Fo']['URHEBER'][$key] = $value;
     }
-    require "VF_FO_U_Li_Su.inc.php";
+    require "!VF_FO_U_Li_Su.inc.php";
     
     echo "<p><a href='VF_FO_List.php?ID=NextEig'>Zurück zur Liste</a></p>";
 }

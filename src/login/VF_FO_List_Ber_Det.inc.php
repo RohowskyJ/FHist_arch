@@ -14,10 +14,11 @@ if ($debug) {
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if (! isset($_SESSION[$module]['Fo']['URHEBER'])) {
+if (! isset($_SESSION[$module]['URHEBER'])) {
     VF_Displ_Urheb_n($_SESSION['Eigner']['eig_eigner']);
 }
-if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+
+if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
     $media = "Foto";
 } else {
     $media = "Video";
@@ -40,8 +41,8 @@ List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 
- $Tabellen_Spalten = array('vd_flnr','vb_flnr','vb_unter','vb_suffix','vb_titel','fo_begltxt','vb_foto','vb_foto_Urheber');
- $Tabellen_Spalten_COMMENT = array('vd_flnr'=>'Fortl.Nr.','vb_flnr'=>'Berichts- Nummer','vb_unter'=>'Unterseite Nr.','vb_suffix'=>'Sortierung','vb_titel'=>'','fo_begltxt'=>'Begleittext','vb_foto'=>'Foto','vb_foto_Urheber'=>'Urheber');
+ $Tabellen_Spalten = array('vd_flnr','vb_unter','vb_titel','fo_begltxt','vb_foto','vb_foto_Urheber');
+ $Tabellen_Spalten_COMMENT = array('vd_flnr'=>'Fortl.Nr.','vb_flnr'=>'Berichts- Nummer','vb_unter'=>'Unterseite<br> Sortierung','vb_titel'=>'','fo_begltxt'=>'Begleittext','vb_foto'=>'Foto','vb_foto_Urheber'=>'Urheber');
 
 $Tabellen_Spalten_style['vb_flnr'] = $Tabellen_Spalten_style['fo_eigner'] = 'text-align:center;';
 
