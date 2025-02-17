@@ -57,6 +57,11 @@
 *.webp
 *.WebP
 *.lnk
+*.doc*
+*.DOC*
+*.msg*
+*.mid
+*.bmp
 
 # Compiled source #
 ###################
