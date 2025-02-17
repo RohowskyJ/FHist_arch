@@ -196,7 +196,7 @@ function Cr_n_ma_arc_xref ($tabelle)
     global $debug, $db;
 echo "l 0197 $tabelle <br>";
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-  `fa_id` smallint(6) NOT NULL AUTO_INCREMENT COMMENT 'Fortlaufende Nummer',
+  `fa_id` smallint(6) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `fa_eignr` smallint(6) NOT NULL COMMENT 'EigentÃ¼mer- Nr.',
   `fa_fzgnr` smallint(6) NOT NULL COMMENT 'Fahrzeug- Nr.',
   `fa_sammlg` varchar(20) NOT NULL COMMENT 'Sammlungs- AbkÃ¼rzung',
@@ -217,7 +217,7 @@ function Cr_n_ma_fz_beschr ($tabelle)
     global $debug, $db;
 
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-  `fz_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortlaufende Nummer',
+  `fz_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `fz_eignr` char(10) NOT NULL COMMENT 'Eigner- Nummer',
   `fz_invnr` int(11) DEFAULT NULL COMMENT 'Inventar- Nummer',
   `fz_sammlg` varchar(20) DEFAULT NULL COMMENT 'Sammlung',
@@ -256,7 +256,7 @@ function Cr_n_fz_eigner ($tabelle)
     global $debug, $db;
 
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-      `fz_eign_id` int(10) NOT NULL AUTO_INCREMENT  COMMENT 'Eigner- Nummer',
+      `fz_eign_id` int(10) NOT NULL AUTO_INCREMENT  COMMENT 'Eigner- Nr.',
        `fz_id` int(10) NOT NULL  COMMENT 'Fahzeug- Nummer',
        `fz_docbez` char(100) COLLATE utf8_german2_ci NOT NULL COMMENT 'Dokument- Bezeichnung',
        `fz_zul_dat` char(10) COLLATE utf8_german2_ci NOT NULL COMMENT 'Zulassungs-Datum',
@@ -276,7 +276,7 @@ function Cr_n_fz_fixeinb ($tabelle)
     global $debug, $db;
 
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-     `fz_einb_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl.- Nummer',
+     `fz_einb_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
      `fz_id` int(10) DEFAULT NULL COMMENT 'Fahrzeug Nummer',
      `fz_gername` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraete- Bezeichnung',
      `fz_ger_herst` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Hersteller',
@@ -375,7 +375,7 @@ function Cr_n_fz_laderaum ($tabelle)
     global $debug, $db;
 
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-      `lr_id` int(10) NOT NULL COMMENT 'Fortlaufende Nummer',
+      `lr_id` int(10) NOT NULL COMMENT 'Fortl. Nr.',
       `lr_eignr` char(10) COLLATE utf8_german2_ci NOT NULL COMMENT 'Eigentümer- Nummer',
       `lr_fzg` char(10) COLLATE utf8_german2_ci NOT NULL COMMENT 'Fahrzeug- Nummer',
       `lr_raum` char(60) COLLATE utf8_german2_ci NOT NULL COMMENT 'Laderaum',
@@ -402,7 +402,7 @@ function Cr_n_fz_typis_aend ($tabelle)
     global $debug, $db;
 
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-       `fz_typ_id` int(10) NOT NULL COMMENT 'Fortlaufende Nummer',
+       `fz_typ_id` int(10) NOT NULL COMMENT 'Fortl. Nr.',
        `fz_id` int(10) NOT NULL COMMENT 'Fahrzeug- Nummer',
        `fz_t_aenddat` char(10) COLLATE utf8_german2_ci NOT NULL COMMENT 'Datum der Änderung',
        `fz_infotext` char(100) COLLATE utf8_german2_ci NOT NULL COMMENT 'Beschreibung',
@@ -419,7 +419,7 @@ function Cr_n_fz_reparat ($tabelle)
     global $debug, $db;
 
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-        `fz_rep_id` int(10) NOT NULL COMMENT 'Fortlaufende Nummer',
+        `fz_rep_id` int(10) NOT NULL COMMENT 'Fortl. Nr.',
         `fz_id` int(10) NOT NULL COMMENT 'Fahrzeug- Nummer',
         `fz_repdat` char(10) COLLATE utf8_german2_ci NOT NULL COMMENT 'Datum der Rep.',
         `fz_reptext` text COLLATE utf8_german2_ci NOT NULL COMMENT 'Rpartur- Beschreibung',

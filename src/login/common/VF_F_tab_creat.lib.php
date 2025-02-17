@@ -10,7 +10,7 @@ function Cr_n_fo_daten ($tabelle)
     global $debug, $db;
     
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-        `fo_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'fortlaufende Nummer',
+        `fo_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
         `fo_eigner` int(20) NOT NULL COMMENT 'Eigentümer- Nr',
         `fo_Urheber` varchar(50)  COLLATE utf8_unicode_ci NOT NULL COMMENT 'Urheber- Name',
         `fo_Urh_kurzz` varchar(20)  COLLATE utf8_unicode_ci NOT NULL COMMENT 'Urheber- Name',
@@ -39,7 +39,7 @@ function Cr_n_ar_chivdt ($tabelle)
     global $debug, $db;
     
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-      `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Archiv-ID',
+      `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Archiv- ID',
       `ad_eignr` int(11) NOT NULL COMMENT 'Eigentümernummer',
       `ad_sg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Sachgebiet',
       `ad_subsg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'SubSachgeb.',
@@ -91,8 +91,8 @@ function Cr_n_ar_ch_verl ($tabelle)
     global $debug, $db;
     
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-      `al_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Archiv-ID',
-      `ad_id` char(15) NOT NULL COMMENT 'Archiv-ID',
+      `al_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
+      `ad_id` char(15) NOT NULL COMMENT 'Archiv- ID',
       `al_eignr` int(15) NOT NULL COMMENT 'Eigentümernummer',
       `al_verliehen_an` varchar(100) CHARACTER SET utf8 COLLATE latin1_german2_ci NOT NULL COMMENT 'Leihnehmer' ,
       `al_verleihgrund` varchar(100) CHARACTER SET utf8 COLLATE latin1_german2_ci NOT NULL COMMENT 'Verleihgrund',
@@ -117,7 +117,7 @@ function Cr_n_zt_inhalt ($tabelle)
     global $debug, $db;
     
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-      `ih_id` mediumint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+      `ih_id` mediumint(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
       `ih_zt_id` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Zeitungs-ID',
       `ih_jahrgang` char(4) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL COMMENT 'Jahrgang',
       `ih_jahr` varchar(4) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL COMMENT 'Jahr',
@@ -145,73 +145,6 @@ function Cr_n_zt_inhalt ($tabelle)
     return $return;
 } # Ende Funktion Cr_n_ar_ch_verl
 
-function Cr_n_ar_ord_loc ($tabelle,$eignr)
-{
-    global $debug, $db;
-    
-    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-    `al_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    `al_eigner` int(11) NOT NULL,
-    `al_sg` varchar(5) NOT NULL COMMENT 'Haupt-SG',
-    `al_lcsg` varchar(2) NOT NULL COMMENT 'Loc. Sg',
-    `al_lcssg` varchar(2) NOT NULL COMMENT 'Loc Sub SG',
-    `al_bezeich` varchar(100) NOT NULL COMMENT 'Bezeichng',
-    `al_suchbegr` varchar(20) NOT NULL COMMENT 'Vordef. Suchbegriff',
-    PRIMARY KEY (`al_id`)
-   ) ENGINE=MyISAM AUTO_INCREMENT=1300 CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci COMMENT='Archivordnung Lokal Erweiterung' ";
-    
-    $return = SQL_QUERY($db,$sql);
-    
-    $sql = "SELECT * FROM $tabelle ";
-    $return = SQL_QUERY($db,$sql);
-    $num_recs = mysqli_num_rows($return);
-    if ($num_recs == 0) {
-        if (mysqli_query($db,"INSERT INTO `$tabelle` SELECT * FROM `ar_chivord_loc_` ")===TRUE ) {}
-        $sql = "UPDATE $tabelle SET al_eigner='$eignr' ";
-        $return = SQL_QUERY($db,$sql);
-    }
-    
-    return $return;
-} # Ende Funktion Cr_n_ar_ch_verl
-
-function Cr_n_ar_ord_loc_new ($tabelle,$eignr)
-{
-    global $debug, $db;
-   
-    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-        `al_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-        `al_eigner` int(11) NOT NULL,
-        `al_sg` varchar(5) NOT NULL COMMENT 'Haupt-SG',
-        `al_lcsg` varchar(2) NOT NULL COMMENT 'Loc. Sg',
-        `al_lcssg` varchar(2) NOT NULL COMMENT 'Loc Sub SG',
-        `al_bezeich` varchar(100) NOT NULL COMMENT 'Bezeichnung',
-        `al_suchbegr` varchar(20) NOT NULL COMMENT 'Vordef. Suchbegriff',
-        `al_sb_grp` varchar(5) NOT NULL COMMENT 'Gruppe',
-        `al_sb_1` varchar(2) NOT NULL COMMENT '1. Such-Ebene',
-        `al_sb_2` varchar(2) NOT NULL COMMENT '2. Such-Ebene',
-        `al_sb_3` varchar(2) NOT NULL COMMENT '3. Such-Ebene',
-        `al_sb_4` varchar(2) NOT NULL COMMENT '4. Such-Ebene',
-        `al_sb_5` varchar(2) NOT NULL COMMENT '5. Such-Ebene',
-        `al_old_id` int(11) NOT NULL COMMENT 'Alte Fortl. Nr',
-        `al_aenduid` varchar(10) NOT NULL COMMENT 'Letzter Änderer',
-        `al_aenddate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Ã„nderung',
-        PRIMARY KEY (`al_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci;"; 
-    
-    $return = SQL_QUERY($db,$sql);
-    # print_r($return);echo "<br>L 208 return, sql $sql <br>";
-    /*
-    $sql = "SELECT * FROM $tabelle ";
-    $return = SQL_QUERY($db,$sql);
-    $num_recs = mysqli_num_rows($return);
-    if ($num_recs == 0) {
-        if (mysqli_query($db,"INSERT INTO `$tabelle` SELECT * FROM `ar_chivord_loc_` ")===TRUE ) {}
-        $sql = "UPDATE $tabelle SET al_eigner='$eignr' ";
-        $return = SQL_QUERY($db,$sql);
-    }
-    */
-    return $return;
-} # Ende Funktion Cr_n_ar_ch_verl
 
 
 function Cr_n_in_ventar ($tabelle)
@@ -219,7 +152,7 @@ function Cr_n_in_ventar ($tabelle)
     global $debug, $db;
     
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-  `in_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortlaufende Nummer',
+  `in_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `ei_id` int(11) NOT NULL COMMENT 'EigentÃ¼mer- Nummer',
   `in_invjahr` varchar(4) DEFAULT NULL COMMENT 'Inventarisierungs- Jahr',
   `in_eingbuchnr` varchar(15) NOT NULL COMMENT 'Eingangsbuch Nummer',
@@ -278,7 +211,7 @@ function Cr_n_in_vent_verleih ($tabelle)
     global $debug, $db;
     
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-   `vl_id` tinyint(4) NOT NULL COMMENT 'Fortlaufende Nummer',
+   `vl_id` tinyint(4) NOT NULL COMMENT 'Fortl. Nr.',
   `in_id` int(19) NOT NULL COMMENT 'Invntar-Nummer',
   `ei_id` int(15) NOT NULL COMMENT 'Eigentuemer- Nummer',
   `ei_invnr` varchar(6) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Inventar- Nummer',
