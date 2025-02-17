@@ -44,6 +44,7 @@
 *.PNG
 *.gif
 *.tiff
+*.tif
 *.pdf
 *.PDF
 *.odt
@@ -55,6 +56,7 @@
 *.xlsx
 *.webp
 *.WebP
+*.lnk
 
 # Compiled source #
 ###################
