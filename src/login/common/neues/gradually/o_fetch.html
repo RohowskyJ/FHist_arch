@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Daten von zwei Datenbanken abrufen</title>
+    <script>
+        function fetchData() {
+            // Erster XMLHttpRequest für die erste Datenbank
+            var xhr1 = new XMLHttpRequest();
+            xhr1.open('GET', 'get_data_1.php', true);
+            xhr1.onreadystatechange = function() {
+                if (xhr1.readyState === 4 && xhr1.status === 200) {
+                    var data1 = JSON.parse(xhr1.responseText);
+                    displayData1(data1);
+                }
+            };
+            xhr1.send();
+
+            // Zweiter XMLHttpRequest für die zweite Datenbank
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', 'get_data_2.php', true);
+            xhr2.onreadystatechange = function() {
+                if (xhr2.readyState === 4 && xhr2.status === 200) {
+                    var data2 = JSON.parse(xhr2.responseText);
+                    displayData2(data2);
+                }
+            };
+            xhr2.send();
+        }
+
+        function displayData1(data) {
+            var output1 = document.getElementById('output1');
+            output1.innerHTML = '<h2>Daten aus der ersten Datenbank:</h2>';
+            data.forEach(function(item) {
+                output1.innerHTML += '<p>Name: ' + item.ar_name + ', Alter: ' + item.ar_alter + '</p>';
+            });
+        }
+
+        function displayData2(data) {
+            var output2 = document.getElementById('output2');
+            output2.innerHTML = '<h2>Daten aus der zweiten Datenbank:</h2>';
+            data.forEach(function(item) {
+                output2.innerHTML += '<p>Produkt: ' + item.produkt + ', Preis: ' + item.preis + '</p>';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fetchButton').addEventListener('click', fetchData);
+        });
+    </script>
+</head>
+<body>
+    <h1>Daten von zwei Datenbanken abrufen</h1>
+    <button id="fetchButton">Daten abrufen</button>
+
+    <div id="output1"></div>
+    <div id="output2"></div>
+</body>
+</html>
