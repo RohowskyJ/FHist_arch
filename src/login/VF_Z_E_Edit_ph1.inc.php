@@ -113,9 +113,9 @@ if ($neu['ei_id'] == "0") { // NeuItem
             $num_rows = mysqli_num_rows($ret_m);
             echo "L 0114 num_rows $num_rows <br>";
             if ($num_rows === 0 ) {
-                $sql_i = "INSERT INTO fh_eign_urh (fs_eigner,fs_typ,fs_fotograf,fs_urh_kurzz,fs_uidaend
+                $sql_i = "INSERT INTO fh_eign_urh (fs_eigner,fs_typ,fs_fotograf,fs_urh_nr,fs_urh_kurzz,fs_uidaend
                       ) VALUE (
-                        '$neu[ei_id]','$medium','".$neu['ei_org_typ']." ".$neu['ei_org_name']."','$neu[ei_urh_kurzz]','$p_uid'
+                        '$neu[ei_id]','$medium','".$neu['ei_org_typ']." ".$neu['ei_org_name']."','$neu[ei_id]','$neu[ei_urh_kurzz]','$p_uid'
                        ) ";
                 $ret_i = SQL_QUERY($db,$sql_i);
             }

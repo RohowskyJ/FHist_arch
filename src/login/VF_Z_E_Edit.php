@@ -22,7 +22,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = True; // Debug output Ein/Aus Schalter
+$debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';

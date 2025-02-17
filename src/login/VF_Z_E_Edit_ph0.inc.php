@@ -84,7 +84,7 @@ echo "<input type='hidden' name='ei_mitglnr' value='".$neu['ei_mitglnr']."' />";
 # =========================================================================================================
   Edit_Tabellen_Trailer(); 
 
-  if ($neu['ei_org_typ'] != "Privat") {
+  if ($neu['ei_org_typ'] != "Privat" || strlen($neu['ei_media']) >2) {
       require "VF_Z_E_U_List.inc.php";
   }
   

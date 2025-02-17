@@ -23,7 +23,7 @@ $ei_id = $neu['ei_id'];
 $select = " WHERE `fs_eigner` = '$ei_id' ";
 $sort = " ORDER BY fs_eigner ASC";
 $sql = "SELECT * FROM `$tabelle` $select  $sort ";
-echo "L 028 sql $sql <br>";
+
 switch ($T_List) {
     /*
      * case "Alle" :
