@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Foto Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.3.0/prototype.js"></script>
+    <style>
+        #preview {
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-image {
+            margin: 5px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+        .preview-image img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Foto Upload</h1>
+    <form id="paramForm">
+        <label for="uploadDir">Zielverzeichnis:</label>
+        <input type="text" id="uploadDir" name="uploadDir" required>
+        <br>
+        <label for="fileInput">Wählen Sie Bilder aus:</label>
+        <input type="file" id="fileInput" name="files[]" multiple accept="image/*" onchange="showImages()">
+        <br>
+        <input type="button" value="Parameter speichern" onclick="submitParams()">
+    </form>
+    <div id="preview"></div>
+    <input type="button" value="Bilder hochladen" onclick="uploadImages()">
+
+    <script>
+        let uploadDir = '';
+        let selectedFiles = [];
+
+        function submitParams() {
+            uploadDir = document.getElementById('uploadDir').value;
+            document.getElementById('fileInput').disabled = false; // Aktivieren des Datei-Inputs
+            alert('Zielverzeichnis gesetzt: ' + uploadDir);
+        }
+
+        function showImages() {
+            const files = document.getElementById('fileInput').files;
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            selectedFiles = []; // Leere die Liste der ausgewählten Dateien
+
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = (function(file) {
+                    return function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'preview-image';
+                        div.innerHTML = `<img src="${e.target.result}" alt="${file.name}"><p>${file.name}</p>
+                                         <input type="checkbox" name="selectedFiles" value="${file.name}"> Auswählen
+                                         <input type="checkbox" name="rotateLeft[]" value="${file.name}"> Links drehen
+                                         <input type="checkbox" name="rotateRight[]" value="${file.name}"> Rechts drehen`;
+                        preview.appendChild(div);
+                        selectedFiles.push(file); // Füge die Datei zur Liste der ausgewählten Dateien hinzu
+                    };
+                })(files[i]);
+                reader.readAsDataURL(files[i]);
+            }
+        }
+
+        function uploadImages() {
+            const formData = new FormData();
+            const rotateLeft = Array.from(document.querySelectorAll('input[name="rotateLeft[]"]:checked')).map(el => el.value);
+            const rotateRight = Array.from(document.querySelectorAll('input[name="rotateRight[]"]:checked')).map(el => el.value);
+            const selectedFileNames = Array.from(document.querySelectorAll('input[name="selectedFiles"]:checked')).map(el => el.value);
+
+            selectedFileNames.forEach(fileName => {
+                const file = selectedFiles.find(f => f.name === fileName);
+                if (file) {
+                    formData.append('files[]', file); // Füge jede ausgewählte Datei zum FormData hinzu
+                }
+            });
+
+            formData.append('uploadDir', uploadDir);
+            rotateLeft.forEach(file => formData.append('rotateLeft[]', file));
+            rotateRight.forEach(file => formData.append('rotateRight[]', file));
+
+            new Ajax.Request('upload.php', {
+                method: 'post',
+                postBody: formData,
+                contentType: false,
+                processData: false,
+                onSuccess: function(response) {
+                    alert(response.responseText);
+                },
+                onFailure: function(response) {
+                    alert('Fehler beim Hochladen: ' + response.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

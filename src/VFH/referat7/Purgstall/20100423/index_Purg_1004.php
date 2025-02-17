@@ -10,7 +10,7 @@ $path2ROOT = $path2VF = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
- require $path2VF.'login/common/Funcs.inc.php' ;  // Diverse Unterprogramme
+ require $path2VF.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
@@ -20,9 +20,6 @@ HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,
 
 ?>
 
-<body class="w3-container ">
-<div class="w3-content ">  <!-- max-width:45em; margin:5em;--->
-<fieldset>
 
 
 <P LANG="de-DE" CLASS="western" ALIGN=RIGHT STYLE="margin-bottom: 0cm">
@@ -94,9 +91,6 @@ Sonntag und Feiertag</FONT></P>
 <img src="Uniform_5_IMG_4700.jpg" alt="Foto von der Er&ouml;ffnung"/>
 
 
-
-</fieldset>
-</div>
 <?php 
  HTML_trailer();
  ?>

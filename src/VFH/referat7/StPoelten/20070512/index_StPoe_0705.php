@@ -10,7 +10,7 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
- require $path2ROOT.'login/common/Funcs.inc.php' ;  // Diverse Unterprogramme
+ require $path2ROOT.'login/common/BA_Funcs.lib.phpp' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 

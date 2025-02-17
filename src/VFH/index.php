@@ -29,8 +29,8 @@ if (!is_file($path2ROOT."login/common/config_d.ini") ||  !is_file($path2ROOT."lo
  * die neuen Bibs
  */
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
-require $path2ROOT .  'login/common/BA_Funcs.lib.php'; // Diverse Unterprogramme
-require $path2ROOT .  'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php'; // Diverse Unterprogramme
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILE
@@ -195,7 +195,7 @@ if ($_SERVER['SERVER_ADDR'] == "136.243.155.235") { # || $_SERVER['SERVER_ADDR']
                Landesfeuerwehrschule Tulln</a> <br> <a
           href="https://regiowiki.at/wiki/Kategorie:Feuerwehr">Feuerwehren in
                Regiowiki</a> <br>
-     </font> <font size="+1"> <br> <a href=$path2ROOT."referat7/Pflichtabgabe/Pflichtablieferung_BGBLA_2009_II_271.pdf">Pflichtablieferung
+     </font> <font size="+1"> <br> <a href="referat7/Pflichtabgabe/Pflichtablieferung_BGBLA_2009_II_271.pdf">Pflichtablieferung
                von Druckwerken - Gesetzestext</a> <br>
      </font> <font size="+1"> <br> <a href="referat7/BedienerDoku_7.pdf">Bedienerhilfe:
                Dokumentation für die Benutzer der Internetseite der Historiker, <b>Version

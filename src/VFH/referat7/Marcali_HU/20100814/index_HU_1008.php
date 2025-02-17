@@ -10,7 +10,7 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
- require $path2ROOT.'login/common/Funcs.inc.php' ;  // Diverse Unterprogramme
+ require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
@@ -20,9 +20,6 @@ HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,
 
 ?>
 
-<body class="w3-container ">
-<div class="w3-content ">  <!-- max-width:45em; margin:5em;--->
-<fieldset>
 <h1>Wettbewerb -  einmal anders, Stadt Marcali (Ungarn)</h1>
 (Bei den Fotos mit Umrandung wird durch anklicken das grössere Bild angezeigt.)
 <p>
@@ -52,16 +49,16 @@ Beim Bewerb müssen die Teilnehmer über einen Balken laufen, ein Hindernis übe
 
 <tr>
 <td>
-  <a href="KK-20100814-IMG_5595.jpg" target=_blank><img src="KK-20100814-IMG_5595.jpg" alt="" align="left" width="150px"></a>
+  <a href="KK-20100814-IMG_5595.jpg" target=_blank><img src="KK-20100814-IMG_5595.jpg" alt="" align="left" width="250px"></a>
  </td>
 <td>
-  <a href="KK-20100814-IMG_5590.jpg" target=_blank><img src="KK-20100814-IMG_5590.jpg" alt="" align="left" width="150px"></a>
+  <a href="KK-20100814-IMG_5590.jpg" target=_blank><img src="KK-20100814-IMG_5590.jpg" alt="" align="left" width="250px"></a>
  </td>
 <td>
-  <a href="KK-20100814-IMG_5587.jpg" target=_blank><img src="KK-20100814-IMG_5587.jpg" alt="" align="left" width="150px"></a>
+  <a href="KK-20100814-IMG_5587.jpg" target=_blank><img src="KK-20100814-IMG_5587.jpg" alt="" align="left" width="250px"></a>
  </td>
 <td>
-  <a href="KK-20100814-IMG_5603.jpg" target=_blank><img src="KK-20100814-IMG_5603.jpg" alt="" align="left" width="150px"></a>
+  <a href="KK-20100814-IMG_5603.jpg" target=_blank><img src="KK-20100814-IMG_5603.jpg" alt="" align="left" width="250px"></a>
  </td>
 </tr>
 </table>
@@ -75,22 +72,22 @@ Brett zu spritzen.
 <table border="1" summary="Weitere Fotos">
 <tr>
 <td>Ein Detail vom Bewerbsgerät:</td>
-<td align=center><a href="KK-20100814-IMG_5606.jpg" target=_blank><img src="KK-20100814-IMG_5606.jpg" alt=""  width="150px"></a></td>
+<td align=center><a href="KK-20100814-IMG_5606.jpg" target=_blank><img src="KK-20100814-IMG_5606.jpg" alt=""  width="250px"></a></td>
 </tr>
 
 <tr>
 <td>Ein noch im Einsatz befindlicher Oldtimer:</td>
-<td align=center><a href="KK-20100814-IMG_5612.jpg" target=_blank><img src="KK-20100814-IMG_5612.jpg" alt=""  width="150px"></a> </td>
+<td align=center><a href="KK-20100814-IMG_5612.jpg" target=_blank><img src="KK-20100814-IMG_5612.jpg" alt=""  width="250px"></a> </td>
 </tr>
 
 <tr>
 <td>Zwei weitere Bewerbsgruppen:</td>
-<td width="53%"><a href="KK-20100814-IMG_5581.jpg" target=_blank><img src="KK-20100814-IMG_5581.jpg" alt="" align="left" width="150px"></a>  <a href="KK-20100814-IMG_5608.jpg" target=_blank><img src="KK-20100814-IMG_5608.jpg" alt="" align="right" width="150px"></a> </td>
+<td width="53%"><a href="KK-20100814-IMG_5581.jpg" target=_blank><img src="KK-20100814-IMG_5581.jpg" alt="" align="left" width="250px"></a>  <a href="KK-20100814-IMG_5608.jpg" target=_blank><img src="KK-20100814-IMG_5608.jpg" alt="" align="right" width="250px"></a> </td>
 </tr>
 
 <tr>
 <td>Weitere, auf die Fertigstellung wartende Geräte:</td>
-<td align=center><a href="KK-20100814-IMG_5623.jpg" target=_blank><img src="KK-20100814-IMG_5623.jpg" alt=""  width="150px"></a></td>
+<td align=center><a href="KK-20100814-IMG_5623.jpg" target=_blank><img src="KK-20100814-IMG_5623.jpg" alt=""  width="250px"></a></td>
 </tr>
 
 </tbody>
@@ -99,8 +96,7 @@ Brett zu spritzen.
      </div>
 
 
-</fieldset>
-</div>
+
 <?php 
  HTML_trailer();
  ?>
