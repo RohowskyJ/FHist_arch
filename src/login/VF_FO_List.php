@@ -158,25 +158,7 @@ function modifyRow(array &$row, $tabelle)
 
     #var_dump($row);
     switch ($s_tab) {
-        /*
-        case "fh_urheb":
-            $fm_id = $row['fm_id'];
-            $fm_typ = $row['fm_typ'];
-            
-            $row['fm_id'] = "<a href='VF_FO_U_Edit.php?fm_id=$fm_id' >" . $fm_id . "</a>";
-            $fm_eigner = $row['fm_eigner'];
-            if ($row['fm_typ'] == "F") {
-                $row['fm_eigner'] = "<a href='VF_FO_List.php?fm_eigner=$fm_eigner&typ=F&fm_id=$fm_id'  target='Foto'>" . $fm_eigner . "  </a> Fotos";
-            } elseif ($row['fm_typ'] == "V") {
-                $row['fm_eigner'] = "<a href='VF_FO_List.php?fm_eigner=$fm_eigner&typ=V&fm_id=$fm_id'  target='Video'>" . $fm_eigner . " </a> Videos";
-            } else {
-               # $row['fm_eigner'] = "<a href='VF_FO_List.php?fm_eigner=$fm_eigner&typ=A&fm_id=$fm_id'  target='Audio'>" . $fm_eigner . " </a> Audios";
-            }
-            # echo "L 0161 eigner $fm_eigner <br>";
-            $fm_typ = $row['fm_typ'];
-            
-            break;
-            */
+
         case "fh_eigen":
             if (!isset($row['Urh_Erw'])) {
                 $row['Urh_Erw'] = "";
@@ -186,11 +168,12 @@ function modifyRow(array &$row, $tabelle)
             
             $row['ei_name']  .= " ".$row['ei_vname'];
        
-            if ($row['ei_org_typ']  != "Privat" ) { // urh erw auslesen
+            if (strlen($row['ei_media']) >= 2 ) {
+            #if ($row['ei_org_typ']  != "Privat" ) { // urh erw auslesen
                 $sql_u = "SELECT * FROM fh_eign_urh WHERE  fs_eigner=$ei_id ";
                 $ret_u = SQL_QUERY($db,$sql_u);
                 WHILE ( $row_u = mysqli_fetch_object($ret_u)) {
-                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz    </label><br>";
+                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz, $row_u->fs_urh_verzeich    </label><br>";
                 } 
             } else  {
                 
@@ -199,7 +182,7 @@ function modifyRow(array &$row, $tabelle)
         case "fo_todat":
             $bpfad = $row['fo_basepath'];
             $zuspfad = $row['fo_zus_pfad'];
-            if ($_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'] == "F") {   
+            if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {   
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
             } else {
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
@@ -223,14 +206,14 @@ function modifyRow(array &$row, $tabelle)
                 $pfad = $fo_aufn_d . "/";
             }
 
-            if ($_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'] == "F") {
+            if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {
                 $row['fo_basepath'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&fo_aufn_s=$fo_aufn_s&pf=$bpfad&zupf=$zuspfad'  target='_blanc'>" . $fo_aufn_d . " </a> Fotos "; 
             }
 
             if ($row['fo_dsn'] != "") {
                 $dsn = $row['fo_dsn'];
                 $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
-                if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+                if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {
                     $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
                 } else {
                     $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['fo_dsn'] . "</a>";

@@ -7,39 +7,32 @@
  *
  *
  */
+#var_dump($_SESSION[$module]['URHEBER']);
 
-$pfad = $beschreibg = "";
+$basis_pfad = $pfad = $beschreibg = "";
 
 echo "<div class='white'></div>";
 
 Edit_Tabellen_Header("Zieldaten zum hochladen erfragen");
 
-echo "<b>Daten für den Eigentümer / Urheber <i>".$_SESSION[$module]['Fo']['URHEBER']['fm_urheber']."</i> werden bearbeitet (kopiert und in Tabellen eingelesen)</b><br>";
+$eignr = $_SESSION[$module]['URHEBER']['ei_id'];
+echo "Daten für den Eigentümer / Urheber: <i><b>".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']."</b></i> werden bearbeitet (kopiert und in Tabellen eingelesen)<br>";
 
-$checked = "";
-if (isset($_SESSION[$module]['Fo']['URHEBER']['urh_abk'])) {
-    $u_cnt= count($_SESSION[$module]['Fo']['URHEBER']['urh_abk']);
-    foreach($_SESSION[$module]['Fo']['URHEBER']['urh_abk'] as $key => $value) {
-        if ($u_cnt == 1) {
-            $checked = "checked";
-        }
-        echo "<input type='radio' id='urh_abk' name='urh_abk'  value='$key' $checked> <label for='urh_abk'>$value</label><br>";
-        
-    } 
-} else {
-    echo "<input type='hidden' id='urh_abk' name='urh_abk'  value='".$_SESSION[$module]['Fo']['URHEBER']['fm_urh_kurzz']."'> ";
-    echo "<p><b>Urheber: ".$_SESSION[$module]['Fo']['URHEBER']['fm_urheber']."</b></p>";
+echo "Urheber-Kurzzeichen : <b>".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['kurzz']."</b><br>";
+echo " &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Mediatyp : <b>".VF_Foto_Video[$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ']]."</b><br>";
+echo " &nbsp; &nbsp;&nbsp;Basis- Verzeichnis : <b>".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz']."</b><br>";
+
+if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz'] != "" ) {
+    $basis_pfad  = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz'];
 }
-
-
 Edit_Separator_Zeile('Ziel- Pfad der Bilder');
-
+ 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "<div class='w3-third   ' >";
 echo "<label for='basPfad'>Basispfad (wenn nicht Aufnahme-Datum) </label> ";
 echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-twothird      ' >"; // Beginn Inhalt- Spalte
-echo "<input type='text' id='basPfad' name='basis_pfad'   />";
+echo "<input type='text' id='basPfad' name='basis_pfad' value=$basis_pfad  />";
 echo "</div>";
 echo "</div>";
 

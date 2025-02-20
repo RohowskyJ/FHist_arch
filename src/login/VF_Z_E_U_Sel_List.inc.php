@@ -23,7 +23,7 @@ $debug = False; // Debug output Ein/Aus Schalter
 
 unset($_SESSION[$module]['URHEBER']);
 unset($_SESSION[$module]['Fo']);
-
+unset($_SESSION[$module]['UP_Parm']);
 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
@@ -69,7 +69,7 @@ $sql .= $sql_where . $orderBy;
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
 $TabButton = '1|green|weiter|';
-
+# echo "$Err_msg<br>";
 List_Create($db, $sql,'', $tabelle_m,''); # die liste ausgeben
 
 if ($debug) {

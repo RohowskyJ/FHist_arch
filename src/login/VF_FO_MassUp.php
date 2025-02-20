@@ -79,29 +79,39 @@ if (isset($_POST['phase'])) {
 
 if (!isset($_SESSION[$module]['URHEBER'] )) {
     $_SESSION['Eigner']['eig_eigner'] = "";
-    $_SESSION[$module]['Fo']['URHEBER'] = array();
+    $_SESSION[$module]['URHEBER'] = array();
 }
 
 if (! isset($_SESSION['Eigner']['eig_eigner'])) {
     $_SESSION['Eigner']['eig_eigner'] = "";
 }
 
-
-if (isset($_GET['fm_eigner'])) {
-    $_SESSION['Eigner']['eig_eigner'] = $eigner = $fm_eig = $_GET['fm_eigner'];
-    VF_Displ_Urheb_n($eigner);
-} else {
-    if (!isset($_SESSION['Eigner']['eig_eigner']))  {
-        $_SESSION['Eigner']['eig_eigner'] = "";
-    } 
-    $eigner = $_SESSION['Eigner']['eig_eigner'];
-    VF_Displ_Urheb_n($eigner);
-}
-
 if ($phase == 99) {
     # header('Location: VF_7_FO_M_SelectList_v4.php');
 }
 
+/**
+ * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
+ *
+ * @global array $_SESSION['VF_LISTE']
+ *         - select_string
+ *         - SelectAnzeige Ein: Anzeige der SQL- Anforderung
+ *         - SpaltenNamenAnzeige Ein: Anzeige der Apsltennamen
+ *         - DropdownAnzeige Ein: Anzeige Dropdown Menu
+ *         - LangListe Ein: Liste zum Drucken
+ *         - VarTableHight Ein: Tabllenhöhe entsprechend der Satzanzahl
+ *         - CSVDatei Ein: CSV Datei ausgeben
+ */
+if (! isset($_SESSION['VF_LISTE'])) {
+    $_SESSION['VF_LISTE'] = array(
+        "SelectAnzeige" => "EIN",
+        "SpaltenNamenAnzeige" => "Aus",
+        "DropdownAnzeige" => "Aus",
+        "LangListe" => "Ein",
+        "VarTableHight" => "Ein",
+        "CSVDatei" => "Aus"
+    );
+}
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
@@ -113,19 +123,28 @@ if (isset($_POST['select_string'])) {
 } else {
     $select_string = "";
 }
- #var_dump($_GET);
- #var_dump($_SESSION[$module]);
+
 $_SESSION[$module]['$select_string'] = $select_string;  
 
-
-
-if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" AND $_SESSION[$module]['Fo']['URHEBER']['fm_typ'] != "") {
+$eignr = $_SESSION['Eigner']['eig_eigner'];
+if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" AND $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] != "") {
     $phase = 1;
 }
 
 if ($phase == 1) {
-    VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
-    VF_Displ_Urheb_n($_SESSION['Eigner']['eig_eigner']);
+    # var_dump($_POST);
+    # var_dump($_SESSION[$module]['URHEBER']);
+    if (isset($_POST['ei_id']) ) { #&& isset($_POST['urh_kurz'])) {
+        $kurz_ar = explode("|",$_POST['urh_kurz']);
+        $eigner = $_POST['ei_id'];
+        $urh_kurz = $kurz_ar[0];
+        $urh_typ  = $kurz_ar[1];
+        VF_Displ_Eig($eigner);
+        VF_Sel_Eign_Urheb($eigner,$urh_kurz,$urh_typ);
+    } else {
+        $Err_Msg = "Ungültige Auswahl";
+      #  $phase = 0;
+    }
 }
 
 if ($phase == 2) {
@@ -137,9 +156,9 @@ if ($phase == 2) {
     if (isset($_GET['urh_abk'])) {
         $urh_abk = $_GET['urh_abk'];
     } else {
-        if (isset($_SESSION[$module]['Fo']['URHEBER']['urh_abk']))  { // Org als Urheber
-            $u_cnt= count($_SESSION[$module]['Fo']['URHEBER']['urh_abk']);
-            foreach($_SESSION[$module]['Fo']['URHEBER']['urh_abk'] as $key => $value ) {
+        if (isset($_SESSION[$module]['URHEBER']['urh_abk']))  { // Org als Urheber
+            $u_cnt= count($_SESSION[$module]['URHEBER']['urh_abk']);
+            foreach($_SESSION[$module]['URHEBER']['urh_abk'] as $key => $value ) {
                 if ($u_cnt == 1) {
                     $_SESSION[$module]['Up_Parm']['urh_abk'] = $key;
                     break;
@@ -147,8 +166,8 @@ if ($phase == 2) {
                 $urh_abk = $key;
             }
         } else { // Priv als Urheber
-            $urh_abk = $_SESSION[$module]['Fo']['URHEBER']['fm_urh_kurzz'];
-            $_SESSION[$module]['Up_Parm']['urh_abk']= $_SESSION[$module]['Fo']['URHEBER']['fm_urh_kurzz'];
+            $urh_abk = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['kurzz'];
+            $_SESSION[$module]['Up_Parm']['urh_abk']= $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['kurzz'];
         }
         
     } 
@@ -158,8 +177,8 @@ if ($phase == 2) {
 
 switch ($phase) {
     case 0:
-        $eig_header = "Eigentümer- Auswahl zum Hochladen";
-        require ('!VF_FO_U_Sel_List.inc.php');
+        $title = "Eigentümer- Auswahl zum Hochladen";
+        require ('VF_Z_E_U_Sel_List.inc.php');
         break;
     case 1:
         require 'VF_FO_MassUp_ph1.inc.php'; // Ziel nach Archiv-Ordnung feststellen, Pfad der Source- Bilder abfragen
@@ -173,44 +192,6 @@ switch ($phase) {
 
 BA_HTML_trailer();
 
-/**
- * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
- *
- * Funktion wird vom List_Funcs einmal pro Datensatz aufgerufen.
- * Die Felder die Funktioen auslösen sollen oder anders angezeigt werden sollen, werden hier entsprechend geändert
- *
- *
- * @param array $row
- * @param string $tabelle
- * @return boolean immer true
- *        
- * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
- * @global string $T_List Auswahl der Listen- Art
- * @global string $module Modul-Name für $_SESSION[$module] - Parameter
- */
-/*
-function modifyRow(array &$row,$tabelle)
-{
-    global $path2ROOT, $T_List, $module;
-
-    # echo "L 0173: tabelle $tabelle<br>";
-
-    $s_tab = substr($tabelle, 0, 8);
-
-    switch ($s_tab) {
-        case "fo_urheb":
-            $fm_id = $row['fm_id'];
-            $fm_typ = $row['fm_typ'];
-            $fm_eig = $row['fm_eigner'];
-            $row['fm_id'] = "<a href='VF_O_FO_MassUp2_Foto_Tabs.php?fm_eig=$fm_eig&fm_typ=$fm_typ' >" . $fm_id . "</a>";
-            break;
-      
-    }
-
-    # -------------------------------------------------------------------------------------------------------------------------
-    return True;
-} # Ende von Function modifyRow
-*/
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
  *
@@ -235,28 +216,30 @@ function modifyRow(array &$row, $tabelle)
     
     # print_r($row);echo "<br>L 0149 row <br>";
     switch ($s_tab) {
-        case "fh_urheb":
-            $fm_id = $row['fm_id'];
-            $fm_typ = $row['fm_typ'];
-            
-            $fm_eigner = $row['fm_eigner'];
-            $row['fm_id'] = "<a href='VF_FO_MassUp2_Tabs.php?fm_eigner=$fm_eigner' >" . $fm_id . "</a>";
-            
-            if ($row['fm_typ'] == "F") {
-                $row['fm_eigner'] = "<a href='VF_FO_MassUp.php?fm_eigner=$fm_eigner&typ=F&fm_id=$fm_id'  target='Foto'>" . $fm_eigner . "  </a> Fotos";
-            } elseif ($row['fm_typ'] == "V") {
-                $row['fm_eigner'] = "<a href='VF_FO_MassUp.php?fm_eigner=$fm_eigner&typ=V&fm_id=$fm_id'  target='Video'>" . $fm_eigner . " </a> Videos";
-            } else {
-                # $row['fm_eigner'] = "<a href='VF_FO_List.php?fm_eigner=$fm_eigner&typ=A&fm_id=$fm_id'  target='Audio'>" . $fm_eigner . " </a> Audios";
+        case "fh_eigen":
+            if (!isset($row['Urh_Erw'])) {
+                $row['Urh_Erw'] = "";
             }
-            # echo "L 0161 eigner $fm_eigner <br>";
-            $fm_typ = $row['fm_typ'];
+            $ei_id = $row['ei_id'];
+            $row['ei_id'] = "<input type='radio' id='$ei_id' name='ei_id' value='$ei_id'> <label for id='$ei_id'> &nbsp; $ei_id</label>"; //
             
+            $row['ei_name']  .= " ".$row['ei_vname'];
+            
+            if (strlen($row['ei_media']) >= 2 ) {
+                #if ($row['ei_org_typ']  != "Privat" ) { // urh erw auslesen
+                $sql_u = "SELECT * FROM fh_eign_urh WHERE  fs_eigner=$ei_id ";
+                $ret_u = SQL_QUERY($db,$sql_u);
+                WHILE ( $row_u = mysqli_fetch_object($ret_u)) {
+                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz|$row_u->fs_typ'> ";
+                }
+            } else  {
+                $row['Urh_Erw'] .= "<input type='hidden' id='$row->ei_urh_kurzz' name='urh_kurz' value='$row->ei_urh_kurzz|$row->ei_mediap'>";
+            }
             break;
         case "fo_todat":
             $bpfad = $row['fo_basepath'];
             $zuspfad = $row['fo_zus_pfad'];
-            if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+            if ($_SESSION[$module]['URHEBER']['fm_typ'] == "F") {
                 # $pict_path ="../login/AOrd_Verz/".$row['fo_eigner']."/";
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
             } else {
@@ -280,14 +263,14 @@ function modifyRow(array &$row, $tabelle)
                 $pfad = $fo_aufn_d . "/";
             }
             
-            if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+            if ($_SESSION[$module]['URHEBER']['fm_typ'] == "F") {
                 $row['fo_basepath'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&pf=$bpfad&zupf=$zuspfad'  target='_blanc'>" . $fo_aufn_d . " </a> Fotos ";
             }
             
             if ($row['fo_dsn'] != "") {
                 $dsn = $row['fo_dsn'];
                 $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
-                if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+                if ($_SESSION[$module]['URHEBER']['fm_typ'] == "F") {
                     $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
                 } else {
                     $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['fo_dsn'] . "</a>";

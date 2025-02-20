@@ -22,7 +22,7 @@ $path2ROOT = "../";
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';  
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
@@ -141,7 +141,7 @@ $List_Hinweise .= '</ul></li>';
 $zus_ausw = "";
 
 List_Action_Bar("","Protokolle ", $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
-
+$f_arr = array();
 $dir = 'AOrd_Verz/1/01/01';
 // Open a directory, and read its contents
 if (is_dir($dir)) {
@@ -155,30 +155,37 @@ if (is_dir($dir)) {
         closedir($dh);
     }
 }
+$cnt_file = count($f_arr);
 
-asort($f_arr);
-
-echo "<table class='w3-table w3-striped w3-hoverable scroll'
+if ($cnt_file >=1 ){
+    asort($f_arr);
+    
+    echo "<table class='w3-table w3-striped w3-hoverable scroll'
                style='border:1px solid black;background-color:white;margin:0px;'>";
-
-/*
- * <!-- =================================================================================================== -->
- * <!-- Tabellen Kopfzeile Ausgeben -->
- * <!-- =================================================================================================== -->
- */
-echo "<thead>
+    /*
+     * <!-- =================================================================================================== -->
+     * <!-- Tabellen Kopfzeile Ausgeben -->
+     * <!-- =================================================================================================== -->
+     */
+    echo "<thead>
                <tr style='border-bottom:1px solid black;'>";
-echo "<th>Protokoll-Datei</th><th>Sitzungs- Datum</th><th>Sitzg. Nr.</th><th>Gruppe</th></tr>";
-
-foreach ($f_arr as $file) {
-    if (stristr($file, $T_List) || $T_List == "Alle") {
-        $f_pos = explode('_', $file);
-        $Text = $T_list_texte[$f_pos[2]];
-        echo "<tr><th ><a href='$dir/$file' target='_blank'>$file</a></th><td>$f_pos[0]</td><td>$f_pos[1]</td><td>$Text</td></tr>";
+    echo "<th>Protokoll-Datei</th><th>Sitzungs- Datum</th><th>Sitzg. Nr.</th><th>Gruppe</th></tr>";
+    
+    foreach ($f_arr as $file) {
+        if (stristr($file, $T_List) || $T_List == "Alle") {
+            $f_pos = explode('_', $file);
+            $Text = $T_list_texte[$f_pos[2]];
+            echo "<tr><th ><a href='$dir/$file' target='_blank'>$file</a></th><td>$f_pos[0]</td><td>$f_pos[1]</td><td>$Text</td></tr>";
+        }
     }
+    
+    echo "</table>";
+} else {
+    echo "Keine Protokolle vorhaden.<br><br>";
 }
 
-echo "</table>";
+
+
 
 BA_HTML_trailer();
 ?>

@@ -207,7 +207,7 @@ function modifyRow(array &$row, $tabelle)
                     $begltext = $row['fo_begltxt'];
                     $row['fo_begltxt'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
                     $row['fo_dsn'] = "";
-                    echo "L 0202 fo_begltxt " . $row['fo_begltxt'] . " <br>";
+                    #echo "L 0202 fo_begltxt " . $row['fo_begltxt'] . " <br>";
                 }
             }
 
@@ -235,19 +235,20 @@ Function Fo_Tab_gener() {
     
 
     if ($debug) {
-        echo "<pre class=debug>funcFO_Tab_gener ist gestarted</pre>";
+        echo "<pre class=debug>func FO_Tab_gener ist gestarted</pre>";
     }
 
     /**
      * Tabelle einlesen für Aufnahmedatum
      */
-    
-    $fo_typ = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'];
+    #var_dump($_SESSION[$module]['URHEBER']);
+    $eignr = $_SESSION['Eigner']['eig_eigner'];
+    $fo_typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
     $tabelle_g = "fo_todaten_".$_SESSION[$module]['URHEBER']['ei_id'];
     $sql_g = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' ";
-    #echo "L 0244 sql_g $sql_g <br>";
+    echo "L 0244 sql_g $sql_g <br>";
     $return_g = SQL_QUERY($db,$sql_g);
-    # var_dump($return_g);
+    #var_dump($return_g);
     
     $tab_arr = array();
     $notfirst = False;
@@ -271,9 +272,8 @@ Function Fo_Tab_gener() {
         
         $tab_arr[$row->fo_id] = $row->fo_dsn;
     }
-    # var_dump($tab_arr);
+    var_dump($tab_arr);
     $tab_len = count($tab_arr);
-    
     
     if ($fo_typ == "F") {
         $ao = '06';
@@ -282,7 +282,7 @@ Function Fo_Tab_gener() {
     }
     
     $pict_pfad = "AOrd_Verz/$fo_eigner/09/$ao/".VF_set_PictPfad($fo_aufn_datum, $fo_basepath, $fo_zus_pfad, $fo_aufn_suff);
-    # echo "L 277 pict_pfad $pict_pfad<br>";
+   # echo "L 277 pict_pfad $pict_pfad<br>";
     /**
      * Einlesen der Daten der Speicherortes
      */
@@ -296,9 +296,9 @@ Function Fo_Tab_gener() {
         }
         
         $verz_cnt = $verz_arr;
-        #  var_dump($verz_arr);
+        #var_dump($verz_arr);
         if ($verz_cnt != 0) {
-            if ($tab_len == 1 ) { // Datensätzre für Fotos einfügen, so vorhanden
+            if ($tab_len <= 1 ) { // Datensätze für Fotos einfügen, so vorhanden
                 
                 foreach ($verz_arr as $foto_dsn ) {
                     $nfn_info = pathinfo($foto_dsn);
@@ -308,68 +308,80 @@ Function Fo_Tab_gener() {
                     $nfn_dir =  $nfn_info['dirname'];
                     
                     $sql = "INSERT INTO $tabelle_g (
-                fo_eigner,fo_urheber,fo_Urh_kurzz,fo_aufn_datum,fo_aufn_suff,fo_dsn,fo_begltxt,fo_namen,
-                fo_sammlg,fo_typ,fo_media,fo_basepath,fo_zus_pfad,
-                fo_uidaend
-              ) VALUE (
-                '$fo_eigner','$fo_Urheber','$fo_Urh_kurzz','$fo_aufn_datum','$fo_aufn_suff','$nfn_dsn','$fo_begltxt','$fo_namen',
-                '$fo_sammlg','$fo_typ','$fo_media','$fo_basepath','$fo_zus_pfad',
-                '$fo_uidaend'
-               )";
+                          fo_eigner,fo_urheber,fo_Urh_kurzz,fo_aufn_datum,fo_aufn_suff,fo_dsn,fo_begltxt,fo_namen,
+                          fo_sammlg,fo_typ,fo_media,fo_basepath,fo_zus_pfad,
+                          fo_uidaend
+                      ) VALUE (
+                         '$fo_eigner','$fo_Urheber','$fo_Urh_kurzz','$fo_aufn_datum','$fo_aufn_suff','$nfn_dsn','$fo_begltxt','$fo_namen',
+                         '$fo_sammlg','$fo_typ','$fo_media','$fo_basepath','$fo_zus_pfad',
+                         '$fo_uidaend'
+                      )";
                     
                     $result = SQL_QUERY($db, $sql);
-                    
+                 
                 }
             } elseif ($tab_len >= 1 ) { // Vergleiche Tabellen- Records mit Verzeichnis
-                # echo "L 0318 verz_cnt $verz_cnt tab_len $tab_len >= 1<br>";
-                foreach ($verz_arr as $foto_dsn ) {
-                    $nfn_info = pathinfo($foto_dsn);
-                    $nfn_name = $nfn_info['filename'];
-                    $nfn_dsn  = $nfn_info['basename'];
-                    $nfn_ext  = $nfn_info['extension'];
-                    $nfn_dir  = $nfn_info['dirname'];
+                #var_dump($tab_arr);
+                #var_dump($verz_arr);
+                foreach ( $tab_arr as $o_key => $o_dsn) {
+                    if ($o_dsn == "") {continue;}
+                    #echo "L 0327 o_dsn n$o_dsn <br>";
+                    $ofn_info = pathinfo($o_dsn);
+                    var_dump($ofn_info);
+                    $o_name = $ofn_info['filename'];
+                    $o_dsn  = $ofn_info['basename'];
+                    $o_ext  = $ofn_info['extension'];
+                    $o_dir  = $ofn_info['dirname'];
+                    #echo "L 0335 o_name $o_name <br>";
                     
-                    $sql_u = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff = '" . $_SESSION[$module]['fo_aufn_s'] . "' AND fo_dsn LIKE '%$nfn_name%' ";
-                    # echo "L 0327 sql_g $sql_g <br>";
-                    $return_u = SQL_QUERY($db,$sql_u);
                     
-                    $num_recs = mysqli_num_rows($return_u);
-                    # echo "L 0331 num_recs $num_recs <br>";
-                    if ($num_recs == 0) { // einfügen
-                        # echo "L 0347 einfügen <br>";
-                        $sql = "INSERT INTO $tabelle_g (
-                         fo_eigner,fo_urheber,fo_Urh_kurzz,fo_aufn_datum,fo_aufn_suff,fo_dsn,fo_begltxt,fo_namen,
-                         fo_sammlg,fo_typ,fo_media,fo_basepath,fo_zus_pfad,
-                         fo_uidaend
-                      ) VALUE (
-                        '$fo_eigner','$fo_Urheber','$fo_Urh_kurzz','$fo_aufn_datum','$fo_aufn_suff','$nfn_dsn','$fo_begltxt','$fo_namen',
-                        '$fo_sammlg','$fo_typ','$fo_media','$fo_basepath','$fo_zus_pfad',
-                        '$fo_uidaend'
-                    )";
+                    foreach ($verz_arr as $n_dsn) {
+                        $nfn_info = pathinfo($n_dsn);
+                        $n_name = $nfn_info['filename'];
+                        $n_dsn  = $nfn_info['basename'];
+                        $n_ext  = $nfn_info['extension'];
+                        $n_dir  = $nfn_info['dirname'];
+                        #echo "L 0344 nfn_name $n_name <br>";
                         
-                        $result = SQL_QUERY($db, $sql);
-                        
-                    } elseif ($num_recs == 1) { // check /file /extension != WebP -> replace
-                        $row = mysqli_fetch_object($return_u);
-                        $nfo_info = pathinfo($row->fo_dsn);
-                        $nfo_name = $nfo_info['filename'];
-                        $nfo_ext =  $nfo_info['extension'];
-                        $nfo_dir =  $nfo_info['dirname'];
-                        
-                        if ($nfo_ext != "WebP") { // replace fo_dsn
-                            $sql = "UPDATE $tabelle_g SET  fo_dsn = '$nfo_dsn' WHERE `fo_id`='$row->fo_id' ";
-                            if ($debug) {
-                                echo '<pre class=debug> L 0375: \$sql $sql </pre>';
+                        if ($o_name == $n_name) {
+                            if ($o_ext == "WebP") {  
+                                if ($o_dsn == $n_dsn) { // identisch, keine aktion erforderlich, löschen der Arr- Einträge
+                                    unset($tab_arr['$o_key']);
+                                    unset($verz_arr['n_dsn']);
+                                    #var_dump($tab_arr);
+                                    #var_dump($verz_arr);
+                                } else { // replace with new, delete old, unset arr- entry
+                                    #echo "L 0354 replace $o_dsn with $n_dsn <br>";
+                                    $ret = tab_update($tabelle_g,$o_key,$o_dsn,$n_dsn) ;
+                                    if ($ret) {
+                                        unset($tab_arr[$o_key]);
+                                        unset($verz_arr[$n_dsn]);
+                                        unlink($pict_pfad.$o_dsn);
+                                    }
+                                    
+                                }
+                            } else { // replace o_dsn with n_dsn, del o_dsn, del arr entries
+                                #echo "L 0364 replace $o_dsn with $n_dsn <br>";
+                                $ret = tab_update($tabelle_g,$o_key,$o_dsn,$n_dsn) ;
+                                if ($ret) {
+                                    unset($tab_arr[$o_key]);
+                                    unset($verz_arr[$n_dsn]);
+                                    unlink($pict_pfad.$o_dsn);
+                                }
                             }
-                            
-                            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
-                            $result = SQL_QUERY($db, $sql);
                         }
-                        // alt-dsn löschen
-                    } else { // Fehler
-                        return ("Fehler beim Aufruf, mehr als ein Record mit Bild $foto_dsn .");
                     }
+
                 }
+                
+                // add all remaining from verz_arr
+              
+                echo "L 0378 add $n_dsn <br>";
+                var_dump($tab_arr);
+                var_dump($verz_arr);
+                
+
+                
             }
         }
     }
@@ -377,4 +389,30 @@ Function Fo_Tab_gener() {
     
 }
 return True;
+
+/**
+ * Funktion zum austauschen des Fo-dsn - Namens
+ * 
+ */
+function tab_update($tabelle,$record,$odsn,$ndsn) {
+    global $db,$module,$debug;
+    
+    $sql_in = "SELECT fo_id,fo_dsn FROM $tabelle where fo_id = '$record' ";
+    $ret_in = SQL_QUERY($db,$sql_in);
+    while ($row_in = mysqli_fetch_object($ret_in))  {
+        if (mysqli_num_rows($ret_in) >=2) { 
+            echo "Fehler, sollte nur ein Record sein. Abbruch.<br>";
+            return FALSE;
+        } else {
+            if ($row_in->fo_dsn == $odsn) { // Update mit $ndsn
+                $sql_o = "UPDATE $tabelle set  fo_dsn = '$ndsn' where fo_id = '$record' ";
+                $ret_o = SQL_QUERY($db,$sql_o);  
+                
+                return True;
+            }
+        }
+    }
+} # end funktion tab_update
+ 
+
 ?>

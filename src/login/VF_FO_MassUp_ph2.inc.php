@@ -15,11 +15,11 @@ if ($debug) {
 
 # var_dump($_POST);
 
-$pict_path = "AOrd_Verz/".$_SESSION[$module]['Fo']['URHEBER']['fm_eigner']."/";
+$pict_path = "AOrd_Verz/".$_SESSION[$module]['URHEBER']['ei_id']."/";
 
-if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == 'F' ) {
+if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] == 'F' ) {
     $_SESSION['AOrd_[sel']['pict_path'] = $pict_path .= "09/06/";
-} elseif ($_SESSON[$module]['Fo']['URHEBER']['fm_typ'] == 'V' )  {
+} elseif ($_SESSON[$module]['URHEBER'][$eignr]['urh_abk']['typ'] == 'V' )  {
     $_SESSION['AOrd_[sel']['pict_path'] = $pict_path .= "09/10/";
 }
 
@@ -67,15 +67,15 @@ $from_pf = $_SESSION[$module]['Up_Parm']['pfad'] = "VF_Upload/".$_SESSION['VF_Pr
 /**
  * ist Datenrecord vorhanden -> ersetzten des Dateinamens - sonst neuer Datensatz
  */
-$eignr = $_SESSION[$module]['Fo']['URHEBER']['fm_eigner'];
+$eignr = $_SESSION[$module]['URHEBER']['ei_id'];
 $tabelle_in = "fo_todaten_$eignr";
 
 Cr_n_fo_daten($tabelle_in);
 
 $sql = "SELECT * FROM $tabelle_in where fo_aufn_datum = '$aufn_dat' AND fo_basepath= '$basepath' and fo_zus_pfad= '$zus_pfad' AND fo_aufn_suff = '$aufn_suff' AND fo_dsn = '' ";
-$urhnam = $_SESSION[$module]['Fo']['URHEBER']['fm_urheber'];
+$urhnam = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf'];
 
-$typ = $_SESSION[$module]['Fo']['URHEBER']['fm_typ'];
+$typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
 
 if ($typ == "F") {
     $media = "Foto";
@@ -109,14 +109,15 @@ if (mysqli_num_rows($return) == "0") {
      */
     
 }
-
+# var_dump($_SESSION[$module]['URHEBER']);
 // Ausgabe der notwendigen Parameter als hidden input
-Edit_Tabellen_Header("Hochladen für Urheber: ".$_SESSION[$module]['Fo']['URHEBER']['fm_urheber']);
+
+Edit_Tabellen_Header("Hochladen für Urheber: ".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']);
 Edit_Separator_Zeile("Aufnahmedatum: $aufn_dat ");
 
 echo "<p>Titel: $begltxt</p>";
 
-echo "<input type='hidden' id='urhName' value='".$_SESSION[$module]['Fo']['URHEBER']['urh_abk'][$urh_abk]."' >";
+echo "<input type='hidden' id='urhName' value='".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']."' >";
 echo "<input type='hidden' id='targPfad' value='$targ_pfad' >";
 echo "<input type='hidden' id='urhAbk' value='$urh_abk' >";
 echo "<input type='hidden' id='aufnDat' value='$aufn_dat' >";
@@ -272,16 +273,18 @@ Edit_Tabellen_Trailer();
                 return function(e) {
                     const div = document.createElement('div');
                     div.className = 'preview-image';
-                    div.innerHTML = `<img src="${e.target.result}" alt="${file.name}"><p>${file.name}</p>
+                    div.innerHTML = `<img src="${e.target.result}" alt="${file.name}" width="800"><p>${file.name}</p>
                                      <input type="checkbox" name="selectedFiles" checked value="${file.name}"> Auswählen
                                      <input type="checkbox" name="rotateLeft[]" value="${file.name}"> Links drehen
                                      <input type="checkbox" name="rotateRight[]" value="${file.name}"> Rechts drehen`;
+                                    ;
                     preview.appendChild(div);
                 };
             })(files[i]);
             reader.readAsDataURL(files[i]);
         }
     }
+    
 </script>
 
 <?php 

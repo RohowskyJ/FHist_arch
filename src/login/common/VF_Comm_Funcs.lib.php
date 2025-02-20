@@ -1994,7 +1994,7 @@ function VF_Sel_Eigner($FeldName, $sub_funct)
  * Ausgabewerte werden in $_SESSION[$module]['URHEBER']
  */
  
-function VF_Sel_Eign_Urheb($ei_id,$urh_abk='')
+function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
 {
     global $debug, $db, $module,$flow_list ;
     
@@ -2013,6 +2013,21 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk='')
     }
     */
     while ($row = mysqli_fetch_object($return_bl)) {
+        /**
+         * Neue Einteilung der Sess Var
+         * 
+         * $_SESSION[$module]['URHEBER'][$eigner] = $ei_id;
+         * $_SESSION[$module]['URHEBER'][$eigner]['ei_media'] = $ei_media
+         * $_SESSION[$module]['URHEBER'][$eigner]['ei_fotograf'] = Privat: Titel Name Vorname , andere: Org_Typ OrgName
+         * $_SESSION[$module]['URHEBER'][$eigner]['ei_urh_kurzz'] = $ei_urh_kurzz
+         * 
+         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['typ'] = ei_media wenn einstellig oder fs_typ
+         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['kurzz'] = ei_urh_kurzz oder fs_urh_kurzz
+         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['fotogr'] = ei_fotograf oder fs_fotograf
+         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['urh_nr'] = ei_id oder fs_urh_nr
+         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['verz'] = fs_urh_verzeich
+         * 
+         */
         
         if ($row->ei_org_typ == 'Privat') {
             $ei_fotograf = $row->ei_name." ". $row->ei_vname;
@@ -2022,12 +2037,10 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk='')
         $ei_media = $row->ei_media;
         $ei_urh_kurzz = $row->ei_urh_kurzz;
         $_SESSION[$module]['URHEBER']['ei_id'] = $row->ei_id;
-        $_SESSION[$module]['URHEBER'][$row->ei_id] = 
-            array('ei_media' => $ei_media, 'ei_fotograf' => $ei_fotograf,'ei_urh_kurzz' => $ei_urh_kurzz);
-        if (strlen($ei_media) <  2 ){
-            $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] = array('fs_urh_nr' =>$row->ei_id,'fs_fotograf'=>  $ei_fotograf,
-                'fs_urh_kurzz'=> $ei_urh_kurzz ,'fs_typ'=> $ei_media);
-        }
+        $_SESSION[$module]['URHEBER'][$row->ei_id]['Media'] = 
+              array('typ' => $ei_media,'kurzz' => $ei_urh_kurzz, 'fotograf' => $ei_fotograf,'urh_nr'=>$row->ei_id, 'verz'=>'');
+        $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
+              array('typ' => $ei_media,'kurzz' => $ei_urh_kurzz, 'fotograf' => $ei_fotograf,'urh_nr'=>$row->ei_id, 'verz'=>'');
         /**
          * einlesen der urh erweiterungsdaten
          */
@@ -2035,13 +2048,16 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk='')
         $return_u = SQL_QUERY($db,$sql_u);
         if ($return_u) {
             WHILE ($row_u = mysqli_fetch_object($return_u)) {
-                if ($row_u->fs_urh_kurzz == $urh_abk ) {
+                if ($row_u->fs_urh_kurzz == $urh_abk && $row_u->fs_typ == $typ ) {
                     $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
-                    array('fs_urh_nr' =>$row_u->fs_urh_nr,'fs_fotograf'=>$row_u->fs_fotograf,
-                        'fs_urh_kurzz'=>$row_u->fs_urh_kurzz ,'fs_typ'=>$row_u->fs_typ);
+                    array('urh_nr' =>$row_u->fs_urh_nr,'fotograf'=>$row_u->fs_fotograf,
+                        'kurzz'=>$row_u->fs_urh_kurzz ,'typ'=>$row_u->fs_typ,'verz'=>$row_u->fs_urh_verzeich);
+                    break;
                 }
             }
    
+        } else {
+            
         }
 
         

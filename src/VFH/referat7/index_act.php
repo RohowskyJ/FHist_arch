@@ -17,15 +17,13 @@ $path2ROOT = "../../";
 
 $debug = False;  // Debug output Ein/Aus Schalter
 
- require $path2ROOT.'login/common/Funcs.inc.php' ;  // Diverse Unterprogramme
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;
+require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 # VF_initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
-##$VF_logo = 'JA';
-$logo = 'JA';
-# VF_HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte','','Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte','','Form','90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ','','Form','90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 ?>
 
 <body class="w3-container ">
@@ -431,6 +429,6 @@ HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte','','Form
 </div>
 
 <?php
- # VF_HTML_trailer();
- HTML_trailer();
+
+ BA_HTML_trailer();
  ?>

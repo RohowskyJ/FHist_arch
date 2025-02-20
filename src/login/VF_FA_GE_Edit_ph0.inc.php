@@ -194,11 +194,11 @@ Edit_Tabellen_Trailer();
 
 if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
-    echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
+    echo "<button type='submit' name='phase' value='1' class='green'>Daten abspeichern</button></p>";
 }
 
 
-echo "<p><a href='VF_FA_List.php?ID='.$_SESSION[$module]['fz_sammlung']>Zurück zur Liste</a></p>"; 
+echo "<p><a href='VF_FA_List.php'>Zurück zur Liste</a></p>"; # ?ID='.$_SESSION[$module]['fz_sammlung']
 
 # =========================================================================================================
 

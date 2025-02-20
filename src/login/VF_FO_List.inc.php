@@ -22,42 +22,32 @@ $T_list_texte = array(
 );
 
 /**
- * Feststellen der Urheber- Nummer bei Organisation
- * $_SESSION[$module]['URHEBER'][$urh_nr] = Eigentümer- Nummer
- * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_media'] = Media Kennung A,F,I,V  Audio, Foto, Film, Video
- * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_fotograf'] = Name der Org (Verfüger) oder Name des Urhebers
- * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_urh_kurzz'] = Urheber- Kennzeichen, wenn kein urh_kenzz ausgewählt ist
- * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk'] array
- * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urhnr'] = Eigentümer- Nummer des Urhebers (wenn <> $urh_nr, diese nutzen)
- * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_fotograf'] = Name des Urhebers für Anzeige bei Bild
- * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urh_kurzz'] = Kennzeichen des Urhebers (für Dateinamens- Beginn)
- * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_typ'] = für die Zuordnung im Archiv
- * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_verz'] = für ein Verzeichnis
- * 
- * $_SESSION[$module]['URHEBER']['Media]['urh_nr']= array(['urh_nr]['type']['kurzz']['fotogr']['verz'])
+ * Neue Einteilung der Sess Var
+ *
+ * $_SESSION[$module]['URHEBER'][$eigner] = $ei_id;
+ * $_SESSION[$module]['URHEBER'][$eigner]['ei_media'] = $ei_media
+ * $_SESSION[$module]['URHEBER'][$eigner]['ei_fotograf'] = Privat: Titel Name Vorname , andere: Org_Typ OrgName
+ * $_SESSION[$module]['URHEBER'][$eigner]['ei_urh_kurzz'] = $ei_urh_kurzz
+ *
+ * $_SESSION[$module]['URHEBER'][$eigner]['Media']['typ'] = ei_media wenn einstellig oder fs_typ
+ * $_SESSION[$module]['URHEBER'][$eigner]['Media']['kurzz'] = ei_urh_kurzz oder fs_urh_kurzz
+ * $_SESSION[$module]['URHEBER'][$eigner]['Media']['fotogr'] = ei_fotograf oder fs_fotograf
+ * $_SESSION[$module]['URHEBER'][$eigner]['Media']['urh_nr'] = ei_id oder fs_urh_nr
+ * $_SESSION[$module]['URHEBER'][$eigner]['Media']['verz'] = fs_urh_verzeich
+ *
  */
+
 $eignr = $_SESSION['Eigner']['eig_eigner'];
 
-$_SESSION[$module]['URHEBER']['Media']['urh_nr'] = $eignr;
-if (strlen($_SESSION[$module]['URHEBER'][$eignr]['ei_media']) == 1) {
-    $typ = $_SESSION[$module]['URHEBER'][$eignr]['ei_media'];
+$_SESSION[$module]['URHEBER'][$eignr]['Media']['urh_nr'] = $eignr;
+if (strlen($_SESSION[$module]['URHEBER'][$eignr]['Media']['typ']) == 1) {
+    $typ = $_SESSION[$module]['URHEBER'][$eignr]['Media']['typ'];
 } else {
-    $t_a = explode(",",$_SESSION[$module]['URHEBER'][$eignr]['ei_media']);
+    $t_a = explode(",",$_SESSION[$module]['URHEBER'][$eignr]['Media']['typ']);
     $typ = $t_a[0];
 }
-$_SESSION[$module]['URHEBER']['Media']['urh_nr'] = array('ei_id'=>$eignr,'type'=> $typ,'kurzz'=>$_SESSION[$module]['URHEBER'][$eignr]['ei_urh_kurzz'],
-    'fotogr'=>$_SESSION[$module]['URHEBER'][$eignr]['ei_fotograf'],'verz'=> "");
-
-# var_dump($_SESSION[$module]['URHEBER']['Media']['urh_nr']);
-if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk'] )) { // definierte Erweiterungen
-    if (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urhnr']) &&
-            $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urhnr'] != $_SESSION[$module]['URHEBER'][$urh_nr]  ) {
-                $_SESSION[$module]['URHEBER']['Media']['urh_nr'] = array('ei_id'=>$_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urhnr'],'type'=> $type,'kurzz'=>$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_urh_kurzz'],
-                'fotogr'=>$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fs_fotograf'],'verz'=> $_SESSION[$module]['URHEBER'][$eigner]['urh_abk']['fs_verz']); 
-        }
-}     
-# var_dump($_SESSION[$module]['URHEBER']['Media']['urh_nr']);
-$ur_media = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'];
+    
+$ur_media = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
 
 $tabelle .= "_" . $eignr;
 echo "<fieldset>";

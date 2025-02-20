@@ -9,7 +9,7 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
+const Module_Name = 'ADM';
 $module = Module_Name;
 $tabelle = 'fh_eign_urh';
 

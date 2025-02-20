@@ -19,11 +19,11 @@ if (! isset($actor) || $actor == "") {
     $actor = $_SERVER["PHP_SELF"];
 }
 
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
-require $path2ROOT . 'login/common/VF_Const.inc.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.inclib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 initial_debug();
 
