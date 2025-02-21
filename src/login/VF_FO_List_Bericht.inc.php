@@ -11,10 +11,12 @@ if ($debug) {echo "<pre class=debug>VF_FO_List_Bericht.inc.php ist gestartet</pr
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if (!isset($_SESSION[$module]['Fo']['URHEBER'])) {
+if (!isset($_SESSION[$module]['URHEBER'])) {
     VF_Displ_Urheb_n($_SESSION['Eigner']['eig_eigner']);
 }
-if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
+#var_dump($_SESSION[$module]['URHEBER']['BE']);
+$eignr = $_SESSION['Eigner']['eig_eigner'];
+if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
     $media = "Foto";
 } else {
     $media = "Video";
@@ -23,7 +25,7 @@ if ($_SESSION[$module]['Fo']['URHEBER']['fm_typ'] == "F") {
 $T_list_texte = array(
     "Alle" => "Alle " . $media . "s des Urhebers. ",
 );
-
+/*
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
@@ -32,7 +34,7 @@ $title = $media . "s des Urhebers " . $_SESSION['Eigner']['eig_eigner'] . " - " 
 $header = "";
 $logo = 'NEIN';
 HTML_header($title, 'Auswahl', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
+*/
 $tabelle .= "_" . $_SESSION['Eigner']['eig_eigner'];
 # echo "L 0133 tabelle $tabelle <br>";
 
@@ -111,6 +113,6 @@ List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 
 if ($debug) {echo "<pre class=debug>VF_FO_List_Bericht.inc.php ist beendet</pre>";}
 
-HTML_trailer();
+# HTML_trailer();
 
 ?>

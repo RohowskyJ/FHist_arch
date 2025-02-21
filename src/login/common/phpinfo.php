@@ -9,13 +9,14 @@ $debug = False; // Debug output Ein/Aus Schalter
                 #
                 # 2022-02-05 B.R.Gaicki - V5 (PixRipTab & login )
                 # -----------------------------------------------------------------------------------------------
-require 'Funcs.inc.php'; // Diverse Unterprogramme
+require 'BA_Funcs.lib.php'; // Diverse Unterprogramme
+require 'BA_HTML_Funcs.lib.php';
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
                  # var_dump(php_ini_loaded_file(), php_ini_scanned_files());
 
-HTML_header('PHPINFO anzeigen', '', '', '', '');
+BA_HTML_header('PHPINFO anzeigen', '', '', '');
 phpinfo();
 
-HTML_trailer();
+BA_HTML_trailer();
 ?>

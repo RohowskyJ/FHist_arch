@@ -154,13 +154,13 @@ if (isset($_GET['ei_id'])) {
 }
 VF_Displ_Eig($ei_id);
 VF_Displ_Urheb_n($ei_id);
-var_dump($_SESSION[$module]['URHEBER']['BE']);
+
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
 
 BA_HTML_header('Veranstaltungs- Berichte- Verwaltung', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
+#var_dump($_SESSION[$module]['URHEBER']['BE']);
 echo "<fieldset>";
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 

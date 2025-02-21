@@ -6,9 +6,9 @@
  *
  */
 
-if ($debug) {echo "<pre class=debug>VF_BE_Edit_ph96.inc.php ist gestarted</pre>";}
+if ($debug) {echo "<pre class=debug>VF_BE_Edit_ph96.lib.php ist gestarted</pre>";}
 
-require 'common/F_tab_creat.inc.php';
+require 'common/VF_F_tab_creat.lib.php';
 
 $ar_arr = $fo_arr = $fz_arr = $maf_arr = $fm_arr = $muf_arr = $mug_arr = $ge_arr = $mag_arr = $in_arr = $zt_arr = $arcxr_arr = $mar_arr = array();
 VF_tableExist();
