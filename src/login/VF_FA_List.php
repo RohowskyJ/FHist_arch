@@ -113,11 +113,15 @@ if (isset($_GET['ID'])) {
         $sammlg = $_SESSION[$module]['sammlung'] = $_GET['ID'];
     }
 }
-if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") {
-    $_SESSION['Eigner']['eig_eigner'] = "";
+
+if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" ) {
+    if ($_SESSION['VF_Prim']['mode'] == 'Mandanten') {
+        $_SESSION['Eigner']['eig_eigner'] = "";
+    } else {
+        $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+    }
     $_SESSION[$module]['sammlung'] = "MA";
 }
-
 if (isset($post['select_string'])) {
     $select_string = $postT['select_string'];
 } else {

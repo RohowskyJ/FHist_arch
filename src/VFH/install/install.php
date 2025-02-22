@@ -77,6 +77,9 @@ if (isset($_GET['phase'])) {
 if (isset($_POST['phase']))  {
     $phase = $_POST['phase'];
 }
+if (!isset($_SESSION['VF_Prim'])) {
+    $_SESSION['VF_Prim']['p_uid'] = !'9999999';
+}
 
 if ($phase == 1) { // Eingabe der Datenbank- Parameter
     if (is_file($path2ROOT . 'login/common/config_d.ini')) {

@@ -3,31 +3,34 @@ $debug = True;
 if ($debug) {
     echo "<pre class=debug>Proj_Conf_Edit_ph1.inc.php ist gestarted</pre>";
 }
-var_dump($_FILES);
+# var_dump($_FILES);
 $uploaddir = $path2ROOT . "login/common/imgs/";
-/*
+
 $target1 = "";
-if (! empty($_FILES['uploaddatei_1'])) {
-    $pict1 = basename($_FILES['uploaddatei_1']['name']);
+if (! empty($_FILES['uploaddatei_01'])) {
+    $pict1 = basename($_FILES['uploaddatei_01']['name']);
     if (! empty($pict1)) {
-        $target1 = $uploaddir . basename($_FILES['uploaddatei_1']['name']);
-        if (move_uploaded_file($_FILES['uploaddatei_1']['tmp_name'], $target1)) {
-            echo "Datei/Bild 1 geladen!<br><br><br>";
+        $target1 = $uploaddir . basename($_FILES['uploaddatei_01']['name']);
+        if (move_uploaded_file($_FILES['uploaddatei_01']['tmp_name'], $target1)) {
+            $f_arr = pathinfo($target1);
+            $neu['c_logo'] = $f_arr['basename'];
         }
-    } else {
-        $target1 = "";
     }
 }
-# echo "L 064 target1 $target1 <br>";
-if ($target1 != "") {
-    $fn = explode("/", $target1);
-    $lngth = count($fn);
-    $neu['c_logo'] = $fn[$lngth - 1];
+if (! empty($_FILES['uploaddatei_02'])) {
+    $pict1 = basename($_FILES['uploaddatei_02']['name']);
+    if (! empty($pict1)) {
+        $target1 = $uploaddir . basename($_FILES['uploaddatei_02']['name']);
+        if (move_uploaded_file($_FILES['uploaddatei_02']['tmp_name'], $target1)) {
+            $f_arr = pathinfo($target1);
+            $neu['c_1page'] = $f_arr['basename'];
+        }
+    }
 }
-*/
+/*
 #$c_logo = "";
 if (isset($_FILES)) {
-    $_SESSION[$module]['sign'] = $c_logo = VF_Upload_Pic('sign', $path2ROOT."login/common/imgs/", "", "");
+     $_SESSION[$module]['sign'] = $c_logo = VF_Upload_Pic('sign', $path2ROOT."login/common/imgs/", "", "");
 }
 if (isset($_FILES['uploaddatei_1']['name'])) {
 
@@ -39,6 +42,8 @@ if (isset($_FILES['uploaddatei_1']['name'])) {
         $neu['c_1page'] = VF_Upload($uploaddir, '02');
     }
 }
+*/
+console_log("logo ".$neu['c_logo'] );
 
 $updas_s = "\n[Config]\n";
 $updas_m = "\n[Modules]\n"; # assignements for UPDATE xxxxx SET `variable` = 'Wert'
@@ -150,6 +155,7 @@ foreach ($neu as $name => $value) # für alle Felder aus der tabelle
 
 } # Ende der Schleife
 
+echo "L 0159 updas_s $updas_s <br>";
 $dsn = $path2ROOT."login/common/config_s.ini";
 
 $datei = fopen($dsn, 'w');
@@ -162,7 +168,6 @@ $datei = fopen($dsn, 'w');
 fputs($datei,$updas_m);
 fclose($datei);
 
-var_dump($_SESSION[$module]['inst']);
 if (isset($_SESSION[$module]['inst'])) {
     header ("Location: ".$_SESSION[$module]['inst']);
 } else {

@@ -10,7 +10,7 @@ require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
-$logo = 'JA';
+
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
 BA_HTML_header('Ziele der Feuerwehrhistoriker in NÖ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -100,7 +100,7 @@ eines Museums unterliegt.
 
 <center>
 <br><br>
-<a href="index.php">
+<a href="/VFH/index.php">
     Zur Startseite</a>
 </center>
 

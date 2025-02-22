@@ -165,8 +165,8 @@ if ($neu['fz_id'] != 0) {
     }
 } else {}
 $Tab_Nam = array();
-# echo "<div><fieldset>";
-echo "<p><a href='VF_FA_List.php?ID='.$_SESSION[$module]['fz_sammlung']>Zurück zur Liste</a></p>";
+
+echo "<p><a href='VF_FA_List.php?fz_id=MU_F'>Zurück zur Liste</a></p>";
 
 # =========================================================================================================
 

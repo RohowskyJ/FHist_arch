@@ -118,11 +118,14 @@ if (isset($_GET['ID'])) {
 /**
  * neuen Eigentümer auswählen
  */
-if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" && $_SESSION['VF_Prim']['mode'] == 'Mandanten') {
-    $_SESSION['Eigner']['eig_eigner'] = "";
+if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" ) {
+    if ($_SESSION['VF_Prim']['mode'] == 'Mandanten') {
+        $_SESSION['Eigner']['eig_eigner'] = "";
+    } else {
+        $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+    }
     $_SESSION[$module]['fm_sammlung'] = "MU";
 }
-# $_SESSION[$module]['sammlung'] = 'MU';
 
 if (isset($post['select_string'])) {
     $select_string = $postT['select_string'];

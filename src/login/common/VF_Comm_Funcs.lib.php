@@ -1575,17 +1575,20 @@ function VF_Upload($uploaddir, $i=1, $urh_abk="", $fo_aufn_datum="")
                 $cnt = count($newfn_arr);
                 if ($cnt == 1) { # original- Dateiname, nicht im Format urh-datum-Aufn_dateiname.ext,
                     $target = "$urh_abk-$fo_aufn_datum-" . $fn_arr['basename'];
+                    console_log("L 1578 target $target ");
                 }
             } else {
                 $target = $fn_arr['basename'];
+console_log("L 1582 target $target ");
             }
           
             if (move_uploaded_file($_FILES["uploaddatei_$i"]['tmp_name'], $uploaddir . $target)) {
+                console_log("L 1578 target $target ");
                 return $target;
             }
         }
     }
-    return "";
+    
 } # end Funct VF_upload
 
 /**

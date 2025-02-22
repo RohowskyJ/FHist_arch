@@ -7,8 +7,9 @@
  * Die Datei /install/install.php wird  umbenannt, da dir löschen so nicht geht - erweiterung?
  * 
  */
-
-$result = rename("install.php", "!install.php");
+if (is_file(install.php)) {
+    $result = rename("install.php", "!install.php");
+}
 
 if ($result) {echo "Installations- Script wurde umbenannt.<br>";}
 ?>

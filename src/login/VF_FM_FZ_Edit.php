@@ -39,7 +39,7 @@ $db = LinkDB('VFH');
 
 $prot = True;
 $header = "";
-BA_HTML_header('MuskelbewegteFahrzeuge', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Muskelbewegte Fahrzeuge', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 

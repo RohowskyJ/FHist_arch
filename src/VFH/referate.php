@@ -48,9 +48,7 @@ Leiter: Wolfgang Riegler
 <p>
 <font size="+1">
 <strong>
-<!--
-<a href="referat2/karoline/karoline.html">
--->
+
 Referat 2:</a> Fahrzeuge und Geräte <br/>
 </strong>
 </font>
