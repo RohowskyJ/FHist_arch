@@ -246,7 +246,7 @@ Function Fo_Tab_gener() {
     $fo_typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
     $tabelle_g = "fo_todaten_".$_SESSION[$module]['URHEBER']['ei_id'];
     $sql_g = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' ";
-    echo "L 0244 sql_g $sql_g <br>";
+    # echo "L 0244 sql_g $sql_g <br>";
     $return_g = SQL_QUERY($db,$sql_g);
     #var_dump($return_g);
     
@@ -272,7 +272,7 @@ Function Fo_Tab_gener() {
         
         $tab_arr[$row->fo_id] = $row->fo_dsn;
     }
-    var_dump($tab_arr);
+    #var_dump($tab_arr);
     $tab_len = count($tab_arr);
     
     if ($fo_typ == "F") {
@@ -327,7 +327,7 @@ Function Fo_Tab_gener() {
                     if ($o_dsn == "") {continue;}
                     #echo "L 0327 o_dsn n$o_dsn <br>";
                     $ofn_info = pathinfo($o_dsn);
-                    var_dump($ofn_info);
+                    #var_dump($ofn_info);
                     $o_name = $ofn_info['filename'];
                     $o_dsn  = $ofn_info['basename'];
                     $o_ext  = $ofn_info['extension'];
@@ -376,9 +376,9 @@ Function Fo_Tab_gener() {
                 
                 // add all remaining from verz_arr
               
-                echo "L 0378 add $n_dsn <br>";
-                var_dump($tab_arr);
-                var_dump($verz_arr);
+                #echo "L 0378 add $n_dsn <br>";
+                #var_dump($tab_arr);
+                #var_dump($verz_arr);
                 
 
                 

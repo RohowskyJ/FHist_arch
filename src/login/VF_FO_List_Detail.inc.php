@@ -16,7 +16,7 @@ if (! isset($_SESSION[$module]['URHEBER'])) {
 }
 */
 $eignr = $_SESSION['Eigner']['eig_eigner'];
-echo "L 019 eignr $eignr <br>";
+# echo "L 019 eignr $eignr <br>";
 if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] == "F") {
     $media = "Foto";
 } else {
@@ -114,7 +114,7 @@ if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_st
     $select_string = $_SESSION[$module]['select_string'];
 }
 
-var_dump($_SESSION[$module]['URHEBER'][$eignr]);
+# var_dump($_SESSION[$module]['URHEBER'][$eignr]);
 $sql .= $sql_where . $orderBy;
 
 echo "<p>Wo keine Bilder angezeigt werden, sind sie aus Platzgründen nicht auf dem Server. Die angezeigten Bilder werden von Berichten benutzt..</p>";
