@@ -366,7 +366,9 @@ Function Fo_Tab_gener() {
                                 if ($ret) {
                                     unset($tab_arr[$o_key]);
                                     unset($verz_arr[$n_dsn]);
-                                    unlink($pict_pfad.$o_dsn);
+                                    if (is_file($pict_pfad.$o_dsn)) {
+                                        unlink($pict_pfad.$o_dsn);
+                                    }
                                 }
                             }
                         }
