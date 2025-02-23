@@ -11,3 +11,5 @@ config_?.ini
 Fonts
 bo*
 jq*
+neues/*
+test/*
