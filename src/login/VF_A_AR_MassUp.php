@@ -122,7 +122,7 @@ BA_HTML_header('Mass- Upload',  $header, 'Form', '70em'); # Parm: Titel,Subtitel
 
             });
 
-            xhr.open('POST', 'common/VF_Upload.php', true);
+            xhr.open('POST', 'common/VF_Upload.API.php', true);
             xhr.send(formData);
         }
     </script>
