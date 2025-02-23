@@ -32,7 +32,7 @@ echo "<div class='w3-third   ' >";
 echo "<label for='basPfad'>Basispfad (wenn nicht Aufnahme-Datum) </label> ";
 echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-twothird      ' >"; // Beginn Inhalt- Spalte
-echo "<input type='text' id='basPfad' name='basis_pfad' value=$basis_pfad  />";
+echo "<input type='text' id='basPfad' name='basis_pfad' value=$basis_pfad  >";
 echo "</div>";
 echo "</div>";
 

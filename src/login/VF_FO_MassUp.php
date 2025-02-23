@@ -258,7 +258,7 @@ function modifyRow(array &$row, $tabelle)
             $fo_basepath = $row['fo_basepath'];
             
             if ($fo_basepath != "") { # Pfad orientiertes Archiv
-                $pfad = $fo_basepath . "/";
+                $pfad = $fo_basepath . "";
             } elseif ($fo_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
                 $pfad = $fo_aufn_d . "/";
             }
