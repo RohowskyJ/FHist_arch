@@ -1,15 +1,18 @@
 <?php
 $path2ROOT = "../";
 
-$debug = False;
+$debug_log = False;
 
 /* */
-$dsn = "findbuch.log";
-$eintragen = Date("Y-m-d H:i:s")."\n";
-$eintragen .= "started \n";
-$datei = fopen($dsn, "a");
-fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-fclose($datei);
+if ($debug_log) {
+    $dsn = "findbuch.log";
+    $eintragen = Date("Y-m-d H:i:s")."\n";
+    $eintragen .= "started \n";
+    $datei = fopen($dsn, "a");
+    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+    fclose($datei);
+}
+
 /* */
 echo "findb gestartet";
 $ini_d = $path2ROOT . "config_d.ini";
@@ -53,14 +56,14 @@ if (isset($ini_arr)) { # (isset($ini_arr[$server_name])){
     mysqli_set_charset($db, 'utf8');
     $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
 }
-/* */
+/* 
  $dsn = "findbuch.log";
  $eintragen = Date("Y-m-d H:i:s")."\n";
  $eintragen .= "Findbuch regen gestartet \n";
  $datei = fopen($dsn, "a");
  fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
  fclose($datei);
-/* */
+*/
 require $path2ROOT . 'BA_Funcs.lib.php'; // Diverse allgemeine Unterprogramme
 require $path2ROOT . 'VF_Comm_Funcs.lib.php';
 

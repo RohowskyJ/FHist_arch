@@ -1860,7 +1860,7 @@ function updateOptions(level, parentValue, optVal) {
     console.log(parentValue);
     console.log(optVal);
 
-    new Ajax.Request('common/MultiSel_Opt.php', {
+    new Ajax.Request('common/API/VF_MultiSel_Opt.php', {
         method: 'get',
         parameters: { level: level, parent: parentValue, opval: optVal },
         onSuccess: function(transport) {

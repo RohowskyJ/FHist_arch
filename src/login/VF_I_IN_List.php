@@ -118,6 +118,8 @@ if (isset($_GET['ID']) && $_GET['ID'] == "NextSam") {
 if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" && $_SESSION['VF_Prim']['mode'] == 'Mandanten') {
     $_SESSION['Eigner']['eig_eigner'] = "";
     $_SESSION[$module]['sammlung'] = '';
+} else {
+    VF_Displ_Eig($_SESSION['VF_Prim']['eignr']);
 }
 
 
