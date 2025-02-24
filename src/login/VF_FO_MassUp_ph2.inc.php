@@ -229,7 +229,7 @@ Edit_Tabellen_Trailer();
                     });
                                
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'common/API/BA_Upload_loc.API.php', true);
+                    xhr.open('POST', 'common/API/VF_Upload_FO.API.php', true);
 
                     xhr.onload = function() {
                         if (xhr.status === 200) {

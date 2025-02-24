@@ -1684,8 +1684,8 @@ function VF_Eig_Ausw()
     echo "         <label for='Level_e'>Namen des ".$tit_eig_leih."s eingeben &nbsp;  </label>";
     echo "    </div>";
     echo "    <div class='w3-container w3-twothird'> ";
-    echo "        <input class='w3-input' type='text' id='autocomplete' name='auto' placeholder='".$tit_eig_leih." Name eingeben...' /> Zur Auswahl auf den gewünschten Namen klicken";
-    echo "            <div id='suggestions'></div>";
+    echo "        <input class='w3-input' type='text' id='autocomplete' name='auto' placeholder='".$tit_eig_leih." Name eingeben...' /> <br>Zur Auswahl auf den gewünschten Namen klicken<br>";
+    echo "      <br>    <div id='suggestions'></div>";
 
     echo "     </div>";
 
@@ -1702,9 +1702,8 @@ function VF_Eig_Ausw()
         inputField.observe("keyup", function() {
             var query = this.value.trim();
 
-           
             if(query.length > 0) {
-                new Ajax.Request('common/API/VF_Z_E_Ausw.php', { //   common/API/BA_Auto_Compl.API.php
+                new Ajax.Request('common/API/VF_Auto_Compl.API.php', { //   common/API/BA_Auto_Compl.API.php  VF_Z_E_Ausw.php
                     method: 'post',
                     parameters: { query : query},
                     onSuccess: function(response) {

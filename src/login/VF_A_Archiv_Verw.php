@@ -71,10 +71,10 @@ echo "</div>";
 
 Edit_Separator_Zeile('Massen- Hochladen von Dokumenten');
 echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
-echo "Hier können die die digitalisierten Dokumente massenweise geladen und die Tabelle für die 
+echo "Hier können die die digitalisierten Dokumente massenweise (je Gruppe innerhalb der Archivordnung) geladen und die Tabelle für die 
 Dokumente in den jeweiligen Archivordnung werden erstellt. Die Beschreibungen müssen dann in der Archivalien-Verwaltung eingegeben werden. <br>";
-echo "<a href='VF_A_AR_MassUp.php?sk=$sk&Act=l' target='Arch'>Massen- Upload von Dokumenten</a></td></tr>";
-echo "Das Massen- Upload wird derzeit erneuert<br>";
+echo "<a href='VF_A_AR_MassUp.php?sk=$sk&Act=l' target='Arch'>Massen- Upload von Dokumenten</a> <br>";
+echo "Das Massen- Upload speichert die Daten in VF_Upload/eigner, von diesem Speicherplatz werden sie mit dem Programm in der nächsten Zeile in die Datenbank eingebunden und sind dann mit der Archivalien-Liste einsehbar. <br>";
 echo "<a href='VF_A_AR_MassUp2_Arch_Tabs.php?sk=$sk' target='Arch'>Massen- Datei- Hochladen - Tabellen erstellen (Dokumente)</a>";
 echo "</div>";
 

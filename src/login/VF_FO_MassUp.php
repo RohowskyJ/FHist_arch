@@ -59,7 +59,7 @@ $header = "
         }
     </style>
 ";
-BA_HTML_header('Einlesen von Dokumenten in Tabelle', '', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Foto- Video Mass- Ipload', '', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 

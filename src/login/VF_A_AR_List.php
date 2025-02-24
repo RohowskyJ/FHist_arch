@@ -233,14 +233,13 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
          * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
          *
          *
-         * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
+         * @var array $MS_Init  Kostante mit den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
          * @var string $MS_Lvl Anzahl der gewüschten Ebenen - 2 nur eine 2.Ebene ... bis 6 Ebenen
          * @var string $MS_Opt Name der Options- Datei, die die Werte für die weiteren Ebenen liefert
          *
          * @Input-Parm $_POST['Level1...6']
          */
-        
-        
+
         $MS_Txt = array(
             'Auswahl der Obersten (ÖBFV)- Ebene  ',
             'Auswahl der 2. ÖBFV- Ebene ',
@@ -249,8 +248,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
             'Auswahl des 3. Erweiterung (5. Ebene)  ',
             'Auswahl des 4. Erweiterung (6. Ebene)  '
         );
-        
-        
+              
         $MS_Lvl   = 4; # 1 ... 6
         $MS_Opt   = 2; # 1: SA für Sammlung, 2: AO für Archivordnung
         
@@ -264,12 +262,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
                 $MS_Init = VF_Sel_AOrd; # VF_Sel_SA_Such|VF_Sel_AOrd
                 break;
         }
-        
-        
+       
         $titel  = 'Auswahl aus der Archivordnung';
         VF_Multi_Dropdown($in_val,$titel);
-        
-     
+
     }
     
     $ar_arr = $fo_arr = $fz_arr = $fm_arr = $ge_arr = $in_arr = $zt_arr = array();

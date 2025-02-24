@@ -27,6 +27,7 @@ require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -35,99 +36,98 @@ $db = LinkDB('VFH');
 
 initial_debug();
 
+
+$prot = True;
 $header = "
-     <script src='" . $path2ROOT . "login/common/css/upload_style.css' rel='stylesheet' type='text/css'></script>
-<br>
+<style>
+        #preview {
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-image {
+            margin: 5px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+        .preview-image img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
 ";
-$jq = $jq_ui = True;
 
-BA_HTML_header('Mass- Upload',  $header, 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-?>
+BA_HTML_header('Archivalien- Mass- Upload',  $header, 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
- <div class="ath_container tile-container ">
-        <div id="uploadStatus"></div>
-        <h2 style="margin-bottom:10px">AJAX File Upload with Progress Bar using JavaScript</h2>
-        <input type="file" id="fileUpload" multiple placeholder="choose file or browse" /> <!-- Add 'multiple' attribute for multiple file selection -->
-        <br>
-        <br>
-        <button onclick="uploadFiles()">Upload</button> <!-- Change function name -->
-        <div>
-            <table id="progressBarsContainer">
-                <!-- Table rows will be dynamically added here -->
-            </table>
-        </div> <!-- Container for progress bars -->
-        <br>
-    </div>
-    <script>
-        function uploadFiles() {
-            var fileInput = document.getElementById('fileUpload');
-            var files = fileInput.files;
+initial_debug();
 
-            for (var i = 0; i < files.length; i++) {
-                var allowedExtensions = ['.jpg', '.jpeg', '.png', '.pdf', '.svg', '.zip', '.docx', '.xlsx'];
-                var fileExtension = files[i].name.substring(files[i].name.lastIndexOf('.')).toLowerCase();
+VF_chk_valid();
 
-                if (allowedExtensions.includes(fileExtension)) {
-                    uploadFile(files[i]);
-                } else {
-                    alert('Invalid file type: ' + fileExtension);
-                }
-            }
-        }
+VF_set_module_p();
 
-        function uploadFile(file) {
-            var formData = new FormData();
-            formData.append('file', file);
+// ============================================================================================================
+// Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
+// ============================================================================================================
+# var_dump($_POST);
 
-            var progressBarContainer = document.createElement('div'); // Container for progress bar and file name
-            progressBarContainer.className = 'progress-container';
+if (isset($_POST['phase'])) {
+    $phase = $_POST['phase'];
+} else {
+    $phase = 0;
+}
+# echo "L 077 phase $phase <br>";
+if (! isset($_SESSION['Eigner']['eig_eigner'])) {
+    $_SESSION['Eigner']['eig_eigner'] = "";
+}
 
-            var fileName = document.createElement('div'); // Display file name
-            fileName.className = 'file-name';
-            fileName.textContent = file.name;
-            //progressBarContainer.appendChild(fileName);
+if ($phase == 99) {
+    # header('Location: VF_7_FO_M_SelectList_v4.php');
+}
 
-            var progressBar = document.createElement('div'); // Create a new progress bar element
-            progressBar.className = 'progress-bar';
-            progressBar.id = 'progressBar_' + file.name;
+/**
+ * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
+ *
+ * @global array $_SESSION['VF_LISTE']
+ *         - select_string
+ *         - SelectAnzeige Ein: Anzeige der SQL- Anforderung
+ *         - SpaltenNamenAnzeige Ein: Anzeige der Apsltennamen
+ *         - DropdownAnzeige Ein: Anzeige Dropdown Menu
+ *         - LangListe Ein: Liste zum Drucken
+ *         - VarTableHight Ein: Tabllenhöhe entsprechend der Satzanzahl
+ *         - CSVDatei Ein: CSV Datei ausgeben
+ */
+if (! isset($_SESSION['VF_LISTE'])) {
+    $_SESSION['VF_LISTE'] = array(
+        "SelectAnzeige" => "EIN",
+        "SpaltenNamenAnzeige" => "Aus",
+        "DropdownAnzeige" => "Aus",
+        "LangListe" => "Ein",
+        "VarTableHight" => "Ein",
+        "CSVDatei" => "Aus"
+    );
+}
 
-            progressBarContainer.appendChild(progressBar);
+if (!isset($Err_Msg)) {
+    $Err_Msg = "";
+}
 
-            var progressBarsContainer = document.getElementById('progressBarsContainer');
+if ($phase == 1) {
+    if (isset($_POST['auto']) ) {
+        VF_Displ_Eig($_POST['auto']);
+    }
 
-            var newRow = document.createElement('tr'); // Create a new table row
-            var newCell = document.createElement('td'); // Create a new table cell
-            var newCell2 = document.createElement('td'); // Create a new table cell
-            newCell.appendChild(fileName);
-            newCell2.appendChild(progressBarContainer);
-            newRow.appendChild(newCell);
-            newRow.appendChild(newCell2);
-            progressBarsContainer.appendChild(newRow);
+    require "VF_A_AR_MassUp_ph1.inc.php";
 
-            var xhr = new XMLHttpRequest();
+}
 
-            xhr.upload.addEventListener('progress', function(event) {
-                if (event.lengthComputable) {
-                    var percent = Math.round((event.loaded / event.total) * 100);
-                    progressBar.style.width = percent + '%';
-                    progressBar.innerHTML = percent + '%';
-                }
-            });
+if ($phase == 0) {
 
-            xhr.addEventListener('load', function(event) {
-                var uploadStatus = document.getElementById('uploadStatus');
-                uploadStatus.innerHTML = event.target.responseText;
-                // Reset the input field of type "file"
-               // document.getElementById('fileUpload').value = '';
+        echo "<h2>Eigentümer auswählen zum Archivalien hochladen</h2>";
+        VF_Eig_Ausw();
+      
+        echo "<br> <button type='submit' name='phase' value='1' class=green>Auswahl bestätigen</button></p>";
+    
+}
 
-            });
-
-            xhr.open('POST', 'common/VF_Upload.API.php', true);
-            xhr.send(formData);
-        }
-    </script>
-
-<?php
 
 BA_HTML_trailer();
 ?>

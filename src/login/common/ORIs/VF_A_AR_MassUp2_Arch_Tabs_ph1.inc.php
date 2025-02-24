@@ -57,7 +57,7 @@ $eigner = $_SESSION['Eigner']['eig_eigner'];
 $pict_path = "AOrd_Verz/$eigner/" . $arr_ak[0] . "/" . $arr_ak[1];
 $_SESSION['AOrd_sel']['pict_path'] = $pict_path;
 
-$basis_Pfad = "VF_Upload/$eigner/";
+$basis_Pfad = "VF_Upload";
 
 $files_in = array();
 
@@ -101,8 +101,8 @@ foreach ($files_in as $key => $filename) {
 
         $sql = "SELECT * FROM $tabelle where ad_doc_1 = '$filename' ";
         $return = SQL_QUERY($db, $sql);
-        # print_r($return);
-        # echo "<br>L 0118: return $sql <br>";
+        print_r($return);
+        echo "<br>L 0118: return $sql <br>";
 
         $type = "";
         if ($arr_ak[0] == "1" && $arr_ak[1] == 01 && $arr_ak[2] == "0" && $arr_ak[3] == "0") {
