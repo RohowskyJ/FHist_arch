@@ -55,7 +55,7 @@ $eintragen .= "proc $proc \n";
 $datei = fopen($dsn, "a");
 fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
 fclose($datei);
-/**/
+/*/
 $srch_arr = array();
 
 if (isset($term)) {
@@ -71,7 +71,7 @@ if (isset($term)) {
     }
         
     
-}
+# }
 # var_dump($srch_arr);
 $result = array(
     array(
