@@ -76,7 +76,7 @@ if (isset($_POST['phase'])) {
 } else {
     $phase = 0;
 }
-echo "L 079 phase $phase <br>";
+
 if (!isset($_SESSION[$module]['URHEBER'] )) {
     $_SESSION['Eigner']['eig_eigner'] = "";
     $_SESSION[$module]['URHEBER'] = array();
@@ -132,13 +132,21 @@ if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" AND $_SESSION[$modul
 }
 
 if ($phase == 1) {
-    # var_dump($_POST);
+   var_dump($_POST);
     # var_dump($_SESSION[$module]['URHEBER']);
-    if (isset($_POST['ei_id']) ) { #&& isset($_POST['urh_kurz'])) {
-        $kurz_ar = explode("|",$_POST['urh_kurz']);
-        $eigner = $_POST['ei_id'];
-        $urh_kurz = $kurz_ar[0];
-        $urh_typ  = $kurz_ar[1];
+    if (isset($_POST['ei_id']) ) { #&& isset()) {
+        $pos = stripos($_POST['ei_id'],"|");
+        if ($pos >= 1) {
+            $kurz_ar =  explode("|",$_POST['ei_id']);
+            $eigner = $kurz_ar[0];
+            $urh_kurz = $kurz_ar[1];
+            $urh_typ  = $kurz_ar[2];
+        } elseif (isset($_POST['urh_kurz'])) {
+            $kurz_ar = explode("|",$_POST['urh_kurz']);
+            $eigner = $_POST['ei_id'];
+            $urh_kurz = $kurz_ar[0];
+            $urh_typ  = $kurz_ar[1];
+        }
         VF_Displ_Eig($eigner);
         VF_Sel_Eign_Urheb($eigner,$urh_kurz,$urh_typ);
     } else {
@@ -233,7 +241,9 @@ function modifyRow(array &$row, $tabelle)
                     $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz|$row_u->fs_typ'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz, $row_u->fs_urh_verzeich    </label><br>";
                 }
             } else  {
-               # $row['Urh_Erw'] .= "<input type='radio' id='".$row['ei_urh_kurzz']."' name='urh_kurz' value='".$row['ei_urh_kurzz']."|".$row['ei_media'].">";
+                $ei_kurzz = $row['ei_urh_kurzz'];
+                $ei_media = $row['ei_media'];
+                $row['ei_id'] = "<input type='radio' id='$ei_id' name='ei_id' value='$ei_id|$ei_kurzz|$ei_media'> <label for id='$ei_id'> &nbsp; $ei_id</label>";
             }
             break;
         case "fo_todat":
