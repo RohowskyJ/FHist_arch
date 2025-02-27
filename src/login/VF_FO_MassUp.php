@@ -76,7 +76,7 @@ if (isset($_POST['phase'])) {
 } else {
     $phase = 0;
 }
-
+echo "L 079 phase $phase <br>";
 if (!isset($_SESSION[$module]['URHEBER'] )) {
     $_SESSION['Eigner']['eig_eigner'] = "";
     $_SESSION[$module]['URHEBER'] = array();
@@ -230,10 +230,10 @@ function modifyRow(array &$row, $tabelle)
                 $sql_u = "SELECT * FROM fh_eign_urh WHERE  fs_eigner=$ei_id ";
                 $ret_u = SQL_QUERY($db,$sql_u);
                 WHILE ( $row_u = mysqli_fetch_object($ret_u)) {
-                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz|$row_u->fs_typ'> ";
+                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz|$row_u->fs_typ'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz, $row_u->fs_urh_verzeich    </label><br>";
                 }
             } else  {
-                $row['Urh_Erw'] .= "<input type='hidden' id='$row->ei_urh_kurzz' name='urh_kurz' value='$row->ei_urh_kurzz|$row->ei_mediap'>";
+               # $row['Urh_Erw'] .= "<input type='radio' id='".$row['ei_urh_kurzz']."' name='urh_kurz' value='".$row['ei_urh_kurzz']."|".$row['ei_media'].">";
             }
             break;
         case "fo_todat":
@@ -273,7 +273,7 @@ function modifyRow(array &$row, $tabelle)
                 if ($_SESSION[$module]['URHEBER']['fm_typ'] == "F") {
                     $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
                 } else {
-                    $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['fo_dsn'] . "</a>";
+                    # $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['fo_dsn'] . "</a>";
                 }
             }
             

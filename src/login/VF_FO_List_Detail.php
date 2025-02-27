@@ -345,7 +345,7 @@ Function Fo_Tab_gener() {
                         
                         if ($o_name == $n_name) {
                             if ($o_ext == "WebP") {  
-                                if ($o_dsn == $n_dsn) { // identisch, keine aktion erforderlich, löschen der Arr- Einträge
+                                if ($o_dsn === $n_dsn) { // identisch, keine aktion erforderlich, löschen der Arr- Einträge
                                     unset($tab_arr['$o_key']);
                                     unset($verz_arr['n_dsn']);
                                     #var_dump($tab_arr);

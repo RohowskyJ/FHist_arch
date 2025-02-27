@@ -4,12 +4,31 @@ require "../VF_Foto_Funcs.lib.php";
 require "../VF_Const.lib.php";
 
 $debug_log = True;
-if ($debug_log) {file_put_contents('Fo_up_debug.log', "BA_Upl_loc L 007 " . PHP_EOL, FILE_APPEND);}
+if ($debug_log) {file_put_contents('Fo_up_debug.log', "VF_Upload_FO.API L 007 " . PHP_EOL, FILE_APPEND);}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] === 'POST' ) { #
 
     $eintragen = Date("Y-m-d H:i:s") . "\n";
-
+/*
+    if (isset($_GET['targPfad'])) {
+        $targ_pfad = $_GET['targPfad'];
+    }
+    if (isset($_GET['urhName'])) {
+        $urh_name = $_GET['urhName'];
+    }
+    if (isset($_GET['urhAbk'])) {
+        $urh_abk = $_GET['urhAbk'];
+    }
+    if (isset($_GET['urhEinfg'])) {
+        $urh_einfueg = $_GET['urhEinfg'];
+    }
+    if (isset($_GET['aufnDat'])) {
+        $aufn_dat = $_GET['aufnDat'];
+    }
+    if (isset($_GET['beglTxt'])) {
+        $bechreibg = $_GET['beglTxt'];
+    }
+    */
     if (isset($_POST['targPfad'])) {
         $targ_pfad = $_POST['targPfad'];
     }
@@ -25,9 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['aufnDat'])) {
         $aufn_dat = $_POST['aufnDat'];
     }
+    /*
     if (isset($_POST['beglTxt'])) {
         $bechreibg = $_POST['beglTxt'];
     }
+    */
+/*
+    // Zugriff auf die Checkboxen
+    $rotateLeft = isset($_POST['rotateLeft']) ? $_POST['rotateLeft'] : [];
+    $rotateRight = isset($_POST['rotateRight']) ? $_POST['rotateRight'] : [];
+    $selectedFiles = isset($_POST['selectedFiles']) ? $_POST['selectedFiles'] : [];
+ */   
 
     if ($debug_log) {
         $eintragen .= "targ_pfad $targ_pfad \n";
@@ -35,13 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eintragen .= "urh_abk $urh_abk \n";
         $eintragen .= "urh_einfueg $urh_einfueg \n";
         $eintragen .= "aufn_dat $aufn_dat \n";
-        $eintragen .= "beschreibg $bechreibg \n";
+        #$eintragen .= "beschreibg $bechreibg \n";
+        # $eintragen .= print_r($_FILES);
+        /*
+        foreach($seltedFiles as key) {
+            $eintragen .= "selectedf $selectedFiles \n";
+        }
+        */
         file_put_contents('Fo_up_debug.log', "L 039 $eintragen" . PHP_EOL, FILE_APPEND);
     }
-
-    // Zugriff auf die Checkboxen
-    $rotateLeft = isset($_POST['rotateLeft']) ? $_POST['rotateLeft'] : [];
-    $rotateRight = isset($_POST['rotateRight']) ? $_POST['rotateRight'] : [];
 
     $uploadDir = "../../$targ_pfad";
 

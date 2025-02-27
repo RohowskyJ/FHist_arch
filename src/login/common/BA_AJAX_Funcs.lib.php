@@ -81,7 +81,7 @@ function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
             var query = this.value.trim();
     
             if(query.length > 0) {
-                new Ajax.Request('common/API/BA_Auto_Compl.API.php', { 
+                new Ajax.Request('common/API/VF_Auto_Compl.API.php', { 
                     method: 'post',
                     parameters: { query : query, proc: proc },
                     onSuccess: function(response) {

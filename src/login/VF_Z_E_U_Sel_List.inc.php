@@ -30,8 +30,6 @@ unset($_SESSION[$module]['UP_Parm']);
 # ===========================================================================================
 $T_list_texte = array(
     'Aktive' => "Aktive Einträge (Urh-Kurzz ! leer)",
-
-    
 );
 ##      "Alle" => "Foto- Urheber ( Auswahl ) ",   ## "NeuItem" => "<a href='VF_Z_E_U_Ed_Su.php?ID=0' >Neuen Eigentümer eingeben</a>"
 List_Prolog($tabelle_m,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen

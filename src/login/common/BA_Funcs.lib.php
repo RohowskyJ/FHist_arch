@@ -29,6 +29,7 @@
  *  - flow_add      - Aufrufs- Mitschnitte 
  */
 flow_add('funcs', "Funcs.inc.php geladen");
+global $debug;
 if ($debug) {
     echo "Funcs.inc ist geladen<br>";
 }

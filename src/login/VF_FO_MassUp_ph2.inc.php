@@ -166,7 +166,7 @@ Edit_Tabellen_Trailer();
 
             var files = fileInput.files;
             
-            var allowedExtensions = ["gif", "ico", "jpeg", "jpg", "png", "tiff", "mp4", "pdf"];
+            var allowedExtensions = ["gif", "ico", "jpeg", "jpg", "png", "tiff", "webp", "mp4", "pdf"];
             var validFiles = [];
             var messageDiv = $('message');
             
@@ -219,18 +219,23 @@ Edit_Tabellen_Trailer();
                     // Checkboxen abfragen
                     var rotateLeftCheckboxes = document.querySelectorAll('input[name="rotateLeft[]"]:checked');
                     var rotateRightCheckboxes = document.querySelectorAll('input[name="rotateRight[]"]:checked');
+                    var selectedFilesCheckboxes = document.querySelectorAll('input[name="selectedFiles[]"]:checked');
 
                     // Werte der Checkboxen zu FormData hinzufügen
                     rotateLeftCheckboxes.forEach(function(checkbox) {
-                       formData.append('rotateLeft[]', checkbox.value);
+                    //   formData.append('rotateLeft[]', checkbox.value);
                     });
                     rotateRightCheckboxes.forEach(function(checkbox) {
-                       formData.append('rotateRight[]', checkbox.value);
+                     //  formData.append('rotateRight[]', checkbox.value);
+                    });
+                    selectedFilesCheckboxes.forEach(function(checkbox) {
+                     //  formData.append('selectedFiles[]', checkbox.value);
                     });
                                
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'common/API/VF_Upload_FO.API.php', true);
-
+                 
+                    
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             var jsonrepl = xhr.responseText.trim();
@@ -273,11 +278,11 @@ Edit_Tabellen_Trailer();
                 return function(e) {
                     const div = document.createElement('div');
                     div.className = 'preview-image';
-                    div.innerHTML = `<img src="${e.target.result}" alt="${file.name}" width="800"><p>${file.name}</p>
+                    div.innerHTML = `<img src="${e.target.result}" alt="${file.name}" width="600"><p>${file.name}</p>
                                      <input type="checkbox" name="selectedFiles" checked value="${file.name}"> Auswählen
                                      <input type="checkbox" name="rotateLeft[]" value="${file.name}"> Links drehen
                                      <input type="checkbox" name="rotateRight[]" value="${file.name}"> Rechts drehen`;
-                                    ;
+                                    
                     preview.appendChild(div);
                 };
             })(files[i]);

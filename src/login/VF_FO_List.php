@@ -173,7 +173,7 @@ function modifyRow(array &$row, $tabelle)
                 $sql_u = "SELECT * FROM fh_eign_urh WHERE  fs_eigner=$ei_id ";
                 $ret_u = SQL_QUERY($db,$sql_u);
                 WHILE ( $row_u = mysqli_fetch_object($ret_u)) {
-                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz, $row_u->fs_urh_verzeich    </label><br>";
+                    $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz|$row_u->fs_typ'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz, $row_u->fs_urh_verzeich    </label><br>";
                 } 
             } else  {
                 
