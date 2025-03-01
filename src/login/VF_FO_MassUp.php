@@ -132,7 +132,7 @@ if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" AND $_SESSION[$modul
 }
 
 if ($phase == 1) {
-   var_dump($_POST);
+    # var_dump($_POST);
     # var_dump($_SESSION[$module]['URHEBER']);
     if (isset($_POST['ei_id']) ) { #&& isset()) {
         $pos = stripos($_POST['ei_id'],"|");

@@ -142,8 +142,8 @@ BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ','','Form','90em'); # Parm: 
 <tr>
     <th>
       <font size="+1">
-        <a href="LFS_TU/20060915/index_LFTu_0609.php" target='Schaur'>15.9.2006 - Eröffnung LFS neu Tulln</a>
-         16.9.2006 - LFS neu Tulln - Tag der offenen Tür
+        <a href="LFS_TU/20060906/index_LFTu_0609.php" target='Schaur'>6.9.2006 - Eröffnung LFS neu Tulln</a>
+         6.9.2006 - LFS neu Tulln - Tag der offenen Tür
  <br>
       </font>
      </th>
