@@ -37,12 +37,12 @@ Karrenspritze ohne Saugwerk, Bad Gams, Steiermark
 
 <tr>
  <td>
-  <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9192.WebP" alt="Karrenspritze ohne Saugwerk, Löschgruppe" align="right"/>
+  <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9192.WebP" alt="Karrenspritze ohne Saugwerk, Löschgruppe" align="right"/>
 Zur nachbarlichen Hilfeleistung ist sogar eine Löschmannschaft aus der Steiermark angerückt. Sie steht unter der Leitung des Kameraden Alois GRITSCH und zeigt und einen Löscheinsatz mit einer Knaust-Karrenspritze
 ohne Saugwerk, abprotzbar, Baujahr 1908, und eine Metallene Krückenspritze.
- <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9188.WebP" alt="Karrenspritze ohne Saugwerk, Löschgruppe" align="left"/>
+ <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9188.WebP" alt="Karrenspritze ohne Saugwerk, Löschgruppe" align="left"/>
  Im folgenden Bild  links der Karren und rechts die abgeprotzte Spritze zu sehen.
- <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9196.WebP" alt="Karrenspritze ohne Saugwerk, Löschgruppe" align="right"/>
+ <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9196.WebP" alt="Karrenspritze ohne Saugwerk, Löschgruppe" align="right"/>
   </td>
 </tr>
 

@@ -41,7 +41,7 @@ und FF Lambach
 
 <tr>
  <td>
-  <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9182.WebP" alt="Kastenspritze ohne Saugwerk, Löschgruppe" align="right"/>
+  <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9182.WebP" alt="Kastenspritze ohne Saugwerk, Löschgruppe" align="right"/>
 Wichtigstes und überall anzutreffendes Löschgerät des
 Mittelalters und der beginnenden Neuzeit ist der Feuerlöscheimer -
 aus Leder, Stroh, Hanf, Holz oder  Segeltuch - soweit nötig -
@@ -60,7 +60,7 @@ geschüttet werden, da diese nicht "ansaugen" konnten!
 Statistik Ende Dezember 1886: <br/>88 Wasserwagen und über 4.200 Löscheimer
 (ohne die für jedes Haus vorgeschriebenen Eimer!)
 <br/>
-  <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9183.WebP" alt="Kastenspritze ohne Saugwerk" align="left"/>
+  <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9183.WebP" alt="Kastenspritze ohne Saugwerk" align="left"/>
 Vor Erfindung der Druckschläuche alle Löschmaßnahmen = "Außenangriff".
 Erste Verwendung der vom Amsterdamer Brandmeister Jan van der Heyde erfundenen,
 aus Leder gefertigten, durch Verschraubungen ("Holländer") verbundenen

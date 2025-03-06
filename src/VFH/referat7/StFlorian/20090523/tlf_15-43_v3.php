@@ -4,7 +4,6 @@ session_start();
 #
 #Inhaltsverzeichnis und Aufruf für Archivierte Berichte
 
-
 $module    = 'VF_Arch';
 $path2ROOT = "../../../../";
 
@@ -43,7 +42,7 @@ betreut durch <br/>Oldtimerverein der FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9262.WebP" alt="" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9262.WebP" alt="" align="right" />
 Tanklöschfahrzeuge haben vor dem Zweiten Weltkrieg nicht zu den
 Standardfahrzeugen der Feuerwehren gehört: Aufgrund der Erfahrungen aus den
 Bombenangriffen auf die deutschen Städte mit den vielen Großbränden und

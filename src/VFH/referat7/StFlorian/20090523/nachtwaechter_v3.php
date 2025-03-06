@@ -47,7 +47,7 @@ Nachtwächter-Darstellung durch Kamerad Bernecker
 
 <tr>
  <td>
-<img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9181.WebP" alt="Nachtwächter" align="left">
+<img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9181.WebP" alt="Nachtwächter" align="left">
 "Sicherheit" vor Gefahren ist seit jeher Grundbedürfnis der Menschen, Wächter auf Türmen sehen von
 weitem annähernde Feinde aber auch aufflammende Brände. In der Neuzeit werden die Nacht- und Turmwächter
 "Organe der Feuerpolizei"

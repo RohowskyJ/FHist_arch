@@ -56,7 +56,7 @@ Früher bei der Betriebsfeuerwehr Haunoldmühle in Verwendung, Ankauf
 September 2002 durch den Oldtimerverein der FF Wels, Restaurierung in den
 Jahren 2003 / 2004.
 <br/>
-   <img src="../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5827.WebP" alt="Landfahrmotorspritze" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5827.WebP" alt="Landfahrmotorspritze" align="left" />
 Erzeuger war die  Feuerlöschgeräte- und Spritzenfabrik Konrad Rosenbauer
 in Linz, Baujahr 1925, Vergasermotor Viertakt-Vierzylinder STEUDEL,
 Kamenz/ Sachsen, Motorleistung 16 KW (22 PS) bei 2200 U/min;

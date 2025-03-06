@@ -42,7 +42,7 @@ FF Vöcklabruck
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_img_9237.WebP" alt="Dampffeuerspritze" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_img_9237.WebP" alt="Dampffeuerspritze" align="right" />
 Die Menschenkraft beim Betrieb von Feuerspritzen wurde ab 1828 (England!)
 durch die Dampfmaschine langsam abgelöst, in Österreich erst ab 1867
 ( Firma KNAUST).
@@ -52,7 +52,7 @@ Leistungen: von 500 bis 1800 l/min, Gewicht um die 1.500 kg,
 <br/>
 Sonderkonstruktionen 4.500 - 5.000 l/min, aber mit Eigengewicht 5.500 kg.
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-img_9241.WebP" alt="Dampffeuerspritze" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9241.WebP" alt="Dampffeuerspritze" align="left" />
 Aus Einsatzberichten wissen wir, dass die erreichten Fahrgeschwindigkeiten
 der Pferde gezogenen Dampffeuerpritzen um die 7,7 km/h betragen haben.
 <br/>
