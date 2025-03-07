@@ -194,7 +194,7 @@ Edit_Tabellen_Trailer();
                     messageDiv.insert('Die Datei ' + fileName + ' überschreitet die maximale Größe von 40 MB und wurde ausgeschlossen.<br>');
                 }
             }
-            // console.log(validFiles.length);
+             console.log(validFiles.length);
 
             // Hier kannst du mit validFiles weiterarbeiten, z.B. die Dateien hochladen
             if (validFiles.length > 0) {
@@ -234,13 +234,12 @@ Edit_Tabellen_Trailer();
                                
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'common/API/VF_Upload_FO.API.php', true);
-                 
-                    
+                                   
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             var jsonrepl = xhr.responseText.trim();
                             // console.log(jsonrepl);
-                            // var jsonResponse = JSON.parse(xhr.responseText);
+                            var jsonResponse = JSON.parse(xhr.responseText);
                             var jsonResponse = JSON.parse(jsonrepl);
                             // console.log(jsonResponse);
                             messageDiv.insert('Datei erfolgreich hochgeladen: ' + file.name + '<br>');

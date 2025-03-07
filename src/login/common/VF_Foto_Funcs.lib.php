@@ -42,7 +42,7 @@ function convertImage($inputFile, $outputFile) {
     
     // Bild kopieren
     imagecopyresampled($newImage, $source, 0, 0, 0, 0, $width, $height, $width, $height);
-    
+    /*
     // Bild speichern
     $outputType = pathinfo($outputFile, PATHINFO_EXTENSION);
     switch (strtolower($outputType)) {
@@ -59,6 +59,8 @@ function convertImage($inputFile, $outputFile) {
         default:
             throw new Exception('Unsupported output image type');
     }
+    */
+    imagewebp($newImage, $outputFile);
     
     // Speicher freigeben
     imagedestroy($source);
@@ -107,26 +109,26 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     if (!isset($rot_left)) {$rot_left = False;}
     if (!isset($rot_right)) {$rot_right = False;}
     
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0110 maxw $maxWidth maxh $maxHeight file $file outp $outputPath CR $copyrightText ttf-f $ttf_file \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0110 maxw $maxWidth maxh $maxHeight file $file \n outp $outputPath \nCR $copyrightText ttf-f $ttf_file \n" . PHP_EOL, FILE_APPEND);}
     if(!isset($ttf_file)) {
         $fontFile = "Fonts/arialbd.ttf";
     } else {
         $fontFile = $ttf_file;
     }
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0116 ttf-f $ttf_file    \n" . PHP_EOL, FILE_APPEND);}
+    #if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0118 ttf-f $ttf_file    \n" . PHP_EOL, FILE_APPEND);}
     if (is_file($file)) {
-        file_put_contents('debug.log', "Foto L 0118 $file existiert \n" . PHP_EOL, FILE_APPEND);
+        file_put_contents('API_debug_log', "Foto L 0120 $file existiert \n" . PHP_EOL, FILE_APPEND);
     } else {
-        file_put_contents('debug.log', "Foto L 0120 $file existiert NICHT \n" . PHP_EOL, FILE_APPEND);
+        file_put_contents('API_debug_log', "Foto L 0122 $file existiert NICHT \n" . PHP_EOL, FILE_APPEND);
     }
     if (is_file($ttf_file)) {
-        file_put_contents('debug.log', "Foto L 0122 $ttf_file existiert  \n" . PHP_EOL, FILE_APPEND);
+        file_put_contents('API_debug_log', "Foto L 0125 $ttf_file existiert  \n" . PHP_EOL, FILE_APPEND);
     } else {
-        file_put_contents('debug.log', "Foto L 0125 $ttf_file existiert NICHT ++++++++++++++++++++++++++++++++++++++              +++++++++++++++++++++++++++++++++++ \n" . PHP_EOL, FILE_APPEND);
+        file_put_contents('API_debug_log', "Foto L 0127 $ttf_file existiert NICHT ++++++++++++++++++++++++++++++++++++++              +++++++++++++++++++++++++++++++++++ \n" . PHP_EOL, FILE_APPEND);
     }
     // Bildinformationen abrufen
     list($width, $height, $type) = getimagesize($file);
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0129 w $width  h $height  t $type  \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0131 w $width  h $height  t $type  \n" . PHP_EOL, FILE_APPEND);}
     // Berechnung des neuen Bildes
     $ratio = $width / $height;
     if ($maxWidth / $maxHeight > $ratio) {
@@ -134,7 +136,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     } else {
         $maxHeight = $maxWidth / $ratio;
     }
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0137 maxw $maxWidth  maxh $maxHeight   \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0139 maxw $maxWidth  maxh $maxHeight   \n" . PHP_EOL, FILE_APPEND);}
     // Neues Bild erstellen
     $newImage = imagecreatetruecolor($maxWidth, $maxHeight);
     
@@ -155,10 +157,10 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
         default:
             throw new Exception('Unsupported image type');
     }
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0158 vor resample. \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0160 vor resample. \n" . PHP_EOL, FILE_APPEND);}
     // Bild resizen
     imagecopyresampled($newImage, $source, 0, 0, 0, 0, $maxWidth, $maxHeight, $width, $height);
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0161 nach resample. \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0163 nach resample. \n" . PHP_EOL, FILE_APPEND);}
     
     if ($rot_right || $rot_left) { // rotate
         if ($rot_left ) {
@@ -167,10 +169,10 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
         if ($rot_right ) {
             $angle = 270;
         }
-        if ($debug_log) {file_put_contents('debug.log', "Foto L 0170 rotate $angle \n" . PHP_EOL, FILE_APPEND);}
+        if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0172 rotate $angle \n" . PHP_EOL, FILE_APPEND);}
         $newimage = imagerotate($newImage,$angle,0);
         if (!$newimage) {
-            if ($debug_log) {file_put_contents('debug.log', "Foto L 0172 nach rotate. \n" . PHP_EOL, FILE_APPEND);}
+            if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0175 nach rotate. \n" . PHP_EOL, FILE_APPEND);}
         }
         
     }
@@ -189,7 +191,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
         #var_dump($textBox);
         $textWidth = $textBox[2] - $textBox[0];
         $textHeight = $textBox[1] - $textBox[7];
-        file_put_contents('debug.log', "Foto L 0191 nach textbox. \n" . PHP_EOL, FILE_APPEND);
+        file_put_contents('API_debug_log', "Foto L 0194 nach textbox. \n" . PHP_EOL, FILE_APPEND);
         // Textposition
         /*
          $x = ($maxWidth - $textWidth) / 2; // Zentriert
@@ -203,7 +205,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
         imagettftext($newImage, $fontSize, 0, $x, $y, $textColor, $fontFile, $copyrightText);
         
         imagettftext($newImage, $fontSize, 0, $x-3, $y-3, $textColor_1, $fontFile, $copyrightText);
-        if ($debug_log) {file_put_contents('debug.log', "Foto L 0203 nach cr_einfügen \n" . PHP_EOL, FILE_APPEND);}
+        if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0208 nach cr_einfügen \n" . PHP_EOL, FILE_APPEND);}
     }
 
     /*
@@ -223,7 +225,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     $p_arr = pathinfo ($outputPath, PATHINFO_ALL);
     $resized_file = $p_arr['dirname']."/".$p_arr['filename'].".WebP";
     imagewebp($newImage, $resized_file);
-    if ($debug_log) {file_put_contents('debug.log', "Foto L 0225  foto_Funcs ausgegeben ".$p_arr['dirname']."/".$p_arr['filename'].".WebP \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0228  foto_Funcs ausgegeben ".$p_arr['dirname']."/".$p_arr['filename'].".WebP \n" . PHP_EOL, FILE_APPEND);}
 
     // Speicher freigeben
     imagedestroy($source);

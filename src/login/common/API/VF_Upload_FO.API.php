@@ -3,13 +3,14 @@
 require "../VF_Foto_Funcs.lib.php";
 require "../VF_Const.lib.php";
 
-$debug_log = True;
+$debug_log = False;
 if ($debug_log) {file_put_contents('Fo_up_debug.log', "VF_Upload_FO.API L 007 " . PHP_EOL, FILE_APPEND);}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] === 'POST' ) { #
 
     $eintragen = Date("Y-m-d H:i:s") . "\n";
-/*
+    /*
+       // localhost/fhist_arch/src/login/common/API/VF_Upload_FO.API.php?targPfad=AOrd_Verz/124/09/06/kaaas&urhName=HH&urhAbk=JJ&urhEinfg=J&aufnDat=20250101
     if (isset($_GET['targPfad'])) {
         $targ_pfad = $_GET['targPfad'];
     }
@@ -48,13 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
     if (isset($_POST['beglTxt'])) {
         $bechreibg = $_POST['beglTxt'];
     }
-    */
+
 /*
     // Zugriff auf die Checkboxen
     $rotateLeft = isset($_POST['rotateLeft']) ? $_POST['rotateLeft'] : [];
     $rotateRight = isset($_POST['rotateRight']) ? $_POST['rotateRight'] : [];
     $selectedFiles = isset($_POST['selectedFiles']) ? $_POST['selectedFiles'] : [];
- */   
+ */
 
     if ($debug_log) {
         $eintragen .= "targ_pfad $targ_pfad \n";
@@ -101,12 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
             $tmpName = $_FILES['file']['tmp_name'];
             $uploadFile = mb_strtolower($uploadDir . basename($name));
 
-            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 089 Uploadfile  $uploadFile \n " . PHP_EOL, FILE_APPEND);}
+            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0104 Uploadfile  $uploadFile \n " . PHP_EOL, FILE_APPEND);}
 
             // Datei hochladen
             if (move_uploaded_file($tmpName, $uploadFile)) {
 
-                if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 080 hochgeladen \n" . PHP_EOL, FILE_APPEND);}
+                if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0109 hochgeladen \n" . PHP_EOL, FILE_APPEND);}
 
                 $fn_arr = explode("-", $name);
                 $fcnt = count($fn_arr);
@@ -117,16 +118,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
                 }
                 $outputFile = '../../' . $targ_pfad . $out_name;
 
-                if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0105 Outputfile  $outputFile \n" . PHP_EOL, FILE_APPEND);}
+                if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0120 Outputfile  $outputFile \n" . PHP_EOL, FILE_APPEND);}
 
                 if (in_array(strtolower($extension), GrafFiles)) { // bearbeiten
 
-                    if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0109 fotobearb? \n" . PHP_EOL, FILE_APPEND);}
+                    if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0124 fotobearb? \n" . PHP_EOL, FILE_APPEND);}
 
 
                     $InputFile = '../../' . $targ_pfad . $name;
 
-                    if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0113 InputFile $InputFile \n outputFile $outputFile \n" . PHP_EOL, FILE_APPEND);}
+                    if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0129 InputFile $InputFile \n outputFile $outputFile \n" . PHP_EOL, FILE_APPEND);}
 
                     // Beispiel: Verarbeitung der Checkboxen
                     $rot_rtight = $rot_left = False;
@@ -134,10 +135,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
                         foreach ($rotateLeft as $fileName) {
                             // Hier können Sie die Logik für die Links-Dreh-Operation implementieren
                             #echo "Datei $fileName soll links gedreht werden.<br>";
-                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0103 Datei $fileName soll links gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
+                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0137 Datei $fileName soll links gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
                         }
                         if (in_array($name, $rotateLeft)) {
-                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0117 Datei $name soll rechts gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
+                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0140 Datei $name soll rechts gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
                             $rot_left = True;
                         }
                     }
@@ -146,51 +147,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
                         foreach ($rotateRight as $fileName) {
                             // Hier können Sie die Logik für die Rechts-Dreh-Operation implementieren
                             #echo "Datei $fileName soll rechts gedreht werden.<br>";
-                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0116 Datei $fileName soll rechts gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
+                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0149 Datei $fileName soll rechts gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
                         }
                         if (in_array($name, $rotateRight)) {
-                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0119 Datei $name soll rechts gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
+                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0152 Datei $name soll rechts gedreht werden. \n " . PHP_EOL, FILE_APPEND);}
                             $rot_right = True;
                         }
                     }
 
                     if ($urh_einfueg == "J") {
 
-                        if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0129 Urheber ins Bild Ja \n" . PHP_EOL, FILE_APPEND);}
+                        if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0159 Urheber ins Bild Ja \n" . PHP_EOL, FILE_APPEND);}
 
                         $ttf_file = "../Fonts/arialbd.ttf";
 
                         $CR_text = '© '.$urh_name;
 
-                        if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0131 CR Text $CR_text \n" . PHP_EOL, FILE_APPEND);}
+                        if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0165 CR Text $CR_text \n" . PHP_EOL, FILE_APPEND);}
                         # resizeImage($inputFile, 800, 600, $outputFile, $copyrightText); // Maximal 800x600
                         $res_file = resizeImage($InputFile, 800, 800, $outputFile, $CR_text);
                         if ($res_file == "") {
 
-                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0137 Fehler beim Resizing des Bildes. \n" . PHP_EOL, FILE_APPEND);}
+                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0170 Fehler beim Resizing des Bildes. \n" . PHP_EOL, FILE_APPEND);}
 
                         } else {
                             $response['valid_files'][] = $res_file; // Erfolgreich hochgeladene Datei speichern
                         }
                     } else {
-                        if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0143 vor resize img ohne cd text \n" . PHP_EOL, FILE_APPEND);}
+                        if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0177 vor resize img ohne cd text \n" . PHP_EOL, FILE_APPEND);}
                         # resizeImage($inputFile, 800, 600, $outputFile); // Maximal 800x600
 
                         $res_file = !resizeImage($InputFile, 800, 800, $outputFile);
                         if ($res_file == "") {
 
-                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0149 Fehler beim Resizing des Bildes. \n" . PHP_EOL, FILE_APPEND);}
+                            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0182 Fehler beim Resizing des Bildes. \n" . PHP_EOL, FILE_APPEND);}
                         } else {
                             $response['valid_files'][] = $res_file; // Erfolgreich hochgeladene Datei speichern
                         }
                     }
                    ;
                 }
-                if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0156 Urheber ins Bild ?? \n" . PHP_EOL, FILE_APPEND);}
+                if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 01896 Urheber ins Bild ?? \n" . PHP_EOL, FILE_APPEND);}
 
             }
 
-            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0160 ende hochladen  $outputFile \n" . PHP_EOL, FILE_APPEND);}
+            if ($debug_log) {file_put_contents('Fo_up_debug.log', "L 0193 ende hochladen  $outputFile \n" . PHP_EOL, FILE_APPEND);}
 
 
             if (!isset($response))  {
