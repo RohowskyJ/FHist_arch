@@ -126,6 +126,63 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     } else {
         file_put_contents('API_debug_log', "Foto L 0127 $ttf_file existiert NICHT ++++++++++++++++++++++++++++++++++++++              +++++++++++++++++++++++++++++++++++ \n" . PHP_EOL, FILE_APPEND);
     }
+    
+    // EXIF-Daten auslesen und Bild drehen
+    $exif = @exif_read_data($file);
+    if (!empty($exif['Orientation'])) {
+        $orientation = $exif['Orientation'];
+        $source = null;
+        
+        // Ursprüngliches Bild laden
+        switch (exif_imagetype($file)) {
+            case IMAGETYPE_JPEG:
+                $source = imagecreatefromjpeg($file);
+                break;
+            case IMAGETYPE_PNG:
+                $source = imagecreatefrompng($file);
+                break;
+            case IMAGETYPE_GIF:
+                $source = imagecreatefromgif($file);
+                break;
+            case IMAGETYPE_WEBP:
+                $source = imagecreatefromwebp($file);
+                break;
+            default:
+                throw new Exception('Unsupported image type');
+        }
+        
+        // Bild drehen basierend auf der EXIF-Ausrichtung
+        switch ($orientation) {
+            case 3:
+                $source = imagerotate($source, 180, 0);
+                break;
+            case 6:
+                $source = imagerotate($source, -90, 0);
+                break;
+            case 8:
+                $source = imagerotate($source, 90, 0);
+                break;
+        }
+        
+        // Bild speichern, um die Änderungen zu übernehmen
+        switch (exif_imagetype($file)) {
+            case IMAGETYPE_JPEG:
+                imagejpeg($source, $file, 100);
+                break;
+            case IMAGETYPE_PNG:
+                imagepng($source, $file);
+                break;
+            case IMAGETYPE_GIF:
+                imagegif($source, $file);
+                break;
+            case IMAGETYPE_WEBP:
+                imagewebp($source, $file);
+                break;
+        }
+        
+        imagedestroy($source);
+    }
+    
     // Bildinformationen abrufen
     list($width, $height, $type) = getimagesize($file);
     if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0131 w $width  h $height  t $type  \n" . PHP_EOL, FILE_APPEND);}
