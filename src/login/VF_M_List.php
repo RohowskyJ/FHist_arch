@@ -165,6 +165,26 @@ switch ($T_List) {
         $Tabellen_Spalten_COMMENT['mi_gebtag'] = 'Geburtstag Eintrittsdatum';
         $Tabellen_Spalten_COMMENT['Ausg'] = 'Ausg';
         $Tabellen_Spalten_COMMENT['mi_ref_int_2'] = "Interesse Ref2, Ref3, Ref4";
+        
+        $CSV_Spalten = array(
+            'mi_id',
+            'mi_anrede',
+            'mi_titel',
+            'mi_name',
+            'mi_vname',
+            'mi_anschr',
+            'mi_plz',
+            'mi_ort',
+            'mi_gebtag',
+            'mi_eintrdat',
+            'mi_tel_handy',
+            'mi_fax',
+            'mi_email',
+            'mi_ref_int_2',
+            'mi_ref_int_3',
+            'mi_ref_int_4',
+        );
+        
         break;
     case "AdrList":
         $Tabellen_Spalten = array(
@@ -364,6 +384,8 @@ function modifyRow(array &$row, $tabelle)
     global $path2ROOT, $T_List, $mitgl_einv_n, $bez_cnt, $abo_cnt;
 
     $defjahr = date("y"); // Beitragsjahr, ist Gegenwärtiges Jahr
+    
+    $row_csv = $row;
 
     $mi_id = $row['mi_id'];
     $row['mi_id'] = "<a href='VF_M_Edit.php?ID=$mi_id'>$mi_id</a>";
@@ -396,6 +418,7 @@ function modifyRow(array &$row, $tabelle)
         } else {
             $row['mi_m_abo_bez'] = "<span style='color:red;'>$NA </span>";
         }
+      
     }
 
     if ($T_List == "BezL_W") {
@@ -433,16 +456,21 @@ function modifyRow(array &$row, $tabelle)
     }
 
     if ($T_List = "MitglA4" ) {
+        
         $mi_id = $row['mi_id'];
         $row['mi_id'] = "$mi_id<hr>".$row['mi_mtyp'];
         $mi_name = $row['mi_name'];
         $row['mi_name'] = "<b>$mi_name</b><br>".$row['mi_vname'];
+        $row_csv['mi_name'] = "$mi_name ".$row_csv['mi_vname'];
         $mi_anschr = $row['mi_anschr'];
         $row['mi_anschr'] = $row['mi_plz']." ".$row['mi_ort']."<br>$mi_anschr";
+        $row_csv['mi_anschr'] = $row['mi_plz']." ".$row['mi_ort']." $mi_anschr";
         $gebtag = $row['mi_gebtag'];
         $row['mi_gebtag'] = "$gebtag <hr>".$row['mi_beitritt'];
+        $row_csv['mi_gebtag'] = "$gebtag  ".$row['mi_beitritt'];
         $refint = $row['mi_ref_int_2'];
         $row['mi_ref_int_2'] = "$refint, ".$row['mi_ref_int_3']." ".$row['mi_ref_int_4'];
+        $row_csv['mi_ref_int_2'] = "$refint, ".$row['mi_ref_int_3']." ".$row['mi_ref_int_4'];
     }
     if ($row['mi_austrdat'] != "0000-00-00")  {
         $row['mi_name'] .= "<br><b>Ausgetreten: ".$row['mi_austrdat']."</b>";
@@ -450,6 +478,7 @@ function modifyRow(array &$row, $tabelle)
     if ($row['mi_sterbdat'] != "0000-00-00")  {
         $row['mi_name'] .= "<br><b>Verstorben: ".$row['mi_sterbdat']."</b>";
     }
+
     return True;
 } # Ende von Function modifyRow
 

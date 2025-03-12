@@ -657,7 +657,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
 {
     global $debug, $path2ROOT, $module, $List_parm, 
     $Tabellen_Spalten, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_tabelle, $Tabellen_Spalten_typ, $Tabellen_Spalten_style, 
-    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text;
+    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text, $CSV_Spalten;
 
     flow_add($module, "List_Funcs.inc Funct: List_Create");
 
@@ -727,7 +727,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
     {
         $Table_csv[] = $row;
         $modRC = modifyRow($row, $tab_nam_1);
-
+     
         if (isset($row['Sort_Key']) && $row['Sort_Key'] != "") {
             $Table_Out[$row['Sort_Key']] = $row;
         /**
@@ -745,7 +745,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
         {
             $Table_csv[] = $row;
             $modRC = modifyRow($row, $tab_nam_2);
-
+            
             if (isset($row['Sort_Key']) && $row['Sort_Key'] != "") {
                 $Table_Out[$row['Sort_Key']] = $row;
             /**
@@ -924,18 +924,8 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
         echo "</div>";
         echo "</th>";
 
-        if (isset($Tabellen_Spalten_tabelle[$column_name])) {
-            $CSV_Text_zeile .= ",$column_name";
-            $CSV_Text_zeile2 .= ",";
-            if (isset($Tabellen_Spalten_COMMENT[$column_name])) {
-                $CSV_Text_zeile2 .= str_replace($weg, "", $Tabellen_Spalten_COMMENT[$column_name]);
-            }
-        }
     } # Header Spalten Schleife
 
-    $CSV_Text .= "\n" . substr($CSV_Text_zeile, 1) . "\n" . substr($CSV_Text_zeile2, 1);
-    #console_log($CSV_Text);
-    #var_dump($CSV_Text);
     ?>
 
   </tr>
@@ -975,12 +965,29 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
     # ========================================================================================================================
     if ($_SESSION['VF_LISTE']['CSVDatei'] == "Ein") {
         $Zeilen_Nr = 0;
-        #var_dump($Table_csv);
+        # var_dump($Table_csv);
         #echo "L 0946 $hide_columns <br>";
+        
+        if (isset($CSV_Spalten)) {
+            $Tabellen_Spalten = $CSV_Spalten;
+        }
+
+        foreach($Tabellen_Spalten as $column_name )    {
+            if (isset($Tabellen_Spalten_tabelle[$column_name])) {
+                $CSV_Text_zeile .= "|$column_name";
+                $CSV_Text_zeile2 .= "|";
+                if (isset($Tabellen_Spalten_COMMENT[$column_name])) {
+                    $CSV_Text_zeile2 .= str_replace($weg, "", $Tabellen_Spalten_COMMENT[$column_name]);
+                }
+            }
+        }
+   
+        $CSV_Text .= "\n" . substr($CSV_Text_zeile, 1) . "\n" . substr($CSV_Text_zeile2, 1);
+        
         Foreach ($Table_csv as $csvrow) {
             $Zeilen_Nr ++;
-            $CSV_Text_zeile = $Zeilen_Nr . ", ";
-           
+            $CSV_Text_zeile = $Zeilen_Nr . "| ";
+
             foreach ($Tabellen_Spalten as $key => $column_name) # alle Spalten ausgeben
             {
                
@@ -1002,9 +1009,9 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1, $tab_nam_2 = '')
                 }
                 if (isset($Tabellen_Spalten_typ[$column_name])) {
                     if ($Tabellen_Spalten_typ[$column_name] == 'text') {
-                        $CSV_Text_zeile .= ',';
+                        $CSV_Text_zeile .= '|';
                     } else {
-                        $CSV_Text_zeile .= ',';
+                        $CSV_Text_zeile .= '|';
                     }
                 }
                 
