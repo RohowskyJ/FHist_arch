@@ -80,7 +80,8 @@ $lowHeight = True; // Auswahl-- und Anzeige- Tabellen mit verschiedenen Höhen -
 # ------------------------------------------------------------------------------------------------------------
 
 $eignr = $_SESSION['Eigner']['eig_eigner'];
-$tabelle_a = $tabelle . "$eignr";
+echo "L 083 tabelle §tabelle eignr $eignr <bR>";
+$tabelle_a = $tabelle . $eignr;
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_a,);
 $Tabellen_Spalten[] = 'sa_name';

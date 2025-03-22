@@ -240,7 +240,7 @@ function Cr_n_ma_fz_beschr ($tabelle)
   `fz_eigent_freig` char(50) DEFAULT NULL COMMENT 'Eigentümer Freigabe',
   `fz_verfueg_freig` char(50) DEFAULT NULL COMMENT 'Besitzer Freigabe',
   `fz_pruefg_id` char(10) DEFAULT NULL COMMENT 'Prüfer ID',
-  `fz_pruefg` datetime DEFAULT NULL COMMENT 'Prüfungs Datum',
+  `fz_pruefg` varchar(12) DEFAULT NULL COMMENT 'Prüfungs Datum',
   `fz_aenduid` char(10) DEFAULT NULL COMMENT 'Änderer',
   `fz_aenddat` timestamp NULL DEFAULT current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`fz_id`)
@@ -249,7 +249,7 @@ function Cr_n_ma_fz_beschr ($tabelle)
 
     $return = SQL_QUERY($db,$sql);
     return $return;
-} # Ende Funktion Cr_n_fz_beschr
+} # Ende Funktion Cr_n_ma_fz_beschr
 
 function Cr_n_fz_eigner ($tabelle)
 {

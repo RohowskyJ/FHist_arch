@@ -79,7 +79,7 @@ if ($fz_id != "") {
     $fz_id = $_SESSION[$module]['fz_id'];
 }
 
-$Tabellen_Spalten = $Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
+$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
 $Tabellen_Spalten[] = 'sa_name';
 $Tabellen_Spalten_COMMENT['sa_name'] = 'Ausgewählte Sammlung';
 
