@@ -12,7 +12,8 @@ if ($debug) {echo "<pre class=debug>VF_Z_B_Edit_ph0.inc.php ist gestarted</pre>"
 echo "<div class='white'>";
 
 echo "<input type='hidden' name='be_id' value='".$neu['be_id']."' />";
-
+echo "<input type='hidden' name='be_mitglnr' value='".$neu['be_mitglnr']."' />";
+echo "<input type='hidden' name='eig_id' value='".$neu['eig_id']."' />";
 # =========================================================================================================
   Edit_Tabellen_Header('Benutzer '.$neu['be_vname']." ".$neu['be_name']);
 # =========================================================================================================

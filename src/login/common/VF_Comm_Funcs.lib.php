@@ -1321,8 +1321,7 @@ function VF_set_module_p()
     if (!isset($_SESSION[$module])) {
         $_SESSION[$module] = array();
     }
-    echo "L 1324 module $module <br>";
-    var_dump($_SESSION['VF_Prim'][$module]);
+ 
     $_SESSION[$module]['p_zug'] = $_SESSION['VF_Prim'][$module];
     if ($_SESSION[$module]['p_zug'] == "V") {
         $_SESSION[$module]['all_upd'] = True;
