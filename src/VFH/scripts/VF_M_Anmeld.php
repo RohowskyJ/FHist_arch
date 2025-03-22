@@ -43,7 +43,7 @@ setlocale(LC_CTYPE, "de_AT"); // für Klassifizierung und Umwandlung von Zeichen
                               # require($path2ROOT.'login/common/trans_2utf8.php'); # übersetungstabellen
 
 if (! isset($_SESSION[$module])) {
-    $_SESSION[$module] = "Neuanmeldung";
+    $_SESSION[$module][] = "Neuanmeldung";
 }
 // ============================================================================================================
 // Eingabenerfassung und defauls

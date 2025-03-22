@@ -32,7 +32,7 @@ if ($debug) {
 }
 
 $p_uid = $_SESSION['VF_Prim']['p_uid'];
-
+# var_dump($neu);
 $sql = "INSERT INTO fh_mitglieder (
               mi_mtyp,mi_org_typ,mi_org_name,mi_name,mi_vname,mi_titel,
               mi_n_titel,mi_dgr,mi_anrede,mi_gebtag,mi_staat,mi_plz,mi_ort,mi_anschr,

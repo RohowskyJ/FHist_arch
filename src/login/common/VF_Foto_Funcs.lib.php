@@ -1,11 +1,11 @@
 <?php
 /**
  * Funktionen für Foto- Bearbeitung
- * 
+ *
  * Hochladen mittels prototype.js
  * Resizing Copyright einfügen und Umbenennen (Urheber)wenn jpg, png oder gif
- * 
- * 
+ *
+ *
  */
 
 /**
@@ -19,9 +19,13 @@
  */
 
 function convertImage($inputFile, $outputFile) {
+   global $debug_log;
+
+if ($debug_log) {file_put_contents('Fo_up_debug.log', "VF_Foto_funcs L 007, $inputFile, $outputFile " . PHP_EOL, FILE_APPEND);}
+
     // Bildinformationen abrufen
     list($width, $height, $type) = getimagesize($inputFile);
-    
+
     // Ursprüngliches Bild laden
     switch ($type) {
         case IMAGETYPE_JPEG:
@@ -36,10 +40,10 @@ function convertImage($inputFile, $outputFile) {
         default:
             throw new Exception('Unsupported image type');
     }
-    
+
     // Neues Bild erstellen
     $newImage = imagecreatetruecolor($width, $height);
-    
+
     // Bild kopieren
     imagecopyresampled($newImage, $source, 0, 0, 0, 0, $width, $height, $width, $height);
     /*
@@ -61,19 +65,19 @@ function convertImage($inputFile, $outputFile) {
     }
     */
     imagewebp($newImage, $outputFile);
-    
+
     // Speicher freigeben
     imagedestroy($source);
     imagedestroy($newImage);
 
 /**
- * 
+ *
 
 // Beispielaufruf
 try {
     $inputFile = 'path/to/your/image.jpg'; // Pfad zum Eingabebild
     $outputFile = 'path/to/your/image.png'; // Pfad zum Ausgabebild
-    
+
     convertImage($inputFile, $outputFile);
     echo "Bild erfolgreich konvertiert.";
 } catch (Exception $e) {
@@ -96,19 +100,19 @@ Verwendung
 } // ende funct convertImage
 
 /**
- * 
+ *
  * @param string $file
  * @param string $maxWidth
  * @param string $maxHeight
  * @param string $outputPath
  * @param string $copyrightText
  */
-function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $copyrightText = '' ) {
+function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath = '', $copyrightText = '' ) {
     global $ttf_file,$debug_log , $rot_left, $rot_right;
     if (!isset($debug_log)) {$debug_log = False;}
     if (!isset($rot_left)) {$rot_left = False;}
     if (!isset($rot_right)) {$rot_right = False;}
-    
+
     if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0110 maxw $maxWidth maxh $maxHeight file $file \n outp $outputPath \nCR $copyrightText ttf-f $ttf_file \n" . PHP_EOL, FILE_APPEND);}
     if(!isset($ttf_file)) {
         $fontFile = "Fonts/arialbd.ttf";
@@ -126,13 +130,13 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     } else {
         file_put_contents('API_debug_log', "Foto L 0127 $ttf_file existiert NICHT ++++++++++++++++++++++++++++++++++++++              +++++++++++++++++++++++++++++++++++ \n" . PHP_EOL, FILE_APPEND);
     }
-    
+
     // EXIF-Daten auslesen und Bild drehen
     $exif = @exif_read_data($file);
     if (!empty($exif['Orientation'])) {
         $orientation = $exif['Orientation'];
         $source = null;
-        
+
         // Ursprüngliches Bild laden
         switch (exif_imagetype($file)) {
             case IMAGETYPE_JPEG:
@@ -150,7 +154,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
             default:
                 throw new Exception('Unsupported image type');
         }
-        
+
         // Bild drehen basierend auf der EXIF-Ausrichtung
         switch ($orientation) {
             case 3:
@@ -163,7 +167,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
                 $source = imagerotate($source, 90, 0);
                 break;
         }
-        
+
         // Bild speichern, um die Änderungen zu übernehmen
         switch (exif_imagetype($file)) {
             case IMAGETYPE_JPEG:
@@ -179,10 +183,10 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
                 imagewebp($source, $file);
                 break;
         }
-        
+
         imagedestroy($source);
     }
-    
+
     // Bildinformationen abrufen
     list($width, $height, $type) = getimagesize($file);
     if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0131 w $width  h $height  t $type  \n" . PHP_EOL, FILE_APPEND);}
@@ -196,7 +200,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0139 maxw $maxWidth  maxh $maxHeight   \n" . PHP_EOL, FILE_APPEND);}
     // Neues Bild erstellen
     $newImage = imagecreatetruecolor($maxWidth, $maxHeight);
-    
+
     // Ursprüngliches Bild laden
     switch ($type) {
         case IMAGETYPE_JPEG:
@@ -218,7 +222,7 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     // Bild resizen
     imagecopyresampled($newImage, $source, 0, 0, 0, 0, $maxWidth, $maxHeight, $width, $height);
     if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0163 nach resample. \n" . PHP_EOL, FILE_APPEND);}
-    
+
     if ($rot_right || $rot_left) { // rotate
         if ($rot_left ) {
             $angle = 90;
@@ -231,20 +235,20 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
         if (!$newimage) {
             if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0175 nach rotate. \n" . PHP_EOL, FILE_APPEND);}
         }
-        
+
     }
-    
+
     if ($copyrightText  != "") {
         // Copyright-Text hinzufügen
         $textColor = imagecolorallocate($newImage, 255, 255, 255); // Weiß
         $textColor_1 = imagecolorallocate($newImage, 0, 0, 0); // schwarz
         #$textColor_2 = imagecolorallocate($newImage, 255, 87, 51); // orange
-        
+
         $fontSize = 18; // Schriftgröße
-        
+
         #$fontFile = 'path/to/your/font.ttf'; // Pfad zur TTF-Schriftart
         $textBox = imagettfbbox($fontSize, 0, $fontFile, $copyrightText);
-        
+
         #var_dump($textBox);
         $textWidth = $textBox[2] - $textBox[0];
         $textHeight = $textBox[1] - $textBox[7];
@@ -257,10 +261,10 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
         $x = 10; //($maxWidth - $textWidth) ; // Zentriert
         $y = $maxHeight - $textHeight - 1; // 10 Pixel vom unteren Rand
         // Text auf das Bild schreiben
-        
+
         # imagettftext($newImage, $fontSize, 0, $x-6, $y-6, $textColor_2, $fontFile, $copyrightText);
         imagettftext($newImage, $fontSize, 0, $x, $y, $textColor, $fontFile, $copyrightText);
-        
+
         imagettftext($newImage, $fontSize, 0, $x-3, $y-3, $textColor_1, $fontFile, $copyrightText);
         if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0208 nach cr_einfügen \n" . PHP_EOL, FILE_APPEND);}
     }
@@ -287,12 +291,12 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath, $cop
     // Speicher freigeben
     imagedestroy($source);
     imagedestroy($newImage);
-    
+
     unlink($file); // löschen der Input- Datei
-    
+
     return ($resized_file);
 /**
- * 
+ *
 
 // Beispielaufruf
 try {

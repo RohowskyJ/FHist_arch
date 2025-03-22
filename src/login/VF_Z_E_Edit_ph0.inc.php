@@ -18,7 +18,12 @@ echo "<input type='hidden' name='ei_mitglnr' value='".$neu['ei_mitglnr']."' />";
 # =========================================================================================================
 
   Edit_Daten_Feld('ei_id');
-  Edit_Daten_Feld('ei_mitglnr');
+  if ($neu['ei_id'] == 0) {
+      Edit_Daten_Feld('ei_mitglnr',15);
+  } else {
+      Edit_Daten_Feld('ei_mitglnr');
+  }
+  
  
   # =========================================================================================================
   Edit_Separator_Zeile('Organisations- Daten');
@@ -43,7 +48,7 @@ echo "<input type='hidden' name='ei_mitglnr' value='".$neu['ei_mitglnr']."' />";
   Edit_Daten_Feld('ei_handy',45);
   Edit_Daten_Feld('ei_email',100);
   Edit_Daten_Feld('ei_internet',100);
-  Edit_Daten_Feld('ei_sterbdat',10,'',"type='date'");
+  #Edit_Daten_Feld('ei_sterbdat',10,'',"type='date'");
   Edit_Daten_Feld('ei_abgdat',10,'',"type='date'");
   Edit_Daten_Feld('ei_neueigner',50);
   # =========================================================================================================
@@ -63,17 +68,17 @@ echo "<input type='hidden' name='ei_mitglnr' value='".$neu['ei_mitglnr']."' />";
   # =========================================================================================================
   Edit_Separator_Zeile('Einverständnis zur Veröffentlichung');
   # =========================================================================================================
-  Edit_Daten_Feld('ei_wlpriv');
-  Edit_Daten_Feld('ei_vopriv');
-  Edit_Daten_Feld('ei_wlmus');
-  Edit_Daten_Feld('ei_vomus');
-  Edit_Daten_Feld('ei_wlinv');
-  Edit_Daten_Feld('ei_voinv');
-  Edit_Daten_Feld('ei_voinf');
-  Edit_Daten_Feld('ei_vofo');
-  Edit_Daten_Feld('ei_voar');
+  Edit_Select_Feld('ei_wlpriv', VF_JN);
+  Edit_Select_Feld('ei_vopriv', VF_JN);
+  Edit_Select_Feld('ei_wlmus', VF_JN);
+  Edit_Select_Feld('ei_vomus', VF_JN);
+  Edit_Select_Feld('ei_wlinv', VF_JN);
+  Edit_Select_Feld('ei_voinv', VF_JN);
+  Edit_Select_Feld('ei_voinf', VF_JN);
+  Edit_Select_Feld('ei_vofo', VF_JN);
+  Edit_Select_Feld('ei_voar', VF_JN);
   Edit_Daten_Feld('ei_drwvs',10,'',"type='date'");
-  Edit_Daten_Feld('ei_drneu');
+  Edit_Select_Feld('ei_drneu', VF_JN);
 
   # =========================================================================================================
   Edit_Separator_Zeile('Letzte Änderung');

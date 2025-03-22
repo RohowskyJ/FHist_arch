@@ -71,9 +71,11 @@ while ($row = mysqli_fetch_object($return_mi)) {
     $neu['ei_titel'] = $neu['ei_vname'] = $neu['ei_name'] = $neu['ei_dgr'] = "";
     $neu['ei_adresse'] = "";
     $neu['ei_plz'] = $neu['ei_ort'] = $neu['ei_tel'] = $neu['ei_fax'] = $neu['ei_handy'] = $neu['ei_email'] = "";
-    $neu['ei_internet'] = $neu['ei_sterbdat'] = $neu['ei_abgdat'] = $neu['ei_neueigner'] = $neu['ei_wlpriv'] = $neu['ei_vopriv'] = "";
-    $neu['ei_wlmus'] = $neu['ei_vomus'] = $neu['ei_wlinv'] = $neu['ei_voinv'] = $neu['ei_voinf'] = $neu['ei_vofo'] = "";
-    $neu['ei_voar'] = $neu['ei_drwvs'] = $neu['ei_drneu'] = $neu['ei_uidaend'] = $neu['ei_aenddat'] = "";
+    $neu['ei_internet'] = $neu['ei_sterbdat'] = $neu['ei_abgdat'] = $neu['ei_neueigner'] = "";
+    $neu['ei_urh_kurzz'] = $neu['ei_media'] = "";
+    $neu['ei_wlpriv'] = $neu['ei_vopriv'] = $neu['ei_wlmus'] = $neu['ei_vomus'] = $neu['ei_wlinv'] = $neu['ei_voinv'] = "N";
+    $neu['ei_voinf'] = $neu['ei_vofo'] = $neu['ei_voar'] = $neu['ei_drneu'] = "N";
+    $neu['ei_drwvs'] = $neu['ei_uidaend'] = $neu['ei_aenddat'] = "";
 
     if ($neu['ei_org_typ'] == "Privat") {
         $neu['ei_titel'] = $mitgl_titel;

@@ -25,35 +25,34 @@ if ($neu['ei_name'] == "") {
 
 $p_uid = $_SESSION['VF_Prim']['p_uid'];
 
-if (!isset($neu['ei_wlinv'])) {$neu['ei_wlinv'] = "";}
-if (!isset($neu['ei_voinv'])) {$neu['ei_voinv'] = "";}
-if (!isset($neu['ei_voinf'])) {$neu['ei_voinf'] = "";}
-if (!isset($neu['ei_vofo'])) {$neu['ei_vofo'] = "";}
-if (!isset($neu['ei_voar'])) {$neu['ei_voar'] = "";}
-if (!isset($neu['ei_drneu'])) {$neu['ei_drneu'] = "";}
-if (!isset($neu['ei_wlpriv'])) {$neu['ei_wlpriv'] = "";}
-if (!isset($neu['ei_wlmus'])) {$neu['ei_wlmus'] = "";}
-if (!isset($neu['ei_vomus'])) {$neu['ei_vomus'] = "";}
-/*
-if (!isset($neu[''])) {$neu[''] = "";}
-if (!isset($neu[''])) {$neu[''] = "";}
-*/
+if (!isset($neu['ei_wlinv'])) {$neu['ei_wlinv'] = "N";}
+if (!isset($neu['ei_voinv'])) {$neu['ei_voinv'] = "N";}
+if (!isset($neu['ei_voinf'])) {$neu['ei_voinf'] = "N";}
+if (!isset($neu['ei_vofo'])) {$neu['ei_vofo'] = "N";}
+if (!isset($neu['ei_voar'])) {$neu['ei_voar'] = "N";}
+if (!isset($neu['ei_drneu'])) {$neu['ei_drneu'] = "N";}
+if (!isset($neu['ei_wlpriv'])) {$neu['ei_wlpriv'] = "N";}
+if (!isset($neu['ei_wlmus'])) {$neu['ei_wlmus'] = "N";}
+if (!isset($neu['ei_vomus'])) {$neu['ei_vomus'] = "N";}
 
+# var_dump($neu);
 if ($debug) {
     echo '<pre class=debug>';
     echo '<hr>$neu: ';
     print_r($neu);
     echo '</pre>';
 }
-if ($neu['ei_id'] == "0") { // NeuItem
+#var_dump($neu);
 
+if ($neu['ei_id'] == "0") { // NeuItem
+     
     $sql = "INSERT INTO fh_eigentuemer (
                 ei_mitglnr , ei_staat, ei_bdld , ei_bezirk , ei_org_typ ,ei_org_name,
                 kont_name , ei_fwkz ,
                 ei_grdgj , ei_titel , ei_vname , ei_name , ei_dgr , ei_adresse ,
                 ei_plz , ei_ort , ei_tel , ei_fax , ei_handy , ei_email ,
-                ei_internet , ei_sterbdat , ei_abgdat , 
-                ei_urh_kurzz, ei_media, ei_neueigner , ei_wlpriv , ei_vopriv ,
+                ei_internet , 
+                ei_urh_kurzz, ei_media, ei_neueigner , ei_abgdat, ei_wlpriv , ei_vopriv ,
                 ei_wlmus , ei_vomus , ei_wlinv , ei_voinv , ei_voinf , ei_vofo ,
                 ei_voar , ei_drwvs , ei_drneu , ei_uidaend , ei_aenddat
               ) VALUE (
@@ -61,15 +60,15 @@ if ($neu['ei_id'] == "0") { // NeuItem
                '$neu[kont_name]','$neu[ei_fwkz]',
                '$neu[ei_grdgj]','$neu[ei_titel]','$neu[ei_vname]','$neu[ei_name]','$neu[ei_dgr]','$neu[ei_adresse]',
                '$neu[ei_plz]','$neu[ei_ort]','$neu[ei_tel]','$neu[ei_fax]','$neu[ei_handy]','$neu[ei_email]',
-               '$neu[ei_internet]','$neu[ei_sterbdat]','$neu[ei_abgdat]',
-               '$neu[ei_urh_kurzz]','$neu[ei_media]','$neu[ei_neueigner]','$neu[ei_wlpriv]','$neu[ei_vopriv]',
+               '$neu[ei_internet]',
+               '$neu[ei_urh_kurzz]','$neu[ei_media]','$neu[ei_neueigner]','$neu[ei_abgdat]','$neu[ei_wlpriv]','$neu[ei_vopriv]',
                '$neu[ei_wlmus]','$neu[ei_vomus]','$neu[ei_wlinv]','$neu[ei_voinv]','$neu[ei_voinf]','$neu[ei_vofo]',
                '$neu[ei_voar]','$neu[ei_drwvs]','$neu[ei_drneu]','$p_uid',now()
                )";
-
+#echo "<br> L 074 sql $sql <br>";
     $result = SQL_QUERY($db, $sql);
 } else {
-
+# var_dump($neu);
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
 
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
@@ -86,6 +85,7 @@ if ($neu['ei_id'] == "0") { // NeuItem
         if ($name == "tabelle") {
             continue;
         } 
+        
 
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
@@ -100,7 +100,7 @@ if ($neu['ei_id'] == "0") { // NeuItem
         if ($debug) {
             echo '<pre class=debug> L 0197: \$sql $sql </pre>';
         }
-
+# echo "L 0111 sql $sql <br>";
         echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
         $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
     }

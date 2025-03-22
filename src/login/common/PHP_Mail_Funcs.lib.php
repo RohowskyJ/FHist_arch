@@ -102,7 +102,7 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
         $mail->SMTPSecure = 'ssl'; // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 465; // TCP port to connect to
         $mail->setLanguage('de', 'phpmailer.lang-de.php');
-        $mail->Charset = 'UTF-8';
+       # $mail->Charset = 'UTF-8';
 
         // Recipients
         switch ($_SERVER['SERVER_NAME']) {

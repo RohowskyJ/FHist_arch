@@ -76,16 +76,18 @@ Tabellen_Spalten_parms($db, 'fh_eigentuemer');
 # -------------------------------------------------------------------------------------------------------
 if ($phase == 0) {
     if ($now_ei_id == "0") {
-
+        $neu['ei_sterbdat'] = NULL;
         $neu['ei_id'] = $now_ei_id;
         $neu['ei_org_typ'] = "Privat";
+        $neu['ei_mitglnr'] = "";
         $neu['ei_mitglnr'] = $neu['ei_staat'] = $neu['ei_bdld'] = $neu['ei_bezirk'] =$neu['ei_org_name'] = "";
         $neu['kont_name'] = $neu['ei_fwkz'] = "";
         $neu['ei_grdgj'] = $neu['ei_titel'] = $neu['ei_vname'] = $neu['ei_name'] = $neu['ei_dgr'] = $neu['ei_adresse'] = "";
-        $neu['ei_plz'] = $neu['ei_ort'] = $neu['ei_tel'] = $neu['ei_fax'] = $neu['ei_handy'] = $neu['ei_email'] = "";
-        $neu['ei_internet'] = $neu['ei_sterbdat'] = $neu['ei_abgdat'] = $neu['ei_neueigner'] = $neu['ei_wlpriv'] = $neu['ei_vopriv'] = "";
-        $neu['ei_wlmus'] = $neu['ei_vomus'] = $neu['ei_wlinv'] = $neu['ei_voinv'] = $neu['ei_voinf'] = $neu['ei_vofo'] = "";
-        $neu['ei_voar'] = $neu['ei_drwvs'] = $neu['ei_drneu'] = $neu['ei_uidaend'] = $neu['ei_aenddat'] = "";
+        $neu['ei_plz'] = $neu['ei_ort'] = $neu['ei_tel'] = $neu['ei_fax'] = $neu['ei_handy'] = $neu['ei_email'] = $neu['ei_internet'] = "";
+        $neu['ei_neueigner'] = $neu['ei_abgdat'] = "";
+        $neu['ei_wlpriv'] = $neu['ei_vopriv'] = $neu['ei_wlmus'] = $neu['ei_vomus'] = "N";
+        $neu['ei_wlinv'] = $neu['ei_voinv'] = $neu['ei_voinf'] = $neu['ei_vofo'] = $neu['ei_voar'] = "N";
+        $neu['ei_drwvs'] = $neu['ei_drneu'] = $neu['ei_uidaend'] = $neu['ei_aenddat'] = "";
         $neu['ei_urh_kurzz'] = $neu['ei_media'] = '';
     } else {
         $sql = "SELECT * FROM fh_eigentuemer ";

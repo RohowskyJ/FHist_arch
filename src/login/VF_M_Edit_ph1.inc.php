@@ -9,7 +9,7 @@
 if ($debug) {
     echo "<pre class=debug>VF_M_Edit_ph1.inc.php ist gestarted</pre>";
 }
-
+var_dump($neu);
 if ($debug) {
     echo '<pre class=debug>';
     echo '<hr>$neu: ';
@@ -149,18 +149,24 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
         if ($name == "tabelle") {
             continue;
         }
+        if ($name == 'mi_austrdat' || $name == 'mi_sterbdat') {
+            if ($neu[$name] == '') {
+                unset($neu[$name]);
+                continue;
+            }
+        }
         
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
     $updas = "`mi_uidaend`='$p_uid'" . $updas;
-    # echo "\$updas $updas <br>";
+    echo "\$updas $updas <br>";
     if ($_SESSION[$module]['all_upd'] || $_SESSION['VF_Prim']['p_uid'] == $neu['mi_id']) {
         $sql = "UPDATE `fh_mitglieder` SET  $updas WHERE `mi_id`='$mi_id'";
         if ($debug) {
-            echo '<pre class=debug> L 0197: \$sql $sql </pre>';
+            echo '<pre class=debug> L 0166: \$sql $sql </pre>';
         }
-
+echo "L 0163 sql $sql <bR>";
         $result = SQL_QUERY($db, $sql);
         $_SESSION['neu_mitgl']['neu_mi_id'] = $mi_id;
     }

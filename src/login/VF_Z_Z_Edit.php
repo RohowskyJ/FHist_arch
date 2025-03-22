@@ -75,17 +75,46 @@ Tabellen_Spalten_parms($db, 'fh_zugriffe_n');
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
 # -------------------------------------------------------------------------------------------------------
 if ($phase == 0) {
+    
+    if (isset($_GET['benu'])) {
+        $benu_arr = explode(" ",$_GET['benu']);
+        if (!isset($neu['be_vname'])) {
+            $neu['be_vname'] = $benu_arr[0];
+            $neu['be_name'] = $benu_arr[1];
+        }
+    }
+    $zu_b_id = 0;
+    if ($zu_id != 0) {
+        $sql = "SELECT * FROM $tabelle
+             INNER JOIN fh_benutzer
+                ON $tabelle.zu_id = fh_benutzer.be_id
+            ";
+        
+        if ($zu_id != '') {
+            $sql .= " WHERE zu_id = '$zu_id' ";
+        }
+        
+        $result = SQL_QUERY($db, $sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows !== 1) {
+            $zu_b_id = $zu_id;
+            $zu_id = 0;
+        }
+    }
+    
+    
     if ($zu_id == "0") {
 
-        $neu['zu_id'] = $zu_id;
+        $neu['zu_id'] = $zu_b_id;
         $neu['zu_pw_enc'] = $neu['zu_ref_leiter'];
-        $neu['zu_eignr_1'] = $neu['zu_eignr_2'] = $neu['zu_eignr_3'] = $neu['zu_eignr_4'] = $neu['zu_eignr_5'] = "0"; # $neu['zu_uid'] =;
+        $neu['zu_eignr_1'] = $neu['zu_eignr_2'] = $neu['zu_eignr_3'] = $neu['zu_eignr_4'] = $neu['zu_eignr_5'] = "$zu_b_id"; # $neu['zu_uid'] =;
         $neu['zu_F_G'] = $neu['zu_F_M'] = $neu['zu_S_G'] = $neu['zu_PSA'] = $neu['zu_ARC'] = "A";
         $neu['zu_INV'] = $neu['zu_OEF'] = $neu['zu_MVW'] = "A";
         $neu['zu_ADM'] = $neu['zu_SUC'] = "N";
         $neu['zu_valid_until'] = $neu['zu_uidaend'] = $neu['zu_aenddat'] = "";
         $neu['passwd'] = $neu['passwd_K'] = "banane1a";
     } else {
+        $zu_b_id = $zu_id;
         $sql = "SELECT * FROM $tabelle 
              INNER JOIN fh_benutzer 
                 ON $tabelle.zu_id = fh_benutzer.be_id 

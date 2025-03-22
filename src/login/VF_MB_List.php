@@ -184,16 +184,16 @@ switch ($T_List) {
     case "Alle":
     # break;
     case "AlleM":
-        $sql .= " WHERE  mi_mtyp<>'OE' && ((mi_austrdat ='0000-00-00' AND mi_sterbdat ='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL))    ";
+        $sql .= " WHERE  mi_mtyp<>'OE' && ((mi_austrdat IS NULL AND mi_sterbdat IS NULL))    "; 
         break;
 
     case "offen":
     case "offenAlle":
-        $sql .= " WHERE mi_mtyp<>'OE' && (mi_m_beitr_bez<'$ljahr' || mi_m_abo_bez<'$ljahr') && ((mi_austrdat <='0000-00-00' AND mi_sterbdat <='0000-00-00')) ";
+        $sql .= " WHERE mi_mtyp<>'OE' && (mi_m_beitr_bez<'$ljahr' || mi_m_abo_bez<'$ljahr') && (mi_austrdat IS NULL AND mi_sterbdat IS NULL) ";
         break;
     // OR (mi_austrdat = NULL AND mi_sterbdat = NULL
     case "EM":
-        $sql .= " WHERE  mi_mtyp='OE' || mi_mtyp='EM' && ((mi_austrdat ='0000-00-00' AND mi_sterbdat ='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL))    ";
+        $sql .= " WHERE  mi_mtyp='OE' || mi_mtyp='EM' && (mi_austrdat IS NULL AND mi_sterbdat IS NULL)    "; 
         break;
     default:
         HTML_trailer();
@@ -215,7 +215,7 @@ if ($select_string != '') {
     }
 }
 $sql .= " ORDER BY mi_name, mi_vname ASC  ";
-
+# echo "L 0218 sql $sql <br>";
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================

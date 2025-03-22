@@ -57,7 +57,7 @@ echo "<input type='hidden' name='be_id' value='".$neu['be_id']."' />";
   {
           echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
           echo "<button type='submit' name='phase' value='1' class='green'>Daten abspeichern</button></p>";
-          echo "<a href='VF_Z_Z_Edit.php?be_id=".$neu['be_id']."' target='zuber'>Berechtigungen verwalten</a>";
+          echo "<a href='VF_Z_Z_Edit.php?be_id=".$neu['be_id']."&benu=".$neu['be_vname']." ".$neu['be_name']."' target='zuber'>Berechtigungen verwalten</a>";
    }
   
   echo "<p><a href='VF_Z_B_List.php'>Zurück zur Liste</a></p>";

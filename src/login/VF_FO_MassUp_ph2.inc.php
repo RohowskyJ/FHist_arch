@@ -5,7 +5,7 @@
  *
  * @author  Josef Rohowsky - neu 2023
  *
- * 
+ *
  */
 
 if ($debug) {
@@ -25,12 +25,12 @@ if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] == 'F' ) {
 
 $aufn_dat = $basepath =  $zus_pfad = $aufn_suff = $begltxt = "";
 
-$_SESSION[$module]['Up_Parm']['urh_abk'] = $_SESSION[$module]['Up_Parm']['basis_pfad'] = $_SESSION[$module]['Up_Parm']['zus_pfad'] = 
+$_SESSION[$module]['Up_Parm']['urh_abk'] = $_SESSION[$module]['Up_Parm']['basis_pfad'] = $_SESSION[$module]['Up_Parm']['zus_pfad'] =
    $_SESSION[$module]['Up_Parm']['aufn_dat'] = $_SESSION[$module]['Up_Parm']['aufn_suff'] = "";
 
 if (isset($_POST['urh_abk'])) {
     $urh_abk = $_SESSION[$module]['Up_Parm']['urh_abk'] = $_POST['urh_abk'];
-} 
+}
 if (isset($_POST['basis_pfad'])) {
     $basepath = $_SESSION[$module]['Up_Parm']['basis_pfad'] = $_POST['basis_pfad'];
 }
@@ -86,14 +86,14 @@ if ($typ == "V") {
 $return = SQL_QUERY($db, $sql);
 
 if (mysqli_num_rows($return) == "0") {
-    
+
     $sql = "INSERT INTO $tabelle_in (
                          fo_eigner,fo_urheber,fo_urh_kurzz,fo_dsn,fo_aufn_datum,fo_aufn_suff,fo_basepath,fo_zus_pfad,fo_begltxt,fo_namen,
-                         fo_typ,fo_media,
+                         fo_sammlg,fo_typ,fo_media,
                          fo_uidaend
                       ) VALUE (
                         '$eignr','$urhnam','$urh_abk','','$aufn_dat','$aufn_suff','$basepath','$zus_pfad','$begltxt','',
-                        '$typ','$media',
+                        '','$typ','$media',
                         '" . $_SESSION['VF_Prim']['p_uid'] . "'
                       )";
     #echo "L 0135 sql $sql <br>";
@@ -107,7 +107,7 @@ if (mysqli_num_rows($return) == "0") {
      * echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
      * $result = VF_SQL_QUEry($db,$sql);
      */
-    
+
 }
 # var_dump($_SESSION[$module]['URHEBER']);
 // Ausgabe der notwendigen Parameter als hidden input
@@ -165,16 +165,16 @@ Edit_Tabellen_Trailer();
             }
 
             var files = fileInput.files;
-            
+
             var allowedExtensions = ["gif", "ico", "jpeg", "jpg", "png", "tiff", "webp", "mp4", "pdf"];
             var validFiles = [];
             var messageDiv = $('message');
-            
+
             if (!messageDiv) {
                 console.error("Message Div nicht gefunden!");
                 return;
             }
-            
+
             messageDiv.update(''); // Vorherige Nachrichten löschen
 
             for (var i = 0; i < files.length; i++) {
@@ -189,7 +189,7 @@ Edit_Tabellen_Trailer();
                         // console.log(validFiles);
                     } else {
                         messageDiv.insert('Die Datei ' + fileName + ' hat eine unerlaubte Dateiendung und wurde ausgeschlossen.<br>');
-                    }  
+                    }
                 } else {
                     messageDiv.insert('Die Datei ' + fileName + ' überschreitet die maximale Größe von 40 MB und wurde ausgeschlossen.<br>');
                 }
@@ -200,22 +200,22 @@ Edit_Tabellen_Trailer();
             if (validFiles.length > 0) {
                 var urhName = $F('urhName');
                 var targPfad = $F('targPfad');
-                var urhAbk = $F('urhAbk');              
+                var urhAbk = $F('urhAbk');
                 var urhEinfg = $F('urhEinfg');
-                var aufnDat  = $F('aufnDat');     
+                var aufnDat  = $F('aufnDat');
                 // var beglTxt  = $F('beglTxt');
-            
+
                 // Funktion zum Hochladen einer Datei
                 function uploadFile(file) {
                     var formData = new FormData();
                     formData.append('file', file); // 'file' ist der Name, unter dem die Datei gesendet wird
                     formData.append('urhName', urhName);
-                    formData.append('targPfad', targPfad);                  
-                    formData.append('urhAbk', urhAbk);                   
+                    formData.append('targPfad', targPfad);
+                    formData.append('urhAbk', urhAbk);
                     formData.append('urhEinfg', urhEinfg);
                     formData.append('aufnDat', aufnDat);
                     // formData.append('beglTxt', beglTxt);
-                    
+
                     // Checkboxen abfragen
                     var rotateLeftCheckboxes = document.querySelectorAll('input[name="rotateLeft[]"]:checked');
                     var rotateRightCheckboxes = document.querySelectorAll('input[name="rotateRight[]"]:checked');
@@ -231,10 +231,10 @@ Edit_Tabellen_Trailer();
                     selectedFilesCheckboxes.forEach(function(checkbox) {
                      //  formData.append('selectedFiles[]', checkbox.value);
                     });
-                               
+
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'common/API/VF_Upload_FO.API.php', true);
-                                   
+
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             var jsonrepl = xhr.responseText.trim();
@@ -281,17 +281,17 @@ Edit_Tabellen_Trailer();
                                      <input type="checkbox" name="selectedFiles" checked value="${file.name}"> Auswählen
                                      <input type="checkbox" name="rotateLeft[]" value="${file.name}"> Links drehen
                                      <input type="checkbox" name="rotateRight[]" value="${file.name}"> Rechts drehen`;
-                                    
+
                     preview.appendChild(div);
                 };
             })(files[i]);
             reader.readAsDataURL(files[i]);
         }
     }
-    
+
 </script>
 
-<?php 
+<?php
 if ($debug) {
     echo "<pre class=debug>VF_FO_MassUp_ph2.inc.php beendet</pre>";
 }
