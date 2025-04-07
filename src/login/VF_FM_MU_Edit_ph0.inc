@@ -43,7 +43,7 @@ Edit_Daten_Feld('fm_zug', 10);
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='fm_foto_1' value='" . $neu['fm_foto_1'] . "'>";
 echo "<input type='hidden' name='fm_foto_2' value='" . $neu['fm_foto_2'] . "'>";
 echo "<input type='hidden' name='fm_foto_3' value='" . $neu['fm_foto_3'] . "'>";

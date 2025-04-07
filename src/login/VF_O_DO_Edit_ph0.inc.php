@@ -30,6 +30,7 @@ Edit_Daten_Feld(Prefix . 'dk_Urspr', 100);
 echo "<input type='hidden' name='dk_Dsn' value='" . $neu['dk_Dsn'] . "' >";
 echo "<input type='hidden' name='dk_Dsn_2' value='" . $neu['dk_Dsn_2'] . "' >";
 
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/Downloads/";
 if ($neu['dk_Path2Dsn'] != "") {
     $pict_path .= $neu['dk_Path2Dsn']."";

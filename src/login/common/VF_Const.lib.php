@@ -244,6 +244,11 @@ const VF_zuldateitypen = array(
 );
 
 /**
+ * Definition Zertifizierungsklasse CTIF
+ */
+const VF_CTIF_Class = array("I" => "1. Klasse","II"=> "2. Klasse","III"=>"3. Klasse");
+
+/**
  * mime- Typen für Dokumente- Upload
  * 
  * @var array VF_upl_DOC Mime Typen für upload von Dokumenten

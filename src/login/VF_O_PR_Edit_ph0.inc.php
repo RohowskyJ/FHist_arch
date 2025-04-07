@@ -49,6 +49,7 @@ if ($debug) {echo "<pre class=debug>VFH_O_PR_Edit_ph0.php ist gestarted</pre>";}
   # =========================================================================================================
   Edit_Separator_Zeile('Bilder ');
   # =========================================================================================================
+  echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
   $pict_path = $path2ROOT."login/AOrd_Verz/Presse/";
 
  echo "<input type='hidden' name='pr_bild1' value='".$neu['pr_bild1']."' >";

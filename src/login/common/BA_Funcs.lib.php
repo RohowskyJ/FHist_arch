@@ -25,7 +25,7 @@
  *  - Button_senden - fügt die Aufforderung zum Fehler beheben - und den Button 'senden' - ein 
  *  - SQL_QUERY     - Aufruf des mysqli Query 
  *  - mb_ucfirst    - weil es derzeit in php keine unktion mb_ucfirst gibt  
- *  - console.log   - Text information in console von WEB-Tools
+ *  - console_log   - Text information in console von WEB-Tools
  *  - flow_add      - Aufrufs- Mitschnitte 
  */
 flow_add('funcs', "Funcs.inc.php geladen");
@@ -719,23 +719,24 @@ function SQL_QUERY($db, $sql)
     flow_add($module, "Funcs.inc Funct: SQL_QUERY sql: $sql ");
 
     if ($debug) {
-        echo "<pre class=debug>$sql</pre>";
+        echo "<pre class=debug>L 0722 SQL_QUERY $sql</pre>";
     }
     # $return = mysqli_query($db,$sql)
     # or die("<br><b style='color:red;background:white;'>Fehler in mysql Query: <i>".mysqli_error($db)."</i></b> <b><pre style='background:white;'>$sql</pre></b><br>");
     # if ($debug OR $return===FALSE ) { echo '<pre class=debug>sql result: ' ; print_r($return); echo '</pre>'; }
 
     if ($return = mysqli_query($db, $sql)) {
-        # echo "<pre class=debug>sql $sql <br>result: " ; print_r($return); echo '</pre>';
+        #echo "<pre class=debug>L 729 SQL_Query sql $sql <br>result: " ; print_r($return); echo '</pre>';
         return $return;
     } else {
         echo "<br><b style='color:red;background:white;'>Fehler in mysqli_query: <i>" . mysqli_error($db) . "</i></b> <b><pre style='background:white;'>$sql</pre></b><br>";
-        exit();
+        
         if ($debug or $return === FALSE) {
             echo '<pre class=debug>sql result: ';
             print_r($return);
             echo '</pre>';
         }
+        exit();
     }
     return $return;
 }

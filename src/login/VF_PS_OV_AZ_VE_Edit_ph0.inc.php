@@ -31,7 +31,7 @@ Edit_textarea_Feld(Prefix . 'av_beschr');
 # =========================================================================================================
 Edit_Separator_Zeile('Abbilder der Auszeichnung');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='av_bild_v' value='" . $neu['av_bild_v'] . "'>";
 echo "<input type='hidden' name='av_bild_r' value='" . $neu['av_bild_r'] . "'>";
 

@@ -455,8 +455,7 @@ function modifyRow(array &$row, $tabelle)
         # $row['mi_tel_handy'] .= "\n" . $row['mi_handy'];
     }
 
-    if ($T_List = "MitglA4" ) {
-        
+    if ($T_List == "MitglA4" ) {       
         $mi_id = $row['mi_id'];
         $row['mi_id'] = "$mi_id<hr>".$row['mi_mtyp'];
         $mi_name = $row['mi_name'];
@@ -472,11 +471,14 @@ function modifyRow(array &$row, $tabelle)
         $row['mi_ref_int_2'] = "$refint, ".$row['mi_ref_int_3']." ".$row['mi_ref_int_4'];
         $row_csv['mi_ref_int_2'] = "$refint, ".$row['mi_ref_int_3']." ".$row['mi_ref_int_4'];
     }
-    if ($row['mi_austrdat'] != "0000-00-00")  {
-        $row['mi_name'] .= "<br><b>Ausgetreten: ".$row['mi_austrdat']."</b>";
-    }
-    if ($row['mi_sterbdat'] != "0000-00-00")  {
-        $row['mi_name'] .= "<br><b>Verstorben: ".$row['mi_sterbdat']."</b>";
+    
+    if ($T_List == 'Alle' || $T_List == 'nMitgl') {
+        if ($row['mi_austrdat'] != "0000-00-00")  {
+            $row['mi_name'] .= "<br><b>Ausgetreten: ".$row['mi_austrdat']."</b>";
+        }
+        if ($row['mi_sterbdat'] != "0000-00-00")  {
+            $row['mi_name'] .= "<br><b>Verstorben: ".$row['mi_sterbdat']."</b>";
+        }
     }
 
     return True;

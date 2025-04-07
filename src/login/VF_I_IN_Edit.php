@@ -150,11 +150,23 @@ if ($phase == 0) {
         $sql_be = "SELECT * FROM $tabelle_a
              INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg
              WHERE `in_id` = '" . $_SESSION[$module]['in_id'] . "' ORDER BY `in_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg 
+
         $return_be = SQL_QUERY($db, $sql_be); 
+
+        $num_recs = mysqli_num_rows($return_be);
+        if ($num_recs == 0) {
+            $sql_be = "SELECT * FROM $tabelle_a
+      
+            WHERE `in_id` = '" . $_SESSION[$module]['in_id'] . "' ORDER BY `in_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg
+            $return_be = SQL_QUERY($db, $sql_be);
+       }
        
         $neu = mysqli_fetch_array($return_be);
         mysqli_free_result($return_be);
-        
+        if (!isset($neu['sa_sammlg'])) {
+            $neu['sa_sammlg'] = "";
+            $neu['sa_name'] = "";
+        }
     }
 }
 

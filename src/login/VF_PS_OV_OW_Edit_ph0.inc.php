@@ -31,7 +31,7 @@ Edit_Separator_Zeile('Abbild des Wappens');
 # =========================================================================================================
 echo "<input type='hidden' name='fo_gde_wappen' value='" . $neu['fo_gde_wappen'] . "'>"; 
 
-#$pict_path = "referat4/AERM/Wappen_Ort/";
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";;
 $pict_path = "AOrd_Verz/PSA/AERM/Wappen_Ort/";
 
 $Feldlaenge = "100px";

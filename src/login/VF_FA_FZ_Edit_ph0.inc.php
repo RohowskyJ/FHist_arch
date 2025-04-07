@@ -11,6 +11,7 @@ if ($debug) {
     echo "<pre class=debug>VF_FA_FZ_Edit_ph0.inc.php gestartet </pre>";
 }
 echo "<input type='hidden' name='fz_id' value='$fz_id'/>";
+echo "<input type='hidden' name='fz_invnr' value='".$neu['fz_invnr']."' />";
 # =========================================================================================================
 Edit_Tabellen_Header('Motorisierte Fahrzeuge von Eigentümer '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -42,7 +43,7 @@ Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
 
 $Feldlaenge = "100px";
@@ -56,12 +57,16 @@ $pic_arr = array(
     "01" => "||fz_b_1_komm|fz_bild_1",
     "02" => "||fz_b_2_komm|fz_bild_2"
 );
+console_log('vor multi_foto');
 VF_Multi_Foto($pic_arr);
 
 # =========================================================================================================
 Edit_Separator_Zeile('CTIF Zertifizierung');
 # =========================================================================================================
-Edit_Daten_Feld('fz_ctifklass', 5);
+# Edit_Daten_Feld('fz_ctifklass', 5);
+
+Edit_Select_Feld('fz_ctifklass',VF_CTIF_Class);
+
 Edit_Daten_Feld('fz_ctifdate', 10);
 Edit_Daten_Feld('ct_darstjahr', 4);
 Edit_Daten_Feld('ct_juroren', 100);

@@ -83,6 +83,8 @@ Edit_Select_Feld('va_bdld', $ST_bdld);
 Edit_Daten_Feld('va_bild', 50);
 echo "<input type='hidden' name='va_bild' value='" . $neu['va_bild'] . "'>";
 $cjahr = substr($neu['va_datum'],0,4); #date('Y');
+
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = $path2ROOT . "login/AOrd_Verz/Termine/" . $cjahr . "/";
 
 $Feldlaenge = "100px";

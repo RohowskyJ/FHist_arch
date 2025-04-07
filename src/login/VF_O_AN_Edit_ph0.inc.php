@@ -48,7 +48,7 @@ Edit_Daten_Feld('bs_aenddate');
 Edit_Separator_Zeile('Bilder ');
 # =========================================================================================================
 $pict_path = $path2ROOT."login/AOrd_Verz/Biete_Suche/";
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 Edit_Show_Pict(Prefix . 'bs_bild_1', '150px');
 if ($_SESSION[$module]['Act'] == 1) {
     Edit_Upload_File(Prefix . 'bs_bild_1', '1');

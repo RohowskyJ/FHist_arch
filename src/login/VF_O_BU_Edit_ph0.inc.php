@@ -68,6 +68,7 @@ if ($_SESSION[$module]['all_upd']) {
 # =========================================================================================================
 Edit_Separator_Zeile('Bilder und Bildbeschreibungen');
 # =========================================================================================================
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "../login/AOrd_Verz/Buch/";
 
 echo "<input type='hidden' name='bu_bild1' value='" . $neu['bu_bild1'] . "'>";

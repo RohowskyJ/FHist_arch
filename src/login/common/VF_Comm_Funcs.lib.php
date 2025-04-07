@@ -911,7 +911,7 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
     echo "<div class='w3-container' max-width='100%' margin='5px '>";
 
     foreach ($Picts as $key => $value) {
-      
+      error_log($value);
         $p_a = explode("|", $value); 
 
         echo "<div class='w3-half'><fieldset>";
@@ -955,8 +955,10 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
             echo "  <span class='info'><b>$FeldName</b> Bild hochladen </span>";
             echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
         }
+        error_log($pict_path);
         if ($neu[$p_a[3]] != "") {
             $p = $pict_path . $neu[$p_a[3]];
+            error_log($p);
             echo "</div><div style='float:right;'>";
             if (stripos($neu[$p_a[3]],".pdf")) {
                 echo "<a href='$p' target='Bild $key' > Dokument</a></div>";
@@ -1561,6 +1563,8 @@ function VF_Upload($uploaddir, $i=1, $urh_abk="", $fo_aufn_datum="")
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload" );
     
+    echo " L 01564 Upl upldir $uploaddir i $i <br>";
+    var_dump($_FILES["uploaddatei_$i"]);
     $target = "";
     if (! empty($_FILES["uploaddatei_$i"])) {
         $target = basename($_FILES["uploaddatei_$i"]['name']);

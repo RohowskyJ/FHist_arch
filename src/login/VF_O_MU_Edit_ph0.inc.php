@@ -139,6 +139,7 @@ Edit_Daten_Feld(Prefix . 'mu_f2_email', 45);
 # =========================================================================================================
 Edit_Separator_Zeile('Bilder ');
 # =========================================================================================================
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = $path2ROOT."login/AOrd_Verz/Museen/";
 
 echo "<input type='hidden' name='mu_bildnam_1'value='" . $neu['mu_bildnam_1'] . "'>";

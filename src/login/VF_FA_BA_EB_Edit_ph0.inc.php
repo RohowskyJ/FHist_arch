@@ -34,7 +34,7 @@ Edit_textarea_Feld(Prefix . 'fz_einb_komm');
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='fz_ger_foto_1' value='" . $neu['fz_ger_foto_1'] . "'>";
 echo "<input type='hidden' name='fz_ger_foto_2' value='" . $neu['fz_ger_foto_2'] . "'>";
 echo "<input type='hidden' name='fz_ger_foto_3' value='" . $neu['fz_ger_foto_3'] . "'>";

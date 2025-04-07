@@ -37,16 +37,12 @@ Edit_Daten_Feld('ih_gruppe', 30);
 Edit_textarea_Feld('ih_titel');
 Edit_textarea_Feld('ih_titelerw');
 Edit_textarea_Feld('ih_autor');
-# Edit_Daten_Feld('ih_titel',250);
-# Edit_Daten_Feld('ih_titelerw',250);
-# Edit_Daten_Feld('ih_autor',120);
-# Edit_Daten_Feld('ih_email',60);
 
 Edit_Daten_Feld('ih_tel', 60);
 Edit_Daten_Feld('ih_fax', 60);
 Edit_Daten_Feld('ih_seite', 4);
 Edit_Daten_Feld('ih_spalte', 4);
-# Edit_Daten_Feld('ih_fwehr',250);
+
 Edit_textarea_Feld('ih_fwehr');
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');

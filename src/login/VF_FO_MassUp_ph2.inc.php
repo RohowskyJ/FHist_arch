@@ -29,7 +29,7 @@ $_SESSION[$module]['Up_Parm']['urh_abk'] = $_SESSION[$module]['Up_Parm']['basis_
    $_SESSION[$module]['Up_Parm']['aufn_dat'] = $_SESSION[$module]['Up_Parm']['aufn_suff'] = "";
 
 if (isset($_POST['urh_abk'])) {
-    $urh_abk = $_SESSION[$module]['Up_Parm']['urh_abk'] = $_POST['urh_abk'];
+    $urh_abk = $_SESSION[$module]['Up_Parm']['urh_abk'] =  $_SESSION[$module]['URHEBER']['ei_id']; # $_POST['urh_abk'];
 }
 if (isset($_POST['basis_pfad'])) {
     $basepath = $_SESSION[$module]['Up_Parm']['basis_pfad'] = $_POST['basis_pfad'];
@@ -119,7 +119,7 @@ echo "<p>Titel: $begltxt</p>";
 
 echo "<input type='hidden' id='urhName' value='".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']."' >";
 echo "<input type='hidden' id='targPfad' value='$targ_pfad' >";
-echo "<input type='hidden' id='urhAbk' value='$urh_abk' >";
+echo "<input type='hidden' id='urhAbk' value='$eignr' >"; # $urh_abk
 echo "<input type='hidden' id='aufnDat' value='$aufn_dat' >";
 // echo "<input type='hidden' id='beglTxt' value='$begltxt' >";
 echo "<input type='hidden' id='urhEinfg' value='$urheinfueg' >";

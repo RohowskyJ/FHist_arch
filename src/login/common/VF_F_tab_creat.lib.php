@@ -32,7 +32,7 @@ function Cr_n_fo_daten ($tabelle)
     
     $return = SQL_QUERY($db,$sql);
     return $return;
-} # Ende Funktion Cr_n_fo_daten
+} # Ende Funktion Cr_n_fo_varchar(12)n
 
 function Cr_n_ar_chivdt ($tabelle)
 {
@@ -47,7 +47,7 @@ function Cr_n_ar_chivdt ($tabelle)
       `ad_lcssg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Lokales SubSG',
       `ad_ao_fortlnr` smallint(6) DEFAULT NULL COMMENT 'Fortl. Archivalien-Nr',
       `ad_sammlg` varchar(20) NOT NULL COMMENT 'Sammlungs- Abkürzung',
-      `ad_doc_date` date NOT NULL COMMENT 'Archvalien- Datum',
+      `ad_doc_date` varchar(12) NOT NULL COMMENT 'Archvalien- Datum',
       `ad_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Dokument- Typ',
       `ad_format` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Format',
       `ad_keywords` varchar(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Suchbegriffe (in Karteiformat, Trennung mit Beistrich)',
@@ -96,14 +96,14 @@ function Cr_n_ar_ch_verl ($tabelle)
       `al_eignr` int(15) NOT NULL COMMENT 'Eigentümernummer',
       `al_verliehen_an` varchar(100) CHARACTER SET utf8 COLLATE latin1_german2_ci NOT NULL COMMENT 'Leihnehmer' ,
       `al_verleihgrund` varchar(100) CHARACTER SET utf8 COLLATE latin1_german2_ci NOT NULL COMMENT 'Verleihgrund',
-      `al_verleih_beg` datetime NOT NULL COMMENT 'Verleih Beginn',
-      `al_verleih_end` datetime NOT NULL COMMENT 'Verleih Ende',
+      `al_verleih_beg` varchar(12)c NOT NULL COMMENT 'Verleih Beginn',
+      `al_verleih_end` varchar(12)c NOT NULL COMMENT 'Verleih Ende',
       `al_zustand_aus` char(100) NOT NULL COMMENT 'Zustand bei Ausgabe',
       `al_zustand_ret` char(100) NOT NULL COMMENT 'Zustand bei Retourgabe',
       `al_ausg_bild` char(60) NOT NULL COMMENT 'Bild bei Ausgabe',
       `al_ret_bild` char(60) NOT NULL COMMENT 'Bild bei Retournierung',
-      `al_verl_aus_dat` datetime NOT NULL COMMENT 'Datum Ausgabe',
-      `al_verl_ret_dat` datetime NOT NULL COMMENT 'Datum Retourgabe',
+      `al_verl_aus_dat` varchar(12) NOT NULL COMMENT 'Datum Ausgabe',
+      `al_verl_ret_dat` varchar(12) NOT NULL COMMENT 'Datum Retourgabe',
       `al_uidaend` varchar(4) CHARACTER SET utf8 COLLATE latin1_german2_ci NOT NULL COMMENT 'Änderer',
       `al_aenddat` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
       PRIMARY KEY (`al_id`)
@@ -156,7 +156,7 @@ function Cr_n_in_ventar ($tabelle)
   `ei_id` int(11) NOT NULL COMMENT 'EigentÃ¼mer- Nummer',
   `in_invjahr` varchar(4) DEFAULT NULL COMMENT 'Inventarisierungs- Jahr',
   `in_eingbuchnr` varchar(15) NOT NULL COMMENT 'Eingangsbuch Nummer',
-  `in_eingbuchdat` date NOT NULL COMMENT 'Eingangsbuch Datum',
+  `in_eingbuchdat` varchar(12) NOT NULL COMMENT 'Eingangsbuch Datum',
   `in_altbestand` varchar(1) NOT NULL COMMENT 'Altbestand',
   `in_invnr` varchar(6) NOT NULL COMMENT 'Inventar- Nummer',
   `in_sammlg` varchar(20) NOT NULL COMMENT 'Sammlung',
@@ -193,8 +193,8 @@ function Cr_n_in_ventar ($tabelle)
   `in_refindex` varchar(45) NOT NULL COMMENT 'Ref-Index',
   `in_raum` varchar(40) NOT NULL COMMENT 'Lagerraum',
   `in_platz` varchar(40) NOT NULL COMMENT 'Lagerplatz',
-  `in_erstdat` datetime NOT NULL COMMENT 'Erstehungsdatum',
-  `in_ausgdat` datetime NOT NULL COMMENT 'Abgabe-Datum',
+  `in_erstdat` varchar(12) NOT NULL COMMENT 'Erstehungsdatum',
+  `in_ausgdat` varchar(12) NOT NULL COMMENT 'Abgabe-Datum',
   `in_neueigner` varchar(100) DEFAULT NULL COMMENT 'Neuer EigentÃ¼mer',
   `in_uidaend` varchar(4) DEFAULT NULL COMMENT 'Ã„nderer',
   `in_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Ã„nderung',
@@ -221,10 +221,10 @@ function Cr_n_in_vent_verleih ($tabelle)
   `ei_zust_ret_bild` char(60) COLLATE utf8_german2_ci NOT NULL COMMENT 'Zustand retour, Bild',
   `ei_leiher` varchar(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Leiher',
   `ei_leihvertr` char(1) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Leihvertrag gedruckt',
-  `ei_verlbeg` date NOT NULL COMMENT 'Verleih Beginn',
-  `ei_verlend` date NOT NULL COMMENT 'Verleih Ende',
+  `ei_verlbeg` varchar(12) NOT NULL COMMENT 'Verleih Beginn',
+  `ei_verlend` varchar(12) NOT NULL COMMENT 'Verleih Ende',
   `ei_verlgrund` varchar(250) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Verleih Grund',
-  `ei_verlrueck` date NOT NULL COMMENT 'Rueckgabe- Datum',
+  `ei_verlrueck` varchar(12) NOT NULL COMMENT 'Rueckgabe- Datum',
   `ei_verluebn` varchar(15) COLLATE utf8_german2_ci NOT NULL COMMENT 'Übernehmer - ID',
   `ei_uidaend` varchar(4) COLLATE utf8_german2_ci NOT NULL DEFAULT '' COMMENT 'Aenderer',
   `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Aenderung',

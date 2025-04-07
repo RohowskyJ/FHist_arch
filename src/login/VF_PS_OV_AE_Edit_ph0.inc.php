@@ -31,6 +31,8 @@ Edit_textarea_Feld(Prefix . 'ad_name');
 Edit_textarea_Feld(Prefix . 'ad_detail');
 
 echo "<input type='hidden' name='ad_extern' value='" . $neu['ad_extern'] . "'>";
+
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
 
 $Feldlaenge = "100px";

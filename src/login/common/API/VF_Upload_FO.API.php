@@ -3,7 +3,7 @@
 require "../VF_Foto_Funcs.lib.php";
 require "../VF_Const.lib.php";
 
-$debug_log = False;
+$debug_log = True;
 if ($debug_log) {file_put_contents('Fo_up_debug.log', "VF_Upload_FO.API L 007 " . PHP_EOL, FILE_APPEND);}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] === 'POST' ) { #

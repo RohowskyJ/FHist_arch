@@ -37,6 +37,7 @@ Edit_Separator_Zeile('Statut (Gesetz), Deschreibung');
 echo "<input type='hidden' name='ab_statut' value='" . $neu['ab_statut'] . "'>";
 echo "<input type='hidden' name='ab_erklaerung' value='" . $neu['ab_erklaerung'] . "'>";
 
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
 
 $Feldlaenge = "100px";

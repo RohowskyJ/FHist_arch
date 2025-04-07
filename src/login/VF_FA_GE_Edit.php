@@ -99,7 +99,7 @@ if ($phase == 0) {
             "ge_invnr" => "",
             'ge_bezeich' => "",
             'ge_type' => "",
-            'ge_leistg' => "",
+            'ge_leistg' => "0",
             "ge_lei_bed" => "",
             'ge_leinh' => "",
             "ge_herst" => "",
@@ -112,7 +112,7 @@ if ($phase == 0) {
             "ge_mo_typ" => "",
             "ge_mo_sernr" => "",
             "ge_mo_treibst" => "",
-            "ge_mo_leistung" => "",
+            "ge_mo_leistung" => "0",
             "ge_mo_leibed" => "",
             "ge_mo_leinh" => "",
             "ge_ag_herst" => "",
@@ -141,13 +141,7 @@ if ($phase == 0) {
             'ge_komm_9' => "",
             'ge_foto_10' => "",
             'ge_komm_10' => "",
-            "ge_suchbegr_1" => "MA_G",
-            "ge_suchbegr_2" => "",
-            "ge_suchbegr_3" => "",
-            "ge_suchbegr_4" => "",
-            "ge_suchbegr_5" => "",
-            "ge_suchbegr_6" => "",
-            'ge_sammlg' => "A0",
+            'ge_sammlg' => "MA_G",
             "ge_g1_name" => "",
             "ge_g1_sernr" => "",
             "ge_g1_beschr" => "",
@@ -195,7 +189,8 @@ if ($phase == 0) {
             "ge_pruef_id" => "",
             "ge_pruef_dat" => "",
             "ge_aenduid" => "",
-            "ge_aenddat" => ""
+            "ge_aenddat" => "",
+            "sa_name"  => "Gerät"
         );
     } else {
        

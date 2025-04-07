@@ -39,7 +39,7 @@ Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/FZG/";
 
 $Feldlaenge = "100px";

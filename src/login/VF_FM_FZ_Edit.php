@@ -118,13 +118,13 @@ if ($phase == 0) {
             'fm_foto_4' => "",
             'fm_komm_4' => '',
             'fm_sammlg' => "MU_F",
+            'sa_name' => 'Muskelbwegtes',
             "fm_uidaend" => "",
             "fm_aenddat" => ""
         );
     } else {
         $sql_be = "SELECT * FROM $tabelle_a 
-            INNER JOIN fh_sammlung ON $tabelle_a.fm_sammlg = fh_sammlung.sa_sammlg
-            WHERE `fm_id` = '" . $_SESSION[$module]['fm_id'] . "' ORDER BY `fm_id` ASC"; # INNER JOIN fh_sammlung ON $tabelle_a.fm_sammlg LIKE fh_sammlung.sa_sammlg 
+            LEFT JOIN `fm_id` = '" . $_SESSION[$module]['fm_id'] . "' ORDER BY `fm_id` ASC"; 
  
         $return_be = SQL_QUERY($db, $sql_be);
         

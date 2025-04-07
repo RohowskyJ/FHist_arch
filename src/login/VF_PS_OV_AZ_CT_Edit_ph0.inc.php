@@ -34,6 +34,7 @@ Edit_textarea_Feld(Prefix . 'ac_beschr');
 # =========================================================================================================
 Edit_Separator_Zeile('Abbilder der Auszeichnung');
 # =========================================================================================================
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='ac_wettbsp_v' value='" . $neu['ac_wettbsp_v'] . "'>";
 echo "<input type='hidden' name='ac_wettbsp_r' value='" . $neu['ac_wettbsp_r'] . "'>";
 echo "<input type='hidden' name='ac_gr_med_go_v' value='" . $neu['ac_gr_med_go_v'] . "'>";

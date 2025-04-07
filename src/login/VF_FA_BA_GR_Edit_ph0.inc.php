@@ -30,7 +30,7 @@ Edit_textarea_Feld('lr_beschreibung');
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='lr_foto_1' value='" . $neu['lr_foto_1'] . "'>";
 echo "<input type='hidden' name='lr_foto_2' value='" . $neu['lr_foto_2'] . "'>";
 echo "<input type='hidden' name='lr_foto_3' value='" . $neu['lr_foto_3'] . "'>";

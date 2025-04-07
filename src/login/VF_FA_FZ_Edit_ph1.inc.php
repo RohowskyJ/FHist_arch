@@ -6,21 +6,26 @@
  *
  *
  */
+$debug = True;
 if ($debug) {
     echo "<pre class=debug>VF_FA_FZ_Edit_ph1.inc.php ist gestarted</pre>";
+    var_dump($_POST);echo "<br>";
 }
 
 foreach ($_POST as $name => $value) {
     $neu[$name] = mysqli_real_escape_string($db, $value);
 }
 
-$neu['fz_name'] = mb_convert_case($neu['fz_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
+# $neu['fz_name'] = mb_convert_case($neu['fz_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
 $neu['fz_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';
+    echo '<hr>$_POST: ';
+    print_r($_POST);
     echo '<hr>$neu: ';
     print_r($neu);
+    var_dump($_FILES);
     echo '</pre>';
 }
 
@@ -35,28 +40,32 @@ if (isset($_POST['level1'])) {
         $neu['fz_sammlg'] = $response;
     }
 }
-
-if (isset($_FILES['uploaddatei_1']['name'])) {
+var_dump($_FILES['uploaddatei_01']); echo "<br>L 043 <br>";
+echo "L 044 <br>";
+var_dump($_FILES['uploaddatei_02']);echo "<br>L 045 <br>";
+#if (isset($_FILES['uploaddatei_01'])) { 
+    echo "L 045 <br>";
     $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
     
     if (! file_exists($uploaddir)) {
         mkdir($uploaddir, 0770, true);
     }
-    
+    var_dump($_FILES['uploaddatei_01']); echo "<br>L 053 <br>";
     if ($_FILES['uploaddatei_01']['name'] != "" ) {
         $neu['fz_bild_1'] = VF_Upload($uploaddir, '01');
     }
     if ($_FILES['uploaddatei_02']['name'] != "" ) {
         $neu['fz_bild_2'] = VF_Upload($uploaddir, '02');
     }
-}
+#}
 
 $neu['fz_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
+var_dump($neu);
 if ($neu['fz_id'] == 0) { # neueingabe
     
-    Cre_n_ma_fahrzeug($tabelle_a);
-    
+    Cr_n_ma_fz_beschr($tabelle_a);
+   
     $sql = "INSERT INTO $tabelle_a (
                 fz_eignr,fz_invnr,fz_sammlg,fz_name,fz_taktbez, \n
                 fz_indienstst,fz_ausdienst,fz_zeitraum,fz_komment,fz_bild_1,\n
@@ -87,8 +96,8 @@ if ($neu['fz_id'] == 0) { # neueingabe
                  `fz_uidaend`\n
                   ) VALUES
                   (
-                 '$neu[fz_eignr]','$neu[fz_id]',
-                 '$neu[fz_ctifdate]','$neu[fz_ctifklass]','$neu[ct_darstjahr]','$neu[ct_juroren]',
+                 '$neu[fz_eignr]','$neu[fz_id]',\n
+                 '$neu[fz_ctifdate]','$neu[fz_ctifklass]','$neu[ct_darstjahr]','$neu[ct_juroren]',\n
                   '$neu[fz_aenduid]'
                   )";
             $result = SQL_QUERY($db, $sql_in);

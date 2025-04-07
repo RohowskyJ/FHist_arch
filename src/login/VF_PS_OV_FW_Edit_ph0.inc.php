@@ -31,6 +31,7 @@ echo "<input type='hidden' name='fo_id' value='$fo_id'/>";
   # =========================================================================================================   
   echo "<input type='hidden' name='fo_ff_wappen' value='".$neu['fo_ff_wappen']."'>";
 
+  echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
   $pict_path = "AOrd_Verz//PSA/AERM/Wappen_FW/";
   $Feldlaenge = "100px";
   Edit_Show_Pict(Prefix.'fo_ff_wappen'         # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]

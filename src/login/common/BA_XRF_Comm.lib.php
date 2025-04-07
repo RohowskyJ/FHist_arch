@@ -34,7 +34,8 @@ const GrafFiles = array(
     ".jpg",
     ".png",
     ".tif",
-    ".pdf"
+    ".pdf",
+    ".webp"
 );
 
 const ScrFiles = array(

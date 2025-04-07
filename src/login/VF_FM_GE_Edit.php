@@ -106,7 +106,7 @@ if ($phase == 0) {
             'mg_indienst' => "",
             'mg_ausdienst' => "",
             'mg_zustand' => '',
-            'mg_gew' => '',
+            'mg_gew' => '0',
             "mg_komment" => "",
             'mg_foto_1' => "",
             'mg_komm_1' => "",
@@ -129,7 +129,7 @@ if ($phase == 0) {
 
         $sql_be = "SELECT *
         FROM $tabelle_a
-        INNER JOIN fh_sammlung ON $tabelle_a.mg_sammlg LIKE fh_sammlung.sa_sammlg
+        LEFT JOIN fh_sammlung ON $tabelle_a.mg_sammlg LIKE fh_sammlung.sa_sammlg
         WHERE `mg_id` = '" . $_SESSION[$module]['mg_id'] . "' ORDER BY `mg_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.mg_sammlg = fh_sammlung.sa_sammlg
         
         $return_be = SQL_QUERY($db, $sql_be);

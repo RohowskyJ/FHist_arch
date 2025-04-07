@@ -51,7 +51,7 @@ if (isset($_SESSION[$module]['Fo']['URHEBER']['urh_abk']) && is_array($_SESSION[
 } else {
     Edit_Daten_Feld('fo_Urh_kurzz');
 }
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 if ($neu['fo_typ'] == 'F') { # Foto
     if ($verz == "J" ) { ## erst  Verzeichnis definierten - dann erst die Fotos ins Verzeichnis
         Edit_textarea_Feld('fo_begltxt');

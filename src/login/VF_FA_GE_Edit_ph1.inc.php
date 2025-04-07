@@ -149,9 +149,8 @@ if ($neu['ge_id'] == 0) { # neueingabe
                 '$neu[ge_aenduid]'
                )";
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 0152 $sql</pre>";
     $result = SQL_QUERY($db, $sql); 
-
     $neu['ge_id'] = mysqli_insert_id($db);
 } else { # update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'

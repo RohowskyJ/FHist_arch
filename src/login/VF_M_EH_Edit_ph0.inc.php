@@ -34,7 +34,7 @@ Edit_textarea_Feld(Prefix . 'fe_begruendg', '', 'maxlength=256');
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='fe_bild1' value='" . $neu['fe_bild1'] . "'>";
 echo "<input type='hidden' name='fe_bild2' value='" . $neu['fe_bild2'] . "'>";
 echo "<input type='hidden' name='fe_bild3' value='" . $neu['fe_bild3'] . "'>";

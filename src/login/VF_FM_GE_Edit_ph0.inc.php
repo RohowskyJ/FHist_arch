@@ -42,7 +42,7 @@ Edit_Select_Feld(Prefix . 'mg_zustand', VF_Zustand, '');
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='mg_foto_1' value='" . $neu['mg_foto_1'] . "'>";
 echo "<input type='hidden' name='mg_foto_2' value='" . $neu['mg_foto_2'] . "'>";
 echo "<input type='hidden' name='mg_foto_3' value='" . $neu['mg_foto_3'] . "'>";

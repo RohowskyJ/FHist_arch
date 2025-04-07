@@ -127,7 +127,7 @@ if (isset($_POST['select_string'])) {
 $_SESSION[$module]['$select_string'] = $select_string;  
 
 $eignr = $_SESSION['Eigner']['eig_eigner'];
-if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" AND $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] != "") {
+if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" AND (isset($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ']) && $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] != "")) {
     $phase = 1;
 }
 

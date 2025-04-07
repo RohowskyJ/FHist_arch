@@ -113,14 +113,15 @@ if ($phase == 0) {
         $neu = array(
             'fz_id' => 0,
             'fz_eignr' => "",
-            "fz_invnr" => "",
+            "fz_invnr" => "0",
+            "sa_name" => "Kraftfahrzeug",
             'fz_name' => "",
             'fz_taktbez' => "",
             'fz_indienstst' => "",
             'fz_ausdienst' => "",
             'fz_zeitraum' => "",
             "fz_komment" => "",
-            'fz_sammlg' => $_SESSION[$module]['Sammlung'],
+            'fz_sammlg' => $_SESSION[$module]['sammlung'],
             'fz_bild_1' => "",
             'fz_b_1_komm' => "",
             'fz_bild_2' => "",
@@ -146,8 +147,8 @@ if ($phase == 0) {
         
         $sql_be = "SELECT *
         FROM $tabelle_a
-        INNER JOIN fh_sammlung ON $tabelle_a.fz_sammlg = fh_sammlung.sa_sammlg 
-        WHERE `fz_id` = '" . $_SESSION[$module]['fz_id'] . "' ORDER BY `fz_id` ASC";
+        LEFT JOIN fh_sammlung ON $tabelle_a.fz_sammlg = fh_sammlung.sa_sammlg 
+        WHERE `fz_id` = '" . $_SESSION[$module]['fz_id'] . "' OR fh_sammlung.sa_sammlg IS NULL ORDER BY `fz_id` ASC";
         
         $return_be = SQL_QUERY($db, $sql_be);
 

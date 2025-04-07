@@ -49,7 +49,7 @@ echo "<input type='hidden' name='fm_foto_1' value='" . $neu['fm_foto_1'] . "'>";
 echo "<input type='hidden' name='fm_foto_2' value='" . $neu['fm_foto_2'] . "'>";
 echo "<input type='hidden' name='fm_foto_3' value='" . $neu['fm_foto_3'] . "'>";
 echo "<input type='hidden' name='fm_foto_4' value='" . $neu['fm_foto_4'] . "'>";
-
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuF/";
 
 $Feldlaenge = "100px";
