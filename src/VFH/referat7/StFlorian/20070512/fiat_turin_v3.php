@@ -10,13 +10,13 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
-$header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -44,7 +44,7 @@ FF Schwertberg
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5836.WebP" alt="Fiat Turin" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5836.WebP" alt="Fiat Turin" align="right" />
 Die Motorisierungswelle des beginnenden 20. Jahrhunderts macht auch vor
 den Feuerwehren nicht halt! Im besonderen war es das Problem der Verfügbarkeit
 der Pferde, für die großen BF aber die enormen Kosten der Pferdehaltung,
@@ -57,7 +57,7 @@ Begonnen hat es bei den österr. Feuerwehren 1902 mit elektrisch betriebenen Fah
 (Batterien - benzin-elektrischer Antrieb) bis sich das benzinbetriebene Fahrzeug
 schlussendlich durchgesetzt hat.
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5833.WebP" alt="Fiat Turin" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5833.WebP" alt="Fiat Turin" align="left" />
 Erste benzinbetriebene Fahrzeuge bei der FF LINZ 1912 ein Rettungsfahrzeug
 Puch III, 1913 ein Löschfahrzeug Puch VI.
 <br/>
@@ -80,5 +80,5 @@ Vorbaupumpe Tamini mit 500 l/min bei 6 bar.
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

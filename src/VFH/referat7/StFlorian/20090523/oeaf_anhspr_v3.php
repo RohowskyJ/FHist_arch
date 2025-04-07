@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
 require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse UnterprogrammeJ
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $VF_logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -42,7 +43,7 @@ Oldtimerverein FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9256.WebP" alt="Löschfahrzeug ÖAF mit Anhängespritze" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-IMG_9256.WebP" alt="Löschfahrzeug ÖAF mit Anhängespritze" align="right" />
 Nicht jedes Feuerwehrfahrzeug war mit einer eingebauten Feuerlöschpumpe
 ausgestattet. Vielfach wurden für schon vorhandene Anhängespritzen
 Zugfahrzeuge beschafft, die dann als MTF und Geräteträger fungierten.
@@ -52,7 +53,7 @@ Firma Zellinger, Linz, Baujahr 1927, Viertakt-Vierzylinder-Vergasermotor
 mit 36 PS, Bauartgeschwindigkeit ~ 50 km/h, Gesamtgewicht 4.200 kg,
 ursprünglich mit Anhä;ngespritze Knaust (Baujahr 1923 / 1250 l/min bei 8 bar).
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9259.WebP" alt="Löschfahrzeug ÖAF mit Anhägespritze" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-IMG_9259.WebP" alt="Löschfahrzeug ÖAF mit Anhägespritze" align="left" />
 Einsatz, auch Überland, daher "Landtrain" genannt, in Verwendung
 <br/>
 1927 - 1958 bei der FF Wels,
@@ -78,5 +79,5 @@ Leistung 700 l/min bei 7 bar
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -43,7 +44,7 @@ betreut durch <br/>Oldtimerverein der FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5850.WebP" alt="" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5850.WebP" alt="" align="right" />
 Tanklöschfahrzeuge haben vor dem Zweiten Weltkrieg nicht zu den
 Standardfahrzeugen der Feuerwehren gehört: Aufgrund der Erfahrungen aus den
 Bombenangriffen auf die deutschen Städte mit den vielen Großbränden und
@@ -85,5 +86,5 @@ Erzeugt wurden 1943-1945: 850 TLF 15 und 794 TLF 25 = 1.644 Einheiten
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

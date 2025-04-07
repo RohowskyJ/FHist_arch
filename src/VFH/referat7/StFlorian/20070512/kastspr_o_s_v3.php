@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -41,7 +42,7 @@ und FF Lambach
 
 <tr>
  <td>
-  <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5792.WebP" alt="Kastenspritze ohne Saugwerk, Löschgruppe" align="right"/>
+  <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5792.WebP" alt="Kastenspritze ohne Saugwerk, Löschgruppe" align="right"/>
 Wichtigstes und überall anzutreffendes Löschgerät des
 Mittelalters und der beginnenden Neuzeit ist der Feuerlöscheimer -
 aus Leder, Stroh, Hanf, Holz oder  Segeltuch - soweit nötig -
@@ -60,7 +61,7 @@ geschüttet werden, da diese nicht "ansaugen" konnten!
 Statistik Ende Dezember 1886: <br/>88 Wasserwagen und über 4.200 Löscheimer
 (ohne die für jedes Haus vorgeschriebenen Eimer!)
 <br/>
-  <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-IMG_5794.WebP" alt="Kastenspritze ohne Saugwerk" align="left"/>
+  <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-IMG_5794.WebP" alt="Kastenspritze ohne Saugwerk" align="left"/>
 Vor Erfindung der Druckschläuche alle Löschmaßnahmen = "Außenangriff".
 Erste Verwendung der vom Amsterdamer Brandmeister Jan van der Heyde erfundenen,
 aus Leder gefertigten, durch Verschraubungen ("Holländer") verbundenen
@@ -94,5 +95,5 @@ Der Verein betreut derzeit 6 Oldtimer-Feuerwehrfahrzeuge und zwei Anhängespritz
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

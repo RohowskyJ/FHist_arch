@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -38,5 +39,5 @@ diverse Handpumpen, Dampfspritzen, Anfang der Motorisierung bis hin zum modernen
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'adm','100em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'adm','100em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -39,13 +40,13 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
  <tr>
   <th colspan="2">Figurinen, Helme und Seitenwaffen</th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4587.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4587.WebP" alt="" width="200px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4574.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4574.WebP" alt="" width="200px">
 </th>
    <th colspan="2">Landfahrspritze Czermack, Teplitz,<br>
      1905, FF Klosterneuburg Weidling
@@ -61,13 +62,13 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
 
 </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4573.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4573.WebP" alt="" width="200px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4575.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4575.WebP" alt="" width="200px">
 </th>
    <th colspan="2">Löschfahrzeug Austro Fiat AFL 1935, <br>
     Tragkraftspritze Rosenbauer HR 60
@@ -79,13 +80,13 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
   im Hintergrund Armaturen und eine "Rauchhaube" nach BD Müller, BF Wien
 </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4605.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4605.WebP" alt="" width="200px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4623.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4623.WebP" alt="" width="200px">
 </th>
    <th colspan="2">Orden und Ehrenzeichen<br><br>
      Bundes-Auszeichnungen
@@ -95,7 +96,7 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
  <tr>
   <th colspan="2">Einmann-Handspritze</th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/JR-20060906-img_4611.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4611.WebP" alt="" width="200px">
 </th>
  </tr>
 
@@ -109,5 +110,5 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -45,7 +46,7 @@ FF Höft
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5804.WebP" alt="Handdruckspritze mit Saugwerk" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5804.WebP" alt="Handdruckspritze mit Saugwerk" align="right" />
 Der Transport der Feuerlöschgeräte geschah früher grundsätzlich
 händisch, für vierrädrige Mannschaftswagen, Fahrspritzen
 und Wasserwagen war jedoch Vorspann mit Pferden notwendig: Beistellung auf dem
@@ -58,7 +59,7 @@ der Erste erhält einen Gulden!
 FF mit ständiger Wache wie FF LINZ.
 <br/>
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5807.WebP" alt="Handdruckspritze mit Saugwerk" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5807.WebP" alt="Handdruckspritze mit Saugwerk" align="left" />
 Die heute benötigten vier Pferde hat uns Herr Adolf PRAMENDORFER
 aus Hofkirchen an der Trattnach, Bezirk Grieskirchen, beigestellt.
 Herr PRAMENDORFER hat früher die Furthmühle in Ruhringsdorf
@@ -111,5 +112,5 @@ Noch immer 673 Handdruckspritzen vorhanden.
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

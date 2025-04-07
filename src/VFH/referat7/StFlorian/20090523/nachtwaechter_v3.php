@@ -8,6 +8,7 @@ session_start();
 $module    = 'VF_Arch';
 $path2ROOT = "../../../../";
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
@@ -16,7 +17,7 @@ initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -47,7 +48,7 @@ Nachtwächter-Darstellung durch Kamerad Bernecker
 
 <tr>
  <td>
-<img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9181.WebP" alt="Nachtwächter" align="left">
+<img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-IMG_9181.WebP" alt="Nachtwächter" align="left">
 "Sicherheit" vor Gefahren ist seit jeher Grundbedürfnis der Menschen, Wächter auf Türmen sehen von
 weitem annähernde Feinde aber auch aufflammende Brände. In der Neuzeit werden die Nacht- und Turmwächter
 "Organe der Feuerpolizei"
@@ -77,5 +78,5 @@ Letzte Turm- bzw. Nachtwächter (zw. 1931 und 1939).
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

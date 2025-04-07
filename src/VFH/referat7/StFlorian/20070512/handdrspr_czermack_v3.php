@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -44,7 +45,7 @@ FF Marchtrenk
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5798.WebP" alt="Handdruckspritze Czermack" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5798.WebP" alt="Handdruckspritze Czermack" align="right" />
 Erst die Erfindung des Saugschlauches, die erste Abbildung stammt aus 1724,
 erlaubt die "direkte" Wasserentnahme aus einer Wasserstelle.
 Leistungen der Handdruckspritzen: 120 bis 300 l/min, Spritzweiten horizontal
@@ -59,7 +60,7 @@ auch die Bevölkerung und das Militär herangezogen werden!
 <br/>
 <br/>
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5801.WebP" alt="Handdruckspritze Czermack" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5801.WebP" alt="Handdruckspritze Czermack" align="left" />
 Zur Versorgung der in der Regel unmittelbar vor Ort aufgestellten
 Handdruckspritzen werden später auch eigene Wasserzubringer (Hydrophore)
 eingesetzt. Diese Feuerlöschpumpen, die  aber auch zur direkten
@@ -80,5 +81,5 @@ Pumpmannschaften von 8 - 14 Personen eine Förderleistung bis
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

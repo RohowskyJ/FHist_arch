@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -38,7 +39,7 @@ Römischer Löschtrupp
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/JR-20090523-IMG_9177.WebP" alt="roem. Loeschtrupp" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-IMG_9177.WebP" alt="roem. Loeschtrupp" align="right" />
 
  Dieser Aufmarsch einer römischen Löschtruppe - eine Bezeichnung "Feuerwehr", wie sie auch im deutschen Sprachgebrauch erst ab 1847
 (KARLSRUHE9 eingeführt wurde, gibt es im lateinischen Wortschatz nicht - ist bei unserem Museumsfest eine Premiere!
@@ -73,5 +74,5 @@ Das "alte Rom" kannte also ein duales System, die Einheiten einer (militärisch 
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

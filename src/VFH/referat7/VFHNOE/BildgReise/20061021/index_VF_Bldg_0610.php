@@ -10,12 +10,13 @@ $path2ROOT = "../../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -44,7 +45,7 @@ FF Amstetten, FF Wr.Neudorf und FF St. Pölten.
 <tbody>
 <tr>
  <td>     
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/JR-20061021-img_5219.WebP" alt="Feuerwehrmuseum Tumeltsham" align=right border="1" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5219.WebP" alt="Feuerwehrmuseum Tumeltsham" align=right border="1" width="250px">
 Als erste Station war das
 Feuerwehrmuseum Tumeltsham
 am Plan.
@@ -68,7 +69,7 @@ und Bilder.
 
 <tr>
  <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/JR-20061021-img_5233.WebP" alt="Spritzenhaus Mettmach" align="left" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5233.WebP" alt="Spritzenhaus Mettmach" align="left" width="250px">
 <br>      
 <br>
 Als nächstes besuchten wir das Feuerwehrmuseum in Mettmach. Es ist ein kleines,
@@ -93,7 +94,7 @@ Zwischendurch haben wir uns in Ried im Gasthaus Kellerbräu gestärkt.
 
 <tr>
  <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/JR-20061021-img_5243.WebP" alt="Kohle und Dampf" align="right" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5243.WebP" alt="Kohle und Dampf" align="right" width="250px">
 
 Als Hauptpunkt im Nachmittagsprogramm war die OÖ Landesausstellung 2006
 "Kohle und Dampf" in Ampfelwang am Programm. Die Ausstellung ist in der
@@ -113,7 +114,7 @@ als Führer).
 
 <tr>
  <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/JR-20061021-img_5275.WebP" alt="Papiermacher und Feuerwehrmuseum Steyrermühl" align="left" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5275.WebP" alt="Papiermacher und Feuerwehrmuseum Steyrermühl" align="left" width="250px">
 
 Als letzte Station des Tages besuchten wir das
 Papiermachermuseum Laakirchen-Steyrermühl, in den Räumlichkeiten
@@ -147,5 +148,5 @@ in die entsprechenden Museen pilgern.
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -42,7 +43,7 @@ FF Vöcklabruck
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5815.WebP" alt="Dampffeuerspritze" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5815.WebP" alt="Dampffeuerspritze" align="right" />
 Die Menschenkraft beim Betrieb von Feuerspritzen wurde ab 1828 (England!)
 durch die Dampfmaschine langsam abgelöst, in Österreich erst ab 1867
 ( Firma KNAUST).
@@ -52,7 +53,7 @@ Leistungen: von 500 bis 1800 l/min, Gewicht um die 1.500 kg,
 <br/>
 Sonderkonstruktionen 4.500 - 5.000 l/min, aber mit Eigengewicht 5.500 kg.
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5817.WebP" alt="Dampffeuerspritze" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5817.WebP" alt="Dampffeuerspritze" align="left" />
 Aus Einsatzberichten wissen wir, dass die erreichten Fahrgeschwindigkeiten
 der Pferde gezogenen Dampffeuerpritzen um die 7,7 km/h betragen haben.
 <br/>
@@ -73,5 +74,5 @@ erreicht wird. Zwischenbehelf waren zusätzliche Handdruckspritze oder
 </fieldset>
 </div>
 <?php 
-HTML_trailer();
+BA_HTML_trailer();
  ?>

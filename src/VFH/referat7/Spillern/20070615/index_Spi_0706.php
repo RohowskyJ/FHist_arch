@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -26,7 +27,7 @@ HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,
 
 <h1>135 Jahre FF Spillern mit Fahrzeug- und Fahnenweihe</h1>
 
-<img src="../../../../login/AOrd_Verz/124/09/06/20070617/JR-20070617-img_5926.WebP" alt="Fahnenweihe" align="right">
+<img src="../../../../login/AOrd_Verz/124/09/06/20070617/124-20070617-img_5926.WebP" alt="Fahnenweihe" align="right">
 <p>Am 15. Juni 2007 fand die 135 Jahrfeier der FF Spillern statt. Am Festakt
 wurde musikalisch von der Kapelle Feldbach begleitet. Eine Abteilung der
 Hoch- und Deutschmeister mit Fahnenträgern war vertreten, ebenso einige Fahnengruppen
@@ -41,5 +42,5 @@ aus Österreich und aus dem Ausland.
 </fieldset>
 </div>
 <?php 
-HTML_trailer();
+BA_TML_trailer();
  ?>

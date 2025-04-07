@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -41,7 +42,7 @@ Ingo Weickenkas und Martin Pammer, Braunau am Inn
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/JR-20070512-img_5861.WebP" alt="TLF 2000 auf Steyr 380 Z" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5861.WebP" alt="TLF 2000 auf Steyr 380 Z" align="right" />
 Die Steyrwerke konnten ab 1946 wieder ihre Fahrzeugproduktion aufnehmen.
 Der erste Typ, der 3 t Benzin-LKW Steyr 370 mit 80 PS, entsprach weitgehend dem
 Kriegsfahrgestelltyp 1500 A, bewährte sich aber für die Feuerwehren nicht.
@@ -74,5 +75,5 @@ in OÖ für Stützpunkte im Technischen Hilfsdienst!
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>

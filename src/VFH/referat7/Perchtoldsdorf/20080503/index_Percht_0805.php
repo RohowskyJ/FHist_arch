@@ -10,13 +10,14 @@ $path2ROOT = "../../../../";
 
 $debug = True; $debug = False;  // Debug output Ein/Aus Schalter
 
+require $path2ROOT.'login/common/BA_HTML_Funcs.lib.php' ;  // Diverse Unterprogramme
  require $path2ROOT.'login/common/BA_Funcs.lib.php' ;  // Diverse Unterprogramme
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
 $logo = 'JA';
 $header = "<link  href='".$path2ROOT."login/common/css/frame_pict.css' rel='stylesheet' type='text/css'>";
-HTML_header('Verein Feuerwehrhistoriker in NÖ) ','Achivierte Berichte',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 ?>
 
@@ -41,13 +42,13 @@ Einige Bilder vom Samstag, 3.5.2008:
  <tr>
   <th colspan="2">Alt und Neu, friedlich vereint. Im Vordergrung die "Fahrspritze der FF Hetzendorf"</th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7305.WebP" alt="Fahrspritze Hetzendorf" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7305.WebP" alt="Fahrspritze Hetzendorf" width="350px">
 </th>
  </tr>  
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7328.WebP" alt="Handdruck- Dapfspritze, BJ. 1900" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7328.WebP" alt="Handdruck- Dapfspritze, BJ. 1900" width="350px">
 </th>
    <th colspan="2">Die kombinierte Handdruck- Dampfspritze der FF Perchtoldsdorf, Baujahr 1900, Kernreuther Wien.<br>
     Im Handbetrieb, bis genug Dampfdruck im Kessel war, dann wurde auf Dampfantrieb umgestellt.
@@ -59,13 +60,13 @@ Einige Bilder vom Samstag, 3.5.2008:
   <th colspan="2">Betrieb mit Publikumsbeteiligung ...
       </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7343.WebP" alt="Publikumsbeteiligung" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7343.WebP" alt="Publikumsbeteiligung" width="350px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7372.WebP" alt="Dampfbetrieb" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7372.WebP" alt="Dampfbetrieb" width="350px">
 </th>
    <th colspan="2">Diese Dampfspritzen waren bis in den Zweiten Weltkrieg in Betrieb,
     da die gummibereiften Fahrzeuge bei Brandbomben (Phosphorbomben) nicht eingesetzt werden konnten.
@@ -77,13 +78,13 @@ Einige Bilder vom Samstag, 3.5.2008:
      mit eigener Kraft unterwegs!
 </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7384.WebP" alt="Gasspritze auf Elektroauto" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7384.WebP" alt="Gasspritze auf Elektroauto" width="350px">
 </th>
  </tr>
 
  <tr>    
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7387.WebP" alt="Steyr 380" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7387.WebP" alt="Steyr 380" width="350px">
 </th>
    <th colspan="2">Tankl&ouml;schfahrzeug auf Steyr 380, Baujahr 1958, im Dienst bis 1969<br><br>
      im Bild mit dem Hochdruckrohr in Betrieb.
@@ -99,14 +100,14 @@ Einige Bilder vom Samstag, 3.5.2008:
       &uuml;ber die Seitenscheiben gerettet werden.
     </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7414.WebP" alt="PKW gegen Bus" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7414.WebP" alt="PKW gegen Bus" width="350px">
 </th>
  </tr>
 
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20080503/JR-20080503-img_7426.WebP" alt="Neues Fahrzeug im Einsatz" width="350px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20080503/124-20080503-img_7426.WebP" alt="Neues Fahrzeug im Einsatz" width="350px">
 </th>
    <th colspan="2">Das neue Tunnell&ouml;schfahrzeug (TLFA-T 4000/200) <br><br>
      im Einsatz.
@@ -124,5 +125,5 @@ Einige Bilder vom Samstag, 3.5.2008:
 </fieldset>
 </div>
 <?php 
- HTML_trailer();
+ BA_HTML_trailer();
  ?>
