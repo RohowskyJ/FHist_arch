@@ -11,9 +11,6 @@
 if ($debug) {
     echo "<pre class=debug>VF_FO_MassUp_ph2.inc.php ist gestarted</pre>";
 }
-#var_dump($_SESSION[$module]);
-
-# var_dump($_POST);
 
 $pict_path = "AOrd_Verz/".$_SESSION[$module]['URHEBER']['ei_id']."/";
 
@@ -86,7 +83,7 @@ if ($typ == "V") {
 $return = SQL_QUERY($db, $sql);
 
 if (mysqli_num_rows($return) == "0") {
-
+   
     $sql = "INSERT INTO $tabelle_in (
                          fo_eigner,fo_urheber,fo_urh_kurzz,fo_dsn,fo_aufn_datum,fo_aufn_suff,fo_basepath,fo_zus_pfad,fo_begltxt,fo_namen,
                          fo_sammlg,fo_typ,fo_media,
@@ -96,7 +93,6 @@ if (mysqli_num_rows($return) == "0") {
                         '','$typ','$media',
                         '" . $_SESSION['VF_Prim']['p_uid'] . "'
                       )";
-    #echo "L 0135 sql $sql <br>";
     $result = SQL_QUERY($db, $sql);
 } else {
     #echo "L 0144 Verzeichnis- Datensatz vorhanden, könnte geändert werden <br>";
@@ -109,7 +105,7 @@ if (mysqli_num_rows($return) == "0") {
      */
 
 }
-# var_dump($_SESSION[$module]['URHEBER']);
+
 // Ausgabe der notwendigen Parameter als hidden input
 
 Edit_Tabellen_Header("Hochladen für Urheber: ".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']);
@@ -119,7 +115,7 @@ echo "<p>Titel: $begltxt</p>";
 
 echo "<input type='hidden' id='urhName' value='".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']."' >";
 echo "<input type='hidden' id='targPfad' value='$targ_pfad' >";
-echo "<input type='hidden' id='urhAbk' value='$eignr' >"; # $urh_abk
+echo "<input type='hidden' id='urhAbk' value='$urh_abk' >"; # $urh_abk
 echo "<input type='hidden' id='aufnDat' value='$aufn_dat' >";
 // echo "<input type='hidden' id='beglTxt' value='$begltxt' >";
 echo "<input type='hidden' id='urhEinfg' value='$urheinfueg' >";

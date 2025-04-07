@@ -159,8 +159,7 @@ if ($phase == 2) {
     foreach ($_POST as $key => $value) {
         $_SESSION[$module]['Up_Parm'][$key] = $value;
     }
-    
- 
+
     if (isset($_GET['urh_abk'])) {
         $urh_abk = $_GET['urh_abk'];
     } else {
@@ -174,10 +173,9 @@ if ($phase == 2) {
                 $urh_abk = $key;
             }
         } else { // Priv als Urheber
-            $urh_abk = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['kurzz'];
-            $_SESSION[$module]['Up_Parm']['urh_abk']= $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['kurzz'];
+            $urh_abk = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['urh_nr'];
+            $_SESSION[$module]['Up_Parm']['urh_abk']= $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['urh_nr'];
         }
-        
     } 
 
    #print_r($_SESSION[$module]['Upload']);echo "<br>L 0136: upload <br>";
