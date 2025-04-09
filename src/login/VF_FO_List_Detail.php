@@ -241,14 +241,14 @@ Function Fo_Tab_gener() {
     /**
      * Tabelle einlesen für Aufnahmedatum
      */
-    #var_dump($_SESSION[$module]['URHEBER']);
+    #var_dump($_SESSION[$module]['URHEBER']);echo "<br>L 0244 sess[urhebg<br>";
     $eignr = $_SESSION['Eigner']['eig_eigner'];
     $fo_typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
     $tabelle_g = "fo_todaten_".$_SESSION[$module]['URHEBER']['ei_id'];
     $sql_g = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' ";
-    # echo "L 0244 sql_g $sql_g <br>";
+    #echo "L 0249 sql_g $sql_g <br>";
     $return_g = SQL_QUERY($db,$sql_g);
-    #var_dump($return_g);
+    #var_dump($return_g);echo "<br>L 0251 return_g<br>";
     
     $tab_arr = array();
     $notfirst = False;
@@ -272,7 +272,7 @@ Function Fo_Tab_gener() {
         
         $tab_arr[$row->fo_id] = $row->fo_dsn;
     }
-    #var_dump($tab_arr);
+    #var_dump($tab_arr);echo "<br>L 0275 tab_arr $tab_arr <br>";
     $tab_len = count($tab_arr);
     
     if ($fo_typ == "F") {
@@ -282,7 +282,7 @@ Function Fo_Tab_gener() {
     }
     
     $pict_pfad = "AOrd_Verz/$fo_eigner/09/$ao/".VF_set_PictPfad($fo_aufn_datum, $fo_basepath, $fo_zus_pfad, $fo_aufn_suff);
-   # echo "L 277 pict_pfad $pict_pfad<br>";
+    #echo "L 277 pict_pfad $pict_pfad<br>";
     /**
      * Einlesen der Daten der Speicherortes
      */
@@ -296,7 +296,7 @@ Function Fo_Tab_gener() {
         }
         
         $verz_cnt = $verz_arr;
-        #var_dump($verz_arr);
+        #var_dump($verz_arr);echo "<br>L 0299 verz_cnt $verz_cnt <br>";
         if ($verz_cnt != 0) {
             if ($tab_len <= 1 ) { // Datensätze für Fotos einfügen, so vorhanden
                 
@@ -321,8 +321,8 @@ Function Fo_Tab_gener() {
                  
                 }
             } elseif ($tab_len >= 1 ) { // Vergleiche Tabellen- Records mit Verzeichnis
-                #var_dump($tab_arr);
-                #var_dump($verz_arr);
+                #var_dump($tab_arr);echo "<br> L 0325 <br>";
+                #var_dump($verz_arr);echo "<br> L 0326 <br>";
                 foreach ( $tab_arr as $o_key => $o_dsn) {
                     if ($o_dsn == "") {continue;}
                     #echo "L 0327 o_dsn n$o_dsn <br>";
@@ -332,7 +332,7 @@ Function Fo_Tab_gener() {
                     $o_dsn  = $ofn_info['basename'];
                     $o_ext  = $ofn_info['extension'];
                     $o_dir  = $ofn_info['dirname'];
-                    #echo "L 0335 o_name $o_name <br>";
+                    # echo "<br>L 0335 o_name $o_name <br>";
                     
                     
                     foreach ($verz_arr as $n_dsn) {
@@ -341,7 +341,7 @@ Function Fo_Tab_gener() {
                         $n_dsn  = $nfn_info['basename'];
                         $n_ext  = $nfn_info['extension'];
                         $n_dir  = $nfn_info['dirname'];
-                        #echo "L 0344 nfn_name $n_name <br>";
+                        # echo "L 0344 nfn_name $n_name <br>";
                         
                         if ($o_name == $n_name) {
                             if ($o_ext == "WebP") {  
@@ -351,7 +351,7 @@ Function Fo_Tab_gener() {
                                     #var_dump($tab_arr);
                                     #var_dump($verz_arr);
                                 } else { // replace with new, delete old, unset arr- entry
-                                    #echo "L 0354 replace $o_dsn with $n_dsn <br>";
+                                    echo "L 0354 replace $o_dsn with $n_dsn <br>";
                                     $ret = tab_update($tabelle_g,$o_key,$o_dsn,$n_dsn) ;
                                     if ($ret) {
                                         unset($tab_arr[$o_key]);
@@ -388,7 +388,7 @@ Function Fo_Tab_gener() {
         }
     }
 
-    
+    #echo "L 0391 end FO_tab_gener <br>";
 }
 return True;
 
