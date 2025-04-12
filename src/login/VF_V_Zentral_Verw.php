@@ -31,7 +31,7 @@ VF_set_module_p();
 
 initial_debug();
 
-$db = linkDB('VFH'); // Connect zur Datenbank
+$db = linkDB('VFH'); // Connect zur Datenbank 
 
 $sk = $_SESSION['VF_Prim']['SK'];
 # echo "L 028 sk $sk <br>";
