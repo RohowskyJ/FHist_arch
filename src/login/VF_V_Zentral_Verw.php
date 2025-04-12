@@ -64,7 +64,7 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] != "N") {
     echo "<a href='VF_Z_B_List.php?sk=$sk' target='Benutz'>Benutzer- und Zugriffs- Verwaltung </a>"; # neu
     echo "</div>";
 }
-if ($_SESSION['VF_Prim']['ADM'] == "V" ) {
+if ($_SESSION['VF_Prim']['ADM'] == "V" ) {  
     
     Edit_Separator_Zeile('Liste der Empfänger von administrativen E-Mails (Mitglieds- Neuanmeldung, Bezahlung, ... ');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
