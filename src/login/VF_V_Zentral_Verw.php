@@ -31,7 +31,7 @@ VF_set_module_p();
 
 initial_debug();
 
-$db = linkDB('VFH'); // Connect zur Datenbank
+$db = linkDB('VFH'); // Connect zur Datenbank 
 
 $sk = $_SESSION['VF_Prim']['SK'];
 # echo "L 028 sk $sk <br>";
@@ -56,8 +56,9 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['MVW'] == "V" ) {
     echo "<a href='VF_Z_E_List.php?sk=$sk&SpaltenNamenAnzeige=Aus' target='Eigentm'>Eigentümerverwaltung </a>"; # neu OK
     echo "</div>";
 }
-    
-if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] == "Q") {       
+
+if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] == "Q" || $_SESSION['VF_Prim']['WVM'] == "V") {       
+  
     Edit_Separator_Zeile('Benutzer- und Zugriffsverwaltung');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "Pflege der berechtigten Benutzer, Passworte und Berechtigungen.</d><br>";
