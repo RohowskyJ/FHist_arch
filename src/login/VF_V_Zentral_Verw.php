@@ -42,7 +42,7 @@ $sk = $_SESSION['VF_Prim']['SK'];
 BA_HTML_header('Administration', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 
-if ($_SESSION['VF_Prim']['ADM'] == "V") {
+if ($_SESSION['VF_Prim']['ADM'] == "V"  || $_SESSION['VF_Prim']['WVM'] != "N") {
     Edit_Separator_Zeile('Mitglieder- Verwaltung');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "Verwaltung der Mitglieder, Zahlungeingang und Kontrolle, Mitteilung der gespeicherten Daten nach DSGVO, E-Mail an andere Mitglieder ohne Kenntnis deren Adresse.<br>";
@@ -57,7 +57,7 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['MVW'] == "V" ) {
     echo "</div>";
 }
     
-if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] != "N") {       
+if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] != "Q") {       
     Edit_Separator_Zeile('Benutzer- und Zugriffsverwaltung');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "Pflege der berechtigten Benutzer, Passworte und Berechtigungen.</d><br>";
