@@ -1,5 +1,5 @@
 # FHist_arch
-## Feuerwehr- Gechichte Archiv- Inventar- und Beschreibungs- Programme
+## Feuerwehr- Geschichte Archiv- Inventar- und Beschreibungs- Programme
 
 Original Homepage der Feuerwehrhistoriker in NÖ
 
