@@ -57,7 +57,7 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['MVW'] == "V" ) {
     echo "</div>";
 }
     
-if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] != "Q") {       
+if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] == "Q") {       
     Edit_Separator_Zeile('Benutzer- und Zugriffsverwaltung');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "Pflege der berechtigten Benutzer, Passworte und Berechtigungen.</d><br>";
