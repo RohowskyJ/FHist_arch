@@ -55,7 +55,7 @@ if (isset($_GET['eig'])) {
 
 $tabelle = $tabelle . "_" . $fo_eigner;
 
-$sql = "SELECT fo_eigner,fo_dsn, fo_Urheber, fo_aufn_datum,fo_basepath,fo_zus_pfad,fo_begltxt,fo_namen,fo_basepath,fo_aufn_suff FROM $tabelle WHERE fo_id='$fo_id' ";
+$sql = "SELECT fo_eigner,fo_dsn, fo_Urheber, fo_aufn_datum,fo_begltxt,fo_namen,fo_aufn_suff FROM $tabelle WHERE fo_id='$fo_id' ";
 
 $return = SQL_QUERY($db, $sql);
 
@@ -82,7 +82,7 @@ if ($row->fo_zus_pfad  != "") {
     #$d_path .=  "/";
 }
 */
-$f_path = VF_set_PictPfad($row->fo_aufn_datum,$row->fo_basepath,$row->fo_zus_pfad,$row->fo_aufn_suff);
+$f_path = VF_set_PictPath($row->fo_aufn_datum,$row->fo_aufn_suff);
 $d_path = $pict_path . $f_path ;
 
 $header = "";

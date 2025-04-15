@@ -15,8 +15,6 @@ echo "<input type='hidden' name='fo_eigner' value='" . $neu['fo_eigner'] . "'/>"
 echo "<input type='hidden' name='fo_typ' value='" . $neu['fo_typ'] . "'/>";
 echo "<input type='hidden' name='fo_media' value='" . $neu['fo_media'] . "'/>";
 echo "<input type='hidden' name='fo_Urheber' value='" . $neu['fo_Urheber'] . "'/>";
-echo "<input type='hidden' name='fo_Urh_kurzz' value='" . $neu['fo_Urh_kurzz'] . "'/>";
-#echo "<input type='hidden' name='urh_abk' value='" . $neu['fo_Urh_kurzz'] . "'/>";
 echo "<input type='hidden' name='fo_uidaend' value='" . $neu['fo_uidaend'] . "'/>";
 echo "<input type='hidden' name='fo_aenddat' value='" . $neu['fo_aenddat'] . "'/>";
 
@@ -37,8 +35,8 @@ Edit_Separator_Zeile('Daten');
 
 Edit_textarea_Feld(Prefix . 'fo_namen', 'Namen der Personen am Bild', "rows='2' cols='50'");
 
-echo "<input type='hidden' name='fo_basepath' value='".$neu['fo_basepath']."'/>";
-echo "<input type='hidden' name='fo_zus_pfad' value='".$neu['fo_zus_pfad']."'/>";
+Edit_textarea_Feld(Prefix . 'fo_suchbegr', 'Suchbegriffe', "rows='2' cols='50'");
+
 echo "<input type='hidden' name='fo_aufn_datum' value='" . $neu['fo_aufn_datum'] . "'/>";
 echo "<input type='hidden' name='fo_aufn_suff' value='" . $neu['fo_aufn_suff'] . "'/>";
 echo "<input type='hidden' name='fo_dsn' value='" . $neu['fo_dsn'] . "'/>";
@@ -46,22 +44,22 @@ echo "<input type='hidden' name='fo_typ' value='" . $neu['fo_typ'] . "'/>";
 echo "<input type='hidden' name='verz' value='" . $verz . "'/>";
 
 Edit_Daten_Feld('fo_Urheber', 60, 'Verfüger');
+/*
 if (isset($_SESSION[$module]['Fo']['URHEBER']['urh_abk']) && is_array($_SESSION[$module]['Fo']['URHEBER']['urh_abk'])) {
     Edit_Radio_Feld('fo_Urh_kurzz', $_SESSION[$module]['Fo']['URHEBER']['urh_abk']);
 } else {
     Edit_Daten_Feld('fo_Urh_kurzz');
 }
-echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
+*/
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='800000' />";
 if ($neu['fo_typ'] == 'F') { # Foto
     if ($verz == "J" ) { ## erst  Verzeichnis definierten - dann erst die Fotos ins Verzeichnis
         Edit_textarea_Feld('fo_begltxt');
         Edit_Separator_Zeile('Foto und Speicherort: wenn das Feld Pfad einen Wert beinhaltet, wir dieser Wert benutzt, egal ob es ein Aufnahmedatum gibt oder nicht');
-        Edit_Daten_Feld('fo_basepath', 100); #
-        Edit_Daten_Feld('fo_zus_pfad', 60); #
         Edit_Daten_Feld('fo_aufn_datum', 15,'YYYYmmDD Format oder Jahreszahl'); # ,'YYYYmmDD Format oder Jahreszahl'    
         Edit_Daten_Feld('fo_aufn_suff', 2,'am gleichem Datum mehrere Ereignisse => Suffix eingeben!'); 
     } else {
-        $d_path = VF_set_PictPfad($neu['fo_aufn_datum'],$neu['fo_basepath'],$neu['fo_zus_pfad'],$neu['fo_aufn_suff']);
+        $d_path = VF_set_PictPath($neu['fo_aufn_datum'],$neu['fo_aufn_suff']);
         $pict_path = $neu['Bildpfad'] = $pict_path . $d_path;
         $Tabellen_Spalten_COMMENT['Bildpfad'] = "Pfad zur Datei";
         Edit_Daten_Feld('Bildpfad');

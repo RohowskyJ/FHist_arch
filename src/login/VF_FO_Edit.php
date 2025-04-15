@@ -117,15 +117,13 @@ if ($phase == 0) {
             'fo_id' => 0,
             'fo_eigner' => $fo_eigner,
             'fo_Urheber' => $fo_urheber,
-            'fo_Urh_kurzz' => "",
             'fo_dsn' => "",
             'fo_aufn_datum' => "$fo_aufn_d",
             'fo_aufn_suff' => "",
-            'fo_basepath' => "",
-            'fo_zus_pfad' => "",
             'fo_begltxt' => "",
             'fo_namen' => "",
             'fo_sammlg' => "",
+            'fo_suchbegr' =>"",
             'fo_typ' => $fo_typ,
             'fo_media' => $fo_media,
             "fo_uidaend" => $_SESSION['VF_Prim']['p_uid'],
@@ -135,8 +133,6 @@ if ($phase == 0) {
          
         if ($_SESSION[$module]['verzeich'] == "N") {
             $neu['fo_aufn_datum'] = $_SESSION[$module]['fo_aufn_d'];
-            $neu['fo_basepath'] = $_SESSION[$module]['fo_base'];
-            $neu['fo_zus_pfad'] = $_SESSION[$module]['fo_zus'];
         }
     } else {
         $sql_fo = "SELECT * FROM $tabelle WHERE `fo_id` = '" . $_SESSION[$module]['fo_id'] . "' ORDER BY `fo_id` ASC";
@@ -154,7 +150,6 @@ if ($phase == 0) {
         } elseif ($neu['fo_typ'] == "V") {
             $pict_path .= "10/";
         }
-      
     }
 }
 # echo "E_Edit L 099: \$phase $phase <br/>";

@@ -97,7 +97,7 @@ if (isset($_POST['select_string'])) {
 
 $_SESSION[$module]['select_string'] = $select_string;
 
-$reply = FO_Tab_gener(); // erstellen ergänzen der Tabellen nach Massuploads mit resize, wasserzeichen und *.WebP - Format
+$reply = FO_Tab_gener(); // erstellen ergänzen der Tabellen nach Massuploads mit resize, wasserzeichen und *.jpeg - Format
 
 require "VF_FO_List_Detail.inc.php";
 
@@ -145,9 +145,6 @@ function modifyRow(array &$row, $tabelle)
                 console_log("L 0148 ".$row['fo_aufn_suff']);
                 $_SESSION[$module]['fo_aufn_d'] = $row['fo_aufn_datum'];
                 $_SESSION[$module]['fo_aufn_s'] = $row['fo_aufn_suff'];
-                $_SESSION[$module]['fo_base'] = $row['fo_basepath'];
-                $_SESSION[$module]['fo_zus'] = $row['fo_zus_pfad'];
-                
             }           
             /*
              * if ($row['fo_dsn'] != "") {
@@ -171,7 +168,7 @@ function modifyRow(array &$row, $tabelle)
 
                     $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
 
-                    $f_path = VF_set_PictPfad($row['fo_aufn_datum'],$row['fo_basepath'],$row['fo_zus_pfad'],$row['fo_aufn_suff']);
+                    $f_path = VF_set_PictPath($row['fo_aufn_datum'],$row['fo_aufn_suff']);
                     $d_path = $pict_path . $f_path ;
                     
 
@@ -181,6 +178,8 @@ function modifyRow(array &$row, $tabelle)
 
                     $begltext = $row['fo_begltxt'];
                     # $row['fo_begltxt'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' >$begltext</a>";
+                    
+                    $row['fo_namen'] .= "<br>" . $row['fo_suchbegr'];
                 } else {
                     $vi_d_spl = explode("-", $dsn);
                     $cnt_f_d = count($vi_d_spl);
@@ -220,15 +219,15 @@ function modifyRow(array &$row, $tabelle)
 } # Ende von Function modifyRow
 
 /**
- * Generiere update Tabelleneinträge nach Massupdate mit *WebP updates.
+ * Generiere update Tabelleneinträge nach Massupdate mit *jpeg updates.
  * @author J. Rohowsky  - neu 2025
  * 
  *
  * Tabelleneinträge einlesen, Speicherort dir einlesen, vergleichen.
  * Anzahl foto+1 gleich records-anzahl
- * dann Inhalt Speicher kein *.WebP  - Abbruch, keine Aktion erforderlich
+ * dann Inhalt Speicher kein *.jpeg  - Abbruch, keine Aktion erforderlich
  * wenn Speicherplatz alle *.WebP : Vergleich alle fo_dsn entsprechend *.WebP - OK
- * wenn fo__dsn != *.WebP fo_dsn korrigieren, alte *.Graf löschen 
+ * wenn fo__dsn != *.jpeg fo_dsn korrigieren, alte *.Graf löschen 
  */
 Function Fo_Tab_gener() {
     global $module, $debug, $db;
@@ -241,12 +240,12 @@ Function Fo_Tab_gener() {
     /**
      * Tabelle einlesen für Aufnahmedatum
      */
-    #var_dump($_SESSION[$module]['URHEBER']);echo "<br>L 0244 sess[urhebg<br>";
+    # var_dump($_SESSION[$module]['URHEBER']);echo "<br>L 0244 sess[urhebg<br>";
     $eignr = $_SESSION['Eigner']['eig_eigner'];
     $fo_typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
     $tabelle_g = "fo_todaten_".$_SESSION[$module]['URHEBER']['ei_id'];
     $sql_g = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' ";
-    #echo "L 0249 sql_g $sql_g <br>";
+    # echo "L 0249 sql_g $sql_g <br>";
     $return_g = SQL_QUERY($db,$sql_g);
     #var_dump($return_g);echo "<br>L 0251 return_g<br>";
     
@@ -256,11 +255,8 @@ Function Fo_Tab_gener() {
         if (!$notfirst) {
             $fo_eigner     = $row->fo_eigner;
             $fo_Urheber    = $row->fo_Urheber;
-            $fo_Urh_kurzz  = $row->fo_Urh_kurzz;
             $fo_aufn_datum = $row->fo_aufn_datum;
             $fo_aufn_suff  = $row->fo_aufn_suff;
-            $fo_basepath   = $row->fo_basepath;
-            $fo_zus_pfad   = $row->fo_zus_pfad;
             $fo_begltxt    = $row->fo_begltxt;
             $fo_typ        = $row->fo_typ;
             $fo_media      = $row->fo_media;
@@ -272,7 +268,7 @@ Function Fo_Tab_gener() {
         
         $tab_arr[$row->fo_id] = $row->fo_dsn;
     }
-    #var_dump($tab_arr);echo "<br>L 0275 tab_arr $tab_arr <br>";
+    # var_dump($tab_arr);echo "<br>L 0275 tab_arr  <br>";
     $tab_len = count($tab_arr);
     
     if ($fo_typ == "F") {
@@ -281,7 +277,7 @@ Function Fo_Tab_gener() {
         $ao = '09';
     }
     
-    $pict_pfad = "AOrd_Verz/$fo_eigner/09/$ao/".VF_set_PictPfad($fo_aufn_datum, $fo_basepath, $fo_zus_pfad, $fo_aufn_suff);
+    $pict_pfad = "AOrd_Verz/$fo_eigner/09/$ao/".VF_set_PictPath($fo_aufn_datum, $fo_aufn_suff);
     #echo "L 277 pict_pfad $pict_pfad<br>";
     /**
      * Einlesen der Daten der Speicherortes
@@ -290,7 +286,10 @@ Function Fo_Tab_gener() {
         $verz_arr = array();
         foreach (scandir($pict_pfad) as $file) {
             if ($file === ".." OR $file === "." ) continue;
-            if (stripos($file,"WebP")) {
+            # echo "L 0287 file $file <br>";
+            $fn_ar = explode("-",$file);
+            # var_dump($fn_ar);echo "<br> L 0288 fn_ar <br>";
+            if ($fn_ar[0] == $fo_eigner && (stripos($file,"jpg") || stripos($file,"jpeg"))) {
                 $verz_arr[] = $file;
             }
         }
@@ -308,12 +307,12 @@ Function Fo_Tab_gener() {
                     $nfn_dir =  $nfn_info['dirname'];
                     
                     $sql = "INSERT INTO $tabelle_g (
-                          fo_eigner,fo_urheber,fo_Urh_kurzz,fo_aufn_datum,fo_aufn_suff,fo_dsn,fo_begltxt,fo_namen,
-                          fo_sammlg,fo_typ,fo_media,fo_basepath,fo_zus_pfad,
+                          fo_eigner,fo_urheber,fo_aufn_datum,fo_aufn_suff,fo_dsn,fo_begltxt,fo_namen,
+                          fo_sammlg,fo_typ,fo_media,
                           fo_uidaend
                       ) VALUE (
-                         '$fo_eigner','$fo_Urheber','$fo_Urh_kurzz','$fo_aufn_datum','$fo_aufn_suff','$nfn_dsn','$fo_begltxt','$fo_namen',
-                         '$fo_sammlg','$fo_typ','$fo_media','$fo_basepath','$fo_zus_pfad',
+                         '$fo_eigner','$fo_Urheber','$fo_aufn_datum','$fo_aufn_suff','$nfn_dsn','$fo_begltxt','$fo_namen',
+                         '$fo_sammlg','$fo_typ','$fo_media',
                          '$fo_uidaend'
                       )";
                     
@@ -333,7 +332,13 @@ Function Fo_Tab_gener() {
                     $o_ext  = $ofn_info['extension'];
                     $o_dir  = $ofn_info['dirname'];
                     # echo "<br>L 0335 o_name $o_name <br>";
-                    
+                    $fn_arr = explode("-",$o_name);
+                    $fn_cnt= count($fn_arr);
+                    if ($fn_cnt >= 3) { 
+                        if ($fn_arr[0] == $fo_eigner) {
+                            continue;
+                        }
+                    }
                     
                     foreach ($verz_arr as $n_dsn) {
                         $nfn_info = pathinfo($n_dsn);
@@ -344,7 +349,7 @@ Function Fo_Tab_gener() {
                         # echo "L 0344 nfn_name $n_name <br>";
                         
                         if ($o_name == $n_name) {
-                            if ($o_ext == "WebP") {  
+                            if ($o_ext == "jpg") {  
                                 if ($o_dsn === $n_dsn) { // identisch, keine aktion erforderlich, löschen der Arr- Einträge
                                     unset($tab_arr['$o_key']);
                                     unset($verz_arr['n_dsn']);
