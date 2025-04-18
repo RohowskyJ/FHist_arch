@@ -57,18 +57,17 @@ if ($_SESSION[$module]['FOTO']) {
         'fo_dsn',
         'fo_aufn_datum',
         'fo_begltxt',
-        'fo_suchb',
         'fo_namen',
         'fo_typ',
         'fo_media'
     ); 
+    $Tabellen_Spalten_COMMENT['fo_namen'] = "Namen, Suchbegriffe";
 } elseif ($_SESSION[$module]['Fo']['BERI']) {
     $Tabellen_Spalten = array(
         'fo_id',
         'fo_dsn',
         'Aktion',
         'fo_begltxt',
-        'fo_suchb',
         'fo_typ',
         'fo_media',
         'fo_namen',
@@ -108,7 +107,7 @@ List_Action_Bar($tabelle,$media . "s des Urhebers " . $_SESSION['Eigner']['eig_e
 $sql = "SELECT * FROM $tabelle ";
 
 
-$sql_where = " WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' "; #  AND fo_basepath = '$basepath'  AND fo_zus_pfad = '$zus_pfad'
+$sql_where = " WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' "; #  AND fo_basepath = '$basepath'  AND fo_zus_pfad = '$zus_pfad'
 $orderBy = "  ";
 if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_string'] != '') {
     $select_string = $_SESSION[$module]['select_string'];

@@ -29,12 +29,8 @@ if (isset($_FILES['uploaddatei_1']['name'])) {
     
     if ($neu['fo_typ'] == "F") {
         $pict_path .= "06/";
-        $f_path = VF_set_PictPfad($neu['fo_aufn_datum'],$neu['fo_basepath'],$neu['fo_zus_pfad'],$neu['fo_aufn_suff']);
+        $f_path = VF_set_PictPath($neu['fo_aufn_datum'],$neu['fo_aufn_suff']);
         $uploaddir = $pict_path.$f_path ;
-        if ($neu['fo_id'] == 0 AND $_SESSION[$module]['verzeich'] == "J") {
-            $_SESSION[$module]['fo_base'] = $neu['fo_basepath'];
-            $_SESSION[$module]['fo_zus']  = $neu['fo_zus_pfad'];
-        }
     } elseif (
         $neu['fo_typ'] == "V") {
             $uploaddir = $pict_path."10/";
@@ -62,12 +58,12 @@ if (isset($_POST['level1'])) {
 
 if ($fo_id == 0) { # Neueingabe
     $sql = "INSERT INTO $tabelle (
-                fo_eigner,fo_urheber,fo_Urh_kurzz,fo_aufn_datum,fo_dsn,fo_begltxt,fo_namen,
-                fo_sammlg,fo_typ,fo_media,fo_basepath,fo_zus_pfad,
+                fo_eigner,fo_urheber,fo_aufn_datum,fo_dsn,fo_begltxt,fo_namen,
+                fo_sammlg,fo_suchbegr,fo_typ,fo_media,
                 fo_uidaend
               ) VALUE (
-                '$neu[fo_eigner]','$neu[fo_Urheber]','$neu[fo_Urh_kurzz]','$neu[fo_aufn_datum]','$neu[fo_dsn]','$neu[fo_begltxt]','$neu[fo_namen]',
-                '$neu[fo_sammlg]','$neu[fo_typ]','$neu[fo_media]','$neu[fo_basepath]','$neu[fo_zus_pfad]',
+                '$neu[fo_eigner]','$neu[fo_Urheber]','$neu[fo_aufn_datum]','$neu[fo_dsn]','$neu[fo_begltxt]','$neu[fo_namen]',
+                '$neu[fo_sammlg]','$neu[fo_suchbegr]','$neu[fo_typ]','$neu[fo_media]',
                 '$neu[fo_uidaend]'
                )";
 
@@ -131,6 +127,8 @@ if ($fo_id == 0) { # Neueingabe
 
 VF_Add_Namen($tabelle, # Einfügen der Schalgworte
 $recnr, 'fo_id', $neu['fo_namen']); # für Referat
+
+VF_Add_Findbuch($tabelle,$neu['fo_suchbegr'], 'fo_suchbegr', $recnr,  $neu['fo_eigner']);
 
 if ($neu['fo_typ'] == "V") {
     header("Location: VF_FO_List.php");

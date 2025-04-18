@@ -20,19 +20,13 @@ if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] == 'F' ) {
     $_SESSION['AOrd_[sel']['pict_path'] = $pict_path .= "09/10/";
 }
 
-$aufn_dat = $basepath =  $zus_pfad = $aufn_suff = $begltxt = "";
+$aufn_dat = $aufn_suff = $begltxt = "";
 
-$_SESSION[$module]['Up_Parm']['urh_abk'] = $_SESSION[$module]['Up_Parm']['basis_pfad'] = $_SESSION[$module]['Up_Parm']['zus_pfad'] =
+$_SESSION[$module]['Up_Parm']['urh_abk'] = 
    $_SESSION[$module]['Up_Parm']['aufn_dat'] = $_SESSION[$module]['Up_Parm']['aufn_suff'] = "";
 
 if (isset($_POST['urh_abk'])) {
     $urh_abk = $_SESSION[$module]['Up_Parm']['urh_abk'] =  $_SESSION[$module]['URHEBER']['ei_id']; # $_POST['urh_abk'];
-}
-if (isset($_POST['basis_pfad'])) {
-    $basepath = $_SESSION[$module]['Up_Parm']['basis_pfad'] = $_POST['basis_pfad'];
-}
-if (isset($_POST['zus_pfad'])) {
-    $zus_pfad = $_SESSION[$module]['Up_Parm']['zus_pfad'] = $_POST['zus_pfad'];
 }
 
 if (isset($_POST['aufn_suff'])) {
@@ -49,7 +43,7 @@ if (isset($_POST['urheinfueg'])) {
     $urheinfueg = $_SESSION[$module]['Up_Parm']['urheinfueg'] = $_POST['urheinfueg'];
 }
 
-$f_path = VF_set_PictPfad($_SESSION[$module]['Up_Parm']['aufn_dat'],$_SESSION[$module]['Up_Parm']['basis_pfad'],$_SESSION[$module]['Up_Parm']['zus_pfad'],$_SESSION[$module]['Up_Parm']['aufn_suff']);
+$f_path = VF_set_PictPath($_SESSION[$module]['Up_Parm']['aufn_dat'],$_SESSION[$module]['Up_Parm']['aufn_suff']);
 
 $_SESSION[$module]['Up_Parm']['TargetPfad'] = $targ_pfad = $pict_path . $f_path ;
 
@@ -69,7 +63,7 @@ $tabelle_in = "fo_todaten_$eignr";
 
 Cr_n_fo_daten($tabelle_in);
 
-$sql = "SELECT * FROM $tabelle_in where fo_aufn_datum = '$aufn_dat' AND fo_basepath= '$basepath' and fo_zus_pfad= '$zus_pfad' AND fo_aufn_suff = '$aufn_suff' AND fo_dsn = '' ";
+$sql = "SELECT * FROM $tabelle_in where fo_aufn_datum = '$aufn_dat' AND fo_aufn_suff = '$aufn_suff' AND fo_dsn = '' ";
 $urhnam = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf'];
 
 $typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
@@ -85,11 +79,11 @@ $return = SQL_QUERY($db, $sql);
 if (mysqli_num_rows($return) == "0") {
    
     $sql = "INSERT INTO $tabelle_in (
-                         fo_eigner,fo_urheber,fo_urh_kurzz,fo_dsn,fo_aufn_datum,fo_aufn_suff,fo_basepath,fo_zus_pfad,fo_begltxt,fo_namen,
+                         fo_eigner,fo_urheber,fo_dsn,fo_aufn_datum,fo_aufn_suff,fo_begltxt,fo_namen,
                          fo_sammlg,fo_typ,fo_media,
                          fo_uidaend
                       ) VALUE (
-                        '$eignr','$urhnam','$urh_abk','','$aufn_dat','$aufn_suff','$basepath','$zus_pfad','$begltxt','',
+                        '$eignr','$urhnam','','$aufn_dat','$aufn_suff','$begltxt','',
                         '','$typ','$media',
                         '" . $_SESSION['VF_Prim']['p_uid'] . "'
                       )";
@@ -112,6 +106,7 @@ Edit_Tabellen_Header("Hochladen für Urheber: ".$_SESSION[$module]['URHEBER'][$e
 Edit_Separator_Zeile("Aufnahmedatum: $aufn_dat ");
 
 echo "<p>Titel: $begltxt</p>";
+echo "<p>Pfad zu den Bildern: $targ_pfad</>";
 
 echo "<input type='hidden' id='urhName' value='".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['fotograf']."' >";
 echo "<input type='hidden' id='targPfad' value='$targ_pfad' >";

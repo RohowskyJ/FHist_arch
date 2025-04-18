@@ -101,9 +101,13 @@ $return_del = mysqli_query($db, $sql_del) or die("Datensatzlöschen gescheitert 
 $fld = "ad_keywords";
 $find_sum = $find_total = 0;
 foreach ($ar_arr as $ar_table => $ar) {
-    if (substr($ar_table, 0, 10) == "ar_chivord" or $ar_table == "ar_chivdt" or $ar_table == "ar_chivdt_" or $ar_table == "ar_ch_verl" or $ar_table == "ar_ord_local" ) {
+    if ($ar_table == "ar_chivord" or $ar_table == "ar_chivdt" or $ar_table == "ar_chivdt_" or $ar_table == "ar_ch_verl" or $ar_table == "ar_ord_local" ) {
         continue;
     }
+     
+    $ei_ar  = explode("_",$ar_table);
+    $eignr = $ei_ar[2];
+    
     $sql_in = "SELECT * FROM `$ar_table` ORDER BY ad_id ";
     /* */
      $dsn = "findbuch.log";
@@ -137,6 +141,65 @@ foreach ($ar_arr as $ar_table => $ar) {
                                       `fi_fdid`, `fi_suchbegr`, `fi_suchbegr_all`, `fi_eigner`
                                       ) VALUES
                                          ('$ar_table','$fld','$fdid','$key', '$keywords', '$eignr'
+                                           )";
+                    
+                    $return_fb = mysqli_query($db, $sql_fb) or die("Datenbankabfrage gescheitert. <br/>$sql_fb <br/>" . mysqli_error($db));
+                }
+            }
+        }
+    }
+    
+    $line .= "<b>Die Datei $ar_table wurde eingelesen und nach Suchegriffen analysiert. $find_sum Suchbegriffe wurden analysiert.<br>\n";
+    $find_total += $find_sum;
+}
+
+
+$fld = "fo_suchbegr";
+# $find_sum = $find_total = 0;
+foreach ($fo_arr as $fo_table => $fo) {
+    /*
+    if (substr($fo_table, 0, 10) == "fo_todat" or $ar_table == "ar_chivdt" or $ar_table == "ar_chivdt_" or $ar_table == "ar_ch_verl" or $ar_table == "ar_ord_local" ) {
+        continue;
+    }
+    */
+    $sql_in = "SELECT * FROM `$fo_table` ORDER BY fo_id ";
+    /* */
+    $dsn = "findbuch.log";
+    $eintragen = Date("Y-m-d H:i:s")."\n";
+    $eintragen .= "sql_in $sql_in  \n";
+    $datei = fopen($dsn, "a");
+    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+    fclose($datei);
+    /* */
+    $return_in = SQL_QUERY($db, $sql_in);
+    $find_sum = 0;
+    while ($row = mysqli_fetch_object($return_in)) {
+        if ($row->fo_suchbegr != " ") {
+            $fdid = $row->fo_id;
+            
+            $ei_ar  = explode("_",$fo_table);
+            $eignr = $ei_ar[2];
+            
+            
+            $keywords = $row->fo_suchbegr;
+            if ($keywords == "") {
+                continue;
+            }
+            $find_arr = explode(",", $row->fo_suchbegr);
+            $find_cnt = count($find_arr);
+            $find_sum += $find_cnt;
+            foreach ($find_arr as $key) {
+                $key = trim($key);
+                $sql_fi = "SELECT   * FROM `fh_findbuch` WHERE `fi_table`='$fo_table' AND `fi_fldname`='$fld' AND `fi_fdid`='$fdid' AND `fi_suchbegr`='$key'";
+               
+                $return_fi = mysqli_query($db, $sql_fi) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
+                $recnum = mysqli_num_rows($return_fi);
+                
+                if ($recnum == 0) {
+                    $sql_fb = "INSERT INTO `fh_findbuch` (`fi_table`, `fi_fldname`,
+                                      `fi_fdid`, `fi_suchbegr`, `fi_suchbegr_all`, `fi_eigner`
+                                      ) VALUES
+                                         ('$fo_table','$fld','$fdid','$key', '$keywords', '$eignr'
                                            )";
                     $return_fb = mysqli_query($db, $sql_fb) or die("Datenbankabfrage gescheitert. <br/>$sql_fb <br/>" . mysqli_error($db));
                 }

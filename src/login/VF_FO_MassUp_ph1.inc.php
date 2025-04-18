@@ -20,13 +20,13 @@ echo "Daten für den Eigentümer / Urheber: <i><b>".$_SESSION[$module]['URHEBER'
 
 echo "Urheber-Kurzzeichen : <b>".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['kurzz']."</b><br>";
 echo " &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Mediatyp : <b>".VF_Foto_Video[$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ']]."</b><br>";
-echo " &nbsp; &nbsp;&nbsp;Basis- Verzeichnis : <b>".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz']."</b><br>";
+# echo " &nbsp; &nbsp;&nbsp;Basis- Verzeichnis : <b>".$_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz']."</b><br>";
 
 if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz'] != "" ) {
     $basis_pfad  = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['verz'];
 }
 Edit_Separator_Zeile('Ziel- Pfad der Bilder');
- 
+ /*
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "<div class='w3-third   ' >";
 echo "<label for='basPfad'>Basispfad (wenn nicht Aufnahme-Datum) </label> ";
@@ -44,7 +44,7 @@ echo "  <div class='w3-twothird      ' >"; // Beginn Inhalt- Spalte
 echo "<input type='text' id='zusPfad' name='zus_pfad'   />";
 echo "</div>";
 echo "</div>";
-
+*/
 echo "<div class='w3-row'style='background-color:#eff9ff'>"; // Beginn der Einheit Ausgabe
 echo "<div class='w3-third   ' >";
 echo "<label for='aufnDat'>Aufnahme- Datum (Haupt- Pfad)</label>";

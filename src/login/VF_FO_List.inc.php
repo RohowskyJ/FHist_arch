@@ -58,7 +58,6 @@ $Tabellen_Spalten = array(
     'fo_id',
     'fo_dsn',
     'fo_aufn_datum',
-    'fo_basepath',
     'fo_begltxt',
     'fo_suchb',
     'fo_media' 

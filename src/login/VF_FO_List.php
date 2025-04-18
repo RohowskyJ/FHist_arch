@@ -1,5 +1,5 @@
 <?php
-/**
+/**$basepfad
  * Foto- Verwaltung
  * 
  * @author J. Rohowsky  - neu 2018 Umstellung Urheber 2025
@@ -180,8 +180,7 @@ function modifyRow(array &$row, $tabelle)
             }
             break;
         case "fo_todat":
-            $bpfad = $row['fo_basepath'];
-            $zuspfad = $row['fo_zus_pfad'];
+        
             if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {   
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
             } else {
@@ -198,16 +197,16 @@ function modifyRow(array &$row, $tabelle)
             $fo_aufn_d   = $row['fo_aufn_datum'];
             $fo_aufn_s   = $row['fo_aufn_suff'];
             $fo_eigner   = $row['fo_eigner'];
-            $fo_basepath = $row['fo_basepath'];
 
-            if ($fo_basepath != "") { # Pfad orientiertes Archiv
-                $pfad = $fo_basepath . "/";
-            } elseif ($fo_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
+            if ($fo_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
                 $pfad = $fo_aufn_d . "/";
+            }
+            if ($fo_aufn_s != "") {
+                $pfad .= $fo_aufn_s."/";
             }
 
             if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {
-                $row['fo_basepath'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&fo_aufn_s=$fo_aufn_s&pf=$bpfad&zupf=$zuspfad'  target='_blanc'>" . $fo_aufn_d . " </a> Fotos "; 
+                $row['fo_aufn_datum'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&fo_aufn_s=$fo_aufn_s'  target='_blanc'>" . $pfad . "</a> &nbsp; Fotos ";  # $fo_aufn_d
             }
 
             if ($row['fo_dsn'] != "") {

@@ -61,7 +61,7 @@ echo "<tr><th>Wolfgang Riegler</th><td>
 <img src='../../login/AOrd_Verz/158/09/06/20240505/VK-20240505-P5040807.jpg' alt='Bild des Kassiers'  height='200' ></a>
 </td></tr>";
 
-echo "<tr><th colspan='3'>Schiftführer</th></tr>";
+echo "<tr><th colspan='3'>Schriftführer</th></tr>";
 echo "<tr><th>Josef Rohowsky</th><td>
 <b>Jahrgag 1948 - Pensionist</b>
 <p>Habe bei der Gründung des Vereines den Auftrag erhalten, eine Plattform zur Unterstützung der Mitglieder zur Dokumentation ihrer Schätze zu schaffen (Inventar, Archiv, Beschreibungen, Kataloge, Berichte, ...).</p>

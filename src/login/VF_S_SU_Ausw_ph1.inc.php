@@ -132,8 +132,12 @@ if ($s_suchb_ausw == "sammlung") {
         $phase = 0;
     } else {
         $s_titel  = ", Suche im Findbuch <cite>$s_suchtext</cite>";
-        $inv_liste = "";
-        require "VF_S_Find_Arc_fb.inc.php" ;
+        $arc_liste = "";
+        # require "VF_S_Find_Arc_fb.inc.php" ;
+        FindB_Archiv ($s_suchtext);
+        $foto_liste = "";
+        FindB_Foto ($s_suchtext);
+        
     }
 } elseif ($s_suchb_ausw == "namen") {
     if ($debug) {
@@ -205,5 +209,60 @@ echo "<a href='VF_S_SU_Ausw.php'>Suche neu starten</a>";
 # =========================================================================================================
  $debug= False;
 if ($debug) {echo "<pre class=debug>VF_S_Ausw_ph1.inc beendet</pre>";}
+
+
+/**
+ * Findbuch- Auswahl Archiv-Daten
+ * Liste der Daten wird in global $arc_liste übergeben
+ * 
+ * @param string Suchbegriff
+ * @return boolean
+ */
+Function FindB_Archiv ($suchbegr)
+{
+    global $db, $debug,$arc_liste;
+    
+    $sql_in = "SELECT * FROM  `fh_findbuch` WHERE fi_table like '%ar_chivdt_%' ";
+    $return_in = SQL_QUERY($db, $sql_in);
+    while ($row = mysqli_fetch_object($return_in)) {
+        $s_usuchname = strtoupper($suchbegr);
+        $s_unaname = strtoupper($row->fi_suchbegr);
+        if (strstr($s_unaname, $s_usuchname)) {
+            if ($arc_liste == "") {
+                $arc_liste = "$row->fi_table|$row->fi_fdid";
+            } else {
+                $arc_liste .= ",$row->fi_table|$row->fi_fdid";
+            }
+        }
+    }
+    return true;
+} # Ende Funktion FindB_Archiv
+
+/**
+ * Findbuch- Auswahl Foto-Daten
+ * Liste der Daten wird in global $arc_liste übergeben
+ *
+ * @param string Suchbegriff
+ * @return boolean
+ */
+Function FindB_Foto ($suchbegr)
+{
+    global $db, $debug,$foto_liste;
+    
+    $sql_in = "SELECT * FROM  `fh_findbuch` WHERE fi_table like '%fo_todaten_%' ";
+    $return_in = SQL_QUERY($db, $sql_in);
+    while ($row = mysqli_fetch_object($return_in)) {
+        $s_usuchname = strtoupper($suchbegr);
+        $s_unaname = strtoupper($row->fi_suchbegr);
+        if (strstr($s_unaname, $s_usuchname)) {
+            if ($foto_liste == "") {
+                $foto_liste = "$row->fi_table|$row->fi_fdid";
+            } else {
+                $foto_liste .= ",$row->fi_table|$row->fi_fdid";
+            }
+        }
+    }
+    return true;
+} # Ende Funktion FindB_Archiv
 
 ?>

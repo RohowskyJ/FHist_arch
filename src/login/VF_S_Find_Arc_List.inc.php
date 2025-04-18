@@ -22,11 +22,15 @@ echo "<th colspan=\"7\">Verein der Feuerwehrhistoriker in NÖ,<br> Archivalienda
 echo "<tr><th width=\"15%\">Eigent.<hr/>Archiv-Nr.</th><th>Typ/Format</th><th>Beschreibung</th><th>Suchbegriffe<hr width=\"90%\">Namen</th><th></th></tr>";
 $select = "";
 $arr_arc = explode(',',$arc_liste);
+#var_dump($arr_arc);
 for ($i=0;!empty($arr_arc[$i]);$i++) {
+    
     $it_arr = explode("|",$arr_arc[$i]);
     $eig_arr = explode("_",$it_arr[0]);
+    if ($it_arr[0] == "ar_ch_verl") {continue;}
     $select = "WHERE `ad_id`='$it_arr[1]'";
     $sql_in = "SELECT * FROM `$it_arr[0]` $select ";
+    #echo "L 033 sql_in $sql_in <br>";
     $return_in = SQL_QUERY($db,$sql_in);
     while ($row   = mysqli_fetch_object($return_in)) {
         
