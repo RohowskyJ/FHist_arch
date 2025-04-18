@@ -88,7 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
         "jpg",
         "png",
         "tiff",
-        "webp",
         "mp4"
     ];
 

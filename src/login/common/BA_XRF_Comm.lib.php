@@ -473,6 +473,12 @@ function XR_Text_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
 /**
  * Recurviver Scan des Projektes
  *
+ *  Aufruf:
+ * global $file_info; // All the file paths will be pushed here
+ * $file_info = array();
+ * $V_cnt = $D_cnt = 0;
+ * XR_recursive_scan("$RPfad");
+ *
  * @function recursive_scan
  * @description Recursively scans a folder and its child folders
  * @param $path ::
@@ -480,13 +486,14 @@ function XR_Text_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
  */
 function XR_recursive_scan($path)
 {
-    # global $file_info;
+    global $file_info;
     $path = rtrim($path, '/');
     if (! is_dir($path)) {
         $file_info[] = $path;
     } else {
         $files = scandir($path);
         foreach ($files as $file) {
+            # echo "L 0496 file $file <br>";
             if ($file != '.' && $file != '..') {
 
                 XR_recursive_scan($path . '/' . $file);

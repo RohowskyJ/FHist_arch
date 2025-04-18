@@ -63,9 +63,10 @@ if ($debug_log) {file_put_contents('Fo_up_debug.log', "VF_Foto_funcs L 007, $inp
         default:
             throw new Exception('Unsupported output image type');
     }
-    */
+   
     imagewebp($newImage, $outputFile);
-
+ */
+    imagejpeg($newImage, $outputFile);
     // Speicher freigeben
     imagedestroy($source);
     imagedestroy($newImage);
@@ -284,9 +285,10 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath = '',
     }
     */
     $p_arr = pathinfo ($outputPath, PATHINFO_ALL);
-    $resized_file = $p_arr['dirname']."/".$p_arr['filename'].".WebP";
-    imagewebp($newImage, $resized_file);
-    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0228  foto_Funcs ausgegeben ".$p_arr['dirname']."/".$p_arr['filename'].".WebP \n" . PHP_EOL, FILE_APPEND);}
+    $resized_file = $p_arr['dirname']."/".$p_arr['filename'].".jpeg";
+    # imagewebp($newImage, $resized_file);
+    imagejpeg($newImage, $outputPath);
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0228  foto_Funcs ausgegeben ".$p_arr['dirname']."/".$p_arr['filename'].".jpeg \n" . PHP_EOL, FILE_APPEND);}
 
     // Speicher freigeben
     imagedestroy($source);

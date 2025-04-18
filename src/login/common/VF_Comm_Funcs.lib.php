@@ -1363,10 +1363,11 @@ function VF_set_PictPfad($aufndat, $basepfad, $zuspfad, $aufn_suff)
     flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_set_PictPfad" );
     
     $d_path = "";
-
+/*
     if (trim($basepfad) != "") {
         $d_path = trim($basepfad) . "/";
     } 
+    */
     if (trim($aufndat) != "")  {
         $d_path .= trim($aufndat) . "/";
     }
@@ -1374,11 +1375,49 @@ function VF_set_PictPfad($aufndat, $basepfad, $zuspfad, $aufn_suff)
     if (trim($aufn_suff) != "") {
         $d_path .= trim($aufn_suff) . "/";
     }
-    
+    /*
     if (trim($zuspfad) != "") {
         $d_path .= trim($zuspfad) . "/";
     }
+*/
+    return $d_path;
+}
 
+# ende function VF_set_PictPath
+
+/**
+ * Setzen des Pfades zu den Bildern
+ *
+ * Der Inhalt des Pfades wird über die Globale Val $pict_Pfad zrückgegeben
+ *
+ * @param string $aufndat
+ *            Datum oder Jahr der Aufnahme - Darf nicht leer sein
+ * @param string $basepfad
+ *            Basispfad darf leer sein
+ * @param string $zuspfad
+ *            Zusatzpfad darf leer sein
+ *
+ * @return string $d_path
+ *
+ * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
+ * @global string $module Modul-Name für $_SESSION[$module] - Parameter
+ *
+ */
+function VF_set_PictPath($aufndat, $aufn_suff)
+{
+    global $debug, $module, $flow_list;
+    
+    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_set_PictPfad" );
+    
+    $d_path = "";
+    
+    if (trim($aufndat) != "")  {
+        $d_path .= trim($aufndat) . "/";
+    }
+    
+    if (trim($aufn_suff) != "") {
+        $d_path .= trim($aufn_suff) . "/";
+    }
     return $d_path;
 }
 
