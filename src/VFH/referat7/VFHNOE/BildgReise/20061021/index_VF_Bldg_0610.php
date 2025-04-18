@@ -45,7 +45,7 @@ FF Amstetten, FF Wr.Neudorf und FF St. Pölten.
 <tbody>
 <tr>
  <td>     
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5219.WebP" alt="Feuerwehrmuseum Tumeltsham" align=right border="1" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-IMG_5219.JPG" alt="Feuerwehrmuseum Tumeltsham" align=right border="1" width="250px">
 Als erste Station war das
 Feuerwehrmuseum Tumeltsham
 am Plan.
@@ -69,7 +69,7 @@ und Bilder.
 
 <tr>
  <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5233.WebP" alt="Spritzenhaus Mettmach" align="left" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-IMG_5233.JPG" alt="Spritzenhaus Mettmach" align="left" width="250px">
 <br>      
 <br>
 Als nächstes besuchten wir das Feuerwehrmuseum in Mettmach. Es ist ein kleines,
@@ -94,7 +94,7 @@ Zwischendurch haben wir uns in Ried im Gasthaus Kellerbräu gestärkt.
 
 <tr>
  <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5243.WebP" alt="Kohle und Dampf" align="right" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-IMG_5243.JPG" alt="Kohle und Dampf" align="right" width="250px">
 
 Als Hauptpunkt im Nachmittagsprogramm war die OÖ Landesausstellung 2006
 "Kohle und Dampf" in Ampfelwang am Programm. Die Ausstellung ist in der
@@ -114,7 +114,7 @@ als Führer).
 
 <tr>
  <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-img_5275.WebP" alt="Papiermacher und Feuerwehrmuseum Steyrermühl" align="left" width="250px">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20061021/124-20061021-IMG_5275.JPG" alt="Papiermacher und Feuerwehrmuseum Steyrermühl" align="left" width="250px">
 
 Als letzte Station des Tages besuchten wir das
 Papiermachermuseum Laakirchen-Steyrermühl, in den Räumlichkeiten

@@ -40,13 +40,13 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
  <tr>
   <th colspan="2">Figurinen, Helme und Seitenwaffen</th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4587.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4587.JPG" alt="" width="200px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4574.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4574.JPG" alt="" width="200px">
 </th>
    <th colspan="2">Landfahrspritze Czermack, Teplitz,<br>
      1905, FF Klosterneuburg Weidling
@@ -62,13 +62,13 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
 
 </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4573.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4573.JPG" alt="" width="200px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4575.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4575.JPG" alt="" width="200px">
 </th>
    <th colspan="2">Löschfahrzeug Austro Fiat AFL 1935, <br>
     Tragkraftspritze Rosenbauer HR 60
@@ -80,13 +80,13 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
   im Hintergrund Armaturen und eine "Rauchhaube" nach BD Müller, BF Wien
 </th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4605.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4605.JPG" alt="" width="200px">
 </th>
  </tr>
 
  <tr>
   <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4623.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4623.JPG" alt="" width="200px">
 </th>
    <th colspan="2">Orden und Ehrenzeichen<br><br>
      Bundes-Auszeichnungen
@@ -96,7 +96,7 @@ wurde der Schauraum im neuen LFKDO in Tulln gestaltet und eingerichtet.
  <tr>
   <th colspan="2">Einmann-Handspritze</th>
    <th>
-<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-img_4611.WebP" alt="" width="200px">
+<img src="../../../../login/AOrd_Verz/124/09/06/20060906/124-20060906-IMG_4611.JPG" alt="" width="200px">
 </th>
  </tr>
 

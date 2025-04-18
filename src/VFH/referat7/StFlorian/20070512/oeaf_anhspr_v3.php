@@ -44,7 +44,7 @@ Oldtimerverein FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5838.WebP" alt="Löschfahrzeug ÖAF mit Anhägespritze" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-IMG_5838.JPG" alt="Löschfahrzeug ÖAF mit Anhägespritze" align="right" />
 Nicht jedes Feuerwehrfahrzeug war mit einer eingebauten Feuerlöschpumpe
 ausgestattet. Vielfach wurden für schon vorhandene Anhängespritzen
 Zugfahrzeuge beschafft, die dann als MTF und Geräteträger fungierten.
@@ -54,7 +54,7 @@ Firma Zellinger, Linz, Baujahr 1927, Viertakt-Vierzylinder-Vergasermotor
 mit 36 PS, Bauartgeschwindigkeit ~ 50 km/h, Gesamtgewicht 4.200 kg,
 ursprünglich mit Anhängespritze Knaust (Baujahr 1923 / 1250 l/min bei 8 bar).
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5837.WebP" alt="Löschfahrzeug ÖAF mit Anhägespritze" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-IMG_5837.JPG" alt="Löschfahrzeug ÖAF mit Anhägespritze" align="left" />
 Einsatz, auch Überland, daher "Landtrain" genannt, in Verwendung
 <br/>
 1927 - 1958 bei der FF Wels,
