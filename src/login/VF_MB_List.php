@@ -97,11 +97,11 @@ $_SESSION['VF']['$select_string'] = $select_string;
 $T_list_texte = array(
     "AlleM" => "Alle aktiven Mitglieder <span style='font:90% normal;'>(mit Namens Auswahl)</span>",
     "offenAlle" => "aktive Mitglieder - für 20" . date('y') . " nicht bezahlt",
-    "offen" => "aktive Mitglieder - für 20" . date('y') . " nicht bezahlt  <span style='font:90% normal;'>(mit Namens Auswahl)</span>",
     "bezahlt" => "für 20" . date('y') . " bezahlt",
     "EM" => "Nicht zahlende Mitglieder (EM oder OE) <span style='font:90% normal;'>(mit Namens Auswahl)</span>",
     "Alle" => "Alle <span style='font:90% normal;'>incl. BU und RI (mit Namens Auswahl)</span>"
 );
+ # "offen" => "aktive Mitglieder - für 20" . date('y') . " nicht bezahlt  <span style='font:90% normal;'>(mit Namens Auswahl)</span>",
 
 if (isset($_GET['mod_t_id'])) {
     $mod_t_id = $_GET['mod_t_id'];
@@ -184,16 +184,23 @@ switch ($T_List) {
     case "Alle":
     # break;
     case "AlleM":
-        $sql .= " WHERE  mi_mtyp<>'OE' && ((mi_austrdat IS NULL AND mi_sterbdat IS NULL))    "; 
+        $sql .= " WHERE  mi_mtyp<>'OE' && ((mi_austrdat IS NULL OR mi_austrdat = '') AND (mi_sterbdat IS NULL OR mi_sterbdat = ''))    "; 
         break;
 
     case "offen":
     case "offenAlle":
-        $sql .= " WHERE mi_mtyp<>'OE' && (mi_m_beitr_bez<'$ljahr' || mi_m_abo_bez<'$ljahr') && (mi_austrdat IS NULL AND mi_sterbdat IS NULL) ";
+        $sql .= " WHERE mi_mtyp<>'OE' && (mi_m_beitr_bez_bis<'$ljahr' ) && ((mi_austrdat IS NULL OR mi_austrdat = '') AND (mi_sterbdat IS NULL OR mi_sterbdat = ''))  ";
         break;
     // OR (mi_austrdat = NULL AND mi_sterbdat = NULL
     case "EM":
-        $sql .= " WHERE  mi_mtyp='OE' || mi_mtyp='EM' && (mi_austrdat IS NULL AND mi_sterbdat IS NULL)    "; 
+        $sql .= " WHERE  mi_mtyp='OE' || mi_mtyp='EM' && ((mi_austrdat IS NULL OR mi_austrdat = '') AND (mi_sterbdat IS NULL OR mi_sterbdat = ''))     "; 
+        break;
+    case "bezahlt":
+        $sql .= " WHERE mi_mtyp<>'OE' && (mi_m_beitr_bez_bis>= '$ljahr' ) && ((mi_austrdat IS NULL OR mi_austrdat = '') AND (mi_sterbdat IS NULL OR mi_sterbdat = ''))  ";
+        break;
+        // OR (mi_austrdat = NULL AND mi_sterbdat = NULL
+    case "EM":
+        $sql .= " WHERE  mi_mtyp='OE' || mi_mtyp='EM' && ((mi_austrdat IS NULL OR mi_austrdat = '') AND (mi_sterbdat IS NULL OR mi_sterbdat = ''))     ";
         break;
     default:
         HTML_trailer();
