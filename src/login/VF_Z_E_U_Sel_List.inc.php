@@ -66,7 +66,7 @@ $sql .= $sql_where . $orderBy;
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
-$TabButton = '1|green|weiter|';
+$TabButton = '1|green|weiter||1';
 # echo "$Err_msg<br>";
 List_Create($db, $sql,'', $tabelle_m,''); # die liste ausgeben
 

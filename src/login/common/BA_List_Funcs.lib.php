@@ -650,7 +650,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
  * @global string $SpaltenNamenAnzeige Anzeige des Spaltennamens (Ein) oder des Kommentares (Klarname) ->$_Sess
  * @global string $List_Parameter wird beim Link zur Auswahl der Listenart benötigt ?? ->$_Sess
  * @global string $DropdownAnzeige Anzeige des Dropdown-Menus im Listenkopf ->$_Sess
- * @global string $TabButton Ein: Button, grün, mit phase = $TabButton am Ende der form 'phase|green|Butt-Txt|return-to-scr'
+ * @global string $TabButton Ein: Button, grün, mit phase = $on am Ende der form 'phase|green|Butt-Txt|return-to-scr'
  * @global string $Kateg_Name Text für die Teilen-Anzeige
  */
 function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
@@ -1039,12 +1039,13 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
             $tab_arr[1] = "green";
             $tab_arr[2] = "Daten abspeichern";
             $tab_arr[3] = ""; # retun to .scr
+            $tab_arr[4] = False;
         }
-        if ($_SESSION[$module]['all_upd']) {
+        if ($_SESSION[$module]['all_upd'] | $tab_arr[4]) {
             echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
             echo "<button type='submit' name='phase' value='$tab_arr[0]' class='$tab_arr[1]'>$tab_arr[2]</button></p>";
         }
-        if ($tab_arr[3] != "") {
+        if ($tab_arr[3] != "" && isset($_SESSION[$module]['Act'])) {
             echo "<p><a href='$tab_arr[3]?Act=" . $_SESSION[$module]['Act'] . "'>Zurück zur Liste</a></p>";
         }
     }
