@@ -33,15 +33,18 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
-require $path2ROOT . 'login/common/BA_AJAX_funcs.lib.php';
+require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 
 $flow_list = True;
-
+if ($flow_list) {
+    flow_add($module,"BA_MA_Edit.php Funct: BA_Auto_Compl" );
+}
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
 $prot = True;
-$header = "<style>w3-input</style>";
+$header = "";
+console_log('L047');
 
 $A_Off = True;  # set autocomplete=off in Header
 

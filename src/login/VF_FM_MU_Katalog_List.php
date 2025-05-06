@@ -24,6 +24,19 @@
      * @var string $path2ROOT
      */
     $path2ROOT = "../";
+    
+    /* */
+    // Error Reporting aktivieren (alle Fehler)
+    error_reporting(E_ALL);
+    
+    // Fehler direkt im Browser anzeigen (z.B. während der Entwicklung)
+    ini_set('display_errors', '1');
+    
+    // Fehler in eine Log-Datei schreiben (empfohlen im Produktivsystem)
+    ini_set('log_errors', '1');
+    ini_set('error_log', $path2ROOT . "login/e_log/error.log"); // Stelle sicher, dass der Pfad beschreibbar ist
+    #$path2ROOT . "login/e_log/" . $date . "_$id.flow";
+    /* */
    
     $debug = False; // Debug output Ein/Aus Schalter
 
@@ -35,7 +48,10 @@
     require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
     require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-    $flow_list = False;
+    $flow_list = True;
+    if ($flow_list) {
+        flow_add($module,"VF_FM_MU_Katalog_list.php Funct: start" );
+    }
 
     $LinkDB_database = '';
     $db = LinkDB('VFH');
@@ -188,7 +204,7 @@
         $sql_where = "WHERE mg_sammlg LIKE '%" . $_SESSION[$module]['sammlung'] . "%' ";
         $tabelle_m = "";
     }
-    #echo "L 0198 $tabelle_g $tabelle_m <br>";
+    # cho "L 0191 $tabelle_g $tabelle_m <br>";
     /**
      * Einlesen der vorhandenen ge_raete und fz_muskel Dateien
      *
@@ -220,7 +236,7 @@
         $i ++;
     }
 
-    #echo "L 0225 $tabelle_m $tabelle_g <br>";
+    #cho "L 0225 $tabelle_m $tabelle_g <br>";
     # var_dump($mug_arr);
     foreach ($eig_arr as $eignr) {
 
@@ -235,10 +251,10 @@
                 // einlesen der Fzgdaten in Arr
                 # $table = "fz_muskel_$eignr";
                 $sql = "SELECT * FROM `$tabelle`  $sql_where ORDER BY `mg_id` ASC";
-                # echo "L 240: \$sql $sql <br/>";
+                #echo "L 240: \$sql $sql <br/>";
                 $return_ge = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
 
-                # print_r($return_fz);echo "<br>$sql <br>";
+                # print_r($return_ge);echo "<br>$sql <br>";
                 $indienst = "";
                 while ($row = mysqli_fetch_object($return_ge)) {
                      # print_r($row);echo "<br>L 0244 row <br>";

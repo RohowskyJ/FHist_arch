@@ -1951,40 +1951,40 @@ function updateOptions(level, parentValue, optVal) {
  */
 function VF_Multi_Sel_Input () {
     global $debug,$path2ROOT, $module  ;
-    
+    var_dump($_POST);
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Multi_Sel_Input" );
     
     $response = "";
     if (isset($_POST['level1']) && ($_POST['level1'] != "" ) ) {
         $response = trim($_POST['level1']);
-    }
+    } 
     
     if (isset($_POST['level2']) && ($_POST['level2'] != "" ) ) {
-        if ($_POST['level2'] != "Nix") {
+        if ($_POST['level2'] != "Nix" && $_POST['level2'] != "cNix") {
             $response = trim($_POST['level2']);
         }
     }
     
     if (isset($_POST['level3']) && ($_POST['level3'] != "" ) ) {
-        if ($_POST['level3'] != "Nix") {
+        if ($_POST['level3'] != "Nix" && $_POST['level3'] != "cNix") {
             $response = trim($_POST['level3']);
         }
     }
     
     if (isset($_POST['level4']) && ($_POST['level4'] != "") ) {
-        if ($_POST['level4'] != "Nix") {
+        if ($_POST['level4'] != "Nix" && $_POST['level4'] != "cNix") {
             $response = trim($_POST['level4']);
         }
     }
     
     if (isset($_POST['level5']) && ($_POST['level5'] != "") ) {
-        if ($_POST['level5'] != "Nix") {
+        if ($_POST['level5'] != "Nix" && $_POST['level5'] != "cNix") {
             $response = trim($_POST['level5']);
         }
     }
     
     if (isset($_POST['level6']) && ($_POST['level6'] != "") ) {
-        if ($_POST['level6'] != "Nix") {
+        if ($_POST['level6'] != "Nix" && $_POST['level6'] != "cNix") {
             $response = trim($_POST['level6']);
         }
     }

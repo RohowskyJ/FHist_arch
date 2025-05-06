@@ -74,7 +74,7 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" ) {
     Edit_Separator_Zeile('Firmen (Fzg/Gerät - Hersteller/Aufbauer) ');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "<tr><TD>Liste Fahrzeug- und Geräte- Heersteller und Aufbauer </d><br>";
-    echo "<a href='vF_Z_FI_List.php?sk=$sk' target='Config'>Firmen</a>"; # neu OK
+    echo "<a href='VF_Z_FI_List.php?sk=$sk' target='Config'>Firmen</a>"; # neu OK
     echo "</div>";
     
     Edit_Separator_Zeile('Abkürzungen ');

@@ -133,11 +133,9 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
  */
-if (isset($_POST['auto']) ) {
-    $ei_arr = explode("-",$_POST['auto']);
-    $ei_id = $ei_arr[0];
+if (isset($_POST['suggestEigener'])) {
+    $ei_id = $_POST['suggestEigener'];
     VF_Displ_Eig($ei_id);
-    $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
@@ -163,7 +161,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
      */
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten" ){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            BA_Auto_Compl('Eigent','Eigentümer');
+            BA_Auto_Eigent();
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
@@ -240,6 +238,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     
     BA_HTML_trailer();
 }
+
+BA_Auto_Funktion();
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste

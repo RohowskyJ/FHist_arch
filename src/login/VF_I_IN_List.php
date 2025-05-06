@@ -141,12 +141,13 @@ if (isset($_POST['suggestEigener'])) {
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
-
+#var_dump($_POST);
 /**
  * Sammlung auswählen, Input- Analyse
  */
 if (isset($_POST['level1'])) {
     $sammlg = $_SESSION[$module]['sammlung'] = VF_Multi_Sel_Input();
+    #echo "L 0150 sammlg $sammlg <br>";
 }
 
 /**
