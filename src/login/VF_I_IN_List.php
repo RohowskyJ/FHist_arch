@@ -22,6 +22,7 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
+require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
@@ -133,12 +134,10 @@ $_SESSION[$module]['$select_string'] = $select_string;
 
 /**
  * Eigentümer- Auswahl (Autocomplete)
- */
-if (isset($_POST['auto']) ) {
-    $ei_arr = explode("-",$_POST['auto']);
-    $ei_id = $ei_arr[0];
+*/
+if (isset($_POST['suggestEigener'])) {
+    $ei_id = $_POST['suggestEigener'];
     VF_Displ_Eig($ei_id);
-    $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
@@ -156,7 +155,7 @@ if (isset($_POST['level1'])) {
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "") { 
     
     if ($_SESSION['Eigner']['eig_eigner'] == "") {
-        VF_Eig_Ausw();
+        BA_Auto_Eigent();
     }
     
     if ($_SESSION[$module]['sammlung'] == ""){
@@ -354,6 +353,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     BA_HTML_trailer();
 }
 
+BA_Auto_Funktion();
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
  *

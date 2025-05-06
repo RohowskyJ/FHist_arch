@@ -11,6 +11,8 @@
  */
 session_start();
 
+header('Content-Type: application/json');
+
 const Module_Name = 'Eigner-Search';
 $module = Module_Name;
 $tabelle = "";
@@ -27,7 +29,6 @@ $path2ROOT = "../../../";
 $debug = False;
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 
-
 if (isset($_GET["term"])) {
     $term = $_GET["term"];
 }
@@ -43,10 +44,15 @@ if (isset($_POST['proc'])) {
 } else {
     $proc = "Eigent";
 }
-
+if  (isset($_GET['proc']) ) {
+    $proc = $_GET['proc'];
+}
+if (isset($_GET['query'])) {
+    $term = $_GET['query'];
+}
 $LinkDB_database = "";
 $db = LinkDB('VFH'); // Connect zur Datenbank
-/**/
+/*
 $dsn = "autocomp.log";
 $eintragen = Date("Y-m-d H:i:s")."\n";
 $eintragen .= "term $term \n";
@@ -55,47 +61,43 @@ $eintragen .= "proc $proc \n";
 $datei = fopen($dsn, "a");
 fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
 fclose($datei);
-/*/
-$srch_arr = array();
 
-if (isset($term)) {
-    /*
-    $eintragen = " isset term term $term \n";
-    
-    $datei = fopen($dsn, "a");
-    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-    fclose($datei);
-    */
-    if ($proc == "Eigent") {
-        eigent($term);
-    }
-        
-    
-# }
-# var_dump($srch_arr);
-$result = array(
-    array(
-        "label" => '0- Kein Eigentümer ausgewählt',
-        'var' => '0- Kein Eigentümer ausgewählt'
-    )
-);
-foreach ($srch_arr as $company) {
-    $companyLabel = $company["label"];
-    if (strpos(strtoupper($companyLabel), strtoupper($term)) !== false) {
-        array_push($result, $company);
-    }
+$eintragen = "l 062 isset term, $term \n proc $proc \n";
+
+$datei = fopen($dsn, "a");
+fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+fclose($datei);
+*/
+if ($proc == "Eigentuemer") {
+    eigent($term);
 }
+if ($proc == "Taktisch")   {
+    taktische($term);
+}
+if ($proc == "Hersteller")   {
+    hersteller($term);
+}
+if ($proc == "Aufbauer")   {
+    aufbauer($term);
+}
+if ($proc == "Urheber")   {
+    urheb($term);
+}
+
+$response[] = ['value' => '', 'label' => "Keine Auswahl $proc gefunden"];
+# echo json_encode($response);
+
 
 function eigent ($term) {
     global $db, $module, $srch_arr;
-    /*
-    $dsn = "api_log";
+    /* */
+    $dsn = "autocomp_eig.log";
     $eintragen = "f Eig  $term L 094\n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    */
+    /* */
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%' LIMIT 100";
     $result = SQL_QUERY($db, $query);
     
@@ -108,16 +110,16 @@ function eigent ($term) {
         fclose($datei);
         */
         while ($user = mysqli_fetch_array($result)) {
-            $lab = $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
-            $val = $user['ei_id'] . "- " . $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
-            $srch_arr[] = array(
-                "label" => $val,
-                "var" => $val
-            );
-            echo '<div class="autocomplete-suggestion">' . htmlspecialchars($val) . '</div>';
+            $response[] = [
+                'value' => $user['ei_id'],
+                'label' => $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname']
+            ];
         }
+        
+        echo json_encode($response);
     } else {
-        echo "<p style='color:red'>User not found...</p>";
+        $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
+        echo json_encode($response);
     }
     
 } # ende funct eigent
@@ -125,26 +127,118 @@ function eigent ($term) {
 function urheb ($term) {
     global $db, $module, $srch_arr;
     
-    $query = "SELECT * FROM fh_eigentuemer WHERE ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%' LIMIT 100";
+    $query = "SELECT * FROM fh_eigentuemer WHERE ei_media<> '' AND (ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%') LIMIT 100";
     
     $result = SQL_QUERY($db, $query);
     
     if (mysqli_num_rows($result) > 0) {
         
         while ($user = mysqli_fetch_array($result)) {
-            $lab = $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
-            $val = $user['ei_id'] . "- " . $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
-            $srch_arr[] = array(
-                "label" => $val,
-                "var" => $val
-            );
-            echo '<div class="autocomplete-suggestion">' . htmlspecialchars($val) . '</div>';
+            $response[] = [
+                'value' => $user['ei_id'],
+                'label' => $user['ei_name']
+            ];
         }
+        
+        echo json_encode($response);
     } else {
-        echo "<p style='color:red'>User not found...</p>";
+        $response[] = ['value' => '', 'label' => 'Keine Eintragung gefunden'];
+        echo json_encode($response);
     }
     
 } # ende funct urheb
 
-# echo json_encode($result);
+function taktische ($term) {
+    global $db, $module, $srch_arr, $dsn,$proc;
+    /* */
+    $dsn = "autocomp_tak.log";
+    $eintragen = "l 0161 taktische  term $term \n";
+    
+    $datei = fopen($dsn, "a");
+    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+    fclose($datei);
+    /* */
+    $query = "SELECT * FROM fh_abk WHERE ab_bezeichn LIKE '{$term}%' OR ab_abk  LIKE '{$term}%' LIMIT 100";
+    
+    $result = SQL_QUERY($db, $query);
+    
+    if (mysqli_num_rows($result) > 0) {
+        $response = array();
+        while ($abk = mysqli_fetch_array($result)) {
+            $response[] = [
+                'value' => $abk['ab_abk'],
+                'label' => $abk['ab_bezeichn']. " - ". $abk['ab_grp']."  (".$abk['ab_abk'] .")" 
+            ];
+        }
+
+        echo json_encode($response);
+    } else {
+        $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
+        echo json_encode($response);
+    }
+    
+} # ende funct abkuerz
+
+function hersteller ($term) {
+    global $db, $module, $srch_arr;
+    /* */
+    $dsn = "autocomp_her.log";
+    $eintragen = " isset term term $term \n";
+    
+    $datei = fopen($dsn, "a");
+    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+    fclose($datei);
+    /* */
+    $query = "SELECT * FROM fh_firmen WHERE fi_funkt = 'F' and (fi_name LIKE '{$term}%' OR fi_abk  LIKE '{$term}%') LIMIT 100";
+    
+    $result = SQL_QUERY($db, $query);
+    
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($abk = mysqli_fetch_array($result)) {
+            $response[] = [
+                'value' => $abk['fi_abk'],
+                'label' => $abk['fi_name']   
+            ];
+        }
+        
+        echo json_encode($response);
+    } else {
+        $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
+        echo json_encode($response);
+    }
+    
+} # ende funct abkuerz
+
+function aufbauer ($term) {
+    global $db, $module, $srch_arr;
+    /* */
+    $dsn = "autocomp_auf.log";
+    $eintragen = " isset term term $term \n";
+    
+    $datei = fopen($dsn, "a");
+    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
+    fclose($datei);
+    /* */
+    $query = "SELECT * FROM fh_firmen WHERE fi_funkt = 'A' and (fi_name LIKE '{$term}%' OR fi_abk  LIKE '{$term}%') LIMIT 100";
+    
+    $result = SQL_QUERY($db, $query);
+    
+    if (mysqli_num_rows($result) > 0) {
+        
+        while ($abk = mysqli_fetch_array($result)) {
+            $response[] = [
+                'value' => $abk['fi_abk'],
+                'label' => $abk['fi_name']
+            ];
+        }
+        
+        echo json_encode($response);
+    } else {
+        $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
+        echo json_encode($response);
+    }
+    
+} # ende funct abkuerz
+
 ?>

@@ -22,7 +22,7 @@ $path2ROOT = "../";
 
 $debug = False;  // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/BA_HTMLFuncs.lib.php' ; 
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php' ; 
 require $path2ROOT . 'login/common/BA_Funcs.lib.php' ; 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php' ;
 
@@ -33,7 +33,7 @@ VF_chk_valid();
 // Eingabenerfassung und defauls
 // ============================================================================================================
 
-$db = LinkDB('Mem'); 
+$db = LinkDB('VFH'); 
 
 // ============================================================================================================
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
@@ -53,7 +53,7 @@ BA_HTML_header($titel,'','Form','90em'); # Parm: Titel,Subtitel,HeaderLine,Type,
   <form id="myform" name="myform" method="post" action="<?php echo $_SERVER["PHP_SELF"];?>" enctype="multipart/form-data">
   <fieldset>
 <?php
-echo "C_DS_2 L 062: \$phase $phase <br/>";
+# echo "C_DS_2 L 062: \$phase $phase <br/>";
   switch ($phase)
   { case 0 : require 'VF_Z_DS_2_ph0.inc.php' ;
              break;

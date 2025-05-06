@@ -84,9 +84,9 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3.css'  type='text/css'>";
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
-   
+    
     if (isset($prot) && $prot) {
-        echo "<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/prototype.js' ></script>";
     }
 
     echo $head;
@@ -164,9 +164,12 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         #echo "<body class='w3-container'  style='max-width:$width;'>";
         #echo '<fieldset>';
     }
-   
+    $set_auto = "";
+    if (isset($A_Off) && $A_Off) {
+        $set_auto = " autocomplete='off' ";
+    }
     if (isset($form_start) && $form_start) {
-        echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data'>";
+        echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data' $set_auto >";
     }
    
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_Header");

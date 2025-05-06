@@ -212,7 +212,7 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
             }
         }
 
-        echo "<input class='w3-input' $InputParm>";
+        echo "<input  $InputParm>"; # class='w3-input'
     }
     if (! empty($Err_msg[$FeldName])) {
         echo " <span class='error'>$Err_msg[$FeldName]</span>";
@@ -295,7 +295,7 @@ function Edit_Daten_Feld_auto($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldA
             }
         }
 
-        echo "<input class='w3-input' $InputParm>";
+        echo "<input  $InputParm>";  # class='w3-input'
 
     }
     if (! empty($Err_msg[$FeldName])) {
@@ -353,7 +353,7 @@ function Edit_textarea_Feld($FeldName, $InfoText = '', $FeldAttr = '')
     if ($Edit_Funcs_Protect or $phase != 0) {
         echo $neu[$FeldName];
     } else {
-        echo "<textarea class='w3-input' $InputParm>" . $neu[$FeldName] . "</textarea>";
+        echo "<textarea  $InputParm>" . $neu[$FeldName] . "</textarea>"; # class='w3-input'
     }
     if (! empty($Err_msg[$FeldName])) {
         echo " <span class='error'>$Err_msg[$FeldName]</span>";
@@ -507,7 +507,7 @@ function Edit_Check_Box($FeldName, array $Boxes, $InfoText = '')
         } else {
             $checked = '';
         }
-        echo "<label><input  class='w3-check w3-input' type='checkbox' name='F_Name[]' value='$value' $checked> $text <br> </label> ";
+        echo "<label><input  class='w3-check' type='checkbox' name='F_Name[]' value='$value' $checked> $text <br> </label> ";  #  w3-input
     }
 
     if (! empty($Err_msg[$FeldName])) {

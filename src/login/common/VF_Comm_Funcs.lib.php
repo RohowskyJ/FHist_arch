@@ -1486,10 +1486,19 @@ function VF_tableExist()
                 continue;
             }
         
-            if (substr($table, 0, 8) == "ma_fz_be") {
+            if (substr($table, 0, 4) == "ma_f") {
                 $maf_arr[$table] = 1;
                 continue;
             }
+            if (substr($table, 0, 5) == "fz_ei") {
+                $fz_arr[$table] = 1;
+                continue;
+            } 
+            if (substr($table, 0, 5) == "fz_fz") {
+                $fz_arr[$table] = 1;
+                continue;
+            }
+            
             if (substr($table, 0, 5) == "fz_fi") {
                 $fz_arr[$table] = 1;
                 continue;
@@ -1728,7 +1737,7 @@ function VF_Eig_Ausw()
     echo "         <label for='Level_e'>Namen des ".$tit_eig_leih."s eingeben &nbsp;  </label>";
     echo "    </div>";
     echo "    <div class='w3-container w3-twothird'> ";
-    echo "        <input class='w3-input' type='text' id='autocomplete' name='auto' placeholder='".$tit_eig_leih." Name eingeben...' /> <br>Zur Auswahl auf den gewünschten Namen klicken<br>";
+    echo "        <br><input class='w3-input' type='text' id='autocomplete' name='auto' placeholder='".$tit_eig_leih." Name eingeben...' /> <br>Zur Auswahl auf den gewünschten Namen klicken<br>";
     echo "      <br>    <div id='suggestions'></div>";
 
     echo "     </div>";

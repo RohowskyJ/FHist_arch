@@ -2,6 +2,35 @@
 /**
  * Ausgabe der Liste der Muskelgezogenen Fahrzeuge mit Auswahl zur Wartun der Daten 
  */
+
+/**
+ * einlesen Hersteller und Aufbauer in arrs
+ */
+$herst_arr = $aufb_arr = array();
+$sql_a = "SELECT * FROM fh_firmen ORDER BY fi_name ASC  ";
+$res_a = SQL_QUERY($db,$sql_a);
+WHILE ($row_a = mysqli_fetch_object($res_a)) {
+    if ($row_a->fi_funkt == 'F') {
+        $herst_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;
+    } else {
+        $aufb_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;;
+    }
+}
+#var_dump($herst_arr);
+#var_dump($aufb_arr);
+
+/**
+ * Einlesen der Sammlungs- Kürzeln in arr
+ */
+$sam_arr = array();
+$sql_s = "SELECT * FROM fh_sammlung ORDER BY sa_sammlg ";
+$res_sa = SQL_QUERY($db,$sql_s);
+WHILE ($row_s = mysqli_fetch_object($res_sa)) {
+    $sam_arr[$row_s->sa_sammlg] = $row_s->sa_name;
+}
+#var_dump($sam_arr);
+
+
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
@@ -102,7 +131,9 @@ if ($return != True) {
     echo "$tabelle error: mysqli_errno($return)";
 }
 
-$sql = "SELECT * FROM $tabelle ";
+#$sql = "SELECT * FROM $tabelle ";
+
+
 $sql_where = "";
 $orderBy = "";
 
@@ -118,11 +149,14 @@ $Tabellen_Spalten = array(
     'fm_foto_1'
 );
 $Tabellen_Spalten_style['fm_eignr'] = $Tabellen_Spalten_style['fm_id'] = $Tabellen_Spalten_style['fm_baujahr'] = 'text-align:center;';
-
+$sql = "SELECT * FROM `$tabelle`  \n
+                    LEFT JOIN fh_sammlung ON $tabelle.fm_sammlg = fh_sammlung.sa_sammlg   \n
+                    WHERE  fm_sammlg LIKE '%" . $_SESSION[$module]['fm_sammlung'] . "%' "; 
+/*
 if ($_SESSION[$module]['fm_sammlung']) {
     $sql_where = " WHERE fm_sammlg LIKE '%".$_SESSION[$module]['fm_sammlung']."%' ";
 }
-
+*/
 $orderBy = "  ";
 
 

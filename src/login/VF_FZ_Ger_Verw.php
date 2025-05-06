@@ -79,6 +79,17 @@ echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_O_DO_List.php?sk=$sk&sel_thema=aut' target='Dokumente'>Vereins- Dokumentation zu Fahrzeugen </a></td></tr>";
 echo "</div>"; // Ende der Inhalt Spalte
 
+Edit_Separator_Zeile('Maschinenbewegte Fahrzeuge (Automobile) und motorbetriebene Geräte - Neue Version');
+echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
+echo "Beschreibungen der mit Motorkraft bewegten Fahrzeuge und für Motorfahrzeuge konstruierten Anhänger, Geräte.";
+echo "  </div>";  // Ende Feldname
+echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
+echo "<a href='VF_FZ_List.php?sk=$sk&ID=NextEig' target='MotorFahrzeuge'>Motorisierte Fahrzeug- und Geräte Wartung </a>";
+echo "</div>"; // Ende der Inhalt Spalte
+echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
+echo "<a href='VF_FZ_MA_Katalog_List.php?sk=$sk' target='Automobil-Katalog'>Automobil- Fahrzeugkatalog</a>";
+echo "</div>"; // Ende der Inhalt Spalte
+
 Edit_Tabellen_trailer();
 
 BA_HTML_trailer();

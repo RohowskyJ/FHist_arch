@@ -1,3 +1,4 @@
+
 <?php 
 /**
  * Defintion der Konstanten aller Bereiche
@@ -138,12 +139,13 @@ const VF_Sel_SA_Such = array(  // für Suchfunktionen und Inventar
     'MA_F' => 'von Maschinen angetriebene Fahrzeuge',
     'MA_G' => 'Von Maschinen angetriebene Geräte',
     'MU_F' => 'Mit Muskeln bewegte Transportmittel',
-    'MU_G' => 'Geräte',
+    'MU_G' => 'Mit Muskeln betriebene Geräte',
     'PA_R' => 'Persönliche Ausrüstung',
     'AR_U' => 'Geschichte in Wort und Bild',
     'KA_A' => 'Kaiserreich Österreich (bis 1918)',
     'WW_2' => '2. Weltkrieg'
 );
+
 
 const VF_Sel_SA_MA = array(  // für Fahrzeuge ud Geräte
     'MA_F' => 'von Maschinen angetriebene Fahrzeuge',
@@ -165,11 +167,25 @@ const VF_Sel_SA_MA_G = array(  // für Fahrzeuge ud Geräte
     'MA_G' => 'Von Maschinen angetriebene Geräte'
 );
 const VF_Sel_SA_MU_G = array(  // für Fahrzeuge ud Geräte
-    'MU_G' => 'Geräte'
+    'MU_G' => 'Mit Muskeln betriebene Geräte'
 );
 
 
 const VF_Sel_SA_PA = array(   // für Perönliche Schutzausrüstung 
+    'PA_R' => 'Persönliche Ausrüstung'
+);
+
+/**
+ * Definitionen für Glossary
+ *
+ *
+ * @var array $sammlung
+ */
+const VF_Abk = array(  // Glossar
+    'MA_F' => 'von Maschinen angetriebene Fahrzeuge',
+    'MA_G' => 'Von Maschinen angetriebene Geräte',
+    'MU_F' => 'Mit Muskeln bewegte Fahrzeugel',
+    'MU_G' => 'Mit Muskeln betriebene Geräte',
     'PA_R' => 'Persönliche Ausrüstung'
 );
 
@@ -246,7 +262,7 @@ const VF_zuldateitypen = array(
 /**
  * Definition Zertifizierungsklasse CTIF
  */
-const VF_CTIF_Class = array("I" => "1. Klasse","II"=> "2. Klasse","III"=>"3. Klasse");
+const VF_CTIF_Class = array(""=>"","I" => "1. Klasse","II"=> "2. Klasse","III"=>"3. Klasse");
 
 /**
  * mime- Typen für Dokumente- Upload
@@ -625,6 +641,11 @@ const TxtFiles  = array("csv","dbf","doc","log","pps","odp","odt","txt","xml");
      'W' => 'Wasserdienst',
      'K' => 'Katastrophenchutz',
      "P" => 'Persönliche Ausrüstung'
+ );
+ 
+ const VF_Fahrz_Herst = array(
+     'F' =>'Fahrzeughersteller'
+     ,'A'=>'Aufbauer (Karosseur)'
  );
  
 /**

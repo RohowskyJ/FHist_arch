@@ -38,24 +38,24 @@ function Cr_n_fo_daten ($tabelle)
 function Cr_n_fo_daten ($tabelle)
 {
     global $debug, $db;
-    
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-        `fo_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
-        `fo_eigner` int(20) NOT NULL COMMENT 'Eigentümer- Nr',
-        `fo_Urheber` varchar(50)  COLLATE utf8_unicode_ci NOT NULL COMMENT 'Urheber- Name',
-        `fo_dsn` varchar(60) COLLATE  	utf8_unicode_ci NULL COMMENT 'Dateiname',
-        `fo_aufn_datum` varchar(15)  COLLATE  	utf8_unicode_ci NULL COMMENT 'Aufnahme Datum = Verzeichnis',
-        `fo_aufn_suff` varchar(2)  COLLATE  	utf8_unicode_ci NULL COMMENT 'Suffix - bei gleichen Datum von 2 Ereignissen',
-        `fo_begltxt` longtext COLLATE  	utf8_unicode_ci NULL COMMENT 'Beschreibung',
-        `fo_namen` longtext COLLATE utf8mb4_unicode_ci  NULL COMMENT 'Foto Name',
-        `fo_sammlg` varchar(40) COLLATE utf8mb4_unicode_ci NULL COMMENT 'Sammlung',
-        `fo_suchbegr` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Suchbegriffe',
-        `fo_typ` set('F','V') COLLATE utf8_unicode_ci NULL COMMENT 'Typ',
-        `fo_media` set('Audio','Foto','Film','Video') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Medium',
-        `fo_uidaend` varchar(4) COLLATE utf8_unicode_ci NULL COMMENT 'Aenderer',
-        `fo_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
-         PRIMARY KEY (`fo_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Foto- Archiv' ;
+      `fo_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
+      `fo_eigner` int(20) NOT NULL COMMENT 'Eigentümer- Nr',
+      `fo_Urheber` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT 'Urheber- Name',
+      `fo_dsn` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Dateiname',
+      `fo_aufn_datum` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Aufnahme Datum = Verzeichnis',
+      `fo_aufn_suff` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Suffix - bei gleichen Datum von 2 Ereignissen',
+      `fo_begltxt` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Beschreibung',
+      `fo_namen` longtext DEFAULT NULL COMMENT 'Foto Name',
+      `fo_sammlg` varchar(40) DEFAULT NULL COMMENT 'Sammlung',
+      `fo_suchbegr` varchar(1024) DEFAULT NULL COMMENT 'Suchbegriffe',
+      `fo_typ` set('F','V') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Typ',
+      `fo_media` set('Audio','Foto','Film','Video') NOT NULL COMMENT 'Medium',
+      `fo_uidaend` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Aenderer',
+      `fo_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
+      PRIMARY KEY (`fo_id`)
+      ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Foto- Archiv';
        ";
     
     $return = SQL_QUERY($db,$sql);
@@ -65,7 +65,7 @@ function Cr_n_fo_daten ($tabelle)
 function Cr_n_ar_chivdt ($tabelle)
 {
     global $debug, $db;
-    
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Archiv- ID',
       `ad_eignr` int(11) NOT NULL COMMENT 'Eigentümernummer',
@@ -117,7 +117,7 @@ function Cr_n_ar_chivdt ($tabelle)
 function Cr_n_ar_ch_verl ($tabelle)
 {
     global $debug, $db;
-    
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `al_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
       `ad_id` char(15) NOT NULL COMMENT 'Archiv- ID',
@@ -143,7 +143,7 @@ function Cr_n_ar_ch_verl ($tabelle)
 function Cr_n_zt_inhalt ($tabelle)
 {
     global $debug, $db;
-    
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `ih_id` mediumint(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
       `ih_zt_id` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Zeitungs-ID',
@@ -178,10 +178,10 @@ function Cr_n_zt_inhalt ($tabelle)
 function Cr_n_in_ventar ($tabelle)
 {
     global $debug, $db;
-    
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `in_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
-  `ei_id` int(11) NOT NULL COMMENT 'EigentÃ¼mer- Nummer',
+  `ei_id` int(11) NOT NULL COMMENT 'Eigentümer- Nummer',
   `in_invjahr` varchar(4) DEFAULT NULL COMMENT 'Inventarisierungs- Jahr',
   `in_eingbuchnr` varchar(15) NOT NULL COMMENT 'Eingangsbuch Nummer',
   `in_eingbuchdat` varchar(12) NOT NULL COMMENT 'Eingangsbuch Datum',
@@ -223,9 +223,9 @@ function Cr_n_in_ventar ($tabelle)
   `in_platz` varchar(40) NOT NULL COMMENT 'Lagerplatz',
   `in_erstdat` varchar(12) NOT NULL COMMENT 'Erstehungsdatum',
   `in_ausgdat` varchar(12) NOT NULL COMMENT 'Abgabe-Datum',
-  `in_neueigner` varchar(100) DEFAULT NULL COMMENT 'Neuer EigentÃ¼mer',
-  `in_uidaend` varchar(4) DEFAULT NULL COMMENT 'Ã„nderer',
-  `in_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Ã„nderung',
+  `in_neueigner` varchar(100) DEFAULT NULL COMMENT 'Neuer Eigentümer',
+  `in_uidaend` varchar(4) DEFAULT NULL COMMENT 'Änderer',
+  `in_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`in_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci";
                                                                          
@@ -237,7 +237,7 @@ function Cr_n_in_ventar ($tabelle)
 function Cr_n_in_vent_verleih ($tabelle)
 {
     global $debug, $db;
-    
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
    `vl_id` tinyint(4) NOT NULL COMMENT 'Fortl. Nr.',
   `in_id` int(19) NOT NULL COMMENT 'Invntar-Nummer',
@@ -254,8 +254,8 @@ function Cr_n_in_vent_verleih ($tabelle)
   `ei_verlgrund` varchar(250) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Verleih Grund',
   `ei_verlrueck` varchar(12) NOT NULL COMMENT 'Rueckgabe- Datum',
   `ei_verluebn` varchar(15) COLLATE utf8_german2_ci NOT NULL COMMENT 'Übernehmer - ID',
-  `ei_uidaend` varchar(4) COLLATE utf8_german2_ci NOT NULL DEFAULT '' COMMENT 'Aenderer',
-  `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Aenderung',
+  `ei_uidaend` varchar(4) COLLATE utf8_german2_ci NOT NULL DEFAULT '' COMMENT 'Änderer',
+  `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`vl_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci COMMENT  'Inventarverleih'";
     

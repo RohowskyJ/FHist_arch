@@ -49,8 +49,6 @@ if (isset($_POST['phase'])) {
 }
 if (isset($_GET['ID'])) {
     $fs_flnr = $_GET['ID'];
-} else {
-    $fs_flnr = "NeuItem";
 }
 if (isset($_GET['us'])) {
     $us = $_GET['us'];
@@ -76,6 +74,11 @@ Tabellen_Spalten_parms($db, $tabelle);
 
 $Err_Msg = $Err_Urheb = "";
 $Err_Nr = 0;
+
+$ei_id = $_SESSION['Eigner']['eig_eigner'];
+$urh_abk = "";
+VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F');
+
 # -------------------------------------------------------------------------------------------------------
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
 # -------------------------------------------------------------------------------------------------------
@@ -83,8 +86,8 @@ if ($phase == 0) {
 
     if ($fs_flnr == 0) {
         $neu['fs_flnr'] = 0;
-        $neu['fs_eigner'] = $_SESSION[$module]['URHEBER']['fm_eigner'];
-        $neu['fs_typ'] = $_SESSION[$module]['URHEBER']['fm_typ'];
+        $neu['fs_eigner'] = $_SESSION[$module]['URHEBER']['ei_id'];
+        $neu['fs_typ'] = $_SESSION[$module]['URHEBER']['ei_id']['typ'];
         $neu['fs_fotograf'] = $_SESSION[$module]['URHEBER']['fm_urheber'];
         $neu['fs_urh_kurzz'] = "";
         $neu['fs_urh_nr'] = "";

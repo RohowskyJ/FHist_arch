@@ -31,8 +31,14 @@ Edit_textarea_Feld('fm_komment');
 
 Edit_Daten_Feld('fm_leistung', 10);
 Edit_Daten_Feld('fm_lei_bed', 50);
+ 
+if ($neu['fi_name'] != "") {
+    $neu['fm_herst'] .= " - ".$neu['fi_name'].", ".$neu['fi_ort'];
+}
 
 Edit_Daten_Feld('fm_herst', 60);
+BA_Auto_Herstell();
+
 Edit_Daten_Feld('fm_baujahr', 10);
 Edit_Select_Feld(Prefix . 'fm_zustand', VF_Zustand, '');
 Edit_Daten_Feld('fm_fgstnr', 60);
@@ -133,6 +139,7 @@ if ($_SESSION[$module]['all_upd']) {
 
 echo "<p><a href='VF_FM_List.php?ID=MU_F'>Zurück zur Liste</a></p>";
 
+BA_Auto_Funktion();
 # =========================================================================================================
 
 if ($debug) {

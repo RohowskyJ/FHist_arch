@@ -48,15 +48,181 @@ if ($debug) {
     echo "L 042: BA_AJAX_Funcs.inc.php ist geladen. <br/>";
 }
 
+/**
+ * Autocomple für die Auswahl von Aufbauer des  Fahrzeuges
+ * Autocomplete mit prototype.js
+ * immer in Verbindung mit BA_Aufo_Funktion() -> durchführung
+ * 
+ */
+function BA_Auto_Aufbau () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Aufbau" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
+        <b>Suchbegriff für Aufbau- Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer"  size='50'/>
+    </div>  
+    <div id="suggestAufbauer" class="suggestions"></div>
+    <input type="hidden" name="aufbauer" id="aufbauer" />
 
+    <?php 
+}
+
+function BA_Auto_Eigent () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Eigent" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
+    <b>Suchbegriff für Eigentümer eingeben:</b> <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener"  size='50'/>
+    </div>  
+    <div id="suggestEigener" class="suggestions"></div>
+    <input type="hidden" name="eigentuemer" id="eigentuemer" />
+    <?php 
+}
+
+function BA_Auto_Herstell () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Herstell" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> 
+    <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller"  size='50'/>
+    </div>  
+    <div id="suggestHersteller" class="suggestions"></div>
+    <input type="hidden" name="hersteller" id="hersteller" />
+    <?php 
+}
+
+function BA_Auto_Taktb () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Taktb" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> 
+    <b>Suchbegriff für Taktische Bezeichnung eingeben:</b> <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" size='50' />
+    </div>  
+    <div id="suggestTaktisch" class="suggestions"></div>
+    <input type="hidden" name="taktisch" id="taktisch" />
+    <?php 
+}
+
+function BA_Auto_Urheber () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Urheber" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> 
+    <b>Suchbegriff für Urheber eingeben:</b> <input type="text" class="autocomplete" data-proc="Urheber" data-target="suggestUrheber"  size='50'/>
+    </div>  
+    <div id="suggestUrheber" class="suggestions"></div>
+    <input type="hidden" name="urheber" id="urheber" />
+    <?php 
+}
+
+
+function BA_Auto_Funktion () {
+    global $debug, $module, $flow_list;
+    ?>
+    <script>
+  document.observe('dom:loaded', function() {
+    console.log('DOM geladen');
+
+    $$('.autocomplete').each(function(input) {
+        var proc = input.getAttribute('data-proc');
+        var targetDivId = input.getAttribute('data-target');
+        var suggestionsDiv = $(targetDivId);
+        suggestionsDiv.setStyle('position: absolute; z-index: 9999; display: none; background: #fff; border: 1px solid #ccc; max-height: 200px; overflow-y: auto;');
+
+        // Hidden input für Wert (ID)
+        var hiddenInputId = 'hidden_' + targetDivId;
+        var hiddenInput = new Element('input', {
+            type: 'hidden',
+            name: targetDivId,
+            id: hiddenInputId
+        });
+        input.insert({after: hiddenInput});
+
+        // Ausgabe-Box (sichtbar für User)
+        var ausgabeDivId = 'ausgabebox_' + targetDivId;
+        var ausgabeDiv = new Element('div', {
+            id: ausgabeDivId,
+            style: 'background-color: #f0f0f0; padding: 8px; margin-top: 10px; border: 1px solid #ccc;'
+        });
+        input.wrap(new Element('div', { style: 'position: relative; display: inline-block; width: 100%;' }));
+        input.up().insert({after: ausgabeDiv});
+
+        input.observe('keyup', function() {
+            var query = input.value.trim();
+            if (query.length > 1) {
+                new Ajax.Request('common/API/VF_Auto_Compl.API.php', {
+                    method: 'post',
+                    parameters: { query: query, proc: proc },
+                    onSuccess: function(response) {
+                        var data = response.responseText.evalJSON();
+                        suggestionsDiv.update('');
+                        if (data.length > 0) {
+                            var rect = input.getBoundingClientRect();
+                            suggestionsDiv.setStyle({
+                               top: (rect.bottom + window.scrollY) + 'px',
+                               left: (rect.left + window.scrollX) + 'px',
+                               width: rect.width + 'px',
+                               display: 'block'
+                            });
+                            
+                            // Vorschläge anzeigen
+                            data.each(function(item) {               
+                                var div = new Element('div', {
+                                   class: 'suggestion-item',
+                                   'data-value': item.value,
+                                   'data-label': item.label,
+                                   style: 'padding: 5px; cursor: pointer;'
+                                 });
+                                div.update(item.label);
+                                
+                                div.observe('click', function() {
+                                    input.value = item.label; // Label im Eingabefeld
+                                    // Den versteckten Wert setzen
+                                    $(''+hiddenInputId).value = item.value;
+                                    // Ausgabe anzeigen (Label)
+                                    ausgabeDiv.update('<strong>Auswahl:</strong> ' + item.label);
+                                    suggestionsDiv.hide();
+                             });
+                        suggestionsDiv.insert({bottom: div});
+                     
+                            });
+                            if (data.length > 0) {
+                                suggestionsDiv.show();
+                            }
+                        } else {
+                            suggestionsDiv.hide();
+                            suggestionsDiv.update('');
+                        }
+                    }
+                });
+            } else {
+                suggestionsDiv.hide();
+                suggestionsDiv.update('');
+                // Optional: leere die Ausgabe-Box, wenn kein Text
+                // selectionBox.update('');
+            }
+        });
+    });
+});
+        </script>
+ <?php 
+}
+
+
+/**
+ * bis zur Umstellung aller Autocomplete- Aufrufe notwendig
+ * @param string $Proc
+ * @param string $titel
+ */
 function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
 {
     global $debug, $module, $flow_list, $tit_eig_leih;
     
     flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Compl" );
+    
     ?>
     
-    <input type='hidden' id="proc" value=<?php echo $Proc; ?>">
+    <input type='text' id="proc" value=<?php echo $Proc; ?> >
     
     <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
          <div class='w3-container w3-light-blue'>
@@ -75,13 +241,13 @@ function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
        document.observe("dom:loaded", function() {
         var inputField = $("autocomplete");
         var suggestionsBox = $("suggestions");
-        var proc = $("proc");
-        
+        var proc = $("proc").value;
+        console.log(proc);
         inputField.observe("keyup", function() {
             var query = this.value.trim();
     
             if(query.length > 0) {
-                new Ajax.Request('common/API/VF_Auto_Compl.API.php', { 
+                new Ajax.Request('common/API/VF_Auto_Compl.API.old.php', { 
                     method: 'post',
                     parameters: { query : query, proc: proc },
                     onSuccess: function(response) {
@@ -108,7 +274,7 @@ function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
         
     <?php 
 
-} # end Funct VF_Eig_Ausw
+} # end Funct BA_Auto_Compl
 
 /**
  * Multi Dropdown select für verschiedene Auswahlen

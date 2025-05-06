@@ -31,6 +31,7 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 
 $flow_list = True;
 
@@ -80,7 +81,7 @@ $lowHeight = True; // Auswahl-- und Anzeige- Tabellen mit verschiedenen Höhen -
 # ------------------------------------------------------------------------------------------------------------
 
 $eignr = $_SESSION['Eigner']['eig_eigner'];
-echo "L 083 tabelle §tabelle eignr $eignr <bR>";
+
 $tabelle_a = $tabelle . $eignr;
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_a,);
@@ -123,9 +124,11 @@ if ($phase == 0) {
             "fm_aenddat" => ""
         );
     } else {
-        $sql_be = "SELECT * FROM $tabelle_a 
-            LEFT JOIN `fm_id` = '" . $_SESSION[$module]['fm_id'] . "' ORDER BY `fm_id` ASC"; 
- 
+        $sql_be = "SELECT * FROM $tabelle_a \n
+            LEFT JOIN fh_sammlung ON $tabelle_a.fm_sammlg = fh_sammlung.sa_sammlg \n
+            LEFT JOIN fh_firmen   ON $tabelle_a.fm_herst = fh_firmen.fi_abk   \n
+            WHERE `fm_id` = '" . $_SESSION[$module]['fm_id'] . "' ORDER BY `fm_id` ASC"; 
+
         $return_be = SQL_QUERY($db, $sql_be);
         
         $neu = mysqli_fetch_array($return_be);

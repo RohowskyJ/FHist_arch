@@ -138,14 +138,16 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
  */
-if (isset($_POST['auto']) ) {
-    $ei_arr = explode("-",$_POST['auto']);
-    $ei_id = $ei_arr[0];
+/**
+ * Eigentümer- Auswahl (Autocomplete)
+ */
+if (isset($_POST['suggestEigener'])) {
+    $ei_id = $_POST['suggestEigener'];
     VF_Displ_Eig($ei_id);
-    $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
+
 
 /**
  * Sammlung auswählen, Input- Analyse
@@ -165,7 +167,7 @@ if (isset($_POST['level1'])) {
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung'] == "MU") { 
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            BA_Auto_Compl('Eigent','Eigentümer');
+            BA_Auto_Eigent();
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
@@ -243,6 +245,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
     BA_HTML_trailer();
 }
 
+BA_Auto_Funktion();
+
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
  *
@@ -260,7 +264,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
  */
 function modifyRow(array &$row, $tabelle)
 {
-    global $path2ROOT, $T_List, $module;
+    global $path2ROOT, $T_List, $module, $herst_arr;
 
     $s_tab = substr($tabelle, 0, 8);
 
@@ -279,8 +283,18 @@ function modifyRow(array &$row, $tabelle)
                 $fm_foto_1 = $row['fm_foto_1'];
                 $p1 = $pict_path . $row['fm_foto_1'];
 
-                $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fm_foto_1  </a>";
             }
+            
+            
+            $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fm_foto_1  </a>";
+            
+            $herst = $row['fm_herst'];
+
+            if (isset($herst_arr[$herst])  ) {
+                $row['fm_herst'] = "Hersteller: " . $herst_arr[$herst];
+            }
+            
+            $row['fm_sammlg'] .= "<br>".$row['sa_name'];
 
             break;
         case "mu_gerae":

@@ -12,7 +12,7 @@ if ($debug) {
 foreach ($_POST as $name => $value) {
     $neu[$name] = mysqli_real_escape_string($db, $value);
 }
-
+var_dump($neu);
 if (!isset($neu['fm_invnr'])) {$neu['fm_invnr']= "";}
 
 $neu['fm_bezeich'] = mb_convert_case($neu['fm_bezeich'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
@@ -24,6 +24,12 @@ if ($debug) {
     print_r($neu);
     echo '</pre>';
 }
+if (isset($neu['suggestHersteller']) && $neu['suggestHersteller'] != "") {
+    $neu['fm_herst'] = $neu['suggestHersteller'];
+    unset($neu['suggestHersteller']);
+    
+}
+unset($neu['hersteller']);
 
 $neu['fm_eignr'] = $_SESSION['Eigner']['eig_eigner'];
 

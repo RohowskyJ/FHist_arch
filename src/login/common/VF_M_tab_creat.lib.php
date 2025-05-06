@@ -12,7 +12,7 @@
 function Cr_n_mu_fahrzeug ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `fm_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `fm_eignr` char(10) NOT NULL COMMENT 'Eigentümer Nr.',
@@ -50,7 +50,7 @@ function Cr_n_mu_fahrzeug ($tabelle)
 function Cr_n_mu_geraet ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `mg_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `mg_eignr` char(10) NOT NULL COMMENT 'Eigner- Nr.',
@@ -78,7 +78,7 @@ function Cr_n_mu_geraet ($tabelle)
   `mg_fzg` varchar(15) NOT NULL COMMENT 'In Fahrzeug',
   `mg_raum` varchar(15) NOT NULL COMMENT 'in Raum',
   `mg_ort` varchar(15) NOT NULL COMMENT 'Wo?',
-  `mg_pruef_id` varchar(15) NOT NULL COMMENT 'PrÃ¼fer',
+  `mg_pruef_id` varchar(15) NOT NULL COMMENT 'Prüfer',
   `mg_pruef_dat` int(11) NOT NULL,                 
   `mg_uidaend` char(10) NOT NULL COMMENT 'Letzter Änderer',
   `mg_aenddat` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'LetzteÄnderug',
@@ -93,7 +93,7 @@ function Cr_n_mu_geraet ($tabelle)
 function Cr_n_ma_geraet ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `ge_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `ge_eignr` char(10) NOT NULL COMMENT 'Eigentümer',
@@ -195,14 +195,15 @@ function Cr_n_ma_arc_xref ($tabelle)
 {
     global $debug, $db;
 echo "l 0197 $tabelle <br>";
+mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `fa_id` smallint(6) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
-  `fa_eignr` smallint(6) NOT NULL COMMENT 'EigentÃ¼mer- Nr.',
+  `fa_eignr` smallint(6) NOT NULL COMMENT 'Eigentümer- Nr.',
   `fa_fzgnr` smallint(6) NOT NULL COMMENT 'Fahrzeug- Nr.',
-  `fa_sammlg` varchar(20) NOT NULL COMMENT 'Sammlungs- AbkÃ¼rzung',
+  `fa_sammlg` varchar(20) NOT NULL COMMENT 'Sammlungs- Abkürzung',
   `fa_arcnr` smallint(6) NOT NULL COMMENT 'Archiv Nr.',
-  `fa_uidaend` varchar(4) NOT NULL COMMENT 'Ã„nderer',
-  `fa_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Ã„nderung',
+  `fa_uidaend` varchar(4) NOT NULL COMMENT 'Änderer',
+  `fa_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`fa_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 ";
@@ -215,7 +216,7 @@ echo "l 0197 $tabelle <br>";
 function Cr_n_ma_fz_beschr ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `fz_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `fz_eignr` char(10) NOT NULL COMMENT 'Eigner- Nummer',
@@ -254,7 +255,7 @@ function Cr_n_ma_fz_beschr ($tabelle)
 function Cr_n_fz_eigner ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `fz_eign_id` int(10) NOT NULL AUTO_INCREMENT  COMMENT 'Eigner- Nr.',
        `fz_id` int(10) NOT NULL  COMMENT 'Fahzeug- Nummer',
@@ -274,7 +275,7 @@ function Cr_n_fz_eigner ($tabelle)
 function Cr_n_fz_fixeinb ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
      `fz_einb_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
      `fz_id` int(10) DEFAULT NULL COMMENT 'Fahrzeug Nummer',
@@ -306,7 +307,7 @@ function Cr_n_fz_fixeinb ($tabelle)
 function Cr_n_fz_type ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `ft_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr',
       `fz_t_id` int(11) NOT NULL COMMENT 'Fahrzeug- Nr. des Eigentuemers',
@@ -356,7 +357,7 @@ function Cr_n_fz_type ($tabelle)
       `fz_aufbau` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Aufbau',
       `fz_anh_kuppl` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Anhaenger Kupplung',
       `fz_geschwind` varchar(10) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Maximale Geschwindigkeit',
-      `fz_sitzpl_zul` int(3) DEFAULT NULL COMMENT 'Max. ZulÃ¤ss. Sitzplaetze',
+      `fz_sitzpl_zul` int(3) DEFAULT NULL COMMENT 'Max. Zuläss. Sitzplaetze',
       `fz_sitzpl_1` int(2) DEFAULT NULL COMMENT 'Sitzplätze 1. Reihe',
       `fz_sitzpl_2` int(2) DEFAULT NULL COMMENT 'Sitzplätze 2. Reihe',
       `fz_abmessg_mm` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Fahrzeug-Abmessungen',
@@ -373,7 +374,7 @@ function Cr_n_fz_type ($tabelle)
 function Cr_n_fz_laderaum ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `lr_id` int(10) NOT NULL COMMENT 'Fortl. Nr.',
       `lr_eignr` char(10) COLLATE utf8_german2_ci NOT NULL COMMENT 'Eigentümer- Nummer',
@@ -400,7 +401,7 @@ function Cr_n_fz_laderaum ($tabelle)
 function Cr_n_fz_typis_aend ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
        `fz_typ_id` int(10) NOT NULL COMMENT 'Fortl. Nr.',
        `fz_id` int(10) NOT NULL COMMENT 'Fahrzeug- Nummer',
@@ -417,7 +418,7 @@ function Cr_n_fz_typis_aend ($tabelle)
 function Cr_n_fz_reparat ($tabelle)
 {
     global $debug, $db;
-
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
         `fz_rep_id` int(10) NOT NULL COMMENT 'Fortl. Nr.',
         `fz_id` int(10) NOT NULL COMMENT 'Fahrzeug- Nummer',
@@ -432,6 +433,88 @@ function Cr_n_fz_reparat ($tabelle)
 } # Ende Funktion Cr_n_fz_reparat
 
 
+function Cr_n_ma_fahrzeug ($tabelle)
+{
+    global $debug, $db;
+    mysqli_set_charset($db, "utf8mb4");
+    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
+        `fz_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortlaufende Nummer',
+        `fz_eignr` varchar(10) NOT NULL COMMENT 'Eigner- Nummer',
+        `fz_invnr` int(11) DEFAULT NULL COMMENT 'Inventar- Nummer',
+        `fz_sammlg` varchar(20) DEFAULT NULL COMMENT 'Sammlung',
+        `fz_name` varchar(30) DEFAULT NULL COMMENT 'FZG Bezeichnung',
+        `fz_taktbez` varchar(50) DEFAULT NULL COMMENT 'Taktische Bezeichnung',
+        `fz_hist_bezeichng` varchar(50) DEFAULT NULL COMMENT 'Historische Bezeichnung',
+        `fz_baujahr` varchar(4) DEFAULT NULL COMMENT 'Baujahr',
+        `fz_indienstst` varchar(10) DEFAULT NULL COMMENT 'Indienst- Stellung',
+        `fz_ausdienst` varchar(10) DEFAULT NULL COMMENT 'Ausser Dienst Datum/Jahr',
+        `fz_zeitraum` varchar(5) DEFAULT NULL COMMENT 'Zeitraum',
+        `fz_allg_beschr` varchar(500) DEFAULT NULL COMMENT 'Allgem. Beschreibung',
+        `fz_herstell_fg` varchar(100) DEFAULT NULL COMMENT 'Fahrgestell Hersteller',
+        `fz_motor` varchar(100) DEFAULT NULL COMMENT 'Motor',
+        `fz_typ` varchar(100) DEFAULT NULL COMMENT 'Typ',
+        `fz_modell` varchar(100) DEFAULT NULL COMMENT 'Modell',
+        `fz_aufbauer` varchar(100) DEFAULT NULL COMMENT 'Aufbauer',
+        `fz_aufb_typ` varchar(100) DEFAULT NULL COMMENT 'Aufbau Typ',
+        `fz_bild_1` varchar(50) DEFAULT NULL COMMENT 'Bild 1',
+        `fz_b_1_komm` varchar(200) DEFAULT NULL COMMENT 'Kommentar zu Bild 1',
+        `fz_bild_2` varchar(50) DEFAULT NULL COMMENT 'Bild 2',
+        `fz_b_2_komm` varchar(200) DEFAULT NULL COMMENT 'Kommentar zu Bild 2',
+        `fz_bild_3` varchar(50) DEFAULT NULL COMMENT 'Bild 3',
+        `fz_b_3_komm` varchar(200) DEFAULT NULL COMMENT 'Kommentar zu Bild 3',
+        `fz_bild_4` varchar(50) DEFAULT NULL COMMENT 'Bild 4',
+        `fz_b_4_komm` varchar(200) DEFAULT NULL COMMENT 'Kommentar zu Bild 4',
+        `fz_zustand` varchar(5) DEFAULT NULL COMMENT 'Gesamt Zustand',
+        `fz_ctif_klass` varchar(5) DEFAULT NULL COMMENT 'Klassifizierungs Stufe',
+        `fz_ctif_date` varchar(10) DEFAULT NULL COMMENT 'Juroren',
+        `fz_ctif_juroren` varchar(100) DEFAULT NULL COMMENT 'Datum der Klassifizierung',
+        `fz_ctif_darst_jahr` varchar(4) DEFAULT NULL COMMENT 'Darstellungsjahr',
+        `fz_beschreibg_det` text DEFAULT NULL COMMENT 'Detail- Beschreibung',
+        `fz_eigent_freig` varchar(50) DEFAULT NULL COMMENT 'Eigentümer Freigabe',
+        `fz_verfueg_freig` varchar(50) DEFAULT NULL COMMENT 'Besitzer Freigabe',
+        `fz_pruefg_id` varchar(10) DEFAULT NULL COMMENT 'Prüfer ID',
+        `fz_l_tank` varchar(100) DEFAULT NULL COMMENT 'Tank',
+        `fz_pruefg` varchar(12) DEFAULT NULL COMMENT 'Prüfungs Datum',
+        `fz_l_monitor` varchar(100) DEFAULT NULL COMMENT 'Monitor',
+        `fz_antrieb` varchar(100) DEFAULT NULL COMMENT 'Antrieb',
+        `fz_l_pumpe` varchar(100) DEFAULT NULL COMMENT 'Pumpe',
+        `fz_t_kran` varchar(100) DEFAULT NULL COMMENT 'Kran',
+        `fz_t_winde` varchar(100) DEFAULT NULL COMMENT 'Seilwinde',
+        `fz_t_leiter` varchar(100) DEFAULT NULL COMMENT 'Leiter',
+        `fz_t_abschlepp` varchar(100) DEFAULT NULL COMMENT 'Abschleppvorrichtung',
+        `fz_geschwindigkeit` varchar(100) DEFAULT NULL COMMENT 'Fahrgeschwindigkeit',
+        `fz_besatzung` varchar(100) DEFAULT NULL COMMENT 'Besatzung',
+        `fz_g_atemsch` varchar(100) DEFAULT NULL COMMENT 'Atemschutz',
+        `fz_t_beleuchtg` varchar(100) DEFAULT NULL COMMENT 'Beleuchtung',
+        `fz_t_strom` varchar(100) DEFAULT NULL COMMENT 'Generator',
+        `fz_aenduid` varchar(10) DEFAULT NULL COMMENT 'Änderer',
+        `fz_aenddat` timestamp NULL DEFAULT current_timestamp() COMMENT 'Letzte Änderung',
+        PRIMARY KEY (`fz_id`),
+        KEY `fz_ctif_date` (`fz_ctif_date`),
+        FULLTEXT KEY `fz_sammlg` (`fz_sammlg`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Fahrzeugdaten' ";
+    $return = SQL_QUERY($db,$sql);
+    return $return;
+} # Ende Funktion Cr_n_fz_reparat
+
+function Cr_n_ma_eigner ($tabelle)
+{
+    global $debug, $db;
+    mysqli_set_charset($db, "utf8mb4");
+    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
+        `fz_eign_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
+        `fz_id` int(11) NOT NULL COMMENT 'Fzg. Nr.',
+        `fz_docbez` char(100) NOT NULL COMMENT 'Dokument- Bezeichnung',
+        `fz_zul_dat` char(10) NOT NULL COMMENT 'Zulassungs- Datum',
+        `fz_zul_end_dat` char(10) NOT NULL COMMENT 'Zul. Ende Datum',
+        `fz_zul_namen` char(100) NOT NULL COMMENT 'zugel. auf Name',
+        `fz_uidaend` char(10) NOT NULL COMMENT 'letzer Änderer',
+        `fz_aenddat` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'zuletzt geändert',
+       PRIMARY KEY (`fz_eign_id`)
+       ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_german2_ci  COMMENT 'Fahrzeug  Eigner' ";
+    $return = SQL_QUERY($db,$sql);
+    return $return;
+} # Ende Funktion Cr_n_fz_reparat
 
 
 ?>

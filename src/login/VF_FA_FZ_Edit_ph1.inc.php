@@ -6,7 +6,7 @@
  *
  *
  */
-$debug = True;
+
 if ($debug) {
     echo "<pre class=debug>VF_FA_FZ_Edit_ph1.inc.php ist gestarted</pre>";
     var_dump($_POST);echo "<br>";
@@ -40,9 +40,9 @@ if (isset($_POST['level1'])) {
         $neu['fz_sammlg'] = $response;
     }
 }
-var_dump($_FILES['uploaddatei_01']); echo "<br>L 043 <br>";
-echo "L 044 <br>";
-var_dump($_FILES['uploaddatei_02']);echo "<br>L 045 <br>";
+#var_dump($_FILES['uploaddatei_01']); echo "<br>L 043 <br>";
+#echo "L 044 <br>";
+#var_dump($_FILES['uploaddatei_02']);echo "<br>L 045 <br>";
 #if (isset($_FILES['uploaddatei_01'])) { 
     echo "L 045 <br>";
     $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
@@ -50,7 +50,7 @@ var_dump($_FILES['uploaddatei_02']);echo "<br>L 045 <br>";
     if (! file_exists($uploaddir)) {
         mkdir($uploaddir, 0770, true);
     }
-    var_dump($_FILES['uploaddatei_01']); echo "<br>L 053 <br>";
+    #var_dump($_FILES['uploaddatei_01']); echo "<br>L 053 <br>";
     if ($_FILES['uploaddatei_01']['name'] != "" ) {
         $neu['fz_bild_1'] = VF_Upload($uploaddir, '01');
     }
@@ -61,7 +61,7 @@ var_dump($_FILES['uploaddatei_02']);echo "<br>L 045 <br>";
 
 $neu['fz_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
-var_dump($neu);
+#var_dump($neu);
 if ($neu['fz_id'] == 0) { # neueingabe
     
     Cr_n_ma_fz_beschr($tabelle_a);
