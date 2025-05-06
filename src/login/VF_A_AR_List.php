@@ -34,6 +34,7 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
+require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -138,22 +139,20 @@ $title = "";
 
 /**
  * Eigentümer- Auswahl (Autocomplete)
- */
-if (isset($_POST['auto']) ) {
-    $ei_arr = explode("-",$_POST['auto']);
-    $ei_id = $ei_arr[0];
+*/
+if (isset($_POST['suggestEigener'])) {
+    $ei_id = $_POST['suggestEigener'];
     VF_Displ_Eig($ei_id);
-    $_SESSION[$module]['eigname'] = $_POST['auto'];
+    # $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
-
 
 if ($_SESSION['Eigner']['eig_eigner'] == "") 
 {
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            VF_Eig_Ausw();
+            BA_Auto_Eigent();
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
@@ -343,7 +342,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
 
     BA_HTML_trailer();
 }
-
+BA_Auto_Funktion();
 echo "<script type='text/javascript' src='VF_C_AOrd_Funcs.js'></script>";
 
 /**
