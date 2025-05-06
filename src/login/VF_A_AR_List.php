@@ -74,7 +74,7 @@ if (! isset($_SESSION[$module]['all_upd'])) {
 }
 
 $sk = $_SESSION['VF_Prim']['SK'];
-
+#var_dump($_POST);
 # ==========================================Arc_List=================================================================
 # Haeder ausgeben
 # ===========================================================================================================
@@ -162,8 +162,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
 } else {
 
     VF_upd();
-   
     $AO_Sel = VF_Multi_Sel_Input(); 
+    # echo "L 0167  AO_Sel $AO_Sel <br>";
     if (isset($AO_Sel) && $AO_Sel != "") {
         $AO_Arr = explode(" ",$AO_Sel);
         $AO_cnt = count($AO_Arr);

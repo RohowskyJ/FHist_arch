@@ -410,6 +410,7 @@ function updateOptions(level, parentValue, optVal) {
         method: 'get',
         parameters: { level: level, parent: parentValue, opval: optVal },
         onSuccess: function(transport) {
+            //console.log(transport);
             const options = transport.responseText.split('|');
             console.log(options);
             const select = $('level' + (parseInt(level) + 1));
