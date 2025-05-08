@@ -421,17 +421,18 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
                          value='<?php echo $List_parm['select_string'];?>' maxlength=40
                          size=10>
      </div>
-    <?php } ?>
-
+     <!---
+    < ?php } ?>
+    --->
     <!-- =================================================================================================
     # Refresh Button
     ================================================================================================= -->
      <div class='w3-dropdown-hover w3-light-grey'
                     style='padding-left: 5px; padding-right: 5px; z-index: 3'>
-                    <button type='submit' style='font-size: 18px'>Neu einlesen</button>
+                    <button type='submit' style='font-size: 18px'>Daten neu einlesen</button>
      </div>
-
-     <!-- =================================================================================================
+<?php } ?>
+    <!-- =================================================================================================
     # Hinweise Dropdown
     ================================================================================================= -->
      <div class='w3-dropdown-hover w3-right'

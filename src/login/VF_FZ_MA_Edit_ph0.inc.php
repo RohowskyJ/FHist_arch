@@ -12,6 +12,12 @@ if ($debug) {
 }
 echo "<input type='hidden' name='fz_id' value='$fz_id'/>";
 
+if ($neu['fz_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+}
+
 # =========================================================================================================
 Edit_Tabellen_Header('Motorisierte Fahrzeuge von Eigentümer '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -28,9 +34,21 @@ if ($neu['ab_bezeichn'] != "")    {
     $neu['fz_taktbez'] .= " - $taktbez"; 
 }
 
-Edit_Daten_Feld('fz_taktbez',40);
+if ($hide_area == 0) { // Hide Taktbez
+    $button = "";
+} else {
+    $button = " &nbsp;  <button type='button' class='button-sm' onclick=\"document.getElementById('dprdown_taktb').style.display='block'\">zum anzeigen/ändern klicken!</button>";
+}
+Edit_Daten_Feld_Button('fz_taktbez',40,'','',$button);
 
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_taktb' style='display:none'>";
+}
 BA_Auto_Taktb($neu['fz_taktbez']);
+
+echo "</div>"; # ende hide taktb
 
 Edit_Daten_Feld('fz_hist_bezeichng', 50);
 
@@ -41,10 +59,26 @@ Edit_textarea_Feld(Prefix . 'fz_allg_beschr');
 
 Edit_textarea_Feld(Prefix . 'fz_beschreibg_det');
 
+Edit_Daten_Feld('fz_indienstst', 10, 'Datum YYYY-MM-DD oder zumindest Jahr der Indienst- Stellung');
+Edit_Daten_Feld('fz_ausdienst', 10, 'Datum YYYY-MM-DD oder zumindest Jahr der Ausserdienst- Stellung');
+
 Edit_Select_Feld(Prefix . 'fz_zustand', VF_Zustand, '');
 
-Edit_Daten_Feld(Prefix . 'fz_herstell_fg', 100);
+if ($hide_area == 0) { // Hide Hersteller
+    $button = "";
+} else {
+    $button = " &nbsp; &nbsp;  <button type='button' class='button-sm' onclick=\"document.getElementById('dprdown_herst').style.display='block'\">zum anzeigen/ändern klicken! >";
+}
+Edit_Daten_Feld_Button(Prefix . 'fz_herstell_fg', 100,'','',$button);
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_herst' style='display:none'>";
+}
 BA_Auto_Herstell();
+
+echo "</div>"; # ende hide herstb
 
 Edit_Daten_Feld(Prefix . 'fz_typ', 100);
 Edit_Daten_Feld(Prefix . 'fz_modell', 100);
@@ -54,14 +88,28 @@ Edit_Daten_Feld(Prefix . 'fz_antrieb', 100);
 
 Edit_Daten_Feld(Prefix . 'fz_geschwindigkeit', 10,' km/Std');
 
-Edit_Daten_Feld(Prefix . 'fz_aufbauer', 100);
+if ($hide_area == 0) { // Hide Aufbauer
+    $button = "";
+} else {
+    $button = " &nbsp; &nbsp; <button type='button'  class='button-sm' onclick=\"document.getElementById('dprdown_aufb').style.display='block'\">zum anzeigen/ändern klicken!</button>";
+}
+
+Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 100,'','',$button);
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_aufb' style='display:none'>";
+}
+
 BA_Auto_Aufbau();
+
+echo "</div>"; # ende hide aufbauer
+
 Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 100);
 Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
-Edit_Daten_Feld('fz_indienstst', 10, 'Datum YYYY-MM-DD oder zumindest Jahr der Indienst- Stellung');
-Edit_Daten_Feld('fz_ausdienst', 10, 'Datum YYYY-MM-DD oder zumindest Jahr der Ausserdienst- Stellung');
 
 # =========================================================================================================
 Edit_Separator_Zeile('Fotos');
@@ -85,22 +133,47 @@ $pic_arr = array(
 console_log('vor multi_foto');
 VF_Multi_Foto($pic_arr);
 
+if ($hide_area == 0 ) { // Hide Eibauten
+    $button = "";
+} else {
+    if ($neu['fz_ctif_klass'] == "") {
+        $button = 'Keine Zertifizierung bekannt';
+    }
+    $button .= " &nbsp; &nbsp; <button type='button'  class='button-sm' onclick=\"document.getElementById('dprdown_ctif').style.display='block'\">zum anzeigen/ändern klicken!</button>";
+}
+
 # =========================================================================================================
-Edit_Separator_Zeile('CTIF Zertifizierung');
+Edit_Separator_Zeile('CTIF Zertifizierung ' , $button);
 # =========================================================================================================
-# Edit_Daten_Feld('fz_ctifklass', 5);
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_ctif' style='display:none'>";
+}
 
 Edit_Select_Feld('fz_ctif_klass',VF_CTIF_Class);
 Edit_Daten_Feld('fz_ctif_date', 10);
 Edit_Daten_Feld('fz_ctif_darst_jahr', 4);
 Edit_Daten_Feld('fz_ctif_juroren', 100);
 
-Edit_Daten_Feld('fz_pruefg_id', 10);
-Edit_Daten_Feld('fz_pruefg', 10);
+echo "</div>"; # ende hide ctif
+
+if ($hide_area == 0) { // Hide Eibauten
+    $button = "";
+} else {
+    $button = " &nbsp; &nbsp; <button type='button'  class='button-sm' onclick=\"document.getElementById('dprdown_einb').style.display='block'\">zum anzeigen/ändern klicken!</button>";
+}
 
 # =========================================================================================================
-Edit_Separator_Zeile('Technisch Details Ausrüstung');
+Edit_Separator_Zeile('Fix Eingebaute Ausrüstung ', $button);
 # =========================================================================================================
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_einb' style='display:none'>";
+}
 
 Edit_Daten_Feld('fz_l_tank', 100);
 Edit_Daten_Feld('fz_l_monitor', 100);
@@ -113,6 +186,7 @@ Edit_Daten_Feld('fz_t_beleuchtg', 100);
 Edit_Daten_Feld('fz_t_strom', 100);
 Edit_Daten_Feld('fz_g_atemsch', 100);
 
+echo "</div>"; # ende hide einbauten
 
 # =========================================================================================================
 Edit_Separator_Zeile('Datenfreigabe');
@@ -124,25 +198,26 @@ Edit_Select_Feld(Prefix . 'fz_verfueg_freig', VF_JN, '');
 # =========================================================================================================
 Edit_Separator_Zeile('Sammlung');
 # =========================================================================================================
-# Edit_Daten_Feld('fz_invnr',50);
 
-echo "<div class='w3-container w3-aqua'>";
 
-Edit_Daten_Feld('fz_sammlg', '');
-Edit_Daten_Feld('sa_name','');
+#echo "<div class='w3-container w3-aqua'>";
 
-echo "</div>";
-
-echo "<input type='hidden' name='fz_sammlg' value='".$neu['fz_sammlg']."'/>";
-if (mb_strlen($neu['fz_sammlg']) <= 4) {
-    echo "<div>";
+if ($hide_area == 0 || mb_strlen($neu['fz_sammlg']) <= 4) { // Hide Eibauten
+    $button = "";
 } else {
-    echo "<p>Sollte die Sammlungs- Bezeichnung nicht stimmen,
-       <button type='button' onclick=\"document.getElementById('dprdown_sa').style.display='block'\">zum ändern drücken!</button>
-       </p>";
-    echo "<div id='dprdown_sa' style='display:none'>";
+    $button = " &nbsp; &nbsp; <button type='button'  class='button-sm' onclick=\"document.getElementById('dprdown_sa').style.display='block'\">zum anzeigen/ändern klicken!</button>";
 }
 
+Edit_Daten_Feld_Button('fz_sammlg', '20','','',$button);
+$button = "";
+Edit_Daten_Feld('sa_name','');
+
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_sa' style='display:none'>";
+}
 /**
  * Parameter für den Aufruf von Multi-Dropdown
  *
@@ -182,7 +257,10 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val,$titel);
 echo "</div>"; # ende dropdown Sammlung
-
+/*
+Edit_Daten_Feld('fz_pruefg_id', 10);
+Edit_Daten_Feld('fz_pruefg', 10);
+*/
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
 # =========================================================================================================

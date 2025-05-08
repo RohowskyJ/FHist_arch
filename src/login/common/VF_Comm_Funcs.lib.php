@@ -1951,7 +1951,7 @@ function updateOptions(level, parentValue, optVal) {
  */
 function VF_Multi_Sel_Input () {
     global $debug,$path2ROOT, $module  ;
-    var_dump($_POST);
+    # var_dump($_POST);
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Multi_Sel_Input" );
     
     $response = "";

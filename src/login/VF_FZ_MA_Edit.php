@@ -43,7 +43,8 @@ $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
 $prot = True;
-$header = "";
+$header = "<style>.button-sm {font-size:14px;font-weight:bold;color:black ;padding:0px 6px 0px 4px;margin:1px;
+             background-color:#FFF0F5;border:2px solid blue;border-radius:2px}</style>";
 console_log('L047');
 
 $A_Off = True;  # set autocomplete=off in Header

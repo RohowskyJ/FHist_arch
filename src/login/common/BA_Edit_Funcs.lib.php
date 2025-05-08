@@ -11,7 +11,7 @@
  *  - Edit_Separator_Zeile       Trennzeile in Edit  wir durch Block_Separator_start und Block_Separator_Ende ersetzt
  *  - KEXI_Edit_Text             Erzeugt eine Tabellen Zeile dem Wert als Text
  *  - Edit_Daten_Feld            Erzeugt eine Tabellen Zeile mit einem <input> Feld 
- *  - Edit_Daten_Feld_auto       Erzeugt eine Tabellen Zeile mit einem <input> Feld mit AJAX Autocomplete
+ *  - Edit_Daten_Feld_Butt       Erzeugt eine Tabellen Zeile mit einem <input> Feld mit Button für Displ unhide
  *  - Edit_textarea_Feld         Erzeugt eine Tabellen Zeile mit einem <textarea> Feld 
  *  - Edit_Radio_Feld            Erzeugt eine Tabellen Zeile mit <input type='radio'> Feldern
  *  - Edit_CheckBox              Erzeugt einen Checkbox - Input  als Einzelfelder
@@ -106,17 +106,19 @@ function Edit_Send_Button($text = '', $zurück = '') # Send Button für Edit Pha
 /**
  * Form: Anzeige einer Separtor/Titel Zeile
  *
- * @param string $text
- *            Anzeigtext
+ * @param string $text   Anzeigtext
+ *  @param string $button
  */
 # ------------------------------------------------------------------------------------------------------------------------------------------
-function Edit_Separator_Zeile($text) # Trennzeile in Edit
+function Edit_Separator_Zeile($text, $button= "") # Trennzeile in Edit
 {
     global $module;
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Separator_Zeile");
     
     echo "<div class='w3-container' style='width:100%; background:#e4e4e4; padding-left:3%; padding-right:3%;'>";
-    echo "<p class='w3-medium  ' style= 'width:auto'><b>$text</b></p>";
+    echo "<p class='w3-medium  ' style= 'width:auto'><b>$text</b>
+          &nbsp; &nbsp; $button 
+         </p>";
     echo "</div>";
     
         
@@ -243,6 +245,8 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
  * Zusatz Informationen für das Feld
  * @param string $FeldAttr
  * Attribut/Parameter für <input tag
+ * @param string Button für unhide Auswahl zum Ändern/Eingeben
+ * Beispiel: siehe VF_MA_Edit_ph0.inc.php
  *
  * @global int $phase wenn 0 normale Eingabe
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
@@ -250,27 +254,14 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
  * @globale boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
  */
-function Edit_Daten_Feld_auto($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '', $auto_id = '')
+function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '', $button = '')
 {
     global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect, $ed_lcnt  ;
-
-    flow_add($module, "Edit_Funcs.inc Funct: Edit_Daten_Feld");
-   
-    Edit_Feld_Zeile_header($FeldName);
-    $auto_resp = "";
-    if ($auto_id != "") {
-
-        $auto = " ";
-        $InputParm = "id='$auto_id' name='$FeldName' value='" . $neu[$FeldName] . "'  autocomplete='off' ";
-        /*
-        $auto_resp = "<span>
-                    Selected Option : <span class='label label-default' id='selected_option'></span>
-               </span";
-               */
-    } else {
-        $InputParm = "id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr  ";
-    }
     
+    
+    Edit_Feld_Zeile_header($FeldName, $button);
+    
+    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
@@ -294,15 +285,16 @@ function Edit_Daten_Feld_auto($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldA
                 $InputParm .= ' class="error"';
             }
         }
-
-        echo "<input  $InputParm>";  # class='w3-input'
-
+        
+        echo "<input  $InputParm>"; # class='w3-input'
     }
     if (! empty($Err_msg[$FeldName])) {
         echo " <span class='error'>$Err_msg[$FeldName]</span>";
     }
+    
+    Edit_Feld_Zeile_Trailer($FeldName.$button, $InfoText);
 
-    Edit_Feld_Zeile_Trailer($FeldName, $InfoText, $auto_resp);
+ 
 }
 
 # End of function
@@ -581,7 +573,7 @@ function Edit_Select_Feld($FeldName, array $Options, $InfoText = '')
  * @global boolean $Edit_Funcs_FeldName
  * @param  string $style Hintergrund odd/even, default weiss
  */
-function Edit_Feld_Zeile_header($FeldName )  # = "background-color:white"
+function Edit_Feld_Zeile_header($FeldName , $button_act = "")  # = "background-color:white"
 {
     global $Tabellen_Spalten_COMMENT, $Edit_Funcs_FeldName, $ed_lcnt ;
  
@@ -600,7 +592,7 @@ function Edit_Feld_Zeile_header($FeldName )  # = "background-color:white"
     }
     if (isset($Tabellen_Spalten_COMMENT[$FeldName])) {
         #echo "  <span class='ed-beschr'>$Tabellen_Spalten_COMMENT[$FeldName]</span>";
-        echo "  <span class='info'>$Tabellen_Spalten_COMMENT[$FeldName]</span>";
+        echo "  <span class='info'>$Tabellen_Spalten_COMMENT[$FeldName] $button_act</span>";
     } else {
         
     }
