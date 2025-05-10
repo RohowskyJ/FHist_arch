@@ -67,7 +67,7 @@ $fz_id = $_SESSION[$module]['fz_id'];
 $p_uid = $_SESSION['VF_Prim']['p_uid'];
 
 $table_ei = $tabelle . "_" . $_SESSION['Eigner']['eig_eigner'];
-Tabellen_Spalten_parms($db, $tabelle_ei);
+Tabellen_Spalten_parms($db, $table_ei);
 
 # -------------------------------------------------------------------------------------------------------
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
@@ -124,7 +124,7 @@ if ($phase == 1) {
 
     if ($neu['fz_eign_id'] == 0) { # nueingabe
         
-        if (Cr_n_ma_eigner ($tabelle_ei)) {
+        if (Cr_n_ma_eigner ($table_ei)) {
             
         }
         $sql = "INSERT INTO $table_ei (

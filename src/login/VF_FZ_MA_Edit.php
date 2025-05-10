@@ -45,7 +45,6 @@ $db = LinkDB('VFH');
 $prot = True;
 $header = "<style>.button-sm {font-size:14px;font-weight:bold;color:black ;padding:0px 6px 0px 4px;margin:1px;
              background-color:#FFF0F5;border:2px solid blue;border-radius:2px}</style>";
-console_log('L047');
 
 $A_Off = True;  # set autocomplete=off in Header
 
@@ -101,7 +100,6 @@ $tabelle_a = $tabelle . "_$eignr";
 Tabellen_Spalten_parms($db, $tabelle_a);
 
 if ($_SESSION[$module]['all_upd']) {
-
     $edit_allow = 1;
     $read_only = "";
 } else {
@@ -169,7 +167,8 @@ if ($phase == 0) {
             'fz_t_strom' => '',
             'fz_g_atemsch' => '',
             "fz_aenduid" => "",
-            "fz_aenddat" => ""
+            "fz_aenddat" => "",
+            "ab_bezeichn" => ""
             
         );
     } else {

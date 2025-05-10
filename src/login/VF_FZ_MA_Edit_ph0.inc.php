@@ -199,9 +199,6 @@ Edit_Select_Feld(Prefix . 'fz_verfueg_freig', VF_JN, '');
 Edit_Separator_Zeile('Sammlung');
 # =========================================================================================================
 
-
-#echo "<div class='w3-container w3-aqua'>";
-
 if ($hide_area == 0 || mb_strlen($neu['fz_sammlg']) <= 4) { // Hide Eibauten
     $button = "";
 } else {
@@ -256,11 +253,12 @@ switch ($MS_Opt) {
 
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val,$titel);
+
 echo "</div>"; # ende dropdown Sammlung
-/*
-Edit_Daten_Feld('fz_pruefg_id', 10);
-Edit_Daten_Feld('fz_pruefg', 10);
-*/
+
+Edit_Daten_Feld('fz_pruefg_id', 1);
+Edit_Daten_Feld('fz_pruefg',1);
+ 
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
 # =========================================================================================================
@@ -278,11 +276,29 @@ if ($_SESSION[$module]['all_upd']) {
 
 echo "<p><a href='VF_FZ_List.php'>Zurück zur Liste</a></p>";
 
+if ($hide_area == 0) { // Hide Eibauten
+    $button = "";
+} else {
+    $button = " &nbsp; &nbsp; <button type='button'  class='button-sm' onclick=\"document.getElementById('dprdown_eigen').style.display='block'\">zum anzeigen/ändern klicken!</button>";
+}
+
+# =========================================================================================================
+Edit_Separator_Zeile('Eigentümer- Abfolge ', $button);
+# =========================================================================================================
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='dprdown_eigen' style='display:none'>";
+}
+
 /**
  * Anzeige der bisherigen Besitzer
  */
 
 require "VF_FZ_EI_List.inc.php";
+
+echo "</div>"; # ende dropdown Eigentümer
 
 /*
 BA_Auto_Eigent();

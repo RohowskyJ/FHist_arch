@@ -64,8 +64,7 @@ List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl
 
 $tabelle .= $tabelle_f . $_SESSION['Eigner']['eig_eigner']; // ma_fahrzeug_
 
-$tab_typ = "fz_fz_type_" . $_SESSION['Eigner']['eig_eigner'];
-$Tabellen_Spalten = Tabellen_Spalten_parms($db, $tab_typ);
+$Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle);
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 
@@ -121,7 +120,7 @@ List_Action_Bar($tabelle,"Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['ei
 # Je nach ausgewähltem Radio Button das sql SELECT festlegen
 # ===========================================================================================================
 
-$return = Cr_n_ma_fz_beschr($tabelle);
+$return = Cr_n_ma_fahrzeug($tabelle);
 if ($return != True) {
     echo "error: mysqli_errno($return)";
 }
