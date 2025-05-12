@@ -183,7 +183,7 @@ if ($phase == 2) {
 
 switch ($phase) {
     case 0:
-        $title = "Eigentümer- Auswahl zum Hochladen";
+        $title = "Urheber- Auswahl zum Hochladen";
         require ('VF_Z_E_U_Sel_List.inc.php');
         break;
     case 1:

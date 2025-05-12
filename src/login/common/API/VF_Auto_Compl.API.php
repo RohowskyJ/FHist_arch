@@ -11,6 +11,10 @@
  */
 session_start();
 
+ini_set("log_errors", 1);
+ini_set("error_log", "php-error.log");
+error_log( "Hello, errors!" );
+
 header('Content-Type: application/json');
 
 const Module_Name = 'Eigner-Search';
@@ -150,14 +154,14 @@ function urheb ($term) {
 
 function taktische ($term) {
     global $db, $module, $srch_arr, $dsn,$proc;
-    /* */
+    /* 
     $dsn = "autocomp_tak.log";
     $eintragen = "l 0161 taktische  term $term \n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    /* */
+    */
     $query = "SELECT * FROM fh_abk WHERE ab_bezeichn LIKE '{$term}%' OR ab_abk  LIKE '{$term}%' LIMIT 100";
     
     $result = SQL_QUERY($db, $query);
@@ -181,14 +185,14 @@ function taktische ($term) {
 
 function hersteller ($term) {
     global $db, $module, $srch_arr;
-    /* */
+    /* 
     $dsn = "autocomp_her.log";
     $eintragen = " isset term term $term \n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    /* */
+    */
     $query = "SELECT * FROM fh_firmen WHERE fi_funkt = 'F' and (fi_name LIKE '{$term}%' OR fi_abk  LIKE '{$term}%') LIMIT 100";
     
     $result = SQL_QUERY($db, $query);
@@ -212,14 +216,14 @@ function hersteller ($term) {
 
 function aufbauer ($term) {
     global $db, $module, $srch_arr;
-    /* */
+    /* 
     $dsn = "autocomp_auf.log";
     $eintragen = " isset term term $term \n";
     
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    /* */
+    */
     $query = "SELECT * FROM fh_firmen WHERE fi_funkt = 'A' and (fi_name LIKE '{$term}%' OR fi_abk  LIKE '{$term}%') LIMIT 100";
     
     $result = SQL_QUERY($db, $query);

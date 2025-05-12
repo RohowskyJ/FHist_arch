@@ -119,7 +119,7 @@ echo "<input type='hidden' id='urhEinfg' value='$urheinfueg' >";
 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "<div class='w3-third   ' >";
-echo "<label for='fileInput'>Wählen Sie Bilder aus:</label>";
+echo "<label for='fileInput'>Diese Bilder werden hochgeladen :</label>";
 echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-twothird  ' >"; // Beginn Inhalt- Spalte
 echo "<input type='file' id='fileInput' name='files[]' multiple accept='image/*' onchange='showImages()'>";
@@ -208,6 +208,7 @@ Edit_Tabellen_Trailer();
                     // formData.append('beglTxt', beglTxt);
 
                     // Checkboxen abfragen
+                    /*
                     var rotateLeftCheckboxes = document.querySelectorAll('input[name="rotateLeft[]"]:checked');
                     var rotateRightCheckboxes = document.querySelectorAll('input[name="rotateRight[]"]:checked');
                     var selectedFilesCheckboxes = document.querySelectorAll('input[name="selectedFiles[]"]:checked');
@@ -222,7 +223,7 @@ Edit_Tabellen_Trailer();
                     selectedFilesCheckboxes.forEach(function(checkbox) {
                      //  formData.append('selectedFiles[]', checkbox.value);
                     });
-
+                    */
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', 'common/API/VF_Upload_FO.API.php', true);
 
@@ -268,10 +269,7 @@ Edit_Tabellen_Trailer();
                 return function(e) {
                     const div = document.createElement('div');
                     div.className = 'preview-image';
-                    div.innerHTML = `<img src="${e.target.result}" alt="${file.name}" width="600"><p>${file.name}</p>
-                                     <input type="checkbox" name="selectedFiles" checked value="${file.name}"> Auswählen
-                                     <input type="checkbox" name="rotateLeft[]" value="${file.name}"> Links drehen
-                                     <input type="checkbox" name="rotateRight[]" value="${file.name}"> Rechts drehen`;
+                    div.innerHTML = `<img src="${e.target.result}" alt="${file.name}" width="600"><p>${file.name}</p>`;
 
                     preview.appendChild(div);
                 };

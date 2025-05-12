@@ -3,33 +3,19 @@
 require "../VF_Foto_Funcs.lib.php";
 require "../VF_Const.lib.php";
 
-$debug_log = True;
+/* für PHP-Loggin 
+ini_set("log_errors", 1);
+ini_set("error_log", "php-error.log");
+error_log( "Hello, errors!" );
+*/
+
+$debug_log = False;
 if ($debug_log) {file_put_contents('Fo_up_debug.log', "VF_Upload_FO.API L 007 " . PHP_EOL, FILE_APPEND);}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] === 'POST' ) { #
 
     $eintragen = Date("Y-m-d H:i:s") . "\n";
-    /*
-       // localhost/fhist_arch/src/login/common/API/VF_Upload_FO.API.php?targPfad=AOrd_Verz/124/09/06/kaaas&urhName=HH&urhAbk=JJ&urhEinfg=J&aufnDat=20250101
-    if (isset($_GET['targPfad'])) {
-        $targ_pfad = $_GET['targPfad'];
-    }
-    if (isset($_GET['urhName'])) {
-        $urh_name = $_GET['urhName'];
-    }
-    if (isset($_GET['urhAbk'])) {
-        $urh_abk = $_GET['urhAbk'];
-    }
-    if (isset($_GET['urhEinfg'])) {
-        $urh_einfueg = $_GET['urhEinfg'];
-    }
-    if (isset($_GET['aufnDat'])) {
-        $aufn_dat = $_GET['aufnDat'];
-    }
-    if (isset($_GET['beglTxt'])) {
-        $bechreibg = $_GET['beglTxt'];
-    }
-    */
+
     if (isset($_POST['targPfad'])) {
         $targ_pfad = $_POST['targPfad'];
     }
@@ -45,17 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
     if (isset($_POST['aufnDat'])) {
         $aufn_dat = $_POST['aufnDat'];
     }
-    /*
-    if (isset($_POST['beglTxt'])) {
-        $bechreibg = $_POST['beglTxt'];
-    }
-
-/*
-    // Zugriff auf die Checkboxen
-    $rotateLeft = isset($_POST['rotateLeft']) ? $_POST['rotateLeft'] : [];
-    $rotateRight = isset($_POST['rotateRight']) ? $_POST['rotateRight'] : [];
-    $selectedFiles = isset($_POST['selectedFiles']) ? $_POST['selectedFiles'] : [];
- */
 
     if ($debug_log) {
         $eintragen .= "targ_pfad $targ_pfad \n";

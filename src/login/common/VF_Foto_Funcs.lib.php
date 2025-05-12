@@ -285,10 +285,10 @@ function resizeImage($file, $maxWidth='800', $maxHeight='800', $outputPath = '',
     }
     */
     $p_arr = pathinfo ($outputPath, PATHINFO_ALL);
-    $resized_file = $p_arr['dirname']."/".$p_arr['filename'].".jpeg";
+    $resized_file = $p_arr['dirname']."/".$p_arr['filename'].".jpg";
     # imagewebp($newImage, $resized_file);
     imagejpeg($newImage, $outputPath);
-    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0228  foto_Funcs ausgegeben ".$p_arr['dirname']."/".$p_arr['filename'].".jpeg \n" . PHP_EOL, FILE_APPEND);}
+    if ($debug_log) {file_put_contents('API_debug_log', "Foto L 0291  foto_Funcs ausgegeben $resized_file \n" . PHP_EOL, FILE_APPEND);}
 
     // Speicher freigeben
     imagedestroy($source);

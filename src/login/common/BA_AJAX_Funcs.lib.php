@@ -518,9 +518,11 @@ document.observe("dom:loaded", function() {
         messageDiv.update(''); // Vorherige Nachrichten löschen
 
         for (var i = 0; i < files.length; i++) {
+        
             var fileName = files[i].name;
             var fileSize = files[i].size;
             console.log(fileSize);
+            
             if (fileSize <= 40000000) { // 40 MB
                 //console.log('OK');
                 var extension = fileName.split('.').pop().toLowerCase();

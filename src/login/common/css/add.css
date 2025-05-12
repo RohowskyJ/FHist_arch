@@ -199,7 +199,22 @@ definitione für autocomplete
   .suggestion-item:hover {
     background-color: #def;
   }
-  
+  #progressContainer {
+    width: 100%;
+    background-color: #eee;
+    margin-top: 20px;
+    height: 25px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  #progressBar {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+  }
   
 /*
 img {

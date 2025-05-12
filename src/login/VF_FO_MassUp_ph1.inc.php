@@ -78,7 +78,7 @@ echo "<label for='urhEinfg'>Urheber ins Bild einfügen</label>";
 echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-twothird ' >"; // Beginn Inhalt- Spalte
 echo "<input type='radio' name='urheinfueg' id='urhEinfg' value='J' checked ><label for='urheinfueg_J'>Ja</label><br>";
-echo "<input type='radio' name='urheinfueg' id='urhEinfg' value='N'   ><label for='urheinfueg_J'>Nein</label><br>";
+echo "<input type='radio' name='urheinfueg' id='urhEinfg' value='N'         ><label for='urheinfueg_J'>Nein</label><br>";
 echo "</div>";
 echo "</div>";
 

@@ -534,6 +534,7 @@ function VF_Displ_Eig($eigentmr)
             $_SESSION['Eigner']['eig_staat'] = "";
             $_SESSION['Eigner']['eig_adresse'] = "";
             $_SESSION['Eigner']['eig_ort'] = "";
+            $_SESSION['Eigner']['eig_name'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
         } else {
             $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
             $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
