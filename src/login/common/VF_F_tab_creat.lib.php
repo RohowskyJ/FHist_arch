@@ -5,36 +5,8 @@
 
 ## Tabellen neu anlegen, falls noch nicht existent, Referat5 
 /*
-function Cr_n_fo_daten ($tabelle) 
-{
-    global $debug, $db;
-    
-    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-        `fo_id` int(20) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
-        `fo_eigner` int(20) NOT NULL COMMENT 'Eigentümer- Nr',
-        `fo_Urheber` varchar(50)  COLLATE utf8_unicode_ci NOT NULL COMMENT 'Urheber- Name',
-        `fo_Urh_kurzz` varchar(20)  COLLATE utf8_unicode_ci NOT NULL COMMENT 'Urheber- Name',
-        `fo_dsn` varchar(60) COLLATE  	utf8_unicode_ci NOT NULL COMMENT 'Dateiname',
-        `fo_aufn_datum` varchar(15)  COLLATE  	utf8_unicode_ci NOT NULL COMMENT 'Aufnahme Datum = Verzeichnis',    
-        `fo_aufn_suff` varchar(2)  COLLATE  	utf8_unicode_ci NOT NULL COMMENT 'Suffix - bei gleichen Datum von 2 Ereignissen',
-        `fo_basepath` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Pfad auf der Platte',
-        `fo_zus_pfad`varchar(60)  COLLATE  	utf8_unicode_ci NOT NULL COMMENT 'Zusatzpfad hinter Auf. Datum',
-        `fo_begltxt` longtext COLLATE  	utf8_unicode_ci NOT NULL COMMENT 'Beschreibung',
-        `fo_namen` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Foto Name',
-        `fo_sammlg` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Sammlung',
-        `fo_typ` set('F','V') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Typ',
-        `fo_media` set('Audio','Foto','Film','Video') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Medium',
-        `fo_uidaend` varchar(4) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Aenderer',
-        `fo_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
-         PRIMARY KEY (`fo_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Foto- Archiv' ;  
-       ";
-    
-    $return = SQL_QUERY($db,$sql);
-    return $return;
-} # Ende Funktion Cr_n_fo_varchar(12)n
-*/
-
+ * 
+ */
 function Cr_n_fo_daten ($tabelle)
 {
     global $debug, $db;
@@ -49,6 +21,7 @@ function Cr_n_fo_daten ($tabelle)
       `fo_begltxt` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Beschreibung',
       `fo_namen` longtext DEFAULT NULL COMMENT 'Foto Name',
       `fo_sammlg` varchar(40) DEFAULT NULL COMMENT 'Sammlung',
+      `fo_feuerwehr` varchar(100) DEFAULT NULL COMMENT 'Name der FF des Fzges',
       `fo_suchbegr` varchar(1024) DEFAULT NULL COMMENT 'Suchbegriffe',
       `fo_typ` set('F','V') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Typ',
       `fo_media` set('Audio','Foto','Film','Video') NOT NULL COMMENT 'Medium',

@@ -22,7 +22,11 @@ if ($debug) {
 $neu['fo_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
 if (isset($neu['level1'])) {
-    $neu['fo_sammlg'] = VF_Multi_Sel_Input();
+    $smlg = VF_Multi_Sel_Input();
+    if ($smlg !== "Nix") {
+        $neu['fo_sammlg'] = $smlg;
+    }
+     
 }
 if (isset($_FILES['uploaddatei_1']['name'])) {
     $pict_path = $path2ROOT."login/AOrd_Verz/" . $neu['fo_eigner'] . "/09/"; # 06/" 10/;
@@ -59,11 +63,11 @@ if (isset($_POST['level1'])) {
 if ($fo_id == 0) { # Neueingabe
     $sql = "INSERT INTO $tabelle (
                 fo_eigner,fo_urheber,fo_aufn_datum,fo_dsn,fo_begltxt,fo_namen,
-                fo_sammlg,fo_suchbegr,fo_typ,fo_media,
+                fo_sammlg,fo_feuerwehr,fo_suchbegr,fo_typ,fo_media,
                 fo_uidaend
               ) VALUE (
                 '$neu[fo_eigner]','$neu[fo_Urheber]','$neu[fo_aufn_datum]','$neu[fo_dsn]','$neu[fo_begltxt]','$neu[fo_namen]',
-                '$neu[fo_sammlg]','$neu[fo_suchbegr]','$neu[fo_typ]','$neu[fo_media]',
+                '$neu[fo_sammlg]','$neu[fo_feuerwehr]','$neu[fo_suchbegr]','$neu[fo_typ]','$neu[fo_media]',
                 '$neu[fo_uidaend]'
                )";
 

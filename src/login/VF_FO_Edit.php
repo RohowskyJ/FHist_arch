@@ -123,6 +123,7 @@ if ($phase == 0) {
             'fo_begltxt' => "",
             'fo_namen' => "",
             'fo_sammlg' => "",
+            'fo_feuerwehr' => '',
             'fo_suchbegr' =>"",
             'fo_typ' => $fo_typ,
             'fo_media' => $fo_media,

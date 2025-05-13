@@ -86,6 +86,7 @@ if ($neu['fo_typ'] == 'F') { # Foto
 Edit_Separator_Zeile('Für Teile einer Sammlung: Sammlung auswählen');
 # =========================================================================================================
 
+echo "<input type='hidden' name='fo_sammlg' value='" . $neu['fo_sammlg'] . "'/>";
 Edit_Daten_Feld('fo_sammlg','');
 
 /**
@@ -121,6 +122,7 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val,$titel);
 
+Edit_Daten_Feld('fo_feuerwehr',100);
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
 # =========================================================================================================
