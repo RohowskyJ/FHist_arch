@@ -277,11 +277,27 @@ function modifyRow(array &$row, $tabelle)
             $row['fz_id'] = "<a href='VF_FZ_MA_Edit.php?fz_id=$fz_id' >" . $fz_id . "</a>";
             if ($row['fz_bild_1'] != "") {
                 $fz_bild_1 = $row['fz_bild_1'];
-                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
-
-                $fz_bild_1 = $row['fz_bild_1'];
-                $p1 = $pict_path . $row['fz_bild_1'];
-
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";           
+                
+                $fo_arr = explode("-",$fz_bild_1);
+                $cnt_fo = count($fo_arr);
+                
+                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+                    if ($cnt_fo > 3)  {
+                        if (isset($fo_arr[3]))
+                            $s_verz = $fo_arr[3]."/";
+                    }
+                    $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fz_bild_1;
+                    
+                    if (!is_file($p1)) {
+                        $p1 = $pict_path . $fz_bild_1;
+                    }
+                } else {
+                    $p1 = $pict_path . $fz_bild_1;
+                }
+                
                 $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fz_bild_1  </a>";
             }
             $bauj = $row['fz_baujahr'];

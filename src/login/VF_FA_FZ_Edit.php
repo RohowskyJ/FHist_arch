@@ -196,7 +196,7 @@ BA_HTML_trailer();
  * @param string $tabelle
  * @return boolean
  */
-function modifyRow(array &$row, # die Werte - das array wird by Name übergeben um die Inhalte ändern zu könnnen !!!!
+function modifyRow_n(array &$row, # die Werte - das array wird by Name übergeben um die Inhalte ändern zu könnnen !!!!
     $tabelle)
 {
     global $path2VF, $T_List, $module, $neu;

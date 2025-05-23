@@ -115,7 +115,10 @@ Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 Edit_Separator_Zeile('Fotos');
 # =========================================================================================================
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
-$pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
+$pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/"; 
+
+// $fo_org = array('H' => 'Hochladen','L' => 'Aus Foto-Bibliothek aussuchen, Auswahl erfolgt nach abspeichern der Daten');
+// Edit_Radio_Feld('fo_org',$fo_org);
 
 echo "<input type='hidden' name='fz_bild_1' value='" . $neu['fz_bild_1'] . "'>";
 echo "<input type='hidden' name='fz_bild_2' value='" . $neu['fz_bild_2'] . "'>";
@@ -131,9 +134,9 @@ $pic_arr = array(
     "04" => "||fz_b_4_komm|fz_bild_4"
 );
 console_log('vor multi_foto');
-VF_Multi_Foto($pic_arr);
+VF_M_Foto($pic_arr);
 
-if ($hide_area == 0 ) { // Hide Eibauten
+if ($hide_area == 0 ) { // Hide Einbauten
     $button = "";
 } else {
     if ($neu['fz_ctif_klass'] == "") {
@@ -255,10 +258,12 @@ $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeig
 VF_Multi_Dropdown($in_val,$titel);
 
 echo "</div>"; # ende dropdown Sammlung
-
+/*
 Edit_Daten_Feld('fz_pruefg_id', 1);
 Edit_Daten_Feld('fz_pruefg',1);
- 
+*/
+echo "<input type='hidden' name='fz_pruefg_id' value='".$neu['fz_pruefg_id']."' >";
+echo "<input type='hidden' name='fz_pruefg' value='".$neu['fz_pruefg']."'  >";
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
 # =========================================================================================================

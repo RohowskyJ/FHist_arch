@@ -102,7 +102,7 @@
     # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
     # ===========================================================================================
     $T_list_texte = array(
-        "Alle" => "Alle bekannten Maschinengetriebenen Fzg/Geräte nach Indienststellung"
+        "Alle" => "Alle bekannten Maschinengetriebenen Fzg/Geräte nach Indienststellung (Auswahl)"
     );
     
     # ===========================================================================================================

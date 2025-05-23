@@ -47,17 +47,17 @@ if (! file_exists($uploaddir)) {
     mkdir($uploaddir, 0770, true);
 }
 
-#var_dump($_FILES['uploaddatei_01']); echo "<br>L 053 <br>";
-if ($_FILES['uploaddatei_01']['name'] != "" ) {
+# var_dump($_FILES['uploaddatei_01']); echo "<br>L 053 <br>";
+if (isset($_FILES['uploaddatei_01']) && $_FILES['uploaddatei_01']['name'] != "" ) {
     $neu['fz_bild_1'] = VF_Upload($uploaddir, '01');
 }
-if ($_FILES['uploaddatei_02']['name'] != "" ) {
+if (isset($_FILES['uploaddatei_02']) && $_FILES['uploaddatei_02']['name'] != "" ) {
     $neu['fz_bild_2'] = VF_Upload($uploaddir, '02');
 }
-if ($_FILES['uploaddatei_03']['name'] != "" ) {
+if (isset($_FILES['uploaddatei_03']) && $_FILES['uploaddatei_03']['name'] != "" ) {
     $neu['fz_bild_3'] = VF_Upload($uploaddir, '03');
 }
-if ($_FILES['uploaddatei_04']['name'] != "" ) {
+if (isset($_FILES['uploaddatei_04']) && $_FILES['uploaddatei_04']['name'] != "" ) {
     $neu['fz_bild_4'] = VF_Upload($uploaddir, '04');
 }
 
@@ -171,7 +171,7 @@ if ($neu['fz_id'] == 0) { # neueingabe
         if (substr($name, 0, 4) == 'leve') {
             continue;
         }
-        if ($name == 'aufbauer' || $name == 'eigentuemer' || $name == 'hersteller' || $name == 'taktisch' || $name == 'urheber'  ) {
+        if ($name == 'aufbauer' || $name == 'eigentuemer' || $name == 'hersteller' || $name == 'taktisch' || $name == 'urheber' || $name == 'fo_org' ) {
             continue;
         }
 

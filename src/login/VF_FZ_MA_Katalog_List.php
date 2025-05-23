@@ -102,7 +102,7 @@
     # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
     # ===========================================================================================
     $T_list_texte = array(
-        "Alle" => "Alle bekannten Maschinengetriebenen Fzg/Geräte nach Indienststellung"
+        "Alle" => "Alle bekannten Maschinengetriebenen Fzg/Geräte nach Indienststellung (Auswahl)"
     );
     
     # ===========================================================================================================
@@ -436,9 +436,26 @@ foreach ($fzg_arr as $line) {
         $Bild = "";
     } else {
 
-        $pictpath = "AOrd_Verz/$line_arr[1]/$pic_d/";
+        $pict_path = "AOrd_Verz/$line_arr[1]/$pic_d/";
 
-        $p1 = $pictpath . $line_arr[8];
+        $fo_arr = explode("-", $line_arr[8]);
+        $cnt_fo = count($fo_arr);
+        
+        if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+            $urh = $fo_arr[0]."/";
+            $verz = $fo_arr[1]."/";
+            if ($cnt_fo > 3)  {
+                if (isset($fo_arr[3]))
+                    $s_verz = $fo_arr[3]."/";
+            }
+            $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$line_arr[8];
+            
+            if (!is_file($p1)) {
+            $p1 = $pict_path . $line_arr[8];
+            }
+        } else {
+            $p1 = $pict_path . $line_arr[8];
+        }
 
         $Bild = "<a href='$p1' target='Bild ' > <img src='$p1' alter='$p1' width='240px'>&nbsp;</a>";
     }
@@ -508,7 +525,29 @@ function modifyRow(array &$row, $tabelle)
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuF/";
 
                 $fm_foto_1 = $row['fm_foto_1'];
-                $p1 = $pict_path . $row['fm_foto_1'];
+                
+                $fo_arr = explode("-",$fm_foto_1);
+                $cnt_fo = count($fo_arr);
+                
+                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+                    if ($cnt_fo > 3)  {
+                        if (isset($fo_arr[3]))
+                            $s_verz = $fo_arr[3]."/";
+                    }
+                    $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fm_foto_1;
+                    
+                    if (!is_file($p1)) {
+                        $p1 = $pict_path . $fm_foto_1;
+                    }
+                } else {
+                    $p1 = $pict_path . $fz_bild_1;
+                }
+                
+                
+                
+     #           $p1 = $pict_path . $row['fm_foto_1'];
 
                 $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $fm_foto_1  </a>";
             }

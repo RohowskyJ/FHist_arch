@@ -104,7 +104,9 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         } else {
             $_SESSION['VF_Prim']['mode'] = "Mandanten";
             $_SESSION['VF_Prim']['eignr'] = "";
+            
         }
+        $_SESSION['VF_Prim']['ptyp'] = $ini_arr['Config']['ptyp'];
     }
     
     if (! isset($actor) || $actor == "") {
@@ -113,8 +115,6 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     
     echo "<body class='w3-container' style='max-width:$width;' >"; //
     echo '<fieldset>'; ## ganze seite
-    
-    
     
     if ($type == 'Form') {
         echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
@@ -189,6 +189,14 @@ function BA_HTML_trailer()
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
    
    ?>
+   <script>
+       function submitForm() {
+           console.log('on click ausgelöst');
+           document.getElementById('myForm').submit();
+       }
+    </script>
+    
+   
     <br>
     <footer class='footer'>
     <div class='copyrights' style='font-size: 0.7rem'>

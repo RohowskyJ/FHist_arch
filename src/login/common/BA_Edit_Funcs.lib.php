@@ -189,7 +189,7 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
     
     Edit_Feld_Zeile_header($FeldName);
 
-    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
+    $InputParm = "'id='$FeldName' name='$FeldName' id='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
@@ -261,7 +261,7 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
     
     Edit_Feld_Zeile_header($FeldName, $button);
     
-    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
+    $InputParm = "'id='$FeldName' name='$FeldName' id='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
@@ -402,7 +402,7 @@ function Edit_Radio_Feld($FeldName, array $Buttons, $InfoText = '') # Zusatz Inf
         if (is_array($text)) {
             $text = $text[0];
         }
-        echo "<label><input class='w3-radio ' type='radio' name='$FeldName' value='$value' $attr> $text <br></label> ";
+        echo "<label><input class='w3-radio ' type='radio' name='$FeldName' id='$FeldName' value='$value' $attr> $text <br></label> ";
     }
     if (! empty($Err_msg[$FeldName])) {
         echo " <span class='error'>$Err_msg[$FeldName]</span>";
@@ -442,7 +442,7 @@ function Edit_CheckBox($FeldName, $text, $InfoText = '', $FeldAttr = '')
 
     $Err_msg; # array mit Fehlermeldungen
     Edit_Feld_Zeile_header($FeldName);
-    $InputParm = "id='$FeldName' name='$FeldName' value='Y' $FeldAttr";
+    $InputParm = "id='$FeldName' name='$FeldName' id='$FeldName' value='Y' $FeldAttr";
     if ($Edit_Funcs_Protect) {
         echo "$text";
     } else {
@@ -499,7 +499,7 @@ function Edit_Check_Box($FeldName, array $Boxes, $InfoText = '')
         } else {
             $checked = '';
         }
-        echo "<label><input  class='w3-check' type='checkbox' name='F_Name[]' value='$value' $checked> $text <br> </label> ";  #  w3-input
+        echo "<label><input  class='w3-check' type='checkbox' name='F_Name[]' id='$FeldName' value='$value' $checked> $text <br> </label> ";  #  w3-input
     }
 
     if (! empty($Err_msg[$FeldName])) {
@@ -538,7 +538,7 @@ function Edit_Select_Feld($FeldName, array $Options, $InfoText = '')
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Select_Feld");
 
     Edit_Feld_Zeile_header($FeldName);
-    echo "<select id='$FeldName' name='$FeldName' size='1'>";
+    echo "<select id='$FeldName' name='$FeldName' id='$FeldName' size='1'>";
     foreach ($Options as $value => $text) {
         if ($neu[$FeldName] == $value) {
             $sel = ' selected';

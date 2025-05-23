@@ -117,7 +117,7 @@
     # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
     # ===========================================================================================
     $T_list_texte = array(
-        "Alle" => "Alle bekannten Muskelgezogenen Fzg/Geräte nach Indienststellung"
+        "Alle" => "Alle bekannten Muskelgezogenen Fzg/Geräte nach Indienststellung (Auswahl)"
     );
     
     # ===========================================================================================================

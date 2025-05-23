@@ -21,6 +21,7 @@
  *  - VF_Log_PW_Upd     - Passworänderung schreiben 
  *  - VF_Mail_Set       - gibt die E-Mail Adresse für die Recs aus fh_m_mail zurück neu 20240120 
  *  - VF_Multi_Foto     - Anzeige mehrfach - s mit den texten paarweise n Zeile  
+ *  - VF_M_Foto         - Anzeige mehrfach - s mit den texten paarweise n Zeile  , Upload oder Auswahl aus Foto- Lib
  *  - VF_Sel_Bdld       - Auswahl Bundesland 
  *  - VF_Sel_Det        - Detailbeschreibungs Selektion
  *  - VF_Sel_Sammlg     - Sammlungs- Selektion mit select list
@@ -982,6 +983,151 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
 }
 
 /**
+ * Formular- Teil zum hochladen von mehrfach-Dateien (fotos, Dokumente, ..) Modifizierte Vwersion
+ *
+ * @param array $Picts
+ *            Daten zum Hochladen
+ * @param string $sub_functs
+ *            Steuerung für Sub-Funktionen
+ * @return
+ *
+ * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
+ * @global array $db Datenbank Handle
+ * @global array $neu Eingelesene Daten Felder
+ * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
+ */
+function VF_M_Foto(array $Picts)
+// --------------------------------------------------------------------------------
+{
+    global $debug, $db, $neu, $module, $pict_path, $Tabellen_Spalten_COMMENT, $flow_list,$hide_area, $path2ROOT;
+    
+    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_M_Foto" );
+    
+    $fo_org = 'H';
+    
+    if ($debug) {
+        echo "<pre class=debug>VF_Mult_ L Beg: \$Picts ";
+        var_dump($Picts);
+        echo "<pre>";
+    }
+    
+    $pic_cnt = count($Picts);
+    
+    # echo "<tr><td colspan='2'>";
+    echo "<div class='w3-container' max-width='100%' margin='5px '>";
+    
+    #var_dump($neu);
+    
+    foreach ($Picts as $key => $value) {
+        error_log($value);
+        $p_a = explode("|", $value);    
+       
+        #var_dump($p_a);echo "L 01025 hide_area $hide_area <br>";
+        
+        #echo $neu[$p_a[2]]. " ".$p_a[2] . " " . $neu[$p_a[3]]." ". $p_a[3] ."<br>";
+        
+        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a[2]] != '' || $neu[$p_a[3]] != ''  ))) {
+            
+            # echo "Bild- Box $key wird angezeigt <br>";
+            
+            echo "<div class='w3-half'><fieldset>";
+            echo "<div style='float:left;'>";
+            if ($p_a[0] != "") {
+                if (isset($Tabellen_Spalten_COMMENT[$p_a[0]])) {
+                    echo $Tabellen_Spalten_COMMENT[$p_a[0]];
+                } else {
+                    echo "<b>$p_a[0]</b> ";
+                }
+                echo "  <input class='w3-input' type='text' name='$p_a[0]' value='" . $neu[$p_a[0]] . "' size='50'> <br/>";
+            }
+            if ($p_a[1] != "") {
+                if (isset($Tabellen_Spalten_COMMENT[$p_a[1]])) {
+                    echo $Tabellen_Spalten_COMMENT[$p_a[1]];
+                } else {
+                    echo "$p_a[1]";
+                }
+                echo "  <input class='w3-input' type='text' name='$p_a[1]' value='" . $neu[$p_a[1]] . "'> <br/>";
+            }
+            if ($p_a[2] != "") {
+                if (isset($Tabellen_Spalten_COMMENT[$p_a[2]])) {
+                    echo $Tabellen_Spalten_COMMENT[$p_a[2]];
+                } else {
+                    echo $p_a[2];
+                }
+                echo "  <textarea class='w3-input' rows='7' cols='25' name='$p_a[2]' >" . $neu[$p_a[2]] . "</textarea> ";
+            }
+            if ($neu[$p_a[3]] != "") {
+                $fo = $neu[$p_a[3]];
+             
+                $fo_arr = explode("-",$neu[$p_a[3]]);
+                $cnt_fo = count($fo_arr);
+                
+                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+                    if ($cnt_fo > 3)  {
+                        if (isset($fo_arr[3]))
+                        $s_verz = $fo_arr[3]."/";
+                    }
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a[3]];
+
+                    if (!is_file($p)) {
+                        $p = $pict_path . $neu[$p_a[3]];
+                    }
+                } else {
+                    $p = $pict_path . $neu[$p_a[3]];
+                }
+ 
+                echo "</div><div style='float:right;'>";
+                if (stripos($neu[$p_a[3]],".pdf")) {
+                    echo "<a href='$p' target='Bild $key' > Dokument</a></div>";
+                } else {
+                    echo "<a href='$p' target='Bild $key' > <img src='$p' alter='$p' width='200px'></a></div>";
+                    echo $neu[$p_a[3]];
+                }
+                
+            } else {
+                echo '<input type="hidden" name="MAX_FILE_SIZE" value="4000000" >';
+                $FeldName = $p_a[3];
+                
+                echo "<input type='hidden' name='$FeldName$key' value='$neu[$FeldName]' >";
+                
+                if (isset($Tabellen_Spalten_COMMENT[$FeldName])) {
+                    if ($_SESSION['VF_Prim']['p_uid'] != 999999999) {
+                        echo "  <span class='info'>$Tabellen_Spalten_COMMENT[$FeldName] <b>$FeldName</b> Bild hochladen </span>";
+                        echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
+                    }
+                } else {
+                    echo "
+<span class='info'><b>$FeldName</b> Bild hochladen </span>";
+                    echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
+                }
+            }
+ /*          
+            
+
+            if ($hide_area == 0 && $fo_org == 'H') {
+                echo "hochladen von Daten $key <br>";
+                error_log($pict_path);
+                
+            }
+ */           
+            
+        }
+        
+        echo "</fieldset></div>";
+    }
+    echo "</div>";
+    echo "</div>";
+    # echo "</td></tr>";
+    
+    if ($debug) {
+        echo "<pre class=debug>VF_Mult_ L End: <pre>";
+    }
+    return;
+}
+
+/**
  * Bundesland- Liste eines Staates
  *
  * @param string $land
@@ -1049,7 +1195,7 @@ function VF_Sel_Bdld($land, $sub_funct = "", $stabkz = "")
 // Ende von function VF_Sel_Bdld
 
 /**
- * Verknüpfung der hier aktuellen Daten zu de Beschreibungen (KFZ - > Dokumente wir ZulSchein usw)
+ * Verknüpfung der hier aktuellen Daten zu de Beschreibungen (KFZ - > Dokumente wie ZulSchein usw)
  *
  * offen, muss überarbeiter werden, da die Definitionen durch viele SStruktur- Änderungen verschoben wurden
  * Zuordnung von Detailbechreibugen (.html, .php) zu einer Sammlung
@@ -1828,7 +1974,7 @@ function VF_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
         echo "         <label for='Level2'>".$MS_Txt[1]." &nbsp;  </label>";
         echo "    </div>";
         echo "    <div class='w3-container w3-twothird'> ";
-        echo "        <select class='w3-input' id='level2' name='level2' onchange='updateOptions(2, this.value, $MS_Opt )'>";
+        echo "        <select class='w3-input' id='level2' name='level2' onchange='updateOptions(2, this.value, $MS_Opt )' onclick='submitForm()' >";
         echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
         echo "     </div>";

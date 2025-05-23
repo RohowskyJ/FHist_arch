@@ -194,6 +194,9 @@ if ($phase == 0) {
         }
 
     }
+    $neu['fo_org'] = 'L';
+    $Tabellen_Spalten['fo_org'] = 'fo_ausw';
+    $Tabellen_Spalten_COMMENT['fo_org'] = 'Foto Ursprung ';
 }
 
 if ($phase == 1) {
