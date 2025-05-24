@@ -62,10 +62,32 @@ for ($i = 0; ! empty($arr_fzg[$i]); $i ++) { // table|fz_id|eignr
             $zustand = "<br/><br/>";
         }
 
+        $pict_path = "AOrd_Verz/$eignr/MaF/";
         $pict = "";
         if ($row->fz_bild_1 != "") {
-            $pictpath = "AOrd_Verz/$eignr/MaF/";
-            $p1 = $pictpath . $row->fz_bild_1;
+            
+            $fo_arr = explode("-",$row->fz_bild_1);
+            $cnt_fo = count($fo_arr);
+            
+            if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                if ($cnt_fo > 3)  {
+                    if (isset($fo_arr[3]))
+                        $s_verz = $fo_arr[3]."/";
+                }
+                $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$row->fz_bild_1;
+                
+                if (!is_file($p1)) {
+                    $p1 = $pict_path . $row->fz_bild_1;
+                }
+            } else {
+                $p1 = $pict_path . $row->fz_bild_1;
+            }
+            
+            
+            
+            #$p1 = $pictpath . $row->fz_bild_1;
             $pict = "<a href='$p1' target='Fahrzeug-Bild' > <img src='$p1' alter='$p1' width='180px'> <br/>$row->fz_bild_1   </a>";
         }
         # VF_Displ_Suchb($row->fz_suchbegr1, $row->fz_suchbegr2, $row->fz_suchbegr3, $row->fz_suchbegr4, $row->fz_suchbegr5, $row->fz_suchbegr6);

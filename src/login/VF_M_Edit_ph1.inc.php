@@ -9,7 +9,7 @@
 if ($debug) {
     echo "<pre class=debug>VF_M_Edit_ph1.inc.php ist gestarted</pre>";
 }
-var_dump($neu);
+#var_dump($neu);
 if ($debug) {
     echo '<pre class=debug>';
     echo '<hr>$neu: ';
@@ -18,7 +18,7 @@ if ($debug) {
     print_r($_SESSION[$module]);
     echo '</pre>';
 }
-echo "L 021 sterbdat ".$neu['mi_sterbdat']."<br>";
+#echo "L 021 sterbdat ".$neu['mi_sterbdat']."<br>";
 if ($neu['mi_sterbdat'] > "0000-00-00") {
    echo "Replace E-Mail Addr und Tel mit blank <br>";   
 }
@@ -166,7 +166,7 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
         if ($debug) {
             echo '<pre class=debug> L 0166: \$sql $sql </pre>';
         }
-echo "L 0163 sql $sql <bR>";
+# echo "L 0163 sql $sql <bR>";
         $result = SQL_QUERY($db, $sql);
         $_SESSION['neu_mitgl']['neu_mi_id'] = $mi_id;
     }
