@@ -3,7 +3,7 @@
 require "../VF_Foto_Funcs.lib.php";
 require "../VF_Const.lib.php";
 
-/* für PHP-Loggin 
+/* für PHP-Logging 
 ini_set("log_errors", 1);
 ini_set("error_log", "php-error.log");
 error_log( "Hello, errors!" );
