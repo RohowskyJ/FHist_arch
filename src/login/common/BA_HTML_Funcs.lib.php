@@ -192,7 +192,7 @@ function BA_HTML_trailer()
    <script>
        function submitForm() {
            console.log('on click ausgelöst');
-           document.getElementById('myForm').submit();
+           document.getElementById('myform').submit();
        }
     </script>
     
