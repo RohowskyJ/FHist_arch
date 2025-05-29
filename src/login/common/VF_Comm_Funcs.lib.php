@@ -1054,7 +1054,7 @@ function VF_M_Foto(array $Picts)
                 } else {
                     echo $p_a[2];
                 }
-                echo "  <textarea class='w3-input' rows='7' cols='25' name='$p_a[2]' >" . $neu[$p_a[2]] . "</textarea> ";
+                echo "<textarea class='w3-input' rows='7' cols='25' name='$p_a[2]' >" . $neu[$p_a[2]] . "</textarea> ";
             }
             if ($neu[$p_a[3]] != "") {
                 $fo = $neu[$p_a[3]];
@@ -1098,8 +1098,7 @@ function VF_M_Foto(array $Picts)
                         echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
                     }
                 } else {
-                    echo "
-<span class='info'><b>$FeldName</b> Bild hochladen </span>";
+                    echo "<span class='info'><b>$FeldName</b> Bild hochladen </span>";
                     echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
                 }
             }
