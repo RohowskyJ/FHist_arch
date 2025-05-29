@@ -175,7 +175,7 @@ $List_Hinweise .= '</ul></li>';
 $Sel_Dok = "";
 if ($thema == 1) {
     $sel = VF_Doku_Art; 
-    $Sel_Dok = "Themen- Auswahl: &nbsp; &nbsp;  <select name='sel_thema' > ";
+    $Sel_Dok = "Themen- Auswahl: &nbsp; &nbsp;  <select name='sel_thema' onchange= submitForm() > ";
     foreach ($sel as $key => $value) {
         $Sel_Dok .= "<option value='$key'>$value</option>";
     }
