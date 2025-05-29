@@ -60,9 +60,11 @@ const VF_Doku_Art = array(
     'az' => 'Auszeichnungen, Ehrungen, Leistungsabzeichen',
     'bew' => 'Bewerbe',
     'fa' =>  'Fahrzeuge allgemein',
+    'fg' => 'Firmengeschchte',
     'fw' => 'Feuerwehr. allgemein',
     'ge' => 'Feuerwehrgeschichte',
-    'ka' => 'Kataloge',
+    'ka' => 'Kataloge (Werbematerial)',
+    'kb' => 'Katalog der FG (Broschüren)',
     'mus' => 'Muskelbewegte Fahrzeuge und Geräte',
     'pa' => 'Persönliche Ausrüstung',
     'pl' => 'Persönlichkeiten und Lebensläufe',
@@ -70,6 +72,18 @@ const VF_Doku_Art = array(
     'sp' => 'Sprengdienst',
     'td' => 'Tauchdienst',
     'wd' => 'Wasserdienst'
+    
+);
+
+const VF_Doku_SG = array(
+    '1' => 'mit Muskelkraft bewegte Fahrzeuge und Geräte',
+    '2' => 'mit Motorkraft bewegte Fzg und Geräte',
+    '3' => 'Sonstige Geräte',
+    '4' => 'Persönliche Ausrüstung',
+    '5' => 'Dokumentation',
+    '6' => 'Museen',
+    '7' => 'Kataloge'
+    
 );
 
 /**
