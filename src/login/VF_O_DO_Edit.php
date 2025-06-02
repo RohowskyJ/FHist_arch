@@ -77,7 +77,7 @@ if ($phase == 0) {
     if ($dk_nr == 0) {
         $neu['dk_nr'] = 0;
         $neu['dk_Thema'] = $neu['dk_Titel'] = $neu['dk_Author'] = $neu['dk_Urspr'] = "";
-        $neu['dk_Dsn'] = $neu['dk_Dsn_2'] = $neu['dk_Path2Dsn'] = $neu['dk_url'] = $neu['dk_aenduid'] = $neu['dk_aenddat'] = "";
+        $neu['dk_Dsn'] = $neu['dk_Dsn_2'] = $neu['dk_Path2Dsn'] = $neu['dk_url'] = $neu['dk_sg'] = $neu['dk_aenduid'] = $neu['dk_aenddat'] = "";
     } else {
         $sql = "SELECT * FROM $tabelle ";
 

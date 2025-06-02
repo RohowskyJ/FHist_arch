@@ -23,6 +23,10 @@ $sel = VF_Doku_Art;
 
 Edit_Select_Feld(Prefix . 'dk_Thema', $sel);
 
+$sel = VF_Doku_SG;
+
+Edit_Select_Feld(Prefix . 'dk_sg', $sel);
+
 Edit_Daten_Feld(Prefix . 'dk_Titel', 256);
 Edit_Daten_Feld(Prefix . 'dk_Author', 256);
 Edit_Daten_Feld(Prefix . 'dk_Urspr', 100);

@@ -53,7 +53,7 @@
  *                         - VF_List[select_string|SelectAnzeige|SpaltenNamenAnzeige|DropDownAnzeige||CSVAusgabe
  *
  */
-flow_add('List_Funcs', "List_Funcs.inc.php Funct: Edit_Tabellen_Header");
+flow_add('List_Funcs', "BA_List_Funcs.lib.php Funct: Edit_Tabellen_Header");
 
 /**
  * Ausgabe des oberen Listenteiles, Eingabenerfassung und Defaults
@@ -92,7 +92,7 @@ function List_Prolog($id, $T_List_Texte)
 {
     global $debug, $path2ROOT, $module, $T_List, $List_parm, $csv_DSN, $SelectAnzeige, $SpaltenNamenAnzeige, $DropdownAnzeige;
 
-    flow_add($module, "ListFuncs.inc Funct: List_Prolog");
+    flow_add($module, "BA_List_Funcs.lib.php Funct: List_Prolog");
 
     # ===========================================================================================================
     # die Parameter lesen und die Werte fürs nächste mal aufheben

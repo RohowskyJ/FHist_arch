@@ -297,9 +297,91 @@ function modifyRow(array &$row, $tabelle)
                 } else {
                     $p1 = $pict_path . $fz_bild_1;
                 }
+             
                 
-                $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fz_bild_1  </a>";
+
+                $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fz_bild_1 </a>";
             }
+            
+            $t_daten = "";
+            
+            if ($row['fz_sammlg'] != 'MA_F-AH') {
+                /**
+                 * Techn Daten- Anzeige
+                 */
+                /* Dropdown Header */
+                $t_daten_head =  "
+                        <div class='w3-dropdown-hover '
+                             style='padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 3'>
+                             <b style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Technische Daten</b>
+                             <div class='w3-dropdown-content w3-bar-block w3-card-4'
+                                       style='width: 50em; right: 0'>
+                      ";
+                
+                $t_daten_trail = "
+                             </div>
+                             <!-- w3-dropdown-content -->
+                    
+                       </div>
+                       <!-- w3-dropdown-hover -->
+                      ";
+                #var_dump($row);
+                if ($row['fz_motor'] == ', 0 ccm, , ') {
+                    $row['fz_motor'] = "";
+                }
+                if ($row['fz_besatzung'] == "0 + 0") {
+                    $row['fz_besatzung'] = "";
+                }
+                $motor = $antrieb = $einbau = $t_daten = '';
+                if ( $row['fz_motor'] != "") {
+                    $motor = "Motor : ".$row['fz_motor'];
+                }
+                #echo "L 0332 ". $row['fz_antrieb'] ."; <br>";
+                if ($row['fz_antrieb'] != "" && strlen($row['fz_antrieb']) >=4 ) {
+                    $antrieb = "<br>Antrieb : ".$row['fz_antrieb'];
+                    if ($row['fz_geschwindigkeit'] != "") {
+                        $antrieb .= "<br>Geschwindigk.: ".$row['fz_geschwindigkeit'];
+                    }
+                }
+                
+                if ($row['fz_l_pumpe'] != "" || $row['fz_t_kran'] != ""  || $row['fz_t_winde'] != ''   || $row['fz_t_leiter'] != ''  || $row['fz_t_abschlepp'] != ''
+                    || $row['fz_l_tank'] != "" || $row['fz_g_atemsch'] != ""  || $row['fz_t_strom'] != ""  || $row['fz_t_beleuchtg'] != ""
+                    ) {
+                        $einbau = "<br>Fixe Einbauten : ";
+                        if ($row['fz_l_tank'] != "")  {
+                            $einbau = "<br>".$row['fz_l_tank'];
+                        }
+                        if ($row['fz_l_pumpe'] != '' ) {
+                            $einbau = "<br>".$row['fz_l_pumpe'];
+                        }
+                        if ($row['fz_t_kran'] != '' ) {
+                            $einbau = "<br>".$row['fz_t_kran'];
+                        }
+                        if ($row['fz_t_winde'] != '' ) {
+                            $einbau = "<br>".$row['fz_t_winde'];
+                        }
+                        if ($row['fz_t_leiter'] != '' ) {
+                            $einbau = "<br>".$row['fz_t_leiter'];
+                        }
+                        if ($row['fz_t_abschlepp'] != ''  ) {
+                            $einbau = "<br>".$row['fz_t_abschlepp'];
+                        }
+                        if ($row['fz_g_atemsch'] != ''  ) {
+                            $einbau = "<br>".$row['fz_g_atemsch'];
+                        }
+                        if ($row['fz_t_strom'] != ''  ) {
+                            $einbau = "<br>".$row['fz_t_strom'];
+                        }
+                        if ($row['fz_t_beleuchtg'] != ''  ) {
+                            $einbau = "<br>".$row['fz_t_beleuchtg'];
+                        }
+                    }
+                    if ($motor != "" || $antrieb != "" || $einbau != "") {
+                        $t_daten = "<br>".$t_daten_head.$motor.$antrieb.$einbau.$t_daten_trail;
+                    }
+                    
+            }
+            
             $bauj = $row['fz_baujahr'];
             $ind  = $row['fz_indienstst'];
             $aud  = $row['fz_ausdienst'];
@@ -326,6 +408,8 @@ function modifyRow(array &$row, $tabelle)
                     $row['fz_herstell_fg'] .= "<br>Aufbauer ".$row['fz_aufbauer'];
                 }
             }
+            
+            $row['fz_herstell_fg'] .= $t_daten;
 
             break;
         case "ma_gerae":
