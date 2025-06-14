@@ -3,7 +3,7 @@
 
 Original Homepage der Feuerwehrhistoriker in NÖ
 
-Nach wie vor benutzbar: https://www.feuerwehrhistoriker.at/VFH/index.php
+Nach wie vor in Betrieb: https://www.feuerwehrhistoriker.at/VFH/index.php
 
 Funktionen:
   
