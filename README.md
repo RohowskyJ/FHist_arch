@@ -19,7 +19,7 @@ Kataloge: 	Fahrzeug- Katalog
      Inventar 
      Archivalien
      Foto- Archiv
-     Austzeichen, Ärmelabzeichen
+     Auszeichnugen, Ärmelabzeichen
      diverse Dokumentationen
      
 Gedruckte Informationen, die heruntergeladen werden können.
