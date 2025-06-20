@@ -5,37 +5,10 @@
  * @author  Josef Rohowsky josef@kexi.at start 01.01.2025
  *
  * Enthält und Unterprogramme für die Auwahl von Namen und Begriffen
+ * 
+ *  BA_HTML_header      - Ausgabe des Seiten- Headers, Laden der Seitenparameter aud config_s.ini
+ *  BA_HTML_trailer     - Ausgabe Seitenende
  *
- *  - VF_Add_Findbuch   - Suchbegriff Schlagwort hinzufügen
- *  - VF_Add_Namen      - Suchbegriff Namen hinzufügen
- *  - VF_chk_Valid      - Prüfung ob gültige Aufruf, setzten der Zugriffs- Parameter für $module neu 20240120
- *  - VF_Count_add      - Add Record for startng an inernal Sub-Process (as Archive, Suche, Fzg
- *  - VF_Bdld_Displ     - Zeigt den Namen des Bundeslandes für die angegebene Abkürzung
- *  - VF_Displ_Arl      - Anzeige Archivordnung 3+4. Ebene Locale Sachgeb + Subsachgeb
- *  - VF_Displ_Aro      - Anzeige Archivordnug, 1+2. Ebene Generelles Sachgebiet und Sub-Sachgebiet
- *  - VF_Displ_Eig      - Daten zur Anzeige der Eigentümer-Daten, Speichern in SESSION[Eigner [
- *  - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen
- *  - VF_Displ_Urheb    - Urheber Daten in $_Sess[$module]['URHEBER'] einlesen
- *  - VF_Login          - Login durchführen
- *  - VF_Log_Pw_chg     - Passwortänderung beim Login Daten erfassen
- *  - VF_Log_PW_Upd     - Passworänderung schreiben
- *  - VF_Mail_Set       - gibt die E-Mail Adresse für die Recs aus fh_m_mail zurück neu 20240120
- *  - VF_Multi_Foto     - Anzeige mehrfach - s mit den texten paarweise n Zeile
- *  - VF_Sel_Bdld       - Auswahl Bundesland
- *  - VF_Sel_Det        - Detailbeschreibungs Selektion
- *  - VF_Sel_Sammlg     - Sammlungs- Selektion mit select list
- *  - VF_Sel_Staat      - Auswahl Staat
- *  - VF_Sel_Urheber    - Auswahl des Urhebers, speicherung Urhebernummer
- *  - VF_set_module_p   - setzen der Module- Parameter    neu 20240120
- *  - VF_set_PictPfad   - setze den Bilderpfad für Uploads und Anzeigen
- *  - VF_Show_Eig       - Auslesen ud zurückgeben der Eigner-Daten im Format wir Autocomplete
- *  - VF_tableExist     - test ob eine Tabelle existiert
- *  - VF_upd            - Berechtigungs- Feststellung je *_List Script entsprechend Eigentümer
- *  - VF_Upload_Pic     - Hochladen der Datei mit Umbenennung auf Foto- Video- Format Urh-Datum-Datei.Name
- *  - VF_trans_2_separate - Umlaute eines Strings von UTF-8 oder CP1252 auf gtrennte Schreibweise -> Ü ->UE
- *  - VF_Eig_Ausw       - Autokomplete Auswahl Eigner
- *  - VF_Multi_Dropdown - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl
- *  - VF_Sel_Eigner     - Eigentümer- Auswahl für Berechtigungen (wieder aktiviert)
  */
 
 if ($debug) {
@@ -65,18 +38,18 @@ if ($debug) {
 function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 // --------------------------------------------------------------------------------
 {
-    global $path2ROOT, $module, $logo, $prot, $actor, $Anfix, $form_start;
+    global $path2ROOT, $module, $logo, $prot, $jq, $jqui, $BA_AJA, $actor, $Anfix, $form_start;
     
     if (!isset($form_start)) {$form_start = True;}
     
     echo "<!DOCTYPE html>";
-    echo "<html lang='de'>"; # style='overflow-x:scroll;'
+    echo "<html lang='de' style='overflow-x:scroll;'>"; # style='overflow-x:scroll;'
     echo "<head>";
     echo "  <meta charset='UTF-8'>";
     echo "  <title>$title</title>";
     echo "  <meta  name='viewport' content='width=device-width, initial-scale=1.00'>";
     echo '<meta name="description" content="Feuerwehrhistoriker Dokumentationen - Archiv, Inventar, Beschreibungen, Kataloge, ...">';
-    echo "<meta name='copyright' content='FT Ing. Josef Rohowsky 2020-2025'>";
+    echo "<meta name='copyright' content='Ing. Josef Rohowsky 2020-2025'>";
     echo '<meta name="robots" content="noindex">';
     echo '<meta name="robots" content="nofollow">';
     
@@ -88,7 +61,30 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     if (isset($prot) && $prot) {
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/prototype.js' ></script>";
     }
-
+    if (isset($jq) && $jq) {
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-3.7.1.min.js' ></script>";
+    }
+    if (isset($jqui) && $jqui) {
+        echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/jquery-ui.min.css' type='text/css'>";
+        # echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/bootstrap.min.css' type='text/css'>";
+        ?>
+        <style>
+        /* Vorschlagsliste optisch anpassen */
+        .ui-autocomplete {
+            background-color: #fff;
+            opacity: 0.95;
+            z-index: 9999;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+        }
+        </style>
+        <?php  
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
+    }
+    if (isset($BA_AJA) && $BA_AJA ) {
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_AJAX_Scripts.js' ></script>";
+    }
     echo $head;
     echo "</head>";
     
@@ -107,6 +103,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
             
         }
         $_SESSION['VF_Prim']['ptyp'] = $ini_arr['Config']['ptyp'];
+        $_SESSION['VF_Prim']['store'] = $ini_arr['Config']['store'];
     }
     
     if (! isset($actor) || $actor == "") {

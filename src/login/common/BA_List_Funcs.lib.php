@@ -285,7 +285,7 @@ function List_Prolog($id, $T_List_Texte)
     # -----------------------------------------------------------------------------------------------------------------
 
     if ($csv_DSN == "") {
-        $csv_DSN = Module_Name;
+        $csv_DSN = $module;
     }
     if (isset($_SERVER['REMOTE_USER'])) {
         $csv_DSN .= $_SERVER['REMOTE_USER'];
