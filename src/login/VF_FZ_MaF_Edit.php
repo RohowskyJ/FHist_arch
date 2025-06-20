@@ -33,16 +33,25 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
-require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
+
+require $path2ROOT . 'login/common/VF_Upload.lib.php';
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FZ_MaF_Edit.php";
 
 $flow_list = True;
 if ($flow_list) {
-    flow_add($module,"BA_MA_Edit.php Funct: BA_Auto_Compl" );
+    flow_add($module,"VF_FZ_MaF_Edit.php Funct: Maf_Edit" );
 }
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
-$prot = True;
+$jq = $jqui = True;
+$BA_AJA = True;
 $header = "<style>.button-sm {font-size:14px;font-weight:bold;color:black ;padding:0px 6px 0px 4px;margin:1px;
              background-color:#FFF0F5;border:2px solid blue;border-radius:2px}</style>";
 
@@ -51,10 +60,6 @@ $A_Off = True;  # set autocomplete=off in Header
 BA_HTML_header('Fahrzeug- und Geräte- Verwaltung', $header, 'Form', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
-
-// ============================================================================================================
-// Eingabenerfassung und defauls
-// ============================================================================================================
 
 // ============================================================================================================
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
@@ -76,7 +81,7 @@ if (isset($_GET['fz_id'])) {
 }
 
 if ($phase == 99) {
-    header('Location: VF_FZ_List.php');
+    header('Location: VF_FZ_MaFG_List.php');
 }
 
 if ($fz_id != "") {
@@ -92,7 +97,6 @@ $Tabellen_Spalten_COMMENT['sa_name'] = 'Ausgewählte Sammlung';
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
-
 
 $eignr = $_SESSION['Eigner']['eig_eigner'];
 $tabelle_a = $tabelle . "_$eignr";
@@ -174,6 +178,7 @@ if ($phase == 0) {
     } else {
 
         #$sql_be = "SELECT * FROM $tabelle_a WHERE `fz_id` = '" . $_SESSION[$module]['fz_id'] . "' ORDER BY `fz_id` ASC";
+        // join zu hersteller, Aufbauer, ... fehlen noch
         
         $sql_be = "SELECT *
         FROM $tabelle_a                 \n
@@ -205,10 +210,12 @@ if ($phase == 1) {
 
 switch ($phase) {
     case 0:
-        require ('VF_FZ_MA_Edit_ph0.inc.php');
+        require ('VF_FZ_MaF_Edit_ph0.inc.php');
         break;
     case 1:
-        require "VF_FZ_MA_Edit_ph1.inc.php";
+        # var_dump($_POST);
+        # var_dump($_FILES);
+        require "VF_FZ_MaF_Edit_ph1.inc.php";
         break;
 }
 

@@ -7,15 +7,19 @@
  *
  */
 #$debug = True;
+
+$Inc_Arr[] = "VF_FZ_MaF_Edit_ph1.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_FZ_MA_Edit_ph1.inc.php ist gestarted</pre>";
+    echo "<pre class=debug>VF_FZ_MaF_Edit_ph1.inc.php ist gestarted</pre>";
     var_dump($_POST);echo "<br>";
 }
 
 foreach ($_POST as $name => $value) {
     $neu[$name] = mysqli_real_escape_string($db, $value);
 }
-# var_dump($neu);
+var_dump($_FILES);
+var_dump($neu);
 # $neu['fz_name'] = mb_convert_case($neu['fz_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
 $neu['fz_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
@@ -47,40 +51,48 @@ if (! file_exists($uploaddir)) {
     mkdir($uploaddir, 0770, true);
 }
 
-# var_dump($_FILES['uploaddatei_01']); echo "<br>L 053 <br>";
-if (isset($_FILES['uploaddatei_01']) && $_FILES['uploaddatei_01']['name'] != "" ) {
-    $neu['fz_bild_1'] = VF_Upload($uploaddir, '01');
+if (!isset($urh_abk)) {
+    $urh_abk = '';
 }
-if (isset($_FILES['uploaddatei_02']) && $_FILES['uploaddatei_02']['name'] != "" ) {
-    $neu['fz_bild_2'] = VF_Upload($uploaddir, '02');
+if (!isset($fo_aufn_datum)) {
+    $fo_aufn_datum = '';
 }
-if (isset($_FILES['uploaddatei_03']) && $_FILES['uploaddatei_03']['name'] != "" ) {
-    $neu['fz_bild_3'] = VF_Upload($uploaddir, '03');
-}
-if (isset($_FILES['uploaddatei_04']) && $_FILES['uploaddatei_04']['name'] != "" ) {
-    $neu['fz_bild_4'] = VF_Upload($uploaddir, '04');
+
+if (isset($_FILES)) {
+    $i = 1;
+    
+    foreach ($_FILES as $upLoad  => $file_arr) {
+        var_dump($_FILES[$upLoad]);
+        var_dump($_SESSION[$module]['Pct_Arr']);
+        if ($_FILES[$upLoad] != "") {
+            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
+            $result = VF_M_Upload($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
+            echo "L 078 result $result <br>";
+            if (substr($result,0,16) == "Upload Fehler: ") {
+                echo "L 080 Upload- Fehler $result <br>";
+            }
+            switch ($i) {
+                case '1' :
+                    $neu['fz_bild_1'] = $result;
+                    break;
+                case '2' :
+                    $neu['fz_bild_2'] = $result;
+                    break;
+                case '3' :
+                    $neu['fz_bild_3'] = $result;
+                    break;
+                case '4' :
+                    $neu['fz_bild_4'] = $result;
+                    break;
+            }
+            $i++;
+        }
+    }
+    var_dump($neu);
 }
 
 $neu['fz_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
-if (isset($neu['suggestAufbauer'])) {
-    unset ($neu['suggestAufbauer']);
-}
-if (isset($neu['suggestEigener'])) {
-    unset ($neu['suggestEigener']);
-}
-if (isset($neu['suggestHersteller'])) {
-    unset ($neu['suggestHersteller']);
-}
-if (isset($neu['suggestTaktisch'])) {
-    unset ($neu['suggestTaktisch']);
-}
-if (isset($neu['suggestUrheber'])) {
-    unset ($neu['suggestUrheber']);
-}
-if (isset($neu['suggestTaktisch'])) {
-    unset ($neu['suggestTaktisch']);
-}
 if (isset($neu['aufbauer']) && $neu['aufbauer'] != '') {
     $neu['fz_aufbauer'] = $neu['aufbauer'];
     unset($neu['aufbauer']);
@@ -133,9 +145,9 @@ if ($neu['fz_id'] == 0) { # neueingabe
                 '$neu[fz_pruefg_id]','$neu[fz_pruefg]','$neu[fz_aenduid]'
                )";
 
-    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
-    # echo mysqli_error($db) . "  L 0149: \$sql $sql <br/>";
+    echo mysqli_error($db) . "  L 0149: \$sql $sql <br/>";
 
     $neu['fz_id'] = mysqli_insert_id($db);
 
@@ -174,7 +186,9 @@ if ($neu['fz_id'] == 0) { # neueingabe
         if ($name == 'aufbauer' || $name == 'eigentuemer' || $name == 'hersteller' || $name == 'taktisch' || $name == 'urheber' || $name == 'fo_org' ) {
             continue;
         }
-
+        if (substr($name,0,5) == 'f_Doc' ) {
+            continue;
+        }
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
@@ -191,12 +205,13 @@ if ($neu['fz_id'] == 0) { # neueingabe
     }
 
 }
+unset($_SESSION['Pct_Arr']);
 
-header("Location: VF_FZ_List.php");  # ?ID=".$_SESSION[$module]['fz_sammlung']
+header("Location: VF_FZ_MaFG_List.php");  # ?ID=".$_SESSION[$module]['fz_sammlung']
 
 # =========================================================================================================
 
 if ($debug) {
-    echo "<pre class=debug>VF_FZ_MA_Edit_ph1.inc.php beendet</pre>";
+    echo "<pre class=debug>VF_FZ_MaF_Edit_ph1.inc.php beendet</pre>";
 }
 ?>

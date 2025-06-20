@@ -1,5 +1,7 @@
 <?php
 
+$Inc_Arr[] = 'VF_FZ_MaF_List_inc.php';
+
 /**
  * einlesen Hersteller und Aufbauer in arrs
  */
@@ -46,15 +48,15 @@ WHILE ($row_s = mysqli_fetch_object($res_sa)) {
 if ($_SESSION['VF_Prim']['mode'] == 'Single') { // Fixer Eigentümer
     $T_list_texte = array(
         "Alle" => "Nach Indienststellung. ",
-        "NextSam" => "<a href='VF_FA_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-        "NeuItem" => "<a href='VF_FA_FZ_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
+        "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
+        "NeuItem" => "<a href='VF_FZ_MaF_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
     );
 } else {
     $T_list_texte = array(
         "Alle" => "Nach Indienststellung. ",
-        "NextEig" => "<a href='VF_FZ_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-        "NextSam" => "<a href='VF_FZ_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-        "NeuItem" => "<a href='VF_FZ_MA_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
+        "NextEig" => "<a href='VF_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
+        "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
+        "NeuItem" => "<a href='VF_FZ_MaF_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
     );
 }
 

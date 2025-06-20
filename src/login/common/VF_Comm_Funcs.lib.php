@@ -29,7 +29,7 @@
  *  - VF_Sel_Urheber_n    - Auswahl des Urhebers, speicherung Urhebernummer   fh_urh* $_Sess[$module]['Fo']['Urheber_list']
  *  - VF_set_module_p   - setzen der Module- Parameter    neu 20240120 
  *  - VF_set_PictPfad   - setze den Bilderpfad für Uploads und Anzeigen
- *  - VF_Show_Eig       - Auslesen ud zurückgeben der Eigner-Daten im Format wir Autocomplete
+ *  - VF_Show_Eig       - Auslesen ud zurückgeben der Eigner-Daten im Format wie Autocomplete
  *  - VF_tableExist     - test ob eine Tabelle existiert 
  *  - VF_upd            - Berechtigungs- Feststellung je *_List Script entsprechend Eigentümer
  *  - VF_Upload_Pic     - Hochladen der Datei mit Umbenennung auf Foto- Video- Format Urh-Datum-Datei.Name
@@ -38,6 +38,7 @@
  *  - VF_Multi_Dropdown - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl
  *  - VF_Sel_Eigner     - Eigentümer- Auswahl für Berechtigungen (wieder aktiviert)
  *  - VF_Sel_Eign_Urheb - Urheber- Auswahl aus Eigentümer- Datei
+ *  - VF_Urheber_ini_w  - erstellen der Datei login/AOrd_Verz/urheber.ini für die Urheber- Auswahl, bzw Anzeige bem Foto, falls nicht aus Foto-Biblio
  */
 
 if ($debug) {
@@ -946,16 +947,16 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
         echo '<input type="hidden" name="MAX_FILE_SIZE" value="4000000" >';
         $FeldName = $p_a[3];
 
-        echo "<input type='hidden' name='$FeldName$key' value='$neu[$FeldName]' >";
+        echo "<input type='hidden' id='f_Dat_$key' name='$FeldName' value='$neu[$FeldName]' >";
 
         if (isset($Tabellen_Spalten_COMMENT[$FeldName])) {
             if ($_SESSION['VF_Prim']['p_uid'] != 999999999) {
                 echo "  <span class='info'>$Tabellen_Spalten_COMMENT[$FeldName] <b>$FeldName</b> Bild hochladen </span>";
-                echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
+                echo "<input type='file'   id='f_Doc_$key' name='f_Name_$key' accept=VF_zuldateitypen />";
             }
         } else {
             echo "  <span class='info'><b>$FeldName</b> Bild hochladen </span>";
-            echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
+            echo "<input type='file'   id='f_Dat_$key' name='f_Name_$key' accept=VF_zuldateitypen />";
         }
         error_log($pict_path);
         if ($neu[$p_a[3]] != "") {
@@ -996,70 +997,64 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
  * @global array $neu Eingelesene Daten Felder
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  */
-function VF_M_Foto(array $Picts)
+function VF_M_Foto()
 // --------------------------------------------------------------------------------
 {
-    global $debug, $db, $neu, $module, $pict_path, $Tabellen_Spalten_COMMENT, $flow_list,$hide_area, $path2ROOT;
+    global $debug, $db, $neu, $module, $pict_path, $Tabellen_Spalten_COMMENT, $flow_list,$hide_area, $path2ROOT, $button_clicked_flag,$urheber,$verzeichn,$suff;
     
     flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_M_Foto" );
     
+    if (!isset($urheber)) {
+        $urheber = $_SESSION[$module]['Eigner']['eig_eigner'];
+    }
+    $verzeichnis = ""; 
+    $suffix      = "";
+    $foDsn       = "";
     $fo_org = 'H';
     
+    # $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '');
+    
     if ($debug) {
-        echo "<pre class=debug>VF_Mult_ L Beg: \$Picts ";
-        var_dump($Picts);
+        echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
+        var_dump($_SESSION[$module]['Pct_Arr']);
         echo "<pre>";
     }
     
-    $pic_cnt = count($Picts);
+    $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
     
     # echo "<tr><td colspan='2'>";
     echo "<div class='w3-container' max-width='100%' margin='5px '>";
     
-    #var_dump($neu);
+    var_dump($_SESSION[$module]['Pct_Arr']);
     
-    foreach ($Picts as $key => $value) {
-        error_log($value);
-        $p_a = explode("|", $value);    
+    foreach ($_SESSION[$module]['Pct_Arr'] as $key => $p_a ){ # => $value) {
+        var_dump($p_a);
+        # $p_a = explode("|", $value);    
+        
        
         #var_dump($p_a);echo "L 01025 hide_area $hide_area <br>";
         
         #echo $neu[$p_a[2]]. " ".$p_a[2] . " " . $neu[$p_a[3]]." ". $p_a[3] ."<br>";
         
-        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a[2]] != '' || $neu[$p_a[3]] != ''  ))) {
+        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''  ))) {
             
             # echo "Bild- Box $key wird angezeigt <br>";
             
             echo "<div class='w3-half'><fieldset>";
             echo "<div style='float:left;'>";
-            if ($p_a[0] != "") {
-                if (isset($Tabellen_Spalten_COMMENT[$p_a[0]])) {
-                    echo $Tabellen_Spalten_COMMENT[$p_a[0]];
+
+            if ($p_a['ko'] != "") {
+                if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
+                    echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
                 } else {
-                    echo "<b>$p_a[0]</b> ";
+                    echo $p_a['ko'];
                 }
-                echo "  <input class='w3-input' type='text' name='$p_a[0]' value='" . $neu[$p_a[0]] . "' size='50'> <br/>";
+                echo "<textarea class='w3-input' rows='7' cols='25' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
             }
-            if ($p_a[1] != "") {
-                if (isset($Tabellen_Spalten_COMMENT[$p_a[1]])) {
-                    echo $Tabellen_Spalten_COMMENT[$p_a[1]];
-                } else {
-                    echo "$p_a[1]";
-                }
-                echo "  <input class='w3-input' type='text' name='$p_a[1]' value='" . $neu[$p_a[1]] . "'> <br/>";
-            }
-            if ($p_a[2] != "") {
-                if (isset($Tabellen_Spalten_COMMENT[$p_a[2]])) {
-                    echo $Tabellen_Spalten_COMMENT[$p_a[2]];
-                } else {
-                    echo $p_a[2];
-                }
-                echo "<textarea class='w3-input' rows='7' cols='25' name='$p_a[2]' >" . $neu[$p_a[2]] . "</textarea> ";
-            }
-            if ($neu[$p_a[3]] != "") {
-                $fo = $neu[$p_a[3]];
+            if ($neu[$p_a['bi']] != "") {
+                $fo = $neu[$p_a['bi']];
              
-                $fo_arr = explode("-",$neu[$p_a[3]]);
+                $fo_arr = explode("-",$neu[$p_a['bi']]);
                 $cnt_fo = count($fo_arr);
                 
                 if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
@@ -1069,48 +1064,44 @@ function VF_M_Foto(array $Picts)
                         if (isset($fo_arr[3]))
                         $s_verz = $fo_arr[3]."/";
                     }
-                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a[3]];
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
 
                     if (!is_file($p)) {
-                        $p = $pict_path . $neu[$p_a[3]];
+                        $p = $pict_path . $neu[$p_a['bi']];
                     }
                 } else {
-                    $p = $pict_path . $neu[$p_a[3]];
+                    $p = $pict_path . $neu[$p_a['bi']];
                 }
  
                 echo "</div><div style='float:right;'>";
-                if (stripos($neu[$p_a[3]],".pdf")) {
+
+                $f_arr = pathinfo($neu[$p_a['bi']]);
+                if ($f_arr['extension'] == "pdf") {
                     echo "<a href='$p' target='Bild $key' > Dokument</a></div>";
                 } else {
                     echo "<a href='$p' target='Bild $key' > <img src='$p' alter='$p' width='200px'></a></div>";
-                    echo $neu[$p_a[3]];
+                    echo $neu[$p_a['bi']];
                 }
                 
-            } else {
-                echo '<input type="hidden" name="MAX_FILE_SIZE" value="4000000" >';
-                $FeldName = $p_a[3];
-                
-                echo "<input type='hidden' name='$FeldName$key' value='$neu[$FeldName]' >";
-                
-                if (isset($Tabellen_Spalten_COMMENT[$FeldName])) {
-                    if ($_SESSION['VF_Prim']['p_uid'] != 999999999) {
-                        echo "  <span class='info'>$Tabellen_Spalten_COMMENT[$FeldName] <b>$FeldName</b> Bild hochladen </span>";
-                        echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
-                    }
-                } else {
-                    echo "<span class='info'><b>$FeldName</b> Bild hochladen </span>";
-                    echo "<input type='file'   id='f_Doc_$key' name='uploaddatei_$key' accept=VF_zuldateitypen />";
-                }
-            }
- /*          
+            } 
             
-
-            if ($hide_area == 0 && $fo_org == 'H') {
-                echo "hochladen von Daten $key <br>";
-                error_log($pict_path);
+            # $show_upload = ($hide_area == 0) || ($hide_area == 1 && $button_clicked_flag);
+            
+            $show_upload = True;
+            'display:' . ($show_upload ? 'block' : 'none') . ';">';
+    
+                echo "<fieldset style='margin:10px; padding:10px; border:1px solid #ccc;'>";
+                echo "<legend>Foto $key</legend>";
                 
-            }
- */           
+                // Datei-Input
+                echo "<input type='file' id='f_Doc_$key' name='f_Doc_Name_$key' /><br/><br/>";
+                
+                # echo "<input type='file' id='$FeldName'  name='$FeldName' onchange='uploadImage(\"$FeldName\", $key)' accept='image/*' /><br/><br/>";
+                // Verste process
+                echo "<input type='hidden' id='f_Doc_$key' name='f_Doc_Name_$key' value='".$neu[$p_a['bi']]."'/>";
+                echo "</fieldset>";
+
+            echo '</div>';
             
         }
         
@@ -1388,14 +1379,14 @@ function VF_Sel_Staat($FeldName, $sub_funct)
  */
 function VF_Sel_Urheber_n()
 {
-    global $debug, $db, $module, $urheb_arr, $flow_list;
+    global $debug, $db, $module, $urheb_arr, $flow_list, $path2ROOT;
     
     flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_Sel_Urheber_n" );
     
     if ($debug) {
         echo "<pre class=debug>Urheber-Auswahl L Beg:  <pre>";
     }
-    
+
     $urheb_arr[0] = "Kein Urheber ausgewählt.";
     
     $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC ";
@@ -1445,6 +1436,7 @@ function VF_Sel_Urheber_n()
      */
     mysqli_free_result($return_ur);
     mysqli_free_result($return_su);
+    
 }
 
 # ende VF_Sel_Urheber_n
@@ -1751,17 +1743,17 @@ function VF_upd()
  * @param string $fo_aufn_datum  Aufnahmedatum
  * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
  */
-function VF_Upload($uploaddir, $i=1, $urh_abk="", $fo_aufn_datum="")
+function VF_Upload($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
 {
     global $debug, $module, $flow_list;
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload" );
     
-    echo " L 01564 Upl upldir $uploaddir i $i <br>";
-    var_dump($_FILES["uploaddatei_$i"]);
+    echo " L 01763 Upl upldir $uploaddir fdsn $fdsn <br>";
+    var_dump($_FILES[$fdsn]);
     $target = "";
-    if (! empty($_FILES["uploaddatei_$i"])) {
-        $target = basename($_FILES["uploaddatei_$i"]['name']);
+    if (! empty($_FILES[$fdsn])) {
+        $target = basename($_FILES[$fdsn]['name']);
         
         if ($target != "" ) {
             $target = VF_trans_2_separate($target);
@@ -1774,15 +1766,65 @@ function VF_Upload($uploaddir, $i=1, $urh_abk="", $fo_aufn_datum="")
                 $cnt = count($newfn_arr);
                 if ($cnt == 1) { # original- Dateiname, nicht im Format urh-datum-Aufn_dateiname.ext,
                     $target = "$urh_abk-$fo_aufn_datum-" . $fn_arr['basename'];
-                    console_log("L 1578 target $target ");
                 }
             } else {
                 $target = $fn_arr['basename'];
-console_log("L 1582 target $target ");
             }
-          
-            if (move_uploaded_file($_FILES["uploaddatei_$i"]['tmp_name'], $uploaddir . $target)) {
-                console_log("L 1578 target $target ");
+          echo "L 01784 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+          var_dump($_FILES[$fdsn]);
+            if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
+                var_dump($_FILES[$fdsn]);
+                return $target;
+            }
+        }
+    }
+    
+} # end Funct VF_upload
+
+/**
+ * Hochladen von Dateien
+ *
+ * Bei allen Dateien:  ändern Umlaute auf alte Schreibweise Ä -> AE
+ * Bei Grafischen Dateien: wenn Urheber-Abkürzung und Foto-Datum vorhanden, Umbenennen nach Foto-Vorgabe (Urh-Datum-Dateiname)
+ *
+ *
+ * @param string $uploaddir      Zielverzeichnis
+ * @param string $i              index zur uploadfile $files[uploadfile_x
+ * @param string $urh_abk        Abkürzung des Urhebernamens
+ * @param string $fo_aufn_datum  Aufnahmedatum
+ * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
+ */
+function VF_Upload_M($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
+{
+    global $debug, $module, $flow_list;
+    
+    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_M" );
+    
+    echo " L 01763 Upl upldir $uploaddir fdsn $fdsn <br>";
+    # var_dump($_FILES[$fdsn]);
+    $target = "";
+    if (! empty($_FILES[$fdsn])) {
+        $target = basename($_FILES[$fdsn]['name']);
+        
+        if ($target != "" ) {
+            $target = VF_trans_2_separate($target);
+            
+            $fn_arr = pathinfo($target);
+            $ft = strtolower($fn_arr['extension']);
+            
+            if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
+                $newfn_arr = explode('-', $target);
+                $cnt = count($newfn_arr);
+                if ($cnt == 1) { # original- Dateiname, nicht im Format urh-datum-Aufn_dateiname.ext,
+                    $target = "$urh_abk-$fo_aufn_datum-" . $fn_arr['basename'];
+                }
+            } else {
+                $target = $fn_arr['basename'];
+            }
+            echo "L 01784 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+            # var_dump($_FILES[$fdsn]);
+            if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
+                # var_dump($_FILES[$fdsn]);
                 return $target;
             }
         }
@@ -1834,6 +1876,11 @@ function VF_Upload_Pic($FldName, $uploaddir, $urh_abk="", $fo_aufn_datum="")
         }
     }
     return "";
+    
+    /*
+    
+    */
+    
 } # end Funct VF_upload_pic
 
 /**
@@ -1932,6 +1979,8 @@ function VF_Eig_Ausw()
 /**
  * Multi Dropdown select für verschiedene Auswahlen
  * 
+ * benötigt jquery und BA_AJAX_Scripts.js
+ * 
  * @param string  $in_val
  * @param string $titel
  */
@@ -1940,153 +1989,111 @@ function VF_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
 
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Multi_Dropdown" );
 
-    echo "<div class='w3-container nav' style='background-color: PeachPuff '>";
+    echo "<input type='hidden' id='opval' value='$MS_Opt' >";
+
+    echo "<div class='container ' style='background-color: PeachPuff '>";  # div cont
     
-    echo "<div class='w3-row'>";
+        echo "    <div class='container  w3-light-blue'> ";  # div blue
+        echo "         <b>$titel</b>";
+        echo "    </div>";                                     # div end blue
     
-    echo "    <div class='w3-container w3-light-blue'> ";
-    echo "         <b>$titel</b>";
-    echo "    </div>";
-    echo "    <div class='w3-container w3-third'>";
-    echo "         <label for='Level1'>".$MS_Txt[0]." &nbsp; </label>";
-    echo "    </div>";
-    echo "    <div class='w3-container w3-twothird'> ";
-    echo "        <select class='w3-input'  id='level1' name='level1' onchange='updateOptions(1, this.value, $MS_Opt )'>";
-    echo "             <option value='Nix'>Bitte wählen</option>";
-    $checkd = "";
-    foreach ($MS_Init  as $samlg => $name):
-    if ($samlg == $in_val) {
-        $checkd = 'checked';
-    }
-    echo "<option value='$samlg' $checkd>$name </option>";
-    endforeach;
+        echo "<div class='w3-row'>";   # div w3 row
+
+        echo "    <div class='w3-container w3-third'>";        # div label
+        echo "         <label for='Level1'>".$MS_Txt[0]." &nbsp; </label>";
+        echo "    </div>";                                     # div label end
+        echo "    <div class='w3-container w3-twothird'> ";    # div data
+        echo "        <select class='w3-input'  id='level1' name='level1' >";
+        echo "             <option value='Nix'>Bitte wählen</option>";
+        $checkd = "";
+        foreach ($MS_Init  as $samlg => $name):
+          if ($samlg == $in_val) {
+              $checkd = 'checked';
+          }
+          echo "<option value='$samlg' $checkd>$name </option>";
+        endforeach;
+
+        echo "         </select>";
+        echo "     </div>";                                    # div data end
+        echo "     </div>";                                    # div row  end
+      
     
-    echo "         </select>";
-    echo "     </div>";
-    
-    echo "</div>";
-    
-    if ($MS_Lvl >= 2) {
-        echo "<div class='w3-row'>";
-        
-        echo "    <div class='w3-container w3-third'>";
-        echo "         <label for='Level2'>".$MS_Txt[1]." &nbsp;  </label>";
-        echo "    </div>";
-        echo "    <div class='w3-container w3-twothird'> ";
-        echo "        <select class='w3-input' id='level2' name='level2' onchange='updateOptions(2, this.value, $MS_Opt )' onclick='submitForm()' >";
-        echo "             <option value='Nix'>Bitte wählen</option>
-                   </select>";
-        echo "     </div>";
-        
-        echo "</div>";
-        
-        if ($MS_Lvl >= 3) {
-            
+        if ($MS_Lvl >= 2) {
             echo "<div class='w3-row'>";
             
             echo "    <div class='w3-container w3-third'>";
-            echo "         <label for='Level3'>".$MS_Txt[2]." &nbsp;  </label>";
+            echo "         <label for='Level2'>".$MS_Txt[1]." &nbsp;  </label>";
             echo "    </div>";
             echo "    <div class='w3-container w3-twothird'> ";
-            echo "        <select class='w3-input' id='level3' name='level3' onchange='updateOptions(3, this.value, $MS_Opt )'>";
+            echo "        <select class='w3-input' id='level2' name='level2'>";
             echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
             echo "     </div>";
             
             echo "</div>";
             
-            if ($MS_Lvl >=4) {
+            if ($MS_Lvl >= 3) {
                 
                 echo "<div class='w3-row'>";
                 
                 echo "    <div class='w3-container w3-third'>";
-                echo "         <label for='Level4'>".$MS_Txt[3]." &nbsp;  </label>";
+                echo "         <label for='Level3'>".$MS_Txt[2]." &nbsp;  </label>";
                 echo "    </div>";
                 echo "    <div class='w3-container w3-twothird'> ";
-                echo "        <select class='w3-input' id='level4' name='level4' onchange='updateOptions(4, this.value, $MS_Opt )'>";
+                echo "        <select class='w3-input' id='level3' name='level3'>";
                 echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
                 echo "     </div>";
                 
                 echo "</div>";
                 
-                
-                if ($MS_Lvl >= 5) {
-                    
-                    echo "<div class='w3-row'>";
-                    
+                if ($MS_Lvl >=4) {                
+                    echo "<div class='w3-row'>";                
                     echo "    <div class='w3-container w3-third'>";
-                    echo "         <label for='Level5'>".$MS_Txt[4]." &nbsp;  </label>";
+                    echo "         <label for='Level4'>".$MS_Txt[3]." &nbsp;  </label>";
                     echo "    </div>";
                     echo "    <div class='w3-container w3-twothird'> ";
-                    echo "        <select class='w3-input' id='level5' name='level5' onchange='updateOptions(5, this.value, $MS_Opt )'>";
-                    echo "             <option value='Nix'>Bitte wählen</option> ";
-                    echo "        </select>";
+                    echo "        <select class='w3-input' id='level4' name='level4' >";
+                    echo "             <option value='Nix'>Bitte wählen</option>
+                   </select>";
                     echo "     </div>";
-                    
                     echo "</div>";
                     
-                    
-                    
-                    if ($MS_Lvl == 6) {
-                        
-                        echo "<div class='w3-row'>";
+                    if ($MS_Lvl >= 5) {                        
+                        echo "<div class='w3-row'>";                        
                         echo "    <div class='w3-container w3-third'>";
-                        echo "         <label for='Level6'>".$MS_Txt[5]." &nbsp; </label>";
+                        echo "         <label for='Level5'>".$MS_Txt[4]." &nbsp;  </label>";
                         echo "    </div>";
                         echo "    <div class='w3-container w3-twothird'> ";
-                        echo "         <select class='w3-input' id='level6' name='level6' onchange='updateOptions(6, this.value, $MS_Opt )'>";
-                        echo "             <option value='Nix'>Bitte wählen</option>
-                                      </select>";
-                        echo "     </div>";
-                        
+                        echo "        <select class='w3-input' id='level5' name='level5'>";
+                        echo "             <option value='Nix'>Bitte wählen</option> ";
+                        echo "        </select>";
+                        echo "     </div>";                     
                         echo "</div>";
                         
-                        
+                        if ($MS_Lvl == 6) { 
+                            echo "<div class='w3-row'>";
+                            echo "    <div class='w3-container w3-third'>";
+                            echo "         <label for='Level6'>".$MS_Txt[5]." &nbsp; </label>";
+                            echo "    </div>";
+                            echo "    <div class='w3-container w3-twothird'> ";
+                            echo "         <select class='w3-input' id='level6' name='level6'  >";
+                            echo "             <option value='Nix'>Bitte wählen</option>
+                                      </select>";
+                            echo "     </div>";
+                            
+                            echo "</div>";
+                        }
                     }
                 }
             }
         }
-    }
-    echo "</div>";
     
-    #echo "</td></tr>";
-    ?>
+    echo "</div>";               # end div cont
 
-<script>
-function updateOptions(level, parentValue, optVal) {
-    console.log(level);
-    console.log(parentValue);
-    console.log(optVal);
-
-    new Ajax.Request('common/API/VF_MultiSel_Opt.API.php', {
-        method: 'get',
-        parameters: { level: level, parent: parentValue, opval: optVal },
-        onSuccess: function(transport) {
-            const options = transport.responseText.split('|');
-            console.log(options);
-            const select = $('level' + (parseInt(level) + 1));
-            select.innerHTML = ''; // Leere die vorherigen Optionen
-
-            options.forEach(function(option) {
-            console.log(option);
-                const parts = option.split(':');
-                if (parts.length === 2) { // Überprüfe, ob die Option gültig ist
-                    const newOption = new Element('option', { value: parts[0] }).update(parts[1]);
-                    select.insert(newOption);
-                } else {
-                    console.warn('Ungültige Option:', option);
-                }
-            });
-        },
-        onFailure: function() {
-            alert('Fehler beim Laden der Optionen.');
-        }
-    });
-} 
-</script>
-<?php 
-} # ende function MultiSel_Edit
+    #echo "</div>";
+    
+} # ende function MultiSdropdown
 
 /**
  *  Auswertung der Eingabe vom Multi_Select_Dropdown
@@ -2106,31 +2113,31 @@ function VF_Multi_Sel_Input () {
     } 
     
     if (isset($_POST['level2']) && ($_POST['level2'] != "" ) ) {
-        if ($_POST['level2'] != "Nix" && $_POST['level2'] != "cNix") {
+        if ($_POST['level2'] != "Nix" && $_POST['level2'] != "Nix") {
             $response = trim($_POST['level2']);
         }
     }
     
     if (isset($_POST['level3']) && ($_POST['level3'] != "" ) ) {
-        if ($_POST['level3'] != "Nix" && $_POST['level3'] != "cNix") {
+        if ($_POST['level3'] != "Nix" && $_POST['level3'] != "Nix") {
             $response = trim($_POST['level3']);
         }
     }
     
     if (isset($_POST['level4']) && ($_POST['level4'] != "") ) {
-        if ($_POST['level4'] != "Nix" && $_POST['level4'] != "cNix") {
+        if ($_POST['level4'] != "Nix" && $_POST['level4'] != "Nix") {
             $response = trim($_POST['level4']);
         }
     }
     
     if (isset($_POST['level5']) && ($_POST['level5'] != "") ) {
-        if ($_POST['level5'] != "Nix" && $_POST['level5'] != "cNix") {
+        if ($_POST['level5'] != "Nix" && $_POST['level5'] != "Nix") {
             $response = trim($_POST['level5']);
         }
     }
     
     if (isset($_POST['level6']) && ($_POST['level6'] != "") ) {
-        if ($_POST['level6'] != "Nix" && $_POST['level6'] != "cNix") {
+        if ($_POST['level6'] != "Nix" && $_POST['level6'] != "Nix") {
             $response = trim($_POST['level6']);
         }
     }
@@ -2277,8 +2284,472 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
 // Ende von function VF_Sel_Eign_Urheb   
 
 /**
+ * Autocomple für die Auswahl von Aufbauer des  Fahrzeuges
+ * Autocomplete mit prototype.js
+ * immer in Verbindung mit BA_Aufo_Funktion() -> durchführung
+ *
+ */
+function VF_Auto_Aufbau () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"VF_Comm__Funcs.lib.php Funct: BA_Auto_Aufbau" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
+        <b>Suchbegriff für Aufbau- Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer" data-feed="aufbauer" size='50'/>
+    </div>  
+    <div id="suggestAufbauer" class="suggestions"></div>
+    <input type="hidden" name="aufbauer" id="aufbauer" />
+
+    <?php 
+} // Ende VF_Auto_Aufbau
+
+function VF_Auto_Eigent_old () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
+    <b>Suchbegriff für Eigentümer eingeben:</b> <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener"  size='50'/>
+    </div>  
+    <div id="suggestEigener" class="suggestions"></div>
+    <input type="hidden" name="eigentuemer" id="eigentuemer" />
+    <?php 
+} // Ende VF_Auto_Eigent
+
+// Beispiel: Funktion für das Eingabefeld von gradually
+function VF_Auto_Eigent() {
+    global $debug, $module, $flow_list;
+    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent" );
+    console_log('autoeigent');
+    ?>
+<div class='w3-container' style='background-color: PeachPuff; padding: 10px;'>
+    <b>Suchbegriff für Eigentümer eingeben:</b>
+    <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener" data-feed="eigentuemer" size='50'/>
+</div>
+<div id="suggestEigener" class="suggestions"></div>
+<input type="hidden" name="eigentuemer" id="eigentuemer" />
+<?php
+} // Ende VF_Auto_Eigent
+
+function VF_Auto_Herstell () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Herstell" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> 
+    <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller" data-feed="hersteller" size='50'/>
+    </div>  
+    <div id="suggestHersteller" class="suggestions"></div>
+    <input type="hidden" name="hersteller" id="hersteller" />
+    <?php 
+} // Ende VF_Auto_Herstell 
+
+function VF_Auto_Taktb () {
+    global $debug, $module, $flow_list;
+    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Taktb" );
+    ?>
+    <div class='w3-container' style='background-color: PeachPuff '> 
+    <b>Suchbegriff für Taktische Bezeichnung eingeben:</b> <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" data-feed="taktisch" size='50' />
+    </div>  
+    <div id="suggestTaktisch" class="suggestions"></div>
+    <input type="hidden" name="taktisch" id="taktisch" />
+    <?php 
+} // Ende VF_Auto_Taktb
+
+function VF_Auto_Urheber ($i) {
+    global $debug, $module, $flow_list,$path2ROOT;
+    
+    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Urheber" );
+    
+    $urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
+    console_log("L 02359 urh.ini $urh_dsn");
+    if (!is_file($urh_dsn)) {
+        VF_Urheber_ini_w();
+    }
+    $urheber_arr = parse_ini_file($path2ROOT.'login/AOrd_Verz/urheber.ini',True,INI_SCANNER_NORMAL);
+    $cnt_m = count($urheber_arr['urheber_list']);
+    
+    echo "<div class='w3-container' style='background-color: PeachPuff '> ";
+    echo "<b>Suchbegriff für Urheber eingeben:  </b>";
+    echo "<select name='urheber_$i' id='urheber_$i' >";
+
+    foreach ($urheber_arr['urheber_list'] as $id => $value ) {
+        echo "<option value='$id' >$value</option>";
+    }
+    echo "</select>";
+    echo "</div> ";
+
+    ?>
+    <!-- 
+    <div class='w3-container' style='background-color: PeachPuff '> 
+    <b>Suchbegriff für Urheber eingeben:</b> <input type="text" class="autocomplete" data-proc="Urheber" data-target="suggestUrheber"  size='50'/>
+    </div>  
+    
+    <div id="suggestUrheber" class="suggestions"></div>
+    <input type="hidden" name="urheber" id="urheber" />
+     -->
+    <?php 
+} // Ende VF_Auto_Urheber
+
+/**
+ * Setzen des Speicherpfades per  Return zurückgegeben
+ * VF_Upload_Pfad_M
+ *
+ *
+ * @param string $aufndat
+ *            Datum oder Jahr der Aufnahme - oder Pfadname  - Darf nicht leer sein
+ * @param string $basepfad
+ *            Basispfad darf leer sein
+ * @param string $suffix
+ *            Zusatzpfad darf leer sein
+ * @param string $aoPfad Archiv- Ordnungs- Teil, kann auch leer sein
+ * @param string $urh_nr Urheber- Nummer
+ *
+ * @return string $d_path
+ *
+ * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
+ * @global string $module Modul-Name für $_SESSION[$module] - Parameter
+ *
+ */
+function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '') 
+{
+    global $debug, $module, $flow_list, $path2ROOT;
+    
+    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Upload_Pfad_M" );
+    
+    $basepath = $path2ROOT.'login/'.$_SESSION['VF_Prim']['store'].'/';
+    
+    $grp_path = $ao_path = $verzeichn = $subverz = "";
+    
+    $mand_mod = array('INV', 'ARC', 'FOT', 'F_G','F_M');
+    
+    if (in_array($module,$mand_mod)) { // Mandanten- Modus
+        if ($urh_nr == "") {
+            $grp_path = $_SESSION['Eigner']['eig_eigner'].'/';
+        } else {
+            $grp_path = $urh_nr.'/';
+        }
+        
+        switch ($module) {
+            case 'ARC' :
+                break;
+            case 'INV' :
+                break;
+            case 'F_G' :
+                if ($aufnDatum == '') {
+                    if (substr($_SESSION[$module]['sammlung'],0,4) == 'MA_F') {
+                        $verzeichn =  'MaF/';
+                    } else {
+                        $verzeichn =  'MaG/';
+                    }
+                } else {
+                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
+                }
+                
+                break;
+            case 'F_M' :
+                if ($aufnDatum == '') {
+                    if (substr($_SESSION[$module]['sammlung'],0,4) == 'MU_F') {
+                        $verzeichn =  'MuF/';
+                    } else {
+                        $verzeichn =  'MuG/';
+                    }
+                } else {
+                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
+                }
+                
+                break;
+            case 'FOT' :
+                $ao_path = $aoPfad.'/';
+                $verzeichn =  $aufnDatum.'/';
+                if ($fuffix != '') {
+                    $subverz = $suffix.'/';
+                }
+                break;
+        }
+        
+    } else {
+        switch ($module) {
+            case 'OEF':
+                break;
+            case 'PSA':
+                if($_SESSION[$module]['proj'] == 'AERM') {
+                    $verzeichn = 'PSA/AERM/';
+                } else {
+                    $verzeichn = 'PSA/AUSZ/';
+                }
+                break;
+                
+        }
+    }
+    $dPath = $basepath.$grp_path.$ao_path.$verzeichn.$subverz;
+    #echo "L 0236 UplLib dPath $dPath <br>";
+    return $dPath;
+    
+} // end VF Upload_Pfad_M
+
+/**
+ * Formular- Teil zum hochladen von mehrfach-Dateien (fotos, Dokumente, ..) Modifizierte Vwers
+ *
+ *
+ * @return
+ *
+ * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
+ * @global array $db Datenbank Handle
+ * @global array $neu Eingelesene Daten Felder
+ * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
+ * @global string $flow_lost True = Ausgabe der Aufruf- Trace
+ * @global boolean $hide_area True - Bereich nur bei Neueingabe oder klicken auf Button Anzeigen (Ausser Foto, da nur die leeren nicht anzeigen)
+ * @global string  §path2ROOT Pfad zum Root
+ */
+function VF_Upload_Form_M ()
+{
+    global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
+    
+    flow_add($module,"VF_Upload.lib.php Funct: VF_M_Foto" );
+    /*
+     if (!isset($urheber)) {
+     $urheber = $_SESSION[$module]['Eigner']['eig_eigner'];
+     }
+     */
+    /**
+     * Parameter für die Fotos:
+     *
+     * $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '', 'f1' => '','f2'=>'');
+     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegeminsame Box, rb1 und up_err werden vom Uploader gesetzt, 
+     *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
+     */
+    
+    if ($debug) {
+        echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
+        var_dump($_SESSION[$module]['Pct_Arr']);
+        echo "<pre>";
+    }
+    
+    $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
+    console_log('L 02528 Anz Upl. '.$pic_cnt);
+    #var_dump($_SESSION[$module]['Pct_Arr']);
+    # var_dump($neu);
+    
+    echo '<input type="hidden" name="MAX_FILE_SIZE" value="4000000" >';
+    
+    /**
+     * Floating Block mit Bild, Bildbeschreibung , Bildname und Upload-Block
+     */
+    echo "<div class='w3-container'>";                           // container für Foto und Beschreibung
+    #console_log('L 02495 vor class w3-row ');
+    echo "<div class = 'w3-row w3-border'>";                     // Responsive Block start
+    echo "<fieldset>";
+    #console_log('L 02498 vor pct_arr loop ');
+    foreach ($_SESSION[$module]['Pct_Arr'] as $key => $p_a ){ # => $value) {
+        # var_dump($p_a);
+        
+        console_log('L 02541 foto '.$key);
+        
+        #var_dump($p_a);echo "L 02504 hide_area $hide_area <br>";
+        
+        #echo $neu[$p_a['ko']]. " ".$p_a['bi'] . " " . $neu[$p_a['f1']]." ". $p_a['f2'] ."<br>";
+        
+        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''  ))) {
+            console_log('L 02548 Bild '.$key);
+            # echo "Bild- Box $key wird angezeigt <br>";
+            $pict_path = VF_Upload_Pfad_M ('', '', '', '');
+    
+            /**
+             * Responsive Container innerhalb des loops
+             */
+            echo "<div class = 'w3-container w3-half'>";                                  // start half contailer
+            echo "<fieldset>";
+            console_log('L 02557 komm '.$key);
+            if ($p_a['ko'] != "") {
+                if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
+                    echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
+                } else {
+                    echo $p_a['ko'];
+                }
+                echo "<textarea class='w3-input' rows='7' cols='25' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
+            }
+            if ($p_a['f1'] != '')  {
+                Edit_Daten_Feld_Button($p_a['f1'],30);
+            }
+            if ($p_a['f2'] != '')  {
+                Edit_Daten_Feld_Button($p_a['f2'],30);
+            }
+            if ($neu[$p_a['bi']] != "") {
+                $fo = $neu[$p_a['bi']];
+                console_log('L 02574 foto '.$fo);
+                $fo_arr = explode("-",$neu[$p_a['bi']]);
+                $cnt_fo = count($fo_arr);
+                
+                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+                    if ($cnt_fo > 3)  {
+                        if (isset($fo_arr[3]))
+                            $s_verz = $fo_arr[3]."/";
+                    }
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
+                    
+                    if (!is_file($p)) {
+                        $p = $pict_path . $neu[$p_a['bi']];
+                    }
+                } else {
+                    $p = $pict_path . $neu[$p_a['bi']];
+                }
+                console_log('L 02593 foto '.$p) ;                                   
+               
+                
+                $f_arr = pathinfo($neu[$p_a['bi']]);
+                if ($f_arr['extension'] == "pdf") {
+                    echo "<a href='$p' target='Bild $key' > Dokument</a>"; 
+                } else {
+                    console_log('L 02600 ausgabe '.$p);
+                    echo "<a href='$p' target='Bild $key' > <img src='$p' alter='$p' width='200px'></a>";
+                    echo $neu[$p_a['bi']];
+                }
+                
+            }
+            
+            # $show_upload = ($hide_area == 0) || ($hide_area == 1 && $button_clicked_flag);
+            
+   
+            
+            echo "<fieldset style='margin:10px; padding:10px; border:1px solid #ccc;'>";
+            $fn = $key+1;
+            echo "<legend>Foto $fn</legend>";
+            
+            // Datei-Input
+            echo "<input type='file' id='f_Doc_$key' name='f_Doc_Name_$key' /><br/><br/>";
+            
+            # echo "<input type='file' id='$FeldName'  name='$FeldName' onchange='uploadImage(\"$FeldName\", $key)' accept='image/*' /><br/><br/>";
+            
+            echo "<input type='hidden' id='f_Doc_$key' name='f_Doc_Name_$key' value='".$neu[$p_a['bi']]."'/>";
+            
+
+            echo "</fieldset>";
+            echo "</div>";                                                                   // end half container 
+
+        }
+    }
+    echo "</fieldset>";
+    echo "</div>";  // Responsive Block end
+    echo "</div>";        // end container
+    
+} // end VF_Upload_Form_M
+
+/**
+ * Hochladen von Dateien
+ *
+ * Bei allen Dateien:  ändern Umlaute auf alte Schreibweise Ä -> AE
+ * Bei Grafischen Dateien: wenn Urheber-Abkürzung und Foto-Datum vorhanden, Umbenennen nach Foto-Vorgabe (Urh-Datum-Dateiname)
+ *
+ *
+ * @param string $uploaddir      Zielverzeichnis
+ * @param string $i              index zur uploadfile $files[uploadfile_x
+ * @param string $urh_abk        Abkürzung des Urhebernamens
+ * @param string $fo_aufn_datum  Aufnahmedatum
+ * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
+ */
+function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
+{
+    global $debug, $module, $flow_list;
+    
+    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_M_Upload" );
+    
+    # echo " L 02620 Upl upldir $uploaddir fdsn $fdsn <br>";
+    # var_dump($_FILES[$fdsn]);
+    $target = "";
+    if ($_FILES[$fdsn]['name'] != "") {
+        
+        $target = basename($_FILES[$fdsn]['name']);
+        
+        if ($_FILES[$fdsn]['error'] >= 1) {
+            $errno = $_FILES[$fdsn]['error'];
+            $err = "Upload Fehler: ";
+            switch ($errno) {
+                case 1:
+                case 2:
+                    $err .= "Datei zu groß";
+                    break;
+                case 8:
+                    $err .= "Falsche Datei (Erweiterung)";
+                    break;
+            }
+            return $err;
+        }
+               
+        if ($target != "" ) {
+            $target = VF_trans_2_separate($target);
+            
+            $fn_arr = pathinfo($target);
+            $ft = strtolower($fn_arr['extension']);
+            
+            if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
+                $newfn_arr = explode('-', $target);
+                $cnt = count($newfn_arr);
+                if ($cnt == 1) { # original- Dateiname, nicht im Format urh-datum-Aufn_dateiname.ext,
+                    $target = "$urh_abk-$fo_aufn_datum-" . $fn_arr['basename'];
+                }
+            } else {
+                $target = $fn_arr['basename'];
+            }
+            # echo "L 02658 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+            # var_dump($_FILES[$fdsn]);
+            if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
+                # var_dump($_FILES[$fdsn]);
+                return $target;
+            }
+        }
+    }
+    
+} // end VF_Upload_Save_M
+
+
+/**
+ * Erstllen der Urheber- Liste urheber.ini für Referenz, wenn 1 Wo alt, neu erstellen
+ * 
+ */
+function VF_Urheber_ini_w () 
+{
+    global $debug, $module, $flow_list, $db, $path2ROOT;
+    
+    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Urheber_ini_w" );
+
+    if ($debug) {
+        echo "<pre class=debug>Urheber-Auswahl L Beg:  <pre>";
+    }
+        
+    $urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
+    if (is_file($urh_dsn)) {
+        $ftime = filemtime($urh_dsn);
+        echo "L 02705 filemtime $ftime <br>";
+        error_log("L 02705 filemtime $ftime ");
+    }
+        
+    $urheb_arr[0] = "Kein Urheber ausgewählt.";
+    
+    $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC ";
+    
+    $return_ur = SQL_QUERY($db, $sql_ur);
+    
+    while ($row = mysqli_fetch_object($return_ur)) {
+        $urheb_arr[$row->ei_id] = $row->ei_name." ".$row->ei_vname; 
+    }
+   
+    $f_handle = fopen($urh_dsn, 'w');
+    if (fwrite ($f_handle,"[urheber_list]\n" ) === FALSE) {
+        echo "L 02719 die Datei $urh_dsn kann nicht geschrieben werden <br>";
+        console_log("L 02719 die Datei $urh_dsn kann nicht geschrieben werden");
+    }
+     
+    foreach ($urheb_arr as $urh_abk => $urh_name) {
+        $cont = "$urh_abk='$urh_name'\n";
+        fwrite($f_handle,$cont);
+    }
+    fclose($f_handle);
+} // end VF_urheber_ini_w
+
+
+/**
  * Ende der Bibliothek
  *
- * @author Josef Rohowsky - 20240312
+ * @author Josef Rohowsky - 20250616
  */
 ?>

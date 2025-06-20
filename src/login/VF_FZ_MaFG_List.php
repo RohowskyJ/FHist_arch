@@ -8,13 +8,11 @@
  * 
  */
 session_start();
-
-const Module_Name = 'F_G';
-$module = Module_Name;
+ 
+$module = 'F_G';
 $tabelle = ''; 
 $tabelle_f = "ma_fahrzeug_";
 $tabelle_e = "ma_eigner_";
-
 
 
 /**
@@ -24,9 +22,8 @@ $tabelle_e = "ma_eigner_";
  */
 $path2ROOT = "../";
 
-$debug = false; // Debug output Ein/Aus Schalter
+$debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
@@ -36,7 +33,7 @@ require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
     
-$flow_list = False;
+$flow_list = false;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
@@ -66,6 +63,13 @@ if (!isset($_SESSION['VF_LISTE'])) {
 }
 
 /**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FZ_MaFG_List.php";
+
+/**
  * Variablen für Eigentümer und Sammlung initialisieren
  */
 if (! isset($_SESSION['Eigner']['eig_eigner'])) {
@@ -82,7 +86,9 @@ if (! isset($_SESSION[$module]['sammlung'])) {
 
 $header = "";
 
-$prot = True; // Prototype.js laden
+$jq = True; // JQUERY laden
+$jqui = True; // JQ-UI laden
+$BA_AJA = True; // AJAX- Scripts laden
 BA_HTML_header('Maschinengetriebenes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -135,8 +141,8 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
-if (isset($_POST['suggestEigener'])) {
-    $ei_id = $_POST['suggestEigener'];
+if (isset($_POST['eigentuemer'])) {
+    $ei_id = $_POST['eigentuemer'];
     VF_Displ_Eig($ei_id);
     # $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
@@ -164,7 +170,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
      */
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten" ){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            BA_Auto_Eigent();
+            VF_Auto_Eigent();
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
@@ -208,14 +214,15 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
         }
         
         $titel  = 'Suche nach der Sammlungs- Beschreibung (- oder Änderung der  angezeigten)';
-        VF_Multi_Dropdown($in_val,$titel);
         
+        VF_Multi_Dropdown($in_val,$titel);
     }
 
    echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
     
 } else {
     
+    console_log("L 0220 Aufteilung fg/ger");
     /**
      * Hier erfolgt die Aufteilung nach Fahrzeug oder Gerät
      */
@@ -225,11 +232,11 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     
     if (substr($_SESSION[$module]['sammlung'],0,4)  == 'MA_F') {   # Mukelgezogene - Fahrzeuge
        
-        require "VF_FZ_MA_List.inc.php";
+        require "VF_FZ_MaF_List.inc.php";
  
     } elseif (substr($_SESSION[$module]['sammlung'],0,4)  == 'MA_G')  {  # Muskel betriebene Geräte
         
-        require "VF_FA_GE_List.inc.php";
+        require "VF_FZ_MaG_List.inc.php";
         
     }
 
@@ -241,10 +248,6 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     
     BA_HTML_trailer();
 }
-/**
- * Aufruf des Scripts für Autocmplete
- */
-BA_Auto_Funktion();
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
@@ -274,7 +277,7 @@ function modifyRow(array &$row, $tabelle)
             break;
         case "ma_fahrz":
             $fz_id = $row['fz_id'];
-            $row['fz_id'] = "<a href='VF_FZ_MA_Edit.php?fz_id=$fz_id' >" . $fz_id . "</a>";
+            $row['fz_id'] = "<a href='VF_FZ_MaF_Edit.php?fz_id=$fz_id' >" . $fz_id . "</a>";
             if ($row['fz_bild_1'] != "") {
                 $fz_bild_1 = $row['fz_bild_1'];
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";           
@@ -414,7 +417,7 @@ function modifyRow(array &$row, $tabelle)
             break;
         case "ma_gerae":
             $ge_id = $row['ge_id'];
-            $row['ge_id'] = "<a href='VF_FA_GE_Edit.php?ge_id=$ge_id' >" . $ge_id . "</a>";
+            $row['ge_id'] = "<a href='VF_Fz_MaG_Edit.php?ge_id=$ge_id' >" . $ge_id . "</a>";
             if ($row['ge_foto_1'] != "") {
                 $ge_foto_1 = $row['ge_foto_1'];
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";

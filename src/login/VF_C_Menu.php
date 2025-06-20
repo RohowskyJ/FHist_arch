@@ -182,6 +182,7 @@ $sk = $_SESSION['VF_Prim']['SK'];
 
 $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini',True,INI_SCANNER_NORMAL);
 $cnt_m = count($ini_arr['Modules']);
+
 if (isset($ini_arr['Modules']) && $cnt_m >10){
     Edit_Tabellen_Header('Programmauswahl für Mitglieder');
     
@@ -249,6 +250,11 @@ if (isset($ini_arr['Modules']) && $cnt_m >10){
     
 } else {
     echo "Konfigurations- Fehler. Konfirguration der <b>Module</b> neu aufsetzen. <br>";
+}
+
+$urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
+if (!is_file($urh_dsn)) {
+    VF_Urheber_ini_w();
 }
 
 #echo "</fieldset>";
