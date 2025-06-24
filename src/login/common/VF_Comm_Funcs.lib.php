@@ -2332,6 +2332,7 @@ function VF_Auto_Eigent() {
 function VF_Auto_Herstell () {
     global $debug, $module, $flow_list;
     flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Herstell" );
+    console_log('autoherstell');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller" data-feed="hersteller" size='50'/>
@@ -2344,6 +2345,7 @@ function VF_Auto_Herstell () {
 function VF_Auto_Taktb () {
     global $debug, $module, $flow_list;
     flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Taktb" );
+    console_log('autotaktb');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Taktische Bezeichnung eingeben:</b> <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" data-feed="taktisch" size='50' />
@@ -2357,6 +2359,7 @@ function VF_Auto_Urheber ($i) {
     global $debug, $module, $flow_list,$path2ROOT;
     
     flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Urheber" );
+    console_log('autourheber');
     
     $urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
     console_log("L 02359 urh.ini $urh_dsn");
@@ -2413,6 +2416,7 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
     global $debug, $module, $flow_list, $path2ROOT;
     
     flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Upload_Pfad_M" );
+    console_log('uploadpfad');
     
     $basepath = $path2ROOT.'login/'.$_SESSION['VF_Prim']['store'].'/';
     
@@ -2503,19 +2507,21 @@ function VF_Upload_Form_M ()
 {
     global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
     
-    flow_add($module,"VF_Upload.lib.php Funct: VF_M_Foto" );
-    /*
-     if (!isset($urheber)) {
-     $urheber = $_SESSION[$module]['Eigner']['eig_eigner'];
-     }
-     */
+    flow_add($module,"VF_Upload.lib.php Funct: VF_Upload_Form_M" );
+    console_log('uploadform');
+    
     /**
      * Parameter für die Fotos:
      *
      * $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '', 'f1' => '','f2'=>'');
-     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegeminsame Box, rb1 und up_err werden vom Uploader gesetzt, 
+     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegeminsame Box, rb1 und up_err werden vom Uploader gesetzt,
      *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
      */
+    /* Schalten der Foto- Update blöcke */
+    
+    if (!isset($hide_area)) {$hide_area = 0;}
+    
+    $hide_area_group1 = $hide_area_group2 = $hide_area;
     
     if ($debug) {
         echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
@@ -2524,47 +2530,83 @@ function VF_Upload_Form_M ()
     }
     
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
-    console_log('L 02528 Anz Upl. '.$pic_cnt);
-    #var_dump($_SESSION[$module]['Pct_Arr']);
-    # var_dump($neu);
-    
-    echo '<input type="hidden" name="MAX_FILE_SIZE" value="4000000" >';
-    
+
     /**
      * Floating Block mit Bild, Bildbeschreibung , Bildname und Upload-Block
      */
     echo "<div class='w3-container'>";                           // container für Foto und Beschreibung
-    #console_log('L 02495 vor class w3-row ');
     echo "<div class = 'w3-row w3-border'>";                     // Responsive Block start
     echo "<fieldset>";
-    #console_log('L 02498 vor pct_arr loop ');
-    foreach ($_SESSION[$module]['Pct_Arr'] as $key => $p_a ){ # => $value) {
-        # var_dump($p_a);
+
+    ?>
+
+    <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;"> 
+            
+         
+          <div id="gruppe1" class="foto-upd-container" 
+              style="<?php echo ($hide_area_group1 == 1) ? 'display:none;' : ''; ?>">
+             <div class="foto-upd">
+             <p>Optionale Parameter für Upload, noch in Planung für Upload mit Bildbearbeitung.</p>
+              <!-- 
+                 <! -- Auswahl: Bibliothek oder Upload -- >
+                 <p>Fotos aus den Foto-Bibliotheken einfügen?</p>
+                 <label>
+                     <input type='radio' class='sel_libs' name='sel_libs' value='Ja' checked> Ja
+                 </label>
+                 <label>
+                     <input type='radio' class='sel_libs' name='sel_libs' value='Nein'> Nein - Neu hochladen
+                 </label>
         
-        console_log('L 02541 foto '.$key);
+        		
+        		<! -- 
+        		wenn sel_libs: Ja    -- Auswahl nach Sammlung, Anzeige fotos, auswahl in Menge der Fotos
+        		                        ausgesuchter Dsn in das entsprechenden Eigabefeld stellen
+        		               Nein  -- normale Eingabe über File-Upload, bevorzugt AJAX mit resize und Wasserzeichen,
+        		                        Eingabe Urheber, Aufnahmedatum, Wasserzeichen J/N, 
+        		
+                <div id='upl_libs' style='displ:none'>
+                  <p>Aussuchen aus libs
+                   </p>
+                </div>
+              
+                <div id='upl_new' style='displ:none'>
+                  hochladen
+                
+                </div>
+        --- >
+                <div id='upl_libs' style='display:block; margin-top:10px;'>
+                 <p>Suchbegriff für die Bibliothek:</p>
+                 <input type='text' id='suche' placeholder='Suchbegriff' />
+                 <button type='button' onclick='sucheBibliothek()'>Suchen</button>
+                    <div id=' suchergebnis' style='margin-top:10px; max-height:150px; overflow:auto; border:1px solid #ccc;'></div>
+                </div>    
+             -->
+             </div>
+         </div>
         
-        #var_dump($p_a);echo "L 02504 hide_area $hide_area <br>";
-        
-        #echo $neu[$p_a['ko']]. " ".$p_a['bi'] . " " . $neu[$p_a['f1']]." ". $p_a['f2'] ."<br>";
-        
-        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''  ))) {
-            console_log('L 02548 Bild '.$key);
-            # echo "Bild- Box $key wird angezeigt <br>";
-            $pict_path = VF_Upload_Pfad_M ('', '', '', '');
+    <?php 
     
-            /**
-             * Responsive Container innerhalb des loops
-             */
-            echo "<div class = 'w3-container w3-half'>";                                  // start half contailer
-            echo "<fieldset>";
-            console_log('L 02557 komm '.$key);
+    for ($i=0; $i < $pic_cnt; $i++) {
+        $p_a = $_SESSION[$module]['Pct_Arr'][$i];
+
+        $j = $i +1; /** Für die Bil- Nr- Anzeige */
+
+        $pict_path = VF_Upload_Pfad_M ('', '', '', '');
+        
+        /**
+         * Responsive Container innerhalb des loops
+         */
+        echo "<div class = 'block-container w3-container w3-half ' data-index='$i'  data-hide-area='$hide_area'>";                 // start half contailer
+        echo "<fieldset>";
+        echo "Bild $j <br>";
+ 
             if ($p_a['ko'] != "") {
                 if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
                     echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
                 } else {
                     echo $p_a['ko'];
                 }
-                echo "<textarea class='w3-input' rows='7' cols='25' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
+                echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
             }
             if ($p_a['f1'] != '')  {
                 Edit_Daten_Feld_Button($p_a['f1'],30);
@@ -2572,9 +2614,12 @@ function VF_Upload_Form_M ()
             if ($p_a['f2'] != '')  {
                 Edit_Daten_Feld_Button($p_a['f2'],30);
             }
+            
+            echo "<div class='bild-detail' >";
+           
             if ($neu[$p_a['bi']] != "") {
                 $fo = $neu[$p_a['bi']];
-                console_log('L 02574 foto '.$fo);
+                #console_log('L 02528 foto '.$fo);
                 $fo_arr = explode("-",$neu[$p_a['bi']]);
                 $cnt_fo = count($fo_arr);
                 
@@ -2593,41 +2638,42 @@ function VF_Upload_Form_M ()
                 } else {
                     $p = $pict_path . $neu[$p_a['bi']];
                 }
-                console_log('L 02593 foto '.$p) ;                                   
-               
-                
+
                 $f_arr = pathinfo($neu[$p_a['bi']]);
                 if ($f_arr['extension'] == "pdf") {
-                    echo "<a href='$p' target='Bild $key' > Dokument</a>"; 
+                    echo "<a href='$p' target='Bild $j' > Dokument</a>";
                 } else {
-                    console_log('L 02600 ausgabe '.$p);
-                    echo "<a href='$p' target='Bild $key' > <img src='$p' alter='$p' width='200px'></a>";
+                    echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
                     echo $neu[$p_a['bi']];
                 }
-                
+
+            } else {
+                echo "kein Bild hochgeladen";
             }
-            
-            # $show_upload = ($hide_area == 0) || ($hide_area == 1 && $button_clicked_flag);
-            
-   
-            
-            echo "<fieldset style='margin:10px; padding:10px; border:1px solid #ccc;'>";
-            $fn = $key+1;
-            echo "<legend>Foto $fn</legend>";
-            
-            // Datei-Input
-            echo "<input type='file' id='f_Doc_$key' name='f_Doc_Name_$key' /><br/><br/>";
-            
-            # echo "<input type='file' id='$FeldName'  name='$FeldName' onchange='uploadImage(\"$FeldName\", $key)' accept='image/*' /><br/><br/>";
-            
-            echo "<input type='hidden' id='f_Doc_$key' name='f_Doc_Name_$key' value='".$neu[$p_a['bi']]."'/>";
-            
 
-            echo "</fieldset>";
-            echo "</div>";                                                                   // end half container 
+            echo "</div>";
+        ?>
+        
+        <div id="gruppe2" class="foto-upd-container" 
+            style="<?php echo ($hide_area_group2 == 1) ? 'display:none;' : ''; ?>">
+           <div class='foto-upd'  style='margin-bottom:20px; border:1px solid #ccc; padding:10px;'> 
+          
+            <h3>Bild <?php echo $j; ?></h3>
+            <input type='hidden' id='foto_<?php echo $j; ?>' name='foto_<?php echo $j; ?>' value=''>
 
-        }
+            <!-- Hochladen Bereich -->
+            <div id='upl_new_<?php echo $j; ?>' margin-top:10px;'>
+                <input type='file' name='datei_<?php echo $j; ?>' />
+            </div>
+          </div>   
+        </div>
+
+        <?php
+        
+        echo "</fieldset>";
+        echo "</div>";  
     }
+    
     echo "</fieldset>";
     echo "</div>";  // Responsive Block end
     echo "</div>";        // end container
@@ -2651,7 +2697,9 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
 {
     global $debug, $module, $flow_list;
     
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_M_Upload" );
+    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_Save_M" );
+    console_log('uploadsave');
+    
     
     # echo " L 02620 Upl upldir $uploaddir fdsn $fdsn <br>";
     # var_dump($_FILES[$fdsn]);
@@ -2711,6 +2759,7 @@ function VF_Urheber_ini_w ()
     global $debug, $module, $flow_list, $db, $path2ROOT;
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Urheber_ini_w" );
+    console_log('urheberini');
 
     if ($debug) {
         echo "<pre class=debug>Urheber-Auswahl L Beg:  <pre>";
@@ -2719,8 +2768,8 @@ function VF_Urheber_ini_w ()
     $urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
     if (is_file($urh_dsn)) {
         $ftime = filemtime($urh_dsn);
-        echo "L 02705 filemtime $ftime <br>";
-        error_log("L 02705 filemtime $ftime ");
+        echo "L 02771 filemtime $ftime <br>";
+        error_log("L 02772 filemtime $ftime ");
     }
         
     $urheb_arr[0] = "Kein Urheber ausgewählt.";
