@@ -33,7 +33,8 @@ if ($neu['fz_id'] == 0) { // Neueingabe
     </style>
     <?php 
 }
-
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
+echo "Verstecken $hide_area <br>";
 # =========================================================================================================
 Edit_Tabellen_Header('Motorisierte Fahrzeuge von Eigentümer '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -42,20 +43,17 @@ Edit_Daten_Feld('fz_id');
 Edit_Daten_Feld('fz_eignr');
 
 # =========================================================================================================
-Edit_Separator_Zeile('Sammlung');
-# =========================================================================================================
-
-if ($hide_area == 0) {  //toggle??
-    $button = "";
-} else {
+$button = "";
+if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
 }
+Edit_Separator_Zeile('Sammlung'.$button);
+# =========================================================================================================
 
 echo "<input type='hidden' id='fz_sammlg' name='fz_sammlg' value='".$neu['fz_sammlg']."'>";
 $Edit_Funcs_Protect = True;
-Edit_Daten_Feld_Button('fz_sammlg', '20','','',$button);
-$button = "";
+Edit_Daten_Feld_Button('fz_sammlg', '20','','');
 Edit_Daten_Feld('sa_name','');
 $Edit_Funcs_Protect = False;
 
@@ -106,7 +104,6 @@ VF_Multi_Dropdown($in_val,$titel);
 
 echo "</div>"; # ende dropdown Sammlung
 
-
 # =========================================================================================================
 Edit_Separator_Zeile('Fahrzeug/Geräte- Beschreibung');
 # =========================================================================================================
@@ -121,17 +118,7 @@ if ($hide_area == 0) {  //toggle??
 } else {
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_taktb')\">zum anzeigen/ändern klicken!</button>";
-    // JavaScript-Funktion zum togglen des Elements
-    echo "?><script>
-        function toggleVisibility(id) {
-            var el = document.getElementById(id);
-            if (el.style.display === 'none') {
-                el.style.display = 'block';
-            } else {
-                el.style.display = 'none';
-            }
-        }
-    </script><?php";
+
 }
 echo "<input type='hidden' name='fz_taktbez' value='".$neu['fz_taktbez']."' >";
 $Edit_Funcs_Protect = True;
@@ -217,16 +204,12 @@ Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 
-if ($hide_area == 0) {  //toggle??
-    $button = "";
-} else {
-    // Der Button, der das toggling übernimmt
-   #  $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_foto')\">zum ändern klicken!</button>";
-    $button_f = "<button id='toggleButton'>Zeige/Verstecke Blöcke</button>";
-    
-} 
-
 # =========================================================================================================
+$button_f = "";
+if ($hide_area != 0) {  //toggle??
+    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+} 
 Edit_Separator_Zeile('Fotos'.$button_f);  # 
 # ========================================================================================================= 
 
@@ -234,7 +217,6 @@ echo "<div>";
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
-# $pict_path = VF_M_Upl_Pfad ($aufnDatum, $suffix, $aoPfad);
 $pict_path = "";
 
 $_SESSION[$module]['Pct_Arr' ] = array();
@@ -244,10 +226,7 @@ while ($i <= $num_foto) {
     $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'fz_b_'.$i.'_komm', 'bi' => 'fz_bild_'.$i, 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
     $i++;
 }
-
-
-#var_dump($_SESSION[$module]['Pct_Arr' ]);
-                             
+       
 VF_M_Foto_N();
 
 echo "</div";

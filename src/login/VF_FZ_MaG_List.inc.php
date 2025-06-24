@@ -9,7 +9,7 @@ $Inc_Arr[] = 'VF_FZ_MaG_List_inc.php';
 $tabelle = "ma_geraet_".$_SESSION['Eigner']['eig_eigner'];
 
 $T_list_texte = array(
-    "Alle" => "Nach Indienststellung. ",
+    "Alle" => "Nach Indienststellung. (Auswahl)",
     "NextEig" => "<a href='VF_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
     "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
     "NeuItem" => "<a href='VF_FZ_MaG_Edit.php?ge_id=0' target='neu' > Neuen Datensatz anlegen </a>" 

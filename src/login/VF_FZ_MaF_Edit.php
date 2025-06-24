@@ -51,15 +51,19 @@ $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
 $jq = $jqui = True;
-$BA_AJA = True;
+$BA_AJA = true;
+
+$js_ini = $js_au = $js_md = $js_mfu = $js_suf = $js_togg = false; // laden aller js-Scripts
+
 $header = "<style>.button-sm {font-size:14px;font-weight:bold;color:black ;padding:0px 6px 0px 4px;margin:1px;
              background-color:#FFF0F5;border:2px solid blue;border-radius:2px}</style>";
 
-$A_Off = True;  # set autocomplete=off in Header
+$A_Off = false;  # set autocomplete=off in Header
 
 BA_HTML_header('Fahrzeug- und Geräte- Verwaltung', $header, 'Form', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
+
 
 // ============================================================================================================
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt

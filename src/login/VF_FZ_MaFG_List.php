@@ -81,13 +81,12 @@ if (! isset($_SESSION[$module]['sammlung'])) {
 }
 
 /**
- * Haeder ausgeben, body und form
+ * Header ausgeben, body und form
  */
 
 $header = "";
 
-$jq = True; // JQUERY laden
-$jqui = True; // JQ-UI laden
+$jq = $jqui = True; // JQ-UI laden
 $BA_AJA = True; // AJAX- Scripts laden
 BA_HTML_header('Maschinengetriebenes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -131,7 +130,7 @@ if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" ) {
     $_SESSION[$module]['sammlung'] = "MA";
 }
 if (isset($post['select_string'])) {
-    $select_string = $postT['select_string'];
+    $select_string = $post['select_string'];
 } else {
     $select_string = "";
 }

@@ -18,10 +18,8 @@ if ($debug) {
 
 if ($neu['ge_id'] == 0) { // Neueingabe
     $hide_area = 0;
-    $button_clicked_flag = 1;
 } else {
     $hide_area = 1;
-    $button_clicked_flag = 0;
 }
 
 echo "<input type='hidden' name='ge_id' value='$ge_id'/>";
@@ -31,7 +29,72 @@ Edit_Tabellen_Header('Motorbetriebene Geräte des Eigentümers '.$_SESSION['Eign
 
 Edit_Daten_Feld('ge_id');
 Edit_Daten_Feld('ge_eignr');
-Edit_Daten_Feld('ge_invnr');
+# Edit_Daten_Feld('ge_invnr');
+
+# =========================================================================================================
+$button = "";
+if ($hide_area != 0) {
+    // Der Button, der das toggling übernimmt
+    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
+}
+
+Edit_Separator_Zeile('Sammlung'.$button);
+# =========================================================================================================
+
+echo "<input type='hidden' id='ge_sammlg' name='ge_sammlg' value='".$neu['ge_sammlg']."'>";
+$Edit_Funcs_Protect = True;
+Edit_Daten_Feld('ge_sammlg', '');
+Edit_Daten_Feld('sa_name','');
+$Edit_Funcs_Protect = False;
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='unhide_sa' style='display:none'>";
+}
+/**
+ * Parameter für den Aufruf von Multi-Dropdown
+ *
+ * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+ *
+ *
+ * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
+ * @var string $MS_Lvl Anzahl der gewüschten Ebenen - 2 nur eine 2.Ebene ... bis 6 Ebenen
+ * @var string $MS_Opt Name der Options- Datei, die die Werte für die weiteren Ebenen liefert
+ *
+ * @Input-Parm $_POST['Level1...6']
+ */
+
+$MS_Lvl   = 4; # 1 ... 6
+$MS_Opt   = 1; # 1: SA für Sammlung, 2: AO für Archivordnung
+
+$MS_Txt = array(
+    'Auswahl der Sammlungs- Type (1. Ebene) &nbsp; &nbsp; &nbsp; ',
+    'Auswahl der Sammlungs- Gruppe (2. Ebene) &nbsp; ',
+    'Auswahl der Untergrupppe (3. Ebene) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;',
+    'Auswahl des Spezifikation (4. Ebene) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '
+);
+
+switch ($MS_Opt) {
+    case 1:
+        $in_val = '';
+        $MS_Init = VF_Sel_SA_MA_G; # VF_Sel_SA_Such|VF_Sel_AOrd
+        break;
+        /*
+         case 2:
+         $in_val = '07';
+         $MS_Init = VF_Sel_AOrd; # VF_Sel_SA_Such|VF_Sel_AOrd
+         break;
+         */
+}
+
+$titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
+
+VF_Multi_Dropdown($in_val,$titel);
+
+echo "</div>"; # ende dropdown Sammlung
+
+
 # =========================================================================================================
 Edit_Separator_Zeile('Geräte- Beschreibung');
 # =========================================================================================================
@@ -66,22 +129,16 @@ Edit_Daten_Feld('ge_ag_leinh', 60);
 
 Edit_Select_Feld(Prefix . 'ge_zustand', VF_Zustand, '');
 
+# =========================================================================================================
+$button_f = "";
+if ($hide_area != 0) {  //toggle??
+    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+}
+Edit_Separator_Zeile('Fotos'.$button_f);
+# =========================================================================================================
+echo "<div>";
 
-if ($hide_area == 0) { // Hide Foto
-    $button = "";
-} else {
-    $button = " &nbsp;  <button type='button' class='button-sm' onclick=\"document.getElementById('dprdown_foto').style.display='block'\">zum anzeigen/ändern klicken!</button>";
-}
-# =========================================================================================================
-Edit_Separator_Zeile('Fotos'.$button);
-# =========================================================================================================
-# if ($hide_area == 0) {
-    echo "<div id='dprdown_foto' style='display:block'>";
-    /*
-} else {
-    echo "<div id='dprdown_foto' style='display:none'>";
-}
-*/
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='ge_foto_1' value='" . $neu['ge_foto_1'] . "'>";
 echo "<input type='hidden' name='ge_foto_2' value='" . $neu['ge_foto_2'] . "'>";
@@ -162,17 +219,6 @@ Edit_Separator_Zeile('Daten geprüft');
 
 Edit_Daten_Feld('ge_pruef_id', 10);
 Edit_Daten_Feld('ge_pruef_dat', 10);
-
-# =========================================================================================================
-Edit_Separator_Zeile('Organisatorisches');
-# =========================================================================================================
-Edit_Daten_Feld('ge_invnr', 50);
-
-echo "<div class='w3-container w3-aqua'>  <div class='label'>Sammlung - Sammlungsbezeichnung</div></div>";
-echo "<div class='w3-container w3-aqua'>";
-
-Edit_Daten_Feld('ge_sammlg', '');
-Edit_Daten_Feld('sa_name','');
 
 echo "</div>";
 
