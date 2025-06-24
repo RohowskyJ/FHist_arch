@@ -90,7 +90,7 @@ $dsn = "multidrop.log";
 $eintragen = Date("Y-m-d H:i:s")."\n";
 $eintragen .= "term $term \n";
 $eintragen .= "proc $proc \n";
-
+/*
 $datei = fopen($dsn, "a");
 fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
 fclose($datei);
@@ -100,17 +100,17 @@ $eintragen = "l 069 isset term, $term \n proc $proc \n";
 $datei = fopen($dsn, "a");
 fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
 fclose($datei);
-/* */
+*/
 $data[] = ['value' => '', 'text' => 'Bitte auswählen' ,];
 
 if ($opval == '1') {
     // Beispiel: Sammlung (1. Ebene)
-    
+    /*
     $dsn = "multidrop.log";
     $eintragen = Date("Y-m-d H:i:s")."\n";
     $eintragen .= "term $term \n";
     $eintragen .= "proc $proc \n";
-
+    */
     $sql = "SELECT * FROM fh_sammlung WHERE sa_grup LIKE '$parent' ORDER BY sa_sammlg ASC"; 
     $result_set = mysqli_query($db, $sql);
    
@@ -124,10 +124,11 @@ if ($opval == '1') {
             $eintragen .= "parent $parent; p_cnt $cnt_par; a_cnt $act_cnt; sa_grup $row->sa_grup; sa_sammlg $row->sa_sammlg; txt $row->sa_name \n";
         } 
     }
+    /* 
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    /* */
+    */
 } elseif ($opval == '2') {
     // Beispiel: Archivordnung
     if ($level == 1) {
