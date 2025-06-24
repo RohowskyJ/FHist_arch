@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
     if (isset($_POST['aufnDat'])) {
         $aufn_dat = $_POST['aufnDat'];
     }
-
+    
     if ($debug_log) {
         $eintragen .= "targ_pfad $targ_pfad \n";
         $eintragen .= "urh_name $urh_name \n";
@@ -86,7 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) { #) { # $_SERVER['REQUEST_METHOD'] 
                 $fn_arr = explode("-", $name);
                 $fcnt = count($fn_arr);
                 if ($fcnt < 3) { // Umbenennen
-                    $out_name = $urh_abk . "-" . $aufn_dat . "-" . $name;
+                    $w = "N-";
+                    if ($urh_einfueg == "J") {
+                        $w = "W-";
+                    }
+                    $out_name = $urh_abk . "-" . $aufn_dat . "-".$w . $name;
                 } else { // orig-Name bleibt
                     $out_name = $name;
                 }
