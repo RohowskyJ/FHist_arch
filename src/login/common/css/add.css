@@ -275,4 +275,8 @@ header {
 }
 
 
-
+/* Hide for Felder oder Blöcke */
+/* Standard: verstecken */
+.hide { 
+	display: none; 
+}
