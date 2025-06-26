@@ -14,10 +14,25 @@ echo "<input type='hidden' name='fz_id' value='$fz_id'/>";
 
 if ($neu['fz_id'] == 0) { // Neueingabe
     $hide_area = 0;
+    ?>
+    <style>
+       /* Optional: sichtbar standardmäßig */
+       .bild-change {
+          display: block;
+          } 
+    </style>
+    <?php 
 } else {
     $hide_area = 1;
+    ?>
+    <style>
+        /* Anfangs alle Blöcke versteckt */
+       .bild-change {
+           display: none;
+           }
+    </style>
+    <?php 
 }
-
 echo "<input type='hidden' id='hide_area' value='$hide_area'>";
 echo "Verstecken $hide_area <br>";
 # =========================================================================================================
@@ -28,17 +43,20 @@ Edit_Daten_Feld('fz_id');
 Edit_Daten_Feld('fz_eignr');
 
 # =========================================================================================================
-$button = "";
-if ($hide_area != 0) {
+Edit_Separator_Zeile('Sammlung');
+# =========================================================================================================
+
+if ($hide_area == 0) {  //toggle??
+    $button = "";
+} else {
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
 }
-Edit_Separator_Zeile('Sammlung'.$button);
-# =========================================================================================================
 
 echo "<input type='hidden' id='fz_sammlg' name='fz_sammlg' value='".$neu['fz_sammlg']."'>";
 $Edit_Funcs_Protect = True;
-Edit_Daten_Feld_Button('fz_sammlg', '20','','');
+Edit_Daten_Feld_Button('fz_sammlg', '20','','',$button);
+$button = "";
 Edit_Daten_Feld('sa_name','');
 $Edit_Funcs_Protect = False;
 
@@ -89,6 +107,7 @@ VF_Multi_Dropdown($in_val,$titel);
 
 echo "</div>"; # ende dropdown Sammlung
 
+
 # =========================================================================================================
 Edit_Separator_Zeile('Fahrzeug/Geräte- Beschreibung');
 # =========================================================================================================
@@ -133,8 +152,9 @@ Edit_Daten_Feld('fz_ausdienst', 10, 'Datum YYYY-MM-DD oder zumindest Jahr der Au
 
 Edit_Select_Feld(Prefix . 'fz_zustand', VF_Zustand, '');
 
-$button ="";
-if ($hide_area != 0) {  //toggle??
+if ($hide_area == 0) {  //toggle??
+    $button = "";
+} else {
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_herst')\">zum anzeigen/ändern klicken!</button>";
 }
@@ -188,12 +208,15 @@ Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 
-# =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+if ($hide_area == 0) {  //toggle??
+    $button_f = "";
+} else {
+    // Der Button, der das toggling übernimmt
+   #  $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_foto')\">zum ändern klicken!</button>";
+    $button_f = " &nbsp; &nbsp; <button id='toggleButton' class='button-sm' >Zeige/Verstecke Blöcke</button>";  
 } 
+
+# =========================================================================================================
 Edit_Separator_Zeile('Fotos'.$button_f);  # 
 # ========================================================================================================= 
 
@@ -201,11 +224,7 @@ echo "<div>";
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
-echo "<input type='hidden' name='fz_bild_1' value='".$neu['fz_bild_1'].">";
-echo "<input type='hidden' name='fz_bild_2' value='".$neu['fz_bild_2'].">";
-echo "<input type='hidden' name='fz_bild_3' value='".$neu['fz_bild_3'].">";
-echo "<input type='hidden' name='fz_bild_4' value='".$neu['fz_bild_4'].">";
-
+# $pict_path = VF_M_Upl_Pfad ($aufnDatum, $suffix, $aoPfad);
 $pict_path = "";
 
 $_SESSION[$module]['Pct_Arr' ] = array();
@@ -215,7 +234,10 @@ while ($i <= $num_foto) {
     $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'fz_b_'.$i.'_komm', 'bi' => 'fz_bild_'.$i, 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
     $i++;
 }
-       
+
+
+#var_dump($_SESSION[$module]['Pct_Arr' ]);
+                             
 VF_M_Foto_N();
 
 echo "</div";

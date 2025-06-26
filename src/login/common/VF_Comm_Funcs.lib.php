@@ -2450,7 +2450,7 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
                 break;
             case 'F_M' :
                 if ($aufnDatum == '') {
-                    if (substr($_SESSION[$module]['sammlung'],0,4) == 'MU_F') {
+                    if (substr($_SESSION[$module]['fm_sammlung'],0,4) == 'MU_F') {
                         $verzeichn =  'MuF/';
                     } else {
                         $verzeichn =  'MuG/';
@@ -2699,9 +2699,8 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_Save_M" );
     console_log('uploadsave');
-    
-    
-    # echo " L 02620 Upl upldir $uploaddir fdsn $fdsn <br>";
+     
+    #echo " L 02704 Upl upldir $uploaddir fdsn $fdsn <br>";
     # var_dump($_FILES[$fdsn]);
     $target = "";
     if ($_FILES[$fdsn]['name'] != "") {
@@ -2714,10 +2713,10 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             switch ($errno) {
                 case 1:
                 case 2:
-                    $err .= "Datei zu groß";
+                    $err .= "Err: Datei zu groß";
                     break;
                 case 8:
-                    $err .= "Falsche Datei (Erweiterung)";
+                    $err .= "Err: Falsche Datei (Erweiterung)";
                     break;
             }
             return $err;
@@ -2728,7 +2727,7 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             
             $fn_arr = pathinfo($target);
             $ft = strtolower($fn_arr['extension']);
-            
+            #var_dump($fn_arr);
             if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
                 $newfn_arr = explode('-', $target);
                 $cnt = count($newfn_arr);
@@ -2742,6 +2741,7 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             # var_dump($_FILES[$fdsn]);
             if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
                 # var_dump($_FILES[$fdsn]);
+                # echo "L 02745 target $target <bR>";
                 return $target;
             }
         }

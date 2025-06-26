@@ -36,12 +36,7 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
-
 initial_debug();
-
-// ============================================================================================================
-// Eingabenerfassung und defauls
-// ============================================================================================================
 
 // ============================================================================================================
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
@@ -165,7 +160,7 @@ if ($phase == 1) {
         $fz_id = $_SESSION[$module]['fz_id'];
     }
 
-    header("Location: VF_FZ_MA_Edit.php?ID=$fz_id");
+    header("Location: VF_FZ_MaF_Edit.php?ID=$fz_id");
 }
 
 BA_HTML_header('Zulassungs Daten', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width

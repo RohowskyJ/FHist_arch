@@ -44,13 +44,12 @@ if (isset($_POST['level1']) != "") {
 # $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";
 $uploaddir = VF_Upload_Pfad_M('');
 
-
 if (! file_exists($uploaddir)) {
     mkdir($uploaddir, 0770, true);
 }
-
+#var_dump($_FILES);
 if (isset($_FILES)) {
-    $i = 1;
+    $i = 0;
     
     foreach ($_FILES as $upLoad  => $file_arr) {
         #var_dump($_FILES[$upLoad]);
@@ -58,60 +57,63 @@ if (isset($_FILES)) {
         if ($_FILES[$upLoad] != "") {
             # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
             $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
-            echo "L 078 result $result <br>";
-            if ($result != "" && substr($result,0,16) == "Upload Fehler: ") {
-                echo "L 080 Upload- Fehler $result <br>";
-                error_log($result);
+
+            if ($result == "") {
                 continue;
             }
+            if (substr($result,0,5) == 'Err: ' ) {
+                continue;
+            }
+           #  $neu["ge_foto_".$i+1] = $result;
+            
             switch ($i) {
-                case '1' :
+                case '0' :
                     $neu['ge_foto_1'] = $result;
                     break;
-                case '2' :
+                case '1' :
                     $neu['ge_foto_2'] = $result;
                     break;
-                case '3' :
+                case '2' :
                     $neu['ge_foto_3'] = $result;
                     break;
-                case '4' :
+                case '3' :
                     $neu['ge_foto_4'] = $result;
                     break;
-                case '5' :
+                case '4' :
                     $neu['ge_g1_foto'] = $result;
                     break;
-                case '6' :
+                case '5' :
                     $neu['ge_g2_foto'] = $result;
                     break;
-                case '7' :
+                case '6' :
                     $neu['ge_g3_foto'] = $result;
                     break;
-                case '8' :
+                case '7' :
                     $neu['ge_g4_foto'] = $result;
                     break;
-                case '9' :
+                case '8' :
                     $neu['ge_g5_foto'] = $result;
                     break;
-                case '10' :
+                case '9' :
                     $neu['ge_g6_foto'] = $result;
                     break;
-                case '11' :
+                case '10' :
                     $neu['ge_g7_foto'] = $result;
                     break;
-                case '12' :
+                case '11' :
                     $neu['ge_g8_foto'] = $result;
                     break;
-                case '13' :
+                case '12' :
                     $neu['ge_g9_foto'] = $result;
                     break;  
-                case '14' :
+                case '13' :
                     $neu['ge_g10_foto'] = $result;
                     break;
             }
             $i++;
         }
     }
-    var_dump($neu);
+    #var_dump($neu);
 }
 
 $gesa_arr = explode(" ",$neu['ge_sammlg']);
@@ -185,48 +187,10 @@ if ($neu['ge_id'] == 0) { # neueingabe
             continue;
         }
         
-        if ($name == "ge_foto_101") {
+        if (substr($name,0,5) == "foto_") {
             continue;
         } #
-        if ($name == "ge_foto_202") {
-            continue;
-        } #
-        if ($name == "ge_foto_303") {
-            continue;
-        } #
-        if ($name == "ge_foto_404") {
-            continue;
-        } #
-        if ($name == "ge_g1_foto0") {
-            continue;
-        } #
-        if ($name == "ge_g2_foto1") {
-            continue;
-        } #
-        if ($name == "ge_g3_foto2") {
-            continue;
-        } #
-        if ($name == "ge_g4_foto3") {
-            continue;
-        } #
-        if ($name == "ge_g5_foto4") {
-            continue;
-        } #
-        if ($name == "ge_g6_foto5") {
-            continue;
-        } #
-        if ($name == "ge_g7_foto6") {
-            continue;
-        } #
-        if ($name == "ge_g8_foto7") {
-            continue;
-        } #
-        if ($name == "ge_g9_foto8") {
-            continue;
-        } #
-        if ($name == "ge_g10_foto9") {
-            continue;
-        } #
+
         if (substr($name, 0, 3) == "sel") {
             continue;
         }

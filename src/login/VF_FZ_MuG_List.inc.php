@@ -1,20 +1,22 @@
 <?php
+/** 
+ * Ausgabe der Liste der Muskelbetriebenen Geräte
+ */
 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
 
-$Inc_Arr[] = 'VF_FZ_MaG_List_inc.php';
+$tabelle = "mu_geraet_".$_SESSION['Eigner']['eig_eigner'];
 
-$tabelle = "ma_geraet_".$_SESSION['Eigner']['eig_eigner'];
+$Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen 
 
 $T_list_texte = array(
     "Alle" => "Nach Indienststellung. (Auswahl)",
-    "NextEig" => "<a href='VF_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-    "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-    "NeuItem" => "<a href='VF_FZ_MaG_Edit.php?ge_id=0' target='neu' > Neuen Datensatz anlegen (Auswahl) </a>" 
+    "NextEig" => "<a href='VF_FZ_MuFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
+    "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
+    "NeuItem" => "<a href='VF_FZ_MuG_Edit.php?mg_id=0' target='neu' > Neuen Datensatz anlegen </a>"
 );
-
 
 echo "<fieldset>";
 
@@ -36,7 +38,7 @@ switch ($T_List) {
 }
 $List_Hinweise .= '</ul></li>';
 
-#$eig_data = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
+$eig_data = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
 
 List_Action_Bar($tabelle,"Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 
@@ -70,7 +72,7 @@ $MS_Txt = array(
 switch ($MS_Opt) {
     case 1:
         $in_val = 'MA_G';
-        $MS_Init = VF_Sel_SA_MA_G; # VF_Sel_SA_Such|VF_Sel_AOrd
+        $MS_Init = VF_Sel_SA_MU_G; # VF_Sel_SA_Such|VF_Sel_AOrd
         break;
         /*
          case 2:
@@ -83,9 +85,7 @@ switch ($MS_Opt) {
 $titel  = 'Welche Sammlung soll angezeigt werden: ';
 VF_Multi_Dropdown($in_val,$titel);
 
-$Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
-
-$return = Cr_n_ma_geraet($tabelle);
+$return = Cr_n_mu_geraet($tabelle);
 if ($return != True) {
     echo "$tabelle error: mysqli_errno($return)";
 }
@@ -95,20 +95,21 @@ $sql_where = "";
 $orderBy = "";
 
 $Tabellen_Spalten = array(
-    'ge_id',
-    'ge_bezeich',
-    'ge_type',
-    'ge_indienst',
-    'ge_ausdienst',
-    'ge_herst',
-    'ge_baujahr',
-    'ge_sammlg',
-    'ge_foto_1'
+    'mg_id',
+    'mg_bezeich',
+    'mg_type',
+    'mg_indienst',
+    'mg_ausdienst',
+    'mg_herst',
+    'mg_baujahr',
+    'mg_sammlg',
+    'mg_foto_1'
 );
-$Tabellen_Spalten_style['ge_eignr'] = $Tabellen_Spalten_style['ge_id'] = $Tabellen_Spalten_style['ge_baujahr'] = 'text-align:center;';
+$Tabellen_Spalten_style['mg_eignr'] = $Tabellen_Spalten_style['mg_id'] = $Tabellen_Spalten_style['mg_baujahr'] = 'text-align:center;';
 
-if ($_SESSION[$module]['sammlung'] != "") {
-    $sql_where = " WHERE ge_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
+$sql_where = "";
+if ($_SESSION[$module]['fm_sammlung'] != "") {
+    $sql_where = " WHERE mg_sammlg LIKE '%".$_SESSION[$module]['fm_sammlung']."%' ";
 }
 
 $orderBy = "  ";

@@ -18,8 +18,8 @@ if ($debug) {
 foreach ($_POST as $name => $value) {
     $neu[$name] = mysqli_real_escape_string($db, $value);
 }
-var_dump($_FILES);
-var_dump($neu);
+#var_dump($_FILES);
+#var_dump($neu);
 # $neu['fz_name'] = mb_convert_case($neu['fz_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
 $neu['fz_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
@@ -59,7 +59,7 @@ if (!isset($fo_aufn_datum)) {
 }
 
 if (isset($_FILES)) {
-    $i = 1;
+    $i = 0;
     
     foreach ($_FILES as $upLoad  => $file_arr) {
         var_dump($_FILES[$upLoad]);
@@ -67,28 +67,19 @@ if (isset($_FILES)) {
         if ($_FILES[$upLoad] != "") {
             # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
             $result = VF_M_Upload($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            echo "L 078 result $result <br>";
-            if (substr($result,0,16) == "Upload Fehler: ") {
-                echo "L 080 Upload- Fehler $result <br>";
+ 
+            if ($result == "") {
+                continue;
             }
-            switch ($i) {
-                case '1' :
-                    $neu['fz_bild_1'] = $result;
-                    break;
-                case '2' :
-                    $neu['fz_bild_2'] = $result;
-                    break;
-                case '3' :
-                    $neu['fz_bild_3'] = $result;
-                    break;
-                case '4' :
-                    $neu['fz_bild_4'] = $result;
-                    break;
+            if (substr($result,0,5) == 'Err: ' ) {
+                continue;
             }
+            $neu["fz_bild_".$i+1] = $result;
+   
             $i++;
         }
     }
-    var_dump($neu);
+   # var_dump($neu);
 }
 
 $neu['fz_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
@@ -179,7 +170,9 @@ if ($neu['fz_id'] == 0) { # neueingabe
         if ($name == "sa_name") {
             continue;
         }
-        
+        if (substr($name, 0, 5) == 'foto_') {
+            continue;
+        }
         if (substr($name, 0, 4) == 'leve') {
             continue;
         }

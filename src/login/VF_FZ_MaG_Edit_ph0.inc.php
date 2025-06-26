@@ -23,6 +23,7 @@ if ($neu['ge_id'] == 0) { // Neueingabe
 }
 
 echo "<input type='hidden' name='ge_id' value='$ge_id'/>";
+echo "<input type='hidden' name='ge_invnr' value='".$neu['ge_invnr']."'/>";
 
 Edit_Tabellen_Header('Motorbetriebene Geräte des Eigentümers '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -222,57 +223,6 @@ Edit_Daten_Feld('ge_pruef_dat', 10);
 
 echo "</div>";
 
-if (mb_strlen($neu['ge_sammlg']) <= 4) {
-    echo "<div>";
-} else {
-    echo "<p>Sollte die Sammlungsbezeichnung nicht stimmen,
-       <button type='button' onclick=\"document.getElementById('dprdown').style.display='block'\">zum ändern drücken!</button>
-       </p>";
-    echo "<div id='dprdown' style='display:none'>";
-}
-
-echo "<input type='hidden' name='ge_sammlg' value='".$neu['ge_sammlg']."'/>";
-
-/**
- * Parameter für den Aufruf von Multi-Dropdown
- *
- * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
- *
- *
- * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
- * @var string $MS_Lvl Anzahl der gewüschten Ebenen - 2 nur eine 2.Ebene ... bis 6 Ebenen
- * @var string $MS_Opt Name der Options- Datei, die die Werte für die weiteren Ebenen liefert
- *
- * @Input-Parm $_POST['Level1...6']
- */
-
-$MS_Lvl   = 4; # 1 ... 6
-$MS_Opt   = 1; # 1: SA für Sammlung, 2: AO für Archivordnung
-
-$MS_Txt = array(
-    'Auswahl der Sammlungs- Type (1. Ebene) &nbsp; &nbsp; &nbsp; ',
-    'Auswahl der Sammlungs- Gruppe (2. Ebene) &nbsp; ',
-    'Auswahl der Untergrupppe (3. Ebene) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;',
-    'Auswahl des Spezifikation (4. Ebene) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '
-);
-
-switch ($MS_Opt) {
-    case 1:
-        $in_val = '';
-        $MS_Init = VF_Sel_SA_MA_G; # VF_Sel_SA_Such|VF_Sel_AOrd
-        break;
-        /*
-    case 2:
-        $in_val = '07';
-        $MS_Init = VF_Sel_AOrd; # VF_Sel_SA_Such|VF_Sel_AOrd
-        break;
-        */
-}
-
-$titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
-VF_Multi_Dropdown($in_val,$titel);
-echo "</div>";
-
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
 # =========================================================================================================
@@ -286,7 +236,6 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class='green'>Daten abspeichern</button></p>";
 }
-
 
 echo "<p><a href='VF_FZ_MaFG_List.php'>Zurück zur Liste</a></p>"; # ?ID='.$_SESSION[$module]['fz_sammlung']
 
