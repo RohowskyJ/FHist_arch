@@ -198,8 +198,7 @@ if ($neu['fz_id'] == 0) { # neueingabe
     }
 
 }
-unset($_SESSION['Pct_Arr']);
-
+unset($_SESSION[$module]['Pct_Arr']);
 header("Location: VF_FZ_MaFG_List.php");  # ?ID=".$_SESSION[$module]['fz_sammlung']
 
 # =========================================================================================================

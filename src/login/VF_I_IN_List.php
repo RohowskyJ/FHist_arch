@@ -22,7 +22,6 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
@@ -72,9 +71,9 @@ if (!isset($_SESSION['Eigner'])) {
  * Haeder ausgeben, body und form
  */
 
+$jq = $jqui = True;
+$BA_AJA = True;
 $header = "";
-
-$prot = True; // Prototype.js laden
 BA_HTML_header('Inventar des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'],  $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -135,8 +134,8 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
-if (isset($_POST['suggestEigener'])) {
-    $ei_id = $_POST['suggestEigener'];
+if (isset($_POST['eigentuemer'])) {
+    $ei_id = $_POST['eigentuemer'];
     VF_Displ_Eig($ei_id);
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
@@ -156,7 +155,7 @@ if (isset($_POST['level1'])) {
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "") { 
     
     if ($_SESSION['Eigner']['eig_eigner'] == "") {
-        BA_Auto_Eigent();
+        VF_Auto_Eigent();
     }
     
     if ($_SESSION[$module]['sammlung'] == ""){
@@ -331,7 +330,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
         'in_linkerkl',
         'in_foto_1'
     );
-    $Tabellen_Spalten_COMMENT['in_sammlg'] ." ". $Tabellen_Spalten_COMMENT['in_invnr'];
+    #$Tabellen_Spalten_COMMENT['in_sammlg'] ." ". $Tabellen_Spalten_COMMENT['in_invnr'];
     
     $Tabellen_Spalten_style['in_id'] = 'text-align:center;';
     
@@ -354,7 +353,6 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     BA_HTML_trailer();
 }
 
-BA_Auto_Funktion();
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
  *

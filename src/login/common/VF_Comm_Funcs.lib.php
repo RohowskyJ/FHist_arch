@@ -2433,8 +2433,18 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
         
         switch ($module) {
             case 'ARC' :
+                if ($aufnDatum == '') {
+                    $verzeichn =  'ARC/';
+                } else {
+                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
+                }
                 break;
             case 'INV' :
+                if ($aufnDatum == '') {
+                    $verzeichn =  'INV/';
+                } else {
+                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
+                }
                 break;
             case 'F_G' :
                 if ($aufnDatum == '') {

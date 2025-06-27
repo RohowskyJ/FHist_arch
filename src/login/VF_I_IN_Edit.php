@@ -115,12 +115,12 @@ if ($phase == 0) {
             'in_bezeichnung' => "",
             "in_beschreibg" => "",
             "in_det_beschrbg" => "",
-            "in_wert" => "",
-            "in_wert_neu" => "",
+            "in_wert" => "0",
+            "in_wert_neu" => "0",
             "in_neu_waehrg" => "",
-            "in_wert_kauf" => "",
+            "in_wert_kauf" => "0",
             "in_kauf_waehrung" => "",
-            "in_wert_besch" => "",
+            "in_wert_besch" => "0",
             'in_besch_waehrung' => "",
             'in_abmess' => "",
             'in_gewicht' => '',
@@ -181,7 +181,8 @@ if (! $_SESSION['Eigner']['eig_name'] == "") {
 }
 $Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
 
-$prot = True;
+$jq = $jqui = True;
+$BA_AJA = True;
 $header = "";
 BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

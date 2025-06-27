@@ -149,7 +149,7 @@ if ($neu['fm_id'] == 0) { # neueingabe
     # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
-    unset($_SESSION['Pct_Arr']);
+    unset($_SESSION[$module]['Pct_Arr']);
     
     header("Location: VF_FZ_MuFG_List.php?ID=".$_SESSION[$module]['fm_sammlung']);
 }

@@ -10,6 +10,12 @@ if ($debug) {
     echo "<pre class=debug>VF_I_IN_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+if ($neu['in_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+}
+
 echo "<input type='hidden' name='in_id' value='" . $neu['in_id'] . "'/>";
 echo "<input type='hidden' name='ei_id' value='" . $neu['ei_id'] . "'/>";
 echo "<input type='hidden' name='in_sammlg' value='" . $neu['in_sammlg'] . "'/>";
@@ -142,8 +148,14 @@ echo "<input type='hidden' name='in_beschreibung' value='" . $neu['in_beschreibu
 echo "<input type='hidden' name='in_refindex' value='" . $neu['in_refindex'] . "'/>";
 
 # =========================================================================================================
-Edit_Separator_Zeile('Fotos');
+$button_f = "";
+if ($hide_area != 0) {  //toggle??
+    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+}
+Edit_Separator_Zeile('Fotos'.$button_f);
 # =========================================================================================================
+echo "<div>";
 
 echo "<input type='hidden' name='in_foto_1' value='" . $neu['in_foto_1'] . "'>";
 echo "<input type='hidden' name='in_foto_2' value='" . $neu['in_foto_2'] . "'>";
@@ -151,11 +163,17 @@ echo "<input type='hidden' name='in_foto_2' value='" . $neu['in_foto_2'] . "'>";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
 $Feldlaenge = "100px";
 
-$pic_arr = array(
-    "1" => "||in_fbeschr_1|in_foto_1",
-    "2" => "||in_fbeschr_2|in_foto_2"
-);
-VF_Multi_Foto($pic_arr);
+$_SESSION[$module]['Pct_Arr' ] = array();
+$num_foto = 2;
+$i = 1;
+while ($i <= $num_foto) {
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'in_fbeschr_'.$i, 'bi' => 'in_foto_'.$i, 'rb' => '', 'up_err' => '', 'f1' => '','f2'=>'');
+    $i++;
+}
+VF_Upload_Form_M();
+
+echo "</div>";
+
 # =========================================================================================================
 Edit_Separator_Zeile('Archiv- Einteilung (Bestandsdaten)');
 # =========================================================================================================
@@ -167,7 +185,23 @@ Edit_Daten_Feld('in_eingbuchdat', 10);
 Edit_Daten_Feld('in_erstdat', 10);
 Edit_Daten_Feld('in_ausgdat', 10);
 
-Edit_Daten_Feld_auto('in_neueigner',75,'','','srch_eigent');
+
+
+$button = "";
+if ($hide_area != 0) {
+    // Der Button, der das toggling übernimmt
+    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ne')\">zum ändern klicken!</button>";
+}
+
+Edit_Daten_Feld('in_neueigner',75,$button);
+
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='unhide_ne' style='display:none'>";
+}
+VF_Auto_Eigent();
+echo "<div>";
 
 # =========================================================================================================
 Edit_Separator_Zeile('Lagerort');

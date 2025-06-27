@@ -13,9 +13,12 @@ foreach ($_POST as $name => $value)
 $neu['in_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ( $debug ) { echo '<pre class=debug>';echo '<hr>$neu: ';     print_r($neu); echo '</pre>'; }
-var_dump($_FILES);
+var_dump($_POST);
 $neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
-
+if ($neu['eigentuemer'] != '') {
+    $neu['in_neueigner'] = $neu['eigentuemer'];
+    unset ($neu['eigentuemer']);
+}
 /* Sammlung aufbereiten */
 if (isset($_POST['level1']) != "") {
     $response = VF_Multi_Sel_Input();
@@ -26,22 +29,35 @@ if (isset($_POST['level1']) != "") {
     }
 }
 
-if (isset($_FILES['uploaddatei_1']['name'])) {
-   
-    $uploaddir = "AOrd_Verz/".$_SESSION['Eigner']['eig_eigner']."/INV/";
+$uploaddir = VF_Upload_Pfad_M('');
+
+if (! file_exists($uploaddir)) {
+    mkdir($uploaddir, 0770, true);
+}
+#var_dump($_FILES);
+if (isset($_FILES)) {
+    $i = 0;
     
-    # echo "L 031 \$uploaddir $uploaddir <br/>";
-    if (!file_exists($uploaddir)) {
-        mkdir($uploaddir,'0770',true);
+    foreach ($_FILES as $upLoad  => $file_arr) {
+        #var_dump($_FILES[$upLoad]);
+        # var_dump($_SESSION[$module]['Pct_Arr']);
+        if ($_FILES[$upLoad] != "") {
+            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
+            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
+            
+            if ($result == "") {
+                continue;
+            }
+            if (substr($result,0,5) == 'Err: ' ) {
+                continue;
+            }
+            $neu["in_foto_".$i+1] = $result;
+            
+
+            $i++;
+        }
     }
-    
-    if ($_FILES['uploaddatei_1']['name'] != "" ) {
-        $neu['in_foto_1'] = VF_Upload($uploaddir, 1);
-    }
-    if ($_FILES['uploaddatei_2']['name'] != "" ) {
-        $neu['in_foto_2'] = VF_Upload($uploaddir, 2);
-    }
-    
+    #var_dump($neu);
 }
 
 $neu['in_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
@@ -95,8 +111,7 @@ if ($_SESSION[$module]['in_id'] == 0) {
     {
         if ( !preg_match ("/[^0-9]/", $name) ) {continue;}    # überspringe Numerische Feldnamen
         if ($name == "MAX_FILE_SIZE") {continue;}    #
-        if ($name == "in_foto_11") {continue;}    #
-        if ($name == "in_foto_22") {continue;}    #
+        if (substr($name,0,5) == "foto_") {continue;}    # #
         if ($name == "tabelle") {continue;}    #
         if (substr($name,0,5) ==  "level") {continue;}
         
@@ -123,6 +138,7 @@ if ($_SESSION[$module]['in_id'] == 0) {
 
     
 }
+unset($_SESSION[$module]['Pct_Arr']);
 
 if ($neu['in_namen'] != "")    {
  #   require('../add_namefind.php');

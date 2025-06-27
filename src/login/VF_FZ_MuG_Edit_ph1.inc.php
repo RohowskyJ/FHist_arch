@@ -148,7 +148,7 @@ if ($neu['mg_id'] == 0) { # neueingabe
     $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
 }
 
-unset($_SESSION['Pct_Arr']);
+unset($_SESSION[$module]['Pct_Arr']);
 
 header("Location: VF_FZ_MuFG_List.php?ID=".$_SESSION[$module]['fm_sammlung']);
 
