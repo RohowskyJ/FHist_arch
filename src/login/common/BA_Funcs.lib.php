@@ -286,7 +286,7 @@ function LinkDB($db_proj = "")
 
         mysqli_select_db($dblink, $database) or die("Datenbankzugriff zu $database gescheitert!");
         # if ($debug) { echo "<pre class=debug> mysqli_select_db:"; print_r($dblink); echo '</pre>'; }
-        mysqli_set_charset($dblink, 'utf8');
+        mysqli_set_charset($dblink, 'utf8mb4');
         $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
         return $dblink;
     } else {
