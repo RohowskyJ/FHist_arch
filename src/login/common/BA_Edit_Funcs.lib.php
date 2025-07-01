@@ -174,6 +174,9 @@ function Edit_Text($FeldName, $InfoText = '')
  * Zusatz Informationen für das Feld
  * @param string $FeldAttr
  * Attribut/Parameter für <input tag
+ *     - required  = Eingabe erforderlich
+ *     - maxlength= $feldlänge = max Eigabelänge
+ *     - size=   $feldlänge = Anzeigelänge (= Default)
  *
  * @global int $phase wenn 0 normale Eingabe
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
@@ -183,34 +186,32 @@ function Edit_Text($FeldName, $InfoText = '')
  */
 function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '')
 {
-    global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect , $ed_lcnt;
+    global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect , $ed_lcnt,$Tabellen_Spalten_MAXLENGTH;
 
     flow_add($module, 'Edit_Funcs.inc.php Funct: Edit_Daten_Feld');
     
     Edit_Feld_Zeile_header($FeldName);
 
-    $InputParm = "'id='$FeldName' name='$FeldName' id='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
+    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
         if (mb_strpos($InputParm, 'type=') === false) {
             $InputParm = " type='text' $InputParm";
         }
-        if (! $FeldLaenge == 0) {
-            if (mb_strpos($InputParm, 'maxlength=') === false) {
-                $InputParm .= " maxlength='$FeldLaenge'";
-            }
-            if (mb_strpos($InputParm, 'size=') === false) {
-                $InputParm .= " size='$FeldLaenge'";
-            }
-        }
+        # var_dump($Tabellen_Spalten_MAXLENGTH[$FeldName]);
+        if ( !$FeldLaenge == 0  ) {
+            if ( mb_strpos($InputParm,'maxlength=') === false ) { $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."'"; }
+            if ( mb_strpos($InputParm,'size='     ) === false ) { $InputParm .= " size='$FeldLaenge'"; }
+        } 
         if (! empty($Err_msg[$FeldName])) {
-            console_log(" <span class='error'>$Err_msg[$FeldName]</span>");
+            console_log(" <span class='error'>$Err_msg[$FeldName]</span>"); //
             if (mb_strpos($InputParm, 'autofocus') === false) {
                 $InputParm .= ' autofocus';
             }
-            if (mb_strpos($InputParm, 'class=') === false) {
-                $InputParm .= ' class="error"';
+            if ( !empty($KEXI_Edit_FeldMsg[$FeldName]) ) {
+                if ( mb_strpos($InputParm,'autofocus'  ) === false ) { $InputParm .= ' autofocus'; }
+                if ( mb_strpos($InputParm,'class='     ) === false ) { $InputParm .= ' class="error"'; }
             }
         }
 
@@ -256,18 +257,18 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
  */
 function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '', $button = '')
 {
-    global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect, $ed_lcnt  ;
-    
+    global $phase, $module, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH, $neu, $Err_msg, $Edit_Funcs_Protect, $ed_lcnt  ;
     
     Edit_Feld_Zeile_header($FeldName, $button);
     
-    $InputParm = "'id='$FeldName' name='$FeldName' id='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
+    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
         if (mb_strpos($InputParm, 'type=') === false) {
             $InputParm = " type='text' $InputParm";
         }
+        /*
         if (! $FeldLaenge == 0) {
             if (mb_strpos($InputParm, 'maxlength=') === false) {
                 $InputParm .= " maxlength='$FeldLaenge'";
@@ -275,6 +276,22 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
             if (mb_strpos($InputParm, 'size=') === false) {
                 $InputParm .= " size='$FeldLaenge'";
             }
+        }
+        */
+        if ( !$FeldLaenge == 0  ) {
+            $FldLength = "";
+            if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
+                $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
+                $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
+            }
+            
+            if ( mb_strpos($InputParm,'maxlength=') === false ) { $InputParm .= " maxlength='$FldLength'"; }
+            if ( mb_strpos($InputParm,'size='     ) === false ) { $InputParm .= " size='$FeldLaenge'"; }
+        }
+        
+        if ( !empty($KEXI_Edit_FeldMsg[$FeldName]) ) {
+            if ( mb_strpos($InputParm,'autofocus'  ) === false ) { $InputParm .= ' autofocus'; }
+            if ( mb_strpos($InputParm,'class='     ) === false ) { $InputParm .= ' class="error"'; }
         }
         if (! empty($Err_msg[$FeldName])) {
             console_log(" <span class='error'>$Err_msg[$FeldName]</span>");
@@ -293,7 +310,6 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
     }
     
     Edit_Feld_Zeile_Trailer($FeldName.$button, $InfoText);
-
  
 }
 
@@ -324,17 +340,18 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
  */
 function Edit_textarea_Feld($FeldName, $InfoText = '', $FeldAttr = '')
 {
-    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module, $ed_lcnt  ;
+    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH ,$neu, $Err_msg, $module, $ed_lcnt  ;
 
     flow_add($module, "Edit_Funcs.inc Funct: Edit_textarea");
-
+    # var_dump($Tabellen_Spalten_MAXLENGTH[$FeldName]);
     Edit_Feld_Zeile_header($FeldName);
-
-    $InputParm = "id='$FeldName' name='$FeldName' $FeldAttr rows='3' cols='50'";
-
-    if (mb_strpos($InputParm, 'type=') === false) {
-        $InputParm = " type='text' $InputParm";
+    $FldLength = $MaxLength = "";
+    if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
+        $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
+        $MaxLength = "maxlenght='$FldLength'";
+        $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
     }
+    $InputParm = "id='$FeldName' name='$FeldName' $FeldAttr rows='3' cols='50' $MaxLength";
 
     if (! empty($Err_msg[$FeldName])) {
         if (mb_strpos($InputParm, 'autofocus') === false) {
@@ -442,7 +459,7 @@ function Edit_CheckBox($FeldName, $text, $InfoText = '', $FeldAttr = '')
 
     $Err_msg; # array mit Fehlermeldungen
     Edit_Feld_Zeile_header($FeldName);
-    $InputParm = "id='$FeldName' name='$FeldName' id='$FeldName' value='Y' $FeldAttr";
+    $InputParm = "id='$FeldName' name='$FeldName' value='Y' $FeldAttr";
     if ($Edit_Funcs_Protect) {
         echo "$text";
     } else {
