@@ -45,14 +45,18 @@ if ($debug) {
  * @global array $Tabellen_Spalten_style Global Array (Schlüssel: Spaltenname) mit den Style für das <td> Element
  * @global array $Tabellen_Spalten_typ Global Array (Schlüssel: Spaltenname) mit 'text'/'num'
  * @global array $Tabellen_Spalten_tabelle Global Array (Schlüssel: Spaltenname) mit dem Namen der Tabelle
+ * @global array $Tabellen_Spalten_MAXLENGTH maximale Datenlänge der Spalte, wenn varchar
  *        
  */
 function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
 {
-    global $debug, $LinkDB_database, $Tabellen_Spalten_NULLABLE, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_style, $Tabellen_Spalten_typ, $Tabellen_Spalten_tabelle;
+    global $debug, $LinkDB_database, $Tabellen_Spalten_NULLABLE, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_style, $Tabellen_Spalten_typ, $Tabellen_Spalten_tabelle,$Tabellen_Spalten_MAXLENGTH;
 
     $Tabellen_Spalten = array(); # wird mit 'return $Tabellen_Spalten' zurückgegeben
 
+    if (! isset($Tabellen_Spalten_MAXLENGTH)) {
+        $Tabellen_Spalten_MAXLENGTH = array();
+    }
     if (! isset($Tabellen_Spalten_NULLABLE)) {
         $Tabellen_Spalten_NULLABLE = array();
     }
@@ -72,7 +76,7 @@ function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
     if ($database == '') {
         $database = $LinkDB_database;
     }
-    $sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,COLUMN_TYPE,IS_NULLABLE FROM information_schema.COLUMNS" . " WHERE TABLE_SCHEMA='$database' AND table_name='$tabelle'";
+    $sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,COLUMN_TYPE,IS_NULLABLE,CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS" . " WHERE TABLE_SCHEMA='$database' AND table_name='$tabelle'";
     $sqlresult = SQL_QUERY($dblink, $sql);
 
     while ($row = mysqli_fetch_assoc($sqlresult)) {
@@ -87,8 +91,12 @@ function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
         }
         */
         $column = $row['COLUMN_NAME'];
+        
+        if ($row['CHARACTER_MAXIMUM_LENGTH'] > 0 ) {
+            $Tabellen_Spalten_MAXLENGTH[$column] = $row['CHARACTER_MAXIMUM_LENGTH'];
+        }
 
-        if ($row['IS_NULLABLE'] == 'YES') {
+        if ($row['IS_NULLABLE'] == 'YES') { 
             $Tabellen_Spalten_NULLABLE[$column] = 'Y';
         }
 
