@@ -56,22 +56,22 @@ if (isset($_GET['query'])) {
 }
 $LinkDB_database = "";
 $db = LinkDB('VFH'); // Connect zur Datenbank
-/* */
+/*
  $dsn = "autocomp.log";
  $eintragen = Date("Y-m-d H:i:s")."\n";
  $eintragen .= "term $term \n";
  $eintragen .= "proc $proc \n";
- 
+
  $datei = fopen($dsn, "a");
  fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
  fclose($datei);
- 
+
  $eintragen = "l 069 isset term, $term \n proc $proc \n";
- 
+
  $datei = fopen($dsn, "a");
  fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
  fclose($datei);
- /* */
+  */
 if ($proc == "Eigentuemer") {
     eigent($term);
 }
@@ -97,18 +97,18 @@ function eigent ($term) {
     /* */
     $dsn = "autocomp_eig.log";
     $eintragen = "f Eig  $term L 099\n";
-    
+
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
     /* */
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%' LIMIT 100";
     $result = SQL_QUERY($db, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
         /*
          $eintragen = "num row > 0 \L 0104n";
-         
+
          $datei = fopen($dsn, "a");
          fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
          fclose($datei);
@@ -119,10 +119,10 @@ function eigent ($term) {
                 'label' => $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname']
             ];
         }
-        /* 
+        /*
         $dsn = "autocomp_eig.log";
         $eintragen = "response ".json_encode($response)."  $term L 0123\n";
-        
+
         $datei = fopen($dsn, "a");
         fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
         fclose($datei);
@@ -130,50 +130,50 @@ function eigent ($term) {
         echo json_encode($response);
     } else {
         $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
-  
+
         echo json_encode($response);
     }
-    
+
 } # ende funct eigent
 
 function urheb ($term) {
     global $db, $module, $srch_arr;
-    
+
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_media<> '' AND (ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%') LIMIT 100";
-    
+
     $result = SQL_QUERY($db, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
-        
+
         while ($user = mysqli_fetch_array($result)) {
             $response[] = [
                 'value' => $user['ei_id'],
                 'label' => $user['ei_name']
             ];
         }
-        
+
         echo json_encode($response);
     } else {
         $response[] = ['value' => '', 'label' => 'Keine Eintragung gefunden'];
         echo json_encode($response);
     }
-    
+
 } # ende funct urheb
 
 function taktische ($term) {
     global $db, $module, $srch_arr, $dsn,$proc;
-    /* 
+    /*
      $dsn = "autocomp_tak.log";
      $eintragen = "l 0161 taktische  term $term \n";
-     
+
      $datei = fopen($dsn, "a");
      fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
      fclose($datei);
      */
     $query = "SELECT * FROM fh_abk WHERE ab_bezeichn LIKE '{$term}%' OR ab_abk  LIKE '{$term}%' LIMIT 100";
-    
+
     $result = SQL_QUERY($db, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
         $response = array();
         while ($abk = mysqli_fetch_array($result)) {
@@ -185,7 +185,7 @@ function taktische ($term) {
         /* */
         $dsn = "autocomp_tak.log";
         $eintragen = "response ".json_encode($response)."  $term L 0186\n";
-        
+
         $datei = fopen($dsn, "a");
         fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
         fclose($datei);
@@ -195,7 +195,7 @@ function taktische ($term) {
         $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
         echo json_encode($response);
     }
-    
+
 } # ende funct abkuerz
 
 function hersteller ($term) {
@@ -203,30 +203,30 @@ function hersteller ($term) {
     /*
      $dsn = "autocomp_her.log";
      $eintragen = " isset term term $term \n";
-     
+
      $datei = fopen($dsn, "a");
      fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
      fclose($datei);
      */
     $query = "SELECT * FROM fh_firmen WHERE fi_funkt = 'F' and (fi_name LIKE '{$term}%' OR fi_abk  LIKE '{$term}%') LIMIT 100";
-    
+
     $result = SQL_QUERY($db, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
-        
+
         while ($abk = mysqli_fetch_array($result)) {
             $response[] = [
                 'value' => $abk['fi_abk'],
                 'label' => $abk['fi_name']
             ];
         }
-        
+
         echo json_encode($response);
     } else {
         $response[] = ['value' => '', 'label' => 'Keine EIntragung gefunden'];
         echo json_encode($response);
     }
-    
+
 } # ende funct abkuerz
 
 function aufbauer ($term) {
@@ -234,30 +234,30 @@ function aufbauer ($term) {
     /*
      $dsn = "autocomp_auf.log";
      $eintragen = " isset term term $term \n";
-     
+
      $datei = fopen($dsn, "a");
      fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
      fclose($datei);
      */
     $query = "SELECT * FROM fh_firmen WHERE fi_funkt = 'A' and (fi_name LIKE '{$term}%' OR fi_abk  LIKE '{$term}%') LIMIT 100";
-    
+
     $result = SQL_QUERY($db, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
-        
+
         while ($abk = mysqli_fetch_array($result)) {
             $response[] = [
                 'value' => $abk['fi_abk'],
                 'label' => $abk['fi_name']
             ];
         }
-        
+
         echo json_encode($response);
     } else {
         $response[] = ['value' => '', 'label' => 'Keine Eintragung gefunden'];
         echo json_encode($response);
     }
-    
+
 } # ende funct abkuerz
 
 ?>
