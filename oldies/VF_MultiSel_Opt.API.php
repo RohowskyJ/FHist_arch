@@ -47,7 +47,7 @@ if (isset($ini_arr)) { # (isset($ini_arr[$server_name])){
         }
     }
 
-    require "../BA_Funcs.lib.php";
+    require "../src/login/common/BA_Funcs.lib.php";
     
     $db = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
     
