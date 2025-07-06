@@ -1,0 +1,313 @@
+/**
+ * JS funktionen mit JQUERY / JQ-UI
+ * 
+ * Autocomplete
+ * Multi- Level Dropdpwn- List
+ * 
+ * fehlt noch
+ * Foto -Upload mit Resize/rename/Watermark
+ * 
+ */
+$(function() {
+    // Init-Funktionen
+    initAutocomplete();
+    initMultiDropDown();
+	initMultiFotoUp();
+	//initToggleUp();
+	initToggleinvis();
+	initToggleblock();
+	initRadio();
+	sucheBibliothek();
+});
+
+function initAutocomplete() {
+    // Alle Input-Felder mit Klasse 'autocomplete' initialisieren
+    $(".autocomplete").each(function() {
+        var $input = $(this);
+        var proc = $input.data('proc');
+        var targetId = $input.data('target'); // z.B. 'suggestTaktisch'
+        var feedId = $input.data('feed'); // z.B. 'taktisch'
+        console.log('trgetid ',targetId);
+        $input.autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: 'common/API/VF_AutoCompl_jq.API.php',
+                    method: 'POST',
+                    data: {
+                        query: request.term,
+                        proc: proc
+                    },
+                    success: function(data) {
+                        if (!Array.isArray(data)) {
+                            data = [data];
+                        }
+                        response(data);
+                    },
+                    error: function() {
+                        response([]);
+                    }
+                });
+            },
+            minLength: 2,
+            select: function(event, ui) {
+                var $this = $(this);
+                var targetId = $this.data('target');
+                var feedId = $this.data('feed');
+
+                // Versteckte Felder befüllen
+                if (feedId) {
+                    $('#' + feedId).val(ui.item.value);
+                } else if (targetId) {
+                    $('#' + targetId).val(ui.item.value);
+                }
+
+                // Eingabefeld
+                $this.val(ui.item.label);
+
+                // Ausgabe (wenn vorhanden)
+                $('#ausgabebox_' + targetId).html('<strong>Auswahl: </strong>' + ui.item.label);
+                return false;
+            }
+        });
+    });
+}
+
+function initMultiDropDown() {
+
+	    function loadOptions(level, parentValue) {
+	        const nextLevel = level + 1;
+	        const $nextSelect = $('#level' + nextLevel);
+            const opVal = $("#opval").val();
+	        $nextSelect.empty();
+	        $nextSelect.append('<option value="Nix">Bitte wählen</option>');
+console.log('level',level);
+console.log("parentValue",parentValue);
+console.log('opVal',opVal);
+	        if (parentValue === 'Nix') return;
+
+	        $.ajax({
+	            url: 'common/API/VF_MultiSel_Opt_jq.API.php', // Stelle sicher, dass der Pfad stimmt
+	            method: 'GET',
+	            data: {
+	                level: level,
+	                parent: parentValue,
+	                opval: opVal // oder 2, je nach Bedarf
+	            },
+	            success: function(response) {
+	                // Prüfen, ob response die erwartete Struktur hat
+	                if (response.status === 'ok' && response.data) {
+	                    $nextSelect.empty();
+	                    response.data.forEach(function(item) {
+	                        $nextSelect.append(
+	                            $('<option></option>').val(item.value).text(item.text)
+	                        );
+	                    });
+	                } else {
+	                    console.log('Keine Daten für Level ' + level);
+	                }
+	            },
+	            error: function() {
+	                alert('Fehler beim Laden der Optionen.');
+	            }
+	        });
+	    }
+
+	    // Event-Listener für Dropdown 1
+	    $('#level1').on('change', function() {
+	        const selectedVal = $(this).val();
+	        loadOptions(1, selectedVal);
+	        $('#level2').val('Nix'); // Zurücksetzen
+	        $('#level3').val('Nix');
+	        $('#level4').val('Nix');
+	        $('#level5').val('Nix');
+	        $('#level6').val('Nix');
+	    });
+
+	    // Event-Listener für Dropdown 2
+	    $('#level2').on('change', function() {
+	        const selectedVal = $(this).val();
+	        loadOptions(2, selectedVal);
+	        $('#level3').val('Nix');
+	        $('#level4').val('Nix');
+	        $('#level5').val('Nix');
+	        $('#level6').val('Nix');
+	    });
+	        // Event-Listener für Dropdown 3
+	    $('#level3').on('change', function() {
+	        const selectedVal = $(this).val();
+	        loadOptions(3, selectedVal);
+	        $('#level4').val('Nix');
+	        $('#level5').val('Nix');
+	        $('#level6').val('Nix');
+	    });
+	        // Event-Listener für Dropdown 4
+	    $('#level4').on('change', function() {
+	        const selectedVal = $(this).val();
+	        loadOptions(4, selectedVal);
+	        $('#level5').val('Nix');
+	        $('#level6').val('Nix');
+	    });
+	        // Event-Listener für Dropdown 5
+	    $('#level5').on('change', function() {
+	        const selectedVal = $(this).val();
+	        loadOptions(5, selectedVal);
+	        $('#level6').val('Nix');
+	    });
+	        // Event-Listener für Dropdown 6
+	    $('#level6').on('change', function() {
+	        const selectedVal = $(this).val();
+	        loadOptions(6, selectedVal);
+	        
+	    });
+	}
+
+function initToggleUp() {
+	function toggleUpload() {
+		console.log('toggle Upload  angesprochen');
+	    document.getElementById('show_upload').value = '1';
+	    document.getElementById('uploadContainer').style.display = 'block';
+	}
+}	
+
+function initToggleinvis()
+{
+	function toggleVisibility(id) {
+	            var el = document.getElementById(id);
+	            if (el.style.display === 'none') {
+	                el.style.display = 'block';
+	            } else {
+	                el.style.display = 'none';
+	            }
+	        }
+}
+	
+function initToggleblock()
+{
+	// Funktion, um initiale Sichtbarkeit beim Laden festzulegen
+	function setzeAnfangsstatus() {
+	  const phpHide = $('#hide_area').val();	
+	  console.log('phpHide ',phpHide);
+	  const blocks = document.querySelectorAll('.bild-change');
+	  if (phpHide === 0) {
+		console.log('phpHide ',phpHide);
+	    // Wenn $hide=0, Blöcke sichtbar machen
+	    blocks.forEach(function(block) {c
+	      block.style.display = 'block';
+	    });
+	  } else {
+	    // Falls $hide ungleich 0, Blöcke verstecken (kann auch anders sein)
+	    blocks.forEach(function(block) {
+	      block.style.display = 'none';
+	    });
+	  }
+	}
+
+	// Button-Event zum Umschalten
+	document.getElementById('toggleButton').addEventListener('click', function() {
+	  const blocks = document.querySelectorAll('.bild-change');
+	  blocks.forEach(function(block) {
+	    if (window.getComputedStyle(block).display === 'none') {
+	      block.style.display = 'block';
+	    } else {
+	      block.style.display = 'none';
+	    }
+	  });
+	});
+
+	// Bei Seitenladen
+	setzeAnfangsstatus();
+}
+
+function initMultiFotoUp() {
+
+	// Funktion zum Hochladen eines Bildes via AJAX
+	function uploadImage(fileInputId, index) {
+	    var fileInput = document.getElementById(fileInputId);
+	    var file = fileInput.files[0];
+console.log('funct uploadImage geladen');
+	    if (!file) {
+	        alert('Bitte wählen Sie eine Datei aus.');
+	        return;
+	    }
+console.log("Urheber ",urheber);
+	    var formData = new FormData();
+	    formData.append('file', file);
+	    formData.append('urheber', '<?php echo json_encode($urheber); ?>');  // vorschlag von chatgpt : als korrektuur :  formData.append('urheber', <?php echo json_encode($urheber); ?>);
+	    formData.append('targPfad', '<?php echo $verzeichnis; ?>');
+	    formData.append('urhEinfg', '<?php echo $urh_einfueg; ?>'); // Wasserzeichen einfügen, wenn urheber und aufnDat  > '' und = J
+	    formData.append('aufnDat', '<?php echo $aufn_datum; ?>'); // Teil des Bild-Dateinamens wenn rename - oder Blank
+		
+		console.log("FormData ",formData);
+	    $.ajax({
+	        url: 'common/API/VF_Upload_FO_API.php', // Server-Skript
+	        type: 'POST',
+	        data: formData,
+	        contentType: false,
+	        processData: false,
+	        success: function(response) {
+	            // Antwort des Servers interpretieren
+	            var res = JSON.parse(response);
+	            if (res.success) {
+	                alert('Upload erfolgreich: ' + res.dateiname);
+	                // Setze Dateinamen in das Input-Feld
+	                $('#fz_bild_' + index).val(res.dateiname);
+	            } else {
+	                alert('Fehler: ' + res.message);
+	            }
+	        },
+	        error: function() {
+	            alert('Fehler beim Upload.');
+	        }
+	    });
+	}
+}
+
+
+function initRadio () {
+	$('input[type=radio].sel_libs').on('change', function() {
+	       var name = $(this).attr('name');
+	       var value = $(this).val();
+	       //var id = name; // Annahme: name='sel_libs_1' etc. nicht mehr aktuell, est ist nur mehr split_libs
+	       console.log('name ', name);
+	       console.log('value ',value);
+	       //console.log('id ',id);
+	       if (value == 'Ja') {
+	           $('#upl_libs' ).show();
+	           $('#upl_new' ).hide();
+	       } else {
+	           $('#upl_libs').hide();  // $('#upl_libs_' + id).hide()
+	           $('#upl_new' ).show();
+	       }
+	   });         
+}
+
+
+
+function sucheBibliothek(index) {
+     var suchbegriff = $('#suche_' + index).val();
+    
+     console.log('Suchbegriff ',suchbegriff);
+     // Hier sollte die AJAX-Anfrage an die API erfolgen
+                // Für dieses Beispiel simulieren wir einige Bilder
+                var simulations = [
+                   'bild1.jpg',
+                   'stadt_urlaub.png',
+                   'natur_gruen.gif',
+                   'architektur_building.jpg'
+                   ];
+                var ergebnisDiv = $('#suchergebnis_' + index);
+                ergebnisDiv.empty();
+                simulations.forEach(function(datei) {
+                  if (datei.includes(suchbegriff) || suchbegriff.trim() == '') {
+                     // Einfach alle Bilder anzeigen, die den Suchbegriff enthalten oder alle, wenn leer
+                     var btn = $('<button type="button">Auswählen</button>');
+                     btn.click(function() {
+                     $('#foto_' + index).val(datei);
+                      });
+                     ergebnisDiv.append($('<div></div>').append('Datei: ' + datei + ' ').append(btn));
+                  }
+                });
+ }
+         
+
+    
