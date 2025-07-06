@@ -3,6 +3,8 @@ $path2ROOT = "../";
 
 $debug_log = False;
 
+file_put_contents('Suchb_findb.log', "VF_Z_Suchb_findb.API L 007 " . PHP_EOL, FILE_APPEND);
+
 /* */
 if ($debug_log) {
     $dsn = "findbuch.log";

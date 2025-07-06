@@ -18,6 +18,8 @@ $tabelle = "";
 # 'fh_zugriffe_n';
 const Prefix = '';
 
+file_put_contents('ZE_AUsw_debug.log', "VF_ZE_Ausw.php L 007 " . PHP_EOL, FILE_APPEND); 
+
 /**
  * Angleichung an den Root-Path
  *

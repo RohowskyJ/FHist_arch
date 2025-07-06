@@ -1,6 +1,8 @@
 <?php
 $path2ROOT = "../";
 
+file_put_contents('Suchb_name.log', "VF_Z_Suchb_name.API L 007 " . PHP_EOL, FILE_APPEND);
+
 $debug = False;
 
 $ini_d = $path2ROOT . "config_d.ini";
