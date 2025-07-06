@@ -7,34 +7,36 @@
 /*
  * 
  */
-function Cr_n_fo_daten ($tabelle)
+
+function Cr_n_Medien_Daten ($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
+
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-      `fo_id` int(20)  NULL  AUTO_INCREMENT COMMENT 'Fortl. Nr.',
-      `fo_eigner` int(20)  NULL  COMMENT 'Eigentümer- Nr',
-      `fo_Urheber` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci  NULL  COMMENT 'Urheber- Name',
-      `fo_dsn` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Dateiname',
-      `fo_aufn_datum` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Aufnahme Datum = Verzeichnis',
-      `fo_aufn_suff` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Suffix - bei gleichen Datum von 2 Ereignissen',
-      `fo_begltxt` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Beschreibung',
-      `fo_namen` longtext DEFAULT NULL COMMENT 'Foto Name',
-      `fo_sammlg` varchar(40) DEFAULT NULL COMMENT 'Sammlung',
-      `fo_feuerwehr` varchar(100) DEFAULT NULL COMMENT 'Name der FF des Fzges',
-      `fo_suchbegr` varchar(1024) DEFAULT NULL COMMENT 'Suchbegriffe',
-      `fo_typ` set('F','V') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Typ',
-      `fo_media` set('Audio','Foto','Film','Video')  NULL  COMMENT 'Medium',
-      `fo_uidaend` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT 'Aenderer',
-      `fo_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
-      PRIMARY KEY (`fo_id`)
-      ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Foto- Archiv';
-       ";
-    
+        `md_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Fortl. Nr.',
+        `md_eigner` int(11) NOT NULL COMMENT 'Eigentümer- Nr',
+        `md_Urheber` varchar(50) NOT NULL COMMENT 'Urheber- Name',
+        `md_dsn_1` varchar(60) DEFAULT NULL COMMENT 'Dateiname',
+        `md_aufn_datum` varchar(15) DEFAULT NULL COMMENT 'Aufnahme Datum = Verzeichnis',
+        `md_beschreibg` varchar(1024) DEFAULT NULL COMMENT 'Beschreibung',
+        `md_namen` varchar(1024) DEFAULT NULL COMMENT 'Foto Name',
+        `md_sammlg` varchar(40) DEFAULT NULL COMMENT 'Sammlung',
+        `md_feuerwehr` varchar(100) DEFAULT NULL COMMENT 'Name der FF des Fzges',
+        `md_suchbegr` varchar(1024) DEFAULT NULL COMMENT 'Suchbegriffe',
+        `md_media` set('Audio','Foto','Video') DEFAULT NULL COMMENT 'Medium',
+        `md_Med_anz` int(11) DEFAULT NULL COMMENT 'Anzahl der Eintr.',
+        `md_aenduid` varchar(4) DEFAULT NULL COMMENT 'Letzter Änderer',
+        `md_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
+        PRIMARY KEY (`md_id`),
+        FULLTEXT KEY `md_sammlg` (`md_sammlg`),
+        FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Digitale- Medien- Archiv' ";
+        
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fo_varchar(12)n
-
+    
 function Cr_n_ar_chivdt ($tabelle)
 {
     global $debug, $db;
@@ -66,12 +68,6 @@ function Cr_n_ar_chivdt ($tabelle)
       `ad_doc_4` varchar(100) CHARACTER SET utf32 COLLATE utf32_unicode_ci  NULL  COMMENT 'Dokument 4',
       `ad_isbn` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'ISBN- Nummer',
       `ad_lagerort` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Lagerort',
-      `ad_suchb1` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriff 1',
-      `ad_suchb2` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriff 2',
-      `ad_suchb3` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriff 3',
-      `ad_suchb4` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriff 4',
-      `ad_suchb5` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriff 5',
-      `ad_suchb6` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriff 6',
       `ad_l_raum` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Lagerraum',
       `ad_l_kasten` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Kasten im Lager',
       `ad_l_fach` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Fach im Kasten',
@@ -81,7 +77,7 @@ function Cr_n_ar_chivdt ($tabelle)
       `ad_uidaend` varchar(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Aenderer',
       `ad_aenddat` timestamp NULL DEFAULT NULL COMMENT 'Letzte Aenderung',
        PRIMARY KEY (`ad_id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8  COMMENT='Archivalien- Verzeichnis' ";
+    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4  COMMENT='Archivalien- Verzeichnis' ";
     
     $return = SQL_QUERY($db,$sql);
     return $return;
@@ -108,7 +104,7 @@ function Cr_n_ar_ch_verl ($tabelle)
       `al_uidaend` varchar(4) CHARACTER SET utf8 COLLATE latin1_german2_ci  NULL  COMMENT 'Änderer',
       `al_aenddat` timestamp  NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
       PRIMARY KEY (`al_id`)
-  ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Archivalien- Verleih' ";
+  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Archivalien- Verleih' ";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_ar_ch_verl
@@ -200,7 +196,7 @@ function Cr_n_in_ventar ($tabelle)
   `in_uidaend` varchar(4) DEFAULT NULL COMMENT 'Änderer',
   `in_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`in_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ";
                                                                          
     
     $return = SQL_QUERY($db,$sql);
@@ -230,7 +226,7 @@ function Cr_n_in_vent_verleih ($tabelle)
   `ei_uidaend` varchar(4) COLLATE utf8mb4_german2_ci  NULL  DEFAULT '' COMMENT 'Änderer',
   `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`vl_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8  COMMENT  'Inventarverleih'";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4  COMMENT  'Inventarverleih'";
     
     $return = SQL_QUERY($db,$sql);
     return $return;

@@ -165,6 +165,7 @@ function Edit_Text($FeldName, $InfoText = '')
  * Der Feld Titel wird aus dem Array $Tabellen_Spalten_COMMENT mit dem Index $FeldName genommen
  * Der Daten Wert (value=) wird aus dem Array $neu mit dem Index $FeldName genommen
  * Eine allfällige Fehlermeldung wird aus dem Array $Err_msg mit dem Index $FeldName genommen
+ * Mit dem Feld $Edit_FeldMsg[$FeldName] kann autofocus oder class=error gesetzt werden ??
  *
  * @param string $feldname
  * Array index Name in $neu und $Tabellen_Spalten_COMMENT
@@ -186,7 +187,7 @@ function Edit_Text($FeldName, $InfoText = '')
  */
 function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '')
 {
-    global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect , $ed_lcnt,$Tabellen_Spalten_MAXLENGTH;
+    global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect , $ed_lcnt,$Tabellen_Spalten_MAXLENGTH,$Tabellen_Spalten_typ;
 
     flow_add($module, 'Edit_Funcs.inc.php Funct: Edit_Daten_Feld');
     
@@ -201,7 +202,11 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
         }
         # var_dump($Tabellen_Spalten_MAXLENGTH[$FeldName]);
         if ( !$FeldLaenge == 0  ) {
-            if ( mb_strpos($InputParm,'maxlength=') === false ) { $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."'"; }
+            if ( mb_strpos($InputParm,'maxlength=') === false ) { 
+                if ($Tabellen_Spalten_typ[$FeldName] == "text") {
+                    $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."'"; }
+                }
+                
             if ( mb_strpos($InputParm,'size='     ) === false ) { $InputParm .= " size='$FeldLaenge'"; }
         } 
         if (! empty($Err_msg[$FeldName])) {
@@ -209,7 +214,7 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
             if (mb_strpos($InputParm, 'autofocus') === false) {
                 $InputParm .= ' autofocus';
             }
-            if ( !empty($KEXI_Edit_FeldMsg[$FeldName]) ) {
+            if ( !empty($Edit_FeldMsg[$FeldName]) ) {
                 if ( mb_strpos($InputParm,'autofocus'  ) === false ) { $InputParm .= ' autofocus'; }
                 if ( mb_strpos($InputParm,'class='     ) === false ) { $InputParm .= ' class="error"'; }
             }

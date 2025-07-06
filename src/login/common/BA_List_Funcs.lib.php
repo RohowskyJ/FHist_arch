@@ -1040,9 +1040,9 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
             $tab_arr[1] = "green";
             $tab_arr[2] = "Daten abspeichern";
             $tab_arr[3] = ""; # retun to .scr
-            $tab_arr[4] = False;
+            $tab_arr[4] = True; // Daten nach Änderung abspeichern
         }
-        if ($_SESSION[$module]['all_upd'] | $tab_arr[4]) {
+        if ($_SESSION[$module]['all_upd'] || $tab_arr[4]) {
             echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
             echo "<button type='submit' name='phase' value='$tab_arr[0]' class='$tab_arr[1]'>$tab_arr[2]</button></p>";
         }

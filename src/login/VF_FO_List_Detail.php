@@ -11,7 +11,7 @@ session_start();
 
 const Module_Name = 'OEF';
 $module = Module_Name;
-$tabelle = 'fo_todaten';
+$tabelle = 'dm_edien_';
 
 /**
  * Angleichung an den Root-Path
@@ -69,12 +69,8 @@ if (isset($_GET['ID'])) {
     }
 }
 
-if (isset($_GET['fo_aufn_d'])) {
-    $_SESSION[$module]['fo_aufn_d'] = $fo_aufn_d = $_GET['fo_aufn_d'];
-}
-
-if (isset($_GET['fo_aufn_s'])) {
-    $_SESSION[$module]['fo_aufn_s'] = $fo_aufn_s = $_GET['fo_aufn_s'];
+if (isset($_GET['md_aufn_d'])) {
+    $_SESSION[$module]['md_aufn_d'] = $md_aufn_d = $_GET['md_aufn_d'];
 }
 
 if (isset($_GET['pf'])) {
@@ -124,11 +120,11 @@ function modifyRow(array &$row, $tabelle)
     $VF_Foto_Video = array(
         "Audio" => "Tonmaterial",
         "Foto" => "Fotografie",
-        "Film" => "Filme",
         "Video" => "Videos"
     );
 
     switch ($s_tab) {
+        /*
         case "fo_manda":
             $fm_id = $row['fm_id'];
             $fm_mandkennz = $row['fm_mandkennz'];
@@ -136,15 +132,14 @@ function modifyRow(array &$row, $tabelle)
             $fm_eigner = $row['fm_eigner'];
             $row['fm_eigner'] = "<a href='VF_O_FO_List.php?fm_eigner=$fm_eigner'  target='Foto'>" . $fm_eigner . " Fotos </a>";
             break;
-
-        case "fo_todat":
-            $fo_id = $row['fo_id'];
-            console_log("L0145 $fo_id");
-            $row['fo_id'] = "<a href='VF_FO_Edit.php?fo_id=$fo_id&fo_eigner=" . $row['fo_eigner'] . "&verz=N' >" . $fo_id . "</a>";
-            if ($row['fo_dsn'] == "") {
-                console_log("L 0148 ".$row['fo_aufn_suff']);
-                $_SESSION[$module]['fo_aufn_d'] = $row['fo_aufn_datum'];
-                $_SESSION[$module]['fo_aufn_s'] = $row['fo_aufn_suff'];
+*/
+        case "dm_edien":
+            $md_id = $row['md_id'];
+            console_log("L0145 $md_id");
+            $row['md_id'] = "<a href='VF_FO_Edit.php?md_id=$md_id&md_eigner=" . $row['md_eigner'] . "&verz=N' >" . $md_id . "</a>";
+            if ($row['md_dsn_1'] == "") {
+                console_log("L 0148 ".$row['md_aufn_datum']);
+                $_SESSION[$module]['md_aufn_d'] = $row['md_aufn_datum'];
             }           
             /*
              * if ($row['fo_dsn'] != "") {
@@ -155,62 +150,63 @@ function modifyRow(array &$row, $tabelle)
              * }
              */
 
-            $row['fo_media'] = $VF_Foto_Video[$row['fo_media']];
-            if ($row['fo_dsn'] != "") {
+            $row['md_media'] = $VF_Foto_Video[$row['md_media']];
+            if ($row['md_dsn_1'] != "") {
 
-                $dsn = $row['fo_dsn'];
+                $dsn = $row['md_dsn_1'];
 
-                if ($row['fo_typ'] == "F") {
-                    $fo_d_spl = explode("-", $dsn);
-                    $cnt_f_d = count($fo_d_spl);
+                $bn_arr = pathinfo($dsn);
+                
+                $ext = "";
+                
+                if (in_array(strtolower($bn_arr['extension']),AudioFiles)) {
+                    $ext = "Audio";
+                }
+                if (in_array(strtolower($bn_arr['extension']),GrafFiles)) {
+                    $ext = "Graf";
+                }
+                if (in_array(strtolower($bn_arr['extension']),VideoFiles)) {
+                    $ext = "Video";
+                }
+                
+                if ($ext == "Audio") {
+                    $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/02/";
+                    
+                    
+                } elseif ($ext == "Graf") {
+                    $md_d_spl = explode("-", $dsn);
+                    $cnt_f_d = count($md_d_spl);
 
                     $file_arr = explode("-", $dsn);
 
-                    $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
+                    $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/06/";
 
-                    $f_path = VF_set_PictPath($row['fo_aufn_datum'],$row['fo_aufn_suff']);
-                    $d_path = $pict_path . $f_path ;
+                    $d_path = $pict_path . $row['md_aufn_datum'] ."/" ;
                     
 
-                    $Urh_anz = "Urheber: " . $row['fo_Urheber'];
+                    $Urh_anz = "Urheber: " . $row['md_Urheber'];
                     # $row['fo_dsn'] = "<a href='VF_O_FO_Detail.php?eig=" . $row['fo_eigner'] . "&id=$fo_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a><br>" . $_SESSION[$module]['URHEBER']['fm_beschreibg'] . "<br>" . $d_path . $dsn;
-                    $row['fo_dsn'] = "<a href='VF_FO_Detail.php?eig=" . $row['fo_eigner'] . "&id=$fo_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' width='250' ></a><br>$Urh_anz<br>" . $d_path . $dsn;
+                    $row['md_dsn_1'] = "<a href='VF_FO_Detail.php?eig=" . $row['md_eigner'] . "&id=$md_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' width='250' ></a><br>$Urh_anz<br>" . $d_path . $dsn;
 
-                    $begltext = $row['fo_begltxt'];
+                    $begltext = $row['md_beschreibg'];
                     # $row['fo_begltxt'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' >$begltext</a>";
                     
-                    $row['fo_namen'] .= "<br>" . $row['fo_suchbegr'];
-                } else {
+                    $row['md_namen'] .= "<br>" . $row['md_suchbegr'];
+                } elseif ($ext == "Video") {
                     $vi_d_spl = explode("-", $dsn);
                     $cnt_f_d = count($vi_d_spl);
-                    if ($cnt_f_d >= 2 and stripos($row['fo_basepath'], "ARCHIV_VFHNOe")) {
-                        $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
-                        $d_path = $pict_path . $row['fo_basepath'] . "/";
-                    } else {
-                        $pict_path = "login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
-                        $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
-                    }
-
-                    /*
-                     * $video = "
-                     * <video width='320' height='240' controls>
-                     * <source src='$d_path".$row['fo_dsn']." type='video/mp4'>
-                     *
-                     * Your browser does not support the video tag.
-                     * </video>";
-                     *
-                     * $row['fo_dsn'] = $video; # "<a href='$d_path$dsn' target='_blank'>Video ansehen</a>";
-                     */
-                    # $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
-
-                    $begltext = $row['fo_begltxt'];
-                    $row['fo_begltxt'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
-                    $row['fo_dsn'] = "";
+               
+                    $pict_path = "login/AOrd_Verz/" . $row['md_eigner'] . "/09/10/";
+                    $d_path = $pict_path . $row['md_aufn_datum'] . "/";
+ 
+                    $begltext = $row['md_beschreibg'];
+                    $row['md_beschreibg'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
+                    $row['md_dsn_1'] = "";
                     #echo "L 0202 fo_begltxt " . $row['fo_begltxt'] . " <br>";
                 }
             }
 
-            $fo_aufn_datum = $row['fo_aufn_datum'];
+            $md_aufn_datum = $row['md_aufn_datum'];
 
             break;
     }
@@ -227,11 +223,10 @@ function modifyRow(array &$row, $tabelle)
  * Anzahl foto+1 gleich records-anzahl
  * dann Inhalt Speicher kein *.jpeg  - Abbruch, keine Aktion erforderlich
  * wenn Speicherplatz alle *.WebP : Vergleich alle fo_dsn entsprechend *.WebP - OK
- * wenn fo__dsn != *.jpeg fo_dsn korrigieren, alte *.Graf löschen 
+ * wenn fo_dsn != *.jpeg fo_dsn korrigieren, alte *.Graf löschen 
  */
 Function Fo_Tab_gener() {
     global $module, $debug, $db;
-    
 
     if ($debug) {
         echo "<pre class=debug>func FO_Tab_gener ist gestarted</pre>";
@@ -242,9 +237,9 @@ Function Fo_Tab_gener() {
      */
     # var_dump($_SESSION[$module]['URHEBER']);echo "<br>L 0244 sess[urhebg<br>";
     $eignr = $_SESSION['Eigner']['eig_eigner'];
-    $fo_typ = $_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'];
-    $tabelle_g = "fo_todaten_".$_SESSION[$module]['URHEBER']['ei_id'];
-    $sql_g = "SELECT * FROM $tabelle_g  WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' ";
+  
+    $tabelle_g = "dm_edien_".$eignr;
+    $sql_g = "SELECT * FROM $tabelle_g  WHERE md_aufn_datum='" . $_SESSION[$module]['md_aufn_d'] . "'  ";
     # echo "L 0249 sql_g $sql_g <br>";
     $return_g = SQL_QUERY($db,$sql_g);
     #var_dump($return_g);echo "<br>L 0251 return_g<br>";
@@ -253,32 +248,40 @@ Function Fo_Tab_gener() {
     $notfirst = False;
     while ($row = mysqli_fetch_object($return_g)) {
         if (!$notfirst) {
-            $fo_eigner     = $row->fo_eigner;
-            $fo_Urheber    = $row->fo_Urheber;
-            $fo_aufn_datum = $row->fo_aufn_datum;
-            $fo_aufn_suff  = $row->fo_aufn_suff;
-            $fo_begltxt    = $row->fo_begltxt;
-            $fo_typ        = $row->fo_typ;
-            $fo_media      = $row->fo_media;
-            $fo_namen      = $row->fo_namen;
-            $fo_sammlg     = $row->fo_sammlg;
-            $fo_uidaend    = $row->fo_uidaend;
+            $md_eigner     = $row->md_eigner;
+            $md_Urheber    = $row->md_Urheber;
+            $md_aufn_datum = $row->md_aufn_datum;
+            $md_beschreibg = $row->md_beschreibg;
+            $md_media      = $row->md_media;
+            $md_namen      = $row->md_namen;
+            $md_sammlg     = $row->md_sammlg;
+            $md_aenduid    = $row->md_aenduid;
             $notfirst = True;
         }
         
-        $tab_arr[$row->fo_id] = $row->fo_dsn;
+        $tab_arr[$row->md_id] = $row->md_dsn_1;
     }
+    
+    /** einlesen Verzeichnis, suchen alle subdirs nach Aufnahmedatum, dann diese Verzeichnis einlesen */
+    
+    # echo "L 0267 md_media $md_media <br>";
+    
+    
     # var_dump($tab_arr);echo "<br>L 0275 tab_arr  <br>";
     $tab_len = count($tab_arr);
-    
-    if ($fo_typ == "F") {
+    $ao = "";
+    if ($md_media == "Audio") {
+        $ao = '02';
+    } elseif ($md_media == "Foto") {
         $ao = '06';
-    } elseif ($fo_typ == "V") {
-        $ao = '09';
+    } elseif ($md_media == "Video") {
+        $ao = '10';
     }
     
-    $pict_pfad = "AOrd_Verz/$fo_eigner/09/$ao/".VF_set_PictPath($fo_aufn_datum, $fo_aufn_suff);
-    #echo "L 277 pict_pfad $pict_pfad<br>";
+     
+    
+    $pict_pfad = "AOrd_Verz/$md_eigner/09/$ao/$md_aufn_datum/"; #.$md_aufn_datum."/";
+    # echo "L 0284 pict_pfad $pict_pfad<br>";
     /**
      * Einlesen der Daten der Speicherortes
      */
@@ -286,16 +289,17 @@ Function Fo_Tab_gener() {
         $verz_arr = array();
         foreach (scandir($pict_pfad) as $file) {
             if ($file === ".." OR $file === "." ) continue;
-            # echo "L 0287 file $file <br>";
+            # echo "L 0292 file $file <br>";
             $fn_ar = explode("-",$file);
             # var_dump($fn_ar);echo "<br> L 0288 fn_ar <br>";
-            if ($fn_ar[0] == $fo_eigner && (stripos($file,"jpg") || stripos($file,"jpeg"))) {
+            if ($fn_ar[0] == $md_eigner && (stripos($file,"jpg") || stripos($file,"jpeg"))) {
                 $verz_arr[] = $file;
             }
         }
         
-        $verz_cnt = $verz_arr;
-        #var_dump($verz_arr);echo "<br>L 0299 verz_cnt $verz_cnt <br>";
+        $verz_cnt = count($verz_arr);
+        # var_dump($verz_arr);
+        # echo "<br>L 0302 verz_cnt $verz_cnt <br>";
         if ($verz_cnt != 0) {
             if ($tab_len <= 1 ) { // Datensätze für Fotos einfügen, so vorhanden
                 
@@ -307,13 +311,13 @@ Function Fo_Tab_gener() {
                     $nfn_dir =  $nfn_info['dirname'];
                     
                     $sql = "INSERT INTO $tabelle_g (
-                          fo_eigner,fo_urheber,fo_aufn_datum,fo_aufn_suff,fo_dsn,fo_begltxt,fo_namen,
-                          fo_sammlg,fo_typ,fo_media,
-                          fo_uidaend
+                          md_eigner,md_urheber,md_aufn_datum,md_dsn_1,md_beschreibg,md_namen,
+                          md_sammlg,md_media,
+                          md_aenduid
                       ) VALUE (
-                         '$fo_eigner','$fo_Urheber','$fo_aufn_datum','$fo_aufn_suff','$nfn_dsn','$fo_begltxt','$fo_namen',
-                         '$fo_sammlg','$fo_typ','$fo_media',
-                         '$fo_uidaend'
+                         '$md_eigner','$md_Urheber','$md_aufn_datum','$nfn_dsn','$md_beschreibg','$md_namen',
+                         '$md_sammlg','$md_media',
+                         '$md_aenduid'
                       )";
                     
                     $result = SQL_QUERY($db, $sql);
@@ -335,7 +339,7 @@ Function Fo_Tab_gener() {
                     $fn_arr = explode("-",$o_name);
                     $fn_cnt= count($fn_arr);
                     if ($fn_cnt >= 3) { 
-                        if ($fn_arr[0] == $fo_eigner) {
+                        if ($fn_arr[0] == $md_eigner) {
                             continue;
                         }
                     }
@@ -404,7 +408,7 @@ return True;
 function tab_update($tabelle,$record,$odsn,$ndsn) {
     global $db,$module,$debug;
     
-    $sql_in = "SELECT fo_id,fo_dsn FROM $tabelle where fo_id = '$record' ";
+    $sql_in = "SELECT md_id,md_dsn_1 FROM $tabelle where md_id = '$record' ";
     $ret_in = SQL_QUERY($db,$sql_in);
     while ($row_in = mysqli_fetch_object($ret_in))  {
         if (mysqli_num_rows($ret_in) >=2) { 
@@ -412,7 +416,7 @@ function tab_update($tabelle,$record,$odsn,$ndsn) {
             return FALSE;
         } else {
             if ($row_in->fo_dsn == $odsn) { // Update mit $ndsn
-                $sql_o = "UPDATE $tabelle set  fo_dsn = '$ndsn' where fo_id = '$record' ";
+                $sql_o = "UPDATE $tabelle set  md_dsn_1 = '$ndsn' where md_id = '$record' ";
                 $ret_o = SQL_QUERY($db,$sql_o);  
                 
                 return True;

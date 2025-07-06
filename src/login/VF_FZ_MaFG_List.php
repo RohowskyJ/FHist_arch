@@ -169,7 +169,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
      */
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten" ){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            VF_Auto_Eigent();
+            VF_Auto_Eigent("E");
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];

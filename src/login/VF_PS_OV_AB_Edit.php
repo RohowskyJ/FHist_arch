@@ -123,10 +123,10 @@ if ($phase == 1) {
 
     $neu['fo_fw_id'] = $_SESSION[$module]['fw_id'];
 
-    $uploaddir = "Beschreibungen/PSA/AERM/Aermel_Abz/";
+    $uploaddir = $Path2ROOT."login/AOrd_Verz/PSA/AERM/Aermel_Abz/";
 
     if (isset($_FILES['uploaddatei_1']) && $_FILES['uploaddatei_1']['name'] != "") {
-        $neu['fo_ff_abzeich'] =  VF_Upload_Pic('fo_ff_abzeich', $uploaddir, $urh_abk="", $fo_aufn_datum="");
+        $neu['fo_ff_abzeich'] =  VF_Upload_Pic('fo_ff_abzeich', $uploaddir, "", "");
     }
 
     if ($debug) {

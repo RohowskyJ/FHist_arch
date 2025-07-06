@@ -31,7 +31,6 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
-# require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 
 $flow_list = True;
 
@@ -43,6 +42,7 @@ $db = LinkDB('VFH');
 
 $jq = $jqui = True;
 $BA_AJA = true;
+
 $header = "";
 BA_HTML_header('Muskelbewegte Fahrzeuge', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

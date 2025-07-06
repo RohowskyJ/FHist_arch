@@ -352,50 +352,57 @@ function modifyRow(array &$row, $tabelle)
 
             $vb_foto = $row['vb_foto'];
             $urh = $row['vb_foto_Urheber'];
-            $fo_urh = $vb_foto . "_" . $urh;
+            $md_urh = $vb_foto . "_" . $urh;
             if ($row['vb_foto'] != "") {
                 VF_Displ_Urheb_n($row['vb_foto_Urheber']);
-                $sql_fot = "SELECT * FROM fo_todaten_$urh WHERE fo_id='" . $row['vb_foto'] . "' ";
+                $sql_fot = "SELECT * FROM dm_edien_$urh WHERE md_id='" . $row['vb_foto'] . "' ";
 
                 $ret_foto = SQL_QUERY($db, $sql_fot);
 # print_r($ret_foto);echo "<br>L 0360 $sql_fot <br>";
                 if ($ret_foto) {
                     $row_foto = mysqli_fetch_assoc($ret_foto);
-
-                    if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-                        $pict_path .= $row_foto['fo_eigner'] . "/09/06/";
+                    
+                    if ($row_foto['md_media'] == "Audio") {
+                        $pict_path .= $row_foto['md_eigner'] . "/09/02/";
+                    } elseif ($row_foto['md_media'] == "Foto") {
+                        $pict_path .= $row_foto['md_eigner'] . "/09/06/";
                     } else {
-                        $pict_path .= $row_foto['fo_eigner'] . "/09/07/";
+                        $pict_path .= $row_foto['md_eigner'] . "/09/10/";
                     }
-                    $pict_path .= $d_path = VF_set_PictPfad($row_foto['fo_aufn_datum'], $row_foto['fo_basepath'], $row_foto['fo_zus_pfad'], $row_foto['fo_aufn_suff']);
+                    # $pict_path .= $d_path = VF_set_PictPfad($row_foto['fo_aufn_datum'], $row_foto['fo_basepath'], $row_foto['fo_zus_pfad'], $row_foto['fo_aufn_suff']);
 
-                    $fo_id = $row_foto['fo_id'];
+                    $md_id = $row_foto['md_id'];
                     
-                    $row['fo_id'] = "<a href='VF_FO_Edit.php?fo_id=$fo_id&fo_eigner=" . $row_foto['fo_eigner'] . "&verz=J' >" . $fo_id . "</a>";
+                    $row['md_id'] = "<a href='VF_FO_Edit.php?fo_id=$md_id&fo_eigner=" . $row_foto['md_eigner'] . "&verz=J' >" . $md_id . "</a>";
                     
-                    $fo_aufn_d = $row_foto['fo_aufn_datum'];
-                    $fo_eigner = $row_foto['fo_eigner'];
-                       $DsName = "";
-                    if ($row_foto['fo_dsn'] != "") {
-                        $dsn = $row_foto['fo_dsn'];
+                    $md_aufn_d = $row_foto['md_aufn_datum'];
+                    if ($md_aufn_d != "") {
+                        $md_aufn_d_s = $md_aufn_d."/";
+                    }
+                    $md_eigner = $row_foto['md_eigner'];
+                    
+                    $DsName = "";
+                    if ($row_foto['md_dsn_1'] != "") {
+                        $dsn = $row_foto['md_dsn_1'];
 
-                        if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-                            $row['vb_foto'] = "<a href='$pict_path$dsn' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
+                        if ($row_foto['md_media'] == "Foto") {
+                            $row['vb_foto'] = "<a href='$pict_path$md_aufn_d_s$dsn' target='_blank'><img src='$pict_path$md_aufn_d_s$dsn' alt='$dsn' height='200' ></a>";
                             $DsName = "<a href='VF_FO_Detail.php?id=$vb_foto&eig=$urh' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
                         } else {
                             $video = "
-                        <video width='320' height='240' controls>
-                        <source src='$d_path" . $row_foto['fo_dsn'] . " type='video/mp4'>
-                            
-                        Your browser does not support the video tag.
-                        </video>";
+                            <video width='320' height='240' controls>
+                            <source src='$d_path" . $row_foto['md_dsn_1'] . " type='video/mp4'>
+                                
+                             Your browser does not support the video tag.
+                             </video>";
                             
                             $DsName = "<a href='$pict_path$dsn' target='_blank'>$video</a>";
+                            $row['vb_foto'] = "$DsName<br>" . $_SESSION['Eigner']['eig_urhname'];
                         }
                     }
                     
-                    $row['vb_foto'] = "$DsName<br>" . $_SESSION[$module]['URHEBER']['BE']['ei_urheber'];
-                    $row['fo_begltxt'] = "<textarea id='fo_begltxt_$fo_urh' name='fo_begltxt_$fo_urh' rows='4' cols='50'>" . $row_foto['fo_begltxt'] . "</textarea>"; 
+                    # $row['vb_foto'] = "$DsName<br>" . $_SESSION['Eigner']['eig_urhname'];
+                    $row['md_beschreibg'] = "<textarea id='md_beschreibg_$md_urh' name='fo_beschreibg_$md_urh' rows='4' cols='50'>" . $row_foto['md_beschreibg'] . "</textarea>"; 
                 }
 
                 $vb_unter = $row['vb_unter'];
@@ -408,63 +415,59 @@ function modifyRow(array &$row, $tabelle)
                 $row['vb_titel'] = "<input type='text' name='vb_titel_$vd_flnr' id='vb_titel_$vd_flnr' value='$vb_titel' maxlength='60'>";
             }
             break;
-
-        case "fo_todat":
-
-            if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-                $pict_path .= $row['fo_eigner'] . "/09/06/";
-            } else {
-                $pict_path .= $row['fo_eigner'] . "/09/07/";
+              
+        case "dm_edien":
+            if ($row_foto['md_media'] == "Audio") {
+                $pict_path .= $row['md_eigner'] . "/09/02/";
+            } elseif ($row_foto['md_media'] == "Foto") {
+                $pict_path .= $row['md_eigner'] . "/09/06/";
+            } elseif ($row_foto['md_media'] == "Video") {
+                $pict_path .= $row['mf_eigner'] . "/09/10/";
             }
             $nodat = false;
-            if ($row['fo_basepath'] != "") {
-                $d_path = $pict_path . $row['fo_basepath']."/" ;
-            } elseif ($row['fo_aufn_datum'] != "") {
-                $d_path = $pict_path . $row['fo_aufn_datum']."/" ;
+           if ($row['md_aufn_datum'] != "") {
+                $d_path = $pict_path . $row['md_aufn_datum']."/" ;
                 $nodat = true;
             }
-            
-            if ($row['fo_zus_pfad'] != "") {
-                $d_path .= $row['fo_zus_pfad'] . "/";
-            } else {
-                #$d_path .=  "/";
-            }
-            if ($row['fo_aufn_datum'] != "" AND !$nodat) {
-                $d_path .= $row['fo_aufn_datum']."/" ;
+       
+            if ($row['md_aufn_datum'] != "" AND !$nodat) {
+                $d_path .= $row['md_aufn_datum']."/" ;
             }
               
-            $fo_id = $row['fo_id'];
+            $md_id = $row['md_id'];
 
-            $row['fo_id'] = "<a href='VF_FO_Edit.php?fo_id=$fo_id&fo_eigner=" . $row['fo_eigner'] . "&verz=J' >" . $fo_id . "</a>";
+            $row['md_id'] = "<a href='VF_FO_Edit.php?fo_id=$md_id&md_eigner=" . $row['fo_eigner'] . "&verz=J' >" . $md_id . "</a>";
 
-            $fo_aufn_d = $row['fo_aufn_datum'];
-            $fo_eigner = $row['fo_eigner'];
+            $md_aufn_d = $row['md_aufn_datum'];
+            $md_eigner = $row['md_eigner'];
 
-            if ($row['fo_dsn'] != "") {
-                $dsn = $row['fo_dsn'];
+            if ($row['md_dsn_1'] != "") {
+                $dsn = $row['md_dsn_1'];
 
-                if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-                    $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
-                   
-                } else {
+                if ($row_foto['md_media'] == "Audio") {
+                    #$pict_path .= $row['md_eigner'] . "/09/02/";
+                } elseif ($row_foto['md_media'] == "Foto") {
+                    $row['md_dsn_1'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
+                } elseif ($row_foto['md_media'] == "Video") {
                     $video = "
                         <video width='320' height='240' controls>
                         <source src='$pict_path" . $row['fo_dsn'] . " type='video/mp4'>
-      
+                            
                         Your browser does not support the video tag.
                         </video>";
-
+                    
                     $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>$video</a>";
                 }
-                if ($row['fo_namen'] != "") {
-                    $row['fo_dsn'] .= "<br>".$row['fo_namen'];
+      
+                if ($row['md_namen'] != "") {
+                    $row['md_dsn_1'] .= "<br>".$row['md_namen'];
                 }
             }
             $checked = "";
-            if (in_array($fo_id,$fo_arr[$fo_eigner] )) {
+            if (in_array($md_id,$fo_arr[$md_eigner] )) {
                 $checked = "checked";
             }
-            $row['in Bericht'] = "<input type='checkbox' id='$fo_id' name='$fo_id' value='$fo_eigner|$fo_id' $checked >in den Bericht nehmen";
+            $row['in Bericht'] = "<input type='checkbox' id='$d_id' name='$md_id' value='$md_eigner|$md_id' $checked >in den Bericht nehmen";
 
             break;
     }

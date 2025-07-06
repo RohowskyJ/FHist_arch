@@ -54,24 +54,15 @@ Edit_Separator_Zeile('Mit Muskelkraft bewegte Fahrzeuge und Geräte');
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "Beschreibungen der Muskelbewegten Fahrzeuge und Geräte.";
 echo "  </div>";  // Ende Feldname
-echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FM_List.php?sk=$sk&ID=NextEig' target='MuskelFzgGer'>Muskelgezogene Fahrzeuge und muskelbetriebene Geräte - Wartung </a>";
-echo "</div>"; // Ende der Inhalt Spalte
-echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FM_MU_Katalog_List.php?sk=$sk' target='MuskelFzgGerKat'>Katalog der Muskelgezogenen Fahrzeug- und Geräte</a>";
-echo "</div>"; // Ende der Inhalt Spalte
+
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_O_DO_List.php?sk=$sk&sel_thema=1' target='Dokumente'>Vereins- Dokumentation zu Muskelbewegtem</a>";
 echo "</div>"; // Ende der Inhalt Spalte
-
-echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "Beschreibungen der Muskelbewegten Fahrzeuge und Geräte. - NEUE Version";
-echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_FZ_MuFG_List.php?sk=$sk&ID=NextEig' target='MuskelFzgGer'>Muskelgezogene Fahrzeuge und muskelbetriebene Geräte - Wartung </a>";
 echo "</div>"; // Ende der Inhalt Spalte
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FM_MU_Katalog_List.php?sk=$sk' target='MuskelFzgGerKat'>Katalog der Muskelgezogenen Fahrzeug- und Geräte</a>";
+echo "<a href='VF_FZ_MuFG_Katalog_List.php?sk=$sk' target='MuskelFzgGerKat'>Katalog der Muskelgezogenen Fahrzeug- und Geräte</a>";
 echo "</div>"; // Ende der Inhalt Spalte
 
 Edit_Separator_Zeile('Maschinenbewegte Fahrzeuge (Automobile) und motorbetriebene Geräte ');
@@ -79,26 +70,16 @@ echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "Beschreibungen der mit Motorkraft bewegten Fahrzeuge und für Motorfahrzeuge konstruierten Anhänger, Geräte.";
 echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FA_List.php?sk=$sk&ID=NextEig' target='MotorFahrzeuge'>Motorisierte Fahrzeug- und Geräte Wartung </a>";
+echo "<a href='VF_FZ_MaFG_List.php?sk=$sk&ID=NextEig' target='MotorFahrzeuge'>Motorisierte Fahrzeug- und Geräte Wartung </a>";
 echo "</div>"; // Ende der Inhalt Spalte
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FZ_Mu_Katalog_List.php?sk=$sk' target='Automobil-Katalog'>Automobil- Fahrzeugkatalog</a>";
+echo "<a href='VF_FZ_MaFG_Katalog_List.php?sk=$sk' target='Automobil-Katalog'>Automobil- Fahrzeugkatalog</a>";
 echo "</div>"; // Ende der Inhalt Spalte
 
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_O_DO_List.php?sk=$sk&sel_thema=2' target='Dokumente'>Vereins- Dokumentation zu Fahrzeugen </a></td></tr>";
 echo "</div>"; // Ende der Inhalt Spalte
 
-Edit_Separator_Zeile('Maschinenbewegte Fahrzeuge (Automobile) und motorbetriebene Geräte - Neue Version');
-echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "Beschreibungen der mit Motorkraft bewegten Fahrzeuge und für Motorfahrzeuge konstruierten Anhänger, Geräte.";
-echo "  </div>";  // Ende Feldname
-echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FZ_MaFG_List.php?sk=$sk&ID=NextEig' target='MotorFahrzeuge'>Motorisierte Fahrzeug- und Geräte Wartung </a>";
-echo "</div>"; // Ende der Inhalt Spalte
-echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_FZ_Ma_Katalog_List.php?sk=$sk' target='Automobil-Katalog'>Automobil- Fahrzeugkatalog</a>";
-echo "</div>"; // Ende der Inhalt Spalte
 
 Edit_Tabellen_trailer();
 

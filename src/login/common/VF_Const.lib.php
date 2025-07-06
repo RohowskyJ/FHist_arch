@@ -447,12 +447,12 @@ const VF_Mus_Oeffzeit = array(
  * von XRF, für Hochladen 
  * 
  */
-const DocFiles = array("pdf");
-const GrafFiles = array("gif","ico","jpeg","jpg","png","tiff","webp");
-const VideoFiles = array("mp4");
+const DocFiles = array("pdf"); // nach Archivordnung
+const GrafFiles = array("gif","ico","jpeg","jpg","png","tiff"); // 09/06
+const VideoFiles = array("mp4"); // 09/10
 const ScrFiles  = array("css","htm","php","js","inc");
 const TxtFiles  = array("csv","dbf","doc","log","pps","odp","odt","txt","xml");
-
+const AudioFiles = array("mp3", "aac", "wav"); // 09/02
 
 /**
  * Organisaionen 

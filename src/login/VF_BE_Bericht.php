@@ -75,8 +75,7 @@ $header = "<style>
       }
     </style>";
 
-HTML_header('Veranstaltungs Anzeige', '', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-$pictpath = $path2ROOT . "login/AOrd_Verz/";
+BA_HTML_header('Veranstaltungs Anzeige', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<div class='white'>";
 echo "<framearea>";
@@ -89,6 +88,7 @@ echo "<tr style='border-bottom:1px solid black;'>";
 
 echo "<tr><th colspan='8'><h2>" . $row['vb_titel'] . "</h2></th></tr>";
 echo "<tr><td colspan='8'>" . $row['vb_beschreibung'] . "</td><td></td></tr>";
+echo "</thead><tbody>";
 
 $unter = $row['vb_unterseiten'];
 
@@ -106,24 +106,24 @@ if ($unter == "Unterseiten") { # # and $vb_unter == 0
     
     $cnt = 1;
     WHILE ($row = mysqli_fetch_assoc($return)) {
-        $sql_fot = "SELECT * FROM fo_todaten_" . $row['vb_foto_Urheber'] . " WHERE fo_id='$row[vb_foto]' ";
+        $sql_fot = "SELECT * FROM dm_edien_" . $row['vb_foto_Urheber'] . " WHERE md_id='$row[vb_foto]' ";
         
         $return_fot = SQL_QUERY($db, $sql_fot);
         $recno = mysqli_num_rows($return_fot);
         
         if ($recno >= 1) {
             $row_fot = mysqli_fetch_assoc($return_fot);
-            modifyRow($row_fot, "fo_todaten_" . $row['vb_foto_Urheber']);
+            modifyRow($row_fot, "dm_edien_" . $row['vb_foto_Urheber']);
             if ($row['vb_unter'] == $vb_unter) {
                 if ($cnt % 2 == 0) { # gerade Anzahl
-                    echo "<tr><td colspan='2'>" . $row_fot['fo_begltxt'] . "</td><td>" . $row_fot['fo_dsn'] . "</td></tr>";
+                    echo "<tr><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td><td>" . $row_fot['md_dsn_1'] . "</td></tr>";
                 } else {
-                    echo "<tr><td>" . $row_fot['fo_dsn'] . "</td><td colspan='2'>" . $row_fot['fo_begltxt'] . "</td></tr>";
+                    echo "<tr><td>" . $row_fot['md_dsn_1'] . "</td><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td></tr>";
                 }
                 $cnt ++;
             } else {
                 if ($row['vb_suffix'] == 0) {
-                    echo "<tr><td><a href='" . $_SERVER['PHP_SELF'] . "?vb_flnr=" . $row['vb_flnr'] . "&vb_unter=" . $row['vb_unter'] . "' target='_blanc'>" . $row['vb_titel'] . "</a> </td><td>" . $row_fot['fo_begltxt'] . "</td><td>" . $row_fot['fo_dsn'] . "</th></tr>";
+                    echo "<tr><td><a href='" . $_SERVER['PHP_SELF'] . "?vb_flnr=" . $row['vb_flnr'] . "&vb_unter=" . $row['vb_unter'] . "' target='_blanc'>" . $row['vb_titel'] . "</a> </td><td>" . $row_fot['md_beschreibg'] . "</td><td>" . $row_fot['md_dsn_1'] . "</th></tr>";
                 }
             }
         }
@@ -138,18 +138,19 @@ if ($unter == "Unterseiten") { # # and $vb_unter == 0
     if ($return) {
         $cnt = 1;
         WHILE ($row = mysqli_fetch_assoc($return)) {
-            $sql_fot = "SELECT * FROM fo_todaten_" . $row['vb_foto_Urheber'] . " WHERE fo_id='$row[vb_foto]' ";
+            $sql_fot = "SELECT * FROM dm_edien_" . $row['vb_foto_Urheber'] . " WHERE md_id='$row[vb_foto]' ";
             
             $return_fot = SQL_QUERY($db, $sql_fot);
             if ($return_fot) {
                 $row_fot = mysqli_fetch_assoc($return_fot);
-                $fo_urheber = $row['vb_foto_Urheber'];
-                modifyRow($row_fot, "fo_todaten_$fo_urheber");
+                $vb_urheber = $row['vb_foto_Urheber'];
+                
+                modifyRow($row_fot, "dm_edien_$vb_urheber");
 
                 if ($cnt % 2 == 0) { # gerade Anzahl
                     echo "<tr><td colspan='2'>" . $row_fot['fo_begltxt'] . "</td><td>" . $row_fot['fo_dsn'] . "</td></tr>";
                 } else {
-                    echo "<tr><td>" . $row_fot['fo_dsn'] . "</td><td colspan='2'>" . $row_fot['fo_begltxt'] . "</td></tr>";
+                    echo "<tr><td>" . $row_fot['md_dsn_1'] . "</td><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td></tr>";
                 }
                 $cnt ++;
             }
@@ -157,11 +158,11 @@ if ($unter == "Unterseiten") { # # and $vb_unter == 0
     }
 }
 
-echo "</thead></table>";
+echo "</tbody></table>";
 echo "</framearea>";
 echo "</div>";
 
-HTML_trailer();
+BA_HTML_trailer();
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
@@ -182,47 +183,53 @@ function modifyRow(array &$row, $tabelle)
 {
     global $path2ROOT, $T_List, $module;
 
-    $s_tab = substr($tabelle, 0, 8);
-
+    $s_tab = substr($tabelle, 0, 8);    
     switch ($s_tab) {
-        case "fo_urheb":
+        case "md_urheb":
+            $pict_base_pfad = 
             $fm_id = $row['fm_id'];
             $fm_eig = $row['fm_eigner'];
             $row['fm_id'] = "<a href='VF_C_MassUpload_v4.php?fm_eig=$fm_eig' >" . $fm_id . "</a>";
             break;
 
-        case "fo_todat":
-            if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-                $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
-            } else {
-                $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/07/";
+        case "dm_edien":
+            $pict_basis_pfad = $path2ROOT."login/AOrd_Verz/" . $row['md_eigner'] . "/09/";
+            
+            if ($row['md_media'] == "Audio") {
+                $pict_basis_pfad .= "02/";
+            } elseif ($row['md_media'] == "Foto") {
+                $pict_basis_pfad .= "06/";
+            } elseif ($row['md_media'] == "Video") {
+                $pict_basis_pfad .= "10/";
             }
+     
+            $md_id = $row['md_id'];
 
-            $fo_id = $row['fo_id'];
+            $row['md_id'] = "<a href='VF_FO_Edit.php?md_id=$md_id&md_eigner=" . $row['md_eigner'] . "&verz=J' >" . $md_id . "</a>";
 
-            $row['fo_id'] = "<a href='VF_FO_Edit.php?fo_id=$fo_id&fo_eigner=" . $row['fo_eigner'] . "&verz=J' >" . $fo_id . "</a>";
+            $md_aufn_d = $row['md_aufn_datum'];
+            $md_eigner = $row['md_eigner'];
 
-            $fo_aufn_d = $row['fo_aufn_datum'];
-            $fo_eigner = $row['fo_eigner'];
+            $row['md_eigner'] = "<a href='VF_FO_List_Detail.php?md_eigner=$md_eigner&md_aufn_d=$md_aufn_d'  target='_blanc'>" . $md_aufn_d . " Medien </a>";
 
-            $row['fo_eigner'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d'  target='_blanc'>" . $fo_aufn_d . " Fotos/Videos </a>";
+            $d_path = "$pict_basis_pfad$md_aufn_d/";
 
-            $pict_path .= $d_path = VF_set_PictPfad($row['fo_aufn_datum'], $row['fo_basepath'], $row['fo_zus_pfad'], $row['fo_aufn_suff']);
-   
-            if ($row['fo_dsn'] != "") {
-                $dsn = $row['fo_dsn'];
+            if ($row['md_dsn_1'] != "") {
+                $dsn = $row['md_dsn_1'];
                
-                if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-                    $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
-                } else {
+                if ($row['md_media'] == "Audio") {
+                    # $row['$row['md_dsn_1'] = "<a href='$d_path$dsn' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
+                } elseif ($row['md_media'] == "Foto") {
+                    $row['md_dsn_1'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
+                } elseif ($row['md_media'] == "Video") {
                     $video = "
                         <video width='320' height='240' controls>
-                        <source src='$pict_path" . $row['fo_dsn'] . " type='video/mp4'>
-    
+                        <source src='$d_path" . $row['fo_dsn'] . " type='video/mp4'>
+                            
                         Your browser does not support the video tag.
                         </video>";
-
-                    $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'>$video</a>";
+                    
+                    $row['md_dsn_1'] = "<a href='$d_path$dsn' target='_blank'>$video</a>";
                 }
             }
 

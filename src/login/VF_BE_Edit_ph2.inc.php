@@ -92,7 +92,7 @@ $result = SQL_QUERY($db, $sql);
  * Foto Text Updaten
  */
 $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
-$update_dat = ",fo_uidaend='" . $_SESSION['VF_Prim']['p_uid'] . "'";
+$update_dat = ",md_aenduid='" . $_SESSION['VF_Prim']['p_uid'] . "'";
 foreach ($arr_fot as $name => $value) # für alle Felder aus der tabelle
 {
     if ($name == "vb_flnr") {
@@ -104,7 +104,7 @@ foreach ($arr_fot as $name => $value) # für alle Felder aus der tabelle
     
     $eig= $_SESSION['Eigner']['eig_eigner'];
     
-    $sql = "UPDATE `fo_todaten_$eig` SET fo_begltxt='$valuer[2]' $update_dat WHERE fo_id='$name' ";
+    $sql = "UPDATE `dm_edien_$eig` SET fo_begltxt='$valuer[2]' $update_dat WHERE fo_id='$name' ";
     echo "L 0108 sql $sql <br>";
     $result = SQL_QUERY($db, $sql);
     if ($debug) {

@@ -186,7 +186,6 @@ $BA_AJA = True;
 $header = "";
 BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
-echo "<script src='" . $path2ROOT . "login/common/javascript/VF_Z_E_AutoLoad.js'></script>";
 
 switch ($phase) {
     case 0:

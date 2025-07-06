@@ -17,7 +17,7 @@ foreach ($_POST as $name => $value) {
 $neu['av_fw_id'] = $_SESSION[$module]['fw_id'];
 
 if (isset($_FILES['uploaddatei_1']['name'])) {
-    $uploaddir = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
+    $uploaddir = $path2ROOT."login/AOrd_Verz/AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
     
     if ($_FILES['uploaddatei_1']['name'] != "" ) {
         $neu['az_bild_v'] = VF_Upload($uploaddir, 1);

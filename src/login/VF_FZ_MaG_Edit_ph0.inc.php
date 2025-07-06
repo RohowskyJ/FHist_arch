@@ -182,12 +182,12 @@ echo "<input type='hidden' name='ge_g10_foto' value='" . $neu['ge_g10_foto'] . "
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
-$pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";
+$pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner']."/"; # . "/MaG/";
 
 $Feldlaenge = "100px";
 
 # $pict_path = VF_M_Upl_Pfad ($aufnDatum, $suffix, $aoPfad);
-$pict_path = ""; 
+# $pict_path = $path2ROOT."login/AOrd_Verz/"; 
 
 $_SESSION[$module]['Pct_Arr' ] = array();
 $num_foto = 4;

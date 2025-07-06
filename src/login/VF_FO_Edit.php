@@ -10,7 +10,7 @@ session_start();
 
 const Module_Name = 'OEF';
 $module = Module_Name;
-$tabelle = 'fo_todaten';
+$tabelle = 'dm_edien_';
 
 const Prefix = '';
 
@@ -20,6 +20,8 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+$Inc_Arr[] = "VF_FO_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -31,11 +33,17 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-$flow_list = False;
+$flow_list = false;
 
 $LinkDB_database = '';
 $db = LinkDB('VFH');
 
+$jq = $jqui = True;
+$BA_AJA = true;
+
+$header = "";
+
+BA_HTML_header('Foto- Verwaltung',  $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 initial_debug();
 
 // ============================================================================================================
@@ -48,10 +56,10 @@ if (isset($_POST['phase'])) {
     $phase = 0;
 }
 
-if (isset($_GET['fo_id'])) {
-    $fo_id = $_GET['fo_id'];
+if (isset($_GET['md_id'])) {
+    $md_id = $_GET['md_id'];
 } else {
-    $fo_id = "";
+    $md_id = "";
 }
 
 if (isset($_GET['verz'])) {
@@ -60,23 +68,21 @@ if (isset($_GET['verz'])) {
     $_SESSION[$module]['verzeich'] = $verz = "J";
 } # verz: J .. Verzeichnis-Satz, N .. Foto- Satz
 
-if (isset($_GET['fo_aufn_d'])) {
-    $fo_aufn_d = $_GET['fo_aufn_d'];
-    $_SESSION[$module]['fo_aufn_datum'] = $_GET['fo_aufn_d'];
+if (isset($_GET['md_aufn_d'])) {
+    $md_aufn_d = $_GET['md_aufn_d'];
+    $_SESSION[$module]['md_aufn_datum'] = $_GET['md_aufn_d'];
 } else {
-    $fo_aufn_d = "";
+    $md_aufn_d = "";
 } #
 
 if ($phase == 99) {
     header('Location: VF_FO_List.php');
 }
 
-$java_script = $java_script_ref = $java_script_such = "";
-
-if ($fo_id !== "") {
-    $_SESSION[$module]['fo_id'] = $fo_id;
+if ($md_id !== "") {
+    $_SESSION[$module]['md_id'] = $md_id;
 } else {
-    $fo_id = $_SESSION[$module]['fo_id'];
+    $md_id = $_SESSION[$module]['md_id'];
 }
 
 $Edit_Funcs_FeldName = False; // Feldname der wird nicht angezeigt !!
@@ -85,72 +91,56 @@ $Edit_Funcs_FeldName = False; // Feldname der wird nicht angezeigt !!
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
 
-$tabelle = $tabelle . "_" . $_SESSION[$module]['URHEBER']['ei_id'];
+$tabelle = $tabelle . $_SESSION['Eigner']['eig_eigner'];
 Tabellen_Spalten_parms($db, $tabelle);
 
-$Tabellen_Spalten_COMMENT['fo_namen'] = "Namen der vorkommenden Personen";
-$Tabellen_Spalten_COMMENT['urh_abk'] = "Urheber des Fotos";
+$Tabellen_Spalten_COMMENT['md_namen'] = "Namen der vorkommenden Personen";
+
 # -------------------------------------------------------------------------------------------------------
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
 # -------------------------------------------------------------------------------------------------------
 if ($phase == 0) {
 
-    if ($_SESSION[$module]['fo_id'] == 0) {
+    if ($_SESSION[$module]['md_id'] == 0) {
 
-        $fo_typ = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['type'];
-        $fo_eigner = $_SESSION[$module]['URHEBER']['ei_id'];
-        $fo_urheber = $_SESSION[$module]['URHEBER']['Media']['urh_nr']['fotogr'];
+        $md_eigner = $_SESSION['Eigner']['eig_eigner'];
+        $md_urheber = $_SESSION['Eigner']['eig_urhname'];
 
-        $pict_path = "../login/AOrd_Verz/" . $fo_eigner . "/09/"; # 06/";
-
-        if ($fo_typ == "F") {
-            $fo_media = "Foto";
-            $fo_suchb3 = "06";
-            $pict_path .= "06/";
-        } elseif ($fo_typ == "V") {
-            $fo_media = "Video";
-            $fo_suchb3 = "10";
-            $pict_path .= "10/";
-        }
+        $pict_path = "../login/AOrd_Verz/" . $md_eigner . "/09/"; # 06/";
 
         $neu = array(
-            'fo_id' => 0,
-            'fo_eigner' => $fo_eigner,
-            'fo_Urheber' => $fo_urheber,
-            'fo_dsn' => "",
-            'fo_aufn_datum' => "$fo_aufn_d",
-            'fo_aufn_suff' => "",
-            'fo_begltxt' => "",
-            'fo_namen' => "",
-            'fo_sammlg' => "",
-            'fo_feuerwehr' => '',
-            'fo_suchbegr' =>"",
-            'fo_typ' => $fo_typ,
-            'fo_media' => $fo_media,
-            "fo_uidaend" => $_SESSION['VF_Prim']['p_uid'],
-            "fo_aenddat" => "",
-            'verz' => $verz
+            'md_id' => 0,
+            'md_eigner' => $md_eigner,
+            'md_Urheber' => $md_urheber,
+            'md_dsn_1' => "",
+            'md_aufn_datum' => "$md_aufn_d",
+            'md_suchbegr' => "",
+            'md_beschreibg' => "",
+            'md_namen' => "",
+            'md_sammlg' => "",
+            'md_feuerwehr' => '',
+            'md_media' => '',
+            "md_aenduid" => $_SESSION['VF_Prim']['p_uid'],
+            "md_aenddat" => "",
+            'verz' => $verz,
+            'sa_name' => ''
         );
          
         if ($_SESSION[$module]['verzeich'] == "N") {
-            $neu['fo_aufn_datum'] = $_SESSION[$module]['fo_aufn_d'];
+            $neu['md_aufn_datum'] = $_SESSION[$module]['md_aufn_d'];
         }
     } else {
-        $sql_fo = "SELECT * FROM $tabelle WHERE `fo_id` = '" . $_SESSION[$module]['fo_id'] . "' ORDER BY `fo_id` ASC";
+        $sql_fo = "SELECT * FROM $tabelle 
+                           LEFT JOIN fh_sammlung ON $tabelle.md_sammlg LIKE fh_sammlung.sa_sammlg
+                           WHERE `md_id` = '" . $_SESSION[$module]['md_id'] . "' ORDER BY `md_id` ASC";
  
         $return_fo = SQL_QUERY($db, $sql_fo);
 
         $neu = mysqli_fetch_array($return_fo);
 
-        $neu['urh_abk'] = "";
-        
         mysqli_free_result($return_fo);
-        $pict_path = "../login/AOrd_Verz/" . $neu['fo_eigner'] . "/09/";
-        if ($neu['fo_typ'] == "F") {
-            $pict_path .= "06/";
-        } elseif ($neu['fo_typ'] == "V") {
-            $pict_path .= "10/";
-        }
+        $pict_path = "../login/AOrd_Verz/" . $neu['md_eigner'] . "/09/";
+
     }
 }
 # echo "E_Edit L 099: \$phase $phase <br/>";
@@ -161,26 +151,18 @@ if ($phase == 1) {
     }
     
     if ($neu['verz'] != "J") {
-        if ($neu['fo_begltxt'] == "") {
-            $Err_msg['fo_begltxt'] = "keine Bildbeschreibung eingegeben.";
+        if ($neu['md_beschreibg'] == "") {
+            $Err_msg['md_beschreibg'] = "keine Bildbeschreibung eingegeben.";
         }
     }
 
     if (!empty($Err_msg)) {
         if ($neu['verz'] == 'J') {$verz = "J";} else {$verz = 'N';}
-        $pict_path = $path2ROOT."login/AOrd_Verz/" . $neu['fo_eigner'] . "/09/";
-        if ($neu['fo_typ'] == "F") {
-            $pict_path .= "06/";
-        } elseif ($neu['fo_typ'] == "V") {
-            $pict_path .= "10/";
-        }
+        $pict_path = $path2ROOT."login/AOrd_Verz/" . $neu['md_eigner'] . "/09/";
+     
         $phase = 0;
     }
 }
-
-$header = "";
-$prot = True;
-BA_HTML_header('Foto- Verwaltung',  $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

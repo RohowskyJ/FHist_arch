@@ -10,6 +10,7 @@ if ($debug) {
     echo "<pre class=debug>VF_I_IN_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+
 if ($neu['in_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
@@ -37,7 +38,6 @@ Edit_Tabellen_Header("Inventar für ".$_SESSION['Eigner']['eig_name']);
 Edit_Daten_Feld('in_id');
 Edit_Daten_Feld('ei_id');
 Edit_Daten_Feld('InvNr');
-# Edit_Daten_Feld('in_invnr');
 
 if ($neu['in_id'] == 0) {
     # =========================================================================================================
@@ -49,7 +49,7 @@ if ($neu['in_id'] == 0) {
     Edit_Daten_feld('sa_name','');
     echo "</div>";
     
-    echo "<tr><td colspan='2'><div class='w3-container '> ";
+    echo "<div class='w3-container '> ";
     
     echo "<input type='hidden' name='in_sammlg' value='".$neu['in_sammlg']."'/>";
     
@@ -184,25 +184,25 @@ Edit_Daten_Feld('in_eingbuchnr', 15);
 Edit_Daten_Feld('in_eingbuchdat', 10);
 Edit_Daten_Feld('in_erstdat', 10);
 Edit_Daten_Feld('in_ausgdat', 10);
-
-
+#echo "<div>";
 
 $button = "";
+/*
 if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ne')\">zum ändern klicken!</button>";
 }
-
-Edit_Daten_Feld('in_neueigner',75,$button);
-
+*/
+Edit_Daten_Feld('in_neueigner',75,$button); #
+/*
 if ($hide_area == 0) {
     echo "<div>";
 } else {
     echo "<div id='unhide_ne' style='display:none'>";
 }
-VF_Auto_Eigent();
+VF_Auto_Eigent('E','');
 echo "<div>";
-
+*/
 # =========================================================================================================
 Edit_Separator_Zeile('Lagerort');
 # =========================================================================================================
@@ -226,7 +226,8 @@ if ($_SESSION[$module]['all_upd']) {
 require "VF_I_IN_VL_List.php";
 
 echo "<p><a href='VF_I_IN_List.php'>Zurück zur Liste</a></p>";
-
+echo "</div>";
+echo "</div>";
 # =========================================================================================================
 
 if ($debug) {

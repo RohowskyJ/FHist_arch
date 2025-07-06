@@ -16,9 +16,46 @@ if ($debug) {
     print_r($neu);
     echo '</pre>';
 }
-
+#var_dump($neu);
 $neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
+#var_dump($_FILES);
 
+/* Sammlung aufbereiten */
+if (isset($_POST['level1'])) {
+    $response = VF_Multi_Sel_Input();
+    if ($response == "" || $response == "Nix") {
+        
+    } else {
+        $neu['fz_sammlg'] = $response;
+    }
+}
+
+$uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/" . $neu['ad_sg'] . "/" . $neu['ad_subsg'] . "/";
+
+if (isset($_FILES)) {
+    $i = 0;
+    
+    foreach ($_FILES as $upLoad  => $file_arr) {
+        #var_dump($_FILES[$upLoad]);
+        # var_dump($_SESSION[$module]['Pct_Arr']);
+        if ($_FILES[$upLoad] != "") {
+            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
+            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
+            
+            if ($result == "") {
+                continue;
+            }
+            if (substr($result,0,5) == 'Err: ' ) {
+                continue;
+            }
+            $neu["ad_doc_".$i+1] = $result;
+            
+            $i++;
+        }
+    }
+    #var_dump($neu);
+}
+/*
 if (isset($_FILES['uploaddatei_1']['name'])) {
     $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/" . $neu['ad_sg'] . "/" . $neu['ad_subsg'] . "/";
     # echo "L 072 \$uploaddir $uploaddir <br/>";
@@ -39,10 +76,10 @@ if (isset($_FILES['uploaddatei_1']['name'])) {
         $neu['ad_doc_4'] = VF_Upload($uploaddir, 4);
     }
 }
-
-if (isset($neu['auto'])) {
-    $ei_arr = explode("-",$neu['auto']);
-    $neu['ad_neueigner'] = $ei_arr[0];
+*/
+if (isset($neu['eigentuemer'])) {
+    $neu['ad_neueigner'] = $neu['eigentuemer'];
+    unset($neu['eigentuemer']);
 }
 
 
@@ -88,7 +125,7 @@ if ($neu['ad_id'] == 0) { # neueingabe
         echo "<br> \$sql $sql <br>";
         echo "</pre>";
     }
-
+echo "L 091 sql $sql <br>";
     $result = SQL_QUERY($db, $sql);
 
     $neu['ad_id'] = mysqli_insert_id($db);

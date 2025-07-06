@@ -44,10 +44,6 @@ if (isset($_POST['level1'])) {
 # $uploaddir =  "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
 $uploaddir = VF_Upload_Pfad_M('');
 
-if (! file_exists($uploaddir)) {
-    mkdir($uploaddir, 0770, true);
-}
-
 if (isset($_FILES)) {
     $i = 0;
     
@@ -75,7 +71,6 @@ if (isset($_FILES)) {
             $i++;
         }
     }
-    var_dump($neu);
 }
 
 $neu['mg_uidaend'] = $_SESSION['VF_Prim']['p_uid'];

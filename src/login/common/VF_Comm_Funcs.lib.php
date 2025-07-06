@@ -28,7 +28,6 @@
  *  - VF_Sel_Staat      - Auswahl Staat 
  *  - VF_Sel_Urheber_n    - Auswahl des Urhebers, speicherung Urhebernummer   fh_urh* $_Sess[$module]['Fo']['Urheber_list']
  *  - VF_set_module_p   - setzen der Module- Parameter    neu 20240120 
- *  - VF_set_PictPfad   - setze den Bilderpfad für Uploads und Anzeigen
  *  - VF_Show_Eig       - Auslesen ud zurückgeben der Eigner-Daten im Format wie Autocomplete
  *  - VF_tableExist     - test ob eine Tabelle existiert 
  *  - VF_upd            - Berechtigungs- Feststellung je *_List Script entsprechend Eigentümer
@@ -38,7 +37,9 @@
  *  - VF_Multi_Dropdown - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl
  *  - VF_Sel_Eigner     - Eigentümer- Auswahl für Berechtigungen (wieder aktiviert)
  *  - VF_Sel_Eign_Urheb - Urheber- Auswahl aus Eigentümer- Datei
- *  - VF_Urheber_ini_w  - erstellen der Datei login/AOrd_Verz/urheber.ini für die Urheber- Auswahl, bzw Anzeige bem Foto, falls nicht aus Foto-Biblio
+ *  fehlende scripts in der liste
+ *  - VF_Auto_
+ *  - VF_Upload_
  */
 
 if ($debug) {
@@ -530,6 +531,7 @@ function VF_Displ_Eig($eigentmr)
         $_SESSION['Eigner']['eig_org'] = $leihname;
         $_SESSION['Eigner']['eig_name'] = $leihname;
         $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+        
         if ($row->ei_org_typ == "Privat") {
             $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
             $_SESSION['Eigner']['eig_verant'] = "";
@@ -537,12 +539,14 @@ function VF_Displ_Eig($eigentmr)
             $_SESSION['Eigner']['eig_adresse'] = "";
             $_SESSION['Eigner']['eig_ort'] = "";
             $_SESSION['Eigner']['eig_name'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+            $_SESSION['Eigner']['eig_urhname'] = "$row->ei_vname $row->ei_name ";
         } else {
             $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
             $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
             $_SESSION['Eigner']['eig_staat'] = $row->ei_staat;
             $_SESSION['Eigner']['eig_adresse'] = $row->ei_adresse;
             $_SESSION['Eigner']['eig_ort'] = $row->ei_plz . " " . $row->ei_ort;
+            $_SESSION['Eigner']['eig_urhname'] = $leihname;
         }
     }
     mysqli_free_result($return_ei);
@@ -1476,90 +1480,6 @@ function VF_set_module_p()
 
 # Ende Funktion VF_set_module_p
 
-/**
- * Setzen des Pfades zu den Bildern
- *
- * Der Inhalt des Pfades wird über die Globale Val $pict_Pfad zrückgegeben
- *
- * @param string $aufndat
- *            Datum oder Jahr der Aufnahme - Darf nicht leer sein
- * @param string $basepfad
- *            Basispfad darf leer sein
- * @param string $zuspfad
- *            Zusatzpfad darf leer sein
- *            
- * @return string $d_path
- *        
- * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
- * @global string $module Modul-Name für $_SESSION[$module] - Parameter
- *        
- */
-function VF_set_PictPfad($aufndat, $basepfad, $zuspfad, $aufn_suff)
-{
-    global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_set_PictPfad" );
-    
-    $d_path = "";
-/*
-    if (trim($basepfad) != "") {
-        $d_path = trim($basepfad) . "/";
-    } 
-    */
-    if (trim($aufndat) != "")  {
-        $d_path .= trim($aufndat) . "/";
-    }
-
-    if (trim($aufn_suff) != "") {
-        $d_path .= trim($aufn_suff) . "/";
-    }
-    /*
-    if (trim($zuspfad) != "") {
-        $d_path .= trim($zuspfad) . "/";
-    }
-*/
-    return $d_path;
-}
-
-# ende function VF_set_PictPath
-
-/**
- * Setzen des Pfades zu den Bildern
- *
- * Der Inhalt des Pfades wird über die Globale Val $pict_Pfad zrückgegeben
- *
- * @param string $aufndat
- *            Datum oder Jahr der Aufnahme - Darf nicht leer sein
- * @param string $basepfad
- *            Basispfad darf leer sein
- * @param string $zuspfad
- *            Zusatzpfad darf leer sein
- *
- * @return string $d_path
- *
- * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
- * @global string $module Modul-Name für $_SESSION[$module] - Parameter
- *
- */
-function VF_set_PictPath($aufndat, $aufn_suff)
-{
-    global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_set_PictPfad" );
-    
-    $d_path = "";
-    
-    if (trim($aufndat) != "")  {
-        $d_path .= trim($aufndat) . "/";
-    }
-    
-    if (trim($aufn_suff) != "") {
-        $d_path .= trim($aufn_suff) . "/";
-    }
-    return $d_path;
-}
-
-# ende function VF_set_PictPfad
 
 /**
  * Einlesen der existierenden Tabellen in der Datenbank
@@ -1749,8 +1669,8 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload" );
     
-    echo " L 01763 Upl upldir $uploaddir fdsn $fdsn <br>";
-    var_dump($_FILES[$fdsn]);
+    echo " L 01752 Upl upldir $uploaddir fdsn $fdsn <br>";
+    var_dump($_FILES);
     $target = "";
     if (! empty($_FILES[$fdsn])) {
         $target = basename($_FILES[$fdsn]['name']);
@@ -1770,7 +1690,7 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             } else {
                 $target = $fn_arr['basename'];
             }
-          echo "L 01784 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+          echo "L 01773 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
           var_dump($_FILES[$fdsn]);
             if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
                 var_dump($_FILES[$fdsn]);
@@ -1800,7 +1720,7 @@ function VF_Upload_M($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_M" );
     
-    echo " L 01763 Upl upldir $uploaddir fdsn $fdsn <br>";
+    echo " L 01803 Upl upldir $uploaddir fdsn $fdsn <br>";
     # var_dump($_FILES[$fdsn]);
     $target = "";
     if (! empty($_FILES[$fdsn])) {
@@ -1979,7 +1899,7 @@ function VF_Eig_Ausw()
 /**
  * Multi Dropdown select für verschiedene Auswahlen
  * 
- * benötigt jquery und BA_AJAX_Scripts.js
+ * benötigt jquery 
  * 
  * @param string  $in_val
  * @param string $titel
@@ -2201,7 +2121,7 @@ function VF_Sel_Eigner($FeldName, $sub_funct)
  * Einlesen der Daten von fh_eigentuemer und fh_eign_urh
  * Ausgabewerte werden in $_SESSION[$module]['URHEBER']
  */
- 
+ /*
 function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
 {
     global $debug, $db, $module,$flow_list ;
@@ -2212,16 +2132,16 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
     $opt_val_ei = array();
     $sql = "SELECT * FROM `fh_eigentuemer` WHERE ei_id=$ei_id  ORDER BY ei_name ASC";
     $return_bl = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
-    /*
+    / *
     if ($sub_funct == 0) {
         $opt_val_ei['Neueingabe'] = "Neuen Datensatz eingeben";
     }
     if ($sub_funct == 81) {
         $opt_val_ei['0'] = "keine Auswahl getroffen";
     }
-    */
+    * /
     while ($row = mysqli_fetch_object($return_bl)) {
-        /**
+        /  **
          * Neue Einteilung der Sess Var
          * 
          * $_SESSION[$module]['URHEBER'][$eigner] = $ei_id;
@@ -2235,7 +2155,7 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
          * $_SESSION[$module]['URHEBER'][$eigner]['Media']['urh_nr'] = ei_id oder fs_urh_nr
          * $_SESSION[$module]['URHEBER'][$eigner]['Media']['verz'] = fs_urh_verzeich
          * 
-         */
+         * /
         
         if ($row->ei_org_typ == 'Privat') {
             $ei_fotograf = $row->ei_name." ". $row->ei_vname;
@@ -2249,9 +2169,9 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
               array('typ' => $ei_media,'kurzz' => $ei_urh_kurzz, 'fotograf' => $ei_fotograf,'urh_nr'=>$row->ei_id, 'verz'=>'');
         $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
               array('typ' => $ei_media,'kurzz' => $ei_urh_kurzz, 'fotograf' => $ei_fotograf,'urh_nr'=>$row->ei_id, 'verz'=>'');
-        /**
-         * einlesen der urh erweiterungsdaten
-         */
+        / **
+         *  einlesen der urh erweiterungsdaten
+         * /
         $sql_u = "SELECT * FROM fh_eign_urh WHERE fs_eigner = $row->ei_id";
         $return_u = SQL_QUERY($db,$sql_u);
         if ($return_u) {
@@ -2282,6 +2202,7 @@ function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
 }
 
 // Ende von function VF_Sel_Eign_Urheb   
+*/
 
 /**
  * Autocomple für die Auswahl von Aufbauer des  Fahrzeuges
@@ -2298,35 +2219,33 @@ function VF_Auto_Aufbau () {
     </div>  
     <div id="suggestAufbauer" class="suggestions"></div>
     <input type="hidden" name="aufbauer" id="aufbauer" />
-
+    <div>
     <?php 
 } // Ende VF_Auto_Aufbau
 
-function VF_Auto_Eigent_old () {
-    global $debug, $module, $flow_list;
-    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent" );
-    ?>
-    <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
-    <b>Suchbegriff für Eigentümer eingeben:</b> <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener"  size='50'/>
-    </div>  
-    <div id="suggestEigener" class="suggestions"></div>
-    <input type="hidden" name="eigentuemer" id="eigentuemer" />
-    <?php 
-} // Ende VF_Auto_Eigent
-
 // Beispiel: Funktion für das Eingabefeld von gradually
-function VF_Auto_Eigent() {
+function VF_Auto_Eigent($t,$cl=False) {
     global $debug, $module, $flow_list;
     flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent" );
     console_log('autoeigent');
     ?>
-<div class='w3-container' style='background-color: PeachPuff; padding: 10px;'>
-    <b>Suchbegriff für Eigentümer eingeben:</b>
-    <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener" data-feed="eigentuemer" size='50'/>
-</div>
-<div id="suggestEigener" class="suggestions"></div>
-<input type="hidden" name="eigentuemer" id="eigentuemer" />
-<?php
+    <div class='w3-container' style='background-color: PeachPuff; padding: 10px;'>
+    <?php 
+        if (!isset($t) && $t = 'E') {
+           echo "<b>Suchbegriff für Eigentümer eingeben:</b>";
+        } else {
+           echo "<b>Suchbegriff für Urheber eingeben:</b>";
+        }
+    ?>
+        <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener" data-feed="eigentuemer" size='50'/>
+    </div>
+    <div id="suggestEigener" class="suggestions">
+       <input type="hidden" name="eigentuemer" id="eigentuemer" />
+    </div>
+    <?php
+    if ( $cl ) { 
+       echo "<button type='submit' name='phase' value='1' class=green>Weiter</button></p>";
+    }
 } // Ende VF_Auto_Eigent
 
 function VF_Auto_Herstell () {
@@ -2337,8 +2256,9 @@ function VF_Auto_Herstell () {
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller" data-feed="hersteller" size='50'/>
     </div>  
-    <div id="suggestHersteller" class="suggestions"></div>
+    <div id="suggestHersteller" class="suggestions">
     <input type="hidden" name="hersteller" id="hersteller" />
+    </div>
     <?php 
 } // Ende VF_Auto_Herstell 
 
@@ -2352,44 +2272,10 @@ function VF_Auto_Taktb () {
     </div>  
     <div id="suggestTaktisch" class="suggestions"></div>
     <input type="hidden" name="taktisch" id="taktisch" />
+    </div>
     <?php 
 } // Ende VF_Auto_Taktb
 
-function VF_Auto_Urheber ($i) {
-    global $debug, $module, $flow_list,$path2ROOT;
-    
-    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Urheber" );
-    console_log('autourheber');
-    
-    $urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
-    console_log("L 02359 urh.ini $urh_dsn");
-    if (!is_file($urh_dsn)) {
-        VF_Urheber_ini_w();
-    }
-    $urheber_arr = parse_ini_file($path2ROOT.'login/AOrd_Verz/urheber.ini',True,INI_SCANNER_NORMAL);
-    $cnt_m = count($urheber_arr['urheber_list']);
-    
-    echo "<div class='w3-container' style='background-color: PeachPuff '> ";
-    echo "<b>Suchbegriff für Urheber eingeben:  </b>";
-    echo "<select name='urheber_$i' id='urheber_$i' >";
-
-    foreach ($urheber_arr['urheber_list'] as $id => $value ) {
-        echo "<option value='$id' >$value</option>";
-    }
-    echo "</select>";
-    echo "</div> ";
-
-    ?>
-    <!-- 
-    <div class='w3-container' style='background-color: PeachPuff '> 
-    <b>Suchbegriff für Urheber eingeben:</b> <input type="text" class="autocomplete" data-proc="Urheber" data-target="suggestUrheber"  size='50'/>
-    </div>  
-    
-    <div id="suggestUrheber" class="suggestions"></div>
-    <input type="hidden" name="urheber" id="urheber" />
-     -->
-    <?php 
-} // Ende VF_Auto_Urheber
 
 /**
  * Setzen des Speicherpfades per  Return zurückgegeben
@@ -2422,7 +2308,7 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
     
     $grp_path = $ao_path = $verzeichn = $subverz = "";
     
-    $mand_mod = array('INV', 'ARC', 'FOT', 'F_G','F_M');
+    $mand_mod = array('INV', 'FOT', 'F_G','F_M');
     
     if (in_array($module,$mand_mod)) { // Mandanten- Modus
         if ($urh_nr == "") {
@@ -2430,52 +2316,28 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
         } else {
             $grp_path = $urh_nr.'/';
         }
-        
+
         switch ($module) {
-            case 'ARC' :
-                if ($aufnDatum == '') {
-                    $verzeichn =  'ARC/';
-                } else {
-                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
-                }
-                break;
+            
             case 'INV' :
-                if ($aufnDatum == '') {
-                    $verzeichn =  'INV/';
-                } else {
-                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
-                }
+                $verzeichn =  'INV/';
                 break;
             case 'F_G' :
-                if ($aufnDatum == '') {
-                    if (substr($_SESSION[$module]['sammlung'],0,4) == 'MA_F') {
-                        $verzeichn =  'MaF/';
-                    } else {
-                        $verzeichn =  'MaG/';
-                    }
+                if (substr($_SESSION[$module]['sammlung'],0,4) == 'MA_F') {
+                    $verzeichn =  'MaF/';
                 } else {
-                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
-                }
-                
+                    $verzeichn =  'MaG/';
+                }              
                 break;
             case 'F_M' :
-                if ($aufnDatum == '') {
-                    if (substr($_SESSION[$module]['fm_sammlung'],0,4) == 'MU_F') {
-                        $verzeichn =  'MuF/';
-                    } else {
-                        $verzeichn =  'MuG/';
-                    }
+                if (substr($_SESSION[$module]['fm_sammlung'],0,4) == 'MU_F') {
+                    $verzeichn =  'MuF/';
                 } else {
-                    $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
+                    $verzeichn =  'MuG/';
                 }
-                
                 break;
             case 'FOT' :
                 $ao_path = $aoPfad.'/';
-                $verzeichn =  $aufnDatum.'/';
-                if ($fuffix != '') {
-                    $subverz = $suffix.'/';
-                }
                 break;
         }
         
@@ -2601,7 +2463,7 @@ function VF_Upload_Form_M ()
 
         $j = $i +1; /** Für die Bil- Nr- Anzeige */
 
-        $pict_path = VF_Upload_Pfad_M ('', '', '', '');
+        #$pict_path = VF_Upload_Pfad_M ('', '', '', '');
         
         /**
          * Responsive Container innerhalb des loops
@@ -2610,6 +2472,9 @@ function VF_Upload_Form_M ()
         echo "<fieldset>";
         echo "Bild $j <br>";
  
+        if ($p_a['udir'] != "") {
+            $uploaddir = $p_a['udir'];
+        }
             if ($p_a['ko'] != "") {
                 if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
                     echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
@@ -2630,27 +2495,58 @@ function VF_Upload_Form_M ()
             if ($neu[$p_a['bi']] != "") {
                 $fo = $neu[$p_a['bi']];
                 #console_log('L 02528 foto '.$fo);
+                    
                 $fo_arr = explode("-",$neu[$p_a['bi']]);
                 $cnt_fo = count($fo_arr);
                 
+                
+                if ($cnt_fo >=3) {
+                    $uploaddir .= "09/";
+                } else {
+                    #$uploaddir .= 'MaG/';
+                }
+                
+                $f_a = pathinfo(strtolower($fo));
+                
+                $aossg = "";
+                $ext = $f_a['extension'];
+                
+                if (stripos($uploaddir,'09/') >=1) {
+                    $ext = $f_a['extension'];
+                    $ao_ssg = "";
+                    if (in_array($ext,AudioFiles)) {
+                        $ao_ssg = "02/";
+                    }
+                    if (in_array($ext,GrafFiles)) {
+                        $ao_ssg = "06/";
+                    }
+                    if (in_array($ext,VideoFiles)) {
+                        $ao_ssg = "10/";
+                    }
+                    $ao_ssg;
+                }
                 if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
                     $urh = $fo_arr[0]."/";
                     $verz = $fo_arr[1]."/";
+                    /*
                     if ($cnt_fo > 3)  {
-                        if (isset($fo_arr[3]))
-                            $s_verz = $fo_arr[3]."/";
+                        if (isset($fo_arr[2]))
+                            $verz .= $fo_arr[2]."/";
                     }
-                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
+                   */
+                    $d_p = $path2ROOT ."login/AOrd_Verz/$urh/09/".$ao_ssg.$verz;
+               
+                    $p = $d_p.$neu[$p_a['bi']] ;
                     
                     if (!is_file($p)) {
-                        $p = $pict_path . $neu[$p_a['bi']];
+                        $p = $p;
                     }
                 } else {
-                    $p = $pict_path . $neu[$p_a['bi']];
+                    $p = $uploaddir . $neu[$p_a['bi']];
                 }
 
-                $f_arr = pathinfo($neu[$p_a['bi']]);
-                if ($f_arr['extension'] == "pdf") {
+                #$f_arr = pathinfo($neu[$p_a['bi']]);
+                if ($f_a['extension'] == "pdf") {
                     echo "<a href='$p' target='Bild $j' > Dokument</a>";
                 } else {
                     echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
@@ -2703,19 +2599,19 @@ function VF_Upload_Form_M ()
  * @param string $fo_aufn_datum  Aufnahmedatum
  * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
  */
-function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
+function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_nr="", $md_aufn_datum="")
 {
     global $debug, $module, $flow_list;
     
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_Save_M" );
     console_log('uploadsave');
-     
+    if ($md_aufn_datum != "") {
+        $md_aufn_datum_n = "$md_aufn_datum/";
+    }
     #echo " L 02704 Upl upldir $uploaddir fdsn $fdsn <br>";
     # var_dump($_FILES[$fdsn]);
     $target = "";
     if ($_FILES[$fdsn]['name'] != "") {
-        
-        $target = basename($_FILES[$fdsn]['name']);
         
         if ($_FILES[$fdsn]['error'] >= 1) {
             $errno = $_FILES[$fdsn]['error'];
@@ -2729,20 +2625,44 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
                     $err .= "Err: Falsche Datei (Erweiterung)";
                     break;
             }
-            return $err;
+            return $err;   
         }
-               
+        
+        $f_a = pathinfo($_FILES[$fdsn]['name']);
+       # var_dump($f_a);
+        $target = $f_a['basename'];
+#echo "L 2755 uploaddir $uploaddir <br>";
+        if (stripos($uploaddir,'09/') >=1) {
+            $ext = strtolower($f_a['extension']);
+            $ao_ssg = "";
+            if (in_array($ext,AudioFiles)) {
+                $ao_ssg = "02/";
+            }
+            if (in_array($ext,GrafFiles)) {
+                $ao_ssg = "06/";
+            }
+            if (in_array($ext,VideoFiles)) {
+                $ao_ssg = "10/";
+            }
+            $uploaddir .= $ao_ssg.$md_aufn_datum_n;
+        }
+# echo "L 02687 uploaddir $uploaddir <br>";
+
+        if (! file_exists($uploaddir)) {
+            mkdir($uploaddir, 0770, true);
+        }
+        
         if ($target != "" ) {
             $target = VF_trans_2_separate($target);
             
             $fn_arr = pathinfo($target);
             $ft = strtolower($fn_arr['extension']);
             #var_dump($fn_arr);
-            if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
+            if (in_array($ft, GrafFiles) && $urh_nr != "" && $md_aufn_datum != "") {
                 $newfn_arr = explode('-', $target);
                 $cnt = count($newfn_arr);
                 if ($cnt == 1) { # original- Dateiname, nicht im Format urh-datum-Aufn_dateiname.ext,
-                    $target = "$urh_abk-$fo_aufn_datum-" . $fn_arr['basename'];
+                    $target = "$urh_nr-$md_aufn_datum-" . $fn_arr['basename'];
                 }
             } else {
                 $target = $fn_arr['basename'];
@@ -2758,52 +2678,6 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
     }
     
 } // end VF_Upload_Save_M
-
-
-/**
- * Erstllen der Urheber- Liste urheber.ini für Referenz, wenn 1 Wo alt, neu erstellen
- * 
- */
-function VF_Urheber_ini_w () 
-{
-    global $debug, $module, $flow_list, $db, $path2ROOT;
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Urheber_ini_w" );
-    console_log('urheberini');
-
-    if ($debug) {
-        echo "<pre class=debug>Urheber-Auswahl L Beg:  <pre>";
-    }
-        
-    $urh_dsn = $path2ROOT."login/AOrd_Verz/urheber.ini";
-    if (is_file($urh_dsn)) {
-        $ftime = filemtime($urh_dsn);
-        echo "L 02771 filemtime $ftime <br>";
-        error_log("L 02772 filemtime $ftime ");
-    }
-        
-    $urheb_arr[0] = "Kein Urheber ausgewählt.";
-    
-    $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC ";
-    
-    $return_ur = SQL_QUERY($db, $sql_ur);
-    
-    while ($row = mysqli_fetch_object($return_ur)) {
-        $urheb_arr[$row->ei_id] = $row->ei_name." ".$row->ei_vname; 
-    }
-   
-    $f_handle = fopen($urh_dsn, 'w');
-    if (fwrite ($f_handle,"[urheber_list]\n" ) === FALSE) {
-        echo "L 02719 die Datei $urh_dsn kann nicht geschrieben werden <br>";
-        console_log("L 02719 die Datei $urh_dsn kann nicht geschrieben werden");
-    }
-     
-    foreach ($urheb_arr as $urh_abk => $urh_name) {
-        $cont = "$urh_abk='$urh_name'\n";
-        fwrite($f_handle,$cont);
-    }
-    fclose($f_handle);
-} // end VF_urheber_ini_w
 
 
 /**

@@ -74,11 +74,10 @@ if ($_SESSION['VF_Prim']['p_uid'] == 1) {
           Die bearbeiteten Fotos (Größenanpassung, Copyright Info) werden in dem dazu bestimmten Verzeichnis abgelegt.
           Die Daten über die Veranstaltung werden erfasst. Die erstellung der Tabellen- Eintragungen erfolgt durch Aufruf der Foto- Funktionen. ";
     echo "</div>"; // Ende der Ausgabe- Einheit Feld
-    
-    echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-    echo "<a href='VF_FO_MassUp.php?sk=$sk' target='Foto'> Massen- Upload (Fotos, Videos)</a>";
-    echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
+    echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
+    echo "<a href='VF_FO_Media_MassUp.php?sk=$sk&res_eign=1' target='Foto_Up'> Medien- Massen- Upload (Audio, Fotos, Videos)</a>";
+    echo "</div>"; // Ende der Ausgabe- Einheit Feld
 }
 
 Edit_Separator_Zeile('Berichte über Vereins- oder historisch interessante Ereignisse');

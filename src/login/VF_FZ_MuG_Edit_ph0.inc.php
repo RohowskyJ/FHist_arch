@@ -38,11 +38,6 @@ if ($hide_area != 0) {
 Edit_Separator_Zeile('Sammlung'.$button);
 # =========================================================================================================
 
-# =========================================================================================================
-Edit_Separator_Zeile('Sammlung');
-# =========================================================================================================
-# Edit_Daten_Feld('fz_invnr',50);
-
 echo "<input type='hidden' name='mg_sammlg' value='".$neu['mg_sammlg']."'/>";
 
 // $Edit_Funcs_Protect = True;
@@ -59,7 +54,7 @@ if ($hide_area == 0 || mb_strlen($neu['mg_sammlg']) <= 4) {
 /**
  * Parameter für den Aufruf von Multi-Dropdown
  *
- * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+ * Benötigt jquery
  *
  *
  * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
@@ -94,6 +89,7 @@ switch ($MS_Opt) {
 
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val,$titel);
+
 echo " </div>";
 
 # =========================================================================================================

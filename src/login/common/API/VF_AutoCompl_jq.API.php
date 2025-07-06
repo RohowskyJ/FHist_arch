@@ -9,7 +9,6 @@
  *
  *
  */
-session_start();
 
 header('Content-Type: application/json charset=utf-8');
 /*
@@ -94,14 +93,14 @@ $response[] = ['value' => '', 'label' => "Keine Auswahl $proc gefunden"];
 
 function eigent ($term) {
     global $db, $module, $srch_arr;
-    /* */
+    /* 
     $dsn = "autocomp_eig.log";
     $eintragen = "f Eig  $term L 099\n";
 
     $datei = fopen($dsn, "a");
     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
     fclose($datei);
-    /* */
+    */
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%' LIMIT 100";
     $result = SQL_QUERY($db, $query);
 

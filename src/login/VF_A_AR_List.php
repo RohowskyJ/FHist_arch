@@ -34,7 +34,6 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
-require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -79,9 +78,10 @@ $sk = $_SESSION['VF_Prim']['SK'];
 # Haeder ausgeben
 # ===========================================================================================================
 
-$header = "";
-$prot = True;
+$jq = $jqui = True; // JQ-UI laden
+$BA_AJA = True; // AJAX- Scripts laden
 
+$header = "";
 $eigner = $_SESSION['Eigner']['eig_eigner'];
 BA_HTML_header("Archivalien des Eigentümers $eigner", $header, 'List', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -140,8 +140,8 @@ $title = "";
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
-if (isset($_POST['suggestEigener'])) {
-    $ei_id = $_POST['suggestEigener'];
+if (isset($_POST['eigentuemer'])) {
+    $ei_id = $_POST['eigentuemer'];
     VF_Displ_Eig($ei_id);
     # $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
@@ -152,7 +152,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
 {
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            BA_Auto_Eigent();
+            VF_Auto_Eigent('E','');
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
@@ -162,6 +162,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
 } else {
 
     VF_upd();
+    
     $AO_Sel = VF_Multi_Sel_Input(); 
     # echo "L 0167  AO_Sel $AO_Sel <br>";
     if (isset($AO_Sel) && $AO_Sel != "") {
@@ -193,7 +194,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     # ===========================================================================================
 
     $T_list_texte = array(
-        "Anzeige" => $_SESSION[$module]['ArOrd_Name'],
+        "Anzeige" => $_SESSION[$module]['ArOrd_Name']."(Auswahl)",
         "NextOrd" => "<a href='VF_A_AR_List.php?ID=NextArch' > anderen Archivbereich auswählen </a>",
         "NextEig" => "<a href='VF_A_AR_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
         "NeuItem" => "<a href='VF_A_AR_Edit.php?ad_id=0' target='neu' > Neuen Datensatz anlegen </a>"
@@ -342,8 +343,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
 
     BA_HTML_trailer();
 }
-BA_Auto_Funktion();
-echo "<script type='text/javascript' src='VF_C_AOrd_Funcs.js'></script>";
+
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste

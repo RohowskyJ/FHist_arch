@@ -126,7 +126,7 @@ if ($phase == 1) {
     $neu['ab_fw_id'] = $_SESSION[$module]['fw_id'];
 
     if (isset($_FILES['uploaddatei_1']['name'])) {
-        $uploaddir = "Beschreibungen/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
+        $uploaddir = $path2ROOT."login/AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
         
         if ($_FILES['uploaddatei_1']['name'] != "" ) {
             $neu['ab_statut'] = VF_Upload($uploaddir, 1);

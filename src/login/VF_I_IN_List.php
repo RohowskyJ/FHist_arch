@@ -155,7 +155,7 @@ if (isset($_POST['level1'])) {
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "") { 
     
     if ($_SESSION['Eigner']['eig_eigner'] == "") {
-        VF_Auto_Eigent();
+        VF_Auto_Eigent('E','');
     }
     
     if ($_SESSION[$module]['sammlung'] == ""){
@@ -344,7 +344,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     
     Cr_n_in_ventar($tabelle);
 
-    $sql .= $sql_where . $orderBy;
+    # echo "L 0348 sql $sql <br>";
     
     List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
     

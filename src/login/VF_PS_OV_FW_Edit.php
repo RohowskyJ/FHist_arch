@@ -108,7 +108,7 @@ if ($phase == 1) {
     $neu['fo_ff_w_komm'] = mb_convert_case($neu['fo_ff_w_komm'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
     if (isset($_FILES['uploaddatei_1']['name'])) {
-        $uploaddir = "AOrd_Verz//PSA/AERM/Wappen_FW/";
+        $uploaddir = $path2ROOT."login/AOrd_Verz/AOrd_Verz//PSA/AERM/Wappen_FW/";
         
         if (! file_exists($uploaddir)) {
             mkdir($uploaddir, 0777, true);
