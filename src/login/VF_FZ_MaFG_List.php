@@ -14,6 +14,11 @@ $tabelle = '';
 $tabelle_f = "ma_fahrzeug_";
 $tabelle_e = "ma_eigner_";
 
+/** für PHP-Logging */
+ ini_set("log_errors", 1);
+ ini_set("error_log", "aa_VF_FZ_php-error.log");
+ error_log( "Hello, errors!" );
+/* */
 
 /**
  * Angleichung an den Root-Path

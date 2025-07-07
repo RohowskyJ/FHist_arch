@@ -237,8 +237,8 @@
      * @global array $fm_arr
      */
     $maf_arr = $mag_arr = array();
-    $fm_arr = $ge_arr = array();
-    $m_arr = $g_arr = array();
+    $muf_arr = $mug_arr = array();
+  
     $tables_act = VF_tableExist(); # verfügbare Mandanten- Tabellen
     if (! $tables_act) {
         echo "keine Tabellen gefunden - ABBRUCH <br>";
@@ -259,8 +259,6 @@
         $i ++;
     }
 
-    # echo "L 0223 $tabelle_m $tabelle_g <br>";
-     # var_dump($mag_arr);
     foreach ($eig_arr as $eignr) {
 
         if ($tabelle_g != "") {
@@ -268,9 +266,6 @@
 
             if (array_key_exists($tabelle, $mag_arr)) {
 
-                # Zeile n der Ausgabe:
-                # echo "<tr><td>$row->fm_eignr<br/>$row->fm_id</td><td>$row->fm_bezeich<br/>$row->fm_indienst, $zustand<br/>$row->fm_herst</td><td>$row->fm_komment</td><td>$Bild</td></tr>";
-                # $g_arr [i] indienst|eigentümer,recnr,zustand,bezeichnung,kommentar,hersteller,bild,
                 // einlesen der Fzgdaten in Arr
                 # $table = "fz_muskel_$eignr";
                 $sql = "SELECT * FROM `$tabelle`  $sql_where ORDER BY `ge_id` ASC";

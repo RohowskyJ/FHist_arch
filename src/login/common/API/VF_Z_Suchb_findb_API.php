@@ -1,22 +1,23 @@
 <?php
 $path2ROOT = "../";
 
-$debug_log = False;
+$debug_log = false;
 
-file_put_contents('Suchb_findb.log', "VF_Z_Suchb_findb.API L 007 " . PHP_EOL, FILE_APPEND);
+if ($debug_log) {file_put_contents('Suchb_findb.log', "VF_Z_Suchb_findb.API L 007 " . PHP_EOL, FILE_APPEND);}
 
-/* */
-if ($debug_log) {
-    $dsn = "findbuch.log";
-    $eintragen = Date("Y-m-d H:i:s")."\n";
-    $eintragen .= "started \n";
-    $datei = fopen($dsn, "a");
-    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-    fclose($datei);
-}
+/* für PHP-Logging
 
-/* */
-echo "findb gestartet";
+ ini_set('display_errors', '1');
+ ini_set("log_errors", 1);
+ ini_set("error_log", "Findbuch_php-error.log");
+ error_log( "Hello, errors!" );
+ */
+
+$debug_log = false;
+
+if ($debug_log) {file_put_contents('Findb_debug.log', "VF_Z_Suchb_findb.API L 018 " . PHP_EOL, FILE_APPEND);}
+
+# echo "findb gestartet";
 $ini_d = $path2ROOT . "config_d.ini";
 $ini_arr = parse_ini_file($ini_d, True, INI_SCANNER_NORMAL);
 
@@ -58,14 +59,9 @@ if (isset($ini_arr)) { # (isset($ini_arr[$server_name])){
     mysqli_set_charset($db, 'utf8');
     $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
 }
-/* 
- $dsn = "findbuch.log";
- $eintragen = Date("Y-m-d H:i:s")."\n";
- $eintragen .= "Findbuch regen gestartet \n";
- $datei = fopen($dsn, "a");
- fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
- fclose($datei);
-*/
+
+if ($debug_log) {file_put_contents('Findb_debug.log', "VF_Z_Suchb_findb.API L 063 DB verbunden " . PHP_EOL, FILE_APPEND);}
+
 require $path2ROOT . 'BA_Funcs.lib.php'; // Diverse allgemeine Unterprogramme
 require $path2ROOT . 'VF_Comm_Funcs.lib.php';
 
@@ -77,19 +73,18 @@ setlocale(LC_CTYPE, "de_AT"); // für Klassifizierung und Umwandlung von Zeichen
 
 $line = "";
 
-#echo date("Y-d-m h:i:s") . "<br>";
 $line .= date("Y-d-m h:i:s")."\n";
 
+
+# $ar_arr, $dm_arr, $maf_arr, $mag_arr, $muf_arr, $mug_arr, $in_arr, $zt_arr, $mar_arr,
 $ar_arr = array();
-$fo_arr = array();
-$fz_arr = array();
+$dm_arr = array();
+$in_arr = array();
 $maf_arr = array();
-$fm_arr = array();
+$mag_arr  = array();
 $muf_arr  = array();
 $mug_arr  = array();
 $ge_arr = array();
-$mag_arr  = array();
-$in_arr = array();
 $zt_arr = array();
 $tables_act = VF_tableExist();
 
@@ -102,7 +97,13 @@ $return_del = mysqli_query($db, $sql_del) or die("Datensatzlöschen gescheitert 
 
 $fld = "ad_keywords";
 $find_sum = $find_total = 0;
+
+if ($debug_log) {file_put_contents('Findb_debug.log', "L 0100 vor ar analyse " . PHP_EOL, FILE_APPEND);}
+
 foreach ($ar_arr as $ar_table => $ar) {
+    
+    if ($debug_log) {file_put_contents('Findb_debug.log', "L 014 var_table $ar_table ar $ar  " . PHP_EOL, FILE_APPEND);} 
+    
     if ($ar_table == "ar_chivord" or $ar_table == "ar_chivdt" or $ar_table == "ar_chivdt_" or $ar_table == "ar_ch_verl" or $ar_table == "ar_ord_local" ) {
         continue;
     }
@@ -111,16 +112,14 @@ foreach ($ar_arr as $ar_table => $ar) {
     $eignr = $ei_ar[2];
     
     $sql_in = "SELECT * FROM `$ar_table` ORDER BY ad_id ";
-    /* */
-     $dsn = "findbuch.log";
-     $eintragen = Date("Y-m-d H:i:s")."\n";
-     $eintragen .= "sql_in $sql_in  \n";
-     $datei = fopen($dsn, "a");
-     fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-     fclose($datei);
-     /* */
+   
+    if ($debug_log) {file_put_contents('Findb_debug.log', "L 0111 ar_table $ar_table " . PHP_EOL, FILE_APPEND);}
+    
     $return_in = SQL_QUERY($db, $sql_in);
+    $num_recs = mysqli_num_rows($return_in);
+    if ($debug_log) {file_put_contents('Findb_debug.log', "VF_Z_Suchb_findb.API L 0115 ANz Sätzr $num_recs " . PHP_EOL, FILE_APPEND);}
     $find_sum = 0;
+    $i = 0;
     while ($row = mysqli_fetch_object($return_in)) {
         if ($row->ad_keywords != " ") {
             $fdid = $row->ad_id;
@@ -145,49 +144,49 @@ foreach ($ar_arr as $ar_table => $ar) {
                                          ('$ar_table','$fld','$fdid','$key', '$keywords', '$eignr'
                                            )";
                     
-                    $return_fb = mysqli_query($db, $sql_fb) or die("Datenbankabfrage gescheitert. <br/>$sql_fb <br/>" . mysqli_error($db));
+                    $return_fb = SQL_QUERY($db, $sql_fb) or die("Datenbankabfrage gescheitert. <br/>$sql_fb <br/>" . mysqli_error($db));
                 }
             }
+            
         }
+        if ($debug_log) {file_put_contents('Findb_debug.log', "L 063 anzahl der Sätze mit Eintragungen $i" . PHP_EOL, FILE_APPEND);}
+        $i++;
     }
-    
     $line .= "<b>Die Datei $ar_table wurde eingelesen und nach Suchegriffen analysiert. $find_sum Suchbegriffe wurden analysiert.<br>\n";
     $find_total += $find_sum;
 }
 
 
-$fld = "fo_suchbegr";
+if ($debug_log) {file_put_contents('Findb_debug.log', "L 0159 vor dm analyse " . PHP_EOL, FILE_APPEND);}
+
+$fld = "md_suchbegr";
 # $find_sum = $find_total = 0;
-foreach ($fo_arr as $fo_table => $fo) {
-    /*
-    if (substr($fo_table, 0, 10) == "fo_todat" or $ar_table == "ar_chivdt" or $ar_table == "ar_chivdt_" or $ar_table == "ar_ch_verl" or $ar_table == "ar_ord_local" ) {
-        continue;
-    }
-    */
-    $sql_in = "SELECT * FROM `$fo_table` ORDER BY fo_id ";
-    /* */
-    $dsn = "findbuch.log";
-    $eintragen = Date("Y-m-d H:i:s")."\n";
-    $eintragen .= "sql_in $sql_in  \n";
-    $datei = fopen($dsn, "a");
-    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-    fclose($datei);
-    /* */
+foreach ($dm_arr as $fo_table => $dm) { 
+    
+    if ($debug_log) {file_put_contents('Findb_debug.log', "L 0165 fo_table $fo_table dm $dm " . PHP_EOL, FILE_APPEND);}
+    
+    $sql_in = "SELECT * FROM `$fo_table` ORDER BY md_id ";
+    
+    if ($debug_log) {file_put_contents('Findb_debug.log', "L 0165 Tabelle $fo_table wird eingelesen" . PHP_EOL, FILE_APPEND);}
+    
     $return_in = SQL_QUERY($db, $sql_in);
+    
+    $num_recs = mysqli_num_rows($return_in);
+    if ($debug_log) {file_put_contents('Findb_debug.log', "L 063 anzahl der Datensätze $num_recs " . PHP_EOL, FILE_APPEND);}
+    
     $find_sum = 0;
     while ($row = mysqli_fetch_object($return_in)) {
-        if ($row->fo_suchbegr != " ") {
-            $fdid = $row->fo_id;
+        if ($row->md_suchbegr != " ") {
+            $fdid = $row->md_id;
             
             $ei_ar  = explode("_",$fo_table);
             $eignr = $ei_ar[2];
             
-            
-            $keywords = $row->fo_suchbegr;
+            $keywords = $row->md_suchbegr;
             if ($keywords == "") {
                 continue;
             }
-            $find_arr = explode(",", $row->fo_suchbegr);
+            $find_arr = explode(",", $row->md_suchbegr);
             $find_cnt = count($find_arr);
             $find_sum += $find_cnt;
             foreach ($find_arr as $key) {
@@ -203,13 +202,13 @@ foreach ($fo_arr as $fo_table => $fo) {
                                       ) VALUES
                                          ('$fo_table','$fld','$fdid','$key', '$keywords', '$eignr'
                                            )";
-                    $return_fb = mysqli_query($db, $sql_fb) or die("Datenbankabfrage gescheitert. <br/>$sql_fb <br/>" . mysqli_error($db));
+                    $return_fb = SQL_QUERY($db, $sql_fb) or die("Datenbankabfrage gescheitert. <br/>$sql_fb <br/>" . mysqli_error($db));
                 }
             }
         }
     }
     
-    $line .= "<b>Die Datei $ar_table wurde eingelesen und nach Suchegriffen analysiert. $find_sum Suchbegriffe wurden analysiert.<br>\n";
+    $line .= "<b>Die Datei $fo_table wurde eingelesen und nach Suchegriffen analysiert. $find_sum Suchbegriffe wurden analysiert.<br>\n";
     $find_total += $find_sum;
 }
 

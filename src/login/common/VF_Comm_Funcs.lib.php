@@ -1491,16 +1491,16 @@ function VF_set_module_p()
  * @global string $LinkDB_database Datenbank- Name
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $ar_arr Tabelle mit den Archivalien- Tabellen
- * @global array $fo_arr Tabelle mit den Foto- Tabellen
+ * @global array $fo_arr Tabelle mit den Foto- Tabellen -> wird dm_arr
  * @global array $fm_arr Tabelle mit den Muskel- Tabellen
  * @global array $ge_arr Tabelle mit den Geräte- Tabellen
  * @global array $in_arr Tabelle mit den Inventar- Tabellen
  * @global array $zt_arr Tabelle mit den Zeitungs- Tabellen
  *        
- */
+ */   // add dm_arr für dm_edien, del fo_arr, fz_arr, fm-arr und updates in den jeweiligen scripts
 function VF_tableExist()
 {
-    global $db, $LinkDB_database, $debug, $ar_arr, $fo_arr, $fz_arr, $maf_arr, $fm_arr, $muf_arr, $mug_arr, $ge_arr,$mag_arr, $in_arr, $zt_arr, $arcxr_arr, $mar_arr, $flow_list,$module;
+    global $db, $LinkDB_database, $debug, $ar_arr, $dm_arr, $maf_arr, $mag_arr, $muf_arr, $mug_arr, $in_arr, $zt_arr, $mar_arr, $flow_list,$module;
 
     flow_add($module,"VF_Comm_Funcs.inc Funct: VF_tableExists_" );
     
@@ -1534,40 +1534,17 @@ function VF_tableExist()
                 $ar_arr[$table] = 1;
                 continue;
             }
-            if (substr($table, 0, 5) == "fo_to") {
-                $fo_arr[$table] = 1;
+            if (substr($table, 0, 5) == "dm_ed") {
+                $dm_arr[$table] = 1;
                 continue;
             }
            
-            if (substr($table, 0, 5) == "fz_be") {
-                $fz_arr[$table] = 1;
-                continue;
-            }
-        
             if (substr($table, 0, 4) == "ma_f") {
                 $maf_arr[$table] = 1;
                 continue;
             }
-            if (substr($table, 0, 5) == "fz_ei") {
-                $fz_arr[$table] = 1;
-                continue;
-            } 
-            if (substr($table, 0, 5) == "fz_fz") {
-                $fz_arr[$table] = 1;
-                continue;
-            }
-            
-            if (substr($table, 0, 5) == "fz_fi") {
-                $fz_arr[$table] = 1;
-                continue;
-            }
-            if (substr($table, 0, 5) == "fz_la") {
-                $fz_arr[$table] = 1;
-                continue;
-            }
-            
-            if (substr($table, 0, 5) == "fz_mu") {
-                $fm_arr[$table] = 1;
+            if (substr($table, 0, 4) == "ma_g") {
+                $mag_arr[$table] = 1;
                 continue;
             }
             
@@ -1579,14 +1556,7 @@ function VF_tableExist()
                 $mug_arr[$table] = 1;
                 continue;
             }
-            if (substr($table, 0, 5) == "ge_ra") {
-                $ge_arr[$table] = 1;
-                continue;
-            }
-            if (substr($table, 0, 5) == "ma_ge") {
-                $mag_arr[$table] = 1;
-                continue;
-            }
+
             if (substr($table, 0, 5) == "in_ve") {
                 $in_arr[$table] = 1;
                 continue;
@@ -1595,10 +1565,7 @@ function VF_tableExist()
                 $zt_arr[$table] = 1;
                 continue;
             }
-            if (substr($table, 0, 5) == "fz_ar") {
-                $arcxr_arr[$table] = 1;
-                continue;
-            }
+
             if (substr($table, 0, 5) == "ma_ar") {
                 $mar_arr[$table] = 1;
                 continue;

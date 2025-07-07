@@ -42,7 +42,7 @@ function Cr_n_mu_fahrzeug ($tabelle)
   `fm_uidaend` char(10) NULL  COMMENT 'Letzter Änderer',
   `fm_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'letzte Änderung',
   PRIMARY KEY (`fm_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4  ";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  ";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_muskel
@@ -83,7 +83,7 @@ function Cr_n_mu_geraet ($tabelle)
   `mg_uidaend` char(10) NULL  COMMENT 'Letzter Änderer',
   `mg_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderug',
   PRIMARY KEY (`mg_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
     ";
     $return = SQL_QUERY($db,$sql);
     return $return;
@@ -180,7 +180,7 @@ function Cr_n_ma_geraet ($tabelle)
   `ge_aenduid` char(10) NULL  COMMENT 'letzter �nderer',
   `ge_aenddat` timestamp NULL   COMMENT 'letztr �nderung' DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`ge_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
          ";
     $return = SQL_QUERY($db,$sql);
     return $return;
@@ -205,7 +205,7 @@ mysqli_set_charset($db, "utf8mb4");
   `fa_uidaend` varchar(4) NULL  COMMENT 'Änderer',
   `fa_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`fa_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
 ";
 
     $return = SQL_QUERY($db,$sql);
@@ -245,7 +245,7 @@ function Cr_n_ma_fz_beschr ($tabelle)
   `fz_aenduid` char(10) DEFAULT NULL COMMENT 'Änderer',
   `fz_aenddat` timestamp NULL DEFAULT current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`fz_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Zulassungsdaten'; ";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Zulassungsdaten'; ";
 
 
     $return = SQL_QUERY($db,$sql);
@@ -259,14 +259,14 @@ function Cr_n_fz_eigner ($tabelle)
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `fz_eign_id` int(10) NULL  AUTO_INCREMENT  COMMENT 'Eigner- Nr.',
        `fz_id` int(10) NULL   COMMENT 'Fahzeug- Nummer',
-       `fz_docbez` char(100) COLLATE utf8_german2_ci NULL  COMMENT 'Dokument- Bezeichnung',
-       `fz_zul_dat` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Zulassungs-Datum',
-       `fz_zul_end_dat` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Ende der Zulassung',
-       `fz_zuldaten` char(100) COLLATE utf8_german2_ci NULL  COMMENT 'Daten',
-       `fz_uidaend` char(10) COLLATE utf8_german2_ci NULL   COMMENT 'Aenderer',
+       `fz_docbez` char(100) NULL  COMMENT 'Dokument- Bezeichnung',
+       `fz_zul_dat` char(10) NULL  COMMENT 'Zulassungs-Datum',
+       `fz_zul_end_dat` char(10) NULL  COMMENT 'Ende der Zulassung',
+       `fz_zuldaten` char(100) NULL  COMMENT 'Daten',
+       `fz_uidaend` char(10) NULL   COMMENT 'Aenderer',
        `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Aenderung',
         PRIMARY KEY (`fz_eign_id`)
-      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4  COMMENT='Eigentuemer'
+      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Eigentuemer'
          ";
     $return = SQL_QUERY($db,$sql);
     return $return;
@@ -279,26 +279,26 @@ function Cr_n_fz_fixeinb ($tabelle)
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
      `fz_einb_id` int(20) NULL  AUTO_INCREMENT COMMENT 'Fortl. Nr.',
      `fz_id` int(10) DEFAULT NULL COMMENT 'Fahrzeug Nummer',
-     `fz_gername` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraete- Bezeichnung',
-     `fz_ger_herst` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Hersteller',
-     `fz_ger_sernr` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Serien- Nummer',
-     `fz_ger_baujahr` char(4) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Baujahr',
-     `fz_ger_typ` char(30) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Typ',
-     `fz_ger_leistg` char(10) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Leistung',
-     `fz_ger_l_einh` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Leistungseinheit',
-     `fz_ger_foto_1` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraet: Foto 1',
-     `fz_ger_f1_beschr` varchar(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bescheibung zu Foto 1',
-     `fz_ger_foto_2` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraet: Foto 2',
-     `fz_ger_f2_beschr` char(255) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Beschreibung zu Foto 2 Geraet: Beschreibung',
-     `fz_ger_foto_3` varchar(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraete- Teil 1: Foto 1',
-     `fz_ger_f3_beschr` varchar(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraete Teil 2: Beschreibung',
-     `fz_ger_foto_4` varchar(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Geraete Teil 2 Foto',
-     `fz_ger_f4_beschr` varchar(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Kommentar zu Foto 4',
-     `fz_einb_komm` text COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Kommentar',
-     `fz_uidaend` char(10) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Aenderer',
+     `fz_gername` char(50) DEFAULT NULL COMMENT 'Geraete- Bezeichnung',
+     `fz_ger_herst` char(50) DEFAULT NULL COMMENT 'Hersteller',
+     `fz_ger_sernr` char(50) DEFAULT NULL COMMENT 'Serien- Nummer',
+     `fz_ger_baujahr` char(4) DEFAULT NULL COMMENT 'Baujahr',
+     `fz_ger_typ` char(30) DEFAULT NULL COMMENT 'Typ',
+     `fz_ger_leistg` char(10) DEFAULT NULL COMMENT 'Leistung',
+     `fz_ger_l_einh` char(50) DEFAULT NULL COMMENT 'Leistungseinheit',
+     `fz_ger_foto_1` char(50) DEFAULT NULL COMMENT 'Geraet: Foto 1',
+     `fz_ger_f1_beschr` varchar(50) DEFAULT NULL COMMENT 'Bescheibung zu Foto 1',
+     `fz_ger_foto_2` char(50) DEFAULT NULL COMMENT 'Geraet: Foto 2',
+     `fz_ger_f2_beschr` char(255) DEFAULT NULL COMMENT 'Beschreibung zu Foto 2 Geraet: Beschreibung',
+     `fz_ger_foto_3` varchar(50) DEFAULT NULL COMMENT 'Geraete- Teil 1: Foto 1',
+     `fz_ger_f3_beschr` varchar(50) DEFAULT NULL COMMENT 'Geraete Teil 2: Beschreibung',
+     `fz_ger_foto_4` varchar(50) DEFAULT NULL COMMENT 'Geraete Teil 2 Foto',
+     `fz_ger_f4_beschr` varchar(50) DEFAULT NULL COMMENT 'Kommentar zu Foto 4',
+     `fz_einb_komm` text DEFAULT NULL COMMENT 'Kommentar',
+     `fz_uidaend` char(10) DEFAULT NULL COMMENT 'Aenderer',
      `fz_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
      PRIMARY KEY (`fz_einb_id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4      COMMENT='Fixe Einbau- Geräteten'
+    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci      COMMENT='Fixe Einbau- Geräteten'
         ";
     $return = SQL_QUERY($db,$sql);
     return $return;
@@ -311,62 +311,62 @@ function Cr_n_fz_type ($tabelle)
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `ft_id` int(10) NULL  AUTO_INCREMENT COMMENT 'Fortl. Nr',
       `fz_t_id` int(11) NULL  COMMENT 'Fahrzeug- Nr. des Eigentuemers',
-      `fz_eignr` char(10) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Eigentümer Nr.',
-      `fz_herstell_fg` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Fahrgestell Hersteller',
-      `fz_fgtyp` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'FZG Typ',
-      `fz_idnummer` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'ID- Nummer',
-      `fz_fgnr` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Fahrgestell- Nr',
-      `fz_baujahr` char(4) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Baujahr',
+      `fz_eignr` char(10) DEFAULT NULL COMMENT 'Eigentümer Nr.',
+      `fz_herstell_fg` char(100) DEFAULT NULL COMMENT 'Fahrgestell Hersteller',
+      `fz_fgtyp` char(100) DEFAULT NULL COMMENT 'FZG Typ',
+      `fz_idnummer` char(50) DEFAULT NULL COMMENT 'ID- Nummer',
+      `fz_fgnr` char(50) DEFAULT NULL COMMENT 'Fahrgestell- Nr',
+      `fz_baujahr` char(4) DEFAULT NULL COMMENT 'Baujahr',
       `fz_eig_gew` int(10) DEFAULT NULL COMMENT 'Eigengewicht',
       `fz_zul_g_gew` int(10) DEFAULT NULL COMMENT 'Zulässiges Gesamt Gewicht',
       `fz_achsl_1` int(10) DEFAULT NULL COMMENT 'Zul. Achlast, 1, Achse',
       `fz_achsl_2` int(10) DEFAULT NULL COMMENT 'Zul. Achlast, 2, Achse',
       `fz_achsl_3` int(10) DEFAULT NULL COMMENT 'Zul. Achlast, 3, Achse',
       `fz_achsl_4` int(10) DEFAULT NULL COMMENT 'Zul. Achlast, 4, Achse',
-      `fz_radstand` char(20) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Radstand',
-      `fz_spurweite` char(20) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Spurweite Vorne, Hinten',
+      `fz_radstand` char(20) DEFAULT NULL COMMENT 'Radstand',
+      `fz_spurweite` char(20) DEFAULT NULL COMMENT 'Spurweite Vorne, Hinten',
       `fz_antrachsen` int(4) DEFAULT NULL COMMENT 'Anzahl angetriebener Achsen',
       `fz_lenkachsen` int(4) DEFAULT NULL COMMENT 'Lenkachsen',
-      `fz_lenkhilfe` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Lenkhilfe',
-      `fz_allrad` char(30) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Allrad',
-      `fz_bremsanl` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bremsanlage',
-      `fz_hilfbremsanl` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Hilfsbremsanlage',
-      `fz_feststellbr` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Feststellbremse',
-      `fz_verzoegerg` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bremsverzoegerung',
-      `fz_m_bauform` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Motor Bauform',
-      `fz_herst_mot` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Motor Hersteller',
-      `fz_motornr` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Motor- Nummer',
+      `fz_lenkhilfe` char(100) DEFAULT NULL COMMENT 'Lenkhilfe',
+      `fz_allrad` char(30) DEFAULT NULL COMMENT 'Allrad',
+      `fz_bremsanl` char(100) DEFAULT NULL COMMENT 'Bremsanlage',
+      `fz_hilfbremsanl` char(100) DEFAULT NULL COMMENT 'Hilfsbremsanlage',
+      `fz_feststellbr` char(100) DEFAULT NULL COMMENT 'Feststellbremse',
+      `fz_verzoegerg` char(100) DEFAULT NULL COMMENT 'Bremsverzoegerung',
+      `fz_m_bauform` char(100) DEFAULT NULL COMMENT 'Motor Bauform',
+      `fz_herst_mot` char(100) DEFAULT NULL COMMENT 'Motor Hersteller',
+      `fz_motornr` char(50) DEFAULT NULL COMMENT 'Motor- Nummer',
       `fz_hubraum` int(10) DEFAULT NULL COMMENT 'Hubraum',
       `fz_bohrung` decimal(10,0) DEFAULT NULL COMMENT 'Bohrung',
       `fz_hub` decimal(10,0) DEFAULT NULL COMMENT 'Hub',
-      `fz_kraftst` char(30) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Kraftstoffart',
-      `fz_gemischaufb` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Gemischaufbereitung',
-      `fz_kuehlg` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Kühlung',
+      `fz_kraftst` char(30) DEFAULT NULL COMMENT 'Kraftstoffart',
+      `fz_gemischaufb` char(50) DEFAULT NULL COMMENT 'Gemischaufbereitung',
+      `fz_kuehlg` char(50) DEFAULT NULL COMMENT 'Kühlung',
       `fz_leistung_kw` int(10) DEFAULT NULL COMMENT 'Leistung in kW',
       `fz_leistung_ps` int(10) DEFAULT NULL COMMENT 'Leistung in PS',
-      `fz_leist_drehz` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Max. Leistung bei Drehzahl',
-      `fz_verbrauch` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Verbrauch',
-      `fz_antrieb` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Antrieb',
-      `fz_bereifung_1` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bereifung 1. Achse',
-      `fz_bereifung_2` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bereifung 2. Achse',
-      `fz_bereifung_3` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bereifung 3. Achse',
-      `fz_bereifung_4` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Bereifung 4. Achse',
-      `fz_getriebe` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Getriebe',
-      `fz_herst_aufb` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Aufbau Hersteller',
-      `fz_aufb_bauart` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Aufbau Bauart',
-      `fz_aufbau` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Aufbau',
-      `fz_anh_kuppl` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Anhaenger Kupplung',
-      `fz_geschwind` varchar(10) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Maximale Geschwindigkeit',
+      `fz_leist_drehz` char(50) DEFAULT NULL COMMENT 'Max. Leistung bei Drehzahl',
+      `fz_verbrauch` char(50) DEFAULT NULL COMMENT 'Verbrauch',
+      `fz_antrieb` char(50) DEFAULT NULL COMMENT 'Antrieb',
+      `fz_bereifung_1` char(100) DEFAULT NULL COMMENT 'Bereifung 1. Achse',
+      `fz_bereifung_2` char(100) DEFAULT NULL COMMENT 'Bereifung 2. Achse',
+      `fz_bereifung_3` char(100) DEFAULT NULL COMMENT 'Bereifung 3. Achse',
+      `fz_bereifung_4` char(100) DEFAULT NULL COMMENT 'Bereifung 4. Achse',
+      `fz_getriebe` char(100) DEFAULT NULL COMMENT 'Getriebe',
+      `fz_herst_aufb` char(100) DEFAULT NULL COMMENT 'Aufbau Hersteller',
+      `fz_aufb_bauart` char(100) DEFAULT NULL COMMENT 'Aufbau Bauart',
+      `fz_aufbau` char(100) DEFAULT NULL COMMENT 'Aufbau',
+      `fz_anh_kuppl` char(100) DEFAULT NULL COMMENT 'Anhaenger Kupplung',
+      `fz_geschwind` varchar(10) DEFAULT NULL COMMENT 'Maximale Geschwindigkeit',
       `fz_sitzpl_zul` int(3) DEFAULT NULL COMMENT 'Max. Zuläss. Sitzplaetze',
       `fz_sitzpl_1` int(2) DEFAULT NULL COMMENT 'Sitzplätze 1. Reihe',
       `fz_sitzpl_2` int(2) DEFAULT NULL COMMENT 'Sitzplätze 2. Reihe',
-      `fz_abmessg_mm` char(50) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Fahrzeug-Abmessungen',
-      `fz_heizung` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Heizung',
-      `fz_farbe` char(100) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Farbe',
-      `fz_aenduid` char(10) COLLATE utf8_german2_ci DEFAULT NULL COMMENT 'Aenderer',
+      `fz_abmessg_mm` char(50) DEFAULT NULL COMMENT 'Fahrzeug-Abmessungen',
+      `fz_heizung` char(100) DEFAULT NULL COMMENT 'Heizung',
+      `fz_farbe` char(100) DEFAULT NULL COMMENT 'Farbe',
+      `fz_aenduid` char(10) DEFAULT NULL COMMENT 'Aenderer',
       `fz_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Aenderung',
        PRIMARY KEY (`ft_id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4  COMMENT='Zulassungsdaten, Typenschein' ";
+    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Zulassungsdaten, Typenschein' ";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_type
@@ -377,22 +377,22 @@ function Cr_n_fz_laderaum ($tabelle)
     mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `lr_id` int(10) NULL  COMMENT 'Fortl. Nr.',
-      `lr_eignr` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Eigentümer- Nummer',
-      `lr_fzg` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Fahrzeug- Nummer',
-      `lr_raum` char(60) COLLATE utf8_german2_ci NULL  COMMENT 'Laderaum',
-      `lr_beschreibung` text COLLATE utf8_german2_ci NULL  COMMENT 'Beschreibung',
-      `lr_foto_1` char(60) COLLATE utf8_german2_ci NULL  COMMENT 'Foto 1',
-      `lr_komm_1` text COLLATE utf8_german2_ci NULL  COMMENT 'Beschreibung 1',
-      `lr_foto_2` char(60) COLLATE utf8_german2_ci NULL  COMMENT 'Foto 2',
-      `lr_komm_2` text COLLATE utf8_german2_ci NULL  COMMENT 'Beschreibung 2',
-      `lr_foto_3` char(60) COLLATE utf8_german2_ci NULL  COMMENT 'Foto 2',
-      `lr_komm_3` text COLLATE utf8_german2_ci NULL  COMMENT 'Beschreibung 3',
-      `lr_foto_4` char(60) COLLATE utf8_german2_ci NULL  COMMENT 'Foto 4',
-      `lr_komm_4` text COLLATE utf8_german2_ci NULL  COMMENT 'Beschreibung 4',
-      `lr_uidaend` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Änderer',
+      `lr_eignr` char(10) NULL  COMMENT 'Eigentümer- Nummer',
+      `lr_fzg` char(10) NULL  COMMENT 'Fahrzeug- Nummer',
+      `lr_raum` char(60) NULL  COMMENT 'Laderaum',
+      `lr_beschreibung` text NULL  COMMENT 'Beschreibung',
+      `lr_foto_1` char(60) NULL  COMMENT 'Foto 1',
+      `lr_komm_1` text NULL  COMMENT 'Beschreibung 1',
+      `lr_foto_2` char(60) NULL  COMMENT 'Foto 2',
+      `lr_komm_2` text NULL  COMMENT 'Beschreibung 2',
+      `lr_foto_3` char(60) NULL  COMMENT 'Foto 2',
+      `lr_komm_3` text NULL  COMMENT 'Beschreibung 3',
+      `lr_foto_4` char(60) NULL  COMMENT 'Foto 4',
+      `lr_komm_4` text NULL  COMMENT 'Beschreibung 4',
+      `lr_uidaend` char(10) NULL  COMMENT 'Änderer',
       `lr_aenddate` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
       PRIMARY KEY (`lr_id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4  COMMENT 'Laderaum- Belegung' ";
+    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT 'Laderaum- Belegung' ";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_laderaum
@@ -405,12 +405,12 @@ function Cr_n_fz_typis_aend ($tabelle)
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
        `fz_typ_id` int(10) NULL  COMMENT 'Fortl. Nr.',
        `fz_id` int(10) NULL  COMMENT 'Fahrzeug- Nummer',
-       `fz_t_aenddat` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Datum der Änderung',
-       `fz_infotext` char(100) COLLATE utf8_german2_ci NULL  COMMENT 'Beschreibung',
-       `fz_uidaend` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Änderer',
+       `fz_t_aenddat` char(10) NULL  COMMENT 'Datum der Änderung',
+       `fz_infotext` char(100) NULL  COMMENT 'Beschreibung',
+       `fz_uidaend` char(10) NULL  COMMENT 'Änderer',
        `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`fz_typ_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4   COMMENT 'Typisierte Änderungen'";
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci   COMMENT 'Typisierte Änderungen'";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_typis_aend
@@ -422,12 +422,12 @@ function Cr_n_fz_reparat ($tabelle)
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
         `fz_rep_id` int(10) NULL  COMMENT 'Fortl. Nr.',
         `fz_id` int(10) NULL  COMMENT 'Fahrzeug- Nummer',
-        `fz_repdat` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Datum der Rep.',
-        `fz_reptext` text COLLATE utf8_german2_ci NULL  COMMENT 'Rpartur- Beschreibung',
-        `fz_uidaend` char(10) COLLATE utf8_german2_ci NULL  COMMENT 'Änderer',
+        `fz_repdat` char(10) NULL  COMMENT 'Datum der Rep.',
+        `fz_reptext` text NULL  COMMENT 'Rpartur- Beschreibung',
+        `fz_uidaend` char(10) NULL  COMMENT 'Änderer',
         `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`fz_rep_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4  COMMENT 'Reparaturen'";
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT 'Reparaturen'";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_reparat
@@ -492,7 +492,7 @@ function Cr_n_ma_fahrzeug ($tabelle)
         PRIMARY KEY (`fz_id`),
         KEY `fz_ctif_date` (`fz_ctif_date`),
         FULLTEXT KEY `fz_sammlg` (`fz_sammlg`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4  COMMENT='Fahrzeugdaten' ";
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Fahrzeugdaten' ";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_reparat
@@ -511,7 +511,7 @@ function Cr_n_ma_eigner ($tabelle)
         `fz_uidaend` char(10) NULL  COMMENT 'letzer Änderer',
         `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'zuletzt geändert',
        PRIMARY KEY (`fz_eign_id`)
-       ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4   COMMENT 'Fahrzeug  Eigner' ";
+       ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci   COMMENT 'Fahrzeug  Eigner' ";
     $return = SQL_QUERY($db,$sql);
     return $return;
 } # Ende Funktion Cr_n_fz_reparat

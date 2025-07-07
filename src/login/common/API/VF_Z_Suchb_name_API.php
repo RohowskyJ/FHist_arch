@@ -1,9 +1,11 @@
 <?php
 $path2ROOT = "../";
 
-file_put_contents('Suchb_name.log', "VF_Z_Suchb_name.API L 007 " . PHP_EOL, FILE_APPEND);
-
 $debug = False;
+$debug_log = False;
+
+if ($debug_log) {file_put_contents('Suchb_name.log', "VF_Z_Suchb_name.API L 007 " . PHP_EOL, FILE_APPEND);}
+
 
 $ini_d = $path2ROOT . "config_d.ini";
 $ini_arr = parse_ini_file($ini_d, True, INI_SCANNER_NORMAL);
@@ -57,26 +59,21 @@ setlocale(LC_CTYPE, "de_AT"); // für Klassifizierung und Umwandlung von Zeichen
 // ============================================================================================================
 
 $line = "";
-
-#echo date("Y-d-m h:i:s") . "<br>";
 $line .= date("Y-d-m h:i:s")."\n";
 
+# $ar_arr, $dm_arr, $maf_arr, $mag_arr, $muf_arr, $mug_arr, $in_arr, $zt_arr, $mar_arr, 
 $ar_arr = array();
-$fo_arr = array();
-$fz_arr = array();
+$dm_arr = array();
+$in_arr = array();
 $maf_arr = array();
-$fm_arr = array();
+$mag_arr  = array();
 $muf_arr  = array();
 $mug_arr  = array();
 $ge_arr = array();
-$mag_arr  = array();
-$in_arr = array();
 $zt_arr = array();
 $tables_act = VF_tableExist();
-# print_r($tables_act);echo "<br>find_inv_sb L34 <br";
 
 $eignr = $na_eign = "";
-
 
 echo "<b>Reorganisieren Namens- Findbuches fh_find_namen </b><br>";
 
@@ -89,25 +86,23 @@ $fld = "fo_id";
 // einlesen der Archivdaten in Arr
 $arc_arr = "";
 
-$fld = "fo_namen";
+$fld = "md_namen";
 $find_sum = $find_total = 0;
 
-foreach ($fo_arr as $fo_table => $fo_key) {
-    # if ($fo_table == $table) {
-    # echo "<b>L037 \$table $table </b><br>";
-    
+foreach ($dm_arr as $fo_table => $dm_key) {
+
     # print_r($return_in);echo "<br> return_in sql_in $sql_in <br>";
-    $sql_foto = "SELECT *  FROM `$fo_table`  ORDER BY `fo_id`";
+    $sql_foto = "SELECT *  FROM `$fo_table`  ORDER BY `md_id`";
     $return_foto = SQL_QUERY($db, $sql_foto);
     $find_sum = 0;
     while ($row = mysqli_fetch_object($return_foto)) {
-        if ($row->fo_namen != " ") {
-            $fdid = $row->fo_id;
-            if ($row->fo_namen == "") {
+        if ($row->md_namen != " ") {
+            $fdid = $row->md_id;
+            if ($row->md_namen == "") {
                 continue;
             }
-            $fo_namen = $row->fo_namen;
-            $find_arr = explode(",", $row->fo_namen);
+            $md_namen = $row->md_namen;
+            $find_arr = explode(",", $row->md_namen);
             $find_cnt = count($find_arr);
             $find_sum += $find_cnt;
             
@@ -216,11 +211,7 @@ foreach ($ar_arr as $ar_table => $ar_key) {
     $find_total += $find_sum;
 }
 
-#echo date("Y-d-m h:i:s");
-#echo "<br><b>Namens- Findbuch- Regenerierung abgeschlossen.</b><br>";
 $line .=  date("Y-d-m h:i:s")."\n<b>Namens- Findbuch- Regenerierung abgeschlossen. <i>$find_total</i> Suchbegriffe wurden registriert.</b>\n";
-
-#echo $line . "br>";
 
 // Verbindung schließen
 $db->close();

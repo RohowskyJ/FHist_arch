@@ -94,7 +94,7 @@ BA_HTML_Header('Regeneration Findbücher','', 'Form', '75em');
 
         function displayData1(lines) {
             var output1 = $('output1');
-            output1.update('<h2>Names- Findbuch:</h2><ul></ul>'); // Liste initialisieren
+            output1.update('<h2>Namens- Findbuch:</h2><ul></ul>'); // Liste initialisieren
             var list = output1.down('ul'); // Zugriff auf die Liste
 
             lines.forEach(function(line) {

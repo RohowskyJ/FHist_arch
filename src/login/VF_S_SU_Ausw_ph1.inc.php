@@ -76,7 +76,15 @@ if ($_SESSION[$module]['su_Eig'] == "A") {  // suche über alle Eigentümer
     $eig_arr[0] = $_SESSION[$module]['su_Eig'];
 }
 
-$ar_arr=$fo_arr=$fz_arr=$maf_arr=$fm_arr=$muf_arr=$mug_arr=$ge_arr=$mag_arr=$in_arr=$zt_arr = array();
+$ar_arr = array();
+$dm_arr = array();
+$in_arr = array();
+$maf_arr = array();
+$mag_arr  = array();
+$muf_arr  = array();
+$mug_arr  = array();
+$ge_arr = array();
+$zt_arr = array();
 $tables_act = VF_tableExist();          // Array der existierenden Tabellen
 #  print_r($in_arr);echo "<br>in_arr <br";
 if (!$tables_act) {

@@ -46,7 +46,6 @@ VF_Count_add();
 $sk = $_SESSION['VF_Prim']['SK'];
 BA_HTML_header('Fahrzeuge und Geräte', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
-
 Edit_Tabellen_HEader('Beschreibungen der Fahrzeuge und Geräte');
 
 Edit_Separator_Zeile('Mit Muskelkraft bewegte Fahrzeuge und Geräte');
@@ -54,15 +53,14 @@ Edit_Separator_Zeile('Mit Muskelkraft bewegte Fahrzeuge und Geräte');
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "Beschreibungen der Muskelbewegten Fahrzeuge und Geräte.";
 echo "  </div>";  // Ende Feldname
-
-echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-echo "<a href='VF_O_DO_List.php?sk=$sk&sel_thema=1' target='Dokumente'>Vereins- Dokumentation zu Muskelbewegtem</a>";
-echo "</div>"; // Ende der Inhalt Spalte
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_FZ_MuFG_List.php?sk=$sk&ID=NextEig' target='MuskelFzgGer'>Muskelgezogene Fahrzeuge und muskelbetriebene Geräte - Wartung </a>";
 echo "</div>"; // Ende der Inhalt Spalte
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_FZ_MuFG_Katalog_List.php?sk=$sk' target='MuskelFzgGerKat'>Katalog der Muskelgezogenen Fahrzeug- und Geräte</a>";
+echo "</div>"; // Ende der Inhalt Spalte
+echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
+echo "<a href='VF_O_DO_List.php?sk=$sk&sel_thema=1' target='Dokumente'>Vereins- Dokumentation zu Muskelbewegtem</a>";
 echo "</div>"; // Ende der Inhalt Spalte
 
 Edit_Separator_Zeile('Maschinenbewegte Fahrzeuge (Automobile) und motorbetriebene Geräte ');
