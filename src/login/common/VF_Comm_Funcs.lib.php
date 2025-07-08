@@ -2079,97 +2079,8 @@ function VF_Sel_Eigner($FeldName, $sub_funct)
         # print_r($opt_val_ei);
     }
     return $opt_val_ei;
-}
+} // ende vf-sel-eigner
 
-// Ende von function VF_Sel_Eignentümer- Datei   
-
-/**
- * Suche der Urheberinformation in Eigentümerdaten
- * Einlesen der Daten von fh_eigentuemer und fh_eign_urh
- * Ausgabewerte werden in $_SESSION[$module]['URHEBER']
- */
- /*
-function VF_Sel_Eign_Urheb($ei_id,$urh_abk,$typ= 'F')
-{
-    global $debug, $db, $module,$flow_list ;
-    
-    if ($debug) {
-        echo "<pre class=debug>Eigent. Auswahl L Beg: ei_id  $ei_id urh_abk $urh_abk <pre>";
-    }
-    $opt_val_ei = array();
-    $sql = "SELECT * FROM `fh_eigentuemer` WHERE ei_id=$ei_id  ORDER BY ei_name ASC";
-    $return_bl = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
-    / *
-    if ($sub_funct == 0) {
-        $opt_val_ei['Neueingabe'] = "Neuen Datensatz eingeben";
-    }
-    if ($sub_funct == 81) {
-        $opt_val_ei['0'] = "keine Auswahl getroffen";
-    }
-    * /
-    while ($row = mysqli_fetch_object($return_bl)) {
-        /  **
-         * Neue Einteilung der Sess Var
-         * 
-         * $_SESSION[$module]['URHEBER'][$eigner] = $ei_id;
-         * $_SESSION[$module]['URHEBER'][$eigner]['ei_media'] = $ei_media
-         * $_SESSION[$module]['URHEBER'][$eigner]['ei_fotograf'] = Privat: Titel Name Vorname , andere: Org_Typ OrgName
-         * $_SESSION[$module]['URHEBER'][$eigner]['ei_urh_kurzz'] = $ei_urh_kurzz
-         * 
-         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['typ'] = ei_media wenn einstellig oder fs_typ
-         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['kurzz'] = ei_urh_kurzz oder fs_urh_kurzz
-         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['fotogr'] = ei_fotograf oder fs_fotograf
-         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['urh_nr'] = ei_id oder fs_urh_nr
-         * $_SESSION[$module]['URHEBER'][$eigner]['Media']['verz'] = fs_urh_verzeich
-         * 
-         * /
-        
-        if ($row->ei_org_typ == 'Privat') {
-            $ei_fotograf = $row->ei_name." ". $row->ei_vname;
-        } else {
-            $ei_fotograf = $row->ei_org_typ." ". $row->ei_org_name;
-        }
-        $ei_media = $row->ei_media;
-        $ei_urh_kurzz = $row->ei_urh_kurzz;
-        $_SESSION[$module]['URHEBER']['ei_id'] = $row->ei_id;
-        $_SESSION[$module]['URHEBER'][$row->ei_id]['Media'] = 
-              array('typ' => $ei_media,'kurzz' => $ei_urh_kurzz, 'fotograf' => $ei_fotograf,'urh_nr'=>$row->ei_id, 'verz'=>'');
-        $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
-              array('typ' => $ei_media,'kurzz' => $ei_urh_kurzz, 'fotograf' => $ei_fotograf,'urh_nr'=>$row->ei_id, 'verz'=>'');
-        / **
-         *  einlesen der urh erweiterungsdaten
-         * /
-        $sql_u = "SELECT * FROM fh_eign_urh WHERE fs_eigner = $row->ei_id";
-        $return_u = SQL_QUERY($db,$sql_u);
-        if ($return_u) {
-            WHILE ($row_u = mysqli_fetch_object($return_u)) {
-                if ($row_u->fs_urh_kurzz == $urh_abk && $row_u->fs_typ == $typ ) {
-                    $_SESSION[$module]['URHEBER'][$row->ei_id]['urh_abk'] =
-                    array('urh_nr' =>$row_u->fs_urh_nr,'fotograf'=>$row_u->fs_fotograf,
-                        'kurzz'=>$row_u->fs_urh_kurzz ,'typ'=>$row_u->fs_typ,'verz'=>$row_u->fs_urh_verzeich);
-                    break;
-                }
-            }
-   
-        } else {
-            
-        }
-
-        
-    }
-    
-    mysqli_free_result($return_bl);
-    mysqli_free_result($return_u);
-    
-    if ($debug) {
-        echo "<pre class=debug>F SeL_Eigner L End:  <pre>";
-    }
-
-    return True;
-}
-
-// Ende von function VF_Sel_Eign_Urheb   
-*/
 
 /**
  * Autocomple für die Auswahl von Aufbauer des  Fahrzeuges
@@ -2184,8 +2095,8 @@ function VF_Auto_Aufbau () {
     <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
         <b>Suchbegriff für Aufbau- Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer" data-feed="aufbauer" size='50'/>
     </div>  
-    <div id="suggestAufbauer" class="suggestions"></div>
-    <input type="hidden" name="aufbauer" id="aufbauer" />
+    <div id="suggestAufbauer" class="suggestions">
+       <input type="hidden" name="aufbauer" id="aufbauer" />
     <div>
     <?php 
 } // Ende VF_Auto_Aufbau
@@ -2224,7 +2135,7 @@ function VF_Auto_Herstell () {
     <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller" data-feed="hersteller" size='50'/>
     </div>  
     <div id="suggestHersteller" class="suggestions">
-    <input type="hidden" name="hersteller" id="hersteller" />
+       <input type="hidden" name="hersteller" id="hersteller" />
     </div>
     <?php 
 } // Ende VF_Auto_Herstell 
@@ -2237,8 +2148,8 @@ function VF_Auto_Taktb () {
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Taktische Bezeichnung eingeben:</b> <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" data-feed="taktisch" size='50' />
     </div>  
-    <div id="suggestTaktisch" class="suggestions"></div>
-    <input type="hidden" name="taktisch" id="taktisch" />
+    <div id="suggestTaktisch" class="suggestions">
+       <input type="hidden" name="taktisch" id="taktisch" />
     </div>
     <?php 
 } // Ende VF_Auto_Taktb

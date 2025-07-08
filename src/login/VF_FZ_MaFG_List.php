@@ -421,7 +421,7 @@ function modifyRow(array &$row, $tabelle)
             break;
         case "ma_gerae":
             $ge_id = $row['ge_id'];
-            $row['ge_id'] = "<a href='VF_Fz_MaG_Edit.php?ge_id=$ge_id' >" . $ge_id . "</a>";
+            $row['ge_id'] = "<a href='VF_FZ_MaG_Edit.php?ge_id=$ge_id' >" . $ge_id . "</a>";
             if ($row['ge_foto_1'] != "") {
                 $ge_foto_1 = $row['ge_foto_1'];
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";

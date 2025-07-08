@@ -23,7 +23,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -63,7 +63,6 @@ $A_Off = false;  # set autocomplete=off in Header
 BA_HTML_header('Fahrzeug- und Geräte- Verwaltung', $header, 'Form', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
-
 
 // ============================================================================================================
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
@@ -247,3 +246,35 @@ function modifyRow(array &$row, # die Werte - das array wird by Name übergeben 
 } # Ende von Function modifyRow
 
 ?>
+
+<script>
+  // Alle Eingabefelder mit der Klasse 'monitor' auswählen
+  const felder = document.querySelectorAll('.monitor');
+
+  // Für jedes Feld einen Event-Listener hinzufügen
+  felder.forEach(function(feld) {
+    // Bei jeder Eingabe in Echtzeit reagieren
+    feld.addEventListener('input', function() {
+      // Aktuelle Werte aller überwachten Felder sammeln
+      let statusText = '';
+      felder.forEach(function(f) {
+        statusText += `${f.name} = ${f.value}\n`;
+      });
+      // Die aktuelle Werte im <div id="anzeige"> anzeigen
+      document.getElementById('anzeige').textContent = statusText;
+    });
+
+    // Reaktion auf Tastendruck, insbesondere auf Enter
+    feld.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        // Bei Enter eine Meldung anzeigen
+        alert(`Eingabe im Feld "${this.name}" bestätigt: ${this.value}`);
+
+        // Optional: andere Aktionen, z.B. Formular absenden oder Feld speichern
+        // e.g., document.querySelector('#deinFormular').submit();
+
+        e.preventDefault(); // Verhindert, dass Enter das Formular absendet
+      }
+    });
+  });
+</script>

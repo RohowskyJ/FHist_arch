@@ -11,7 +11,7 @@
  */
 
 /**
- * Formular- Teil zum hochladen von mehrfach-Dateien (fotos, Dokumente, ..) Modifizierte Vwers
+ * Formular- Teil zum hochladen von mehrfach-Dateien (fotos, Dokumente, ..) Modifizierte Vers
  *
  *
  * @return
@@ -114,7 +114,7 @@ function VF_M_Foto_N ()
     
     for ($i=0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
- 
+      
         // Entscheidung, ob versteckt wird bei bestehendem Daten
         $hide_upl = $hide_bild = '';
         if ($hide_area == 1) {
@@ -126,7 +126,7 @@ function VF_M_Foto_N ()
         $j = $i +1; /** Für die Bil- Nr- Anzeige */
 
         $pict_path = VF_Upload_Pfad_M ('', '', '', '');
-        
+        # echo "L 0129 pct_path $pict_path <br>";
         /**
          * Responsive Container innerhalb des loops
          */
@@ -251,7 +251,7 @@ function VF_M_Foto_N_ori ()
     echo "<fieldset>";
     #console_log('L 059 vor pct_arr loop ');
     
-    var_dump($_SESSION[$module]['Pct_Arr']);
+    # var_dump($_SESSION[$module]['Pct_Arr']);
     
     ?>
 

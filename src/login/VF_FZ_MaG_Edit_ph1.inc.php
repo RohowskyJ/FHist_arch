@@ -169,7 +169,7 @@ if ($neu['ge_id'] == 0) { # neueingabe
                 '$neu[ge_aenduid]'
                )";
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 0152 $sql</pre>";
+    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 0152 $sql</pre>";
     $result = SQL_QUERY($db, $sql); 
     $neu['ge_id'] = mysqli_insert_id($db);
 } else { # update
@@ -214,12 +214,12 @@ if ($neu['ge_id'] == 0) { # neueingabe
     $updas = mb_substr($updas, 1); # 1es comma entfernen nur notwendig, wenn vorer keine Update-Strings sind
 
     $sql = "UPDATE $tabelle_a SET  $updas WHERE `ge_id`='" . $_SESSION[$module]['ge_id'] . "'";
-    echo '<pre class=debug> L 0197: \$sql $sql </pre>';
+    # echo '<pre class=debug> L 0197: \$sql $sql </pre>';
     if ($debug) {
         echo '<pre class=debug> L 0197: \$sql $sql </pre>';
     }
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
 }
 

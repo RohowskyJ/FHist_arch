@@ -140,7 +140,7 @@ if ($hide_area != 0) {  //toggle??
 }
 echo "<input type='hidden' name='fz_herstell_fg' value='".$neu['fz_herstell_fg']."' >";
 $Edit_Funcs_Protect = True;
-Edit_Daten_Feld_Button(Prefix . 'fz_herstell_fg', 100,'','',$button);
+Edit_Daten_Feld_Button(Prefix . 'fz_herstell_fg', 70,'','',$button);
 $Edit_Funcs_Protect = False;
 
 if ($hide_area == 0) {
@@ -153,11 +153,11 @@ VF_Auto_Herstell();
 
 echo "</div>"; # ende hide herstb
 
-Edit_Daten_Feld(Prefix . 'fz_typ', 100);
-Edit_Daten_Feld(Prefix . 'fz_modell', 100);
+Edit_Daten_Feld(Prefix . 'fz_typ', 70);
+Edit_Daten_Feld(Prefix . 'fz_modell', 70);
 
-Edit_Daten_Feld(Prefix . 'fz_motor', 100);
-Edit_Daten_Feld(Prefix . 'fz_antrieb', 100);
+Edit_Daten_Feld(Prefix . 'fz_motor', 70);
+Edit_Daten_Feld(Prefix . 'fz_antrieb', 70);
 
 Edit_Daten_Feld(Prefix . 'fz_geschwindigkeit', 10,' km/Std');
 
@@ -168,11 +168,11 @@ if ($hide_area == 0) {  //toggle??
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_aufb')\">zum anzeigen/ändern klicken!</button>";
 }
 
-echo "<input type='hidden' name='fz_aufbauer' value='".$neu['fz_aufbauer']."' >";
-$Edit_Funcs_Protect = True;
-Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 100,'','',$button);
+#echo "<input type='hidden' name='fz_aufbauer' value='".$neu['fz_aufbauer']."' >";
+#$Edit_Funcs_Protect = True;
+Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 50); # ,'','',$button
 $Edit_Funcs_Protect = False;
-
+/*
 if ($hide_area == 0) {
     echo "<div>";
 } else {
@@ -182,8 +182,8 @@ if ($hide_area == 0) {
 VF_Auto_Aufbau();
 
 echo "</div>"; # ende hide aufbauer
-
-Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 100);
+*/
+Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 70);
 Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
@@ -200,11 +200,11 @@ Edit_Separator_Zeile('Fotos'.$button_f);  #
 echo "<div>";
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
+echo "<input type='hidden' name='fz_bild_1' value='".$neu['fz_bild_1']."' class='monitor' >";
+echo "<input type='hidden' name='fz_bild_2' value='".$neu['fz_bild_2']."' >";
+echo "<input type='hidden' name='fz_bild_3' value='".$neu['fz_bild_3']."' >";
+echo "<input type='hidden' name='fz_bild_4' value='".$neu['fz_bild_4']."' >";
 
-echo "<input type='hidden' name='fz_bild_1' value='".$neu['fz_bild_1'].">";
-echo "<input type='hidden' name='fz_bild_2' value='".$neu['fz_bild_2'].">";
-echo "<input type='hidden' name='fz_bild_3' value='".$neu['fz_bild_3'].">";
-echo "<input type='hidden' name='fz_bild_4' value='".$neu['fz_bild_4'].">";
 
 $pict_path = "";
 
@@ -239,7 +239,7 @@ if ($hide_area == 0) {
 Edit_Select_Feld('fz_ctif_klass',VF_CTIF_Class);
 Edit_Daten_Feld('fz_ctif_date', 10);
 Edit_Daten_Feld('fz_ctif_darst_jahr', 4);
-Edit_Daten_Feld('fz_ctif_juroren', 100);
+Edit_Daten_Feld('fz_ctif_juroren', 70);
 
 echo "</div>"; # ende hide ctif
 
@@ -259,16 +259,16 @@ if ($hide_area == 0) {
     echo "<div id='unhide_einb' style='display:none'>";
 }
 
-Edit_Daten_Feld('fz_l_tank', 100);
-Edit_Daten_Feld('fz_l_monitor', 100);
-Edit_Daten_Feld('fz_l_pumpe', 100);
-Edit_Daten_Feld('fz_t_kran', 100);
-Edit_Daten_Feld('fz_t_winde', 100);
-Edit_Daten_Feld('fz_t_leiter', 100);
-Edit_Daten_Feld('fz_t_abschlepp', 100);
-Edit_Daten_Feld('fz_t_beleuchtg', 100);
-Edit_Daten_Feld('fz_t_strom', 100);
-Edit_Daten_Feld('fz_g_atemsch', 100);
+Edit_Daten_Feld('fz_l_tank', 700);
+Edit_Daten_Feld('fz_l_monitor', 70);
+Edit_Daten_Feld('fz_l_pumpe', 70);
+Edit_Daten_Feld('fz_t_kran', 70);
+Edit_Daten_Feld('fz_t_winde', 70);
+Edit_Daten_Feld('fz_t_leiter', 70);
+Edit_Daten_Feld('fz_t_abschlepp', 70);
+Edit_Daten_Feld('fz_t_beleuchtg', 70);
+Edit_Daten_Feld('fz_t_strom', 70);
+Edit_Daten_Feld('fz_g_atemsch', 70);
 
 echo "</div>"; # ende hide einbauten
 
@@ -296,21 +296,29 @@ Edit_Daten_Feld('fz_aenddat');
 # =========================================================================================================
 Edit_Tabellen_Trailer();
 
+?>
+<!-- Bereich zur Anzeige der aktuellen Werte -->
+<div id="anzeige"></div>
+
+<!-- Bereich für Debug-Infos -->
+<div id="debug">Wartet auf Eingaben...</div>
+<?php 
 
 if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
-
+#echo "L 0304 bild 1 ".$neu['fz_bild_1']."<br>";
 echo "<p><a href='VF_FZ_MaFG_List.php'>Zurück zur Liste</a></p>";
 
 /**
  * Anzeige der bisherigen Besitzer
  */
 
-require "VF_FZ_EI_List.inc.php";
+## require "VF_FZ_EI_List.inc.php";
 
 echo "</div>"; # ende dropdown Eigentümer
+
 
 
 # =========================================================================================================

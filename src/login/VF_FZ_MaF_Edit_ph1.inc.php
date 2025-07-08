@@ -62,8 +62,6 @@ if (isset($_FILES)) {
     $i = 0;
     
     foreach ($_FILES as $upLoad  => $file_arr) {
-        var_dump($_FILES[$upLoad]);
-        var_dump($_SESSION[$module]['Pct_Arr']);
         if ($_FILES[$upLoad] != "") {
             # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
             $result = VF_M_Upload($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
@@ -74,6 +72,7 @@ if (isset($_FILES)) {
             if (substr($result,0,5) == 'Err: ' ) {
                 continue;
             }
+            echo "L 077 result $result <br>"; 
             $neu["fz_bild_".$i+1] = $result;
    
             $i++;
