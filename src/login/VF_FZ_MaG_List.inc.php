@@ -12,20 +12,20 @@ $T_list_texte = array(
     "Alle" => "Nach Indienststellung. (Auswahl)",
     "NextEig" => "<a href='VF_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
     "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-    "NeuItem" => "<a href='VF_FZ_MaG_Edit.php?ge_id=0' target='neu' > Neuen Datensatz anlegen (Auswahl) </a>" 
+    "NeuItem" => "<a href='VF_FZ_MaG_Edit.php?ge_id=0' target='neu' > Neuen Datensatz anlegen (Auswahl) </a>"
 );
 
 
 echo "<fieldset>";
 
-List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
+List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>*_id</q> Klicken.</li>';
 switch ($T_List) {
     case "Alle":
-        
+
         break;
-        
+
     default:
         /*
          * $List_Hinweise .= '<li>Anmelde Daten ändern: Auf die Zahl in Spalte <q>mi_id</q> Klicken.</li>'
@@ -38,7 +38,7 @@ $List_Hinweise .= '</ul></li>';
 
 #$eig_data = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
 
-List_Action_Bar($tabelle,"Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
+List_Action_Bar($tabelle, "Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 
 # ===========================================================================================================
 # Die Sammlungs- Auswahl anzeigen:
@@ -81,12 +81,12 @@ switch ($MS_Opt) {
 }
 
 $titel  = 'Welche Sammlung soll angezeigt werden: ';
-VF_Multi_Dropdown($in_val,$titel);
+VF_Multi_Dropdown($in_val, $titel);
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 
 $return = Cr_n_ma_geraet($tabelle);
-if ($return != True) {
+if ($return != true) {
     echo "$tabelle error: mysqli_errno($return)";
 }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Liste der Geräte eines Eigentümers, Wartung, Daten schreiben
  *
@@ -6,7 +7,7 @@
  *
  */
 if ($debug) {
-    echo "<pre class=debug>VF_FZ_MuF_Edit_ph1.inc.php ist gestarted</pre>"; 
+    echo "<pre class=debug>VF_FZ_MuF_Edit_ph1.inc.php ist gestarted</pre>";
 }
 $Inc_Arr[] = "VF_FZ_MuF_Edit_ph1.inc.php";
 #
@@ -14,7 +15,9 @@ foreach ($_POST as $name => $value) {
     $neu[$name] = mysqli_real_escape_string($db, $value);
 }
 
-if (!isset($neu['fm_invnr'])) {$neu['fm_invnr']= "";}
+if (!isset($neu['fm_invnr'])) {
+    $neu['fm_invnr'] = "";
+}
 
 # $neu['fm_bezeich'] = mb_convert_case($neu['fm_bezeich'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
@@ -28,7 +31,7 @@ if ($debug) {
 if (isset($neu['suggestHersteller']) && $neu['suggestHersteller'] != "") {
     $neu['fm_herst'] = $neu['suggestHersteller'];
     unset($neu['suggestHersteller']);
-    
+
 }
 unset($neu['hersteller']);
 
@@ -39,7 +42,7 @@ $neu['fm_eignr'] = $_SESSION['Eigner']['eig_eigner'];
 if (isset($_POST['level1'])) {
     $response = VF_Multi_Sel_Input();
     if ($response == "" || $response == "Nix") {
-        
+
     } else {
         $neu['fm_sammlg'] = $response;
     }
@@ -53,22 +56,22 @@ if (! file_exists($uploaddir)) {
 
 if (isset($_FILES)) {
     $i = 0;
-    
+
     foreach ($_FILES as $upLoad  => $file_arr) {
         #var_dump($_FILES[$upLoad]);
         # var_dump($_SESSION[$module]['Pct_Arr']);
         if ($_FILES[$upLoad] != "") {
             # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
-    
+            $result = VF_Upload_Save_M($uploaddir, $upLoad); # ,$urh_abk,$fo_aufn_datum
+
             if ($result == "") {
                 continue;
             }
-            if (substr($result,0,5) == 'Err: ' ) {
+            if (substr($result, 0, 5) == 'Err: ') {
                 continue;
             }
-            $neu["fm_foto_".$i+1] = $result;
-            
+            $neu["fm_foto_".$i + 1] = $result;
+
             $i++;
         }
     }
@@ -77,9 +80,9 @@ if (isset($_FILES)) {
 $neu['fm_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ($neu['fm_id'] == 0) { # neueingabe
-    
-    Cr_n_mu_fahrzeug($tabelle_a );
-    
+
+    Cr_n_mu_fahrzeug($tabelle_a);
+
     $sql = "INSERT INTO $tabelle_a (
                 fm_eignr,fm_invnr,fm_bezeich,fm_type,fm_leistung,fm_lei_bed,
                 fm_herst,fm_baujahr,fm_indienst,fm_ausdienst,fm_komment,fm_gew,
@@ -94,13 +97,12 @@ if ($neu['fm_id'] == 0) { # neueingabe
                 '$neu[fm_sammlg]','$neu[fm_zustand]','" . $_SESSION['VF_Prim']['p_uid'] . "',now()
                )";
 
-    $result = SQL_QUERY($db, $sql); 
+    $result = SQL_QUERY($db, $sql);
 
 } else { # update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
 
-    foreach ($neu as $name => $value) # für alle Felder aus der tabelle
-    {
+    foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         }
@@ -129,10 +131,10 @@ if ($neu['fm_id'] == 0) { # neueingabe
         if (substr($name, 0, 3) == "lev") {
             continue;
         }
-        if (substr($name,0,3) == "sa_") {
+        if (substr($name, 0, 3) == "sa_") {
             continue;
         } #
-        if (substr($name,0,3) == "fot") {
+        if (substr($name, 0, 3) == "fot") {
             continue;
         } #
 
@@ -150,7 +152,7 @@ if ($neu['fm_id'] == 0) { # neueingabe
     $result = SQL_QUERY($db, $sql);
 
     unset($_SESSION[$module]['Pct_Arr']);
-    
+
     header("Location: VF_FZ_MuFG_List.php?ID=".$_SESSION[$module]['fm_sammlung']);
 }
 
@@ -159,4 +161,3 @@ if ($neu['fm_id'] == 0) { # neueingabe
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuF_Edit_ph1.inc.php beendet</pre>";
 }
-?>

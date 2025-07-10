@@ -15,13 +15,13 @@ $tabelle = 'mu_fahrzeug_';
 const Prefix = '';
 
 /**
- * Angleichung an den Root-Path 
+ * Angleichung an den Root-Path
  *
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -32,7 +32,7 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-$flow_list = True;
+$flow_list = true;
 
 $Inc_Arr = array();
 $Inc_Arr[] = "VF_FZ_MuF_Edit.php";
@@ -40,7 +40,7 @@ $Inc_Arr[] = "VF_FZ_MuF_Edit.php";
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
-$jq = $jqui = True;
+$jq = $jqui = true;
 $BA_AJA = true;
 
 $header = "";
@@ -64,7 +64,7 @@ if (isset($_GET['fm_id'])) {
     $fm_id = "";
 }
 if (isset($_POST['fm_id'])) {
-   $fm_id = $_POST['fm_id'];
+    $fm_id = $_POST['fm_id'];
 }
 
 if ($phase == 99) {
@@ -77,8 +77,8 @@ if ($fm_id != "") {
     $fm_id = $_SESSION[$module]['fm_id'];
 }
 
-$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
-$lowHeight = True; // Auswahl-- und Anzeige- Tabellen mit verschiedenen Höhen - je nach Record-Anzahl
+$Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
+$lowHeight = true; // Auswahl-- und Anzeige- Tabellen mit verschiedenen Höhen - je nach Record-Anzahl
 
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
@@ -88,7 +88,7 @@ $eignr = $_SESSION['Eigner']['eig_eigner'];
 
 $tabelle_a = $tabelle . $eignr;
 
-$Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_a,);
+$Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_a, );
 $Tabellen_Spalten[] = 'sa_name';
 $Tabellen_Spalten_COMMENT['sa_name'] = 'Ausgewählte Sammlung';
 # -------------------------------------------------------------------------------------------------------
@@ -131,10 +131,10 @@ if ($phase == 0) {
         $sql_be = "SELECT * FROM $tabelle_a \n
             LEFT JOIN fh_sammlung ON $tabelle_a.fm_sammlg = fh_sammlung.sa_sammlg \n
             LEFT JOIN fh_firmen   ON $tabelle_a.fm_herst = fh_firmen.fi_abk   \n
-            WHERE `fm_id` = '" . $_SESSION[$module]['fm_id'] . "' ORDER BY `fm_id` ASC"; 
+            WHERE `fm_id` = '" . $_SESSION[$module]['fm_id'] . "' ORDER BY `fm_id` ASC";
 
         $return_be = SQL_QUERY($db, $sql_be);
-        
+
         $neu = mysqli_fetch_array($return_be);
 
         mysqli_free_result($return_be);
@@ -146,7 +146,7 @@ if ($phase == 1) {
 
 switch ($phase) {
     case 0:
-        require ('VF_FZ_MuF_Edit_ph0.inc.php');
+        require('VF_FZ_MuF_Edit_ph0.inc.php');
         break;
     case 1:
         require "VF_FZ_MuF_Edit_ph1.inc.php";
@@ -154,4 +154,3 @@ switch ($phase) {
 }
 
 BA_HTML_trailer();
-?>

@@ -2,9 +2,9 @@
 
 /**
  * Fahrzeuge, Typenschein, Formular
- * 
+ *
  * @author Josef Rohowsky - neu 2018
- * 
+ *
  */
 if ($debug) {
     echo "<pre class=debug>VF_FA_EI_Edit_ph0.php ist gestarted</pre>";
@@ -51,6 +51,5 @@ echo "</div>";
 # =========================================================================================================
 
 if ($debug) {
-    echo "<pre class=debug>VF_FZ_EI_Edit_ph0.inc.php beendet</pre>"; 
+    echo "<pre class=debug>VF_FZ_EI_Edit_ph0.inc.php beendet</pre>";
 }
-?>

@@ -17,7 +17,7 @@ if ($neu['fm_id'] == 0) { // Neueingabe
     $hide_area = 1;
 }
 
-echo "<input type='hidden' id='fm_id' name='fm_id' value='".$neu['fm_id']."' >"; 
+echo "<input type='hidden' id='fm_id' name='fm_id' value='".$neu['fm_id']."' >";
 # =========================================================================================================
 Edit_Tabellen_Header('Gerätebeschreibung Eigentümer: '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -35,12 +35,12 @@ if ($hide_area != 0) {
 Edit_Separator_Zeile('Sammlung'.$button);
 # =========================================================================================================
 
-$Edit_Funcs_Protect = True;
+$Edit_Funcs_Protect = true;
 // Edit_Daten_Feld_Button('fm_sammlg', '20','','');
-Edit_Daten_Feld('sa_name','');
+Edit_Daten_Feld('sa_name', '');
 // $Edit_Funcs_Protect = False;
 Edit_Daten_Feld('sa_name');
-$Edit_Funcs_Protect = False;
+$Edit_Funcs_Protect = false;
 echo "</div>";
 
 echo "<input type='hidden' id='fm_sammlg'  name='fm_sammlg' value='".$neu['fm_sammlg']."'/>";
@@ -81,7 +81,7 @@ switch ($MS_Opt) {
 }
 
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
-VF_Multi_Dropdown($in_val,$titel);
+VF_Multi_Dropdown($in_val, $titel);
 echo "</div>";
 
 # =========================================================================================================
@@ -96,12 +96,12 @@ Edit_textarea_Feld('fm_komment');
 
 Edit_Daten_Feld('fm_leistung', 10);
 Edit_Daten_Feld('fm_lei_bed', 50);
- 
+
 if (isset($neu['fi_name']) && $neu['fi_name'] != "") {
     $neu['fm_herst'] .= " - ".$neu['fi_name'].", ".$neu['fi_ort'];
 }
 
-$button ="";
+$button = "";
 if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_herst')\">zum anzeigen/ändern klicken!</button>";
@@ -109,7 +109,7 @@ if ($hide_area != 0) {  //toggle??
 
 echo "<input type='hidden' name='fm_herst' value='".$neu['fm_herst']."' >";
 //$Edit_Funcs_Protect = True;
-Edit_Daten_Feld(Prefix . 'fm_herst', 60,'','',$button);
+Edit_Daten_Feld(Prefix . 'fm_herst', 60, '', '', $button);
 //$Edit_Funcs_Protect = False;
 # Edit_Daten_Feld('fm_herst', 60);
 if ($hide_area == 0) {
@@ -135,7 +135,7 @@ if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
     $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
 }
-Edit_Separator_Zeile('Fotos'.$button_f);  # 
+Edit_Separator_Zeile('Fotos'.$button_f);  #
 # =========================================================================================================
 
 echo "<input type='hidden' name='fm_foto_1' value='" . $neu['fm_foto_1'] . "'>";
@@ -152,7 +152,7 @@ $_SESSION[$module]['Pct_Arr' ] = array();
 $num_foto = 4;
 $i = 1;
 while ($i <= $num_foto) {
-    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'fm_komm_'.$i, 'bi' => 'fm_foto_'.$i, 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'fm_komm_'.$i, 'bi' => 'fm_foto_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');
     $i++;
 }
 
@@ -181,4 +181,3 @@ echo "<p><a href='VF_FZ_MuFG_List.php?ID=MU_F'>Zurück zur Liste</a></p>";
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuF_Edit_ph0.inc.php beendet</pre>";
 }
-?>

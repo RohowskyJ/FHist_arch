@@ -25,7 +25,7 @@ Edit_Daten_Feld('c_Institution', 100);
 
 Edit_Daten_Feld('c_Vereinsreg', 15);
 
-Edit_Daten_Feld('c_Eignr',5);
+Edit_Daten_Feld('c_Eignr', 5);
 Edit_Daten_Feld('c_Verantwort', 100);
 Edit_Daten_Feld('c_Ver_Tel', 30);
 Edit_Daten_Feld('c_email', 60);
@@ -100,4 +100,3 @@ echo "</div>";
 if ($debug) {
     echo "<pre class=debug>Proj_Config_Edit_ph0.inc.php beendet</pre>";
 }
-?>

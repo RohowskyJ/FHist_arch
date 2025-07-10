@@ -163,11 +163,10 @@ console.log('opVal',opVal);
 	    });
 }
 
-
-	// Button-Event zum togglen
-	    $('#toggleUploadsButton').on('click', function() {
-	        toggleUploadBlocks();
-	    });
+// Button-Event zum togglen
+$('#toggleUploadsButton').on('click', function() {
+	toggleUploadBlocks();
+});
 	
 
 function initRadio () {

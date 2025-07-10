@@ -1,11 +1,12 @@
 <?php
+
 /**
- * Bibliothek für Funktionen zur Nutzug von PHPMailer. 
- * 
- * @author  B.R.Gaicki  - neu 2018  in eigene Bibliothek 2024_04-28 Josef Rohowsky    
- * 
+ * Bibliothek für Funktionen zur Nutzug von PHPMailer.
+ *
+ * @author  B.R.Gaicki  - neu 2018  in eigene Bibliothek 2024_04-28 Josef Rohowsky
+ *
  * Funcs - Gemeinsame Konstantendefinitionen und Unterprogramme - Version 5 by B.Richard Gaicki
- * 
+ *
  * ----------------------------------------------------------------------------------
  * Unterprogramme:
  *  - VF_sendEmail    - zum Versenden von Emails
@@ -51,20 +52,20 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
     require_once $path2ROOT . 'login/common/PHPMailer/src/PHPMailer.php';
     require_once $path2ROOT . 'login/common/PHPMailer/src/SMTP.php';
 
-    $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini',True,INI_SCANNER_NORMAL);
+    $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
     $vema = $ini_arr['Config']['vema'];
-    
-    $adm_mail_arr = parse_ini_file($path2ROOT.'login/common/admin_email.ini',True,INI_SCANNER_NORMAL);
+
+    $adm_mail_arr = parse_ini_file($path2ROOT.'login/common/admin_email.ini', true, INI_SCANNER_NORMAL);
     $adm_mail = "";
     foreach ($adm_mail_arr['Allg'] as $key => $value) {
         $adm_mail = "$value,";
     }
     if ($adm_mail != "") {
-        $adm_mail = substr($adm_mail,0,-1);
+        $adm_mail = substr($adm_mail, 0, -1);
     }
     $absender = $adm_mail_arr['Absender']['abs'];
-    
-    
+
+
     if ($reply_to == "") {
         $sysgen_text = 'Diese Nachricht wurde <u>automatisch</u> erstellt.' . '<br><b>Senden Sie keine Antwort an die Absenderadresse.</b>';
     } else {
@@ -74,8 +75,7 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
 
     $Mailtext = '<html>' . '<head>' . "<meta charset='UTF-8'>" . '<title>Feuerwehrhistoriker Info Mail</title>' . "\n<style>" . "p  {margin-top:1em; margin-bottom:1em;}" . "h4 {margin-top:0px;margin-bottom:5px;color:darkblue;font-size:120%}" . "fieldset{background-color:white;border-radius:15px;border:1px solid blue;margin:10px 0 10px 0}" . "legend {background-color:white;color:darkblue;font-weight:bold;font-size:110%}" . "div.white { background-color:white;border-style:none;padding:5px 10px 5px}" . "span.blink {color:red;font-weight:bold;font-size:130%;animation:errorblink 1.5s linear infinite;}" . "@keyframes errorblink { 0% {opacity:0;} 50% {opacity:0.7;} 00% { opacity:0;} }" . "</style>" . "\n</head>" . "\n<body>" . '<div style="text-align:left;">' . '<img src="' . $path2ROOT . 'login/common/imgs/Lehner_Dauber_Signet_s_72.jpg" alt="Feuerwehrhistoriker in NÖ" style="border:2px solid blue;">' . "$sysgen_text" . '</div>' . "<br>\n" . $text . "\n</body></html>";
 
-    if ($debug) # or $_SERVER['SERVER_NAME'] == 'localhost')
-    {
+    if ($debug) { # or $_SERVER['SERVER_NAME'] == 'localhost')
         echo "<pre class=debug>Mailto geändert<br>von: $MailTo";
         $MailTo = "$adm_mail,". $ini_arr['Config']['vema'];
         echo "<br>auf: $MailTo</pre>";
@@ -85,13 +85,12 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
         echo "<hr>$Mailtext<hr>Ende der E-Mail";
         echo "</div></br>";
     }
-    
+
     $mail = new PHPMailer(true); // Passing `true` enables exceptions
     try {
         // Server settings
         $mail->SMTPDebug = 0; // Enable verbose debug output 0 off
-        if ($debug) # or $_SERVER['SERVER_NAME'] == 'localhost')
-        {
+        if ($debug) { # or $_SERVER['SERVER_NAME'] == 'localhost')
             $mail->SMTPDebug = 2;
         } // Enable verbose debug output 0 off, 4 Details client-Server
         $mail->isSMTP(); // Set mailer to use SMTP
@@ -102,7 +101,7 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
         $mail->SMTPSecure = 'ssl'; // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 465; // TCP port to connect to
         $mail->setLanguage('de', 'phpmailer.lang-de.php');
-       # $mail->Charset = 'UTF-8';
+        # $mail->Charset = 'UTF-8';
 
         // Recipients
         switch ($_SERVER['SERVER_NAME']) {
@@ -116,8 +115,8 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
                 foreach (explode(',', $MailTo) as $address) {
                     $mail->addAddress($address); // Add a recipient address (Name is optional)
                 }
-            # $mail->addBCC('richard.gaicki@aon.at');
-            # $mail->addBCC('josef@kexi.at', 'Josef Rohowsky'); // Name is optional
+                # $mail->addBCC('richard.gaicki@aon.at');
+                # $mail->addBCC('josef@kexi.at', 'Josef Rohowsky'); // Name is optional
         }
 
         if ($reply_to != "") {
@@ -134,11 +133,10 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
         $mail->isHTML(true); // Set email format to HTML
         $mail->Subject = $MailSubject;
         $mail->Body = $Mailtext; # $text;
-                                 // $mail->AltBody = 'This is tSubject line goes here'.he body in plain text for non-HTML mail clients';
+        // $mail->AltBody = 'This is tSubject line goes here'.he body in plain text for non-HTML mail clients';
 
         $mail->send();
-        if ($debug) # or $_SERVER['SERVER_NAME'] == 'localhost')
-        {
+        if ($debug) { # or $_SERVER['SERVER_NAME'] == 'localhost')
             echo '<br><b>Mail wurde gesendet</b><br>';
         }
     } catch (Exception $e) {
@@ -156,4 +154,3 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
  *
  * @author Josef Rohowsky - 20240428
  */
-?>

@@ -1,8 +1,9 @@
-<?php 
+<?php
+
 /**
  * Constante für das Projekt Feuerwehrhistoriker
  *
- * @author Josef Rohowsky - neu 2024-04-28 
+ * @author Josef Rohowsky - neu 2024-04-28
  *
  */
 
@@ -27,6 +28,3 @@ const Modules = array(
     "Mod_14" => ".",
     "Mod_15" => "."
 );
-
-
-?>

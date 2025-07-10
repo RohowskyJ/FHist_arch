@@ -97,12 +97,12 @@ function List_Prolog($id, $T_List_Texte)
     # ===========================================================================================================
     # die Parameter lesen und die Werte fürs nächste mal aufheben
     # ===========================================================================================================
-    $List_parm = Array();
+    $List_parm = array();
     if (! isset($_SESSION["VF_LISTE"])) {
-        $_SESSION["VF_LISTE"] = Array();
+        $_SESSION["VF_LISTE"] = array();
     }
     if (! isset($_SESSION[$id])) {
-        $_SESSION[$id] = Array();
+        $_SESSION[$id] = array();
     }
     # $id = 'VF_'.Module_Name;
 
@@ -131,10 +131,8 @@ function List_Prolog($id, $T_List_Texte)
         $T_List = $_SESSION[$id]['T_List'];
     }
 
-    if (! isset($T_List_Texte[$T_List])) # Wert in $T_List falsch
-    {
-        foreach ($T_List_Texte as $key => $text) # Dursuche alle möglichen Werte
-        {
+    if (! isset($T_List_Texte[$T_List])) { # Wert in $T_List falsch
+        foreach ($T_List_Texte as $key => $text) { # Dursuche alle möglichen Werte
             $T_List = $key;
             break;
         } # nimm den 1e möglichen Wert
@@ -331,7 +329,6 @@ function List_Prolog($id, $T_List_Texte)
  *
  */
 function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinweise = '', $Zus_Ausw = '', $addit_act = '')
-
 {
     global $debug, $path2ROOT, $List_parm, $List_Parameter, $module;
 
@@ -352,10 +349,8 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
     }
 
     $DD_List = $DD_aktiv = '';
-    foreach ($T_List_Texte as $key => $text) # für alle
-    {
-        if ($T_List == $key) # Aktiv
-        {
+    foreach ($T_List_Texte as $key => $text) { # für alle
+        if ($T_List == $key) { # Aktiv
             $DD_aktiv = $text;
             $DD_List .= "<a class='w3-bar-item'><span style='color:green'>$text</span></a>";
         } else {
@@ -378,7 +373,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
      <?php
 
     if (is_file($path2ROOT . 'login/common/config_s.ini')) {
-        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', True, INI_SCANNER_NORMAL);
+        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
     }
     if (isset($ini_arr['Config'])) {
         $logo = $ini_arr['Config']['sign'];
@@ -414,7 +409,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
      <!-- =================================================================================================
     # Optionales Auswahl Feld
     ================================================================================================= -->
-    <?php if ( !strpos($DD_aktiv,'Auswahl')==false ) { ?>
+    <?php if (!strpos($DD_aktiv, 'Auswahl') == false) { ?>
     <div class='w3-dropdown-hover w3-light-grey'
                     style='padding-left: 5px; padding-right: 5px; z-index: 3'>
                     <input type='text' name='select_string'
@@ -595,8 +590,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
     # Nicht angezeigte Spalten
     ================================================================================================== -->
 <?php
-    if (! $List_parm['hide'] == '') # -------------------------- Anzeige von Spalten --------------------------
-    {
+    if (! $List_parm['hide'] == '') { # -------------------------- Anzeige von Spalten --------------------------
         echo "<div class='w3-dropdown-hover w3-light-grey w3-right' style='padding-left:5px;padding-right:5px;padding-top:5px;padding-bottom:5px;'>";
         echo "Nicht angezeigte Spalten: <q>" . $List_parm['hide'] . "</q> ";
         echo "<a class=button href='$_SERVER[PHP_SELF]?unhide=Y$List_Parameter' style='font-size:100%;'>alle anzeigen</a>";
@@ -646,6 +640,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
  * @global array $Tabellen_Spalten_tabelle Global Array (Schlüssel: Spaltenname) mit dem Namen der Tabelle
  * @global array $Tabellen_Spalten_typ Global Array (Schlüssel: Spaltenname) mit 'text'/'num'
  * @global array $Tabellen_Spalten_style Global Array (Schlüssel: Spaltenname) mit den Style für das <td> Element
+ * @global array $Tabellen_Spalten_MAXLENGTH (Schlüssel: Spaltenname) mit der maximalen Länge des Eingabestrings
  * @global string $csv_DSN Name der *.csv- Datei
  * @global string $SelectAnzeige Anzeige des Query ($sql) Ein/Aus ->$_Sess
  * @global string $SpaltenNamenAnzeige Anzeige des Spaltennamens (Ein) oder des Kommentares (Klarname) ->$_Sess
@@ -680,24 +675,21 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     # Wenn das SQL Query Statement noch kein 'ORDER BY xxx' enthält >>> Ergänze es mit ORDER BY xxx
     # =================================================================================================================
     $sql_orderBy = '';
-    if (strpos($sql_1, 'ORDER BY ') === false) # nicht enthalten
-    { # --------------------------------------------------------------------------------------------------------------
-      # Wenn die Spalte in $List_parm['sort_column'] angezeigt wird
-      # - sortiere nach dieser Spalte
-      # - andernfalls sortiern nach der 1en Spalte
-      # ---------------------------------------------------------------------------------------------------------------
-        foreach ($Tabellen_Spalten as $key => $column_name) # für alle angezeigten Spalten
-        {
-            if ($column_name == $List_parm['sort_column']) # Diese Spalte wird angezeigt
-            {
+    if (strpos($sql_1, 'ORDER BY ') === false) { # nicht enthalten
+        # --------------------------------------------------------------------------------------------------------------
+        # Wenn die Spalte in $List_parm['sort_column'] angezeigt wird
+        # - sortiere nach dieser Spalte
+        # - andernfalls sortiern nach der 1en Spalte
+        # ---------------------------------------------------------------------------------------------------------------
+        foreach ($Tabellen_Spalten as $key => $column_name) { # für alle angezeigten Spalten
+            if ($column_name == $List_parm['sort_column']) { # Diese Spalte wird angezeigt
                 $sql_orderBy = "`$List_parm[sort_column]`  $List_parm[sort_richtung]";
                 ;
                 break; # Suche abbrechen
             }
         }
 
-        if ($sql_orderBy == '') # diese Spalte wird nicht angezeigt
-        {
+        if ($sql_orderBy == '') { # diese Spalte wird nicht angezeigt
             $List_parm['sort_column'] = $Tabellen_Spalten[0];
             $sql_orderBy = "`$Tabellen_Spalten[0]` $List_parm[sort_richtung]"; # Default: nach 1er Spalte sortieren
         }
@@ -724,17 +716,17 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
         echo "L 717 \$zeilen=$zeilen</pre>";
     }
     # echo "L 0714 vor einlesen tab_nam_1 $tab_nam_1 <br>";
-    while ($row = mysqli_fetch_assoc($query_result_1)) # Für alle Tabellenzeilen
-    {
+    while ($row = mysqli_fetch_assoc($query_result_1)) { # Für alle Tabellenzeilen
+        
         $Table_csv[] = $row;
         $modRC = modifyRow($row, $tab_nam_1);
 
         if (isset($row['Sort_Key']) && $row['Sort_Key'] != "") {
             $Table_Out[$row['Sort_Key']] = $row;
-        /**
-         *
-         * @code $row['Sort_Key']] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
-         */
+            /**
+             *
+             * @code $row['Sort_Key']] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
+             */
         } else {
             $Table_Out[] = $row;
         }
@@ -742,17 +734,16 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     # echo "L 0730 nach dem einlesen von tab_nam_1 <br>";
     if ($sql_2 != "") {
         $query_result_2 = SQL_QUERY($db, $sql_2);
-        while ($row = mysqli_fetch_assoc($query_result_2)) # Für alle Tabellenzeilen
-        {
+        while ($row = mysqli_fetch_assoc($query_result_2)) { # Für alle Tabellenzeilen
             $Table_csv[] = $row;
             $modRC = modifyRow($row, $tab_nam_2);
 
             if (isset($row['Sort_Key']) && $row['Sort_Key'] != "") {
                 $Table_Out[$row['Sort_Key']] = $row;
-            /**
-             *
-             * @code $row['Sort_Key']] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
-             */
+                /**
+                 *
+                 * @code $row['Sort_Key']] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
+                 */
             } else {
                 $Table_Out[] = $row;
             }
@@ -842,14 +833,13 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     $CSV_Text_zeile = $CSV_Text_zeile2 = ";";
     $i = 0; # Spaltenzähler
 
-    foreach ($Tabellen_Spalten as $key => $column_name) # ================ für alle Spalten =================
-    {
+    foreach ($Tabellen_Spalten as $key => $column_name) { # ================ für alle Spalten =================
 
         if (mb_strpos($hide_columns, " $column_name ") !== false) {
             continue;
         } # skip hidden column
         $j = $i;
-        $i ++; # Spaltenzähler
+        $i++; # Spaltenzähler
         # echo "\n  <th onclick='sortTable($j)'>";
         if (!isset($Tabellen_Spalten_typ[$column_name])) {
             echo "\n <th class='js-sort-none' title=\"class=&quot;js-sort-none&quot;\">";
@@ -863,7 +853,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
                     break;
                 default:
                     echo "\n <th class='js-sort-none' title=\"class=&quot;js-sort-none&quot;\">";
-                   break;
+                    break;
             }
         }
 
@@ -876,8 +866,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
         $Pfeil = '';
 
         if ($column_name == $List_parm['sort_column'] & # Sortierrichtungs Pfeil nur für diese Spalte anzeigen
-        $zeilen > 1) # Sortierrichtungs Pfeil nur anzeigen wenn es mehrere Zeilen gibt
-        {
+        $zeilen > 1) { # Sortierrichtungs Pfeil nur anzeigen wenn es mehrere Zeilen gibt
             if ($List_parm['sort_richtung'] == 'ASC') {
                 $Pfeil = "<img src='" . $path2ROOT . "login/common/imgs/arrowUp.gif'   alt='Asc'> ";
             } else {
@@ -941,10 +930,9 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     # ========================================================================================================================
     $Zeilen_Nr = 0;
 
-    Foreach ($Table_Out as $row) {
-        $Zeilen_Nr ++;
-        foreach ($Tabellen_Spalten as $key => $column_name) # alle Spalten ausgeben
-        {
+    foreach ($Table_Out as $row) {
+        $Zeilen_Nr++;
+        foreach ($Tabellen_Spalten as $key => $column_name) { # alle Spalten ausgeben
             if (mb_strpos($hide_columns, " $column_name ") !== false) {
                 continue;
             } # hide column : skip ip
@@ -973,7 +961,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
             $Tabellen_Spalten = $CSV_Spalten;
         }
 
-        foreach($Tabellen_Spalten as $column_name )    {
+        foreach ($Tabellen_Spalten as $column_name) {
             if (isset($Tabellen_Spalten_tabelle[$column_name])) {
                 $CSV_Text_zeile .= "|$column_name";
                 $CSV_Text_zeile2 .= "|";
@@ -985,12 +973,11 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
 
         $CSV_Text .= "\n" . substr($CSV_Text_zeile, 1) . "\n" . substr($CSV_Text_zeile2, 1);
 
-        Foreach ($Table_csv as $csvrow) {
-            $Zeilen_Nr ++;
+        foreach ($Table_csv as $csvrow) {
+            $Zeilen_Nr++;
             $CSV_Text_zeile = $Zeilen_Nr . "| ";
 
-            foreach ($Tabellen_Spalten as $key => $column_name) # alle Spalten ausgeben
-            {
+            foreach ($Tabellen_Spalten as $key => $column_name) { # alle Spalten ausgeben
 
                 if (mb_strpos($hide_columns, " $column_name ") !== false) {
                     continue;
@@ -1016,7 +1003,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
                     }
                 }
 
-               # console_log( $CSV_Text_zeile);
+                # console_log( $CSV_Text_zeile);
             } # alle Spalten ausgeben
             #console_log( $CSV_Text_zeile);
             $CSV_Text_zeile = substr($CSV_Text_zeile, 0, - 1);
@@ -1040,7 +1027,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
             $tab_arr[1] = "green";
             $tab_arr[2] = "Daten abspeichern";
             $tab_arr[3] = ""; # retun to .scr
-            $tab_arr[4] = True; // Daten nach Änderung abspeichern
+            $tab_arr[4] = true; // Daten nach Änderung abspeichern
         }
         if ($_SESSION[$module]['all_upd'] || $tab_arr[4]) {
             echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";

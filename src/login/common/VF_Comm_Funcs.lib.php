@@ -1,35 +1,35 @@
 <?php
 /**
  * Funktionsbibliothek für diverse Zusatzfunktionen für Feuerwehrhistoriker HP.
- * 
+ *
  * @author  Josef Rohowsky josef@kexi.at
- * 
+ *
  * Enthält und Unterprogramme für die Auwahl von Namen und Begriffen
- * 
+ *
  *  - VF_Add_Findbuch   - Suchbegriff Schlagwort hinzufügen
- *  - VF_Add_Namen      - Suchbegriff Namen hinzufügen  
- *  - VF_chk_Valid      - Prüfung ob gültige Aufruf, setzten der Zugriffs- Parameter für $module neu 20240120 
+ *  - VF_Add_Namen      - Suchbegriff Namen hinzufügen
+ *  - VF_chk_Valid      - Prüfung ob gültige Aufruf, setzten der Zugriffs- Parameter für $module neu 20240120
  *  - VF_Count_add      - Add Record for startng an inernal Sub-Process (as Archive, Suche, Fzg
  *  - VF_Bdld_Displ     - Zeigt den Namen des Bundeslandes für die angegebene Abkürzung
  *  - VF_Displ_Arl      - Anzeige Archivordnung 3+4. Ebene Locale Sachgeb + Subsachgeb
- *  - VF_Displ_Aro      - Anzeige Archivordnug, 1+2. Ebene Generelles Sachgebiet und Sub-Sachgebiet 
+ *  - VF_Displ_Aro      - Anzeige Archivordnug, 1+2. Ebene Generelles Sachgebiet und Sub-Sachgebiet
  *  - VF_Displ_Eig      - Daten zur Anzeige der Eigentümer-Daten, Speichern in SESSION[Eigner [
- *  - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen  
+ *  - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen
  *  - VF_Displ_Urheb_n  - Urheber Daten in $_Sess[$module]['Fo']['URHEBER'] einlesen  fh_urheber_n/fh_urh_erw_n
  *  - VF_Login          - Login durchführen
  *  - VF_Log_Pw_chg     - Passwortänderung beim Login Daten erfassen
- *  - VF_Log_PW_Upd     - Passworänderung schreiben 
- *  - VF_Mail_Set       - gibt die E-Mail Adresse für die Recs aus fh_m_mail zurück neu 20240120 
- *  - VF_Multi_Foto     - Anzeige mehrfach - s mit den texten paarweise n Zeile  
+ *  - VF_Log_PW_Upd     - Passworänderung schreiben
+ *  - VF_Mail_Set       - gibt die E-Mail Adresse für die Recs aus fh_m_mail zurück neu 20240120
+ *  - VF_Multi_Foto     - Anzeige mehrfach - s mit den texten paarweise n Zeile
  *  - VF_M_Foto         - Anzeige mehrfach - s mit den texten paarweise n Zeile  , Upload oder Auswahl aus Foto- Lib
- *  - VF_Sel_Bdld       - Auswahl Bundesland 
+ *  - VF_Sel_Bdld       - Auswahl Bundesland
  *  - VF_Sel_Det        - Detailbeschreibungs Selektion
  *  - VF_Sel_Sammlg     - Sammlungs- Selektion mit select list
- *  - VF_Sel_Staat      - Auswahl Staat 
+ *  - VF_Sel_Staat      - Auswahl Staat
  *  - VF_Sel_Urheber_n    - Auswahl des Urhebers, speicherung Urhebernummer   fh_urh* $_Sess[$module]['Fo']['Urheber_list']
- *  - VF_set_module_p   - setzen der Module- Parameter    neu 20240120 
+ *  - VF_set_module_p   - setzen der Module- Parameter    neu 20240120
  *  - VF_Show_Eig       - Auslesen ud zurückgeben der Eigner-Daten im Format wie Autocomplete
- *  - VF_tableExist     - test ob eine Tabelle existiert 
+ *  - VF_tableExist     - test ob eine Tabelle existiert
  *  - VF_upd            - Berechtigungs- Feststellung je *_List Script entsprechend Eigentümer
  *  - VF_Upload_Pic     - Hochladen der Datei mit Umbenennung auf Foto- Video- Format Urh-Datum-Datei.Name
  *  - VF_trans_2_separate - Umlaute eines Strings von UTF-8 oder CP1252 auf gtrennte Schreibweise -> Ü ->UE
@@ -43,7 +43,7 @@
  */
 
 if ($debug) {
-    echo "L 042: VF_Common_Funcs.inc.php ist geladen. <br/>"; 
+    echo "L 042: VF_Common_Funcs.inc.php ist geladen. <br/>";
 }
 
 /**
@@ -90,7 +90,7 @@ const VF_module = array(
  *            Datensatz- Nummer
  * @param string $eigner
  *            Eigentümer- Nummer
- *            
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global array $neu Eingelesene Daten Felder
@@ -102,9 +102,9 @@ function VF_Add_Findbuch($table, $keywords, $fld, $fdid, $eigner)
     if ($debug) {
         echo "<pre class=debug>VF_Add_Findbuch L Beg: \$table $table \$fld $fld \$fdid $fdid \$keywords $keywords <pre>";
     }
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Add_Findbuch" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Add_Findbuch");
+
     if ($keywords == "") {
         return;
     }
@@ -128,7 +128,7 @@ function VF_Add_Findbuch($table, $keywords, $fld, $fdid, $eigner)
 
             $return_fb = SQL_QUERY($db, $sql_fb);
         }
-        $i ++;
+        $i++;
         if ($i >= $arr_cnt) {
             break;
         }
@@ -148,12 +148,12 @@ function VF_Add_Findbuch($table, $keywords, $fld, $fdid, $eigner)
  *            Datensatz- Nummer
  * @param string $eigner
  *            Eigentümer- Nummer
- *            
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global array $neu Eingelesene Daten Felder
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
- *        
+ *
  */
 function VF_Add_Namen($table, $recordnr, $feldnam, $names) # für Referat
 {
@@ -162,8 +162,8 @@ function VF_Add_Namen($table, $recordnr, $feldnam, $names) # für Referat
         echo "<pre class=debug>VF_Add_Namen L Beg: \$table $table \$recordnr $recordnr \$feldnam $feldnam \$names $names <pre>";
     }
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Add_Namen" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Add_Namen");
+
     if ($names == "") {
         return;
     }
@@ -200,9 +200,9 @@ function VF_chk_valid()
 // --------------------------------------------------------------------------------
 {
     global $debug, $db,$module ;
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Chk_valid" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Chk_valid");
+
     if (isset($_GET['SK'])) {
         if ($_GET['SK'] != $_SESSION['VF_Prim']['SK']) {
             die("Falscher Aufruf. Programm wird abgebrochen.");
@@ -223,13 +223,13 @@ function VF_Count_add()
 {
     global $debug, $db, $module, $flow_list;
     # Aufruf- Counter
-    
+
     if ($_SERVER['SERVER_NAME'] == 'localhost') {
         return;
     }
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Count_Add" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Count_Add");
+
     if ($debug) {
         echo "<pre class=debug> Count add L Beg: t<pre>";
     }
@@ -297,18 +297,18 @@ function VF_Count_add()
  *            Staats- Abkürzung (AT, DE, ...)
  * @param string $bundesland
  *            Abkürzung des Bundeslandes m Staat
- *            
+ *
  * @return string $menuepunkte_bl Name des gesuchten Bundeslandes
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
- *        
+ *
  */
 function VF_Bdld_Displ($staat, # Fortl, Nummer des Benutzere
-$bundesland) # für Referat
-              // --------------------------------------------------------------------------------
+    $bundesland) # für Referat
+// --------------------------------------------------------------------------------
 {
     global $debug, $db, $flow_list,$module;
-    
+
     /**
      * ***********************************************
      *
@@ -317,8 +317,8 @@ $bundesland) # für Referat
     if ($debug) {
         echo "<pre class=debug>F Bdld_Displ L Beg: \$staat $staat \$bundesland $bundesland<pre>";
     }
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Bdld_Displ" );
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Bdld_Displ");
 
     $sql = "SELECT * FROM fh_bundesld WHERE bl_stabkz='$staat' and bl_blabkz = '$bundesland' ORDER BY bl_id ASC";
     $return_bl = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
@@ -346,9 +346,9 @@ $bundesland) # für Referat
  *            Abkürzung der Aera
  * @param string $sub_funct
  *            -> hier nicht benutzt
- *            
+ *
  * @return string $text Langext der Aera
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  */
@@ -357,8 +357,8 @@ function VF_Displ_Aera($fz_area, $sub_funct)
 {
     global $debug, $db, $flow_list,$module;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Displ_Aera" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Displ_Aera");
+
     if ($debug) {
         echo "<pre class=debug>Displ_Aera L Beg: \$mit_name $mit_name \$sub_funct $sub_funct<pre>";
     }
@@ -393,7 +393,7 @@ function VF_Displ_Aera($fz_area, $sub_funct)
  * @param string $lcssg
  *            4. Ebene (Mandanten Erweiterung)
  * @return string $string_arl M_Sachgebiet.M_Sub- Sachgebiet Sachgebietsname Suchbegriff
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global array $neu Eingelesene Daten Felder
@@ -403,8 +403,8 @@ function VF_Displ_Arl($sg, $ssg, $lcsg, $lcssg)
 {
     global $debug, $db, $neu, $module, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Displ_Arl" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Displ_Arl");
+
     if ($debug) {
         echo "<pre class=debug>VF_Disp_Arl L Beg: \$lcsg $lcsg <pre>";
     }
@@ -421,7 +421,7 @@ function VF_Displ_Arl($sg, $ssg, $lcsg, $lcssg)
     }
     $sql_al = "SELECT * FROM $table WHERE   `al_sg`='$sg.$ssg' AND `al_lcsg` = '$lcsg' $lcssg_val ORDER BY al_sg ASC";
     $return_al = mysqli_query($db, $sql_al); // or die("Datenbankabfrage gescheitert. ".mysqli_error($db));
-                                             # print_r($return_al);echo "<br> L 211: return \$sql_al $sql_al <br>";
+    # print_r($return_al);echo "<br> L 211: return \$sql_al $sql_al <br>";
     if ($return_al) {
         while ($row = mysqli_fetch_object($return_al)) {
             $string_arl = "$row->al_lcsg.$row->al_lcssg $row->al_bezeich";
@@ -443,16 +443,16 @@ function VF_Displ_Arl($sg, $ssg, $lcsg, $lcssg)
  * @param string $ssg
  *            Sub-Sachgebiets- Nummer
  * @return string $string_aro Sachgebiet.Sub- Sachgebiet Sachgebietsname Suchbegriff
- *        
- *        
+ *
+ *
  */
 function VF_Displ_Aro($sg, $ssg)
 // --------------------------------------------------------------------------
 {
     global $debug, $db, $neu, $module, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Displ_Aro" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Displ_Aro");
+
     if ($debug) {
         echo "<pre class=debug>VF_Displ_Aro L Beg: \$sg $sg <pre>";
     }
@@ -477,7 +477,7 @@ function VF_Displ_Aro($sg, $ssg)
  *
  * @param string $eigentmr
  *            Eigentümer-Nummer
- *            
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
@@ -486,8 +486,8 @@ function VF_Displ_Eig($eigentmr)
 {
     global $debug, $db, $module, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Displ_Eig" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Displ_Eig");
+
     $sql = "SELECT * FROM `fh_eigentuemer` WHERE `ei_id` = '$eigentmr' ";
 
     if (isset($flow_list)) { # ->neue Libs
@@ -531,7 +531,7 @@ function VF_Displ_Eig($eigentmr)
         $_SESSION['Eigner']['eig_org'] = $leihname;
         $_SESSION['Eigner']['eig_name'] = $leihname;
         $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
-        
+
         if ($row->ei_org_typ == "Privat") {
             $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
             $_SESSION['Eigner']['eig_verant'] = "";
@@ -562,7 +562,7 @@ function VF_Displ_Eig($eigentmr)
  *
  * @param string $invsb*
  *            (* = 1-6) die 6 Suchbegriffs-Begriffe (1 - Hauptbegriff, 6 - Unterste Ebene, nicht alle notwendig/Definiert)
- *            
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global string $o_suchb1 - $o_suchb6
@@ -572,8 +572,8 @@ function VF_Displ_Suchb($invsb1, $invsb2, $invsb3, $invsb4, $invsb5, $invsb6)
 {
     global $debug, $db, $o_suchb1, $o_suchb2, $o_suchb3, $o_suchb4, $o_suchb5, $o_suchb6, $flow_list,$module;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Displ_Suchb" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Displ_Suchb");
+
     if (empty($invsb1)) {
         return;
         $select = "";
@@ -626,51 +626,51 @@ function VF_Displ_Urheb_n($urhebernr, $typ = "F")
 // --------------------------------------------------------------------------------
 {
     global $debug, $db, $module, $fm_typ, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_Displ_Urheb_n" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Displ_Urheb_n");
+
     if (!isset($fm_typ)) {
         $fm_typ = $typ;
     }
     if ($debug) {
         echo "<pre class=debug>VF Displ_Urheb_n L 687 Beg: \$urhebernr $urhebernr fm_typ $fm_typ <pre>";
     }
-    
+
     $sql = "SELECT * FROM `fh_eigentuemer` WHERE `ei_id`='$urhebernr' ";
-    
+
     $return_ur = SQL_QUERY($db, $sql);
-    
+
     while ($row = mysqli_fetch_object($return_ur)) {
-        
-            $_SESSION[$module]['URHEBER']['BE']['ei_id'] = $row->ei_id;
-            
-            if ($row->ei_org_typ == "") {
-                $urheber = $row->name ." .$row->ei_vname";
-            } else {
-                $urheber = $row->ei_org_typ ." ". $row->ei_org_name;
-            }
-            $_SESSION[$module]['URHEBER']['BE']['ei_urheber'] = $urheber;
-            
-            $_SESSION[$module]['URHEBER']['BE']['ei_urh_kurzz'] = $row->ei_urh_kurzz;
-            $_SESSION[$module]['URHEBER']['BE']['ei_media'] = $row->ei_media;
-            
-            $sql_urh_det = "SELECT * from fh_eign_urh WHERE fs_eigner='$row->ei_id' AND fs_typ = '$fm_typ' ";
-            $return_urh_det = SQL_QUERY($db, $sql_urh_det);
-            $num_rec = mysqli_num_rows($return_urh_det);
-            if ($num_rec > 0) {
-                # $num_r_u_d = mysqli_num_rows($return_urh_det);
-                $_SESSION[$module]['URHEBER']['BE']['urh_abk'] = array();
-                while ($row_urh_d = mysqli_fetch_object($return_urh_det)) {
-                    $_SESSION[$module]['URHEBER']['BE']['urh_abk'][$row_urh_d->fs_urh_nr][$row_urh_d->fs_urh_kurzz] = $row_urh_d->fs_fotograf;
-                    
-                }
-                
-                break;
+
+        $_SESSION[$module]['URHEBER']['BE']['ei_id'] = $row->ei_id;
+
+        if ($row->ei_org_typ == "") {
+            $urheber = $row->name ." .$row->ei_vname";
+        } else {
+            $urheber = $row->ei_org_typ ." ". $row->ei_org_name;
+        }
+        $_SESSION[$module]['URHEBER']['BE']['ei_urheber'] = $urheber;
+
+        $_SESSION[$module]['URHEBER']['BE']['ei_urh_kurzz'] = $row->ei_urh_kurzz;
+        $_SESSION[$module]['URHEBER']['BE']['ei_media'] = $row->ei_media;
+
+        $sql_urh_det = "SELECT * from fh_eign_urh WHERE fs_eigner='$row->ei_id' AND fs_typ = '$fm_typ' ";
+        $return_urh_det = SQL_QUERY($db, $sql_urh_det);
+        $num_rec = mysqli_num_rows($return_urh_det);
+        if ($num_rec > 0) {
+            # $num_r_u_d = mysqli_num_rows($return_urh_det);
+            $_SESSION[$module]['URHEBER']['BE']['urh_abk'] = array();
+            while ($row_urh_d = mysqli_fetch_object($return_urh_det)) {
+                $_SESSION[$module]['URHEBER']['BE']['urh_abk'][$row_urh_d->fs_urh_nr][$row_urh_d->fs_urh_kurzz] = $row_urh_d->fs_fotograf;
+
             }
 
-        
+            break;
+        }
+
+
     }
-    
+
     mysqli_free_result($return_ur);
 }
 
@@ -684,7 +684,7 @@ function VF_Displ_Urheb_n($urhebernr, $typ = "F")
  *
  * @param
  *            string
- *            
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global array $neu Eingelesene Daten Felder
@@ -694,8 +694,8 @@ function VF_Login($email, $Pwd)
 {
     global $debug, $db, $neu, $module, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Login" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Login");
+
     if ($debug) {
         echo "<pre class=debug>";
         echo "VF_Login Input : email $email pwd $Pwd  ";
@@ -773,9 +773,9 @@ function VF_Login($email, $Pwd)
 function VF_Log_Pw_Chg()
 {
     global $debug, $db, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Log_Pw_Chg" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Log_Pw_Chg");
+
     echo "<div class='w3-container'><fieldset>";
     echo "<strong><font size=\"+2\">Passwortänderung:</font></strong><br/>";
     echo "<strong>Das Password zweimal identisch eingeben</strong><br/>";
@@ -795,7 +795,7 @@ function VF_Log_Pw_Chg()
  *
  * @param string $p1
  *            neues Passwort, wird verschlüsselt (Hash)
- *            
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
@@ -804,8 +804,8 @@ function VF_Log_Pw_Upd($p1)
 {
     global $debug, $db, $module, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Log_Pw_Upd" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Log_Pw_Upd");
+
     $pw_chg_e = crypt($p1, '$1$banane1a$');
 
     $sql_zu = "UPDATE fh_zugriffe_n SET
@@ -829,7 +829,7 @@ function VF_Log_Pw_Upd($p1)
  * @param string $mail_grp
  *            Administrator- Gruppe
  * @return string Mail-Adresse(n)
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  */
@@ -841,8 +841,8 @@ function VF_Mail_Set($mail_grp) # Mail- Gruppe
 {
     global $debug, $db, $flow_list,$module;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Mail_Set" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Mail_Set");
+
     if ($debug) {
         echo "<pre class=debug>F Staat Ausw L Beg: mail_grp \$mail_grp <pre>";
     }
@@ -863,7 +863,7 @@ function VF_Mail_Set($mail_grp) # Mail- Gruppe
         $return_m = SQL_QUERY($db, $sql_m);
 
         if ($return_m) {
-            WHILE ($row_m = mysqli_fetch_assoc($return_m)) {
+            while ($row_m = mysqli_fetch_assoc($return_m)) {
                 if ($row_m['mi_email'] != "") {
                     if ($adr_list == "") {
                         $adr_list = $row_m['mi_email'];
@@ -904,8 +904,8 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
 {
     global $debug, $db, $neu, $module, $pict_path, $Tabellen_Spalten_COMMENT, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_Multi_Foto" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Multi_Foto");
+
     if ($debug) {
         echo "<pre class=debug>VF_Mult_ L Beg: \$Picts ";
         var_dump($Picts);
@@ -918,8 +918,8 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
     echo "<div class='w3-container' max-width='100%' margin='5px '>";
 
     foreach ($Picts as $key => $value) {
-      error_log($value);
-        $p_a = explode("|", $value); 
+        error_log($value);
+        $p_a = explode("|", $value);
 
         echo "<div class='w3-half'><fieldset>";
         echo "<div style='float:left;'>";
@@ -967,12 +967,12 @@ function VF_Multi_Foto(array $Picts, $sub_funct = '')
             $p = $pict_path . $neu[$p_a[3]];
             error_log($p);
             echo "</div><div style='float:right;'>";
-            if (stripos($neu[$p_a[3]],".pdf")) {
+            if (stripos($neu[$p_a[3]], ".pdf")) {
                 echo "<a href='$p' target='Bild $key' > Dokument</a></div>";
             } else {
                 echo "<a href='$p' target='Bild $key' > <img src='$p' alter='$p' width='200px'>  Groß  </a></div>";
             }
-            
+
         }
 
         echo "</fieldset></div>";
@@ -1005,45 +1005,45 @@ function VF_M_Foto()
 // --------------------------------------------------------------------------------
 {
     global $debug, $db, $neu, $module, $pict_path, $Tabellen_Spalten_COMMENT, $flow_list,$hide_area, $path2ROOT, $button_clicked_flag,$urheber,$verzeichn,$suff;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_M_Foto" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_M_Foto");
+
     if (!isset($urheber)) {
         $urheber = $_SESSION[$module]['Eigner']['eig_eigner'];
     }
-    $verzeichnis = ""; 
+    $verzeichnis = "";
     $suffix      = "";
     $foDsn       = "";
     $fo_org = 'H';
-    
+
     # $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '');
-    
+
     if ($debug) {
         echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
         var_dump($_SESSION[$module]['Pct_Arr']);
         echo "<pre>";
     }
-    
+
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
-    
+
     # echo "<tr><td colspan='2'>";
     echo "<div class='w3-container' max-width='100%' margin='5px '>";
-    
+
     var_dump($_SESSION[$module]['Pct_Arr']);
-    
-    foreach ($_SESSION[$module]['Pct_Arr'] as $key => $p_a ){ # => $value) {
+
+    foreach ($_SESSION[$module]['Pct_Arr'] as $key => $p_a) { # => $value) {
         var_dump($p_a);
-        # $p_a = explode("|", $value);    
-        
-       
+        # $p_a = explode("|", $value);
+
+
         #var_dump($p_a);echo "L 01025 hide_area $hide_area <br>";
-        
+
         #echo $neu[$p_a[2]]. " ".$p_a[2] . " " . $neu[$p_a[3]]." ". $p_a[3] ."<br>";
-        
-        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''  ))) {
-            
+
+        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''))) {
+
             # echo "Bild- Box $key wird angezeigt <br>";
-            
+
             echo "<div class='w3-half'><fieldset>";
             echo "<div style='float:left;'>";
 
@@ -1057,16 +1057,17 @@ function VF_M_Foto()
             }
             if ($neu[$p_a['bi']] != "") {
                 $fo = $neu[$p_a['bi']];
-             
-                $fo_arr = explode("-",$neu[$p_a['bi']]);
+
+                $fo_arr = explode("-", $neu[$p_a['bi']]);
                 $cnt_fo = count($fo_arr);
-                
-                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
                     $urh = $fo_arr[0]."/";
                     $verz = $fo_arr[1]."/";
-                    if ($cnt_fo > 3)  {
-                        if (isset($fo_arr[3]))
-                        $s_verz = $fo_arr[3]."/";
+                    if ($cnt_fo > 3) {
+                        if (isset($fo_arr[3])) {
+                            $s_verz = $fo_arr[3]."/";
+                        }
                     }
                     $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
 
@@ -1076,7 +1077,7 @@ function VF_M_Foto()
                 } else {
                     $p = $pict_path . $neu[$p_a['bi']];
                 }
- 
+
                 echo "</div><div style='float:right;'>";
 
                 $f_arr = pathinfo($neu[$p_a['bi']]);
@@ -1086,35 +1087,35 @@ function VF_M_Foto()
                     echo "<a href='$p' target='Bild $key' > <img src='$p' alter='$p' width='200px'></a></div>";
                     echo $neu[$p_a['bi']];
                 }
-                
-            } 
-            
+
+            }
+
             # $show_upload = ($hide_area == 0) || ($hide_area == 1 && $button_clicked_flag);
-            
-            $show_upload = True;
+
+            $show_upload = true;
             'display:' . ($show_upload ? 'block' : 'none') . ';">';
-    
-                echo "<fieldset style='margin:10px; padding:10px; border:1px solid #ccc;'>";
-                echo "<legend>Foto $key</legend>";
-                
-                // Datei-Input
-                echo "<input type='file' id='f_Doc_$key' name='f_Doc_Name_$key' /><br/><br/>";
-                
-                # echo "<input type='file' id='$FeldName'  name='$FeldName' onchange='uploadImage(\"$FeldName\", $key)' accept='image/*' /><br/><br/>";
-                // Verste process
-                echo "<input type='hidden' id='f_Doc_$key' name='f_Doc_Name_$key' value='".$neu[$p_a['bi']]."'/>";
-                echo "</fieldset>";
+
+            echo "<fieldset style='margin:10px; padding:10px; border:1px solid #ccc;'>";
+            echo "<legend>Foto $key</legend>";
+
+            // Datei-Input
+            echo "<input type='file' id='f_Doc_$key' name='f_Doc_Name_$key' /><br/><br/>";
+
+            # echo "<input type='file' id='$FeldName'  name='$FeldName' onchange='uploadImage(\"$FeldName\", $key)' accept='image/*' /><br/><br/>";
+            // Verste process
+            echo "<input type='hidden' id='f_Doc_$key' name='f_Doc_Name_$key' value='".$neu[$p_a['bi']]."'/>";
+            echo "</fieldset>";
 
             echo '</div>';
-            
+
         }
-        
+
         echo "</fieldset></div>";
     }
     echo "</div>";
     echo "</div>";
     # echo "</td></tr>";
-    
+
     if ($debug) {
         echo "<pre class=debug>VF_Mult_ L End: <pre>";
     }
@@ -1131,7 +1132,7 @@ function VF_M_Foto()
  * @param string $stabkz
  *            Landes- (Staats-) Abkürzung (AT,DE,..)
  * @return array Optionen für Auswahlliste
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  */
@@ -1139,8 +1140,8 @@ function VF_Sel_Bdld($land, $sub_funct = "", $stabkz = "")
 {
     global $debug, $db, $flow_list,$module;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Sel_Bdld" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Sel_Bdld");
+
     if ($debug) {
         echo "<pre class=debug>Bundesld Sel L Beg:  \$land $land <pre>";
     }
@@ -1200,9 +1201,9 @@ function VF_Sel_Bdld($land, $sub_funct = "", $stabkz = "")
  *            Abkürzug des Staates (At, DE, ...)
  * @param string $sub_funktion:
  *            0 = neuen Datensatz eingeben; 8 = keine Auswahl getroffen; ins Ausgabe-Array
- *            
+ *
  * @return array $opt_val[Link= .html|.php] = Titel
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global array $neu Eingelesene Daten Felder
@@ -1213,32 +1214,32 @@ function VF_Sel_Det($sammlg, $invblink, $sub_funct)
 {
     global $debug, $db, $neu, $module, $pict_path, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Sel_Det" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Sel_Det");
+
     if ($debug) {
         echo "<pre class=debug>VF_Det_Ausw L Beg: \$sammlg $sammlg <pre>";
     }
     $opt_val = array('Momentan keine Detailanfragen möglich.','Struktur muss neu aufgebaut werden.');
-/*
-    $select = " WHERE `id_sammlg`='$sammlg' ";
+    /*
+        $select = " WHERE `id_sammlg`='$sammlg' ";
 
-    $opt_val = array();
+        $opt_val = array();
 
-    $sql = "SELECT * FROM `in_details` $select ";
-    $return_st = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
-    if ($sub_funct == 0) {
-        $opt_val['Neueingabe'] = "Neuen Datensatz engeben";
-    }
-    if ($sub_funct == 8) {
-        $opt_val['0'] = "keine Auswahl getroffen";
-    }
-    while ($row = mysqli_fetch_assoc($return_st)) {
-        # $id = "$row->id_link";
-        $opt_val[$row['id_link']] = $row['id_titel'];
-    }
+        $sql = "SELECT * FROM `in_details` $select ";
+        $return_st = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
+        if ($sub_funct == 0) {
+            $opt_val['Neueingabe'] = "Neuen Datensatz engeben";
+        }
+        if ($sub_funct == 8) {
+            $opt_val['0'] = "keine Auswahl getroffen";
+        }
+        while ($row = mysqli_fetch_assoc($return_st)) {
+            # $id = "$row->id_link";
+            $opt_val[$row['id_link']] = $row['id_titel'];
+        }
 
-    mysqli_free_result($return_st);
-*/
+        mysqli_free_result($return_st);
+    */
     return ($opt_val);
 }
 
@@ -1262,51 +1263,51 @@ function VF_Sel_Sammlg($sam_grp, $sammlung)
 {
     global $debug, $db, $module, $flow_list;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Sel_Sammlg" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Sel_Sammlg");
+
     if ($debug) {
         echo "<pre class=debug>L 1318 Referat/Sammlungs-Auswahl L Beg: \$sam_grp $sam_grp\$sammlung $sammlung <pre>";
     }
     $Grp = array();
     switch ($sam_grp) {
-        case "S" :
+        case "S":
             $Grp = VF_Sammlung;
             break;
-        case "T" :
+        case "T":
             $Grp = VF_Sammlung_Tausw;
             break;
-         case "A0":
-             $Grp = VF_Sammlung_A0;
-             break;
-         case "A0_F":
-             $Grp = VF_Sammlung_A0_F;
-             break;
-         case "A0":
-             $Grp = VF_Sammlung_A0_G;
-             break;
-         case "B0":
-             $Grp = VF_Sammlung_B0;
-             break;
-         case "C0":
-             $Grp = VF_Sammlung_C0;
-             break;
-         case "D0":
-             $Grp = VF_Sammlung_D0;
-             break;
-         case "F0":
-             $Grp = VF_Sammlung_F0;
-             break;
-         case "K0":
-             $Grp = VF_Sammlung_K0;
-             break;
-         case "W0":
-             $Grp = VF_Sammlung_W0;
-             break;
+        case "A0":
+            $Grp = VF_Sammlung_A0;
+            break;
+        case "A0_F":
+            $Grp = VF_Sammlung_A0_F;
+            break;
+        case "A0":
+            $Grp = VF_Sammlung_A0_G;
+            break;
+        case "B0":
+            $Grp = VF_Sammlung_B0;
+            break;
+        case "C0":
+            $Grp = VF_Sammlung_C0;
+            break;
+        case "D0":
+            $Grp = VF_Sammlung_D0;
+            break;
+        case "F0":
+            $Grp = VF_Sammlung_F0;
+            break;
+        case "K0":
+            $Grp = VF_Sammlung_K0;
+            break;
+        case "W0":
+            $Grp = VF_Sammlung_W0;
+            break;
     }
-    
+
     $sam_sel = "<select name='sammlg' id='sammlg' >";
-    
-    foreach($Grp as $key => $value) {
+
+    foreach ($Grp as $key => $value) {
         $selected = '';
         if ($key == $sammlung) {
             $selected = 'selected';
@@ -1328,20 +1329,20 @@ function VF_Sel_Sammlg($sam_grp, $sammlung)
  *            Gruppen- Abkürzung
  * @param string $sub_funkt:
  *            0 = neuen Datensatz eingeben; 7 = Internations (Ctif); ins Ausgabe-Array
- *            
+ *
  * @return array $opt_val[abk] = Staat Auswahlliste für Select_Feld
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global array $db Datenbank Handle
  * @global array $neu Eingelesene Daten Felder
- *        
+ *
  */
 function VF_Sel_Staat($FeldName, $sub_funct)
 {
     global $debug, $db, $neu, $flow_list,$module;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Sel_Staat" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Sel_Staat");
+
     if ($debug) {
         echo "<pre class=debug> Staat Ausw L Beg: \$FeldName \$sub_funct $sub_funct<pre>";
     }
@@ -1384,44 +1385,44 @@ function VF_Sel_Staat($FeldName, $sub_funct)
 function VF_Sel_Urheber_n()
 {
     global $debug, $db, $module, $urheb_arr, $flow_list, $path2ROOT;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_Sel_Urheber_n" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Sel_Urheber_n");
+
     if ($debug) {
         echo "<pre class=debug>Urheber-Auswahl L Beg:  <pre>";
     }
 
     $urheb_arr[0] = "Kein Urheber ausgewählt.";
-    
+
     $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC ";
-    
+
     $return_ur = SQL_QUERY($db, $sql_ur);
-    
+
     while ($row = mysqli_fetch_object($return_ur)) {
-        
+
         if ($row->ei_org_typ == 'Privat') {
             $fotogr = $row->ei_name ." ". $row->ei_vname;
         } else {
             $fotogr = $row->ei_org_typ ." ".$row->ei_org_name;
         }
-        $_SESSION[$module]['Urheber_List'][$row->ei_id] =  array('ei_media'=>$row->ei_media,'ei_fotograf'=>$fotogr, 'ei_urh_kurzz'=>$row->ei_urh_kurzz );       
-            
+        $_SESSION[$module]['Urheber_List'][$row->ei_id] =  array('ei_media' => $row->ei_media,'ei_fotograf' => $fotogr, 'ei_urh_kurzz' => $row->ei_urh_kurzz );
+
         $sql_su = "SELECT * FROM fh_eign_urh WHERE fs_eigner='$row->ei_id'  ";
-        
+
         $return_su = SQL_QUERY($db, $sql_su);
-        
+
         $num_rec = mysqli_num_rows($return_su);
-        
+
         if ($num_rec > 0) {
             while ($row_su = mysqli_fetch_object($return_su)) {
-               
-                $_SESSION[$module]['Urheber_List'][$row->ei_id][$row_su->fs_urh_kurzz] = array('typ' => $row_su->fs_typ,'fotogr'=>$row_su->fs_fotograf,'urh_nr'=>$row_su->fs_urh_nr);
-                
+
+                $_SESSION[$module]['Urheber_List'][$row->ei_id][$row_su->fs_urh_kurzz] = array('typ' => $row_su->fs_typ,'fotogr' => $row_su->fs_fotograf,'urh_nr' => $row_su->fs_urh_nr);
+
                 $urheb_arr[$row->ei_id] = $row_su->fs_fotograf;
             }
         }
-        
-        
+
+
     }
     /**
      * Feststellen der Urheber- Nummer bei Organisation
@@ -1440,7 +1441,7 @@ function VF_Sel_Urheber_n()
      */
     mysqli_free_result($return_ur);
     mysqli_free_result($return_su);
-    
+
 }
 
 # ende VF_Sel_Urheber_n
@@ -1454,26 +1455,26 @@ function VF_Sel_Urheber_n()
  * @global array $db Datenbank Handle
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  */
-function VF_set_module_p()      
+function VF_set_module_p()
 {
     global $debug, $db, $module, $flow_list, $path2ROOT;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_set_module_p" );
 
-    $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini',True,INI_SCANNER_NORMAL);
-    
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_set_module_p");
+
+    $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
+
     if (!isset($_SESSION[$module])) {
         $_SESSION[$module] = array();
     }
- 
+
     $_SESSION[$module]['p_zug'] = $_SESSION['VF_Prim'][$module];
     if ($_SESSION[$module]['p_zug'] == "V") {
-        $_SESSION[$module]['all_upd'] = True;
+        $_SESSION[$module]['all_upd'] = true;
     } else {
         if ($ini_arr['Config']['wart'] == "N" and $_SESSION[$module]['p_zug'] == "Q") {
-            $_SESSION[$module]['all_upd'] = True;
+            $_SESSION[$module]['all_upd'] = true;
         } else {
-            $_SESSION[$module]['all_upd'] = False;
+            $_SESSION[$module]['all_upd'] = false;
         }
     }
 }
@@ -1496,14 +1497,14 @@ function VF_set_module_p()
  * @global array $ge_arr Tabelle mit den Geräte- Tabellen
  * @global array $in_arr Tabelle mit den Inventar- Tabellen
  * @global array $zt_arr Tabelle mit den Zeitungs- Tabellen
- *        
+ *
  */   // add dm_arr für dm_edien, del fo_arr, fz_arr, fm-arr und updates in den jeweiligen scripts
 function VF_tableExist()
 {
     global $db, $LinkDB_database, $debug, $ar_arr, $dm_arr, $maf_arr, $mag_arr, $muf_arr, $mug_arr, $in_arr, $zt_arr, $mar_arr, $flow_list,$module;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_tableExists_" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_tableExists_");
+
     $eror = false;
 
     $result = SQL_QUERY($db, "SHOW TABLES "); # like '$table_name%'
@@ -1538,7 +1539,7 @@ function VF_tableExist()
                 $dm_arr[$table] = 1;
                 continue;
             }
-           
+
             if (substr($table, 0, 4) == "ma_f") {
                 $maf_arr[$table] = 1;
                 continue;
@@ -1547,7 +1548,7 @@ function VF_tableExist()
                 $mag_arr[$table] = 1;
                 continue;
             }
-            
+
             if (substr($table, 0, 5) == "mu_fa") {
                 $muf_arr[$table] = 1;
                 continue;
@@ -1571,7 +1572,7 @@ function VF_tableExist()
                 continue;
             }
         }
-        return True;
+        return true;
     }
 }
 
@@ -1587,26 +1588,26 @@ function VF_upd()
 {
     global $debug, $module, $flow_list,$path2ROOT;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_upd" );
-    
-    $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini',True,INI_SCANNER_NORMAL);
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_upd");
+
+    $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
+
     if ($ini_arr['Config']['wart'] == "J" || $ini_arr['Config']['wart'] == "u") {
-        $_SESSION[$module]['all_upd'] = False;
+        $_SESSION[$module]['all_upd'] = false;
     } else {
         if ($module == "VF_Prim") {
             $_SESSION[$module]['p_zug'] = "R";
-            $_SESSION[$module]['all_upd'] = True;
+            $_SESSION[$module]['all_upd'] = true;
         } else {
             if ($_SESSION[$module]['p_zug'] == "V") {
-                $_SESSION[$module]['all_upd'] = True;
+                $_SESSION[$module]['all_upd'] = true;
             } else {
                 if ($_SESSION[$module]['p_zug'] == "Q") {
-                    $_SESSION[$module]['all_upd'] = False;
+                    $_SESSION[$module]['all_upd'] = false;
                     foreach ($_SESSION['VF_Prim']['zu_eign'] as $indx => $val) {
                         $eignr_ = $_SESSION['Eigner']['eig_eigner'];
                         if ($val == $eignr_) {
-                            $_SESSION[$module]['all_upd'] = True;
+                            $_SESSION[$module]['all_upd'] = true;
                         }
                     }
                 }
@@ -1630,24 +1631,24 @@ function VF_upd()
  * @param string $fo_aufn_datum  Aufnahmedatum
  * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
  */
-function VF_Upload($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
+function VF_Upload($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
 {
     global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Upload");
+
     echo " L 01752 Upl upldir $uploaddir fdsn $fdsn <br>";
     var_dump($_FILES);
     $target = "";
     if (! empty($_FILES[$fdsn])) {
         $target = basename($_FILES[$fdsn]['name']);
-        
-        if ($target != "" ) {
+
+        if ($target != "") {
             $target = VF_trans_2_separate($target);
-            
+
             $fn_arr = pathinfo($target);
             $ft = strtolower($fn_arr['extension']);
-          
+
             if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
                 $newfn_arr = explode('-', $target);
                 $cnt = count($newfn_arr);
@@ -1657,15 +1658,15 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             } else {
                 $target = $fn_arr['basename'];
             }
-          echo "L 01773 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
-          var_dump($_FILES[$fdsn]);
+            echo "L 01773 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+            var_dump($_FILES[$fdsn]);
             if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
                 var_dump($_FILES[$fdsn]);
                 return $target;
             }
         }
     }
-    
+
 } # end Funct VF_upload
 
 /**
@@ -1681,24 +1682,24 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
  * @param string $fo_aufn_datum  Aufnahmedatum
  * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
  */
-function VF_Upload_M($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
+function VF_Upload_M($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
 {
     global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_M" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Upload_M");
+
     echo " L 01803 Upl upldir $uploaddir fdsn $fdsn <br>";
     # var_dump($_FILES[$fdsn]);
     $target = "";
     if (! empty($_FILES[$fdsn])) {
         $target = basename($_FILES[$fdsn]['name']);
-        
-        if ($target != "" ) {
+
+        if ($target != "") {
             $target = VF_trans_2_separate($target);
-            
+
             $fn_arr = pathinfo($target);
             $ft = strtolower($fn_arr['extension']);
-            
+
             if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
                 $newfn_arr = explode('-', $target);
                 $cnt = count($newfn_arr);
@@ -1716,7 +1717,7 @@ function VF_Upload_M($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             }
         }
     }
-    
+
 } # end Funct VF_upload
 
 /**
@@ -1732,19 +1733,19 @@ function VF_Upload_M($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
  * @param string $fo_aufn_datum
  * @return string Dsn der Datei
  */
-function VF_Upload_Pic($FldName, $uploaddir, $urh_abk="", $fo_aufn_datum="")
+function VF_Upload_Pic($FldName, $uploaddir, $urh_abk = "", $fo_aufn_datum = "")
 {
     global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_Upload_Pic" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Upload_Pic");
+
     $target1 = "";
     if (! empty($_FILES['uploaddatei_1'])) {
         $target1 = basename($_FILES['uploaddatei_1']['name']);
-        
-        if ($target1 != "" ) {
+
+        if ($target1 != "") {
             $target1 = VF_trans_2_separate($target1);
-            
+
             $fn_arr = pathinfo($target1);
             $ft = strtolower($fn_arr['extension']);
             if (in_array($ft, GrafFiles)) {
@@ -1755,38 +1756,38 @@ function VF_Upload_Pic($FldName, $uploaddir, $urh_abk="", $fo_aufn_datum="")
                 } else {
                     $target1 = $fn_arr['basename'];
                 }
-            
-               if (move_uploaded_file($_FILES['uploaddatei_1']['tmp_name'], $uploaddir . $target1)) {
-                   return $target1;
-               }
+
+                if (move_uploaded_file($_FILES['uploaddatei_1']['tmp_name'], $uploaddir . $target1)) {
+                    return $target1;
+                }
             }
         }
     }
     return "";
-    
+
     /*
-    
+
     */
-    
+
 } # end Funct VF_upload_pic
 
 /**
  * Umlaute  auf getrennte Schreibung Ä -> AE
- * 
+ *
  * @param string $string
  * @return string
  */
 function VF_trans_2_separate($string)
 {
     global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_trans_2_separate" );
 
-    # UP to separate A -> AE 
-    $trans = array("ä"=>"ae","Ä"=>"AE","ö"=>"oe","Ö"=>"OE","ü"=>"ue","Ü"=>"UE","ß"=>"sz");
-    
-    $new = strtr($string,$trans);
-    
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_trans_2_separate");
+
+    # UP to separate A -> AE
+    $trans = array("ä" => "ae","Ä" => "AE","ö" => "oe","Ö" => "OE","ü" => "ue","Ü" => "UE","ß" => "sz");
+
+    $new = strtr($string, $trans);
+
     return $new;
     /* Teststring:
           $ori = "abcdeÄÖÜäöüß@€";
@@ -1799,20 +1800,20 @@ function VF_trans_2_separate($string)
 function VF_Eig_Ausw()
 {
     global $debug, $module, $flow_list, $tit_eig_leih;
-    
-    flow_add($module,"VF_Comm_Funcs.inc.php Funct: VF_Eig_Ausw" );
-    
+
+    flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Eig_Ausw");
+
     if (!isset($tit_eig_leih)) {
         $tit_eig_leih = 'Eigentümer';
     }
 
     echo "<tr><td colspan='2'>";
     echo "<div class='w3-container' style='background-color: PeachPuff '>";
-    
+
     echo "    <div class='w3-container w3-light-blue'> ";
     echo "         <b>Auswahl des ".$tit_eig_leih."s</b>";
     echo "    </div>";
-    
+
     echo "    <div class='w3-container w3-third'>";
     echo "         <label for='Level_e'>Namen des ".$tit_eig_leih."s eingeben &nbsp;  </label>";
     echo "    </div>";
@@ -1823,7 +1824,7 @@ function VF_Eig_Ausw()
     echo "     </div>";
 
     echo "</div>";
-    
+
     ?>
 
     <script>
@@ -1860,177 +1861,179 @@ function VF_Eig_Ausw()
             });
     });
         </script>
-    <?php 
+    <?php
 } # end Funct VF_Eig_Ausw
 
 /**
  * Multi Dropdown select für verschiedene Auswahlen
- * 
- * benötigt jquery 
- * 
+ *
+ * benötigt jquery
+ *
  * @param string  $in_val
  * @param string $titel
  */
-function VF_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
+function VF_Multi_Dropdown($in_val, $titel = 'Mehrfach- Abfrage')
+{
     global $debug,$path2ROOT, $MS_Init,$MS_Lvl,$MS_Opt, $MS_Txt, $module  ;
 
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Multi_Dropdown" );
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Multi_Dropdown");
 
     echo "<input type='hidden' id='opval' value='$MS_Opt' >";
 
     echo "<div class='container ' style='background-color: PeachPuff '>";  # div cont
-    
-        echo "    <div class='container  w3-light-blue'> ";  # div blue
-        echo "         <b>$titel</b>";
-        echo "    </div>";                                     # div end blue
-    
-        echo "<div class='w3-row'>";   # div w3 row
 
-        echo "    <div class='w3-container w3-third'>";        # div label
-        echo "         <label for='Level1'>".$MS_Txt[0]." &nbsp; </label>";
-        echo "    </div>";                                     # div label end
-        echo "    <div class='w3-container w3-twothird'> ";    # div data
-        echo "        <select class='w3-input'  id='level1' name='level1' >";
-        echo "             <option value='Nix'>Bitte wählen</option>";
-        $checkd = "";
-        foreach ($MS_Init  as $samlg => $name):
-          if ($samlg == $in_val) {
-              $checkd = 'checked';
-          }
-          echo "<option value='$samlg' $checkd>$name </option>";
-        endforeach;
+    echo "    <div class='container  w3-light-blue'> ";  # div blue
+    echo "         <b>$titel</b>";
+    echo "    </div>";                                     # div end blue
 
-        echo "         </select>";
-        echo "     </div>";                                    # div data end
-        echo "     </div>";                                    # div row  end
-      
-    
-        if ($MS_Lvl >= 2) {
+    echo "<div class='w3-row'>";   # div w3 row
+
+    echo "    <div class='w3-container w3-third'>";        # div label
+    echo "         <label for='Level1'>".$MS_Txt[0]." &nbsp; </label>";
+    echo "    </div>";                                     # div label end
+    echo "    <div class='w3-container w3-twothird'> ";    # div data
+    echo "        <select class='w3-input'  id='level1' name='level1' >";
+    echo "             <option value='Nix'>Bitte wählen</option>";
+    $checkd = "";
+    foreach ($MS_Init as $samlg => $name):
+        if ($samlg == $in_val) {
+            $checkd = 'checked';
+        }
+        echo "<option value='$samlg' $checkd>$name </option>";
+    endforeach;
+
+    echo "         </select>";
+    echo "     </div>";                                    # div data end
+    echo "     </div>";                                    # div row  end
+
+
+    if ($MS_Lvl >= 2) {
+        echo "<div class='w3-row'>";
+
+        echo "    <div class='w3-container w3-third'>";
+        echo "         <label for='Level2'>".$MS_Txt[1]." &nbsp;  </label>";
+        echo "    </div>";
+        echo "    <div class='w3-container w3-twothird'> ";
+        echo "        <select class='w3-input' id='level2' name='level2'>";
+        echo "             <option value='Nix'>Bitte wählen</option>
+                   </select>";
+        echo "     </div>";
+
+        echo "</div>";
+
+        if ($MS_Lvl >= 3) {
+
             echo "<div class='w3-row'>";
-            
+
             echo "    <div class='w3-container w3-third'>";
-            echo "         <label for='Level2'>".$MS_Txt[1]." &nbsp;  </label>";
+            echo "         <label for='Level3'>".$MS_Txt[2]." &nbsp;  </label>";
             echo "    </div>";
             echo "    <div class='w3-container w3-twothird'> ";
-            echo "        <select class='w3-input' id='level2' name='level2'>";
+            echo "        <select class='w3-input' id='level3' name='level3'>";
             echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
             echo "     </div>";
-            
+
             echo "</div>";
-            
-            if ($MS_Lvl >= 3) {
-                
+
+            if ($MS_Lvl >= 4) {
                 echo "<div class='w3-row'>";
-                
                 echo "    <div class='w3-container w3-third'>";
-                echo "         <label for='Level3'>".$MS_Txt[2]." &nbsp;  </label>";
+                echo "         <label for='Level4'>".$MS_Txt[3]." &nbsp;  </label>";
                 echo "    </div>";
                 echo "    <div class='w3-container w3-twothird'> ";
-                echo "        <select class='w3-input' id='level3' name='level3'>";
+                echo "        <select class='w3-input' id='level4' name='level4' >";
                 echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
                 echo "     </div>";
-                
                 echo "</div>";
-                
-                if ($MS_Lvl >=4) {                
-                    echo "<div class='w3-row'>";                
+
+                if ($MS_Lvl >= 5) {
+                    echo "<div class='w3-row'>";
                     echo "    <div class='w3-container w3-third'>";
-                    echo "         <label for='Level4'>".$MS_Txt[3]." &nbsp;  </label>";
+                    echo "         <label for='Level5'>".$MS_Txt[4]." &nbsp;  </label>";
                     echo "    </div>";
                     echo "    <div class='w3-container w3-twothird'> ";
-                    echo "        <select class='w3-input' id='level4' name='level4' >";
-                    echo "             <option value='Nix'>Bitte wählen</option>
-                   </select>";
+                    echo "        <select class='w3-input' id='level5' name='level5'>";
+                    echo "             <option value='Nix'>Bitte wählen</option> ";
+                    echo "        </select>";
                     echo "     </div>";
                     echo "</div>";
-                    
-                    if ($MS_Lvl >= 5) {                        
-                        echo "<div class='w3-row'>";                        
+
+                    if ($MS_Lvl == 6) {
+                        echo "<div class='w3-row'>";
                         echo "    <div class='w3-container w3-third'>";
-                        echo "         <label for='Level5'>".$MS_Txt[4]." &nbsp;  </label>";
+                        echo "         <label for='Level6'>".$MS_Txt[5]." &nbsp; </label>";
                         echo "    </div>";
                         echo "    <div class='w3-container w3-twothird'> ";
-                        echo "        <select class='w3-input' id='level5' name='level5'>";
-                        echo "             <option value='Nix'>Bitte wählen</option> ";
-                        echo "        </select>";
-                        echo "     </div>";                     
-                        echo "</div>";
-                        
-                        if ($MS_Lvl == 6) { 
-                            echo "<div class='w3-row'>";
-                            echo "    <div class='w3-container w3-third'>";
-                            echo "         <label for='Level6'>".$MS_Txt[5]." &nbsp; </label>";
-                            echo "    </div>";
-                            echo "    <div class='w3-container w3-twothird'> ";
-                            echo "         <select class='w3-input' id='level6' name='level6'  >";
-                            echo "             <option value='Nix'>Bitte wählen</option>
+                        echo "         <select class='w3-input' id='level6' name='level6'  >";
+                        echo "             <option value='Nix'>Bitte wählen</option>
                                       </select>";
-                            echo "     </div>";
-                            
-                            echo "</div>";
-                        }
+                        echo "     </div>";
+
+                        echo "</div>";
                     }
                 }
             }
         }
-    
+    }
+
     echo "</div>";               # end div cont
 
     #echo "</div>";
-    
+
 } # ende function MultiSdropdown
 
 /**
  *  Auswertung der Eingabe vom Multi_Select_Dropdown
- *  
+ *
  *  Daten werden direkt von $_POST ausgewertet
- *  
+ *
  * @return string Sammlungs. Kennung
  */
-function VF_Multi_Sel_Input () {
+function VF_Multi_Sel_Input()
+{
     global $debug,$path2ROOT, $module  ;
     # var_dump($_POST);
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Multi_Sel_Input" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Multi_Sel_Input");
+
     $response = "";
-    if (isset($_POST['level1']) && ($_POST['level1'] != "" ) ) {
+    if (isset($_POST['level1']) && ($_POST['level1'] != "")) {
         $response = trim($_POST['level1']);
-    } 
-    
-    if (isset($_POST['level2']) && ($_POST['level2'] != "" ) ) {
+    }
+
+    if (isset($_POST['level2']) && ($_POST['level2'] != "")) {
         if ($_POST['level2'] != "Nix" && $_POST['level2'] != "Nix") {
             $response = trim($_POST['level2']);
         }
     }
-    
-    if (isset($_POST['level3']) && ($_POST['level3'] != "" ) ) {
+
+    if (isset($_POST['level3']) && ($_POST['level3'] != "")) {
         if ($_POST['level3'] != "Nix" && $_POST['level3'] != "Nix") {
             $response = trim($_POST['level3']);
         }
     }
-    
-    if (isset($_POST['level4']) && ($_POST['level4'] != "") ) {
+
+    if (isset($_POST['level4']) && ($_POST['level4'] != "")) {
         if ($_POST['level4'] != "Nix" && $_POST['level4'] != "Nix") {
             $response = trim($_POST['level4']);
         }
     }
-    
-    if (isset($_POST['level5']) && ($_POST['level5'] != "") ) {
+
+    if (isset($_POST['level5']) && ($_POST['level5'] != "")) {
         if ($_POST['level5'] != "Nix" && $_POST['level5'] != "Nix") {
             $response = trim($_POST['level5']);
         }
     }
-    
-    if (isset($_POST['level6']) && ($_POST['level6'] != "") ) {
+
+    if (isset($_POST['level6']) && ($_POST['level6'] != "")) {
         if ($_POST['level6'] != "Nix" && $_POST['level6'] != "Nix") {
             $response = trim($_POST['level6']);
         }
     }
 
     return $response;
-    
+
 } # Ende Function VF_Multi_Sel_input
 
 /**
@@ -2040,7 +2043,7 @@ function VF_Multi_Sel_Input () {
  *            Name des Eingabefeldes
  * @param string $sub_funktion:
  *            0 = neuen Datensatz eingeben; 81 = keine Auswahl getroffen; ins Ausgabe-Array
- *       
+ *
 *
 * @return array $opt_val_ei[eig_nr] = Eigner_Name
 *
@@ -2049,14 +2052,13 @@ function VF_Multi_Sel_Input () {
 * @global array $neu Eingelesene Daten Felder
 */
 function VF_Sel_Eigner($FeldName, $sub_funct)
-
 {
     global $debug, $db, $neu,$flow_list;
-    
+
     if ($debug) {
         echo "<pre class=debug>Eigent. Auswahl L Beg: \$FeldName $FeldName \$sub_func $sub_funct <pre>";
     }
-    
+
     $opt_val_ei = array();
     $sql = "SELECT * FROM `fh_eigentuemer` ORDER BY ei_name ASC";
     $return_bl = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysqli_error($db));
@@ -2066,14 +2068,14 @@ function VF_Sel_Eigner($FeldName, $sub_funct)
     if ($sub_funct == 81) {
         $opt_val_ei['0'] = "keine Auswahl getroffen";
     }
-    
+
     while ($row = mysqli_fetch_assoc($return_bl)) {
         $key = $row['ei_id'];
         $opt_val_ei[$key] = $row['ei_name'];
     }
-    
+
     mysqli_free_result($return_bl);
-    
+
     if ($debug) {
         echo "<pre class=debug>F SeL_Eigner L End:  \$FeldName $FeldName <pre>";
         # print_r($opt_val_ei);
@@ -2088,9 +2090,10 @@ function VF_Sel_Eigner($FeldName, $sub_funct)
  * immer in Verbindung mit BA_Aufo_Funktion() -> durchführung
  *
  */
-function VF_Auto_Aufbau () {
+function VF_Auto_Aufbau()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"VF_Comm__Funcs.lib.php Funct: BA_Auto_Aufbau" );
+    flow_add($module, "VF_Comm__Funcs.lib.php Funct: BA_Auto_Aufbau");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
         <b>Suchbegriff für Aufbau- Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer" data-feed="aufbauer" size='50'/>
@@ -2098,21 +2101,22 @@ function VF_Auto_Aufbau () {
     <div id="suggestAufbauer" class="suggestions">
        <input type="hidden" name="aufbauer" id="aufbauer" />
     <div>
-    <?php 
+    <?php
 } // Ende VF_Auto_Aufbau
 
 // Beispiel: Funktion für das Eingabefeld von gradually
-function VF_Auto_Eigent($t,$cl=False) {
+function VF_Auto_Eigent($t, $cl = false)
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent" );
+    flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent");
     console_log('autoeigent');
     ?>
     <div class='w3-container' style='background-color: PeachPuff; padding: 10px;'>
-    <?php 
+    <?php
         if (!isset($t) && $t = 'E') {
-           echo "<b>Suchbegriff für Eigentümer eingeben:</b>";
+            echo "<b>Suchbegriff für Eigentümer eingeben:</b>";
         } else {
-           echo "<b>Suchbegriff für Urheber eingeben:</b>";
+            echo "<b>Suchbegriff für Urheber eingeben:</b>";
         }
     ?>
         <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener" data-feed="eigentuemer" size='50'/>
@@ -2121,14 +2125,15 @@ function VF_Auto_Eigent($t,$cl=False) {
        <input type="hidden" name="eigentuemer" id="eigentuemer" />
     </div>
     <?php
-    if ( $cl ) { 
-       echo "<button type='submit' name='phase' value='1' class=green>Weiter</button></p>";
+    if ($cl) {
+        echo "<button type='submit' name='phase' value='1' class=green>Weiter</button></p>";
     }
 } // Ende VF_Auto_Eigent
 
-function VF_Auto_Herstell () {
+function VF_Auto_Herstell()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Herstell" );
+    flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Herstell");
     console_log('autoherstell');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
@@ -2137,12 +2142,13 @@ function VF_Auto_Herstell () {
     <div id="suggestHersteller" class="suggestions">
        <input type="hidden" name="hersteller" id="hersteller" />
     </div>
-    <?php 
-} // Ende VF_Auto_Herstell 
+    <?php
+} // Ende VF_Auto_Herstell
 
-function VF_Auto_Taktb () {
+function VF_Auto_Taktb()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Auto_Taktb" );
+    flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Taktb");
     console_log('autotaktb');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
@@ -2151,7 +2157,7 @@ function VF_Auto_Taktb () {
     <div id="suggestTaktisch" class="suggestions">
        <input type="hidden" name="taktisch" id="taktisch" />
     </div>
-    <?php 
+    <?php
 } // Ende VF_Auto_Taktb
 
 
@@ -2175,20 +2181,20 @@ function VF_Auto_Taktb () {
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  *
  */
-function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '') 
+function VF_Upload_Pfad_M($aufnDatum, $suffix = '', $aoPfad = '', $urh_nr = '')
 {
     global $debug, $module, $flow_list, $path2ROOT;
-    
-    flow_add($module,"VF_Comm_Funcs.lib.php Funct: VF_Upload_Pfad_M" );
+
+    flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Upload_Pfad_M");
     console_log('uploadpfad');
-    
+
     $basepath = $path2ROOT.'login/'.$_SESSION['VF_Prim']['store'].'/';
-    
+
     $grp_path = $ao_path = $verzeichn = $subverz = "";
-    
+
     $mand_mod = array('INV', 'FOT', 'F_G','F_M');
-    
-    if (in_array($module,$mand_mod)) { // Mandanten- Modus
+
+    if (in_array($module, $mand_mod)) { // Mandanten- Modus
         if ($urh_nr == "") {
             $grp_path = $_SESSION['Eigner']['eig_eigner'].'/';
         } else {
@@ -2196,47 +2202,47 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
         }
 
         switch ($module) {
-            
-            case 'INV' :
+
+            case 'INV':
                 $verzeichn =  'INV/';
                 break;
-            case 'F_G' :
-                if (substr($_SESSION[$module]['sammlung'],0,4) == 'MA_F') {
+            case 'F_G':
+                if (substr($_SESSION[$module]['sammlung'], 0, 4) == 'MA_F') {
                     $verzeichn =  'MaF/';
                 } else {
                     $verzeichn =  'MaG/';
-                }              
+                }
                 break;
-            case 'F_M' :
-                if (substr($_SESSION[$module]['fm_sammlung'],0,4) == 'MU_F') {
+            case 'F_M':
+                if (substr($_SESSION[$module]['fm_sammlung'], 0, 4) == 'MU_F') {
                     $verzeichn =  'MuF/';
                 } else {
                     $verzeichn =  'MuG/';
                 }
                 break;
-            case 'FOT' :
+            case 'FOT':
                 $ao_path = $aoPfad.'/';
                 break;
         }
-        
+
     } else {
         switch ($module) {
             case 'OEF':
                 break;
             case 'PSA':
-                if($_SESSION[$module]['proj'] == 'AERM') {
+                if ($_SESSION[$module]['proj'] == 'AERM') {
                     $verzeichn = 'PSA/AERM/';
                 } else {
                     $verzeichn = 'PSA/AUSZ/';
                 }
                 break;
-                
+
         }
     }
     $dPath = $basepath.$grp_path.$ao_path.$verzeichn.$subverz;
     #echo "L 0236 UplLib dPath $dPath <br>";
     return $dPath;
-    
+
 } // end VF Upload_Pfad_M
 
 /**
@@ -2253,13 +2259,13 @@ function VF_Upload_Pfad_M ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
  * @global boolean $hide_area True - Bereich nur bei Neueingabe oder klicken auf Button Anzeigen (Ausser Foto, da nur die leeren nicht anzeigen)
  * @global string  §path2ROOT Pfad zum Root
  */
-function VF_Upload_Form_M ()
+function VF_Upload_Form_M()
 {
     global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
-    
-    flow_add($module,"VF_Upload.lib.php Funct: VF_Upload_Form_M" );
+
+    flow_add($module, "VF_Upload.lib.php Funct: VF_Upload_Form_M");
     console_log('uploadform');
-    
+
     /**
      * Parameter für die Fotos:
      *
@@ -2268,17 +2274,19 @@ function VF_Upload_Form_M ()
      *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
      */
     /* Schalten der Foto- Update blöcke */
-    
-    if (!isset($hide_area)) {$hide_area = 0;}
-    
+
+    if (!isset($hide_area)) {
+        $hide_area = 0;
+    }
+
     $hide_area_group1 = $hide_area_group2 = $hide_area;
-    
+
     if ($debug) {
         echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
         var_dump($_SESSION[$module]['Pct_Arr']);
         echo "<pre>";
     }
-    
+
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
 
     /**
@@ -2334,108 +2342,108 @@ function VF_Upload_Form_M ()
              </div>
          </div>
         
-    <?php 
-    
-    for ($i=0; $i < $pic_cnt; $i++) {
+    <?php
+
+    for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
 
-        $j = $i +1; /** Für die Bil- Nr- Anzeige */
+        $j = $i + 1; /** Für die Bil- Nr- Anzeige */
 
         #$pict_path = VF_Upload_Pfad_M ('', '', '', '');
-        
+
         /**
          * Responsive Container innerhalb des loops
          */
         echo "<div class = 'block-container w3-container w3-half ' data-index='$i'  data-hide-area='$hide_area'>";                 // start half contailer
         echo "<fieldset>";
         echo "Bild $j <br>";
- 
+
         if ($p_a['udir'] != "") {
             $uploaddir = $p_a['udir'];
         }
-            if ($p_a['ko'] != "") {
-                if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
-                    echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
-                } else {
-                    echo $p_a['ko'];
-                }
-                echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
-            }
-            if ($p_a['f1'] != '')  {
-                Edit_Daten_Feld_Button($p_a['f1'],30);
-            }
-            if ($p_a['f2'] != '')  {
-                Edit_Daten_Feld_Button($p_a['f2'],30);
-            }
-            
-            echo "<div class='bild-detail' >";
-           
-            if ($neu[$p_a['bi']] != "") {
-                $fo = $neu[$p_a['bi']];
-                #console_log('L 02528 foto '.$fo);
-                    
-                $fo_arr = explode("-",$neu[$p_a['bi']]);
-                $cnt_fo = count($fo_arr);
-                
-                
-                if ($cnt_fo >=3) {
-                    $uploaddir .= "09/";
-                } else {
-                    #$uploaddir .= 'MaG/';
-                }
-                
-                $f_a = pathinfo(strtolower($fo));
-                
-                $aossg = "";
-                $ext = $f_a['extension'];
-                
-                if (stripos($uploaddir,'09/') >=1) {
-                    $ext = $f_a['extension'];
-                    $ao_ssg = "";
-                    if (in_array($ext,AudioFiles)) {
-                        $ao_ssg = "02/";
-                    }
-                    if (in_array($ext,GrafFiles)) {
-                        $ao_ssg = "06/";
-                    }
-                    if (in_array($ext,VideoFiles)) {
-                        $ao_ssg = "10/";
-                    }
-                    $ao_ssg;
-                }
-                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
-                    $urh = $fo_arr[0]."/";
-                    $verz = $fo_arr[1]."/";
-                    /*
-                    if ($cnt_fo > 3)  {
-                        if (isset($fo_arr[2]))
-                            $verz .= $fo_arr[2]."/";
-                    }
-                   */
-                    $d_p = $path2ROOT ."login/AOrd_Verz/$urh/09/".$ao_ssg.$verz;
-               
-                    $p = $d_p.$neu[$p_a['bi']] ;
-                    
-                    if (!is_file($p)) {
-                        $p = $p;
-                    }
-                } else {
-                    $p = $uploaddir . $neu[$p_a['bi']];
-                }
-
-                #$f_arr = pathinfo($neu[$p_a['bi']]);
-                if ($f_a['extension'] == "pdf") {
-                    echo "<a href='$p' target='Bild $j' > Dokument</a>";
-                } else {
-                    echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
-                    echo $neu[$p_a['bi']];
-                }
-
+        if ($p_a['ko'] != "") {
+            if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
+                echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
             } else {
-                echo "kein Bild hochgeladen";
+                echo $p_a['ko'];
+            }
+            echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
+        }
+        if ($p_a['f1'] != '') {
+            Edit_Daten_Feld_Button($p_a['f1'], 30);
+        }
+        if ($p_a['f2'] != '') {
+            Edit_Daten_Feld_Button($p_a['f2'], 30);
+        }
+
+        echo "<div class='bild-detail' >";
+
+        if ($neu[$p_a['bi']] != "") {
+            $fo = $neu[$p_a['bi']];
+            #console_log('L 02528 foto '.$fo);
+
+            $fo_arr = explode("-", $neu[$p_a['bi']]);
+            $cnt_fo = count($fo_arr);
+
+
+            if ($cnt_fo >= 3) {
+                $uploaddir .= "09/";
+            } else {
+                #$uploaddir .= 'MaG/';
             }
 
-            echo "</div>";
+            $f_a = pathinfo(strtolower($fo));
+
+            $aossg = "";
+            $ext = $f_a['extension'];
+
+            if (stripos($uploaddir, '09/') >= 1) {
+                $ext = $f_a['extension'];
+                $ao_ssg = "";
+                if (in_array($ext, AudioFiles)) {
+                    $ao_ssg = "02/";
+                }
+                if (in_array($ext, GrafFiles)) {
+                    $ao_ssg = "06/";
+                }
+                if (in_array($ext, VideoFiles)) {
+                    $ao_ssg = "10/";
+                }
+                $ao_ssg;
+            }
+            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                /*
+                if ($cnt_fo > 3)  {
+                    if (isset($fo_arr[2]))
+                        $verz .= $fo_arr[2]."/";
+                }
+                   */
+                $d_p = $path2ROOT ."login/AOrd_Verz/$urh/09/".$ao_ssg.$verz;
+
+                $p = $d_p.$neu[$p_a['bi']] ;
+
+                if (!is_file($p)) {
+                    $p = $p;
+                }
+            } else {
+                $p = $uploaddir . $neu[$p_a['bi']];
+            }
+
+            #$f_arr = pathinfo($neu[$p_a['bi']]);
+            if ($f_a['extension'] == "pdf") {
+                echo "<a href='$p' target='Bild $j' > Dokument</a>";
+            } else {
+                echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
+                echo $neu[$p_a['bi']];
+            }
+
+        } else {
+            echo "kein Bild hochgeladen";
+        }
+
+        echo "</div>";
         ?>
         
         <div id="gruppe2" class="foto-upd-container" 
@@ -2453,15 +2461,15 @@ function VF_Upload_Form_M ()
         </div>
 
         <?php
-        
+
         echo "</fieldset>";
-        echo "</div>";  
+        echo "</div>";
     }
-    
+
     echo "</fieldset>";
     echo "</div>";  // Responsive Block end
     echo "</div>";        // end container
-    
+
 } // end VF_Upload_Form_M
 
 /**
@@ -2477,11 +2485,11 @@ function VF_Upload_Form_M ()
  * @param string $fo_aufn_datum  Aufnahmedatum
  * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
  */
-function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_nr="", $md_aufn_datum="")
+function VF_Upload_Save_M($uploaddir, $fdsn, $urh_nr = "", $md_aufn_datum = "")
 {
     global $debug, $module, $flow_list;
-    
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_Upload_Save_M" );
+
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Upload_Save_M");
     console_log('uploadsave');
     if ($md_aufn_datum != "") {
         $md_aufn_datum_n = "$md_aufn_datum/";
@@ -2490,7 +2498,7 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_nr="", $md_aufn_datum="")
     # var_dump($_FILES[$fdsn]);
     $target = "";
     if ($_FILES[$fdsn]['name'] != "") {
-        
+
         if ($_FILES[$fdsn]['error'] >= 1) {
             $errno = $_FILES[$fdsn]['error'];
             $err = "Upload Fehler: ";
@@ -2503,36 +2511,36 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_nr="", $md_aufn_datum="")
                     $err .= "Err: Falsche Datei (Erweiterung)";
                     break;
             }
-            return $err;   
+            return $err;
         }
-        
+
         $f_a = pathinfo($_FILES[$fdsn]['name']);
-       # var_dump($f_a);
+        # var_dump($f_a);
         $target = $f_a['basename'];
-#echo "L 2755 uploaddir $uploaddir <br>";
-        if (stripos($uploaddir,'09/') >=1) {
+        #echo "L 2755 uploaddir $uploaddir <br>";
+        if (stripos($uploaddir, '09/') >= 1) {
             $ext = strtolower($f_a['extension']);
             $ao_ssg = "";
-            if (in_array($ext,AudioFiles)) {
+            if (in_array($ext, AudioFiles)) {
                 $ao_ssg = "02/";
             }
-            if (in_array($ext,GrafFiles)) {
+            if (in_array($ext, GrafFiles)) {
                 $ao_ssg = "06/";
             }
-            if (in_array($ext,VideoFiles)) {
+            if (in_array($ext, VideoFiles)) {
                 $ao_ssg = "10/";
             }
             $uploaddir .= $ao_ssg.$md_aufn_datum_n;
         }
-# echo "L 02687 uploaddir $uploaddir <br>";
+        # echo "L 02687 uploaddir $uploaddir <br>";
 
         if (! file_exists($uploaddir)) {
             mkdir($uploaddir, 0770, true);
         }
-        
-        if ($target != "" ) {
+
+        if ($target != "") {
             $target = VF_trans_2_separate($target);
-            
+
             $fn_arr = pathinfo($target);
             $ft = strtolower($fn_arr['extension']);
             #var_dump($fn_arr);
@@ -2554,7 +2562,7 @@ function VF_Upload_Save_M ($uploaddir, $fdsn, $urh_nr="", $md_aufn_datum="")
             }
         }
     }
-    
+
 } // end VF_Upload_Save_M
 
 

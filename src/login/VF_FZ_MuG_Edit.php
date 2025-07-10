@@ -3,7 +3,7 @@
 /**
  * Liste der Geräte eines Eigentümers
  *
- * @author Josef Rohowsky  neu 2019 
+ * @author Josef Rohowsky  neu 2019
  *
  * 1. Auswahl des Eigentümers
  * 2. Anzeige der Fahrzeuge
@@ -24,7 +24,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require  $path2ROOT . 'login/common/VF_M_tab_creat.lib.php' ;
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -35,12 +35,12 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-$flow_list = True;
+$flow_list = true;
 
-$jq = $jqui = True;
+$jq = $jqui = true;
 $BA_AJA = true;
 $header = "";
-BA_HTML_header('Geräte- Verwaltung',  $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Geräte- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -79,7 +79,7 @@ if ($mg_id !== "") {
     $mg_id = $_SESSION[$module]['mg_id'];
 }
 
-$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
+$Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
 
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
@@ -137,9 +137,9 @@ if ($phase == 0) {
         FROM $tabelle_a
         LEFT JOIN fh_sammlung ON $tabelle_a.mg_sammlg LIKE fh_sammlung.sa_sammlg
         WHERE `mg_id` = '" . $_SESSION[$module]['mg_id'] . "' ORDER BY `mg_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.mg_sammlg = fh_sammlung.sa_sammlg
-        
+
         $return_be = SQL_QUERY($db, $sql_be);
-        
+
         $neu = mysqli_fetch_array($return_be);
         mysqli_free_result($return_be);
 
@@ -153,11 +153,11 @@ if ($phase == 1) {
 
 switch ($phase) {
     case 0:
-        require ('VF_FZ_MuG_Edit_ph0.inc.php');
+        require('VF_FZ_MuG_Edit_ph0.inc.php');
         break;
     case 1:
         require "VF_FZ_MuG_Edit_ph1.inc.php";
         break;
 }
 
-BA_HTML_trailer();?>
+BA_HTML_trailer();

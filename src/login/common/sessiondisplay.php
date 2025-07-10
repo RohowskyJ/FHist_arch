@@ -14,7 +14,7 @@ echo "<table class='w3-table w3-striped w3-hoverable'
 
 if (isset($_SESSION)) {
     foreach ($_SESSION as $name => $value) { # as $val
-                                             # echo "<tr><td>[$name]</td><td>=> "; print_r($value); echo "</td></tr>";
+        # echo "<tr><td>[$name]</td><td>=> "; print_r($value); echo "</td></tr>";
         echo "<tr><td>[$name]</td><td>"; # print_r($value);
         echo "</td></tr>";
         if (is_array($value)) {

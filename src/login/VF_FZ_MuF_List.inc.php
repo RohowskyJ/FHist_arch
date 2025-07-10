@@ -1,6 +1,7 @@
-<?php 
+<?php
+
 /**
- * Ausgabe der Liste der Muskelgezogenen Fahrzeuge mit Auswahl zur Wartun der Daten 
+ * Ausgabe der Liste der Muskelgezogenen Fahrzeuge mit Auswahl zur Wartun der Daten
  */
 
 /**
@@ -8,12 +9,13 @@
  */
 $herst_arr = $aufb_arr = array();
 $sql_a = "SELECT * FROM fh_firmen ORDER BY fi_name ASC  ";
-$res_a = SQL_QUERY($db,$sql_a);
-WHILE ($row_a = mysqli_fetch_object($res_a)) {
+$res_a = SQL_QUERY($db, $sql_a);
+while ($row_a = mysqli_fetch_object($res_a)) {
     if ($row_a->fi_funkt == 'F') {
         $herst_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;
     } else {
-        $aufb_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;;
+        $aufb_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;
+        ;
     }
 }
 #var_dump($herst_arr);
@@ -24,8 +26,8 @@ WHILE ($row_a = mysqli_fetch_object($res_a)) {
  */
 $sam_arr = array();
 $sql_s = "SELECT * FROM fh_sammlung ORDER BY sa_sammlg ";
-$res_sa = SQL_QUERY($db,$sql_s);
-WHILE ($row_s = mysqli_fetch_object($res_sa)) {
+$res_sa = SQL_QUERY($db, $sql_s);
+while ($row_s = mysqli_fetch_object($res_sa)) {
     $sam_arr[$row_s->sa_sammlg] = $row_s->sa_name;
 }
 #var_dump($sam_arr);
@@ -60,14 +62,14 @@ $tabelle = 'mu_fahrzeug_'.$_SESSION['Eigner']['eig_eigner'];
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 
-List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
+List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>*_id</q> Klicken.</li>';
 switch ($T_List) {
     case "Alle":
-        
+
         break;
-        
+
     default:
         /*
          * $List_Hinweise .= '<li>Anmelde Daten ändern: Auf die Zahl in Spalte <q>mi_id</q> Klicken.</li>'
@@ -80,7 +82,7 @@ $List_Hinweise .= '</ul></li>';
 
 $eig_data = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
 
-List_Action_Bar($tabelle,"Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
+List_Action_Bar($tabelle, "Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 
 # ===========================================================================================================
 # Die Sammlungs- Auswahl anzeigen:
@@ -124,10 +126,10 @@ switch ($MS_Opt) {
 
 
 $titel  = 'Welche Sammlung soll angezeigt werden: ';
-VF_Multi_Dropdown($in_val,$titel);
+VF_Multi_Dropdown($in_val, $titel);
 
 $return = Cr_n_mu_fahrzeug($tabelle);
-if ($return != True) {
+if ($return != true) {
     echo "$tabelle error: mysqli_errno($return)";
 }
 
@@ -151,13 +153,10 @@ $Tabellen_Spalten = array(
 $Tabellen_Spalten_style['fm_eignr'] = $Tabellen_Spalten_style['fm_id'] = $Tabellen_Spalten_style['fm_baujahr'] = 'text-align:center;';
 $sql = "SELECT * FROM `$tabelle`  \n
                     LEFT JOIN fh_sammlung ON $tabelle.fm_sammlg = fh_sammlung.sa_sammlg   \n
-                    WHERE  fm_sammlg LIKE '%" . $_SESSION[$module]['fm_sammlung'] . "%' "; 
+                    WHERE  fm_sammlg LIKE '%" . $_SESSION[$module]['fm_sammlung'] . "%' ";
 /*
 if ($_SESSION[$module]['fm_sammlung']) {
     $sql_where = " WHERE fm_sammlg LIKE '%".$_SESSION[$module]['fm_sammlung']."%' ";
 }
 */
 $orderBy = "  ";
-
-
-?>

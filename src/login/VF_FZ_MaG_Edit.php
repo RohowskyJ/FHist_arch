@@ -24,7 +24,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require  $path2ROOT . 'login/common/BA_Funcs.lib.php' ;
 require  $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php' ;
@@ -36,17 +36,17 @@ require  $path2ROOT . 'login/common/VF_Const.lib.php' ;
 require  $path2ROOT . 'login/common/VF_M_tab_creat.lib.php' ;
 
 /**
- * 
+ *
  * Includes-Liste
  * enthält alle jeweils includierten Scritpt Files
  */
 $Inc_Arr = array();
 $Inc_Arr[] = "VF_FZ_MaG_Edit.php";
 
-$flow_list = True;
+$flow_list = true;
 
-$jq = $jqui = True;
-$BA_AJA = True;
+$jq = $jqui = true;
+$BA_AJA = true;
 $header = "";
 BA_HTML_header('Geräte- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -87,7 +87,7 @@ if ($ge_id !== "") {
     $ge_id = $_SESSION[$module]['ge_id'];
 }
 $java_script = $java_script_ref = $java_script_such = "";
-$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
+$Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
 
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
@@ -206,13 +206,13 @@ if ($phase == 0) {
             "sa_name"  => "Gerät"
         );
     } else {
-       
+
         $sql_be = "SELECT * FROM $tabelle_a 
              INNER JOIN fh_sammlung ON $tabelle_a.ge_sammlg LIKE fh_sammlung.sa_sammlg
              WHERE `ge_id` = '" . $_SESSION[$module]['ge_id'] . "' ORDER BY `ge_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.ge_sammlg LIKE fh_sammlung.sa_sammlg
-        
+
         $return_be = SQL_QUERY($db, $sql_be);
-        
+
         $neu = mysqli_fetch_array($return_be);
         mysqli_free_result($return_be);
     }
@@ -221,17 +221,17 @@ if ($phase == 0) {
 
 if ($phase == 1) {
 
-    
+
 }
 
 
 switch ($phase) {
     case 0:
-        require ('VF_FZ_MaG_Edit_ph0.inc.php');
+        require('VF_FZ_MaG_Edit_ph0.inc.php');
         break;
     case 1:
         require "VF_FZ_MaG_Edit_ph1.inc.php";
         break;
 }
 
-BA_HTML_trailer();?>
+BA_HTML_trailer();

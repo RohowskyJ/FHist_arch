@@ -2,7 +2,7 @@
 
 /**
  * Geräte- Verwaltung, Auswahl
- * 
+ *
  * @author Josef Rohowsky - neu 2023
  */
 session_start();
@@ -19,14 +19,14 @@ $module = Module_Name;
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 
-$flow_list = True;
+$flow_list = false;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
@@ -82,4 +82,3 @@ echo "</div>"; // Ende der Inhalt Spalte
 Edit_Tabellen_trailer();
 
 BA_HTML_trailer();
-?>

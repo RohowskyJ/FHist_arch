@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Fahrzeuge, Typenschein, Liste
  *
- * @author Josef Rohowsky - neu 2025 
+ * @author Josef Rohowsky - neu 2025
  *
  */
 # ===========================================================================================
@@ -10,7 +11,7 @@
 # ===========================================================================================
 
 $T_list_texte = array(
-    "NeuItem" => "<a href='VF_FZ_EI_Edit.php?ID=0' >Neuen Datensatz eingeben</a>" 
+    "NeuItem" => "<a href='VF_FZ_EI_Edit.php?ID=0' >Neuen Datensatz eingeben</a>"
 );
 
 # ===========================================================================================================
@@ -19,7 +20,7 @@ $T_list_texte = array(
 
 $logo = 'NEIN';
 
-List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
+List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $LinkDB_database = '';
 
@@ -32,7 +33,7 @@ $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle_ei);
 $tabelle_ei_a = $tabelle_ei . "_" . $_SESSION['Eigner']['eig_eigner'];
 
 $return = Cr_n_ma_eigner($tabelle_ei_a);
-if ($return != True) {
+if ($return != true) {
     echo "error: mysqli_errno($return)";
 }
 
@@ -55,7 +56,7 @@ $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="mar
 
 $List_Hinweise .= '</ul></li>';
 
-List_Action_Bar($tabelle,"", $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
+List_Action_Bar($tabelle, "", $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 
 # ===========================================================================================================
 #
@@ -67,6 +68,4 @@ $New_Link = "";
 if ($_SESSION[$module]['all_upd']) {
     $New_Link = "<a href='VF_FZ_EI_Edit.php?ID=0' >Neu</a>";
 }
-List_Create($db, $sql_ei,'', $tabelle_ei_a,'', $New_Link); # die liste ausgeben
-
-?>
+List_Create($db, $sql_ei, '', $tabelle_ei_a, '', $New_Link); # die liste ausgeben

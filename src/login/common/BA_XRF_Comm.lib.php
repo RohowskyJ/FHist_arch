@@ -70,10 +70,10 @@ const TxtFiles = array(
  *            Dateiinformationen (Dateiame, Größe,letze Änderng, letzer Zugriff)
  */
 function XR_Htacc_Add($db, $V_Pfad, # der Pfad ab root
-$File, # zum hinzufügen
-$Stat) # Statistische File-Daten
-        #
-        // --------------------------------------------------------------------------------
+    $File, # zum hinzufügen
+    $Stat) # Statistische File-Daten
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Sachg_arr;
 
@@ -116,8 +116,8 @@ $Stat) # Statistische File-Daten
  *            Commentar Text aus der .htaccess Datei
  */
 function XR_Htacc_Upd($db, $D_Str, # Aufrufs -sequenz aus .htaccess
-$P_Str, # Name der htpasswd Datei
-$Sachgeb = "")
+    $P_Str, # Name der htpasswd Datei
+    $Sachgeb = "")
 #
 // --------------------------------------------------------------------------------
 {
@@ -160,10 +160,10 @@ $Sachgeb = "")
  *            Dateiinformationen (Name, Größe, ...)
  */
 function XR_Graf_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Status Info der Date
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Status Info der Date
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -195,10 +195,10 @@ $Stat) # Status Info der Date
  *            Dateiinformationen (Name,Größe, ..)
  */
 function XR_Script_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Status
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Status
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -231,10 +231,10 @@ $Stat) # Status
  *            Datei Informationen
  */
 function XR_Text_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Status
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Status
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -263,8 +263,8 @@ $Stat) # Status
  *            Anzahl der Verzeichnisse eingefügt
  */
 function XR_Dir_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-&$V_cnt)
+    $File, # Dateiname
+    &$V_cnt)
 #
 // --------------------------------------------------------------------------------
 {
@@ -288,7 +288,7 @@ $File, # Dateiname
         $sql = "INSERT INTO $Table (V_Pfad,V_Name)
                     VALUES ('$V_Pfad','$File')       ";
         $return = XR_SQL_QUERY($db, $sql);
-        $V_cnt ++;
+        $V_cnt++;
     }
 }
 
@@ -307,10 +307,10 @@ $File, # Dateiname
  *            Dateiinformatione
  */
 function XR_File_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Statistik der Datei
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Statistik der Datei
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Projects;
     # print_r($Dir_Arr);
@@ -364,8 +364,8 @@ $Stat) # Statistik der Datei
  *            Record- Nummer
  */
 function XR_File_Ref_Add($db, $F_Id) # Datensat-Nummer
-                                      #
-                                      // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr;
     # print_r($Dir_Arr);
@@ -403,8 +403,8 @@ function XR_File_Ref_Add($db, $F_Id) # Datensat-Nummer
  *            Record- Nummer $F_Id
  */
 function XR_Graf_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
-                                      #
-                                      // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr, $Src_Path; // global $debug, $db, $Project, $GrafFiles,$ScrFiles,$TxtFiles,$Caller,$Zeil_Nr;
 
@@ -428,8 +428,8 @@ function XR_Graf_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
  *            Record- Nummer $F_Id
  */
 function XR_Script_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
-                                        #
-                                        // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr, $Src_Path;
 
@@ -451,8 +451,8 @@ function XR_Script_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
  *            Record- Nummer $F_Id
  */
 function XR_Text_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
-                                      #
-                                      // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr, $Src_Path;
 
@@ -515,10 +515,10 @@ function XR_recursive_scan($path)
  *            Zeilennummer
  */
 function XR_Func_Add($db, $T_Id, # ID-Nr desFunkt_Dsn
-$FD_Fnkt_Name, # Funktions-Name
-$FD_Zeile) # Zeilennr.
-            #
-            // --------------------------------------------------------------------------------
+    $FD_Fnkt_Name, # Funktions-Name
+    $FD_Zeile) # Zeilennr.
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -545,8 +545,8 @@ $FD_Zeile) # Zeilennr.
  *            ibliotheks- Nummer
  */
 function XR_Func_Ref_Add($db, $FD_Id) # ID-Nr des Funkt_Dsn
-                                       #
-                                       // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr;
 
@@ -557,5 +557,3 @@ function XR_Func_Ref_Add($db, $FD_Id) # ID-Nr des Funkt_Dsn
                     VALUES ('$FD_Id','$Caller','$Zeil_Nr')       ";
     $return = XR_SQL_QUERY($db, $sql);
 } // Ende von function
-
-?>

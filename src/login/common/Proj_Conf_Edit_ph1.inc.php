@@ -1,5 +1,6 @@
 <?php
-$debug = True;
+
+$debug = true;
 if ($debug) {
     echo "<pre class=debug>Proj_Conf_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -43,13 +44,12 @@ if (isset($_FILES['uploaddatei_1']['name'])) {
     }
 }
 */
-console_log("logo ".$neu['c_logo'] );
+console_log("logo ".$neu['c_logo']);
 
 $updas_s = "\n[Config]\n";
 $updas_m = "\n[Modules]\n"; # assignements for UPDATE xxxxx SET `variable` = 'Wert'
- 
-foreach ($neu as $name => $value) # für alle Felder aus der tabelle
-{
+
+foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
     if (! preg_match("/[^0-9]/", $name)) {
         continue;
     } # überspringe Numerische Feldnamen
@@ -65,9 +65,9 @@ foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     if ($name == "c_logo1") {
         continue;
     } #
- 
+
     if ($name == "c_Institution") {
-        $updas_s .="inst = '$value'\n ";
+        $updas_s .= "inst = '$value'\n ";
     }
     if ($name == "c_Vereinsreg") {
         $updas_s .= "vreg = '$value'\n ";
@@ -87,10 +87,10 @@ foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     if ($name == "c_Wartung") {
         $updas_s .= "wart = '$value'\n ";
     }
-    
+
     if ($name == "c_Wart_Grund") {
         $updas_s .= "warg = '$value'\n ";
-    }   
+    }
     if ($name == "c_Eignr") {
         $updas_s .= "eignr = '$value'\n ";
     }
@@ -107,50 +107,50 @@ foreach ($neu as $name => $value) # für alle Felder aus der tabelle
         $updas_s .= "eignr = '$value'\n ";
     }
     if ($name == "c_Module_1") {
-        $updas_m .="m_1 = '$value'\n ";
+        $updas_m .= "m_1 = '$value'\n ";
     }
     if ($name == "c_Module_2") {
-        $updas_m .="m_2 = '$value'\n ";
+        $updas_m .= "m_2 = '$value'\n ";
     }
 
     if ($name == "c_Module_3") {
-        $updas_m .="m_3 = '$value'\n ";
+        $updas_m .= "m_3 = '$value'\n ";
     }
     if ($name == "c_Module_4") {
-        $updas_m .="m_4 = '$value'\n ";
+        $updas_m .= "m_4 = '$value'\n ";
     }
     if ($name == "c_Module_5") {
-        $updas_m .="m_5 = '$value'\n ";
+        $updas_m .= "m_5 = '$value'\n ";
     }
     if ($name == "c_Module_6") {
-        $updas_m .="m_6 = '$value'\n ";
+        $updas_m .= "m_6 = '$value'\n ";
     }
     if ($name == "c_Module_7") {
-        $updas_m .="m_7 = '$value'\n ";
+        $updas_m .= "m_7 = '$value'\n ";
     }
     if ($name == "c_Module_8") {
-        $updas_m .="m_8 = '$value'\n ";
+        $updas_m .= "m_8 = '$value'\n ";
     }
     if ($name == "c_Module_9") {
-        $updas_m .="m_9 = '$value'\n ";
+        $updas_m .= "m_9 = '$value'\n ";
     }
     if ($name == "c_Module_10") {
-        $updas_m .="m_10 = '$value'\n ";
+        $updas_m .= "m_10 = '$value'\n ";
     }
     if ($name == "c_Module_11") {
-        $updas_m .="m_11 = '$value'\n ";
+        $updas_m .= "m_11 = '$value'\n ";
     }
     if ($name == "c_Module_12") {
-        $updas_m .="m_12 = '$value'\n ";
+        $updas_m .= "m_12 = '$value'\n ";
     }
     if ($name == "c_Module_13") {
-        $updas_m .="m_13 = '$value'\n ";
+        $updas_m .= "m_13 = '$value'\n ";
     }
     if ($name == "c_Module_14") {
-        $updas_m .="m_14 = '$value'\n ";
+        $updas_m .= "m_14 = '$value'\n ";
     }
     if ($name == "c_Module_15") {
-        $updas_m .="m_15 = '$value'\n ";
+        $updas_m .= "m_15 = '$value'\n ";
     }
 
 } # Ende der Schleife
@@ -159,17 +159,17 @@ echo "L 0159 updas_s $updas_s <br>";
 $dsn = $path2ROOT."login/common/config_s.ini";
 
 $datei = fopen($dsn, 'w');
-fputs($datei,$updas_s);
+fputs($datei, $updas_s);
 fclose($datei);
 
 $dsn = $path2ROOT."login/common/config_m.ini";
 
 $datei = fopen($dsn, 'w');
-fputs($datei,$updas_m);
+fputs($datei, $updas_m);
 fclose($datei);
 
 if (isset($_SESSION[$module]['inst'])) {
-    header ("Location: ".$_SESSION[$module]['inst']);
+    header("Location: ".$_SESSION[$module]['inst']);
 } else {
     header("Location: ".$path2ROOT."/VFH/index.php");
 }
@@ -177,4 +177,3 @@ if (isset($_SESSION[$module]['inst'])) {
 if ($debug) {
     echo "<pre class=debug>Proj_Conf_Edit_ph1.inc.php beendet</pre>";
 }
-?>

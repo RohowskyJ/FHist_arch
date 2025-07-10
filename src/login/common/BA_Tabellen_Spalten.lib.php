@@ -37,7 +37,7 @@ if ($debug) {
  * @param string $database
  *            Datenbankname
  * @return array $Tabellen_Spalten Globales Array der Datenbankfelder für die Ausgabe in Listen
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global string $KEXI_LinkDB_database Datenbankname
  * @global array $Tabellen_Spalten_NULLABLE Global Array (Schlüssel: SpaltenName = 'Y' Feld ist Nullable
@@ -46,7 +46,7 @@ if ($debug) {
  * @global array $Tabellen_Spalten_typ Global Array (Schlüssel: Spaltenname) mit 'text'/'num'
  * @global array $Tabellen_Spalten_tabelle Global Array (Schlüssel: Spaltenname) mit dem Namen der Tabelle
  * @global array $Tabellen_Spalten_MAXLENGTH maximale Datenlänge der Spalte, wenn varchar
- *        
+ *
  */
 function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
 {
@@ -91,12 +91,12 @@ function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
         }
         */
         $column = $row['COLUMN_NAME'];
-        
-        if ($row['CHARACTER_MAXIMUM_LENGTH'] > 0 ) {
+
+        if ($row['CHARACTER_MAXIMUM_LENGTH'] > 0) {
             $Tabellen_Spalten_MAXLENGTH[$column] = $row['CHARACTER_MAXIMUM_LENGTH'];
         }
 
-        if ($row['IS_NULLABLE'] == 'YES') { 
+        if ($row['IS_NULLABLE'] == 'YES') {
             $Tabellen_Spalten_NULLABLE[$column] = 'Y';
         }
 
@@ -105,35 +105,36 @@ function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
         $Tabellen_Spalten_COMMENT[$column] = $row['COLUMN_COMMENT'];
 
         $type = $row['COLUMN_TYPE'];
-        if (mb_strpos($type, "int(") !== false)
-            {
+        if (mb_strpos($type, "int(") !== false) {
             $Tabellen_Spalten_style[$column] = 'text-align:right;padding-right:3px;';
             $Tabellen_Spalten_typ[$column] = 'num';
-        }
-        elseif ( mb_strpos($type,"char(" )===false & $type<>'text' ) {
+        } elseif (mb_strpos($type, "char(") === false & $type <> 'text') {
             $Tabellen_Spalten_style[$column] = 'text-align:center;';
             $Tabellen_Spalten_typ[$column] = '';
-        }
-        else {
+        } else {
             $Tabellen_Spalten_typ[$column] = 'text';
         }
     }
-/* 
-    if ($debug) {
-        echo '<pre class=debug>$Tabellen_Spalten: ';
-        print_r($Tabellen_Spalten);
-        echo '</pre>';
-        echo '<pre class=debug>$Tabellen_Spalten_NULLABLE: ';
-        print_r($Tabellen_Spalten_NULLABLE);
-        echo '</pre>';
-        echo '<pre class=debug>$Tabellen_Spalten_COMMENT: ';
-        print_r($Tabellen_Spalten_COMMENT);
-        echo '</pre>';
-        echo '<pre class=debug>$Tabellen_Spalten_style: ';
-        print_r($Tabellen_Spalten_style);
-        echo '</pre>';
-    }
-*/
+    /*
+        if ($debug) {
+            echo '<pre class=debug>$Tabellen_Spalten: ';
+            print_r($Tabellen_Spalten);
+            echo '</pre>';
+            echo '<pre class=debug>$Tabellen_Spalten_NULLABLE: ';
+            print_r($Tabellen_Spalten_NULLABLE);
+            echo '</pre>';
+            echo '<pre class=debug>$Tabellen_Spalten_COMMENT: ';
+            print_r($Tabellen_Spalten_COMMENT);
+            echo '</pre>';
+            echo '<pre class=debug>$Tabellen_Spalten_style: ';
+            print_r($Tabellen_Spalten_style);
+            echo '<pre class=debug>$Tabellen_Spalten_MAXLENGTH: ';
+            var_dump($Tabellen_Spalten_MAXLENGTH);
+            echo '<pre class=debug>$Tabellen_Spalten_typ: ';
+            var_dump($Tabellen_Spalten_typ);
+            echo '</pre>';
+        }
+    */
     return $Tabellen_Spalten;
 }
 
@@ -142,4 +143,3 @@ function Tabellen_Spalten_parms($dblink, $tabelle, $database = '')
  *
  * @author Josef Rohowsky - 202403^8
  */
-?>

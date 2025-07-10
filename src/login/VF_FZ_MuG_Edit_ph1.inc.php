@@ -3,7 +3,7 @@ uid<?php
 /**
  * Liste der Geräte eines Eigentümers, Wartung, Daten schreiben
  *
- * @author Josef Rohowsky  neu 2019 
+ * @author Josef Rohowsky  neu 2019
  *
  * 1. Auswahl des Eigentümers
  * 2. Anzeige der Fahrzeuge
@@ -14,7 +14,7 @@ if ($debug) {
 }
 
 foreach ($_POST as $name => $value) {
-   $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = mysqli_real_escape_string($db, $value);
     # $neu[$name] = $value;
 }
 
@@ -35,7 +35,7 @@ $neu['mg_eignr'] = $_SESSION['Eigner']['eig_eigner'];
 if (isset($_POST['level1'])) {
     $response = VF_Multi_Sel_Input();
     if ($response == "" || $response == "Nix") {
-        
+
     } else {
         $neu['mg_sammlg'] = $response;
     }
@@ -46,27 +46,27 @@ $uploaddir = VF_Upload_Pfad_M('');
 
 if (isset($_FILES)) {
     $i = 0;
-    
+
     foreach ($_FILES as $upLoad  => $file_arr) {
         #var_dump($_FILES[$upLoad]);
         # var_dump($_SESSION[$module]['Pct_Arr']);
         if ($_FILES[$upLoad] != "") {
             # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
+            $result = VF_Upload_Save_M($uploaddir, $upLoad); # ,$urh_abk,$fo_aufn_datum
             echo "L 055 result $result <br>";
-            if ($result != "" && substr($result,0,16) == "Upload Fehler: ") {
+            if ($result != "" && substr($result, 0, 16) == "Upload Fehler: ") {
                 echo "L 057 Upload- Fehler $result <br>";
                 error_log($result);
                 continue;
             }
-            
+
             if ($result == "") {
                 continue;
             }
-            if (substr($result,0,5) == 'Err: ' ) {
+            if (substr($result, 0, 5) == 'Err: ') {
                 continue;
             }
-            $neu["mg_foto_".$i+1] = $result;
+            $neu["mg_foto_".$i + 1] = $result;
 
             $i++;
         }
@@ -76,9 +76,9 @@ if (isset($_FILES)) {
 $neu['mg_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ($neu['mg_id'] == 0) { # neueingabe
-    
+
     Cr_n_mu_geraet($tabelle_a);
-    
+
     $sql = "INSERT INTO $tabelle_a (
                 mg_eignr,mg_invnr,mg_bezeich,mg_type,
                 mg_foto_1,mg_komm_1,mg_foto_2,mg_komm_2,mg_foto_3,mg_komm_3,mg_foto_4,mg_komm_4,            
@@ -100,8 +100,7 @@ if ($neu['mg_id'] == 0) { # neueingabe
 } else { # update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
 
-    foreach ($neu as $name => $value) # für alle Felder aus der tabelle
-    {
+    foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
@@ -109,7 +108,7 @@ if ($neu['mg_id'] == 0) { # neueingabe
             continue;
         } #
 
-        if (substr($name,0,5) == "foto_") {
+        if (substr($name, 0, 5) == "foto_") {
             continue;
         } #
 
@@ -126,7 +125,7 @@ if ($neu['mg_id'] == 0) { # neueingabe
         if ($name == "phase") {
             continue;
         } #
-        if (substr($name,0,3) == "sa_") {
+        if (substr($name, 0, 3) == "sa_") {
             continue;
         } #
 

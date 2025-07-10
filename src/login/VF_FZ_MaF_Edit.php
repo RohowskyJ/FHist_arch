@@ -43,14 +43,14 @@ require $path2ROOT . 'login/common/VF_Upload.lib.php';
 $Inc_Arr = array();
 $Inc_Arr[] = "VF_FZ_MaF_Edit.php";
 
-$flow_list = True;
+$flow_list = false;
 if ($flow_list) {
-    flow_add($module,"VF_FZ_MaF_Edit.php Funct: Maf_Edit" );
+    flow_add($module, "VF_FZ_MaF_Edit.php Funct: Maf_Edit");
 }
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
-$jq = $jqui = True;
+$jq = $jqui = true;
 $BA_AJA = true;
 
 $js_ini = $js_au = $js_md = $js_mfu = $js_suf = $js_togg = false; // laden aller js-Scripts
@@ -93,7 +93,7 @@ if ($fz_id != "") {
     $fz_id = $_SESSION[$module]['fz_id'];
 }
 
-$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
+$Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
 $Tabellen_Spalten[] = 'sa_name';
 $Tabellen_Spalten_COMMENT['sa_name'] = 'Ausgewählte Sammlung';
 
@@ -138,7 +138,7 @@ if ($phase == 0) {
             'fz_herstell_fg' => '',
             'fz_motor' => '',
             'fz_antrieb' => '',
-            'fz_typ' =>'',
+            'fz_typ' => '',
             'fz_modell' => '',
             'fz_geschwindigkeit' => '',
             'fz_aufbauer' => '',
@@ -166,7 +166,7 @@ if ($phase == 0) {
             'fz_l_monitor' => '',
             'fz_l_pumpe' =>   '',
             'fz_t_kran' => '',
-            'fz_t_winde' => '', 
+            'fz_t_winde' => '',
             'fz_t_leiter' => '',
             'fz_t_leiter' => '',
             'fz_t_abschlepp' => '',
@@ -176,26 +176,26 @@ if ($phase == 0) {
             "fz_aenduid" => "",
             "fz_aenddat" => "",
             "ab_bezeichn" => ""
-            
+
         );
     } else {
 
         #$sql_be = "SELECT * FROM $tabelle_a WHERE `fz_id` = '" . $_SESSION[$module]['fz_id'] . "' ORDER BY `fz_id` ASC";
         // join zu hersteller, Aufbauer, ... fehlen noch
-        
+
         $sql_be = "SELECT *
         FROM $tabelle_a                 \n
         LEFT JOIN fh_sammlung ON $tabelle_a.fz_sammlg = fh_sammlung.sa_sammlg \n
         LEFT JOIN fh_abk ON $tabelle_a.fz_taktbez = fh_abk.ab_abk    \n
         WHERE `fz_id` = '" . $_SESSION[$module]['fz_id'] . "' ORDER BY `fz_id` ASC";
-        
+
         # echo "L 0174 sql_be $sql_be <br>";
         $return_be = SQL_QUERY($db, $sql_be);
 
         $neu = mysqli_fetch_array($return_be);
 
         mysqli_free_result($return_be);
-        
+
         $_SESSION[$module]['fz_id_a'] = $neu['fz_id'];
         if ($neu['fz_sammlg'] != "") {
             $_SESSION[$module]['fz_sammlg'] = $neu['fz_sammlg'];
@@ -208,12 +208,12 @@ if ($phase == 0) {
 }
 
 if ($phase == 1) {
-    
+
 }
 
 switch ($phase) {
     case 0:
-        require ('VF_FZ_MaF_Edit_ph0.inc.php');
+        require('VF_FZ_MaF_Edit_ph0.inc.php');
         break;
     case 1:
         # var_dump($_POST);
@@ -237,12 +237,12 @@ function modifyRow(array &$row, # die Werte - das array wird by Name übergeben 
     # echo "L 86: \$tabelle $tabelle <br/>";
     $tab_abk = substr($tabelle, 0, 8);
     # echo "L 023: \$tab_abk $tab_abk <br/>";
-     if ($tab_abk == "ma_eigne") {
-         $fz_eign_id = $row['fz_eign_id'];
-         $row['fz_eign_id'] = "<a href='VF_FZ_EI_Edit.php?ID=$fz_eign_id' >" . $fz_eign_id . "</a>";
-     }
-     
-     return True;
+    if ($tab_abk == "ma_eigne") {
+        $fz_eign_id = $row['fz_eign_id'];
+        $row['fz_eign_id'] = "<a href='VF_FZ_EI_Edit.php?ID=$fz_eign_id' >" . $fz_eign_id . "</a>";
+    }
+
+    return true;
 } # Ende von Function modifyRow
 
 ?>

@@ -3,10 +3,10 @@
 
 /**
  * E-Mail Admin- Verständigen Zuordnung
- * 
+ *
  * @author Josef Rohowsky - neu 2023
- * 
- * 
+ *
+ *
  */
 session_start();
 
@@ -23,7 +23,7 @@ const Prefix = '';
  */
 $path2ROOT = "../../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
@@ -54,7 +54,7 @@ if (isset($_POST['phase'])) {
     $phase = 0;
 }
 
-$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
+$Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
 
 Tabellen_Spalten_parms($db, 'proj_config');
 $Tabellen_spalten = array('c_Institution','c_Vereinsreg','c_Verantwortl','c_email','c_data','c_mode',
@@ -97,10 +97,10 @@ $Tabellen_Spalten_COMMENT['c_Module_15'] = Modules['Mod_15'];
 # -------------------------------------------------------------------------------------------------------
 if ($phase == 0) {
 
-    
+
     if (is_file($path2ROOT . 'login/common/config_s.ini')) {
-        $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini',True,INI_SCANNER_NORMAL);
-        
+        $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
+
         $neu['c_Institution'] = $ini_arr["Config"]['inst'];
         $neu['c_Vereinsreg'] = $ini_arr["Config"]['vreg'];
         $neu['c_Eignr'] = $ini_arr["Config"]['eignr'];
@@ -128,8 +128,8 @@ if ($phase == 0) {
         $neu['c_Homepage'] = 'https://www.homepage-Name.at';
     }
     if (is_file($path2ROOT . 'login/common/config_m.ini')) {
-        $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini',True,INI_SCANNER_NORMAL);
-        
+        $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini', true, INI_SCANNER_NORMAL);
+
         $neu['c_Module_1'] = $ini_arr["Modules"]['m_1'];
         $neu['c_Module_2'] = $ini_arr["Modules"]['m_2'];
         $neu['c_Module_3'] = $ini_arr["Modules"]['m_3'];
@@ -151,7 +151,7 @@ if ($phase == 0) {
         $neu['c_Module_4'] = 'J';
         $neu['c_Module_5'] = 'J';
         $neu['c_Module_6'] = 'J';
-        $neu['c_Module_7']= 'J';
+        $neu['c_Module_7'] = 'J';
         $neu['c_Module_8'] = 'J';
         $neu['c_Module_9'] = 'J';
         $neu['c_Module_10'] = 'J';
@@ -181,7 +181,7 @@ HTML_header('Konfigurations- Verwaltung', '', '', 'Form', '70em'); # Parm: Titel
 
 switch ($phase) {
     case 0:
-        require ('Proj_Conf_Edit_ph0.inc.php');
+        require('Proj_Conf_Edit_ph0.inc.php');
         break;
     case 1:
         require "Proj_Conf_Edit_ph1.inc.php";

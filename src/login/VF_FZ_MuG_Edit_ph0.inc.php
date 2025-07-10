@@ -3,7 +3,7 @@
 /**
  * Liste der Geräte aines Eigentümers, Wartug, Formular
  *
- * @author Josef Rohowsky  neu 2019 
+ * @author Josef Rohowsky  neu 2019
  *
  * 1. Auswahl des Eigentümers
  * 2. Anzeige der Fahrzeuge
@@ -41,7 +41,7 @@ Edit_Separator_Zeile('Sammlung'.$button);
 echo "<input type='hidden' name='mg_sammlg' value='".$neu['mg_sammlg']."'/>";
 
 // $Edit_Funcs_Protect = True;
-Edit_Daten_Feld('mg_sammlg','30');
+Edit_Daten_Feld('mg_sammlg', '30');
 // $Edit_Funcs_Protect = False;
 Edit_Daten_Feld('sa_name');
 
@@ -88,7 +88,7 @@ switch ($MS_Opt) {
 }
 
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
-VF_Multi_Dropdown($in_val,$titel);
+VF_Multi_Dropdown($in_val, $titel);
 
 echo " </div>";
 
@@ -132,7 +132,7 @@ $_SESSION[$module]['Pct_Arr' ] = array();
 $num_foto = 4;
 $i = 1;
 while ($i <= $num_foto) {
-    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'mg_komm_'.$i, 'bi' => 'mg_foto_'.$i, 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'mg_komm_'.$i, 'bi' => 'mg_foto_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');
     $i++;
 }
 
@@ -176,4 +176,3 @@ echo "<p><a href='VF_FZ_MuFG_List.php?ID=MU_G'>Zurück zur Liste</a></p>"; # ."
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuG_Edit_ph0.inc.php beendet</pre>";
 }
-?>

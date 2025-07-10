@@ -35,7 +35,7 @@ $neu['ge_eignr'] = $_SESSION['Eigner']['eig_eigner'];
 if (isset($_POST['level1']) != "") {
     $response = VF_Multi_Sel_Input();
     if ($response == "" || $response == "Nix") {
-        
+
     } else {
         $neu['ge_sammlg'] = $response;
     }
@@ -50,63 +50,63 @@ if (! file_exists($uploaddir)) {
 #var_dump($_FILES);
 if (isset($_FILES)) {
     $i = 0;
-    
+
     foreach ($_FILES as $upLoad  => $file_arr) {
         #var_dump($_FILES[$upLoad]);
         # var_dump($_SESSION[$module]['Pct_Arr']);
         if ($_FILES[$upLoad] != "") {
             # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
+            $result = VF_Upload_Save_M($uploaddir, $upLoad); # ,$urh_abk,$fo_aufn_datum
 
             if ($result == "") {
                 continue;
             }
-            if (substr($result,0,5) == 'Err: ' ) {
+            if (substr($result, 0, 5) == 'Err: ') {
                 continue;
             }
-           #  $neu["ge_foto_".$i+1] = $result;
-            
+            #  $neu["ge_foto_".$i+1] = $result;
+
             switch ($i) {
-                case '0' :
+                case '0':
                     $neu['ge_foto_1'] = $result;
                     break;
-                case '1' :
+                case '1':
                     $neu['ge_foto_2'] = $result;
                     break;
-                case '2' :
+                case '2':
                     $neu['ge_foto_3'] = $result;
                     break;
-                case '3' :
+                case '3':
                     $neu['ge_foto_4'] = $result;
                     break;
-                case '4' :
+                case '4':
                     $neu['ge_g1_foto'] = $result;
                     break;
-                case '5' :
+                case '5':
                     $neu['ge_g2_foto'] = $result;
                     break;
-                case '6' :
+                case '6':
                     $neu['ge_g3_foto'] = $result;
                     break;
-                case '7' :
+                case '7':
                     $neu['ge_g4_foto'] = $result;
                     break;
-                case '8' :
+                case '8':
                     $neu['ge_g5_foto'] = $result;
                     break;
-                case '9' :
+                case '9':
                     $neu['ge_g6_foto'] = $result;
                     break;
-                case '10' :
+                case '10':
                     $neu['ge_g7_foto'] = $result;
                     break;
-                case '11' :
+                case '11':
                     $neu['ge_g8_foto'] = $result;
                     break;
-                case '12' :
+                case '12':
                     $neu['ge_g9_foto'] = $result;
-                    break;  
-                case '13' :
+                    break;
+                case '13':
                     $neu['ge_g10_foto'] = $result;
                     break;
             }
@@ -116,9 +116,9 @@ if (isset($_FILES)) {
     #var_dump($neu);
 }
 
-$gesa_arr = explode(" ",$neu['ge_sammlg']);
+$gesa_arr = explode(" ", $neu['ge_sammlg']);
 $neu['ge_sammlg'] = $gesa_arr[0];
-    
+
 /* Sammlung aufbereiten */
 if (isset($_POST['level1'])) {
     $neu['ge_sammlg'] = VF_Multi_Sel_Input();
@@ -127,9 +127,9 @@ if (isset($_POST['level1'])) {
 $neu['ge_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ($neu['ge_id'] == 0) { # neueingabe
-    
+
     Cr_n_ma_geraet($tabelle_a);
-    
+
     $sql = "INSERT INTO $tabelle_a (
                 ge_eignr,ge_invnr,ge_bezeich,ge_type,ge_leistg,ge_lei_bed,
                 ge_leinh,ge_herst,ge_baujahr,ge_indienst,ge_ausdienst,ge_komment,ge_gesgew,
@@ -170,24 +170,23 @@ if ($neu['ge_id'] == 0) { # neueingabe
                )";
 
     # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 0152 $sql</pre>";
-    $result = SQL_QUERY($db, $sql); 
+    $result = SQL_QUERY($db, $sql);
     $neu['ge_id'] = mysqli_insert_id($db);
 } else { # update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
 
-    foreach ($neu as $name => $value) # für alle Felder aus der tabelle
-    {
+    foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
         if ($name == "MAX_FILE_SIZE") {
             continue;
         } #
-        if (substr($name,0,6) == 'l_sb_s') {
+        if (substr($name, 0, 6) == 'l_sb_s') {
             continue;
         }
-        
-        if (substr($name,0,5) == "foto_") {
+
+        if (substr($name, 0, 5) == "foto_") {
             continue;
         } #
 
@@ -204,7 +203,7 @@ if ($neu['ge_id'] == 0) { # neueingabe
         if ($name == "phase") {
             continue;
         } #
-        if (substr($name,0,3) == "sa_") {
+        if (substr($name, 0, 3) == "sa_") {
             continue;
         } #
 
@@ -232,4 +231,3 @@ header("Location: VF_FZ_MaFG_List.php?ID=".$_SESSION[$module]['sammlung']);
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MaG_Edit_ph1.inc.php beendet</pre>";
 }
-?>

@@ -9,11 +9,11 @@
  * Tabellen für die Muskebewegten Fzg und Ger
  *
  */
-function Cr_n_mu_fahrzeug ($tabelle)
+function Cr_n_mu_fahrzeug($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
-   $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
+    $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `fm_id` int(11) NULL  AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `fm_eignr` char(10) NULL  COMMENT 'Eigentümer Nr.',
   `fm_invnr` char(6) DEFAULT NULL COMMENT 'Inventar- Nr.',
@@ -43,11 +43,11 @@ function Cr_n_mu_fahrzeug ($tabelle)
   `fm_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'letzte Änderung',
   PRIMARY KEY (`fm_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_muskel
 
-function Cr_n_mu_geraet ($tabelle)
+function Cr_n_mu_geraet($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -85,12 +85,12 @@ function Cr_n_mu_geraet ($tabelle)
   PRIMARY KEY (`mg_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
     ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
-    
+
 } # end function cre_n_mu_geraet
 
-function Cr_n_ma_geraet ($tabelle)
+function Cr_n_ma_geraet($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -182,7 +182,7 @@ function Cr_n_ma_geraet ($tabelle)
   PRIMARY KEY (`ge_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
          ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_ge_raet
 
@@ -191,11 +191,11 @@ function Cr_n_ma_geraet ($tabelle)
  *
  */
 
-function Cr_n_ma_arc_xref ($tabelle)
+function Cr_n_ma_arc_xref($tabelle)
 {
     global $debug, $db;
-echo "l 0197 $tabelle <br>";
-mysqli_set_charset($db, "utf8mb4");
+    echo "l 0197 $tabelle <br>";
+    mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
   `fa_id` smallint(6) NULL  AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `fa_eignr` smallint(6) NULL  COMMENT 'Eigentümer- Nr.',
@@ -208,12 +208,12 @@ mysqli_set_charset($db, "utf8mb4");
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
 ";
 
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 }   # Ende Funktion Cr_n_fz_arc_xref
 
 
-function Cr_n_ma_fz_beschr ($tabelle)
+function Cr_n_ma_fz_beschr($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -248,11 +248,11 @@ function Cr_n_ma_fz_beschr ($tabelle)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Zulassungsdaten'; ";
 
 
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_ma_fz_beschr
 
-function Cr_n_fz_eigner ($tabelle)
+function Cr_n_fz_eigner($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -268,11 +268,11 @@ function Cr_n_fz_eigner ($tabelle)
         PRIMARY KEY (`fz_eign_id`)
       ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Eigentuemer'
          ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_eigner
 
-function Cr_n_fz_fixeinb ($tabelle)
+function Cr_n_fz_fixeinb($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -300,11 +300,11 @@ function Cr_n_fz_fixeinb ($tabelle)
      PRIMARY KEY (`fz_einb_id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci      COMMENT='Fixe Einbau- Geräteten'
         ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_fixeinb
 
-function Cr_n_fz_type ($tabelle)
+function Cr_n_fz_type($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -367,11 +367,11 @@ function Cr_n_fz_type ($tabelle)
       `fz_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Aenderung',
        PRIMARY KEY (`ft_id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Zulassungsdaten, Typenschein' ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_type
 
-function Cr_n_fz_laderaum ($tabelle)
+function Cr_n_fz_laderaum($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -393,12 +393,12 @@ function Cr_n_fz_laderaum ($tabelle)
       `lr_aenddate` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
       PRIMARY KEY (`lr_id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT 'Laderaum- Belegung' ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_laderaum
 
 
-function Cr_n_fz_typis_aend ($tabelle)
+function Cr_n_fz_typis_aend($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -411,11 +411,11 @@ function Cr_n_fz_typis_aend ($tabelle)
        `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`fz_typ_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci   COMMENT 'Typisierte Änderungen'";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_typis_aend
 
-function Cr_n_fz_reparat ($tabelle)
+function Cr_n_fz_reparat($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -428,12 +428,12 @@ function Cr_n_fz_reparat ($tabelle)
         `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`fz_rep_id`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT 'Reparaturen'";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_reparat
 
 
-function Cr_n_ma_fahrzeug ($tabelle)
+function Cr_n_ma_fahrzeug($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -493,11 +493,11 @@ function Cr_n_ma_fahrzeug ($tabelle)
         KEY `fz_ctif_date` (`fz_ctif_date`),
         FULLTEXT KEY `fz_sammlg` (`fz_sammlg`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Fahrzeugdaten' ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_reparat
 
-function Cr_n_ma_eigner ($tabelle)
+function Cr_n_ma_eigner($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -512,9 +512,6 @@ function Cr_n_ma_eigner ($tabelle)
         `fz_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'zuletzt geändert',
        PRIMARY KEY (`fz_eign_id`)
        ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci   COMMENT 'Fahrzeug  Eigner' ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_reparat
-
-
-?>

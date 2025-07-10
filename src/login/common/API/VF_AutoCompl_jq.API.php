@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Eigentümer- Auswahl
  *
@@ -29,17 +30,17 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../../../";
-$debug = False;
+$debug = false;
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 
 if (isset($_GET["term"])) {
     $term = $_GET["term"];
 }
 
-if (isset($_POST['query']) ) {
+if (isset($_POST['query'])) {
     $term = $_POST['query'];
 }
-if (isset($_POST['q']) ) {
+if (isset($_POST['q'])) {
     $term = $_POST['q'];
 }
 if (isset($_POST['proc'])) {
@@ -47,7 +48,7 @@ if (isset($_POST['proc'])) {
 } else {
     $proc = "Eigent";
 }
-if  (isset($_GET['proc']) ) {
+if (isset($_GET['proc'])) {
     $proc = $_GET['proc'];
 }
 if (isset($_GET['query'])) {
@@ -74,16 +75,16 @@ $db = LinkDB('VFH'); // Connect zur Datenbank
 if ($proc == "Eigentuemer") {
     eigent($term);
 }
-if ($proc == "Taktisch")   {
+if ($proc == "Taktisch") {
     taktische($term);
 }
-if ($proc == "Hersteller")   {
+if ($proc == "Hersteller") {
     hersteller($term);
 }
-if ($proc == "Aufbauer")   {
+if ($proc == "Aufbauer") {
     aufbauer($term);
 }
-if ($proc == "Urheber")   {
+if ($proc == "Urheber") {
     urheb($term);
 }
 
@@ -91,9 +92,10 @@ $response[] = ['value' => '', 'label' => "Keine Auswahl $proc gefunden"];
 # echo json_encode($response);
 
 
-function eigent ($term) {
+function eigent($term)
+{
     global $db, $module, $srch_arr;
-    /* 
+    /*
     $dsn = "autocomp_eig.log";
     $eintragen = "f Eig  $term L 099\n";
 
@@ -135,7 +137,8 @@ function eigent ($term) {
 
 } # ende funct eigent
 
-function urheb ($term) {
+function urheb($term)
+{
     global $db, $module, $srch_arr;
 
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_media<> '' AND (ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%') LIMIT 100";
@@ -159,7 +162,8 @@ function urheb ($term) {
 
 } # ende funct urheb
 
-function taktische ($term) {
+function taktische($term)
+{
     global $db, $module, $srch_arr, $dsn,$proc;
     /*
      $dsn = "autocomp_tak.log";
@@ -197,7 +201,8 @@ function taktische ($term) {
 
 } # ende funct abkuerz
 
-function hersteller ($term) {
+function hersteller($term)
+{
     global $db, $module, $srch_arr;
     /*
      $dsn = "autocomp_her.log";
@@ -228,7 +233,8 @@ function hersteller ($term) {
 
 } # ende funct abkuerz
 
-function aufbauer ($term) {
+function aufbauer($term)
+{
     global $db, $module, $srch_arr;
     /*
      $dsn = "autocomp_auf.log";
@@ -258,5 +264,3 @@ function aufbauer ($term) {
     }
 
 } # ende funct abkuerz
-
-?>

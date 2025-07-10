@@ -1,47 +1,48 @@
 <?php
+
 /**
  * Bibliothek für Eingabe-Formulare
- *  
+ *
  * 2019       B.R.Gaicki  - neu
  * 2012       J. Rohowsky - adaptierug für VFHNÖ
  * 2024       J. Rohowsky - Umstellung von Tabelle auf w3-row
- * 
+ *
  * enthält in Admin-Edit programmen verwendetet Funktionen
- *  - Edit_Send_Button           Send Button für Edit Phase 0 / 1 
+ *  - Edit_Send_Button           Send Button für Edit Phase 0 / 1
  *  - Edit_Separator_Zeile       Trennzeile in Edit  wir durch Block_Separator_start und Block_Separator_Ende ersetzt
  *  - KEXI_Edit_Text             Erzeugt eine Tabellen Zeile dem Wert als Text
- *  - Edit_Daten_Feld            Erzeugt eine Tabellen Zeile mit einem <input> Feld 
+ *  - Edit_Daten_Feld            Erzeugt eine Tabellen Zeile mit einem <input> Feld
  *  - Edit_Daten_Feld_Butt       Erzeugt eine Tabellen Zeile mit einem <input> Feld mit Button für Displ unhide
- *  - Edit_textarea_Feld         Erzeugt eine Tabellen Zeile mit einem <textarea> Feld 
+ *  - Edit_textarea_Feld         Erzeugt eine Tabellen Zeile mit einem <textarea> Feld
  *  - Edit_Radio_Feld            Erzeugt eine Tabellen Zeile mit <input type='radio'> Feldern
  *  - Edit_CheckBox              Erzeugt einen Checkbox - Input  als Einzelfelder
  *  - Edit_Check_Box             Erzeugt einen Checkbox - Input  als Array
- *  - Edit_Select_Feld           Erzeugt eine Tabellen Zeile mit einem <select> Feld - mit mehreren <option>  
- *  - Edit_Feld_Zeile_header     internes Programm zum erzeugen der Tabellen Zeile mit Feld Titel 
+ *  - Edit_Select_Feld           Erzeugt eine Tabellen Zeile mit einem <select> Feld - mit mehreren <option>
+ *  - Edit_Feld_Zeile_header     internes Programm zum erzeugen der Tabellen Zeile mit Feld Titel
  *  - Edit_Feld_Zeile_Trailer    internes Programm zum erzeugen von Tabellen Zeile Ende
  *  - Edit_Show_pict             Anzeige eines vorhandenen Bildes
- *  - Edit_Upload_file           Upload einer neuen Datei	
+ *  - Edit_Upload_file           Upload einer neuen Datei
  *  - Edit_Tabellen_header       Start des Eingabe- Formulars
  *  - Edit_tabellen_trailer      Ende des Eingabe- Fotmulars
  *  - float_line                 Schimmel für Floating Aus
  *  - odd_even                   Feststellen ob Zahl gerade uder ungerade ist (True für ungerade)
- *  
- * Es wird eine Tabelle erstellt mit den Spalten  
+ *
+ * Es wird eine Tabelle erstellt mit den Spalten
  *    - Feld Name    - optional - gesteuert von $Edit_Funcs_FeldName
- *    - Beschreibung - Der Wert wird aus dem Array $Tabellen_Spalten_COMMENT mit dem Feldnamen als Index genommen 
+ *    - Beschreibung - Der Wert wird aus dem Array $Tabellen_Spalten_COMMENT mit dem Feldnamen als Index genommen
  *    - Daten        - Der Daten Wert (value=) wird aus dem Array $neu mit dem Feldnamen als Index genommen
- *    - Eine allfällige Fehlermeldung wird aus dem Array $Err_msg mit dem Feldname als Index genommen 
- *    
+ *    - Eine allfällige Fehlermeldung wird aus dem Array $Err_msg mit dem Feldname als Index genommen
+ *
  *     wenn $phase <> 0 sind die felder Output olny
  *     auch wenn $Edit_Funcs_Protect==True ist
  *     * @globale boolean $Edit_Funcs_Protect == 0 True -> Nur Anzeige, keine Eingabe möglich
  *     mit $Edit_Funcs_FeldName==False kann die Feld Namens Spalte unterdrückt werden
- *     
- * Änderungen:   
+ *
+ * Änderungen:
  *   2019       B.R.Gaicki  - neu
  *   2019-05-12 B.R.Gaicki  - abhängig von $phase gemacht
  *   2019-05-29 B.R.Gaicki  - Edit_textarea_Feld - neu
- *   2020-01-01 B.R.Gaicki  - neue variable $Edit_Funcs_FeldName	 
+ *   2020-01-01 B.R.Gaicki  - neue variable $Edit_Funcs_FeldName
  *   2020-03-28 B.R.Gaicki  - neue Variable $Edit_Funcs_Protect
  *   2019-09-26 J.Rohowsky  - Bilder anzeigen und hochladen - neu
  *   2019-10-23 J.Rohowsky  - Checkboxen ausgeben
@@ -70,14 +71,14 @@ if ($debug) {
  *            Text für den Button
  * @param string $zurück
  *            Link für den Rücksprung
- *            
+ *
  * @global int $phase wenn 0 normale Eingabe
  * @global int $Errors Fehler- Zähler, wenn>0 Anzeige, dass Fehler korrigiert werden müssen
- *        
+ *
  */
 # ------------------------------------------------------------------------------------------------------------------------------------------
 function Edit_Send_Button($text = '', $zurück = '') # Send Button für Edit Phase 0 / 1
-                                                     # ------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------
 {
     global $phase, $Errors;
 
@@ -110,18 +111,18 @@ function Edit_Send_Button($text = '', $zurück = '') # Send Button für Edit Pha
  *  @param string $button
  */
 # ------------------------------------------------------------------------------------------------------------------------------------------
-function Edit_Separator_Zeile($text, $button= "") # Trennzeile in Edit
+function Edit_Separator_Zeile($text, $button = "") # Trennzeile in Edit
 {
     global $module;
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Separator_Zeile");
-    
+
     echo "<div class='w3-container' style='width:100%; background:#e4e4e4; padding-left:3%; padding-right:3%;'>";
     echo "<p class='w3-medium  ' style= 'width:auto'><b>$text</b>
           &nbsp; &nbsp; $button 
          </p>";
     echo "</div>";
-    
-        
+
+
 }
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
@@ -135,19 +136,19 @@ function Edit_Separator_Zeile($text, $button= "") # Trennzeile in Edit
  *            Anzuzeigendes Textfeld für Anzeige/Eingabe
  * @param string $InfoText
  *            Zusatzinformation für Feld
- *            
+ *
  * @global $KEXI_Edt_neu array Abbild des Datensatzes (alle benötigten Felder)
  */
 function Edit_Text($FeldName, $InfoText = '')
 {
     global $neu, $ed_lcnt; # Array mit den neuen Werten
-    
+
     $ed_lcnt++;
     $style = odd_even($ed_lcnt);
 
-    Edit_Feld_Zeile_header($FeldName,$style);
+    Edit_Feld_Zeile_header($FeldName, $style);
     Edit_Feld_Zeile_Trailer($FeldName, $InfoText);
-    
+
 }
 
 # End of function KEXI_Edit_Text
@@ -190,10 +191,10 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
     global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect , $ed_lcnt,$Tabellen_Spalten_MAXLENGTH,$Tabellen_Spalten_typ;
 
     flow_add($module, 'Edit_Funcs.inc.php Funct: Edit_Daten_Feld');
-    
+
     Edit_Feld_Zeile_header($FeldName);
 
-    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
+    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr" ."class='monitor'";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
@@ -201,22 +202,29 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
             $InputParm = " type='text' $InputParm";
         }
         # var_dump($Tabellen_Spalten_MAXLENGTH[$FeldName]);
-        if ( !$FeldLaenge == 0  ) {
-            if ( mb_strpos($InputParm,'maxlength=') === false ) { 
+        if (!$FeldLaenge == 0) {
+            if (mb_strpos($InputParm, 'maxlength=') === false) {
                 if ($Tabellen_Spalten_typ[$FeldName] == "text") {
-                    $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."'"; }
+                    $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."'";
                 }
-                
-            if ( mb_strpos($InputParm,'size='     ) === false ) { $InputParm .= " size='$FeldLaenge'"; }
-        } 
+            }
+
+            if (mb_strpos($InputParm, 'size=') === false) {
+                $InputParm .= " size='$FeldLaenge'";
+            }
+        }
         if (! empty($Err_msg[$FeldName])) {
             console_log(" <span class='error'>$Err_msg[$FeldName]</span>"); //
             if (mb_strpos($InputParm, 'autofocus') === false) {
                 $InputParm .= ' autofocus';
             }
-            if ( !empty($Edit_FeldMsg[$FeldName]) ) {
-                if ( mb_strpos($InputParm,'autofocus'  ) === false ) { $InputParm .= ' autofocus'; }
-                if ( mb_strpos($InputParm,'class='     ) === false ) { $InputParm .= ' class="error"'; }
+            if (!empty($Edit_FeldMsg[$FeldName])) {
+                if (mb_strpos($InputParm, 'autofocus') === false) {
+                    $InputParm .= ' autofocus';
+                }
+                if (mb_strpos($InputParm, 'class=') === false) {
+                    $InputParm .= ' class="error"';
+                }
             }
         }
 
@@ -263,9 +271,9 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
 function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '', $button = '')
 {
     global $phase, $module, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH, $neu, $Err_msg, $Edit_Funcs_Protect, $ed_lcnt  ;
-    
+
     Edit_Feld_Zeile_header($FeldName, $button);
-    
+
     $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
@@ -283,20 +291,28 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
             }
         }
         */
-        if ( !$FeldLaenge == 0  ) {
+        if (!$FeldLaenge == 0) {
             $FldLength = "";
             if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
                 $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
                 $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
             }
-            
-            if ( mb_strpos($InputParm,'maxlength=') === false ) { $InputParm .= " maxlength='$FldLength'"; }
-            if ( mb_strpos($InputParm,'size='     ) === false ) { $InputParm .= " size='$FeldLaenge'"; }
+
+            if (mb_strpos($InputParm, 'maxlength=') === false) {
+                $InputParm .= " maxlength='$FldLength'";
+            }
+            if (mb_strpos($InputParm, 'size=') === false) {
+                $InputParm .= " size='$FeldLaenge'";
+            }
         }
-        
-        if ( !empty($KEXI_Edit_FeldMsg[$FeldName]) ) {
-            if ( mb_strpos($InputParm,'autofocus'  ) === false ) { $InputParm .= ' autofocus'; }
-            if ( mb_strpos($InputParm,'class='     ) === false ) { $InputParm .= ' class="error"'; }
+
+        if (!empty($KEXI_Edit_FeldMsg[$FeldName])) {
+            if (mb_strpos($InputParm, 'autofocus') === false) {
+                $InputParm .= ' autofocus';
+            }
+            if (mb_strpos($InputParm, 'class=') === false) {
+                $InputParm .= ' class="error"';
+            }
         }
         if (! empty($Err_msg[$FeldName])) {
             console_log(" <span class='error'>$Err_msg[$FeldName]</span>");
@@ -307,15 +323,15 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
                 $InputParm .= ' class="error"';
             }
         }
-        
+
         echo "<input  $InputParm>"; # class='w3-input'
     }
     if (! empty($Err_msg[$FeldName])) {
         echo " <span class='error'>$Err_msg[$FeldName]</span>";
     }
-    
+
     Edit_Feld_Zeile_Trailer($FeldName.$button, $InfoText);
- 
+
 }
 
 # End of function
@@ -335,13 +351,13 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
  *            Zusatz Informationen für das Feld
  * @param string $FeldAttr
  *            Attribut/Parameter für <input tag
- *            
+ *
  * @global int $phase wenn 0 normale Eingabe
  * @global boolean $Edit_Funcs_Protect == 0 True -> Nur Anzeige, keine Eingabe möglich
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
- *        
+ *
  */
 function Edit_textarea_Feld($FeldName, $InfoText = '', $FeldAttr = '')
 {
@@ -393,7 +409,7 @@ function Edit_textarea_Feld($FeldName, $InfoText = '', $FeldAttr = '')
  *            Auswahl- Array 'SelCode'=>'Auswahl-text'
  * @param string $InfoText
  *            Zusatz Informationen für das Feld
- *            
+ *
  * @globale boolean $Edit_Funcs_Protect == 0 True -> Nur Anzeige, keine Eingabe möglich
  */
 function Edit_Radio_Feld($FeldName, array $Buttons, $InfoText = '') # Zusatz Informationen für das Feld
@@ -450,7 +466,7 @@ function Edit_Radio_Feld($FeldName, array $Buttons, $InfoText = '') # Zusatz Inf
  *            Zusatz Informationen für das Feld
  * @param string $FeldAttr
  *            Attribut/Parameter für <input tag
- *            
+ *
  * @global int $phase wenn 0 normale Eingabe
  * @global boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
  * @global array $neu Eingelesene Daten Felder
@@ -499,7 +515,7 @@ function Edit_CheckBox($FeldName, $text, $InfoText = '', $FeldAttr = '')
  *            Array in der Form: wert => text
  * @param string $InfoText
  *            Zusatz Informationen für das Feld
- *            
+ *
  * @global int $phase wenn 0 normale Eingabe
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  * @global array $neu Eingelesene Daten Felder
@@ -547,7 +563,7 @@ function Edit_Check_Box($FeldName, array $Boxes, $InfoText = '')
  *            Anzeige- Array
  * @param string $InfoText
  *            Zusatz Informationen für das Feld
- *            
+ *
  * @global int $phase wenn 0 normale Eingabe
  * @global boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
  * @global array $neu Eingelesene Daten Felder
@@ -595,19 +611,19 @@ function Edit_Select_Feld($FeldName, array $Options, $InfoText = '')
  * @global boolean $Edit_Funcs_FeldName
  * @param  string $style Hintergrund odd/even, default weiss
  */
-function Edit_Feld_Zeile_header($FeldName , $button_act = "")  # = "background-color:white"
+function Edit_Feld_Zeile_header($FeldName, $button_act = "")  # = "background-color:white"
 {
     global $Tabellen_Spalten_COMMENT, $Edit_Funcs_FeldName, $ed_lcnt ;
- 
+
     $ed_lcnt++;
     $style = odd_even($ed_lcnt);
-    
+
     if ($style) {
         echo "<div class='w3-row' style='background-color:#eff9ff'>"; // Beginn der Einheit Ausgabe #c0c0ff
     } else {
         echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
     }
-    
+
     echo "<div class='w3-third  $style ' >"; // Beginn der Anzeige Feld-Name
     if (! (isset($Edit_Funcs_FeldName) and $Edit_Funcs_FeldName == false)) {
         echo " [$FeldName] ";
@@ -616,11 +632,11 @@ function Edit_Feld_Zeile_header($FeldName , $button_act = "")  # = "background-c
         #echo "  <span class='ed-beschr'>$Tabellen_Spalten_COMMENT[$FeldName]</span>";
         echo "  <span class='info'>$Tabellen_Spalten_COMMENT[$FeldName] $button_act</span>";
     } else {
-        
+
     }
     echo "  </div>";  // Ende Feldname
     echo "  <div class='w3-twothird   $style' >"; // Beginn Inhalt- Spalte
-    
+
 } # ende function Feld_Zeilen_header
 
 /**
@@ -633,20 +649,21 @@ function Edit_Feld_Zeile_header($FeldName , $button_act = "")  # = "background-c
  * @param string $feldname
  *            wird nicht benutzt !! Array index Name in $neu[] und $Tabellen_Spalten_COMMENT[]
  * @param string $InfoText
- *            Zusatz Informationen für das Feld       
+ *            Zusatz Informationen für das Feld
  */
-function Edit_Feld_Zeile_Trailer($FeldName, $InfoText, $auto_resp = ""  ) {
+function Edit_Feld_Zeile_Trailer($FeldName, $InfoText, $auto_resp = "")
+{
     global $Tabellen_Spalten_TYPE;
-    
+
     if (! empty($InfoText)) {
         echo " <span class='info'>$InfoText</span>";
-        
+
     }
     echo "$auto_resp";
-    
+
     echo "</div>"; // Ende der Inhalt Spalte
     echo "</div>"; // Ende der Ausgabe- Einheit Feld
-  
+
 } # ende function n_Feld_Zeilen_trailer
 
 
@@ -671,7 +688,7 @@ function Edit_Feld_Zeile_Trailer($FeldName, $InfoText, $auto_resp = ""  ) {
  *            Zusatz Informationen für das Feld
  * @param string $FeldAttr
  *            Attribut/Parameter für <input tag
- *            
+ *
  * @global int $phase wenn 0 normale Eingabe
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  * @global array $neu Eingelesene Daten Felder
@@ -722,7 +739,7 @@ function Edit_Upload_File($FeldName, $Ident = '1', $InfoText = '', $FeldAttr = '
  *            Zusatz Informationen für das Feld
  * @param string $FeldAttr
  *            Attribut/Parameter für <input tag
- *            
+ *
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
@@ -762,18 +779,18 @@ function Edit_Show_Pict($FeldName, $FeldLaenge = '100', $InfoText = '', $FeldAtt
 function Edit_Tabellen_Header($text = '')
 {
     global $Errors, $module;
-    
+
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Tabellen_Header");
-    
+
     echo "<div class='w3-container white'>";
     if ($Errors > 0) {
         echo "<span class='error'>" . "$Errors Fehlermeldung(en). Vervollständigen/Korrigieren Sie die Eingabefelder des Formulares." . "</span><br>";
     }#ecf2f9
-    
+
     echo "<div class='w3-container' style='width:100%; background:#cfcfcf; padding-left:2%; padding-right:2%;'>";
     echo "<p class='w3-large'><b>$text</b></p>";
     echo "</div>";
-    
+
     echo '</div>';
 } // ende function_Edit_Tabellen_header
 
@@ -784,49 +801,50 @@ function Edit_Tabellen_Trailer()
 {
     global $module;
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Tabellen_Trailer");
-    
-    echo "</div'>";    
+
+    echo "</div'>";
     # echo "</fieldset>";
 }
 
 /**
  * Struktur- Definition für floating input
- * 
+ *
  */
-function define_float_line () {
-    
+function define_float_line()
+{
+
     Edit_Tabellen_Header($text);
-    
+
     Edit_Separator_Zeile($text);
-    
+
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
     echo "<div class='w3-third'>"; // Beginn der Anzeige Feld-Name
-        /*
-         * Datenausgabe Anzeige Feldbezeichnung
-         */
+    /*
+     * Datenausgabe Anzeige Feldbezeichnung
+     */
     echo "  </div>";  // Ende Feldname
     echo "  <div class='w3-twothird'>"; // Beginn Inhalt- Spalte
-        /*
-         * Datenausgabe Eingabefeld
-         */
+    /*
+     * Datenausgabe Eingabefeld
+     */
     echo "</div>"; // Ende der Inhalt Spalte
     echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
     Edit_Tabellen_Trailer();
 }
 
-function odd_even($cnt) {
-    
-    if(($cnt % 2) == 0){
-        return True;
-    }else{
-        return False;
-    }  
-} // ende funct odd_even 
+function odd_even($cnt)
+{
+
+    if (($cnt % 2) == 0) {
+        return true;
+    } else {
+        return false;
+    }
+} // ende funct odd_even
 
 /**
  * Ende der Bibliothek
  *
  * @author Josef Rohowsky - 20241219
  */
-?>

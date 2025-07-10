@@ -1,14 +1,15 @@
-<?php 
+<?php
+
 /**
  * Erstellung von Tabellen, wenn nötig.
  */
 
-## Tabellen neu anlegen, falls noch nicht existent, Referat5 
+## Tabellen neu anlegen, falls noch nicht existent, Referat5
 /*
- * 
+ *
  */
 
-function Cr_n_Medien_Daten ($tabelle)
+function Cr_n_Medien_Daten($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -32,12 +33,12 @@ function Cr_n_Medien_Daten ($tabelle)
         FULLTEXT KEY `md_sammlg` (`md_sammlg`),
         FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Digitale- Medien- Archiv' ";
-        
-    $return = SQL_QUERY($db,$sql);
+
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fo_varchar(12)n
-    
-function Cr_n_ar_chivdt ($tabelle)
+
+function Cr_n_ar_chivdt($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -78,12 +79,12 @@ function Cr_n_ar_chivdt ($tabelle)
       `ad_aenddat` timestamp NULL DEFAULT NULL COMMENT 'Letzte Aenderung',
        PRIMARY KEY (`ad_id`)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4  COMMENT='Archivalien- Verzeichnis' ";
-    
-    $return = SQL_QUERY($db,$sql);
+
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_ar_chivdt
 
-function Cr_n_ar_ch_verl ($tabelle)
+function Cr_n_ar_ch_verl($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -105,11 +106,11 @@ function Cr_n_ar_ch_verl ($tabelle)
       `al_aenddat` timestamp  NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
       PRIMARY KEY (`al_id`)
   ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Archivalien- Verleih' ";
-    $return = SQL_QUERY($db,$sql);
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_ar_ch_verl
 
-function Cr_n_zt_inhalt ($tabelle)
+function Cr_n_zt_inhalt($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -136,15 +137,15 @@ function Cr_n_zt_inhalt ($tabelle)
       `ih_aenddat` timestamp  NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Datum der letzten Änderung',
       PRIMARY KEY (`ih_id`)
    ) ENGINE=MyISAM AUTO_INCREMENT=1300 DEFAULT CHARSET=latin1 COMMENT='Zeitungen, Inhalte' ";
-    
-    
-    $return = SQL_QUERY($db,$sql);
+
+
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_ar_ch_verl
 
 
 
-function Cr_n_in_ventar ($tabelle)
+function Cr_n_in_ventar($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -197,13 +198,13 @@ function Cr_n_in_ventar ($tabelle)
   `in_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`in_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ";
-                                                                         
-    
-    $return = SQL_QUERY($db,$sql);
+
+
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_in_vent_n
 
-function Cr_n_in_vent_verleih ($tabelle)
+function Cr_n_in_vent_verleih($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -227,10 +228,7 @@ function Cr_n_in_vent_verleih ($tabelle)
   `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`vl_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4  COMMENT  'Inventarverleih'";
-    
-    $return = SQL_QUERY($db,$sql);
+
+    $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_in-vent_verleih
-
-
-?>

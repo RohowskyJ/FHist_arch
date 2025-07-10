@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Fahrzeuge, Typenschein, Wartung
  *
- * @author Josef Rohowsky - neu 2018 
+ * @author Josef Rohowsky - neu 2018
  *
  */
 session_start();
@@ -20,7 +21,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -31,7 +32,7 @@ require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
-$flow_list = False;
+$flow_list = false;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
@@ -55,7 +56,7 @@ if (isset($_GET['ID'])) {
 if ($phase == 99) {
     header('Location: VF_FA_FZ_Edit.php?fw_id=' . $_SESSION[$module]['fz_id']);
 }
-$Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
+$Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
 
 $fz_id = $_SESSION[$module]['fz_id'];
 
@@ -118,9 +119,9 @@ if ($phase == 1) {
     }
 
     if ($neu['fz_eign_id'] == 0) { # nueingabe
-        
-        if (Cr_n_ma_eigner ($table_ei)) {
-            
+
+        if (Cr_n_ma_eigner($table_ei)) {
+
         }
         $sql = "INSERT INTO $table_ei (
                fz_id,fz_docbez,fz_zul_dat,fz_zul_end_dat,fz_zuldaten,fz_uidaend
@@ -132,8 +133,7 @@ if ($phase == 1) {
 
         $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
 
-        foreach ($neu as $name => $value) # für alle Felder aus der tabelle
-        {
+        foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
             if (! preg_match("/[^0-9]/", $name)) {
                 continue;
             } # überspringe Numerische Feldnamen
@@ -167,8 +167,7 @@ BA_HTML_header('Zulassungs Daten', '', 'Form', '90em'); # Parm: Titel,Subtitel,H
 
 switch ($phase) {
     case 0:
-        require ('VF_FZ_EI_Edit_ph0.inc.php');
+        require('VF_FZ_EI_Edit_ph0.inc.php');
         break;
 }
 BA_HTML_trailer();
-?>

@@ -1,15 +1,23 @@
 <?php
+
 ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
 header('Content-Type: application/json; charset=utf-8');
 /*
+error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set("log_errors", 1);
 ini_set("error_log", "php-error_Multisel.log");
-error_log( "Hello, errors!" );   
+error_log( "Hello, errors!" );
 */
+$debug_log = true;
+
+if ($debug_log) {
+    file_put_contents('MultiSel_debug.log', "API L 016 " . PHP_EOL, FILE_APPEND);
+}
+
 $result = [
     'status' => 'ok',
     'data' => [],
@@ -25,7 +33,7 @@ if (empty($_POST) && empty($_GET)) {
 }
 
 $ini_d = "../config_d.ini";
-$ini_arr = parse_ini_file($ini_d, True, INI_SCANNER_NORMAL);
+$ini_arr = parse_ini_file($ini_d, true, INI_SCANNER_NORMAL);
 
 $server_name = $_SERVER['SERVER_NAME'];
 if (stripos($server_name, "www") !== false) {
@@ -85,35 +93,21 @@ $level = isset($_GET['level']) ? intval($_GET['level']) : 0;
 $parent = isset($_GET['parent']) ? trim($_GET['parent']) : "";
 $opval = isset($_GET['opval']) ? $_GET['opval'] : '1';
 
-/* */
-$dsn = "multidrop.log";
-$eintragen = Date("Y-m-d H:i:s")."\n";
-$eintragen .= "term $term \n";
-$eintragen .= "proc $proc \n";
-/*
-$datei = fopen($dsn, "a");
-fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-fclose($datei);
-
-$eintragen = "l 069 isset term, $term \n proc $proc \n";
-
-$datei = fopen($dsn, "a");
-fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-fclose($datei);
-*/
+if ($debug_log) {
+    file_put_contents('MultiSel_debug.log', "API L 093 level $level; parent $parent; opval $opval" . PHP_EOL, FILE_APPEND);
+}
+# error_log("level $level; parent $parent; opval $opval");
 $data[] = ['value' => '', 'text' => 'Bitte auswählen' ,];
 
 if ($opval == '1') {
     // Beispiel: Sammlung (1. Ebene)
-    /*
-    $dsn = "multidrop.log";
-    $eintragen = Date("Y-m-d H:i:s")."\n";
-    $eintragen .= "term $term \n";
-    $eintragen .= "proc $proc \n";
-    */
-    $sql = "SELECT * FROM fh_sammlung WHERE sa_grup LIKE '$parent' ORDER BY sa_sammlg ASC"; 
+    if ($debug_log) {
+        file_put_contents('MultiSel_debug.log', "API L 093 opval = 1" . PHP_EOL, FILE_APPEND);
+    }
+    # error_log("opval da");
+    $sql = "SELECT * FROM fh_sammlung WHERE sa_grup LIKE '$parent' ORDER BY sa_sammlg ASC";
     $result_set = mysqli_query($db, $sql);
-   
+
     if ($result_set) {
         while ($row = mysqli_fetch_object($result_set)) {
 
@@ -121,14 +115,13 @@ if ($opval == '1') {
                 'value' => $row->sa_sammlg,
                 'text' => $row->sa_name,
             ];
-            $eintragen .= "parent $parent; p_cnt $cnt_par; a_cnt $act_cnt; sa_grup $row->sa_grup; sa_sammlg $row->sa_sammlg; txt $row->sa_name \n";
-        } 
+            if ($debug_log) {
+                file_put_contents('MultiSel_debug.log', "API L 0111 parent $parent;sa_grup $row->sa_grup; sa_sammlg $row->sa_sammlg; txt $row->sa_name" . PHP_EOL, FILE_APPEND);
+            }
+            # error_log("parent $parent;sa_grup $row->sa_grup; sa_sammlg $row->sa_sammlg; txt $row->sa_name ");
+        }
     }
-    /* 
-    $datei = fopen($dsn, "a");
-    fputs($datei, mb_convert_encoding($eintragen, "ISO-8859-1"));
-    fclose($datei);
-    */
+
 } elseif ($opval == '2') {
     // Beispiel: Archivordnung
     if ($level == 1) {
@@ -160,7 +153,7 @@ $ret = json_encode([
     'data' => $data,
     'error' => null,
 ]);
-# error_log("L 0136: respond: $ret");
+error_log("L 0160: respond: $ret");
 echo json_encode([
     'status' => 'ok',
     'data' => $data,
@@ -168,4 +161,3 @@ echo json_encode([
 ]);
 
 ob_end_flush();
-?>

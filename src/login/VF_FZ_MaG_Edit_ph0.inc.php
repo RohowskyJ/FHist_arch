@@ -43,10 +43,10 @@ Edit_Separator_Zeile('Sammlung'.$button);
 # =========================================================================================================
 
 echo "<input type='hidden' id='ge_sammlg' name='ge_sammlg' value='".$neu['ge_sammlg']."'>";
-$Edit_Funcs_Protect = True;
+$Edit_Funcs_Protect = true;
 Edit_Daten_Feld('ge_sammlg', '');
-Edit_Daten_Feld('sa_name','');
-$Edit_Funcs_Protect = False;
+Edit_Daten_Feld('sa_name', '');
+$Edit_Funcs_Protect = false;
 
 if ($hide_area == 0) {
     echo "<div>";
@@ -91,7 +91,7 @@ switch ($MS_Opt) {
 
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 
-VF_Multi_Dropdown($in_val,$titel);
+VF_Multi_Dropdown($in_val, $titel);
 
 echo "</div>"; # ende dropdown Sammlung
 
@@ -156,28 +156,28 @@ echo "<input type='hidden' name='ge_g7_foto' value='" . $neu['ge_g7_foto'] . "'>
 echo "<input type='hidden' name='ge_g8_foto' value='" . $neu['ge_g8_foto'] . "'>";
 echo "<input type='hidden' name='ge_g9_foto' value='" . $neu['ge_g9_foto'] . "'>";
 echo "<input type='hidden' name='ge_g10_foto' value='" . $neu['ge_g10_foto'] . "'>";
-  
- echo "<input type='hidden' name='ge_g1_name' value='" . $neu['ge_g1_name'] . "'>";
- echo "<input type='hidden' name='ge_g2_name' value='" . $neu['ge_g2_name'] . "'>";
- echo "<input type='hidden' name='ge_g3_name' value='" . $neu['ge_g3_name'] . "'>";
- echo "<input type='hidden' name='ge_g4_name' value='" . $neu['ge_g4_name'] . "'>";
- echo "<input type='hidden' name='ge_g5_name' value='" . $neu['ge_g5_name'] . "'>";
- echo "<input type='hidden' name='ge_g6_name' value='" . $neu['ge_g6_name'] . "'>";
- echo "<input type='hidden' name='ge_g7_name' value='" . $neu['ge_g7_name'] . "'>";
- echo "<input type='hidden' name='ge_g8_name' value='" . $neu['ge_g8_name'] . "'>";
- echo "<input type='hidden' name='ge_g9_name' value='" . $neu['ge_g9_name'] . "'>";
- echo "<input type='hidden' name='ge_g10_name' value='" . $neu['ge_g10_name'] . "'>";
- 
- echo "<input type='hidden' name='ge_g1_sernr' value='" . $neu['ge_g1_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g2_sernr' value='" . $neu['ge_g2_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g3_sernr' value='" . $neu['ge_g3_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g4_sernr' value='" . $neu['ge_g4_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g5_sernr' value='" . $neu['ge_g5_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g6_sernr' value='" . $neu['ge_g6_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g7_sernr' value='" . $neu['ge_g7_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g8_sernr' value='" . $neu['ge_g8_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g9_sernr' value='" . $neu['ge_g9_sernr'] . "'>";
- echo "<input type='hidden' name='ge_g10_sernr' value='" . $neu['ge_g10_sernr'] . "'>";
+
+echo "<input type='hidden' name='ge_g1_name' value='" . $neu['ge_g1_name'] . "'>";
+echo "<input type='hidden' name='ge_g2_name' value='" . $neu['ge_g2_name'] . "'>";
+echo "<input type='hidden' name='ge_g3_name' value='" . $neu['ge_g3_name'] . "'>";
+echo "<input type='hidden' name='ge_g4_name' value='" . $neu['ge_g4_name'] . "'>";
+echo "<input type='hidden' name='ge_g5_name' value='" . $neu['ge_g5_name'] . "'>";
+echo "<input type='hidden' name='ge_g6_name' value='" . $neu['ge_g6_name'] . "'>";
+echo "<input type='hidden' name='ge_g7_name' value='" . $neu['ge_g7_name'] . "'>";
+echo "<input type='hidden' name='ge_g8_name' value='" . $neu['ge_g8_name'] . "'>";
+echo "<input type='hidden' name='ge_g9_name' value='" . $neu['ge_g9_name'] . "'>";
+echo "<input type='hidden' name='ge_g10_name' value='" . $neu['ge_g10_name'] . "'>";
+
+echo "<input type='hidden' name='ge_g1_sernr' value='" . $neu['ge_g1_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g2_sernr' value='" . $neu['ge_g2_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g3_sernr' value='" . $neu['ge_g3_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g4_sernr' value='" . $neu['ge_g4_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g5_sernr' value='" . $neu['ge_g5_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g6_sernr' value='" . $neu['ge_g6_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g7_sernr' value='" . $neu['ge_g7_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g8_sernr' value='" . $neu['ge_g8_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g9_sernr' value='" . $neu['ge_g9_sernr'] . "'>";
+echo "<input type='hidden' name='ge_g10_sernr' value='" . $neu['ge_g10_sernr'] . "'>";
 
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
@@ -187,20 +187,20 @@ $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner']."/"; # . "/MaG/";
 $Feldlaenge = "100px";
 
 # $pict_path = VF_M_Upl_Pfad ($aufnDatum, $suffix, $aoPfad);
-# $pict_path = $path2ROOT."login/AOrd_Verz/"; 
+# $pict_path = $path2ROOT."login/AOrd_Verz/";
 
 $_SESSION[$module]['Pct_Arr' ] = array();
 $num_foto = 4;
 $i = 1;
 while ($i <= $num_foto) {
-    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'ge_komm_'.$i, 'bi' => 'ge_foto_'.$i, 'rb' => '', 'up_err' => '', 'f1' => '','f2'=>'');
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'ge_komm_'.$i, 'bi' => 'ge_foto_'.$i, 'rb' => '', 'up_err' => '', 'f1' => '','f2' => '');
     $i++;
 }
 
 $num_foto = 10;
 $i = 1;
-while ($i <= $num_foto) { 
-    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'ge_g'.$i.'_beschr', 'bi' => 'ge_g'.$i.'_foto', 'rb' => '', 'up_err' => '','f1'=>'ge_g'.$i.'_name','f2' => 'ge_g'.$i.'_sernr' );
+while ($i <= $num_foto) {
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'ge_g'.$i.'_beschr', 'bi' => 'ge_g'.$i.'_foto', 'rb' => '', 'up_err' => '','f1' => 'ge_g'.$i.'_name','f2' => 'ge_g'.$i.'_sernr' );
     $i++;
 }
 VF_Upload_Form_M();
@@ -244,4 +244,3 @@ echo "<p><a href='VF_FZ_MaFG_List.php'>Zurück zur Liste</a></p>"; # ?ID='.$_SES
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MaG_Edit_ph0.inc.php beendet</pre>";
 }
-?>

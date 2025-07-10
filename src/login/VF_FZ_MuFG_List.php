@@ -2,10 +2,10 @@
 
 /**
  * Fahrzeug- Liste
- * 
+ *
  * @author Josef Rohowsky - neu 2018, Änderung 20250624, Umstellung von prototype.js auf jquery
- * 
- * 
+ *
+ *
  */
 session_start();
 
@@ -20,7 +20,7 @@ $tabelle = 'mu_fahrzeug'; # mu_geraet
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -61,6 +61,13 @@ if (!isset($_SESSION['VF_LISTE'])) {
 }
 
 /**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FZ_MuFG_List.php";
+
+/**
  * Variablen für Eigentümer und Sammlung initialisieren
  */
 if (! isset($_SESSION['Eigner']['eig_eigner'])) {
@@ -78,8 +85,8 @@ if (! isset($_SESSION[$module]['fmsammlung'])) {
 $title = "Muskelbedientes des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
 
 $header = "";
-$jq = $jqui = True; // JQ-UI laden
-$BA_AJA = True; // AJAX- Scripts laden
+$jq = $jqui = true; // JQ-UI laden
+$BA_AJA = true; // AJAX- Scripts laden
 BA_HTML_header('Muskelbedientes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -107,21 +114,21 @@ if ($phase == 99) {
  * neue Sammlung auswählen
  */
 if (isset($_GET['ID'])) {
-   if ($_GET['ID'] == "NextSam") {
-       $_SESSION[$module]['fm_sammlung'] = "MU";
-   } else {
-       $sammlg = $_SESSION[$module]['fm_sammlung'] = $_GET['ID'];
-   }    
+    if ($_GET['ID'] == "NextSam") {
+        $_SESSION[$module]['fm_sammlung'] = "MU";
+    } else {
+        $sammlg = $_SESSION[$module]['fm_sammlung'] = $_GET['ID'];
+    }
 }
 
 /**
  * neuen Eigentümer auswählen
  */
-if (isset($_GET['ID']) && $_GET['ID'] == "NextEig" ) {
+if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") {
     if ($_SESSION['VF_Prim']['mode'] == 'Mandanten') {
         $_SESSION['Eigner']['eig_eigner'] = "";
     } else {
-        $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+        $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
     }
     $_SESSION[$module]['fm_sammlung'] = "MU";
 }
@@ -150,7 +157,7 @@ if (isset($_POST['eigentuemer'])) {
  */
 if (isset($_POST['level1'])) {
     $response = VF_Multi_Sel_Input();
-    if ($response == "" || $response == "Nix" ) {
+    if ($response == "" || $response == "Nix") {
         $sammlg = $_SESSION[$module]['fm_sammlung'] = "MU_F";
     } else {
         $sammlg = $_SESSION[$module]['fm_sammlung'] = $response;
@@ -160,20 +167,20 @@ if (isset($_POST['level1'])) {
 /**
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
-if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung'] == "MU") { 
-    
+if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung'] == "MU") {
+
     /**VF_Eig_Ausw
      * neuen Eigentümer auswählen
      */
-    if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
+    if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten") {
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            VF_Auto_Eigent('E','');
+            VF_Auto_Eigent('E', '');
         }
     } else {
-        $_SESSION['Eigner']['eig_eigner'] =$_SESSION['VF_Prim']['eignr'];
+        $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
     }
-        
-    if ($_SESSION[$module]['fm_sammlung'] == "MU"){
+
+    if ($_SESSION[$module]['fm_sammlung'] == "MU") {
         /**
          * Parameter für den Aufruf von Multi-Dropdown
          *
@@ -186,17 +193,17 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
          *
          * @Input-Parm $_POST['Level1...6']
          */
-        
+
         $MS_Lvl   = 1; # 1 ... 6
         $MS_Opt   = 1; # 1: SA für Sammlung, 2: AO für Archivordnung
-        
+
         $MS_Txt = array(
             'Auswahl der Sammlungs- Type (1. Ebene)  ',
             'Auswahl der Sammlungs- Gruppe (2. Ebene)  ',
             'Auswahl der Untergrupppe (3. Ebene) ',
             'Auswahl des Spezifikation (4. Ebene)  '
         );
-        
+
         switch ($MS_Opt) {
             case 1:
                 $in_val = '';
@@ -209,39 +216,39 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
                  break;
                  */
         }
-        
+
         $titel  = 'Suche nach der Sammlungs- Beschreibung (- oder Änderung der  angezeigten)';
-        VF_Multi_Dropdown($in_val,$titel);
-        
+        VF_Multi_Dropdown($in_val, $titel);
+
     }
 
-   echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
-    
+    echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
+
 } else {
-    
+
     /**
      * Hier erfolgt die Aufteilung nach Fahrzeug oder Gerät
      */
     VF_upd();
 
     $sql = $sql_where = $orderBy = "";
-    
-    if (substr($_SESSION[$module]['fm_sammlung'],0,4)  == 'MU_F') {   # Mukelgezogene - Fahrzeuge
-       
+
+    if (substr($_SESSION[$module]['fm_sammlung'], 0, 4)  == 'MU_F') {   # Mukelgezogene - Fahrzeuge
+
         require "VF_FZ_MuF_List.inc.php";
- 
-    } elseif (substr($_SESSION[$module]['fm_sammlung'],0,4)  == 'MU_G')  {  # Muskel betriebene Geräte
-        
+
+    } elseif (substr($_SESSION[$module]['fm_sammlung'], 0, 4)  == 'MU_G') {  # Muskel betriebene Geräte
+
         require "VF_FZ_MuG_List.inc.php";
-        
+
     }
 
     $sql .= $sql_where . $orderBy;
-  
-    List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
-    
+
+    List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
+
     echo "</fieldset>";
-    
+
     BA_HTML_trailer();
 }
 
@@ -255,7 +262,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
  * @param array $row
  * @param string $tabelle
  * @return boolean immer true
- *        
+ *
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
  * @global string $T_List Auswahl der Listen- Art
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
@@ -283,13 +290,13 @@ function modifyRow(array &$row, $tabelle)
 
                 $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fm_foto_1  </a>";
             }
-            
+
             $herst = $row['fm_herst'];
 
-            if (isset($herst_arr[$herst])  ) {
+            if (isset($herst_arr[$herst])) {
                 $row['fm_herst'] = "Hersteller: " . $herst_arr[$herst];
             }
-            
+
             $row['fm_sammlg'] .= "<br>".$row['sa_name'];
 
             break;
@@ -299,17 +306,15 @@ function modifyRow(array &$row, $tabelle)
             if ($row['mg_foto_1'] != "") {
                 $mg_foto_1 = $row['mg_foto_1'];
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
-                
+
                 $mg_foto_1 = $row['mg_foto_1'];
                 $p1 = $pict_path . $row['mg_foto_1'];
-                
+
                 $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'><br>  $mg_foto_1  </a>";
             }
-            
+
             break;
     }
 
-    return True;
+    return true;
 } # Ende von Function modifyRow
-
-?>

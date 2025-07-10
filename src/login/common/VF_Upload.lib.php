@@ -1,13 +1,13 @@
 <?php
 /**
  * PHP Funktionen für Daten- Upload, Fokus auf Foto- und Dokumenten- Upload
- * 
+ *
  * Neu 20250614, Neufassung bestehender Scripts
- * 
+ *
  *    folgende Funktionen sind in diesr Datei:
  *  BA_M_Foto      Funktion zur Anzeige, eingabe der Daten, Auswahl Urheber + Aufnahmedatum und Datei
  *  BA_M_Upl_Pfad  Funktion zur generierung des Pfades zur Abspeicherung der hochgeladenen Daten
- *  BA_M_Upload    Funktion zum uploaden mit Umbenennen   
+ *  BA_M_Upload    Funktion zum uploaden mit Umbenennen
  */
 
 /**
@@ -24,11 +24,11 @@
  * @global boolean $hide_area True - Bereich nur bei Neueingabe oder klicken auf Button Anzeigen (Ausser Foto, da nur die leeren nicht anzeigen)
  * @global string  §path2ROOT Pfad zum Root
  */
-function VF_M_Foto_N ()
+function VF_M_Foto_N()
 {
     global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
-    
-    flow_add($module,"VF_Upload.lib.php Funct: VF_M_Foto" );
+
+    flow_add($module, "VF_Upload.lib.php Funct: VF_M_Foto");
 
     /**
      * Parameter für die Fotos:
@@ -39,7 +39,9 @@ function VF_M_Foto_N ()
      */
     /* Schalten der Foto- Update blöcke */
 
-    if (!isset($hide_area)) {$hide_area = 0;}
+    if (!isset($hide_area)) {
+        $hide_area = 0;
+    }
     $hide_area_group1 = $hide_area_group2 = $hide_area;
 
     if ($debug) {
@@ -47,12 +49,12 @@ function VF_M_Foto_N ()
         var_dump($_SESSION[$module]['Pct_Arr']);
         echo "<pre>";
     }
-    
+
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
     #console_log('L 048 Anz Upl. '.$pic_cnt);
     #var_dump($_SESSION[$module]['Pct_Arr']);
     # var_dump($neu);
-    
+
     /**
      * Floating Block mit Bild, Bildbeschreibung , Bildname und Upload-Block
      */
@@ -61,9 +63,9 @@ function VF_M_Foto_N ()
     echo "<div class = 'w3-row w3-border'>";                     // Responsive Block start
     echo "<fieldset>";
     #console_log('L 059 vor pct_arr loop ');
-    
+
     # var_dump($_SESSION[$module]['Pct_Arr']);
-    
+
     ?>
 
     <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;"> 
@@ -110,11 +112,11 @@ function VF_M_Foto_N ()
              </div>
          </div>
         
-    <?php 
-    
-    for ($i=0; $i < $pic_cnt; $i++) {
+    <?php
+
+    for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
-      
+
         // Entscheidung, ob versteckt wird bei bestehendem Daten
         $hide_upl = $hide_bild = '';
         if ($hide_area == 1) {
@@ -123,9 +125,9 @@ function VF_M_Foto_N ()
             }
         }
 
-        $j = $i +1; /** Für die Bil- Nr- Anzeige */
+        $j = $i + 1; /** Für die Bil- Nr- Anzeige */
 
-        $pict_path = VF_Upload_Pfad_M ('', '', '', '');
+        $pict_path = VF_Upload_Pfad_M('', '', '', '');
         # echo "L 0129 pct_path $pict_path <br>";
         /**
          * Responsive Container innerhalb des loops
@@ -134,61 +136,62 @@ function VF_M_Foto_N ()
         echo "<fieldset>";
         echo "Bild $j <br>";
         #echo "<div class='bild-data >";
-        
-             
-            #console_log('L 0128 komm '.$key);
-            if ($p_a['ko'] != "") {
-                if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
-                    echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
-                } else {
-                    echo $p_a['ko'];
+
+
+        #console_log('L 0128 komm '.$key);
+        if ($p_a['ko'] != "") {
+            if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
+                echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
+            } else {
+                echo $p_a['ko'];
+            }
+            echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
+        }
+        if ($p_a['f1'] != '') {
+            Edit_Daten_Feld_Button($p_a['f1'], 30);
+        }
+        if ($p_a['f2'] != '') {
+            Edit_Daten_Feld_Button($p_a['f2'], 30);
+        }
+
+        echo "<div class='bild-detail' >";
+
+        if ($neu[$p_a['bi']] != "") {
+            $fo = $neu[$p_a['bi']];
+            #console_log('L 02528 foto '.$fo);
+            $fo_arr = explode("-", $neu[$p_a['bi']]);
+            $cnt_fo = count($fo_arr);
+
+            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                if ($cnt_fo > 3) {
+                    if (isset($fo_arr[3])) {
+                        $s_verz = $fo_arr[3]."/";
+                    }
                 }
-                echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
-            }
-            if ($p_a['f1'] != '')  {
-                Edit_Daten_Feld_Button($p_a['f1'],30);
-            }
-            if ($p_a['f2'] != '')  {
-                Edit_Daten_Feld_Button($p_a['f2'],30);
-            }
-            
-            echo "<div class='bild-detail' >";
-           
-            if ($neu[$p_a['bi']] != "") {
-                $fo = $neu[$p_a['bi']];
-                #console_log('L 02528 foto '.$fo);
-                $fo_arr = explode("-",$neu[$p_a['bi']]);
-                $cnt_fo = count($fo_arr);
-                
-                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
-                    $urh = $fo_arr[0]."/";
-                    $verz = $fo_arr[1]."/";
-                    if ($cnt_fo > 3)  {
-                        if (isset($fo_arr[3]))
-                            $s_verz = $fo_arr[3]."/";
-                    }
-                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
-                    
-                    if (!is_file($p)) {
-                        $p = $pict_path . $neu[$p_a['bi']];
-                    }
-                } else {
+                $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
+
+                if (!is_file($p)) {
                     $p = $pict_path . $neu[$p_a['bi']];
                 }
-
-                $f_arr = pathinfo($neu[$p_a['bi']]);
-                if ($f_arr['extension'] == "pdf") {
-                    echo "<a href='$p' target='Bild $j' > Dokument</a>";
-                } else {
-                    echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
-                    echo $neu[$p_a['bi']];
-                }
-
             } else {
-                echo "kein Bild hochgeladen";
+                $p = $pict_path . $neu[$p_a['bi']];
             }
-            #echo "</div>";
-            echo "</div>";
+
+            $f_arr = pathinfo($neu[$p_a['bi']]);
+            if ($f_arr['extension'] == "pdf") {
+                echo "<a href='$p' target='Bild $j' > Dokument</a>";
+            } else {
+                echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
+                echo $neu[$p_a['bi']];
+            }
+
+        } else {
+            echo "kein Bild hochgeladen";
+        }
+        #echo "</div>";
+        echo "</div>";
         ?>
         
         <div id="gruppe2" class="foto-upd-container" 
@@ -206,23 +209,23 @@ function VF_M_Foto_N ()
         </div>
 
         <?php
-        
+
         echo "</fieldset>";
-        echo "</div>";  
+        echo "</div>";
     }
-    
+
     echo "</fieldset>";
     echo "</div>";  // Responsive Block end
     echo "</div>";        // end container
-    
+
 } // end VF_M_Foto
 
-function VF_M_Foto_N_ori ()
+function VF_M_Foto_N_ori()
 {
     global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
-    
-    flow_add($module,"VF_Upload.lib.php Funct: VF_M_Foto" );
-    
+
+    flow_add($module, "VF_Upload.lib.php Funct: VF_M_Foto_N");
+
     /**
      * Parameter für die Fotos:
      *
@@ -230,18 +233,18 @@ function VF_M_Foto_N_ori ()
      * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegeminsame Box, rb1 und up_err werden vom Uploader gesetzt,
      *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
      */
-    
+
     if ($debug) {
         echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
         var_dump($_SESSION[$module]['Pct_Arr']);
         echo "<pre>";
     }
-    
+
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
     console_log('L 048 Anz Upl. '.$pic_cnt);
     #var_dump($_SESSION[$module]['Pct_Arr']);
     # var_dump($neu);
-    
+
     /**
      * Floating Block mit Bild, Bildbeschreibung , Bildname und Upload-Block
      */
@@ -250,9 +253,9 @@ function VF_M_Foto_N_ori ()
     echo "<div class = 'w3-row w3-border'>";                     // Responsive Block start
     echo "<fieldset>";
     #console_log('L 059 vor pct_arr loop ');
-    
+
     # var_dump($_SESSION[$module]['Pct_Arr']);
-    
+
     ?>
 
     <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;"> 
@@ -293,31 +296,31 @@ function VF_M_Foto_N_ori ()
                 </div>    
             </div>
 
-    <?php 
-    
-    for ($i=0; $i < $pic_cnt; $i++) {
+    <?php
+
+    for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
 
         console_log('L 0107 foto '.$i);
-        $j = $i +1;
+        $j = $i + 1;
         #var_dump($p_a);echo "L 02504 hide_area $hide_area <br>";
-        
+
         #echo $neu[$p_a['ko']]. " ".$p_a['bi'] . " " . $neu[$p_a['f1']]." ". $p_a['f2'] ."<br>";
-        
+
         # if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''  ))) {
-            #console_log('L 02508 Bild '.$key);
-            # echo "Bild- Box $key wird angezeigt <br>";
-            $pict_path = VF_Upload_Pfad_M ('', '', '', '');
-            
-            /**
-             * Responsive Container innerhalb des loops
-             */
-            echo "<div class = 'w3-container w3-half'>";                                  // start half contailer
-            echo "<fieldset>";
-            echo "Bild $j <br>";
-            
-            if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''  ))) {
-                
+        #console_log('L 02508 Bild '.$key);
+        # echo "Bild- Box $key wird angezeigt <br>";
+        $pict_path = VF_Upload_Pfad_M('', '', '', '');
+
+        /**
+         * Responsive Container innerhalb des loops
+         */
+        echo "<div class = 'w3-container w3-half'>";                                  // start half contailer
+        echo "<fieldset>";
+        echo "Bild $j <br>";
+
+        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''))) {
+
             #console_log('L 0128 komm '.$key);
             if ($p_a['ko'] != "") {
                 if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
@@ -327,27 +330,28 @@ function VF_M_Foto_N_ori ()
                 }
                 echo "<textarea class='w3-input' rows='7' cols='25' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
             }
-            if ($p_a['f1'] != '')  {
-                Edit_Daten_Feld_Button($p_a['f1'],30);
+            if ($p_a['f1'] != '') {
+                Edit_Daten_Feld_Button($p_a['f1'], 30);
             }
-            if ($p_a['f2'] != '')  {
-                Edit_Daten_Feld_Button($p_a['f2'],30);
+            if ($p_a['f2'] != '') {
+                Edit_Daten_Feld_Button($p_a['f2'], 30);
             }
             if ($neu[$p_a['bi']] != "") {
                 $fo = $neu[$p_a['bi']];
                 #console_log('L 02528 foto '.$fo);
-                $fo_arr = explode("-",$neu[$p_a['bi']]);
+                $fo_arr = explode("-", $neu[$p_a['bi']]);
                 $cnt_fo = count($fo_arr);
-                
-                if ($cnt_fo >=3) {   // URH-Verz- Struktur de dsn
+
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
                     $urh = $fo_arr[0]."/";
                     $verz = $fo_arr[1]."/";
-                    if ($cnt_fo > 3)  {
-                        if (isset($fo_arr[3]))
+                    if ($cnt_fo > 3) {
+                        if (isset($fo_arr[3])) {
                             $s_verz = $fo_arr[3]."/";
+                        }
                     }
                     $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
-                    
+
                     if (!is_file($p)) {
                         $p = $pict_path . $neu[$p_a['bi']];
                     }
@@ -355,7 +359,7 @@ function VF_M_Foto_N_ori ()
                     $p = $pict_path . $neu[$p_a['bi']];
                 }
                 #console_log('L 02547 foto '.$p) ;
- 
+
                 $f_arr = pathinfo($neu[$p_a['bi']]);
                 if ($f_arr['extension'] == "pdf") {
                     echo "<a href='$p' target='Bild $j' > Dokument</a>";
@@ -366,10 +370,10 @@ function VF_M_Foto_N_ori ()
                 }
 
             }
-            
+
             ## Bilder neu auswählen /Ändern
-            
-        ?>
+
+            ?>
 
 
         <div class='file-upload-block' id='uploadBlock<?php echo $j; ?>' style="margin-bottom:20px; border:1px solid #ccc; padding:10px;"> 
@@ -387,21 +391,21 @@ function VF_M_Foto_N_ori ()
         <?php
         }
         echo "</fieldset>";
-        echo "</div>";  
-        
+        echo "</div>";
+
 
     }
-    
+
 
     echo "</fieldset>";
     echo "</div>";  // Responsive Block end
     echo "</div>";        // end container
-    
-} // end VF_M_Foto
+
+} // end VF_M_Foto_N
 /**
  * Setzen des Speicherpfades per  Return zurückgegeben
- * 
- * 
+ *
+ *
  *
  * @param string $aufndat
  *            Datum oder Jahr der Aufnahme - oder Pfadname  - Darf nicht leer sein
@@ -409,8 +413,8 @@ function VF_M_Foto_N_ori ()
  *            Basispfad darf leer sein
  * @param string $suffix
  *            Zusatzpfad darf leer sein
- * @param string $aoPfad Archiv- Ordnungs- Teil, kann auch leer sein  
- * @param string $urh_nr Urheber- Nummer         
+ * @param string $aoPfad Archiv- Ordnungs- Teil, kann auch leer sein
+ * @param string $urh_nr Urheber- Nummer
  *
  * @return string $d_path
  *
@@ -418,33 +422,33 @@ function VF_M_Foto_N_ori ()
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  *
  */
-function VF_M_Upl_Pfad ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
+function VF_M_Upl_Pfad($aufnDatum, $suffix = '', $aoPfad = '', $urh_nr = '')
 {
     global $debug, $module, $flow_list, $path2ROOT;
- 
-    flow_add($module,"VF_Upload.lib.php Funct: VF_M_Upl_Pfad" );
-    
+
+    flow_add($module, "VF_Upload.lib.php Funct: VF_M_Upl_Pfad");
+
     $basepath = $path2ROOT.'login/'.$_SESSION['VF_Prim']['store'].'/';
-    
+
     $grp_path = $ao_path = $verzeichn = $subverz = "";
-    
+
     $mand_mod = array('INV', 'ARC', 'FOT', 'F_G','F_M');
-    
-    if (in_array($module,$mand_mod)) { // Mandanten- Modus
+
+    if (in_array($module, $mand_mod)) { // Mandanten- Modus
         if ($urh_nr == "") {
             $grp_path = $_SESSION['Eigner']['eig_eigner'].'/';
         } else {
             $grp_path = $urh_nr.'/';
         }
-        
+
         switch ($module) {
-            case 'ARC' :
+            case 'ARC':
                 break;
-            case 'INV' :
+            case 'INV':
                 break;
-            case 'F_G' :
+            case 'F_G':
                 if ($aufnDatum == '') {
-                    if (substr($_SESSION[$module]['sammlung'],0,4) == 'MA_F') {
+                    if (substr($_SESSION[$module]['sammlung'], 0, 4) == 'MA_F') {
                         $verzeichn =  'MaF/';
                     } else {
                         $verzeichn =  'MaG/';
@@ -452,11 +456,11 @@ function VF_M_Upl_Pfad ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
                 } else {
                     $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
                 }
-                
+
                 break;
-            case 'F_M' :
+            case 'F_M':
                 if ($aufnDatum == '') {
-                    if (substr($_SESSION[$module]['sammlung'],0,4) == 'MU_F') {
+                    if (substr($_SESSION[$module]['sammlung'], 0, 4) == 'MU_F') {
                         $verzeichn =  'MuF/';
                     } else {
                         $verzeichn =  'MuG/';
@@ -464,35 +468,35 @@ function VF_M_Upl_Pfad ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
                 } else {
                     $verzeichn = $aoPfad.'/'.$aufnDatum.'/';
                 }
-                
-                break; 
-            case 'FOT' :
+
+                break;
+            case 'FOT':
                 $ao_path = $aoPfad.'/';
                 $verzeichn =  $aufnDatum.'/';
                 if ($fuffix != '') {
                     $subverz = $suffix.'/';
                 }
-                break; 
+                break;
         }
-        
+
     } else {
         switch ($module) {
             case 'OEF':
                 break;
             case 'PSA':
-                if($_SESSION[$module]['proj'] == 'AERM') {
+                if ($_SESSION[$module]['proj'] == 'AERM') {
                     $verzeichn = 'PSA/AERM/';
                 } else {
                     $verzeichn = 'PSA/AUSZ/';
                 }
                 break;
-                
+
         }
     }
     $dPath = $basepath.$grp_path.$ao_path.$verzeichn.$subverz;
     #echo "L 0236 UplLib dPath $dPath <br>";
     return $dPath;
-    
+
 } // end VF_M_Upl_Pfad
 
 
@@ -509,18 +513,18 @@ function VF_M_Upl_Pfad ($aufnDatum, $suffix='', $aoPfad='', $urh_nr = '')
  * @param string $fo_aufn_datum  Aufnahmedatum
  * @return string Dsn der Datei  Name der Datei zum Eintrag in Tabelle
  */
-function VF_M_Upload ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
+function VF_M_Upload($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
 {
     global $module;
-    flow_add($module,"VF_Comm_Funcs.inc Funct: VF_M_Upload" );
-    
+    flow_add($module, "VF_Comm_Funcs.inc Funct: VF_M_Upload");
+
     # echo " L 02620 Upl upldir $uploaddir fdsn $fdsn <br>";
     # var_dump($_FILES[$fdsn]);
     $target = "";
     if ($_FILES[$fdsn]['name'] != "") {
-        
+
         $target = basename($_FILES[$fdsn]['name']);
-        
+
         if ($_FILES[$fdsn]['error'] >= 1) {
             $errno = $_FILES[$fdsn]['error'];
             $err = "Upload Fehler: ";
@@ -535,13 +539,13 @@ function VF_M_Upload ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             }
             return $err;
         }
-        
-        if ($target != "" ) {
+
+        if ($target != "") {
             $target = VF_trans_2_separate($target);
-            
+
             $fn_arr = pathinfo($target);
             $ft = strtolower($fn_arr['extension']);
-            
+
             if (in_array($ft, GrafFiles) && $urh_abk != "" && $fo_aufn_datum != "") {
                 $newfn_arr = explode('-', $target);
                 $cnt = count($newfn_arr);
@@ -559,6 +563,5 @@ function VF_M_Upload ($uploaddir, $fdsn, $urh_abk="", $fo_aufn_datum="")
             }
         }
     }
-    
-} //  end VF_M_Upload
 
+} //  end VF_M_Upload
