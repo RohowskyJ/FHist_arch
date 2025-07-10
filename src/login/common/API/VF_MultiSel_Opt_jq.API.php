@@ -15,7 +15,7 @@ error_log( "Hello, errors!" );
 $debug_log = true;
 
 if ($debug_log) {
-    file_put_contents('MultiSel_debug.log', "API L 016 " . PHP_EOL, FILE_APPEND);
+    file_put_contents('MultiSel_debug.log', "API L 018 " . PHP_EOL, FILE_APPEND);
 }
 
 $result = [
