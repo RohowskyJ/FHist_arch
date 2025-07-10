@@ -31,7 +31,7 @@ function Cr_n_Medien_Daten($tabelle)
         `md_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`md_id`),
         FULLTEXT KEY `md_sammlg` (`md_sammlg`),
-        FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`)
+        FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`) CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Digitale- Medien- Archiv' ";
 
     $return = SQL_QUERY($db, $sql);
@@ -45,40 +45,40 @@ function Cr_n_ar_chivdt($tabelle)
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
       `ad_id` int(11)  NULL  AUTO_INCREMENT COMMENT 'Archiv- ID',
       `ad_eignr` int(11)  NULL  COMMENT 'Eigentümernummer',
-      `ad_sg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Sachgebiet',
-      `ad_subsg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'SubSachgeb.',
-      `ad_lcsg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Lokales SG',
-      `ad_lcssg` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Lokales SubSG',
+      `ad_sg` varchar(2)  NULL  COMMENT 'Sachgebiet',
+      `ad_subsg` varchar(2)  NULL  COMMENT 'SubSachgeb.',
+      `ad_lcsg` varchar(2)  NULL  COMMENT 'Lokales SG',
+      `ad_lcssg` varchar(2)  NULL  COMMENT 'Lokales SubSG',
       `ad_ao_fortlnr` smallint(6) DEFAULT NULL COMMENT 'Fortl. Archivalien-Nr',
       `ad_sammlg` varchar(20)  NULL  COMMENT 'Sammlungs- Abkürzung',
       `ad_doc_date` varchar(12)  NULL  COMMENT 'Archvalien- Datum',
-      `ad_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Dokument- Typ',
-      `ad_format` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Format',
-      `ad_keywords` varchar(512) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Suchbegriffe (in Karteiformat, Trennung mit Beistrich)',
-      `ad_beschreibg` varchar(1024) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Beschreibung',
+      `ad_type` varchar(50)  NULL  COMMENT 'Dokument- Typ',
+      `ad_format` varchar(3)  NULL  COMMENT 'Format',
+      `ad_keywords` varchar(512)  NULL  COMMENT 'Suchbegriffe (in Karteiformat, Trennung mit Beistrich)',
+      `ad_beschreibg` varchar(1024)  NULL  COMMENT 'Beschreibung',
       `ad_wert_orig` decimal(10,2)  NULL  COMMENT 'Wert des Originals',
       `ad_orig_waehrung` varchar(50)  NULL  COMMENT 'Währung des Originalwertes',
       `ad_wert_kauf` decimal(10,2)  NULL  COMMENT 'Wert beim Ankauf',
       `ad_kauf_waehrung` varchar(50)  NULL  COMMENT 'Währung beim Kauf',
       `ad_wert_besch` decimal(10,2)  NULL  COMMENT 'Wiederbeschaffungs- Wert',
       `ad_besch_waehrung` varchar(50)  NULL  COMMENT 'Währung des Wiederbeschaffungswertes',
-      `ad_namen` varchar(1024) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Im Dokument vorkommende Namen, Trennung mit Beistrich',
-      `ad_doc_1` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Dokument 1',
-      `ad_doc_2` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Dokument 2',
-      `ad_doc_3` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Dokument 3',
+      `ad_namen` varchar(1024)  NULL  COMMENT 'Im Dokument vorkommende Namen, Trennung mit Beistrich',
+      `ad_doc_1` varchar(100)  NULL  COMMENT 'Dokument 1',
+      `ad_doc_2` varchar(100)  NULL  COMMENT 'Dokument 2',
+      `ad_doc_3` varchar(100)  NULL  COMMENT 'Dokument 3',
       `ad_doc_4` varchar(100) CHARACTER SET utf32 COLLATE utf32_unicode_ci  NULL  COMMENT 'Dokument 4',
-      `ad_isbn` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'ISBN- Nummer',
-      `ad_lagerort` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Lagerort',
-      `ad_l_raum` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Lagerraum',
-      `ad_l_kasten` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Kasten im Lager',
-      `ad_l_fach` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Fach im Kasten',
-      `ad_l_pos_x` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Position X',
-      `ad_l_pos_y` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Position Y',
-      `ad_neueigner` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Neuer Eigentuemer',
-      `ad_uidaend` varchar(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NULL  COMMENT 'Aenderer',
+      `ad_isbn` varchar(15)  NULL  COMMENT 'ISBN- Nummer',
+      `ad_lagerort` varchar(100)  NULL  COMMENT 'Lagerort',
+      `ad_l_raum` varchar(50)  NULL  COMMENT 'Lagerraum',
+      `ad_l_kasten` varchar(50)  NULL  COMMENT 'Kasten im Lager',
+      `ad_l_fach` varchar(50)  NULL  COMMENT 'Fach im Kasten',
+      `ad_l_pos_x` varchar(50)  NULL  COMMENT 'Position X',
+      `ad_l_pos_y` varchar(50)  NULL  COMMENT 'Position Y',
+      `ad_neueigner` varchar(100)  NULL  COMMENT 'Neuer Eigentuemer',
+      `ad_uidaend` varchar(4)  NULL  COMMENT 'Aenderer',
       `ad_aenddat` timestamp NULL DEFAULT NULL COMMENT 'Letzte Aenderung',
        PRIMARY KEY (`ad_id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4  COMMENT='Archivalien- Verzeichnis' ";
+    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Archivalien- Verzeichnis' ";
 
     $return = SQL_QUERY($db, $sql);
     return $return;
@@ -94,8 +94,8 @@ function Cr_n_ar_ch_verl($tabelle)
       `al_eignr` int(15)  NULL  COMMENT 'Eigentümernummer',
       `al_verliehen_an` varchar(100) CHARACTER SET utf8 COLLATE latin1_german2_ci  NULL  COMMENT 'Leihnehmer' ,
       `al_verleihgrund` varchar(100) CHARACTER SET utf8 COLLATE latin1_german2_ci  NULL  COMMENT 'Verleihgrund',
-      `al_verleih_beg` varchar(12)c  NULL  COMMENT 'Verleih Beginn',
-      `al_verleih_end` varchar(12)c  NULL  COMMENT 'Verleih Ende',
+      `al_verleih_beg` varchar(12)  NULL  COMMENT 'Verleih Beginn',
+      `al_verleih_end` varchar(12)  NULL  COMMENT 'Verleih Ende',
       `al_zustand_aus` char(100)  NULL  COMMENT 'Zustand bei Ausgabe',
       `al_zustand_ret` char(100)  NULL  COMMENT 'Zustand bei Retourgabe',
       `al_ausg_bild` char(60)  NULL  COMMENT 'Bild bei Ausgabe',
@@ -105,7 +105,7 @@ function Cr_n_ar_ch_verl($tabelle)
       `al_uidaend` varchar(4) CHARACTER SET utf8 COLLATE latin1_german2_ci  NULL  COMMENT 'Änderer',
       `al_aenddat` timestamp  NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
       PRIMARY KEY (`al_id`)
-  ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Archivalien- Verleih' ";
+  ) ENGINE=MyISAM DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Archivalien- Verleih' ";
     $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_ar_ch_verl
@@ -197,7 +197,7 @@ function Cr_n_in_ventar($tabelle)
   `in_uidaend` varchar(4) DEFAULT NULL COMMENT 'Änderer',
   `in_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`in_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ";
+) ENGINE=MyISAM DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  ";
 
 
     $return = SQL_QUERY($db, $sql);
@@ -227,7 +227,7 @@ function Cr_n_in_vent_verleih($tabelle)
   `ei_uidaend` varchar(4) COLLATE utf8mb4_german2_ci  NULL  DEFAULT '' COMMENT 'Änderer',
   `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`vl_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4  COMMENT  'Inventarverleih'";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT  'Inventarverleih'";
 
     $return = SQL_QUERY($db, $sql);
     return $return;
