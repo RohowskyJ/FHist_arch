@@ -1,4 +1,5 @@
-PHPMailer/
+PHPMailer*/
+phpmailer*/
 javascript/jq*
 javascript/tinymce
 javascript/prototype.js
