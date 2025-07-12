@@ -72,7 +72,7 @@ foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
     if ($name == "c_Vereinsreg") {
         $updas_s .= "vreg = '$value'\n ";
     }
-    if ($name == "c_Verantwort") {
+    if ($name == "c_Verantwortl") {
         $updas_s .= "vant = '$value'\n ";
     }
     if ($name == "c_email") {
@@ -106,6 +106,16 @@ foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
     if ($name == "c_Eigner") {
         $updas_s .= "eignr = '$value'\n ";
     }
+    if ($name == "c_ptyp") {
+        $updas_s .= "eignr = '$value'\n ";
+    }
+    if ($name == "c_store") {
+        $updas_s .= "store = '$value'\n ";
+    }
+    if ($name == "c_def_pw") {
+        $updas_s .= "def_pw = '$value'\n ";
+    }
+
     if ($name == "c_Module_1") {
         $updas_m .= "m_1 = '$value'\n ";
     }
@@ -167,6 +177,20 @@ $dsn = $path2ROOT."login/common/config_m.ini";
 $datei = fopen($dsn, 'w');
 fputs($datei, $updas_m);
 fclose($datei);
+
+$updas = "";
+foreach ($neu as $fld => $value ) {
+    if ($fld == 'MAX_FILE_SIZE' || $fld == 'phase') {continue;}
+    $updas .= ",$fld = '$value'";
+}
+
+$sql = "UPDATE fh_proj_config SET  c_aenduid='".$_SESSION['VF_Prim']['p_uid']."'$updas WHERE `c_flnr`='1' ";
+if ($debug) {
+    echo '<pre class=debug> L 0197: \$sql $sql </pre>';
+}
+
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+$result = SQL_QUERY($db, $sql);
 
 if (isset($_SESSION[$module]['inst'])) {
     header("Location: ".$_SESSION[$module]['inst']);

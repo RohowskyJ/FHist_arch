@@ -20,16 +20,19 @@ Edit_Tabellen_Header('Definitionen');
 # =========================================================================================================
 Edit_Separator_Zeile('Betreiber- Daten');
 # =========================================================================================================
-
+# var_dump($Tabellen_Spalten_typ);
 Edit_Daten_Feld('c_Institution', 100);
 
 Edit_Daten_Feld('c_Vereinsreg', 15);
 
 Edit_Daten_Feld('c_Eignr', 5);
-Edit_Daten_Feld('c_Verantwort', 100);
+Edit_Daten_Feld('c_Verantwortl', 100);
 Edit_Daten_Feld('c_Ver_Tel', 30);
 Edit_Daten_Feld('c_email', 60);
 Edit_Daten_Feld('c_Homepage', 60);
+Edit_Daten_Feld('c_ptyp', 60);
+Edit_Daten_Feld('c_store', 60);
+Edit_Daten_Feld('c_def_pw', 60);
 
 # =========================================================================================================
 Edit_Separator_Zeile('Beschreibungs- Nutzungs- Daten');
