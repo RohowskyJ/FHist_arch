@@ -5,9 +5,9 @@
  * @author  Josef Rohowsky josef@kexi.at, start 01.01.2025
  *
  * Enthält Funktionen for AJAX betriebene Funktioen
- * 
+ *
  *  - BA_Auto_Compl       - Autokomplete Auswahl Eigner
- *  - BA_Multi_Dropdown   - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl      
+ *  - BA_Multi_Dropdown   - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl
  *  - BA_Multi_Sel_Input  - Daten zum abspeichern in DB Tabelle vobereiten
  *  - BA_Upload_single    - Mass- Upload für Bild, Video und Dokumente mit Dateitypen- Check
  *
@@ -40,7 +40,7 @@
  *  - VF_upd            - Berechtigungs- Feststellung je *_List Script entsprechend Eigentümer
  *  - VF_Upload_Pic     - Hochladen der Datei mit Umbenennung auf Foto- Video- Format Urh-Datum-Datei.Name
  *  - VF_trans_2_separate - Umlaute eines Strings von UTF-8 oder CP1252 auf gtrennte Schreibweise -> Ü ->UE
- 
+
  *  - VF_Sel_Eigner     - Eigentümer- Auswahl für Berechtigungen (wieder aktiviert)
  */
 
@@ -52,11 +52,12 @@ if ($debug) {
  * Autocomple für die Auswahl von Aufbauer des  Fahrzeuges
  * Autocomplete mit prototype.js
  * immer in Verbindung mit BA_Aufo_Funktion() -> durchführung
- * 
+ *
  */
-function BA_Auto_Aufbau () {
+function BA_Auto_Aufbau()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Aufbau" );
+    flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_Auto_Aufbau");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
         <b>Suchbegriff für Aufbau- Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer"  size='50'/>
@@ -64,59 +65,64 @@ function BA_Auto_Aufbau () {
     <div id="suggestAufbauer" class="suggestions"></div>
     <input type="hidden" name="aufbauer" id="aufbauer" />
 
-    <?php 
+    <?php
 }
 
-function BA_Auto_Eigent () {
+function BA_Auto_Eigent()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Eigent" );
+    flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_Auto_Eigent");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
     <b>Suchbegriff für Eigentümer eingeben:</b> <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener"  size='50'/>
     </div>  
     <div id="suggestEigener" class="suggestions"></div>
     <input type="hidden" name="eigentuemer" id="eigentuemer" />
-    <?php 
+    <?php
 }
 
-function BA_Auto_Herstell () {
+function BA_Auto_Herstell()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Herstell" );
+    flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_Auto_Herstell");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller"  size='50'/>
     </div>  
     <div id="suggestHersteller" class="suggestions"></div>
     <input type="hidden" name="hersteller" id="hersteller" />
-    <?php 
+    <?php
 }
 
-function BA_Auto_Taktb () {
+function BA_Auto_Taktb()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Taktb" );
+    flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_Auto_Taktb");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Taktische Bezeichnung eingeben:</b> <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" size='50' />
     </div>  
     <div id="suggestTaktisch" class="suggestions"></div>
     <input type="hidden" name="taktisch" id="taktisch" />
-    <?php 
+    <?php
 }
 
-function BA_Auto_Urheber () {
+function BA_Auto_Urheber()
+{
     global $debug, $module, $flow_list;
-    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Urheber" );
+    flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_Auto_Urheber");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Urheber eingeben:</b> <input type="text" class="autocomplete" data-proc="Urheber" data-target="suggestUrheber"  size='50'/>
     </div>  
     <div id="suggestUrheber" class="suggestions"></div>
     <input type="hidden" name="urheber" id="urheber" />
-    <?php 
+    <?php
 }
 
 
-function BA_Auto_Funktion () {
+function BA_Auto_Funktion()
+{
     global $debug, $module, $flow_list;
     ?>
     <script>
@@ -205,7 +211,7 @@ function BA_Auto_Funktion () {
     });
 });
         </script>
- <?php 
+ <?php
 }
 
 
@@ -214,12 +220,12 @@ function BA_Auto_Funktion () {
  * @param string $Proc
  * @param string $titel
  */
-function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
+function BA_Auto_Compl($Proc = 'Eigent', $titel = 'Eigentümer')
 {
     global $debug, $module, $flow_list, $tit_eig_leih;
-    
-    flow_add($module,"BA_Html_Funcs.lib.php Funct: BA_Auto_Compl" );
-    
+
+    flow_add($module, "BA_Html_Funcs.lib.php Funct: BA_Auto_Compl");
+
     ?>
     
     <input type='text' id="proc" value=<?php echo $Proc; ?> >
@@ -272,25 +278,26 @@ function BA_Auto_Compl($Proc='Eigent',$titel='Eigentümer')
     });
     </script>
         
-    <?php 
+    <?php
 
 } # end Funct BA_Auto_Compl
 
 /**
  * Multi Dropdown select für verschiedene Auswahlen
- * 
+ *
  * @param string  $in_val
  * @param string $titel
  */
-function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
+function BA_Multi_Dropdown($in_val, $titel = 'Mehrfach- Abfrage')
+{
     global $debug,$path2ROOT, $MS_Init,$MS_Lvl,$MS_Opt, $MS_Txt, $module  ;
 
-    flow_add($module,"BA_AJAX_Funcs.inc.php Funct: VF_Multi_Dropdown" );
+    flow_add($module, "BA_AJAX_Funcs.inc.php Funct: VF_Multi_Dropdown");
 
     echo "<div class='w3-container nav' style='background-color: PeachPuff '>";
-    
+
     echo "<div class='w3-row'>";
-    
+
     echo "    <div class='w3-container w3-light-blue'> ";
     echo "         <b>$titel</b>";
     echo "    </div>";
@@ -301,21 +308,21 @@ function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
     echo "        <select class='w3-input'  id='level1' name='level1' onchange='updateOptions(1, this.value, $MS_Opt )'>";
     echo "             <option value='Nix'>Bitte wählen</option>";
     $checkd = "";
-    foreach ($MS_Init  as $samlg => $name):
-    if ($samlg == $in_val) {
-        $checkd = 'checked';
-    }
-    echo "<option value='$samlg' $checkd>$name </option>";
+    foreach ($MS_Init as $samlg => $name):
+        if ($samlg == $in_val) {
+            $checkd = 'checked';
+        }
+        echo "<option value='$samlg' $checkd>$name </option>";
     endforeach;
-    
+
     echo "         </select>";
     echo "     </div>";
-    
+
     echo "</div>";
-    
+
     if ($MS_Lvl >= 2) {
         echo "<div class='w3-row'>";
-        
+
         echo "    <div class='w3-container w3-third'>";
         echo "         <label for='Level2'>".$MS_Txt[1]." &nbsp;  </label>";
         echo "    </div>";
@@ -324,13 +331,13 @@ function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
         echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
         echo "     </div>";
-        
+
         echo "</div>";
-        
+
         if ($MS_Lvl >= 3) {
-            
+
             echo "<div class='w3-row'>";
-            
+
             echo "    <div class='w3-container w3-third'>";
             echo "         <label for='Level3'>".$MS_Txt[2]." &nbsp;  </label>";
             echo "    </div>";
@@ -339,13 +346,13 @@ function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
             echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
             echo "     </div>";
-            
+
             echo "</div>";
-            
-            if ($MS_Lvl >=4) {
-                
+
+            if ($MS_Lvl >= 4) {
+
                 echo "<div class='w3-row'>";
-                
+
                 echo "    <div class='w3-container w3-third'>";
                 echo "         <label for='Level4'>".$MS_Txt[3]." &nbsp;  </label>";
                 echo "    </div>";
@@ -354,14 +361,14 @@ function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
                 echo "             <option value='Nix'>Bitte wählen</option>
                    </select>";
                 echo "     </div>";
-                
+
                 echo "</div>";
-                
-                
+
+
                 if ($MS_Lvl >= 5) {
-                    
+
                     echo "<div class='w3-row'>";
-                    
+
                     echo "    <div class='w3-container w3-third'>";
                     echo "         <label for='Level5'>".$MS_Txt[4]." &nbsp;  </label>";
                     echo "    </div>";
@@ -370,13 +377,13 @@ function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
                     echo "             <option value='Nix'>Bitte wählen</option> ";
                     echo "        </select>";
                     echo "     </div>";
-                    
+
                     echo "</div>";
-                    
-                    
-                    
+
+
+
                     if ($MS_Lvl == 6) {
-                        
+
                         echo "<div class='w3-row'>";
                         echo "    <div class='w3-container w3-third'>";
                         echo "         <label for='Level6'>".$MS_Txt[5]." &nbsp; </label>";
@@ -386,17 +393,17 @@ function BA_Multi_Dropdown ($in_val,$titel='Mehrfach- Abfrage') {
                         echo "             <option value='Nix'>Bitte wählen</option>
                                       </select>";
                         echo "     </div>";
-                        
+
                         echo "</div>";
-                        
-                        
+
+
                     }
                 }
             }
         }
     }
     echo "</div>";
-    
+
     #echo "</td></tr>";
     ?>
 
@@ -432,70 +439,72 @@ function updateOptions(level, parentValue, optVal) {
     });
 } 
 </script>
-<?php 
+<?php
 } # ende function MultiSel_Edit
 
 /**
  *  Auswertung der Eingabe vom Multi_Select_Dropdown
- *  
+ *
  *  Daten werden direkt von $_POST ausgewertet
- *  
+ *
  * @return string Sammlungs. Kennung
  */
-function BA_Multi_Sel_Input () {
+function BA_Multi_Sel_Input()
+{
     global $debug, $path2ROOT, $module  ;
-    
-    flow_add($module,"BA_AJAX_Funcs.inc.php Funct: BA_Multi_Sel_Input" );
-    
+
+    flow_add($module, "BA_AJAX_Funcs.inc.php Funct: BA_Multi_Sel_Input");
+
     $response = "";
-    if (isset($_POST['level1']) && ($_POST['level1'] != "" ) ) {
+    if (isset($_POST['level1']) && ($_POST['level1'] != "")) {
         $response = trim($_POST['level1']);
     }
-    
-    if (isset($_POST['level2']) && ($_POST['level2'] != "" ) ) {
+
+    if (isset($_POST['level2']) && ($_POST['level2'] != "")) {
         if ($_POST['level2'] != "Nix") {
             $response = trim($_POST['level2']);
         }
     }
-    
-    if (isset($_POST['level3']) && ($_POST['level3'] != "" ) ) {
+
+    if (isset($_POST['level3']) && ($_POST['level3'] != "")) {
         if ($_POST['level3'] != "Nix") {
             $response = trim($_POST['level3']);
         }
     }
-    
-    if (isset($_POST['level4']) && ($_POST['level4'] != "") ) {
+
+    if (isset($_POST['level4']) && ($_POST['level4'] != "")) {
         if ($_POST['level4'] != "Nix") {
             $response = trim($_POST['level4']);
         }
     }
-    
-    if (isset($_POST['level5']) && ($_POST['level5'] != "") ) {
+
+    if (isset($_POST['level5']) && ($_POST['level5'] != "")) {
         if ($_POST['level5'] != "Nix") {
             $response = trim($_POST['level5']);
         }
     }
-    
-    if (isset($_POST['level6']) && ($_POST['level6'] != "") ) {
+
+    if (isset($_POST['level6']) && ($_POST['level6'] != "")) {
         if ($_POST['level6'] != "Nix") {
             $response = trim($_POST['level6']);
         }
     }
 
     return $response;
-    
+
 } # Ende Function VF_Multi_Sel_input
 
 
 /**
- * File- Upload vielen Files 
+ * File- Upload vielen Files
  *
  *
  */
-function BA_Upload_Single () {
+function BA_Upload_Single()
+{
     global $debug, $path2ROOT, $module  ;
-    
-    flow_add($module,"BA_AJAX_Funcs.inc.php Funct: BA_Upload_sinlge" );
+
+    flow_add($module, "BA_AJAX_Funcs.inc.php Funct: BA_Upload_sinlge");
     ?>
      <input type="file" id="fileInput" name="files[]" multiple /><br>
       
@@ -580,7 +589,7 @@ document.observe("dom:loaded", function() {
     </script>
     
     <?php
-    
+
 } // end function  BA_Upload_single
 
 
@@ -589,10 +598,11 @@ document.observe("dom:loaded", function() {
  *
  *
  */
-function BA_Upload_parms () {
+function BA_Upload_parms()
+{
     global $debug, $path2ROOT, $module  ;
-    
-    flow_add($module,"BA_AJAX_Funcs.inc.php Funct: BA_Upload_parms" );
+
+    flow_add($module, "BA_AJAX_Funcs.inc.php Funct: BA_Upload_parms");
     ?>
     <script>
         let uploadDir = '';

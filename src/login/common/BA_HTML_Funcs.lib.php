@@ -33,13 +33,14 @@ if ($debug) {
  * @param string $width die Breite des Schirmes (div)
  *
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
- * @global bool $prot lädt prototybe.js
+ * @global bool $jq lädt jquery.js
+ * @global bool $JQUI lädt jquery-uiF
  */
 function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 // --------------------------------------------------------------------------------
 {
     global $path2ROOT, $module, $logo, $prot, $jq, $jqui, $BA_AJA, $actor, $Anfix, $form_start,
-    $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg;
+     $A_Off, $js_upl;
 
     if (!isset($form_start)) {
         $form_start = true;
@@ -49,6 +50,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     echo "<html lang='de' style='overflow-x:scroll;'>"; # style='overflow-x:scroll;'
     echo "<head>";
     echo "  <meta charset='UTF-8'>";
+    echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
     echo "  <title>$title</title>";
     echo "  <meta  name='viewport' content='width=device-width, initial-scale=1.00'>";
     echo '<meta name="description" content="Feuerwehrhistoriker Dokumentationen - Archiv, Inventar, Beschreibungen, Kataloge, ...">';
@@ -58,7 +60,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 
     echo "<link rel='icon' type='image/x-icon' href='" . $path2ROOT . "login/common/imgs/favicon.ico'>";
 
-    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3.css'  type='text/css'>";
+    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3-2.52.css'  type='text/css'>"; ## -2.52
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
 
     if (isset($prot) && $prot) {
@@ -85,10 +87,15 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         <?php
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
     }
+    
     if (isset($BA_AJA) && $BA_AJA) {
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_AJAX_Scripts.js' ></script>";
     }
-
+  
+    if (isset($js_upl) && $js_upl) {
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Upload_Module.js' ></script>";
+    }
+    /*
     if (isset($js_au) && $js_au) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Autocomplete.js' ></script>";
     }
@@ -98,11 +105,11 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     if (isset($js_mfu) && $js_mfu) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_MultiUpload.js' ></script>";
     }
-    /*
+    
     if (isset($js_suf) && $js_suf ) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_.js' ></script>";
     }
-     */
+    
     if (isset($js_togg) && $js_togg) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_ToggleBlocks.js' ></script>";
     }
@@ -110,6 +117,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     if (isset($js_ini) && $js_ini) { // , , $js_md, , , $js_togg
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_init.js' ></script>";
     }
+     */
     echo $head;
     echo "</head>";
 
@@ -141,7 +149,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     if ($type == 'Form') {
         echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
         echo "<div class='w3-row'>";
-        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
+        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
         echo "<div class='w3-col s9 m10 l11 '>"; // div langer Teil
 
         echo "<p class='w3-center w3-xlarge'> $title </p>";
@@ -165,7 +173,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     } elseif ($type == '1P') {
         echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
         echo "<div class='w3-row'>";
-        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
+        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
         echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/2013_01_top_72.png' width='98%'>";
         if ($ini_arr['Config']['wart'] == "N") {
         } else {
@@ -232,7 +240,7 @@ function BA_HTML_trailer()
     </footer>
     </form>
     
-    </div></fieldset></body></html>" 
+    </div></fieldset></body></html>  
     <?php
 }
 

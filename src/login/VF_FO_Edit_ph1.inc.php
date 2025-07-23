@@ -12,7 +12,7 @@ $Inc_Arr[] = "VF_FO_Edit_ph1.inc.php";
 if ($debug) {
     echo "<pre class=debug>VF_FO_Edit_ph1.inc.php ist gestarted</pre>";
 }
-#var_dump($_FILES);
+# var_dump($neu);
 $neu['md_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';
@@ -67,6 +67,10 @@ if ($neu['md_dsn_1'] !="") {
         $neu['md_media'] = 'Video';
     }
 }
+if ($neu['eigentuemer_1'] != "") {
+    $neu['md_fw_id'] = $neu['eigentuemer_1'];
+    unset($neu['eigentuemer']);
+}
 
 /**
  * Sammlung auswählen, Input- Analyse
@@ -84,11 +88,11 @@ if ($md_id == 0) { # Neueingabe
     if ($verz == 'J' ) { /** erster Datensatz als Verzeichnis- Recod ohne Dateidaten ausgeben */  
         $sql = "INSERT INTO $tabelle (
                 md_eigner,md_urheber,md_aufn_datum,md_dsn_1,md_beschreibg,md_namen,
-                md_sammlg,md_feuerwehr,md_suchbegr,md_media,
+                md_sammlg,md_fw_id,md_suchbegr,md_media,
                 md_aenduid
               ) VALUE (
                 '$neu[md_eigner]','$neu[md_Urheber]','$neu[md_aufn_datum]','','$neu[md_beschreibg]','$neu[md_namen]',
-                '$neu[md_sammlg]','$neu[md_feuerwehr]','$neu[md_suchbegr]','$neu[md_media]',
+                '$neu[md_sammlg]','$neu[md_fw_id]','$neu[md_suchbegr]','$neu[md_media]',
                 '$neu[md_aenduid]'
                )";
         
@@ -97,11 +101,11 @@ if ($md_id == 0) { # Neueingabe
     
     $sql = "INSERT INTO $tabelle (
                 md_eigner,md_urheber,md_aufn_datum,md_dsn_1,md_beschreibg,md_namen,
-                md_sammlg,md_feuerwehr,md_suchbegr,md_media,
+                md_sammlg,md_fw_id,md_suchbegr,md_media,
                 md_aenduid
               ) VALUE (
                 '$neu[md_eigner]','$neu[md_Urheber]','$neu[md_aufn_datum]','$neu[md_dsn_1]','$neu[md_beschreibg]','$neu[md_namen]',
-                '$neu[md_sammlg]','$neu[md_feuerwehr]','$neu[md_suchbegr]','$neu[md_media]',
+                '$neu[md_sammlg]','$neu[md_fw_id]','$neu[md_suchbegr]','$neu[md_media]',
                 '$neu[md_aenduid]'
                )";
 
@@ -111,42 +115,20 @@ if ($md_id == 0) { # Neueingabe
    
 } else { # update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
-# var_dump($neu);
+    # var_dump($neu);
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     {
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        
+        if (substr($name,0,3) != 'md_') {
             continue;
-        } #
+        }
 
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "foto_1" ) {
-            continue;
-        } #
         if ($name == "md_aenduid") {
             continue;
         } #
-        if ($name == "sa_name") {
-            continue;
-        }
-        if ($name == "verz") {
-            continue;
-        }
-
-        if (substr($name, 0, 3) == "fz_") {
-            continue;
-        }
-        if (substr($name, 0, 3) == "l_s") {
-            continue;
-        }
-        if (substr($name, 0, 3) == "lev") {
-            continue;
-        }
-        # if ($name == "fo_aenduid") {continue;}
 
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife

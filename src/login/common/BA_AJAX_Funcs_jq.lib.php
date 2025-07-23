@@ -1,26 +1,27 @@
 <?php
 /**
- * AJAX Funktionen für 
- * 
+ * AJAX Funktionen für
+ *
  * BA_AUto_Funktion       Autocomplete
  * BA_Multi_Drop_Down     Multiple Dropdown Select
- * 
- * 
+ *
+ *
  */
 
 /**
- * Auto_Complete-Funktion für die Aufrufe von 
+ * Auto_Complete-Funktion für die Aufrufe von
  * VF_Auto_Aufbau
  * VF_Auto_Eigent
  * VF_Auto_Herstell
  * VF_Auto_Taktisch
  * VF_Auto_Urheber
- * 
- * 
+ *
+ *
  */
-function BA_Auto_Funktion_old() {
-    
-?>
+function BA_Auto_Funktion_old()
+{
+
+    ?>
 <script>    
     $(document).ready(function() {
         console.log('DOM geladen');
@@ -142,13 +143,14 @@ function BA_Auto_Funktion_old() {
         });
     });
  </script>   
- <?php 
+ <?php
 } // Ende BA_Auto_Funktion
 
 
-function BA_Auto_Funktion() {
-    
-?>
+function BA_Auto_Funktion()
+{
+
+    ?>
 <!-- JavaScript-Code für Autocomplete gradually-->
 <script>
 $(document).ready(function() {
@@ -247,8 +249,9 @@ $(document).ready(function() {
 
 
 
-function BA_Multi_Drop_Down () { 
-?>
+function BA_Multi_Drop_Down()
+{
+    ?>
 <script>
 $(document).ready(function() {
     // Funktion zum Laden der Optionen
@@ -381,5 +384,5 @@ function sucheBibliothek(index) {
     });         
     
 </script>   
-<?php  
+<?php
 }

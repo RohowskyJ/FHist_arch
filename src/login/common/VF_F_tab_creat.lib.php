@@ -23,7 +23,7 @@ function Cr_n_Medien_Daten($tabelle)
         `md_beschreibg` varchar(1024) DEFAULT NULL COMMENT 'Beschreibung',
         `md_namen` varchar(1024) DEFAULT NULL COMMENT 'Foto Name',
         `md_sammlg` varchar(40) DEFAULT NULL COMMENT 'Sammlung',
-        `md_feuerwehr` varchar(100) DEFAULT NULL COMMENT 'Name der FF des Fzges',
+        `md_fw_id` varchar(10) DEFAULT NULL COMMENT 'Eigner- Nr.',
         `md_suchbegr` varchar(1024) DEFAULT NULL COMMENT 'Suchbegriffe',
         `md_media` set('Audio','Foto','Video') DEFAULT NULL COMMENT 'Medium',
         `md_Med_anz` int(11) DEFAULT NULL COMMENT 'Anzahl der Eintr.',
@@ -31,7 +31,7 @@ function Cr_n_Medien_Daten($tabelle)
         `md_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`md_id`),
         FULLTEXT KEY `md_sammlg` (`md_sammlg`),
-        FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`) CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`) 
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Digitale- Medien- Archiv' ";
 
     $return = SQL_QUERY($db, $sql);

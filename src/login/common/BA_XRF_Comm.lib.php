@@ -93,7 +93,7 @@ function XR_Htacc_Add($db, $V_Pfad, # der Pfad ab root
     $sql = "INSERT INTO $Table (H_Pfad,H_Acc_Name,H_H_L_Aend,H_H_L_Use,H_PW_Path,H_PW_Name,H_Sachgeb,H_PW_L_Aend,H_PW_L_Use,H_Aufruf_Sequ)
                     VALUES ('$V_Pfad','$File','$L_Acc_T','$L_Aend_T','','','$Sachgeb','','','')       ";
     # echo "<br/>L 059 \$return \$sql $sql <br/> ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
     # print_r($return); echo "<br/>L 060 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
 
     # print_r($return);
@@ -141,7 +141,7 @@ function XR_Htacc_Upd($db, $D_Str, # Aufrufs -sequenz aus .htaccess
     $sql = "UPDATE $Table SET H_PW_Path='$D_PWPfad',H_PW_Name='$P_Str',H_Sachgeb='$Sachgeb',
                            H_PW_L_Aend='$L_Aend_T',H_PW_L_Use='$L_Acc_T',H_Aufruf_Sequ='$D_Str'
                            WHERE H_id = '$H_Id'  ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
     # echo "L 097 htacc_upd sql $sql <br>";
 }
 
@@ -177,7 +177,7 @@ function XR_Graf_Add($db, $V_Pfad, # Pfad ab Root
 
     $sql = "INSERT INTO $Table (F_Dir,F_Name,F_Groesse,F_L_Aend,F_L_Use)
                     VALUES ('$V_Pfad','$File','$Size','$L_Acc_T','$L_Aend_T')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -213,7 +213,7 @@ function XR_Script_Add($db, $V_Pfad, # Pfad ab Root
 
     $sql = "INSERT INTO $Table (F_Dir,F_Name,F_Groesse,F_L_Aend,F_L_Use)
                     VALUES ('$V_Pfad','$File','$Size','$L_Acc_T','$L_Aend_T')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -245,7 +245,7 @@ function XR_Text_Add($db, $V_Pfad, # Pfad ab Root
 
     $sql = "INSERT INTO $Table (F_Dir,F_Name,F_Groesse,F_L_Aend,F_L_Use)
                     VALUES ('$V_Pfad','$File','$Size','$L_Acc_T','$L_Aend_T')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -281,13 +281,13 @@ function XR_Dir_Add($db, $V_Pfad, # Pfad ab Root
     $Table = "doc_verzeichn_$Project";
 
     $sql = "SELECT * FROM doc_verzeichn_$Project WHERE V_Pfad='$V_Pfad' AND V_Name='$File'";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
     # print_r($return); echo "<br/>L 0477 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
     $numrows = mysqli_num_rows($return);
     if ($numrows == 0) {
         $sql = "INSERT INTO $Table (V_Pfad,V_Name)
                     VALUES ('$V_Pfad','$File')       ";
-        $return = XR_SQL_QUERY($db, $sql);
+        $return = SQL_QUERY($db, $sql);
         $V_cnt++;
     }
 }
@@ -414,7 +414,7 @@ function XR_Graf_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
 
     $sql = "INSERT INTO $Table (F_Id,R_Unter,R_Zeilenrnr)
                     VALUES ('$F_Id','$Caller','$Zeil_Nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -437,7 +437,7 @@ function XR_Script_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
 
     $sql = "INSERT INTO $Table (F_Id,R_Unter,R_Zeilenrnr)
                     VALUES ('$F_Id','$Caller','$Zeil_Nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -461,8 +461,8 @@ function XR_Text_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
     $Table = "doc_t_dat_ref_$Project";
 
     $sql = "INSERT INTO $Table (F_Id,F_Unter,F_Zeilennr)
-                    VALUES ('$F_Id','$Caller','$Zeil_nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+                    VALUES ('$F_Id','$Caller','$Zeil_Nr')       ";
+    $return = SQL_QUERY($db, $sql);
     # print_r($return); echo "<br/>L 0425 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
     # print_r($return);
     # echo "<br/> XR_text_add L 793: \$return \$sql $sql <br/>";
@@ -525,12 +525,12 @@ function XR_Func_Add($db, $T_Id, # ID-Nr desFunkt_Dsn
     $Table = "doc_funkt_def_$Project";
 
     $sql = "SELECT * FROM $Table WHERE T_Id='$T_Id' AND FD_Fnkt_Name='$FD_Fnkt_Name'";
-    $return = XR_SQL_QUERY($db, $sql); // // print_r($return); echo "<br/>L 0484 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
+    $return = SQL_QUERY($db, $sql); // // print_r($return); echo "<br/>L 0484 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
     $numrows = mysqli_num_rows($return);
     if ($numrows === 0) {
         $sql = "INSERT INTO $Table (T_Id,FD_Fnkt_Name,FD_Zeile)
                     VALUES ('$T_Id','$FD_Fnkt_Name','$FD_Zeile')       ";
-        $return = XR_SQL_QUERY($db, $sql);
+        $return = SQL_QUERY($db, $sql);
     }
 }
 
@@ -555,5 +555,5 @@ function XR_Func_Ref_Add($db, $FD_Id) # ID-Nr des Funkt_Dsn
     $Table = "doc_funkt_ref_$Project";
     $sql = "INSERT INTO $Table (FD_Id,R_Name,R_Zeile)
                     VALUES ('$FD_Id','$Caller','$Zeil_Nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 } // Ende von function

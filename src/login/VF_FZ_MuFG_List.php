@@ -144,8 +144,8 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
  */
-if (isset($_POST['eigentuemer'])) {
-    $ei_id = $_POST['eigentuemer'];
+if (isset($_POST['eigentuemer_1'])) {
+    $ei_id = $_POST['eigentuemer_1'];
     VF_Displ_Eig($ei_id);
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
@@ -168,13 +168,13 @@ if (isset($_POST['level1'])) {
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung'] == "MU") {
-
+var_dump($_POST);
     /**VF_Eig_Ausw
      * neuen Eigentümer auswählen
      */
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten") {
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
-            VF_Auto_Eigent('E', '');
+            VF_Auto_Eigent('E', '',1);
         }
     } else {
         $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];

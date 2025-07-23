@@ -9,11 +9,12 @@
  *
  * ----------------------------------------------------------------------------------
  * Unterprogramme:
- *  - VF_sendEmail    - zum Versenden von Emails
+ *  - sendEmail    - zum Versenden von Emails
  */
 
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
+# namespace MyProject;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -47,10 +48,14 @@ function sendEmail($MailTo, $MailSubject, $text, $reply_to = "")
 // --------------------------------------------------------------------------------
 {
     global $debug, $path2ROOT, $VF_HP;
+    /* */
+    require_once $path2ROOT . 'login/common/PHPMailer_6.1.6/src/Exception.php';
+    require_once $path2ROOT . 'login/common/PHPMailer_6.1.6/src/PHPMailer.php';
+    require_once $path2ROOT . 'login/common/PHPMailer_6.1.6/src/SMTP.php';
+    /* */
 
-    require_once $path2ROOT . 'login/common/PHPMailer/src/Exception.php';
-    require_once $path2ROOT . 'login/common/PHPMailer/src/PHPMailer.php';
-    require_once $path2ROOT . 'login/common/PHPMailer/src/SMTP.php';
+    # require_once  $path2ROOT . 'login/common/phpmailer/autoload.php';
+    # $mail = new PHPMailer\PHPMailer\PHPMailer;
 
     $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
     $vema = $ini_arr['Config']['vema'];

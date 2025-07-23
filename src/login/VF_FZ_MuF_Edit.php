@@ -42,7 +42,7 @@ $db = LinkDB('VFH');
 
 $jq = $jqui = true;
 $BA_AJA = true;
-
+# $js_upl = true;
 $header = "";
 BA_HTML_header('Muskelbewegte Fahrzeuge', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -123,7 +123,7 @@ if ($phase == 0) {
             'fm_foto_4' => "",
             'fm_komm_4' => '',
             'fm_sammlg' => "MU_F",
-            'sa_name' => 'Muskelbwegtes',
+            'sa_name' => 'Muskelbewegtes',
             "fm_uidaend" => "",
             "fm_aenddat" => ""
         );
@@ -146,6 +146,7 @@ if ($phase == 1) {
 
 switch ($phase) {
     case 0:
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Upload_Module.js' ></script>";
         require('VF_FZ_MuF_Edit_ph0.inc.php');
         break;
     case 1:

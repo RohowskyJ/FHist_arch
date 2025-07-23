@@ -107,7 +107,7 @@ foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
         $updas_s .= "eignr = '$value'\n ";
     }
     if ($name == "c_ptyp") {
-        $updas_s .= "eignr = '$value'\n ";
+        $updas_s .= "ptyp = '$value'\n ";
     }
     if ($name == "c_store") {
         $updas_s .= "store = '$value'\n ";

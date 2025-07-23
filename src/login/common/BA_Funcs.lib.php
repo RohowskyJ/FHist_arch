@@ -76,6 +76,7 @@ function logo()
 function getmicrotime()
 // --------------------------------------------------------------------------------
 {
+    global $module;
     flow_add($module, "Funcs.inc Funct: getmicrotime");
 
     list($usec, $sec) = explode(' ', microtime());
@@ -319,10 +320,10 @@ function dir_sort($Pfad, $FType, $direkt_ausg)
     # if ($debug) {echo "<pre class=debug>Funct dir_sort L 206: <br/>Pfad=$Pfad <br/>FType=$FType</pre>";}
     if ($Pfad == "") {
         $Pfad = "./";
-        if ($FTyp == "") {
-            $FTyp = "txt";
+        if ($FType == "") {
+            $FType = "txt";
         }
-        if ($direct_ausg == "") {
+        if ($direkt_ausg == "") {
             $direkt_ausg = false;
         }
     }
@@ -791,6 +792,7 @@ function EMail_Eingabe($Feld_name, $EMail, $Err_EMail)
  */
 function _mb_ucfirst($str)
 {
+    global $module;
     flow_add($module, "Funcs.inc Funct: _mb_ucfirst");
 
     $a = mb_strtoupper(mb_substr($str, 0, 1, 'UTF-8'), 'UTF-8');

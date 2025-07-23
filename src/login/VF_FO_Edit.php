@@ -118,7 +118,7 @@ if ($phase == 0) {
             'md_beschreibg' => "",
             'md_namen' => "",
             'md_sammlg' => "",
-            'md_feuerwehr' => '',
+            'md_fw_id' => '',
             'md_media' => '',
             "md_aenduid" => $_SESSION['VF_Prim']['p_uid'],
             "md_aenddat" => "",

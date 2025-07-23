@@ -144,6 +144,9 @@ echo "<input type='hidden' name='fm_foto_3' value='" . $neu['fm_foto_3'] . "'>";
 echo "<input type='hidden' name='fm_foto_4' value='" . $neu['fm_foto_4'] . "'>";
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
+echo "<input type='hidden' id='sammlung' value='".$neu['fm_sammlg'] ."'>";
+echo "<input type='hidden' id='eigner' value='".$neu['fm_eignr'] ."'>";
+
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuF/";
 
 $Feldlaenge = "100px";

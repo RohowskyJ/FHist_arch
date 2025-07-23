@@ -140,7 +140,26 @@ VF_Multi_Dropdown($in_val,$titel);
 
 echo "</div>";
 
-Edit_Daten_Feld('md_feuerwehr',100);
+if ($hide_area == 0) {  //toggle??
+    $button = "";
+} else {
+    // Der Button, der das toggling übernimmt
+    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_fe')\">zum anzeigen/ändern klicken!</button>";
+}
+
+# $Edit_Funcs_Protect = true;
+Edit_Daten_Feld('md_fw_id',10,'','',$button);
+$Edit_Funcs_Protect = false;
+echo $button;
+if ($hide_area == 0) {
+    echo "<div>"; 
+} else {
+    echo "<div id='unhide_fe' style='display:none'>";
+}
+
+VF_Auto_Eigent('E','',1);
+echo "</div>";
+
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
 # =========================================================================================================

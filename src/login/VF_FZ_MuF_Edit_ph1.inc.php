@@ -20,7 +20,7 @@ if (!isset($neu['fm_invnr'])) {
 }
 
 # $neu['fm_bezeich'] = mb_convert_case($neu['fm_bezeich'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-
+$debug = true;
 $neu['fm_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';
@@ -52,6 +52,22 @@ $uploaddir = VF_Upload_Pfad_M('');
 
 if (! file_exists($uploaddir)) {
     mkdir($uploaddir, 0770, true);
+}
+
+if ($neu['bild_datei_1'] != "") {
+    $neu['fm_foto_1'] = $neu['bild_datei_1'];
+}
+
+if ($neu['bild_datei_2'] != "") {
+    $neu['fm_foto_2'] = $neu['bild_datei_2'];
+}
+
+if ($neu['bild_datei_3'] != "") {
+    $neu['fm_foto_3'] = $neu['bild_datei_3'];
+}
+
+if ($neu['bild_datei_4'] != "") {
+    $neu['fm_foto_4'] = $neu['bild_datei_4'];
 }
 
 if (isset($_FILES)) {
@@ -110,10 +126,13 @@ if ($neu['fm_id'] == 0) { # neueingabe
         if ($name == "MAX_FILE_SIZE") {
             continue;
         } #
-
-        if ($name == "fm_aenduid") {
+        if (substr($name,0,3) != 'fm_') {
+            continue;
+        }
+        if ($name == "fm_aenduid" || $name == 'fm_id') {
             continue;
         } #
+        /*
         if ($name == "fz_herst") {
             continue;
         } #
@@ -123,11 +142,11 @@ if ($neu['fm_id'] == 0) { # neueingabe
         if ($name == "phase") {
             continue;
         } #
-        /*
+        
         if (substr($name, 0, 3) == "sel") {
             continue;
         }
-        */
+       
         if (substr($name, 0, 3) == "lev") {
             continue;
         }
@@ -137,18 +156,17 @@ if ($neu['fm_id'] == 0) { # neueingabe
         if (substr($name, 0, 3) == "fot") {
             continue;
         } #
-
+   */
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
-    $updas = mb_substr($updas, 1); # 1es comma entfernen nur notwendig, wenn vorer keine Update-Strings sind
-
+    $updas = substr($updas,1);
     $sql = "UPDATE $tabelle_a SET  $updas WHERE `fm_id`='" . $_SESSION[$module]['fm_id'] . "'";
     if ($debug) {
-        echo '<pre class=debug> L 0197: \$sql $sql </pre>';
+        echo '<pre class=debug> L 0150: \$sql $sql </pre>';
     }
 
-    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
     unset($_SESSION[$module]['Pct_Arr']);

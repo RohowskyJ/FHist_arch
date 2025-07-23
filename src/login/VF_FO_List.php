@@ -111,13 +111,13 @@ if ($phase == 0  ) {
     $eig_header = "Eigentümer/Urheber Auswahl";
     require 'VF_Z_E_U_Sel_List.inc.php';
     */
-    VF_Auto_Eigent('U',True);
+    VF_Auto_Eigent('U',True,1);
 }
 
 if ($phase  == "1")  {
     
-    if (isset($_POST['eigentuemer'])) {  // ei_id
-        $_SESSION['Eigner']['eig_eigner'] = $_POST['eigentuemer'];
+    if (isset($_POST['eigentuemer_1'])) {  // ei_id
+        $_SESSION['Eigner']['eig_eigner'] = $_POST['eigentuemer_1'];
         $eign_ret = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
         
         #if (VF_Sel_Eign_Urheb($_POST['eigentuemer'],$urh_kurz)) {
@@ -186,7 +186,7 @@ function modifyRow(array &$row, $tabelle)
             $pict_path = $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/";
             if ($row['md_dsn_1'] != "") {
                 $verz = "J";
-                $md_arr = pathinfo($path);
+                $md_arr = pathinfo($pict_path);
                 
                 if (in_array(strtolower($md_arr['extension']), AudioFiles)) {
                     $pict_path ."02/";

@@ -80,9 +80,9 @@ if ($debug) {
 function Edit_Send_Button($text = '', $zurück = '') # Send Button für Edit Phase 0 / 1
 # ------------------------------------------------------------------------------------------------------------------------------------------
 {
-    global $phase, $Errors;
+    global $phase, $Errors, $module;
 
-    flow_add($module, "Edit_Funcs.inc Func, $modulet: Send_Button");
+    flow_add($module, "Edit_Funcs.inc Func, $module: Send_Button");
 
     echo "<br><div class='white'>";
     if ($Errors > 0) {
@@ -810,7 +810,7 @@ function Edit_Tabellen_Trailer()
  * Struktur- Definition für floating input
  *
  */
-function define_float_line()
+function define_float_line($text)
 {
 
     Edit_Tabellen_Header($text);
