@@ -31,6 +31,21 @@ function handleImageSpecial($filePath, $urhNr, $urhName, $aufnDat, $rotation = 0
     // Hier können Sie Bildbearbeitung, Rotation, Wasserzeichen, Resize etc. einbauen
     // Beispiel: return $filePath; // oder neuen Pfad nach Bearbeitung
     // $filepath == fullpath of uploaed sourcefile
+    
+    if ($urhNr != '' && $urhName == '' ) {
+        $urh_arr = parse_ini_file('../config_u.ini', true, INI_SCANNER_NORMAL);
+        
+        $cnt = count($urh_arr['Urheber']);
+        file_put_contents($debug_log_file, "L 038 urh_arr cnt $cnt  ".$urh_arr['Urheber'][$urhNr]."<br>");
+        #if (in_array($urhNr, $urh_arr['Urheber'])) {
+            $urhName = $urh_arr['Urheber'][$urhNr];
+            /*
+        } else {
+            $urhName = 'Fehler';
+        }
+*/
+    }
+
     $storePath .= "06/$aufnDat/";  // Storagepath für Fotos fertig
     if (!is_dir($storePath)) {
         mkdir($storePath, 0755, true);
@@ -42,7 +57,8 @@ function handleImageSpecial($filePath, $urhNr, $urhName, $aufnDat, $rotation = 0
         $eintragen .= " watermark $watermark \n";
         $eintragen .= " resize $resize \n";
         $eintragen .= " storePath $storePath \n";
-        file_put_contents($debug_log_file, "L 036 $eintragen" . PHP_EOL, FILE_APPEND);
+        $eintragen .= " urhName $urhName \n";
+        file_put_contents($debug_log_file, "L 059 $eintragen" . PHP_EOL, FILE_APPEND);
     }
     $outputFile = $filePath; // Standard: keine Änderung
     $f_arr =pathinfo($filePath);
