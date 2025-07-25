@@ -280,3 +280,10 @@ header {
 .hide { 
 	display: none; 
 }
+
+/* Style für Bilder-aus Libs */ 
+  /* ggf. eigene Styles */
+  .bild-galerie { display: flex; flex-wrap: wrap; gap: 10px; }
+  .bild-item { cursor: pointer; border: 2px solid transparent; padding: 2px; }
+  .bild-item:hover { border: 2px solid blue; }
+  #auswahl-bild { margin-top: 20px; }
