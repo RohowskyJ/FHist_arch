@@ -28,9 +28,9 @@ if ($debug) {
     print_r($neu);
     echo '</pre>';
 }
-if (isset($neu['suggestHersteller']) && $neu['suggestHersteller'] != "") {
-    $neu['fm_herst'] = $neu['suggestHersteller'];
-    unset($neu['suggestHersteller']);
+if (isset($neu['hersteller']) && $neu['hersteller'] != "") {
+    $neu['fm_herst'] = $neu['hersteller'];
+    unset($neu['hHersteller']);
 
 }
 unset($neu['hersteller']);
@@ -48,8 +48,15 @@ if (isset($_POST['level1'])) {
     }
 }
 
-$uploaddir = VF_Upload_Pfad_M('');
+$pic_cnt = $neu['pic_cnt'];
+for ($i=1;$i<=$pic_cnt;$i++) {
+    if ($neu['bild_datei_'.$i] != "") {
+        $neu['fm_foto_'.$i] = $neu['bild_datei_'.$i];
+    }
+}
 
+/*
+$uploaddir = VF_Upload_Pfad_M('');
 if (! file_exists($uploaddir)) {
     mkdir($uploaddir, 0770, true);
 }
@@ -92,6 +99,7 @@ if (isset($_FILES)) {
         }
     }
 }
+*/
 
 $neu['fm_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
