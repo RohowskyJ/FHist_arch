@@ -39,12 +39,17 @@ VF_set_module_p();
 
 $sk = $_SESSION['VF_Prim']['SK'];
 
+$LinkDB_database = "";
 $db = linkDB('VFH');
 VF_Count_add();
 
 $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini',True,INI_SCANNER_NORMAL);
 $cnt_m = count($ini_arr['Modules']);
 if (isset($ini_arr['Modules']) && $cnt_m >10){
+    
+    /** Tabellen für Urheber-Name einlesen */
+    VF_Urh_ini();
+    
    # ===========================================================================================================
    # Haeder ausgeben
    # ===========================================================================================================
@@ -90,12 +95,13 @@ if (isset($ini_arr['Modules']) && $cnt_m >10){
        echo "<div class='w3-row'>"; // Beginn der Anzeige Feld-Name
        echo "<a href='VF_O_DO_List.php?sk=$sk&Act=1' target='Doku'>Dokumentationen zum herunterladen</a>";
        echo "</div>"; // Ende der Ausgabe- Einheit Feld
-       
+       /*
        if ($ini_arr['Modules']['m_6'] == "J") {
            
        } else {
            echo " &nbsp;  &nbsp; &nbsp; &nbsp; Programmteil nicht verfügbar.";
        }
+       */
    }
 
 
@@ -173,9 +179,6 @@ if (isset($ini_arr['Modules']) && $cnt_m >10){
         echo "</div>"; // Ende der Ausgabe- Einheit Feld
         
     }
-
-    
-    Edit_Tabellen_Trailer();
     
 } else {
     echo "Konfigurations- Fehler. Konfirguration der <b>Module</b> neu aufsetzen. <br>";
