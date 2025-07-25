@@ -104,7 +104,7 @@ Edit_textarea_Feld('mg_komment');
 
 Edit_Daten_Feld('mg_herst', 60);
 Edit_Daten_Feld('mg_baujahr', 10);
-Edit_Daten_Feld('mg_gew', 10);
+Edit_Daten_Feld('mg_gew', 6);
 
 Edit_Select_Feld(Prefix . 'mg_zustand', VF_Zustand, '');
 
@@ -123,6 +123,8 @@ echo "<input type='hidden' name='mg_foto_2' value='" . $neu['mg_foto_2'] . "'>";
 echo "<input type='hidden' name='mg_foto_3' value='" . $neu['mg_foto_3'] . "'>";
 echo "<input type='hidden' name='mg_foto_4' value='" . $neu['mg_foto_4'] . "'>";
 
+echo "<input type='hidden' id='sammlung' value='".$neu['mg_sammlg'] ."'>";
+echo "<input type='hidden' id='eigner' value='".$neu['mg_eignr'] ."'>";
 
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
 

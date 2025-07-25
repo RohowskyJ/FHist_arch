@@ -145,8 +145,8 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
-if (isset($_POST['eigentuemer'])) {
-    $ei_id = $_POST['eigentuemer'];
+if (isset($_POST['eigentuemer_1'])) {
+    $ei_id = $_POST['eigentuemer_1'];
     VF_Displ_Eig($ei_id);
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
@@ -269,7 +269,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
  */
 function modifyRow(array &$row, $tabelle)
 {
-    global $path2ROOT, $T_List, $module, $taktb_arr, $herst_arr, $sam_arr;
+    global $path2ROOT, $T_List, $module, $taktb_arr, $herst_arr, $aufb_arr, $sam_arr;
 
     $s_tab = substr($tabelle, 0, 8);
 

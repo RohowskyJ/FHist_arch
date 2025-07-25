@@ -95,29 +95,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     if (isset($js_upl) && $js_upl) {
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Upload_Module.js' ></script>";
     }
-    /*
-    if (isset($js_au) && $js_au) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Autocomplete.js' ></script>";
-    }
-    if (isset($js_md) && $js_md) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_MultiDropD.js' ></script>";
-    }
-    if (isset($js_mfu) && $js_mfu) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_MultiUpload.js' ></script>";
-    }
-    
-    if (isset($js_suf) && $js_suf ) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_.js' ></script>";
-    }
-    
-    if (isset($js_togg) && $js_togg) { // $js_ini, $js_au, $js_md, $js_mfu, $js_suf, $js_togg
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_ToggleBlocks.js' ></script>";
-    }
 
-    if (isset($js_ini) && $js_ini) { // , , $js_md, , , $js_togg
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_init.js' ></script>";
-    }
-     */
     echo $head;
     echo "</head>";
 

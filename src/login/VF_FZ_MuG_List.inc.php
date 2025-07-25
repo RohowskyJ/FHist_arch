@@ -41,7 +41,7 @@ $List_Hinweise .= '</ul></li>';
 
 $eig_data = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
 
-List_Action_Bar($tabelle, "Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
+List_Action_Bar($tabelle, "Geräte des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 
 # ===========================================================================================================
 # Die Sammlungs- Auswahl anzeigen:
@@ -72,7 +72,7 @@ $MS_Txt = array(
 
 switch ($MS_Opt) {
     case 1:
-        $in_val = 'MA_G';
+        $in_val = 'MU_G';
         $MS_Init = VF_Sel_SA_MU_G; # VF_Sel_SA_Such|VF_Sel_AOrd
         break;
         /*

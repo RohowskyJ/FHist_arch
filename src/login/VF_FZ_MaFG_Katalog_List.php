@@ -623,7 +623,7 @@ function modifyRow(array &$row, $tabelle)
                         $p1 = $pict_path . $fm_foto_1;
                     }
                 } else {
-                    $p1 = $pict_path . $fz_bild_1;
+                    $p1 = $pict_path . $fm_foto_1;
                 }
 
 
@@ -634,8 +634,8 @@ function modifyRow(array &$row, $tabelle)
             }
             break;
         case "mu_gerae":
-            $ge_id = $row['mg_id'];
-            $row['mg_id'] = "<a href='VF_FM_GE_Edit.php?ge_id=$ge_id' >" . $mg_id . "</a>";
+            $mg_id = $row['mg_id'];
+            $row['mg_id'] = "<a href='VF_FM_GE_Edit.php?ge_id=$mg_id' >" . $mg_id . "</a>";
             if ($row['mg_foto_1'] != "") {
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
 

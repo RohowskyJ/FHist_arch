@@ -21,7 +21,7 @@ foreach ($_POST as $name => $value) {
     $neu[$name] = mysqli_real_escape_string($db, $value);
 }
 #var_dump($_FILES);
-#var_dump($neu);
+# var_dump($neu);
 # $neu['fz_name'] = mb_convert_case($neu['fz_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
 $neu['fz_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
@@ -47,11 +47,6 @@ if (isset($_POST['level1'])) {
     }
 }
 #    echo "L 045 <br>";
-$uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
-
-if (! file_exists($uploaddir)) {
-    mkdir($uploaddir, 0770, true);
-}
 
 if (!isset($urh_abk)) {
     $urh_abk = '';
@@ -60,27 +55,11 @@ if (!isset($fo_aufn_datum)) {
     $fo_aufn_datum = '';
 }
 
-if (isset($_FILES)) {
-    $i = 0;
-
-    foreach ($_FILES as $upLoad  => $file_arr) {
-        if ($_FILES[$upLoad] != "") {
-            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_M_Upload($uploaddir, $upLoad, $urh_abk, $fo_aufn_datum);
-
-            if ($result == "") {
-                continue;
-            }
-            if (substr($result, 0, 5) == 'Err: ') {
-                continue;
-            }
-            echo "L 077 result $result <br>";
-            $neu["fz_bild_".$i + 1] = $result;
-
-            $i++;
-        }
+$pic_cnt = $neu['pic_cnt'];
+for ($i=1;$i<=$pic_cnt;$i++) {
+    if ($neu['bild_datei_'.$i] != "") {
+        $neu['fz_bild_'.$i] = $neu['bild_datei_'.$i];
     }
-    # var_dump($neu);
 }
 
 $neu['fz_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
@@ -113,7 +92,7 @@ if (stripos($neu['fz_taktbez'], " - ") >= 1) {
 
 if ($neu['fz_id'] == 0) { # neueingabe
 
-    Cr_n_ma_fz_beschr($tabelle_a);
+    Cr_n_ma_fahrzeug($tabelle_a);
 
     $sql = "INSERT INTO $tabelle_a (
                 fz_eignr,fz_sammlg,fz_taktbez,fz_hist_bezeichng,fz_baujahr,fz_indienstst,  fz_ausdienst, \n
@@ -150,27 +129,57 @@ if ($neu['fz_id'] == 0) { # neueingabe
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        
+        if (substr($name,0,3) != 'fz_') {
             continue;
-        } #s
+        }
         if ($name == "fz_bild_101" || $name == "fz_bild_202" || $name == "fz_bild_303" || $name == "fz_bild_404") {
-            continue;
-        } #
-
-        if ($name == "phase") {
             continue;
         } #
         if ($name == "fz_uidaend") {
             continue;
         } #
-
+/*
+        if ($name == "MAX_FILE_SIZE") {
+            continue;
+        } #s
+        if ($name == "phase") {
+            continue;
+        } #
         if ($name == "tabelle") {
+            continue;
+        }
+        if ($name == "aufbauer") {
+            continue;
+        }
+        if ($name == "hersteller") {
+            continue;
+        }
+        if ($name == "taktisch") {
+            continue;
+        }
+        if ($name == "hersteller") {
+            continue;
+        }
+        if ($name == "eigentuemer") {
+            continue;
+        }
+        if ($name == "urheinfueg") {
+            continue;
+        }
+        if ($name == "sel_libs") {
+            continue;
+        }
+        if ($name == "aufn_dat") {
             continue;
         }
         if ($name == "sa_name") {
             continue;
         }
         if (substr($name, 0, 5) == 'foto_') {
+            continue;
+        }
+        if (substr($name, 0, 5) == 'bild_') {
             continue;
         }
         if (substr($name, 0, 4) == 'leve') {
@@ -182,6 +191,7 @@ if ($neu['fz_id'] == 0) { # neueingabe
         if (substr($name, 0, 5) == 'f_Doc') {
             continue;
         }
+        */
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 

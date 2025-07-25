@@ -78,7 +78,8 @@ echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_O_DO_List.php?sk=$sk&sel_thema=2' target='Dokumente'>Vereins- Dokumentation zu Fahrzeugen </a></td></tr>";
 echo "</div>"; // Ende der Inhalt Spalte
 
-
 Edit_Tabellen_trailer();
+
+$res = VF_Urh_ini();
 
 BA_HTML_trailer();

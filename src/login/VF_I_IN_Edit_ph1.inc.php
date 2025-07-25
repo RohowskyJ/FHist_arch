@@ -13,11 +13,11 @@ foreach ($_POST as $name => $value)
 $neu['in_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ( $debug ) { echo '<pre class=debug>';echo '<hr>$neu: ';     print_r($neu); echo '</pre>'; }
-var_dump($_POST);
+#var_dump($_POST);
 $neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
-if ($neu['eigentuemer'] != '') {
-    $neu['in_neueigner'] = $neu['eigentuemer'];
-    unset ($neu['eigentuemer']);
+if ($neu['eigentuemer_1'] != '') {
+    $neu['in_neueigner'] = $neu['eigentuemer_1'];
+   # unset ($neu['eigentuemer']);
 }
 /* Sammlung aufbereiten */
 if (isset($_POST['level1']) != "") {
@@ -29,35 +29,11 @@ if (isset($_POST['level1']) != "") {
     }
 }
 
-$uploaddir = VF_Upload_Pfad_M('');
-
-if (! file_exists($uploaddir)) {
-    mkdir($uploaddir, 0770, true);
-}
-#var_dump($_FILES);
-if (isset($_FILES)) {
-    $i = 0;
-    
-    foreach ($_FILES as $upLoad  => $file_arr) {
-        #var_dump($_FILES[$upLoad]);
-        # var_dump($_SESSION[$module]['Pct_Arr']);
-        if ($_FILES[$upLoad] != "") {
-            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
-            
-            if ($result == "") {
-                continue;
-            }
-            if (substr($result,0,5) == 'Err: ' ) {
-                continue;
-            }
-            $neu["in_foto_".$i+1] = $result;
-            
-
-            $i++;
-        }
+$pic_cnt = $neu['pic_cnt'];
+for ($i=1;$i<=$pic_cnt;$i++) {
+    if ($neu['bild_datei_'.$i] != "") {
+        $neu['in_foto_'.$i] = $neu['bild_datei_'.$i];
     }
-    #var_dump($neu);
 }
 
 $neu['in_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
@@ -110,18 +86,10 @@ if ($_SESSION[$module]['in_id'] == 0) {
     foreach ($neu as $name => $value) # für alle  Felder aus der tabelle
     {
         if ( !preg_match ("/[^0-9]/", $name) ) {continue;}    # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {continue;}    #
-        if (substr($name,0,5) == "foto_") {continue;}    # #
-        if ($name == "tabelle") {continue;}    #
-        if (substr($name,0,5) ==  "level") {continue;}
         
         if ($name == "in_eignr") {continue;}   #
-        if ($name == "InvNr") {continue;}   #
-        if ($name == "eigentmr") {continue;}   #
-        
-        if ($name == "sammlg") { continue;}    #
-        if ($name == "phase") {continue;}    #
-        if ($name  = 'sa_name') {continue;} 
+   
+        if (substr($name,0,3) != 'in_') {continue;} 
             
         $updas .= ",`$name`='".$neu[$name]."'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
@@ -136,7 +104,6 @@ if ($_SESSION[$module]['in_id'] == 0) {
         $result = mysqli_query($db,$sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
     }
 
-    
 }
 unset($_SESSION[$module]['Pct_Arr']);
 

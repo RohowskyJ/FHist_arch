@@ -9,7 +9,7 @@
  * 2. Anzeige der Fahrzeuge
  *
  */
-
+$debug = true;
 $Inc_Arr[] = "VF_FZ_MaG_Edit_ph1.inc.php";
 
 if ($debug) {
@@ -41,79 +41,70 @@ if (isset($_POST['level1']) != "") {
     }
 }
 
-# $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";
-$uploaddir = VF_Upload_Pfad_M('');
-
-if (! file_exists($uploaddir)) {
-    mkdir($uploaddir, 0770, true);
-}
-#var_dump($_FILES);
-if (isset($_FILES)) {
-    $i = 0;
-
-    foreach ($_FILES as $upLoad  => $file_arr) {
-        #var_dump($_FILES[$upLoad]);
-        # var_dump($_SESSION[$module]['Pct_Arr']);
-        if ($_FILES[$upLoad] != "") {
-            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir, $upLoad); # ,$urh_abk,$fo_aufn_datum
-
-            if ($result == "") {
-                continue;
-            }
-            if (substr($result, 0, 5) == 'Err: ') {
-                continue;
-            }
-            #  $neu["ge_foto_".$i+1] = $result;
-
-            switch ($i) {
-                case '0':
-                    $neu['ge_foto_1'] = $result;
-                    break;
-                case '1':
-                    $neu['ge_foto_2'] = $result;
-                    break;
-                case '2':
-                    $neu['ge_foto_3'] = $result;
-                    break;
-                case '3':
-                    $neu['ge_foto_4'] = $result;
-                    break;
-                case '4':
-                    $neu['ge_g1_foto'] = $result;
-                    break;
-                case '5':
-                    $neu['ge_g2_foto'] = $result;
-                    break;
-                case '6':
-                    $neu['ge_g3_foto'] = $result;
-                    break;
-                case '7':
-                    $neu['ge_g4_foto'] = $result;
-                    break;
-                case '8':
-                    $neu['ge_g5_foto'] = $result;
-                    break;
-                case '9':
-                    $neu['ge_g6_foto'] = $result;
-                    break;
-                case '10':
-                    $neu['ge_g7_foto'] = $result;
-                    break;
-                case '11':
-                    $neu['ge_g8_foto'] = $result;
-                    break;
-                case '12':
-                    $neu['ge_g9_foto'] = $result;
-                    break;
-                case '13':
-                    $neu['ge_g10_foto'] = $result;
-                    break;
-            }
-            $i++;
+$pic_cnt = $neu['pic_cnt'];
+echo "L 045 pic_cnt $pic_cnt <br>";
+for ($i=1;$i<=$pic_cnt;$i++) {
+    
+    if ($i < 5) {
+        if ($neu['bild_datei_'.$i] != "") {
+            $neu['ge_foto_'.$i] = $neu['bild_datei_'.$i];
+            echo "L 051 foto $i ".$neu['fm_foto_'.$i]."<br>";
+        }
+    } else {
+        switch ($i) {
+            case '5':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g1_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            
+            case '6':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g2_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+             case '7':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g3_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case '8':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g4_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case '9':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g5_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case '10':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g6_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case '11':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g7_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case '12':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g8_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case '13':
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g9_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
+            case 14;
+                if ($neu['bild_datei_'.$i] != "") {
+                    $neu['ge_g10_foto'] = $neu['bild_datei_'.$i];
+                }
+                break;
         }
     }
-    #var_dump($neu);
 }
 
 $gesa_arr = explode(" ", $neu['ge_sammlg']);
@@ -121,7 +112,10 @@ $neu['ge_sammlg'] = $gesa_arr[0];
 
 /* Sammlung aufbereiten */
 if (isset($_POST['level1'])) {
-    $neu['ge_sammlg'] = VF_Multi_Sel_Input();
+    $res =  VF_Multi_Sel_Input();
+    if ($res != "" && $res !="Nix") {
+        $neu['ge_sammlg'] = VF_Multi_Sel_Input();
+    }
 }
 
 $neu['ge_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
@@ -179,34 +173,11 @@ if ($neu['ge_id'] == 0) { # neueingabe
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
-            continue;
-        } #
-        if (substr($name, 0, 6) == 'l_sb_s') {
+        
+        if (substr($name,0,3) != 'ge_') {
             continue;
         }
-
-        if (substr($name, 0, 5) == "foto_") {
-            continue;
-        } #
-
-        if (substr($name, 0, 3) == "sel") {
-            continue;
-        }
-        if (substr($name, 0, 3) == "lev") {
-            continue;
-        }
-
-        if ($name == "sammlg") {
-            continue;
-        } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if (substr($name, 0, 3) == "sa_") {
-            continue;
-        } #
-
+       
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 

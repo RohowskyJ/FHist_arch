@@ -140,6 +140,9 @@ Edit_Separator_Zeile('Fotos'.$button_f);
 # =========================================================================================================
 echo "<div>";
 
+echo "<input type='hidden' id='sammlung' value='".$neu['ge_sammlg'] ."'>";
+echo "<input type='hidden' id='eigner' value='".$neu['ge_eignr'] ."'>";
+
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='ge_foto_1' value='" . $neu['ge_foto_1'] . "'>";
 echo "<input type='hidden' name='ge_foto_2' value='" . $neu['ge_foto_2'] . "'>";

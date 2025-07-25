@@ -26,7 +26,7 @@
  *  - VF_Sel_Det        - Detailbeschreibungs Selektion
  *  - VF_Sel_Sammlg     - Sammlungs- Selektion mit select list
  *  - VF_Sel_Staat      - Auswahl Staat
- *  - VF_Sel_Urheber_n    - Auswahl des Urhebers, speicherung Urhebernummer   fh_urh* $_Sess[$module]['Fo']['Urheber_list']
+ *  - VF_Urh_ini        - Auswahl der config_u.ini - Urheber- Nr. - Name refrenz, erstellung bei start von Foto, Bericht. MaFG
  *  - VF_set_module_p   - setzen der Module- Parameter    neu 20240120
  *  - VF_Show_Eig       - Auslesen ud zurückgeben der Eigner-Daten im Format wie Autocomplete
  *  - VF_tableExist     - test ob eine Tabelle existiert
@@ -1381,71 +1381,57 @@ function VF_Sel_Staat($FeldName, $sub_funct)
  * @global array $db Datenbank Handle
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  */
-/*
-function VF_Sel_Urheber_n()
+function VF_Urh_ini()
 {
-    global $debug, $db, $module, $urheb_arr, $flow_list, $path2ROOT;
+    global $debug, $db, $LinkDB_database, $module, $flow_list, $path2ROOT;
 
     flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Sel_Urheber_n");
 
     if ($debug) {
-        echo "<pre class=debug>Urheber-Auswahl L Beg:  <pre>";
+        echo "<pre class=debug>Urheber-ini L Beg:  <pre>";
     }
-
-    $urheb_arr[0] = "Kein Urheber ausgewählt.";
-
-    $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC ";
+ /*   
+#echo "L 1393 $LinkDB_database <br>";
+    $ar_arr = $dm_arr =  $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr = $zt_arr = array();
+    $tables_act = VF_tableExist(); 
+    #var_dump($dm_arr);
+    #var_dump($tables_act);
+    if (!$tables_act) {
+        echo " Fehler beim lesen der DB Tabellen <br>";
+        exit;
+    }
+    
+    var_dump($dm_arr);
+*/
+    $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz <> '' ORDER BY ei_id ASC "; # WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC
 
     $return_ur = SQL_QUERY($db, $sql_ur);
-
+    
+    $fotogr = array();
     while ($row = mysqli_fetch_object($return_ur)) {
-
-        if ($row->ei_org_typ == 'Privat') {
-            $fotogr = $row->ei_name ." ". $row->ei_vname;
-        } else {
-            $fotogr = $row->ei_org_typ ." ".$row->ei_org_name;
-        }
-        $_SESSION[$module]['Urheber_List'][$row->ei_id] =  array('ei_media' => $row->ei_media,'ei_fotograf' => $fotogr, 'ei_urh_kurzz' => $row->ei_urh_kurzz );
-
-        $sql_su = "SELECT * FROM fh_eign_urh WHERE fs_eigner='$row->ei_id'  ";
-
-        $return_su = SQL_QUERY($db, $sql_su);
-
-        $num_rec = mysqli_num_rows($return_su);
-
-        if ($num_rec > 0) {
-            while ($row_su = mysqli_fetch_object($return_su)) {
-
-                $_SESSION[$module]['Urheber_List'][$row->ei_id][$row_su->fs_urh_kurzz] = array('typ' => $row_su->fs_typ,'fotogr' => $row_su->fs_fotograf,'urh_nr' => $row_su->fs_urh_nr);
-
-                $urheb_arr[$row->ei_id] = $row_su->fs_fotograf;
+        # print_r($row);echo "<br>L 01409 <br>";
+        #if (in_array($row->ei_id,$dm_arr)) {
+            if ($row->ei_org_typ == 'Privat') {
+                $fotogr[$row->ei_id]= $row->ei_name ." ". $row->ei_vname;
+            } else {
+                $fotogr[$row->ei_id] = $row->ei_org_typ ." ".$row->ei_org_name;
             }
-        }
-
-
+       # }
+        
     }
-    / **
-     * Feststellen der Urheber- Nummer bei Organisation
-     * $_SESSION[$module]['URHEBER'][$urh_nr] = Eigentümer- Nummer
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_media'] = Media Kennung A,F,I,V  Audio, Foto, Film, Video
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_fotograf'] = Name der Org (Verfüger) oder Name des Urhebers
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['ei_urh_kurzz'] = Urheber- Kennzeichen, wenn kein urh_kenzz ausgewählt ist
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk'] array
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urhnr'] = Eigentümer- Nummer des Urhebers (wenn <> $urh_nr, diese nutzen)
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_fotograf'] = Name des Urhebers für Anzeige bei Bild
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_urh_kurzz'] = Kennzeichen des Urhebers (für Dateinamens- Beginn)
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_typ'] = für die Zuordnung im Archiv
-     * $_SESSION[$module]['URHEBER'][$urh_nr]['urh_abk']['fs_verz'] = für ein Verzeichnis
-     *
-     * $_SESSION[$module]['URHEBER']['Media]['urh_nr']= array(['urh_nr]['type']['kurzz']['fotogr']['verz'])
-     * /
-    mysqli_free_result($return_ur);
-    mysqli_free_result($return_su);
+
+    $stream = fopen('common/config_u.ini', 'w');
+    $res = fwrite($stream, "\n[Urheber] \n");
+    
+    foreach ($fotogr as $key => $value) {
+        $res  = fwrite($stream, " $key  = $value \n");
+    }
+    $res = fclose($stream);
 
 }
 
-# ende VF_Sel_Urheber_n
-*/
+# ende VF_urh_ini
+
 
 /**
  * Setzen der Update- Variablen $_SESSION[$module]['all_upd'] und der Wartungs- Variablen $_SESSION['Config']['c_Wartung'] == N -> Keine Updates/neuanlagen möglichConfig
@@ -1505,8 +1491,8 @@ function VF_tableExist()
     global $db, $LinkDB_database, $debug, $ar_arr, $dm_arr, $maf_arr, $mag_arr, $muf_arr, $mug_arr, $in_arr, $zt_arr, $mar_arr, $flow_list,$module;
 
     flow_add($module, "VF_Comm_Funcs.inc Funct: VF_tableExists_");
-
-    $eror = false;
+;
+    $error = True;
 
     $result = SQL_QUERY($db, "SHOW TABLES "); # like '$table_name%'
 
@@ -1519,17 +1505,13 @@ function VF_tableExist()
                 $tables_db[] = $row['Tables_in_' . $LinkDB_database]; # ($table_name."%")
             }
         } else {
-            $eror[] = 'There is no table in "' . $LinkDB_database . '"';
+            return false;
         }
     } else {
-        $eror[] = 'Unable to check the "' . $LinkDB_database . '"';
+        
+        return false;
     }
 
-    // if $eror not False, output errors and returns false, otherwise, returns true
-    if ($eror !== false) {
-        echo implode('<br/>', $eror);
-        return false;
-    } else {
         # print_r($tables_db);echo "<br>L 1124 <br>";
         foreach ($tables_db as $key => $table) {
             if (substr($table, 0, 5) == "ar_ch" || substr($table, 0, 5) == "ar_or") {
@@ -1573,8 +1555,9 @@ function VF_tableExist()
                 continue;
             }
         }
+        # var_dump($dm_arr);
         return true;
-    }
+    
 }
 
 # End of function tableeists
@@ -2109,7 +2092,7 @@ function VF_Auto_Aufbau()
     flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Aufbau");
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> <!--   -->
-        <b>Suchbegriff für Aufbau- Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer" data-feed="aufbauer" size='50'/>
+        <b>Suchbegriff für Aufbau- Hersteller eingeben:</b>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type="text" class="autocomplete" data-proc="Aufbauer" data-target="suggestAufbauer" data-feed="aufbauer" size='50'/>
     </div>  
     <div id="suggestAufbauer" class="suggestions">
        <input type="hidden" name="aufbauer" id="aufbauer" />
@@ -2126,10 +2109,10 @@ function VF_Auto_Eigent($t, $cl = false,$j="1")
     ?>
     <div class='w3-container' style='background-color: PeachPuff; padding: 10px;'>
     <?php
-        if (!isset($t) && $t == 'E') {
-            echo "<b>Suchbegriff für Eigentümer eingeben:</b>";
+        if (isset($t) && $t == 'E') {
+            echo "<b>Eigentümer Namen suchen:</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ";
         } else {
-            echo "<b>Suchbegriff für Urheber eingeben:</b>";
+            echo "<b>Urheber Namen suchen:</b> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ";
         }
     ?>
         <input type="text" class="autocomplete" data-proc="Eigentuemer" data-target="suggestEigener_<?php echo $j; ?>" data-feed="eigentuemer_<?php echo $j; ?>" size='50'/>
@@ -2167,7 +2150,7 @@ function VF_Auto_Taktb()
     console_log('autotaktb');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
-    <b>Suchbegriff für Taktische Bezeichnung eingeben:</b> <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" data-feed="taktisch" size='50' />
+    <b>Suchbegriff für Taktische Bezeichnung eingeben:</b>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" data-feed="taktisch" size='50' />
     </div>  
     <div id="suggestTaktisch" class="suggestions">
        <input type="hidden" name="taktisch" id="taktisch" />
@@ -2323,7 +2306,7 @@ function VF_Upload_Form_M()
 <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
 
     <?php
-
+    echo "<input type='hidden' name='pic_cnt' value='$pic_cnt' >";
     for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
 
@@ -2394,7 +2377,7 @@ function VF_Upload_Form_M()
             if ($f_arr['extension'] == "pdf") {
                 echo "<a href='$p' target='Bild $j' > Dokument</a>";
             } else {
-                echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' width='200px'></a>";
+                echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' height='200px'></a><br>";
                 echo $neu[$p_a['bi']];
             }
 
@@ -2413,27 +2396,25 @@ function VF_Upload_Form_M()
             style="<?php echo ($hide_area_group2 == 1) ? 'display:none;' : ''; ?>">
            <div class='foto-upd'  style='margin-bottom:20px; border:1px solid #ccc; padding:10px;'> 
           
-                   <!-- Upload Parameter Gruppe -->
-                 <!-- div id='sel_lib_upload' style='display:none;'> -->
-                 <!-- Inhalte für die Upload-Parameter -->
-                     <h3>Bild <?php echo $j; ?></h3>
-                     <input type='hidden' id='foto_<?php echo $j; ?>' name='foto_<?php echo $j; ?>' value=''>
+           <!-- Upload Parameter Gruppe -->
+                
+           <h3>Bild <?php echo $j; ?></h3>
 
-                  <?php
+           <?php
            if ($module != 'OEF') {
-        ?>
-                 <!-- Radio Buttons für die Auswahl  -->
-             <label>
-                <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> Bibliothek auswählen
-             </label>
-             <label>
-                <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> Hochladen
-             </label>
-                 <?php
+           ?>
+              <!-- Radio Buttons für die Auswahl  -->
+              <label>
+                  <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> aus Bibliothek auswählen
+              </label>
+              <label>
+                <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
+              </label>
+           <?php
            }
-    ?>
-                 <!-- Bibliothekssuche Gruppe -->
-                 <div id='sel_lib_suche' style='display:none;'>
+           ?>
+           <!-- Bibliothekssuche Gruppe -->
+           <div id='sel_lib_suche' style='display:none;'>
                  <!-- Inhalte für die Bibliothekssuche -->
                  <!-- (Preview area moved out) -->
                 </div>
@@ -2443,9 +2424,6 @@ function VF_Upload_Form_M()
                    <h3>Ausgewähltes Bild:</h3>
                    <div id="bild-vorschau-auswahl_<?php echo $j ?>"></div>
                    <p>Dateiname: <span id="dateiname-auswahl_<?php echo $j ?>"></span></p>
-                   <!-- Verstecktes Feld für den Dateinamen
-                   <input type="hidden" id="bild-datei-auswahl_<?php echo $j ?>" name="bild_datei_<?php echo $j ?>" />
-                    -->
                  </div>
 
                  <!-- Galerie-Container für die Bildauswahl -->
@@ -2459,7 +2437,7 @@ function VF_Upload_Form_M()
                  </div>
                  <hr>
                  
-                  <div id="sel_lib_upload<?php echo $j; ?>" style="display:none;">
+            <div id="sel_lib_upload<?php echo $j; ?>" style="display:none;">
                       <input type="file" id="upload_file_<?php echo $j; ?>">
                  
                  <?php
@@ -2479,20 +2457,17 @@ function VF_Upload_Form_M()
                  }
                  
                  echo "<div id='$j'></div>";
-                 echo "<button id='$j'>Hochladen</button>";
+                 #echo "<button id='$j'  class='button-sm'>Hochladen</button>";
 
                  echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
                  echo "<div class='w3-third   ' >";
                  echo "<label for='urhEinfg'>Urheber ins Bild einfügen</label>";
                  echo "  </div>";  // Ende Feldname
                  echo "  <div class='w3-twothird ' >"; // Beginn Inhalt- Spalte
-                 echo "<input type='radio' name='urheinfueg' id='urhEinfgJa_$j' value='J' checked ><label for='urheinfgJa_$j'>Ja</label><br>";     // für Fotos
-                 echo "<input type='radio' name='urheinfueg' id='urhEinfgNein_$j' value='N'       ><label for='urheinfgNein_$j'>Nein</label><br>";
-                 echo "<input type='hidden' name='urhName' id='urhName' value='Tester 1' >";     // für Fotos
+                 echo "<input type='radio' name='urheinfueg_$j' id='urhEinfgJa_$j' value='J' checked='checked' ><label for='urheinfgJa_$j'>Ja</label><br>";     // für Fotos
+                 echo "<input type='radio' name='urheinfueg_$j' id='urhEinfgNein_$j' value='N'       ><label for='urheinfgNein_$j'>Nein</label><br>";
+                 # echo "<input type='hidden' name='urhName' id='urhName' value='' >";     // für Fotos
                  echo "<input type='hidden' name='reSize' id='reSize' value='800' >";         // default size max 800x 800 pixel  für Fotos 
-                
-                 echo "<input type='hidden' name='aord_$j' id='aord_$j' value='01/01' >"; // Verstecktes Feld für die Archivordnung für Archivalien
-                 echo "<input type='hidden' name='eigner_$j' id='eigner_$j' value='123' >"; // Verstecktes Feld für Eigentümer- Nummer für Archivalien
                  echo "</div>";
                  echo "</div>"; // ende foload
                  ?>
@@ -2642,7 +2617,7 @@ function setupUploadBlock(j) {
     // Preview and controls container
     const previewDiv = $('<div id="preview_' + j + '" style="margin:10px 0;"></div>');
     fileInput.after(previewDiv);
-    const uploadBtn = $('<button type="button" id="upload_btn_' + j + '">Hochladen</button>');
+    const uploadBtn = $('<button type="button" id="upload_btn_' + j + '" style="color: #cc0000">zum Hochladen der Datei nach dem Ausfüllen anklicken</button>');
     fileInput.after(uploadBtn);
 
     // Store selected files and their rotation
@@ -2669,6 +2644,7 @@ function setupUploadBlock(j) {
             rotateLeftBtn.on('click', function() {
                 rotations[idx] = (rotations[idx] - 90) % 360;
                 renderImage(file, rotations[idx], imgHolder);
+                
             });
             rotateRightBtn.on('click', function() {
                 rotations[idx] = (rotations[idx] + 90) % 360;
@@ -2686,7 +2662,7 @@ function setupUploadBlock(j) {
         const reader = new FileReader();
         reader.onload = function(e) {
             const img = $('<img>').attr('src', e.target.result).css({
-                'max-width': '120px',
+                'max-width': '200px',
                 'transform': 'rotate(' + rotation + 'deg)'
             });
             imgHolder.html(img);
@@ -2742,6 +2718,9 @@ function setupUploadBlock(j) {
         const formData = new FormData();
         selectedFiles.forEach((file, idx) => {
             formData.append('file[]', file);
+            if(rotations[idx] != 0) {
+            rotations[idx] = rotations[idx] * -1 ;
+            }
             formData.append('rotation', rotations[idx]); // []
         });
         formData.append('urhNr', urhNr);
@@ -2832,7 +2811,7 @@ function VF_M_Foto_N_ori()
      * Parameter für die Fotos:
      *
      * $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '', 'f1' => '','f2'=>'');
-     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegeminsame Box, rb1 und up_err werden vom Uploader gesetzt,
+     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegemeinsame Box, rb1 und up_err werden vom Uploader gesetzt,
      *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
      */
 

@@ -164,11 +164,13 @@ if (isset($_POST['level1'])) {
     }
 }
 
+# var_dump($_POST);
+
 /**
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung'] == "MU") {
-var_dump($_POST);
+    
     /**VF_Eig_Ausw
      * neuen Eigentümer auswählen
      */

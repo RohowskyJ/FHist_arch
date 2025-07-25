@@ -39,6 +39,7 @@ $flow_list = true;
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
 $header = "";
 BA_HTML_header('Geräte- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

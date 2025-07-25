@@ -221,9 +221,7 @@ if ($phase == 0) {
 
 if ($phase == 1) {
 
-
 }
-
 
 switch ($phase) {
     case 0:

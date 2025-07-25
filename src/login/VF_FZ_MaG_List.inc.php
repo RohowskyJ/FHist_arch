@@ -15,7 +15,6 @@ $T_list_texte = array(
     "NeuItem" => "<a href='VF_FZ_MaG_Edit.php?ge_id=0' target='neu' > Neuen Datensatz anlegen (Auswahl) </a>"
 );
 
-
 echo "<fieldset>";
 
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen

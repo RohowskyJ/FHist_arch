@@ -13,11 +13,9 @@ $(function() {
     // Init-Funktionen
     initAutocomplete();
     initMultiDropDown();
-	initMultiFotoUp();
 
-	initToggleblock();
 	initRadio();
-	sucheBibliothek();
+	//sucheBibliothek();
 });
 
 function initAutocomplete() {
@@ -184,12 +182,13 @@ function initRadio () {
 	       } else {
 	           $('#upl_libs').hide();  // $('#upl_libs_' + id).hide()
 	           $('#upl_new' ).show();
+			   
 	       }
 	   });         
 }
 
 
-
+/*
 function sucheBibliothek(index) {
 	console.log('SucheBibliothek ativ');
      var suchbegriff = $('#suche_' + index).val();
@@ -216,7 +215,7 @@ function sucheBibliothek(index) {
                   }
                 });
  }
-         
+ */        
 
  function toggleVisibility(id) {
 	console.log('toggleVisibility aktiv');

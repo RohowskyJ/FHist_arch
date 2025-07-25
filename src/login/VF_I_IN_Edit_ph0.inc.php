@@ -160,6 +160,9 @@ echo "<div>";
 echo "<input type='hidden' name='in_foto_1' value='" . $neu['in_foto_1'] . "'>";
 echo "<input type='hidden' name='in_foto_2' value='" . $neu['in_foto_2'] . "'>";
 
+echo "<input type='hidden' id='sammlung' value='".$neu['in_sammlg'] ."'>";
+echo "<input type='hidden' id='eigner' value='".$neu['ei_id'] ."'>";
+
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
 $Feldlaenge = "100px";
 

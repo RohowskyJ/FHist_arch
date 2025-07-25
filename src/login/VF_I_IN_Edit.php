@@ -8,6 +8,13 @@
  */
 session_start();
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_IZ_IN_Edit.php";
+
 # die SESSION am leben halten
 const Module_Name = 'INV';
 $module = Module_Name;
@@ -35,8 +42,25 @@ require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = True;
 
+$jq = $jqui = true;
+$BA_AJA = true;
+
+
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$Eigent = "Eigentümer: " . $_SESSION['Eigner']['eig_eigner'];
+
+if (! $_SESSION['Eigner']['eig_name'] == "") {
+    $Eigent .= ", " . $_SESSION['Eigner']['eig_name'];
+}
+$Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
+
+$jq = $jqui = True;
+$BA_AJA = True;
+$header = "";
+BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 
 initial_debug();
 
@@ -174,17 +198,6 @@ if ($phase == 1) {
     
 }
 
-$Eigent = "Eigentümer: " . $_SESSION['Eigner']['eig_eigner'];
-
-if (! $_SESSION['Eigner']['eig_name'] == "") {
-    $Eigent .= ", " . $_SESSION['Eigner']['eig_name'];
-}
-$Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
-
-$jq = $jqui = True;
-$BA_AJA = True;
-$header = "";
-BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 
 switch ($phase) {

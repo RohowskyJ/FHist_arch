@@ -10,7 +10,8 @@
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MA_Edit_ph0.inc.php gestartet </pre>";
 }
-echo "<input type='hidden' name='fz_id' value='$fz_id'/>";
+echo "<input type='hidden' id='fz_id' name='fz_id' value='".$neu['fz_id']."'/>";
+echo "<input type='hidden' id='fz_eigner' name='fz_eignr' value='".$_SESSION['Eigner']['eig_eigner']."'/>";
 
 if ($neu['fz_id'] == 0) { // Neueingabe
     $hide_area = 0;
@@ -44,6 +45,7 @@ $Edit_Funcs_Protect = false;
 
 if ($hide_area == 0) {
     echo "<div>";
+    
 } else {
     echo "<div id='unhide_sa' style='display:none'>";
 }
@@ -139,7 +141,7 @@ if ($hide_area != 0) {  //toggle??
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_herst')\">zum anzeigen/ändern klicken!</button>";
 }
 echo "<input type='hidden' name='fz_herstell_fg' value='".$neu['fz_herstell_fg']."' >";
-$Edit_Funcs_Protect = true;
+# $Edit_Funcs_Protect = true;
 Edit_Daten_Feld_Button(Prefix . 'fz_herstell_fg', 70, '', '', $button);
 $Edit_Funcs_Protect = false;
 
@@ -154,10 +156,10 @@ VF_Auto_Herstell();
 echo "</div>"; # ende hide herstb
 
 Edit_Daten_Feld(Prefix . 'fz_typ', 70);
-Edit_Daten_Feld(Prefix . 'fz_modell', 70);
+Edit_Daten_Feld(Prefix . 'fz_modell', 50);
 
-Edit_Daten_Feld(Prefix . 'fz_motor', 70);
-Edit_Daten_Feld(Prefix . 'fz_antrieb', 70);
+Edit_Daten_Feld(Prefix . 'fz_motor', 50);
+Edit_Daten_Feld(Prefix . 'fz_antrieb', 50);
 
 Edit_Daten_Feld(Prefix . 'fz_geschwindigkeit', 10, ' km/Std');
 
@@ -168,11 +170,11 @@ if ($hide_area == 0) {  //toggle??
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_aufb')\">zum anzeigen/ändern klicken!</button>";
 }
 
-#echo "<input type='hidden' name='fz_aufbauer' value='".$neu['fz_aufbauer']."' >";
+echo "<input type='hidden' name='fz_aufbauer' value='".$neu['fz_aufbauer']."' >";
 #$Edit_Funcs_Protect = True;
-Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 50); # ,'','',$button
+Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 50,'','',$button); # ,'','',$button
 $Edit_Funcs_Protect = false;
-/*
+
 if ($hide_area == 0) {
     echo "<div>";
 } else {
@@ -182,8 +184,7 @@ if ($hide_area == 0) {
 VF_Auto_Aufbau();
 
 echo "</div>"; # ende hide aufbauer
-*/
-Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 70);
+Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 50);
 Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
@@ -192,19 +193,21 @@ Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 $button_f = "";
 if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+    $button_f = " &nbsp; &nbsp; &nbsp; <button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
 }
-Edit_Separator_Zeile('Fotos'.$button_f);  #
+Edit_Separator_Zeile('Fotos',$button_f);  #
 # =========================================================================================================
-
+/*
 echo "<div>";
-
+*/
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='fz_bild_1' value='".$neu['fz_bild_1']."' class='monitor' >";
 echo "<input type='hidden' name='fz_bild_2' value='".$neu['fz_bild_2']."' >";
 echo "<input type='hidden' name='fz_bild_3' value='".$neu['fz_bild_3']."' >";
 echo "<input type='hidden' name='fz_bild_4' value='".$neu['fz_bild_4']."' >";
 
+echo "<input type='hidden' id='sammlung' value='".$neu['fz_sammlg'] ."'>";
+echo "<input type='hidden' id='eigner' value='".$neu['fz_eignr'] ."'>";
 
 $pict_path = "";
 
@@ -216,10 +219,11 @@ while ($i <= $num_foto) {
     $i++;
 }
 
-VF_M_Foto_N();
-
+VF_Upload_Form_M();
+/*
 echo "</div";
-
+# echo "</div";
+*/
 if ($hide_area == 0) {  //toggle??
     $button = "";
 } else {
@@ -227,11 +231,12 @@ if ($hide_area == 0) {  //toggle??
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ctif')\">zum anzeigen/ändern klicken!</button>";
 }
 # =========================================================================================================
-Edit_Separator_Zeile('CTIF Zertifizierung ', $button);
+Edit_Separator_Zeile('CTIF Zertifizierung ', $button); # , $button
 # =========================================================================================================
 
 if ($hide_area == 0) {
     echo "<div>";
+   
 } else {
     echo "<div id='unhide_ctif' style='display:none'>";
 }
@@ -250,7 +255,7 @@ if ($hide_area == 0) {  //toggle??
     $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_einb')\">zum anzeigen/ändern klicken!</button>";
 }
 # =========================================================================================================
-Edit_Separator_Zeile('Fix Eingebaute Ausrüstung ', $button);
+Edit_Separator_Zeile('Fix Eingebaute Ausrüstung ', $button); # , $button
 # =========================================================================================================
 
 if ($hide_area == 0) {
@@ -259,7 +264,7 @@ if ($hide_area == 0) {
     echo "<div id='unhide_einb' style='display:none'>";
 }
 
-Edit_Daten_Feld('fz_l_tank', 700);
+Edit_Daten_Feld('fz_l_tank', 70);
 Edit_Daten_Feld('fz_l_monitor', 70);
 Edit_Daten_Feld('fz_l_pumpe', 70);
 Edit_Daten_Feld('fz_t_kran', 70);
@@ -278,7 +283,6 @@ Edit_Separator_Zeile('Datenfreigabe');
 
 Edit_Select_Feld(Prefix . 'fz_eigent_freig', VF_JN, '');
 Edit_Select_Feld(Prefix . 'fz_verfueg_freig', VF_JN, '');
-
 
 /*
 Edit_Daten_Feld('fz_pruefg_id', 1);
@@ -315,10 +319,10 @@ echo "<p><a href='VF_FZ_MaFG_List.php'>Zurück zur Liste</a></p>";
  * Anzeige der bisherigen Besitzer
  */
 
-## require "VF_FZ_EI_List.inc.php";
-
+require "VF_FZ_EI_List.inc.php";
+#echo "</fieldset>";
 echo "</div>"; # ende dropdown Eigentümer
-
+#echo "</fieldset>";
 
 
 # =========================================================================================================

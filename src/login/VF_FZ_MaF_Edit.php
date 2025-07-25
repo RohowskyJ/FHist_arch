@@ -34,7 +34,7 @@ require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
-require $path2ROOT . 'login/common/VF_Upload.lib.php';
+#require $path2ROOT . 'login/common/VF_Upload_vsc.lib.php';
 
 /**
  * Includes-Liste
@@ -168,7 +168,6 @@ if ($phase == 0) {
             'fz_t_kran' => '',
             'fz_t_winde' => '',
             'fz_t_leiter' => '',
-            'fz_t_leiter' => '',
             'fz_t_abschlepp' => '',
             'fz_t_beleuchtg' => '',
             'fz_t_strom' => '',
@@ -216,8 +215,6 @@ switch ($phase) {
         require('VF_FZ_MaF_Edit_ph0.inc.php');
         break;
     case 1:
-        # var_dump($_POST);
-        # var_dump($_FILES);
         require "VF_FZ_MaF_Edit_ph1.inc.php";
         break;
 }

@@ -9,6 +9,7 @@ uid<?php
  * 2. Anzeige der Fahrzeuge
  *
  */
+$debug=true;
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuG_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -41,36 +42,10 @@ if (isset($_POST['level1'])) {
     }
 }
 
-# $uploaddir =  "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
-$uploaddir = VF_Upload_Pfad_M('');
-
-if (isset($_FILES)) {
-    $i = 0;
-
-    foreach ($_FILES as $upLoad  => $file_arr) {
-        #var_dump($_FILES[$upLoad]);
-        # var_dump($_SESSION[$module]['Pct_Arr']);
-        if ($_FILES[$upLoad] != "") {
-            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir, $upLoad); # ,$urh_abk,$fo_aufn_datum
-            echo "L 055 result $result <br>";
-            if ($result != "" && substr($result, 0, 16) == "Upload Fehler: ") {
-                echo "L 057 Upload- Fehler $result <br>";
-                error_log($result);
-                continue;
-            }
-
-            if ($result == "") {
-                continue;
-            }
-            if (substr($result, 0, 5) == 'Err: ') {
-                continue;
-            }
-            $neu["mg_foto_".$i + 1] = $result;
-
-            $i++;
-        }
-    }
+$pic_cnt = $neu['pic_cnt'];
+for ($i=1;$i<=$pic_cnt;$i++) {
+    if ($neu['bild_datei_'.$i] != "")
+        $neu['mg_foto_'.$i] = $neu['bild_datei_'.$i];
 }
 
 $neu['mg_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
@@ -104,30 +79,10 @@ if ($neu['mg_id'] == 0) { # neueingabe
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
-            continue;
-        } #
-
-        if (substr($name, 0, 5) == "foto_") {
-            continue;
-        } #
-
-        if (substr($name, 0, 3) == "sel") {
+        
+        if (substr($name,0,3) != "mg_") {
             continue;
         }
-        if (substr($name, 0, 3) == "lev") {
-            continue;
-        }
-
-        if ($name == "sammlg") {
-            continue;
-        } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if (substr($name, 0, 3) == "sa_") {
-            continue;
-        } #
 
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife

@@ -123,12 +123,12 @@ function resizeImage($file, $maxWidth = '800', $maxHeight = '800', $outputPath =
     // if ($debug_log) {file_put_contents('Foto_Func_debug.log', "Foto L 0116 maxw $maxWidth maxh $maxHeight file $file \n outp $outputPath \nCR $copyrightText ttf-f $ttf_file \n" . PHP_EOL, FILE_APPEND);}
 
     if (!isset($ttf_file)) {
-        $fontFile = "Fonts/arialbd.ttf";
+        $fontFile = "../Fonts/arialbd.ttf";
     } else {
         $fontFile = $ttf_file;
     }
 
-    if ($rotation >= 0) {
+    if ($rotation != 0) {
         if ($debug_log) {
             file_put_contents('Foto_Func_debug.log', "Foto L 0189 in sel rotate rotation = $rotation  \n" . PHP_EOL, FILE_APPEND);
         }
@@ -273,5 +273,5 @@ function resizeImage($file, $maxWidth = '800', $maxHeight = '800', $outputPath =
 function gd_inform()
 {
     #var_dump(gd_info());
-    file_put_contents('Foto_Func_debug.log', "Foto L 0116 maxw $maxWidth maxh $maxHeight file $file \n outp $outputPath \nCR $copyrightText ttf-f $ttf_file \n" . PHP_EOL, FILE_APPEND);
+    #file_put_contents('Foto_Func_debug.log', "Foto L 0116 maxw $maxWidth maxh $maxHeight file $file \n outp $outputPath \nCR $copyrightText ttf-f $ttf_file \n" . PHP_EOL, FILE_APPEND);
 }

@@ -153,6 +153,7 @@ $Feldlaenge = "100px";
 
 $_SESSION[$module]['Pct_Arr' ] = array();
 $num_foto = 4;
+
 $i = 1;
 while ($i <= $num_foto) {
     $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'fm_komm_'.$i, 'bi' => 'fm_foto_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');

@@ -15,8 +15,8 @@ while ($row_a = mysqli_fetch_object($res_a)) {
         $aufb_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;
     }
 }
-#var_dump($herst_arr);
-#var_dump($aufb_arr);
+# var_dump($herst_arr);
+# var_dump($aufb_arr);
 
 
 /**
