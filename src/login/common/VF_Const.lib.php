@@ -660,8 +660,9 @@ const VF_ZT_Sub_Sachg = array(
 const VF_Fahrz_Herst = array(
     'F' => 'Fahrzeughersteller'
     ,'A' => 'Aufbauer (Karosseur)'
+    ,'G' => 'Geräte- Hersteller'
 );
-
+ 
 /**
  * Ende der Bibliothek
  *

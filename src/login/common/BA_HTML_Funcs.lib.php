@@ -85,17 +85,13 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         }
         </style>
         <?php
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
+        # echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
     }
     
     if (isset($BA_AJA) && $BA_AJA) {
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_AJAX_Scripts.js' ></script>";
     }
   
-    if (isset($js_upl) && $js_upl) {
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Upload_Module.js' ></script>";
-    }
-
     echo $head;
     echo "</head>";
 

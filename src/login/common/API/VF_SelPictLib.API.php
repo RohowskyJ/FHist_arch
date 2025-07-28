@@ -1,6 +1,6 @@
 <?php
 
-# header('Content-Type: application/json');
+header('Content-Type: application/json');
 
 require "../BA_Funcs.lib.php";
 require "../VF_Comm_Funcs.lib.php";
@@ -11,7 +11,9 @@ require "../VF_Const.lib.php";
  ini_set("log_errors", 1);
  ini_set("error_log", "SelPict_php-error.log");
  error_log( "Hello, errors!" );
-/* */
+/* */ 
+$path2ROOT = "../../../";
+$module = "";
 $debug = false;
 $debug_log = true;
 
@@ -32,73 +34,73 @@ $eigner = $_GET['eigner'] ?? '';
   $eigner = "21"; #"Wiener Neudorf";
 */
 
-$ini_d = "../config_d.ini";
-$ini_arr = parse_ini_file($ini_d, true, INI_SCANNER_NORMAL);
+$dbhost = "";
+$dbuser = "";
+$dbpass = "";
+$database = "";
 
-$server_name = $_SERVER['SERVER_NAME'];
-if (stripos($server_name, "www") !== false) {
-    $url_arr = explode(".", $server_name);
-    $cnt_u = count($url_arr);
-    if ($cnt_u >= 2) {
-        $server_name = $url_arr[$cnt_u - 2] . "." . $url_arr[$cnt_u - 1];
-    }
-}
-
-$dbhost = '';
-$dbuser = '';
-$dbpass = '';
-$database = '';
-
-if (isset($ini_arr[$server_name])) {
-    if ($server_name == 'localhost') {
-        $dbhost = $ini_arr[$server_name]['l_dbh'];
-        $dbuser = $ini_arr[$server_name]['l_dbu'];
-        $dbpass = $ini_arr[$server_name]['l_dbp'];
-        $database = $ini_arr[$server_name]['l_dbn'];
-    } else {
-        if (stripos($server_name, "www") !== false) {
-            $url_arr = explode(".", $server_name);
-            $cnt_u = count($url_arr);
-            $server_name = $url_arr[$cnt_u - 2] . "." . $url_arr[$cnt_u - 1];
-        }
-        $server_name = "HOST"; // Fallback
-        if (isset($ini_arr[$server_name])) {
+    $ini_s = "../config_s.ini";
+    $ini_s_arr = parse_ini_file($ini_s, true, INI_SCANNER_NORMAL);
+    $hompg = $ini_s_arr['Config']['homp'];
+    $ini_d = "../config_d.ini";
+    $ini_arr = parse_ini_file($ini_d, true, INI_SCANNER_NORMAL);
+    # print_r($ini_s_arr); echo "<br>L 0251 ini_s_arr $hompg <br>";
+    file_put_contents('SelPictLib_debug.log', "L 040 ini_d $ini_d " . PHP_EOL, FILE_APPEND);
+    $server_name = $_SERVER['SERVER_NAME'];
+    
+    if (isset($ini_arr)) {
+        if ($server_name == 'localhost') {
+            if (isset($ini_arr[$server_name])) {
+                $dbhost = $ini_arr[$server_name]['l_dbh'];
+                $dbuser = $ini_arr[$server_name]['l_dbu'];
+                $dbpass = $ini_arr[$server_name]['l_dbp'];
+                $database = $ini_arr[$server_name]['l_dbn'];
+            }
+        } else {
+            $s_a =  explode(".",$server_name);
+            $cnt_s = count($s_a);
+            $s_c =  explode(".",$hompg);
+            $cnt_s = count($s_c);
+            if ($cnt_s < $cnt_c) {
+                if ($s_a[$cnt_s-2] == $s_c[$cnt_c-2]) {
+                    $server_name = "HOST";
+                }
+            }
             $dbhost = $ini_arr[$server_name]['h_dbh'];
             $dbuser = $ini_arr[$server_name]['h_dbu'];
             $dbpass = $ini_arr[$server_name]['h_dbp'];
             $database = $ini_arr[$server_name]['h_dbn'];
         }
-    }
+        # file_put_contents('SelPictLib_debug.log', "L 066 $dbhost $dbuser $database " . PHP_EOL, FILE_APPEND);
+        
+        $db = $dblink = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
+        
+        mysqli_select_db($dblink, $database) or die("Datenbankzugriff zu $database gescheitert!");
+        mysqli_set_charset($dblink, 'utf8mb4');
+        $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
+
 } else {
     $result['status'] = 'error';
-    $result['error'] = 'Server-Konfiguration nicht gefunden.';
+    $result['error'] = 'Konfigurations- Datei nicht gefunden ';
     echo json_encode($result);
     ob_end_flush();
     exit;
 }
 
-$db = mysqli_connect($dbhost, $dbuser, $dbpass);
-if (!$db) {
-    $result['status'] = 'error';
-    $result['error'] = 'Verbindung zu MySQL fehlgeschlagen: ' . mysqli_connect_error();
-    echo json_encode($result);
-    ob_end_flush();
-    exit;
-}
-mysqli_select_db($db, $database);
-mysqli_set_charset($db, 'utf8');
 
-$LinkDB_database = $database;
+$db = $dblink = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
+
+mysqli_select_db($dblink, $database) or die("Datenbankzugriff zu $database gescheitert!");
+mysqli_set_charset($dblink, 'utf8mb4');
+$LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
 
 $basispfad = "../../AOrd_Verz/";
 
 if ($debug_log) {
     $eintragen .= "sammlg $sammlg \n";
     $eintragen .= "feuerwehr $eigner  \n";
-    file_put_contents('SelPictLib_debug.log', "L 097 $eintragen" . PHP_EOL, FILE_APPEND);
+    file_put_contents('SelPictLib_debug.log', "L 087 $eintragen" . PHP_EOL, FILE_APPEND);
 }
-
-
 
 $ar_arr = $dm_arr = $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr =  $zt_arr = array();
 $tables_act = VF_tableExist();          // Array der existierenden Tabellen
@@ -112,17 +114,17 @@ foreach ($dm_arr as $dsn => $drop) {
         continue;
     }
 
-    $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_fw_id LIKE '%$eigner%' ";
+    $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_feuerwehr LIKE '%$eigner%' ";
 
     $sql = "SELECT * FROM $dsn $where ";
    
-    # echo "L 0141 sql $sql <br>";
+    file_put_contents('SelPictLib_debug.log', "L 0108 sql $sql " . PHP_EOL, FILE_APPEND);
 
     $return = SQL_QUERY($db, $sql);
     if (mysqli_num_rows($return) === 0) {
         if (strlen($sammlg) > 4 ) {
             $s_samm = substr($sammlg,0,4);
-            $sql = "SELECT * FROM $dsn WHERE  md_fw_id LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND 
+            $sql = "SELECT * FROM $dsn WHERE  md_feuerwehr LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND 
             $return = SQL_QUERY($db,$sql);
         }
     }
@@ -133,7 +135,7 @@ foreach ($dm_arr as $dsn => $drop) {
         }
         
         $eintragen = "$sammlg  row $row->md_dsn_1 \n";
-        file_put_contents('SelPictLib_debug.log', "L 0136 $eintragen" . PHP_EOL, FILE_APPEND);
+        file_put_contents('SelPictLib_debug.log', "L 0125 $eintragen" . PHP_EOL, FILE_APPEND);
         
         $p_arr = pathinfo($row->md_dsn_1);
         $subsg = "";
@@ -148,24 +150,19 @@ foreach ($dm_arr as $dsn => $drop) {
             $eintragen .= "sammlg $sammlg \n";
             $eintragen .= "feuerwehr $eigner  \n";
             $eintragen .= "Foto $row->md_dsn_1 \n";
-            file_put_contents('SelPictLib_debug.log', "L 0151 $eintragen" . PHP_EOL, FILE_APPEND);
+            file_put_contents('SelPictLib_debug.log', "L 0140 $eintragen" . PHP_EOL, FILE_APPEND);
         }
-        
-        # echo "L 0149 subsg $subsg <br>";
-        # echo "L 0150 arr_entry 'dateiname' => $row->md_dsn_1, 'pfad' => AOrd_VERZ/$row->md_eigner/09/$subsg/$sdir.$row->md_dsn_1  <br>";
-        $bilder[] = array('dateiname' => $row->md_dsn_1, 'pfad' => "AOrd_VERZ/$row->md_eigner/09/$subsg/$sdir$row->md_dsn_1");
+
+        $bilder[] = array('dateiname' => $row->md_dsn_1, 'pfad' => "AOrd_Verz/$row->md_eigner/09/$subsg/$sdir$row->md_dsn_1");
         $anz_bilder ++;
     }
     # var_dump($bilder);
 }
-# $cnt = count($bilder);
-#echo "L 0157 anzahl Einträge $cnt <br>";
-#var_dump($bilder);
-#exit;
+
 if ($debug_log) {
     $eintragen .= "json ".json_encode($bilder)." \n";
     $eintragen .= "$sammlg  $eigner anz_foto $anz_bilder \n";
-    file_put_contents('SelPictLib_debug.log', "L 0167 $eintragen" . PHP_EOL, FILE_APPEND);
+    file_put_contents('SelPictLib_debug.log', "L 0152 $eintragen" . PHP_EOL, FILE_APPEND);
 }
 echo json_encode($bilder);
 # return json_encode($bilder);

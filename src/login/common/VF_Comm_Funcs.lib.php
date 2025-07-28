@@ -2351,13 +2351,13 @@ function VF_Upload_Form_M()
         echo "<div class='bild-detail' >";
 
         if ($neu[$p_a['bi']] != "") {
-            $fo = $neu[$p_a['bi']];
             #console_log('L 02528 foto '.$fo);
+            $fo = $neu[$p_a['bi']];
             $fo_arr = explode("-", $neu[$p_a['bi']]);
             $cnt_fo = count($fo_arr);
 
             if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
-                $urh = $fo_arr[0]."/";
+                $urh = $fo_arr[0];
                 $verz = $fo_arr[1]."/";
                 if ($cnt_fo > 3) {
                     if (isset($fo_arr[3])) {
@@ -2365,12 +2365,14 @@ function VF_Upload_Form_M()
                     }
                 }
                 $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
-
+                # echo "L 02368 pic new P  $p <br>";
                 if (!is_file($p)) {
                     $p = $pict_path . $neu[$p_a['bi']];
+                    # echo "L 02371 pic oldP  $p <br>";
                 }
             } else {
                 $p = $pict_path . $neu[$p_a['bi']];
+                # echo "L 02375 pic old def $p <br>";
             }
 
             $f_arr = pathinfo($neu[$p_a['bi']]);
@@ -2403,10 +2405,17 @@ function VF_Upload_Form_M()
            <?php
            if ($module != 'OEF') {
            ?>
-              <!-- Radio Buttons für die Auswahl  -->
+             
+                 <?php 
+                if ($_SERVER['SERVER_NAME'] == 'localhost' ) {
+                ?> 
+                <!-- Radio Buttons für die Auswahl  -->
               <label>
                   <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> aus Bibliothek auswählen
               </label>
+              <?php 
+                }
+                ?>
               <label>
                 <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
               </label>
@@ -2419,8 +2428,26 @@ function VF_Upload_Form_M()
                  <!-- (Preview area moved out) -->
                 </div>
 
+                <!-- Bereich, um die ausgewählten Bildinfos anzuzeigen (immer im DOM) -->
+                 <div id="auswahl-bild_<?php echo $j ?>" style="display:none;">  
+                   <h3>Ausgewähltes Bild:</h3>
+                   <div id="bild-vorschau-auswahl_<?php echo $j ?>"></div>
+                   <p>Dateiname: <span id="dateiname-auswahl_<?php echo $j ?>"></span></p>
+                 </div>
+
+                 <!-- Galerie-Container für die Bildauswahl -->
+                 <div id="bild-galerie_<?php echo $j; ?>" style="display:none; border:1px solid #ccc; padding:10px;"></div>
+
+                 <!-- Dialog für die Bilder-Auswahl (separater Dialog, eigene IDs) -->
+                 <div id="dialog-bilder_<?php echo $j; ?>" style="display:none;">
+                   <div id="bild-vorschau-dialog_<?php echo $j; ?>"></div>
+                   <div id="dateiname-dialog_<?php echo $j; ?>"></div>
+                   <input type="hidden" id="bild-datei-dialog_<?php echo $j; ?>">
+                 </div>
+                 <hr>
+ 
                  <!-- Bereich, um die ausgewählten Bildinfos anzuzeigen (immer im DOM) -->
-                 <div id="auswahl-bild_<?php echo $j ?>" style="display:none;">   -->
+                 <div id="auswahl-bild_<?php echo $j ?>" style="display:none;">  
                    <h3>Ausgewähltes Bild:</h3>
                    <div id="bild-vorschau-auswahl_<?php echo $j ?>"></div>
                    <p>Dateiname: <span id="dateiname-auswahl_<?php echo $j ?>"></span></p>
@@ -2539,6 +2566,7 @@ function startAjax(biNr) {
         },
         dataType: 'json',
         success: function(daten) {
+            console.log('Success ',daten);
             bilder[biNr] = daten;
             // Galerie im Dialog füllen
             var dialog = $('#dialog-bilder_' + biNr);
@@ -2546,7 +2574,7 @@ function startAjax(biNr) {
             for (let i=0; i<daten.length; i++) {
                 let b = daten[i];
                 galerieHtml += `<div class="bild-item" data-index="${i}" style="cursor:pointer; border:1px solid #ccc; padding:5px;">
-                        <img src="${b.pfad}" alt="${b.dateiname}" width="100"><br>${b.dateiname}
+                        <img src="${b.pfad}" alt="${b.dateiname}" width="200"><br>${b.dateiname}
                     </div>`;
             }
             galerieHtml += '</div>';
@@ -2555,7 +2583,7 @@ function startAjax(biNr) {
             dialog.find('#bild-datei-dialog_' + biNr).val('');
             dialog.find('#bild-nummer-dialog_' + biNr).val(1);
             // Dialog öffnen
-            dialog.dialog({ width: 600, modal: true });
+            dialog.dialog({ width: 800, modal: true });
         }
     });
 }
@@ -2797,7 +2825,6 @@ $(document).ready(function() {
 });    
 </script>
 <?php 
-# echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Upload_Module.js' ></script>";
 
 } // end VF_M_Foto
 
