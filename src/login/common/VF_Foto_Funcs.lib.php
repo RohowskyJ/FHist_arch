@@ -22,9 +22,13 @@
 function convertImage($inputFile, $outputFile)
 {
     global $debug_log;
-
-    file_put_contents('Fo_up_debug.log', "VF_Foto_funcs L 024, $inputFile, $outputFile " . PHP_EOL, FILE_APPEND);
-
+    
+    $debug_file= "Foto_up_debug.log";
+   
+    if ($debug_log) {
+        file_put_contents($debug_file, "VF_Foto_funcs L 029, $inputFile, $outputFile " . PHP_EOL, FILE_APPEND);
+    }
+   
     // Bildinformationen abrufen
     list($width, $height, $type) = getimagesize($inputFile);
 
@@ -43,8 +47,15 @@ function convertImage($inputFile, $outputFile)
             throw new Exception('Unsupported image type');
     }
 
+    if ($debug_log) {
+        file_put_contents($debug_file, "VF_Foto_funcs L 051, $width, $height " . PHP_EOL, FILE_APPEND);
+    }
     // Neues Bild erstellen
     $newImage = imagecreatetruecolor($width, $height);
+    
+    if ($debug_log) {
+        file_put_contents($debug_file, "VF_Foto_funcs L 057, source  $source " . PHP_EOL, FILE_APPEND);
+    }
 
     // Bild kopieren
     imagecopyresampled($newImage, $source, 0, 0, 0, 0, $width, $height, $width, $height);
@@ -65,14 +76,16 @@ function convertImage($inputFile, $outputFile)
         default:
             throw new Exception('Unsupported output image type');
     }
-
-    imagewebp($newImage, $outputFile);
  */
     imagejpeg($newImage, $outputFile);
     // Speicher freigeben
     imagedestroy($source);
     imagedestroy($newImage);
 
+    if ($debug_log) {
+        file_put_contents($debug_file, "VF_Foto_funcs L 086, neue Files fertig " . PHP_EOL, FILE_APPEND);
+    }
+    
     /**
      *
 
@@ -112,7 +125,7 @@ function convertImage($inputFile, $outputFile)
  */
 function resizeImage($file, $maxWidth = '800', $maxHeight = '800', $outputPath = '', $copyrightText = '')
 {
-    global $ttf_file,$debug_log , $rotation;
+    global $ttf_file,$debug_log , $rotation, $watermark;
     if (!isset($debug_log)) {
         $debug_log = false;
     }
@@ -235,9 +248,10 @@ function resizeImage($file, $maxWidth = '800', $maxHeight = '800', $outputPath =
     // Speicher freigeben
     imagedestroy($source);
     imagedestroy($newImage);
-
-    unlink($file); // löschen der Input- Datei
-
+    if (file_exists($file)) {
+        unlink($file); // löschen der Input- Datei
+    }
+    
     return ($resized_file);
     /**
      *

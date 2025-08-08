@@ -1,12 +1,9 @@
 <?php
 
 /**
- * Laden der Daten in die Foto-Tabellen des gewählten Eigentümers 
- * 
- * @author  Josef Rohowsky - neu 2023
- * 
- * 
- */
+ * Laden der Daten in die Foto-Tabellen des gewählten Eigentümers
+ *
+ * @author  Josef Rohowsky - neu 2023, upd js/AJAX 202508 */
 session_start();
 
 # die SESSION am leben halten
@@ -35,12 +32,12 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-$flow_list = False;
+$flow_list = false;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
-$jq = $jqui = True;
+$jq = $jqui = true;
 $BA_AJA = true;
 $header = "
 <style>
@@ -112,13 +109,13 @@ if (! isset($_SESSION['VF_LISTE'])) {
 
 if (isset($_GET['res_eig']) && $_GET['res_eig']) {
     $_SESSION['Eigner']['eig_eigner'] = "";
-    VF_Auto_Eigent('U',True);
+    VF_Auto_Eigent('U', true);
 } else {
     $eignr = $_SESSION['Eigner']['eig_eigner'];
 }
 
-if (isset($_POST['eigentuemer'])) {
-    VF_Displ_Eig($_POST['eigentuemer']);
+if (isset($_POST['eigentuemer_1'])) {
+    VF_Displ_Eig($_POST['eigentuemer_1']);
 }
 
 if (isset($_POST['select_string'])) {
@@ -127,17 +124,17 @@ if (isset($_POST['select_string'])) {
     $select_string = "";
 }
 
-$_SESSION[$module]['$select_string'] = $select_string;  
+$_SESSION[$module]['$select_string'] = $select_string;
 
 $eignr = $_SESSION['Eigner']['eig_eigner'];
-if ($phase == 0 AND $_SESSION['Eigner']['eig_eigner'] != "" ) {
-   #  VF_Auto_Eigent('U',True);
+if ($phase == 0 and $_SESSION['Eigner']['eig_eigner'] != "") {
+    #  VF_Auto_Eigent('U',True);
     $phase = 1;
 }
 
 if ($phase == 1) {
-    if (isset($_POST['eigentuemer']) ) { #&& isset()) {
-        VF_Displ_Eig($_POST['eigentuemer']);
+    if (isset($_POST['eigentuemer_1'])) { #&& isset()) {
+        VF_Displ_Eig($_POST['eigentuemer_1']);
     } else {
         $Err_Msg = "Ungültige Auswahl";
         $phase = 0;
@@ -149,13 +146,52 @@ if ($phase == 2) {
         $_SESSION[$module]['Up_Parm'][$key] = $value;
     }
 }
+if ($phase == 3) {
+    echo "L 0156 phase 3 <br>";
+    
+    $watermark = $_POST['watermark'] ?? 'N';
+    
+    $md_beschreibg = $_POST['md_beschreibg'] ?? '';
+    $md_Urheber = $_POST['md_Urheber'] ?? '';
+    $md_aufn_datum = $_POST['md_aufn_datum'] ?? '';
+    $md_eigner = $_POST['urhNr'] ?? '';
+
+    foreach ($_POST as $key => $value) {
+        
+        if (substr($key,0,5) == 'name_' && $key != '') {
+            $md_dsn_1 = trim($value);
+            
+            $f_arr = pathinfo(strtolower($value));
+            $ext = $f_arr['extension'];
+            if (in_array($ext, ['gif', 'ico', 'jpeg', 'jpg', 'png', 'tiff'])) {
+                $media = 'Foto';
+            }
+            if ($ext == 'md3') {$media = 'Audio';}
+            if ($ext == 'md4') {$media = 'Video';}
+            
+            $sql_add = "INSERT dm_edien_$md_eigner (
+                         md_eigner,md_urheber,md_dsn_1,md_aufn_datum,md_beschreibg,md_namen,
+                         md_sammlg,md_media,
+                         md_aenduid
+                      ) VALUE (
+                        '$md_eigner','$md_Urheber','$md_dsn_1','$md_aufn_datum','$md_beschreibg','',
+                        '','$media',
+                        '" . $_SESSION['VF_Prim']['p_uid'] . "'
+                      )";
+            echo "L 0185 sql_add $sql_add <br>";
+            $result = SQL_QUERY($db, $sql_add);
+        }
+
+    }
+    
+}
 
 switch ($phase) {
-   
+
     case 0:
-        VF_Auto_Eigent('U',True);
+        VF_Auto_Eigent('U', true);
         break;
-        
+
     case 1:
         require 'VF_FO_Media_MassUp_ph1.inc.php'; // Ziel nach Archiv-Ordnung feststellen, Pfad der Source- Bilder abfragen
         break;
@@ -187,9 +223,9 @@ BA_HTML_trailer();
 function modifyRow(array &$row, $tabelle)
 {
     global $db,$path2ROOT, $T_List, $module, $fm_eigner;
-    
+
     $s_tab = substr($tabelle, 0, 8);
-    
+
     # print_r($row);echo "<br>L 0149 row <br>";
     switch ($s_tab) {
         case "fh_eigen":
@@ -198,17 +234,17 @@ function modifyRow(array &$row, $tabelle)
             }
             $ei_id = $row['ei_id'];
             $row['ei_id'] = "<input type='radio' id='$ei_id' name='ei_id' value='$ei_id'> <label for id='$ei_id'> &nbsp; $ei_id</label>"; //
-            
+
             $row['ei_name']  .= " ".$row['ei_vname'];
-            
-            if (strlen($row['ei_media']) >= 2 ) {
+
+            if (strlen($row['ei_media']) >= 2) {
                 #if ($row['ei_org_typ']  != "Privat" ) { // urh erw auslesen
                 $sql_u = "SELECT * FROM fh_eign_urh WHERE  fs_eigner=$ei_id ";
-                $ret_u = SQL_QUERY($db,$sql_u);
-                WHILE ( $row_u = mysqli_fetch_object($ret_u)) {
+                $ret_u = SQL_QUERY($db, $sql_u);
+                while ($row_u = mysqli_fetch_object($ret_u)) {
                     $row['Urh_Erw'] .= "<input type='radio' id='$row_u->fs_urh_kurzz' name='urh_kurz' value='$row_u->fs_urh_kurzz|$row_u->fs_typ'> <label for= > $row_u->fs_fotograf, $row_u->fs_typ, $row_u->fs_urh_kurzz, $row_u->fs_urh_verzeich    </label><br>";
                 }
-            } else  {
+            } else {
                 $ei_kurzz = $row['ei_urh_kurzz'];
                 $ei_media = $row['ei_media'];
                 $row['ei_id'] = "<input type='radio' id='$ei_id' name='ei_id' value='$ei_id|$ei_kurzz|$ei_media'> <label for id='$ei_id'> &nbsp; $ei_id</label>";
@@ -223,28 +259,28 @@ function modifyRow(array &$row, $tabelle)
             } else {
                 $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
             }
-            
+
             $fo_id = $row['fo_id'];
             $verz = "N";
             if ($row['fo_dsn'] == "") {
                 $verz = "J";
             }
             $row['fo_id'] = "<a href='VF_FO_MassUp.php?fo_id=$fo_id&fo_eigner=" . $row['fo_eigner'] . "&verz=$verz' >" . $fo_id . "</a>";
-            
+
             $fo_aufn_d = $row['fo_aufn_datum'];
             $fo_eigner = $row['fo_eigner'];
             $fo_basepath = $row['fo_basepath'];
-            
+
             if ($fo_basepath != "") { # Pfad orientiertes Archiv
                 $pfad = $fo_basepath . "";
             } elseif ($fo_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
                 $pfad = $fo_aufn_d . "/";
             }
-            
+
             if ($_SESSION[$module]['URHEBER']['fm_typ'] == "F") {
                 $row['fo_basepath'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&pf=$bpfad&zupf=$zuspfad'  target='_blanc'>" . $fo_aufn_d . " </a> Fotos ";
             }
-            
+
             if ($row['fo_dsn'] != "") {
                 $dsn = $row['fo_dsn'];
                 $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
@@ -254,11 +290,9 @@ function modifyRow(array &$row, $tabelle)
                     # $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['fo_dsn'] . "</a>";
                 }
             }
-            
+
             break;
     }
-    
-    return True;
-} # Ende von Function modifyRow
 
-?>
+    return true;
+} # Ende von Function modifyRow
