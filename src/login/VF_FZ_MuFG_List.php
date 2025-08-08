@@ -51,7 +51,7 @@ $db = LinkDB('VFH');
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
+        "SelectAnzeige"       => "Ein",
         "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
@@ -246,6 +246,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
     }
 
     $sql .= $sql_where . $orderBy;
+    echo "L 0249 sql $sql <br>";
 
     List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
 
@@ -286,11 +287,24 @@ function modifyRow(array &$row, $tabelle)
             if ($row['fm_foto_1'] != "") {
                 $fm_foto_1 = $row['fm_foto_1'];
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuF/";
-
-                $fm_foto_1 = $row['fm_foto_1'];
-                $p1 = $pict_path . $row['fm_foto_1'];
-
-                $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fm_foto_1  </a>";
+                
+                $fo = $row['fm_foto_1'];
+                $fo_arr = explode("-", $fm_foto_1);
+                $cnt_fo = count($fo_arr);
+ 
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+      
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fm_foto_1 ;
+ 
+                    if (!is_file($p)) {
+                        $p = $pict_path . $fm_foto_1;
+                    }
+                } else {
+                    $p = $pict_path . $row['fm_foto_1'];
+                }
+                $row['fm_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='150px'> <br> $fm_foto_1  </a>";
             }
 
             $herst = $row['fm_herst'];
@@ -309,10 +323,22 @@ function modifyRow(array &$row, $tabelle)
                 $mg_foto_1 = $row['mg_foto_1'];
                 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
 
-                $mg_foto_1 = $row['mg_foto_1'];
-                $p1 = $pict_path . $row['mg_foto_1'];
-
-                $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'><br>  $mg_foto_1  </a>";
+                $fo = $row['mg_foto_1'];
+                $fo_arr = explode("-", $mg_foto_1);
+                
+                $cnt_fo = count($fo_arr);
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+                    
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$mg_foto_1 ;
+                    if (!is_file($p)) {
+                        $p = $pict_path . $mg_foto_1;
+                    }
+                } else {
+                    $p = $pict_path . $row['mg_foto_1'];
+                }
+                $row['mg_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='150px'> <br> $mg_foto_1  </a>";
             }
 
             break;

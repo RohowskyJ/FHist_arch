@@ -287,15 +287,11 @@ function modifyRow(array &$row, $tabelle)
 
                 $fo_arr = explode("-", $fz_bild_1);
                 $cnt_fo = count($fo_arr);
-
+               
                 if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
                     $urh = $fo_arr[0]."/";
                     $verz = $fo_arr[1]."/";
-                    if ($cnt_fo > 3) {
-                        if (isset($fo_arr[3])) {
-                            $s_verz = $fo_arr[3]."/";
-                        }
-                    }
+
                     $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fz_bild_1;
 
                     if (!is_file($p1)) {
@@ -304,8 +300,6 @@ function modifyRow(array &$row, $tabelle)
                 } else {
                     $p1 = $pict_path . $fz_bild_1;
                 }
-
-
 
                 $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fz_bild_1 </a>";
             }
@@ -421,16 +415,28 @@ function modifyRow(array &$row, $tabelle)
         case "ma_gerae":
             $ge_id = $row['ge_id'];
             $row['ge_id'] = "<a href='VF_FZ_MaG_Edit.php?ge_id=$ge_id' >" . $ge_id . "</a>";
+            
             if ($row['ge_foto_1'] != "") {
                 $ge_foto_1 = $row['ge_foto_1'];
-                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
+                
+                $fo_arr = explode("-", $ge_foto_1);
+                $cnt_fo = count($fo_arr);
+                console_log("foto dsn $ge_foto_1 cnt_fo $cnt_fo");
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
 
-                $ge_foto_1 = $row['ge_foto_1'];
-                $p1 = $pict_path . $row['ge_foto_1'];
-
-                $row['ge_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'><br> $ge_foto_1  </a>";
+                    $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$ge_foto_1;
+                    
+                    if (!is_file($p1)) {
+                        $p1 = $pict_path . $ge_foto_1;
+                    }
+                } else {
+                    $p1 = $pict_path . $ge_foto_1;
+                }
+                $row['ge_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $ge_foto_1 </a>";
             }
-
             break;
     }
 

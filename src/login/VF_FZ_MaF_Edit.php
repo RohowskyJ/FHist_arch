@@ -34,8 +34,6 @@ require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
-#require $path2ROOT . 'login/common/VF_Upload_vsc.lib.php';
-
 /**
  * Includes-Liste
  * enthält alle jeweils includierten Scritpt Files

@@ -139,59 +139,7 @@ if ($neu['fz_id'] == 0) { # neueingabe
         if ($name == "fz_uidaend") {
             continue;
         } #
-/*
-        if ($name == "MAX_FILE_SIZE") {
-            continue;
-        } #s
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "tabelle") {
-            continue;
-        }
-        if ($name == "aufbauer") {
-            continue;
-        }
-        if ($name == "hersteller") {
-            continue;
-        }
-        if ($name == "taktisch") {
-            continue;
-        }
-        if ($name == "hersteller") {
-            continue;
-        }
-        if ($name == "eigentuemer") {
-            continue;
-        }
-        if ($name == "urheinfueg") {
-            continue;
-        }
-        if ($name == "sel_libs") {
-            continue;
-        }
-        if ($name == "aufn_dat") {
-            continue;
-        }
-        if ($name == "sa_name") {
-            continue;
-        }
-        if (substr($name, 0, 5) == 'foto_') {
-            continue;
-        }
-        if (substr($name, 0, 5) == 'bild_') {
-            continue;
-        }
-        if (substr($name, 0, 4) == 'leve') {
-            continue;
-        }
-        if ($name == 'aufbauer' || $name == 'eigentuemer' || $name == 'hersteller' || $name == 'taktisch' || $name == 'urheber' || $name == 'fo_org') {
-            continue;
-        }
-        if (substr($name, 0, 5) == 'f_Doc') {
-            continue;
-        }
-        */
+
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 

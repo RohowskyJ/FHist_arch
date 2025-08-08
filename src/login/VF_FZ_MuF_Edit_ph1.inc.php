@@ -20,7 +20,7 @@ if (!isset($neu['fm_invnr'])) {
 }
 
 # $neu['fm_bezeich'] = mb_convert_case($neu['fm_bezeich'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$debug = true;
+#$debug = true;
 $neu['fm_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';

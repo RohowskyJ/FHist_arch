@@ -9,7 +9,7 @@
  * 2. Anzeige der Fahrzeuge
  *
  */
-$debug = true;
+# $debug = true;
 $Inc_Arr[] = "VF_FZ_MaG_Edit_ph1.inc.php";
 
 if ($debug) {
@@ -48,7 +48,7 @@ for ($i=1;$i<=$pic_cnt;$i++) {
     if ($i < 5) {
         if ($neu['bild_datei_'.$i] != "") {
             $neu['ge_foto_'.$i] = $neu['bild_datei_'.$i];
-            echo "L 051 foto $i ".$neu['fm_foto_'.$i]."<br>";
+            echo "L 051 foto $i ".$neu['ge_foto_'.$i]."<br>";
         }
     } else {
         switch ($i) {

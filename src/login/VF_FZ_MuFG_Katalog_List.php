@@ -443,7 +443,31 @@ function modifyRow(array &$row, $tabelle)
                 $fm_foto_1 = $row['fm_foto_1'];
                 $p1 = $pict_path . $row['fm_foto_1'];
 
-                $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $fm_foto_1  </a>";
+                #$row['fm_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $fm_foto_1  </a>";
+                
+                $fo = $row['fm_foto_1'];
+                $fo_arr = explode("-", $row['fm_foto_1']);
+                $cnt_fo = count($fo_arr);
+                $row->fm_ausdienst = "L 0451 cnt_fo $cnt_fo fo $fo <br>";
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+                    if ($cnt_fo > 3) {
+                        if (isset($fo_arr[3])) {
+                            $s_verz = $fo_arr[3]."/";
+                        }
+                    }
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$row['fm_foto_1'] ;
+                    $row->fm_ausdienst .=  "L 02368 pic new P  $p <br>";
+                    if (!is_file($p)) {
+                        $p = $pict_path . $row['fm_foto_1'];
+                        $row->fm_ausdienst .=  "L 0464 pic oldP  $p <br>";
+                    }
+                } else {
+                    $p = $pict_path . $row['fm_foto_1'];
+                    $row->fm_ausdienst .= "L 0468 pic old def $p <br>";
+                }
+                $row['fm_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='70px'>  $fm_foto_1  </a>";
             }
             break;
         case "mu_gerae":

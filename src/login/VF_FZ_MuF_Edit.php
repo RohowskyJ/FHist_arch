@@ -146,7 +146,6 @@ if ($phase == 1) {
 
 switch ($phase) {
     case 0:
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_Upload_Module.js' ></script>";
         require('VF_FZ_MuF_Edit_ph0.inc.php');
         break;
     case 1:
