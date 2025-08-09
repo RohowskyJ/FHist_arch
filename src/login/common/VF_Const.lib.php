@@ -99,7 +99,7 @@ const VF_FZG_Aera = array(
     '5' => '1951 - 1975 - Fahrzeug Neubeschaffungen',
     '6' => '1976 - 2000 - ',
     '7' => '2001 - 2025 - ',
-    '8' => '2024 - 2050 - ',
+    '8' => '2026 - 2050 - ',
     '9' => '2051 - 2075 - ',
     '10' => '2076 - '
 );
@@ -183,7 +183,6 @@ const VF_Sel_SA_MA_G = array(  // für Fahrzeuge ud Geräte
 const VF_Sel_SA_MU_G = array(  // für Fahrzeuge ud Geräte
     'MU_G' => 'Mit Muskeln betriebene Geräte'
 );
-
 
 const VF_Sel_SA_PA = array(   // für Perönliche Schutzausrüstung
     'PA_R' => 'Persönliche Ausrüstung'

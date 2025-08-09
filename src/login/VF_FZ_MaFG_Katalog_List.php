@@ -388,35 +388,38 @@ foreach ($eig_arr as $eignr) {
                         }
 
                         if ($row->fz_l_pumpe != "" || $row->fz_t_kran != ""  || $row->fz_t_winde != ''   || $row->fz_t_leiter != ''  || $row->fz_t_abschlepp != ''
-                            || $row->fz_l_tank != "" || $row->fz_g_atemsch != ""  || $row->fz_t_strom != ""  || $row->fz_t_beleuchtg != ""
+                            || $row->fz_l_tank != "" || $row->fz_g_atemsch != ""  || $row->fz_t_strom != ""  || $row->fz_t_beleuchtg != ""  || $row->fz_t_geraet != ""
                         ) {
                             $einbau = "<br>Fixe Einbauten : ";
                             if ($row->fz_l_tank != "") {
-                                $einbau = "<br>".$row->fz_l_tank;
+                                $einbau .= "<br>".$row->fz_l_tank;
                             }
                             if ($row->fz_l_pumpe != '') {
-                                $einbau = "<br>".$row->fz_l_pumpe;
+                                $einbau .= "<br>".$row->fz_l_pumpe;
                             }
                             if ($row->fz_t_kran != '') {
-                                $einbau = "<br>".$row->fz_t_kran;
+                                $einbau .= "<br>".$row->fz_t_kran;
                             }
                             if ($row->fz_t_winde != '') {
-                                $einbau = "<br>".$row->fz_t_winde;
+                                $einbau .= "<br>".$row->fz_t_winde;
                             }
                             if ($row->fz_t_leiter != '') {
-                                $einbau = "<br>".$row->fz_t_leiter;
+                                $einbau .= "<br>".$row->fz_t_leiter;
                             }
                             if ($row->fz_t_abschlepp != '') {
-                                $einbau = "<br>".$row->fz_t_abschlepp;
+                                $einbau .= "<br>".$row->fz_t_abschlepp;
+                            }
+                            if ($row->fz_t_geraet != '') {
+                                $einbau .= "<br>".$row->fz_t_geraet;
                             }
                             if ($row->fz_g_atemsch != '') {
-                                $einbau = "<br>".$row->fz_g_atemsch;
+                                $einbau .= "<br>".$row->fz_g_atemsch;
                             }
                             if ($row->fz_t_strom != '') {
-                                $einbau = "<br>".$row->fz_t_strom;
+                                $einbau .= "<br>".$row->fz_t_strom;
                             }
                             if ($row->fz_t_beleuchtg != '') {
-                                $einbau = "<br>".$row->fz_t_beleuchtg;
+                                $einbau .= "<br>".$row->fz_t_beleuchtg;
                             }
                         }
                         if ($motor != "" || $antrieb != "" || $einbau != "") {

@@ -121,6 +121,8 @@ VF_Auto_Taktb($neu['fz_taktbez']);
 
 echo "</div>"; # ende hide taktb
 
+Edit_Daten_Feld('fz_name', 50);
+
 Edit_Daten_Feld('fz_hist_bezeichng', 50);
 
 $opt_aera = VF_FZG_Aera;
@@ -272,6 +274,7 @@ Edit_Daten_Feld('fz_t_winde', 70);
 Edit_Daten_Feld('fz_t_leiter', 70);
 Edit_Daten_Feld('fz_t_abschlepp', 70);
 Edit_Daten_Feld('fz_t_beleuchtg', 70);
+Edit_Daten_Feld('fz_t_geraet', 70);
 Edit_Daten_Feld('fz_t_strom', 70);
 Edit_Daten_Feld('fz_g_atemsch', 70);
 
@@ -301,18 +304,19 @@ Edit_Daten_Feld('fz_aenddat');
 Edit_Tabellen_Trailer();
 
 ?>
-<!-- Bereich zur Anzeige der aktuellen Werte -->
+<!-- Bereich zur Anzeige der aktuellen Werte
 <div id="anzeige"></div>
-
+ -->
 <!-- Bereich für Debug-Infos -->
-<div id="debug">Wartet auf Eingaben...</div>
+<div id="debug">Wartet auf Eingaben...
+</div>
 <?php
 
 if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
-#echo "L 0304 bild 1 ".$neu['fz_bild_1']."<br>";
+
 echo "<p><a href='VF_FZ_MaFG_List.php'>Zurück zur Liste</a></p>";
 
 /**

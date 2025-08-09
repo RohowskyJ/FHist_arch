@@ -81,22 +81,12 @@ echo "<input type='hidden' id='aufnDat' value='$aufn_dat' >";
 echo "<input type='hidden' id='urhEinfg' value='$urheinfueg' >";
 
 ?>
-<!-- Parameter für Wasserzeichen und Drehung
-<label><input type="checkbox" id="watermark" checked> Wasserzeichen erstellen</label><br>
-<label>Drehung: </label>
-<select id="rotation">
-<option value="0">Keine</option>
-<option value="90">90° links</option>
-<option value="-90">90° rechts</option>
-<option value="180">180°</option>
-</select>
- -->
+
 <!-- Datei-Input -->
 <div class='w3-row'>
 <div class='w3-third'>
 <label for='fileInput'>Bilder auswählen:</label>
 </div>
-
 
 <!-- Vorschau + Auswahl -->
 <div id='preview'></div>
@@ -200,7 +190,8 @@ function uploadNext(i, files) {
   const index = item.index;
   
   // Parameter sammeln
-  const watermark = $('#watermark').is(':checked') ? 1 : 0;
+  let watermark = $('#urhEinfgJa').is(':checked') ? 1 : 0 ;
+  console.log('watermark ',watermark);
   
   var checkedValue = $('.messageCheckbox:checked').val();
   $('.wmarkCheckbox[data-index="'+index+'"]:checked').each(function() {

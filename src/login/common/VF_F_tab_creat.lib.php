@@ -31,7 +31,7 @@ function Cr_n_Medien_Daten($tabelle)
         `md_aenddat` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
         PRIMARY KEY (`md_id`),
         FULLTEXT KEY `md_sammlg` (`md_sammlg`),
-        FULLTEXT KEY `md_feuerwehr` (`md_feuerwehr`) 
+        FULLTEXT KEY `md_feuerwehr` (`md_fw_id`) 
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Digitale- Medien- Archiv' ";
 
     $return = SQL_QUERY($db, $sql);

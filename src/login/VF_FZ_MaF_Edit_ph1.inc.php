@@ -101,7 +101,7 @@ if ($neu['fz_id'] == 0) { # neueingabe
                 fz_bild_1,fz_b_1_komm,fz_bild_2,fz_b_2_komm,fz_bild_3,fz_b_3_komm,fz_bild_4,fz_b_4_komm,   \n
                 fz_zustand,fz_ctif_klass,fz_ctif_date,fz_ctif_juroren,fz_ctif_darst_jahr,         \n
                 fz_l_tank,fz_l_monitor,fz_l_pumpe,                                   \n
-                fz_t_kran,fz_t_winde,fz_t_leiter,fz_t_abschlepp,fz_t_beleuchtg,fz_t_strom,fz_g_atemsch, \n
+                fz_t_kran,fz_t_winde,fz_t_leiter,fz_t_abschlepp,fz_t_geraet,fz_t_beleuchtg,fz_t_strom,fz_g_atemsch, \n
                 fz_eigent_freig,fz_verfueg_freig,\n
                 fz_pruefg_id,fz_pruefg,fz_aenduid    \n
               ) VALUE (
@@ -111,14 +111,14 @@ if ($neu['fz_id'] == 0) { # neueingabe
                 '$neu[fz_bild_1]','$neu[fz_b_1_komm]','$neu[fz_bild_2]','$neu[fz_b_2_komm]','$neu[fz_bild_3]','$neu[fz_b_3_komm]','$neu[fz_bild_4]','$neu[fz_b_4_komm]',  \n
                 '$neu[fz_zustand]','$neu[fz_ctif_klass]','$neu[fz_ctif_date]','$neu[fz_ctif_juroren]','$neu[fz_ctif_darst_jahr]',      \n
                 '$neu[fz_l_tank]','$neu[fz_l_monitor]','$neu[fz_l_pumpe]',     \n
-                '$neu[fz_t_kran]','$neu[fz_t_winde]','$neu[fz_t_leiter]','$neu[fz_t_abschlepp]','$neu[fz_t_beleuchtg]','$neu[fz_t_strom]','$neu[fz_g_atemsch]', \n
+                '$neu[fz_t_kran]','$neu[fz_t_winde]','$neu[fz_t_leiter]','$neu[fz_t_abschlepp]','$neu[fz_t_geraet]','$neu[fz_t_beleuchtg]','$neu[fz_t_strom]','$neu[fz_g_atemsch]', \n
                 '$neu[fz_eigent_freig]','$neu[fz_verfueg_freig]',         \n
                 '$neu[fz_pruefg_id]','$neu[fz_pruefg]','$neu[fz_aenduid]'
                )";
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
-    echo mysqli_error($db) . "  L 0149: \$sql $sql <br/>";
+    # echo mysqli_error($db) . "  L 0149: \$sql $sql <br/>";
 
     $neu['fz_id'] = mysqli_insert_id($db);
 

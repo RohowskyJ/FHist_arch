@@ -2303,7 +2303,7 @@ function VF_Upload_Form_M()
     ?>
 
  
-<div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
+  <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
 
     <?php
     echo "<input type='hidden' name='pic_cnt' value='$pic_cnt' >";
@@ -2321,6 +2321,7 @@ function VF_Upload_Form_M()
         $j = $i + 1; /** Für die Bil- Nr- Anzeige */
 
         $pict_path = VF_Upload_Pfad_M('', '', '', '');
+        
         # echo "L 0129 pct_path $pict_path <br>";
         /**
          * Responsive Container innerhalb des loops
@@ -2351,8 +2352,9 @@ function VF_Upload_Form_M()
         echo "<div class='bild-detail' >";
 
         if ($neu[$p_a['bi']] != "") {
-            #console_log('L 02528 foto '.$fo);
+            
             $fo = $neu[$p_a['bi']];
+            console_log('L 02356 foto '.$fo);
             $fo_arr = explode("-", $neu[$p_a['bi']]);
             $cnt_fo = count($fo_arr);
 
@@ -2388,7 +2390,26 @@ function VF_Upload_Form_M()
         }
         
         ?>  
+        <!-- Bereich für die diversen Ausgaben von js  -->
         <input type="hidden" id="bild-datei-auswahl_<?php echo $j ?>" name="bild_datei_<?php echo $j ?>" value="" />
+        
+        <!-- Bereich, um die ausgewählten Bildinfos anzuzeigen (immer im DOM) -->
+        <div id="auswahl-bild_<?php echo $j ?>" style="display:none;">  
+        <h3>Neu gewähltes Bild:</h3>
+        <div id="bild-vorschau-auswahl_<?php echo $j ?>"></div>
+              <p>Dateiname: <span id="dateiname-auswahl_<?php echo $j ?>"></span></p>
+        </div>
+
+        <!-- Galerie-Container für die Bildauswahl -->
+        <div id="bild-galerie_<?php echo $j; ?>" style="display:none; border:1px solid #ccc; padding:10px;"></div>
+
+        <!-- Dialog für die Bilder-Auswahl (separater Dialog, eigene IDs) -->
+        <div id="dialog-bilder_<?php echo $j; ?>" style="display:none;">
+        <div id="bild-vorschau-dialog_<?php echo $j; ?>"></div>
+        <div id="dateiname-dialog_<?php echo $j; ?>"></div>
+        <input type="hidden" id="bild-datei-dialog_<?php echo $j; ?>">
+        </div>
+        <hr>
         <?php 
         echo "</div>"; // Bild detail end
 
@@ -2406,19 +2427,19 @@ function VF_Upload_Form_M()
            if ($module != 'OEF') {
            ?>
              
-                 <?php 
+                <?php 
                 if ($_SERVER['SERVER_NAME'] == 'localhost' ) {
-                ?> 
-                <!-- Radio Buttons für die Auswahl  -->
-              <label>
-                  <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> aus Bibliothek auswählen
-              </label>
-              <?php 
+                   ?> 
+                   <!-- Radio Buttons für die Auswahl  -->
+                   <label>
+                       <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> aus Bibliothek auswählen
+                   </label>
+                   <?php 
                 }
                 ?>
-              <label>
-                <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
-              </label>
+               <label>
+                  <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
+               </label>
            <?php
            }
            ?>
@@ -2426,44 +2447,10 @@ function VF_Upload_Form_M()
            <div id='sel_lib_suche' style='display:none;'>
                  <!-- Inhalte für die Bibliothekssuche -->
                  <!-- (Preview area moved out) -->
-                </div>
-
-                <!-- Bereich, um die ausgewählten Bildinfos anzuzeigen (immer im DOM) -->
-                 <div id="auswahl-bild_<?php echo $j ?>" style="display:none;">  
-                   <h3>Ausgewähltes Bild:</h3>
-                   <div id="bild-vorschau-auswahl_<?php echo $j ?>"></div>
-                   <p>Dateiname: <span id="dateiname-auswahl_<?php echo $j ?>"></span></p>
-                 </div>
-
-                 <!-- Galerie-Container für die Bildauswahl -->
-                 <div id="bild-galerie_<?php echo $j; ?>" style="display:none; border:1px solid #ccc; padding:10px;"></div>
-
-                 <!-- Dialog für die Bilder-Auswahl (separater Dialog, eigene IDs) -->
-                 <div id="dialog-bilder_<?php echo $j; ?>" style="display:none;">
-                   <div id="bild-vorschau-dialog_<?php echo $j; ?>"></div>
-                   <div id="dateiname-dialog_<?php echo $j; ?>"></div>
-                   <input type="hidden" id="bild-datei-dialog_<?php echo $j; ?>">
-                 </div>
-                 <hr>
- 
-                 <!-- Bereich, um die ausgewählten Bildinfos anzuzeigen (immer im DOM) -->
-                 <div id="auswahl-bild_<?php echo $j ?>" style="display:none;">  
-                   <h3>Ausgewähltes Bild:</h3>
-                   <div id="bild-vorschau-auswahl_<?php echo $j ?>"></div>
-                   <p>Dateiname: <span id="dateiname-auswahl_<?php echo $j ?>"></span></p>
-                 </div>
-
-                 <!-- Galerie-Container für die Bildauswahl -->
-                 <div id="bild-galerie_<?php echo $j; ?>" style="display:none; border:1px solid #ccc; padding:10px;"></div>
-
-                 <!-- Dialog für die Bilder-Auswahl (separater Dialog, eigene IDs) -->
-                 <div id="dialog-bilder_<?php echo $j; ?>" style="display:none;">
-                   <div id="bild-vorschau-dialog_<?php echo $j; ?>"></div>
-                   <div id="dateiname-dialog_<?php echo $j; ?>"></div>
-                   <input type="hidden" id="bild-datei-dialog_<?php echo $j; ?>">
-                 </div>
-                 <hr>
                  
+           </div>
+
+            
             <div id="sel_lib_upload<?php echo $j; ?>" style="display:none;">
                       <input type="file" id="upload_file_<?php echo $j; ?>">
                  
@@ -2513,12 +2500,15 @@ function VF_Upload_Form_M()
 <script>
 var bilder = {}; // globale Variable für die Bilderliste
 
-// Funktion zum Umschalten zwischen Bibliothek und Upload
+// Funktion zum Umschalten zwischen Bibliothek und Upload --- sollte nicht mehr nätig sein
 function toggleGruppen(biNr) {
+    console.log('toggle Gruppen');
     const selLibsYes = $('#sel_libs_ja' + biNr);
     const selLibsNo = $('#sel_libs_nein' + biNr);
     const groupSearch = $('#sel_lib_suche' + biNr);
     const groupUpload = $('#sel_lib_upload' + biNr);
+    console.log('grupl ',groupUpload);
+     
     const auswahlBild = $('#auswahl-bild_' + biNr);
 
     if (selLibsYes.is(':checked')) {
@@ -2554,12 +2544,18 @@ function startAjax(biNr) {
         fz_sammlg = level6;
     } else if (level5 && level5.toLowerCase() !== 'nix' && fz_sammlg.length < level5.length) {
         fz_sammlg = level5;
-    } // ... similarly for level4,3,...
+    } else if (level4 && level4.toLowerCase() !== 'nix' && fz_sammlg.length < level4.length) {
+        fz_sammlg = level4;
+    } else if (level3 && level3.toLowerCase() !== 'nix' && fz_sammlg.length < level3.length) {
+        fz_sammlg = level3;    
+    } else if (level2 && level2.toLowerCase() !== 'nix' && fz_sammlg.length < level2.length) {
+        fz_sammlg = level2;
+    }    
 
     // AJAX-Anfrage
     $.ajax({
         url: 'common/API/VF_SelPictLib.API.php',
-        method: 'GET',
+        method: 'POST',
         data: {
             'sammlg': sammlg,
             'eigner': eigner
@@ -2593,6 +2589,7 @@ function startAjax(biNr) {
 $(document).on('click', '[id^=bild-galerie_] .bild-item', function() {
     // This handler is now obsolete, as gallery is only in dialog. No action needed.
 });
+
 // Click handler for image selection in dialog gallery
 $(document).on('click', '[id^=dialog-bilder_] .bild-item', function() {
     const biNr = $(this).closest('[id^=dialog-bilder_]').attr('id').split('_')[1];
@@ -2620,7 +2617,7 @@ $(document).on('click', '[id^=dialog-bilder_] .bild-item', function() {
 });
 
 $(document).ready(function() {
-    <?php for($j=1; $j <= $pic_cnt; $j++): ?>
+    <?php for ($j = 1; $j <= $pic_cnt; $j++): ?>
         // Initiales Umschalten
         toggleGruppen(<?php echo $j; ?>);
         // Event für Radio-Buttons
@@ -2632,6 +2629,7 @@ $(document).ready(function() {
     
 // Reusable upload logic for each upload block
 function setupUploadBlock(j) {
+    console.log('uploadblock ',j);
     // Make file input accept multiple files
     const fileInput = $('#upload_file_' + j);
     fileInput.attr('multiple', 'multiple');
@@ -2645,7 +2643,8 @@ function setupUploadBlock(j) {
     // Preview and controls container
     const previewDiv = $('<div id="preview_' + j + '" style="margin:10px 0;"></div>');
     fileInput.after(previewDiv);
-    const uploadBtn = $('<button type="button" id="upload_btn_' + j + '" style="color: #cc0000">zum Hochladen der Datei nach dem Ausfüllen anklicken</button>');
+    // const uploadBtn = $('<button type="button" id="upload_btn_' + j + '" style="color: #cc0000">zum Hochladen der Datei nach dem Ausfüllen anklicken</button>');
+    const uploadBtn = $('<button type="button" id="upload_btn_A" style="color: #cc0000">zum Hochladen der Dateien und anschließendes Abspeichern anklicken</button>');
     fileInput.after(uploadBtn);
 
     // Store selected files and their rotation
@@ -2720,14 +2719,15 @@ function setupUploadBlock(j) {
             return;
         }
         // Collect additional data
-        const aufnDat = $('#aufnDat_' + j).val() || '';
-        const urhEinfg = $('input[name="urheinfueg"]:checked').val() || 'J';
+        const aufnDat = $('#aufnDat_' + j).val() || ''; 
+        const urhEinfg = $('#urhEinfgJa_' + j).val() || 'N';
+        
         const urhNr = $('#eigentuemer_' + j).val() || '';
         const urhName = $('#urhName').val() || '';
         const reSize = $('#reSize').val() || '800'; // Default size
         const aord = $('#aord_' + j).val() || '';
         const eigner = $('#eigner_' + j).val() || '';
-
+        let rotation = 0;
         // Validate required fields
         if (urhNr === '') {
             $('#eigentuemer_' + j).addClass('input-error');
@@ -2747,9 +2747,9 @@ function setupUploadBlock(j) {
         selectedFiles.forEach((file, idx) => {
             formData.append('file[]', file);
             if(rotations[idx] != 0) {
-            rotations[idx] = rotations[idx] * -1 ;
+            rotation = rotations[idx] * -1 ;
             }
-            formData.append('rotation', rotations[idx]); // []
+            formData.append('rotation', rotation); // []
         });
         formData.append('urhNr', urhNr);
         formData.append('urhName', urhName);
@@ -2762,7 +2762,7 @@ function setupUploadBlock(j) {
         console.log('formData ',formData);
 
         $.ajax({
-            url: 'common/API/VF_Upload.API.php',   // 'common/API/VF_Upload_Media.API.php'
+            url: 'common/API/VF_Upload.API.php',   
             type: 'POST',
             data: formData,
             processData: false,
@@ -2818,8 +2818,9 @@ function setupUploadBlock(j) {
 }
 
 // Setup all upload blocks on page load
-$(document).ready(function() {
-    <?php for($j=1; $j <= $pic_cnt; $j++): ?>
+$(document).ready(function() {        
+    console.log('set uploadblocks ', <?php echo $j; ?>);
+    <?php for ($j = 1; $j <= $pic_cnt; $j++): ?>
         setupUploadBlock(<?php echo $j; ?>);
     <?php endfor; ?>
 });    
