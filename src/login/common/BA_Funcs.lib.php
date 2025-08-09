@@ -243,21 +243,16 @@ function LinkDB($db_proj = "")
 
     flow_add($module, "Funcs.inc Funct: LinkDB_n");
     # echo $path2ROOT."login/common/config_d.ini <br> ";
+    $ini_s = $path2ROOT . "login/common/config_s.ini";
+    $ini_s_arr = parse_ini_file($ini_s, true, INI_SCANNER_NORMAL);
+    $hompg = $ini_s_arr['Config']['homp'];
     $ini_d = $path2ROOT . "login/common/config_d.ini";
     $ini_arr = parse_ini_file($ini_d, true, INI_SCANNER_NORMAL);
-    # print_r($ini_arr); echo "<br>L 0239 ini_arr <br>";
+  # print_r($ini_s_arr); echo "<br>L 0251 ini_s_arr $hompg <br>";
 
     $server_name = $_SERVER['SERVER_NAME'];
 
-    # echo "L 0248 server name $server_name <br>";
-    if (stripos($server_name, "www") || stripos($server_name, "WWW")) {
-        $url_arr = explode(".", $server_name);
-        $cnt_u = count($url_arr);
-        $server_name = $url_arr[$cnt_u - 2] . "." . $url_arr[$cnt_u - 1];
-        # echo "l 0247 srvNam $server_name <br>";
-    }
-
-    if (isset($ini_arr)) { # (isset($ini_arr[$server_name])){
+    if (isset($ini_arr)) { 
         if ($server_name == 'localhost') {
             if (isset($ini_arr[$server_name])) {
                 $dbhost = $ini_arr[$server_name]['l_dbh'];
@@ -266,22 +261,22 @@ function LinkDB($db_proj = "")
                 $database = $ini_arr[$server_name]['l_dbn'];
             }
         } else {
-            if (stripos($server_name, "www") || stripos($server_name, "WWW")) {
-                $url_arr = explode(".", $server_name);
-                $cnt_u = count($url_arr);
-                $server_name = $url_arr[$cnt_u - 2] . "." . $url_arr[$cnt_u - 1];
-                # echo "l 0247 srvNam $server_name <br>";
+            $s_a =  explode(".",$server_name);
+            $cnt_s = count($s_a);
+            $s_c =  explode(".",$hompg);
+            $cnt_s = count($s_c);
+            if ($cnt_s < $cnt_c) {
+                if ($s_a[$cnt_s-2] == $s_c[$cnt_c-2]) {
+                    $server_name = "HOST";
+                }
             }
-            $server_name = "HOST";
-            if (isset($ini_arr[$server_name])) {
-                $dbhost = $ini_arr[$server_name]['h_dbh'];
-                $dbuser = $ini_arr[$server_name]['h_dbu'];
-                $dbpass = $ini_arr[$server_name]['h_dbp'];
-                $database = $ini_arr[$server_name]['h_dbn'];
-            }
+            $dbhost = $ini_arr[$server_name]['h_dbh'];
+            $dbuser = $ini_arr[$server_name]['h_dbu'];
+            $dbpass = $ini_arr[$server_name]['h_dbp'];
+            $database = $ini_arr[$server_name]['h_dbn'];
         }
 
-        # echo "L 280 linkdb_n dbhost $dbhost dbnam $database user $dbuser pass $dbpass <br>";
+        # echo "L 284 linkdb_n dbhost $dbhost dbnam $database user $dbuser <br>";  # pass $dbpass 
 
         $dblink = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
 
