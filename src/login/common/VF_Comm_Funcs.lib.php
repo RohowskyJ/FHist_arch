@@ -2436,13 +2436,12 @@ function VF_Upload_Form_M()
                    </label>
                    <?php 
                 }
-                ?>
-               <label>
-                  <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
-               </label>
-           <?php
            }
            ?>
+           <label>
+               <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
+           </label>
+       
            <!-- Bibliothekssuche Gruppe -->
            <div id='sel_lib_suche' style='display:none;'>
                  <!-- Inhalte für die Bibliothekssuche -->
