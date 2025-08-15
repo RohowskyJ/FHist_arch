@@ -175,4 +175,3 @@ function modifyRow(array &$row, $tabelle)
 } # Ende von Function modifyRow
 
 ?>
-

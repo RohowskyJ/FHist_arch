@@ -50,7 +50,7 @@ echo "L 035 sql $sql <br>";
         if ($name == "phase") {
             continue;
         } #
-
+     
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
