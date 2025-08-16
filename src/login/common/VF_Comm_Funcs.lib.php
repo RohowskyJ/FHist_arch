@@ -109,8 +109,8 @@ function VF_Add_Findbuch($table, $keywords, $fld, $fdid, $eigner)
         return;
     }
     $find_arr = explode(",", $keywords);
-    print_r($find_arr);
-    echo "<br> find_arr <br>";
+    # print_r($find_arr);
+    # echo "<br> find_arr <br>";
     $arr_cnt = count($find_arr);
     $i = 0;
     while ($find_arr[$i] != "") {
@@ -2193,6 +2193,8 @@ function VF_Upload_Pfad_M($aufnDatum, $suffix = '', $aoPfad = '', $urh_nr = '')
     $mand_mod = array('INV', 'FOT', 'F_G','F_M');
 
     if (in_array($module, $mand_mod)) { // Mandanten- Modus
+    #if (isset($mand_mod[$module]))    {
+        
         if ($urh_nr == "") {
             $grp_path = $_SESSION['Eigner']['eig_eigner'].'/';
         } else {
@@ -2238,7 +2240,7 @@ function VF_Upload_Pfad_M($aufnDatum, $suffix = '', $aoPfad = '', $urh_nr = '')
         }
     }
     $dPath = $basepath.$grp_path.$ao_path.$verzeichn.$subverz;
-    #echo "L 0236 UplLib dPath $dPath <br>";
+ 
     return $dPath;
 
 } // end VF Upload_Pfad_M
@@ -2321,7 +2323,7 @@ function VF_Upload_Form_M()
         $j = $i + 1; /** Für die Bil- Nr- Anzeige */
 
         $pict_path = VF_Upload_Pfad_M('', '', '', '');
-        
+       
         # echo "L 0129 pct_path $pict_path <br>";
         /**
          * Responsive Container innerhalb des loops
