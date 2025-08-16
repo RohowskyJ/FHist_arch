@@ -297,7 +297,13 @@ foreach ($eig_arr as $eignr) {
                         $indienst = $d_arr[0];
                     }
                 }
-                $g_arr[$i] = "$indienst|$row->ge_eignr|$row->ge_id|$row->ge_bezeich|$row->ge_komment|$row->ge_herst|$row->ge_type|$row->ge_zustand|$row->ge_foto_1|$row->ge_komm_1|$row->ge_sammlg|$tabelle";
+                
+                $sammlung = $row->ge_sammlg;
+                if (isset($sam_arr[$sammlung]) && $sam_arr[$sammlung] != "") {
+                    $sammlung .= "<br>".$sam_arr[$sammlung];
+                }
+                
+                $g_arr[$i] = "$indienst|$row->ge_eignr|$row->ge_id|$row->ge_bezeich|$row->ge_komment|$row->ge_herst|$row->ge_type|$row->ge_zustand|$row->ge_foto_1|$row->ge_komm_1|$sammlung|$tabelle";
                 $i++;
             }
         }
@@ -309,10 +315,7 @@ foreach ($eig_arr as $eignr) {
 
         if (array_key_exists($tabelle, $maf_arr)) {
 
-            // einlesen der Fzgdaten in Arr
-            # echo "L 0317 module $module <br> ". var_dump($_SESSION[$module] );n
             $sql = "SELECT * FROM `$tabelle`  \n
-                    LEFT JOIN fh_sammlung ON $tabelle.fz_sammlg = fh_sammlung.sa_sammlg   \n
                     WHERE  fz_sammlg LIKE '%" . $_SESSION[$module]['sammlung'] . "%' ";
 
             $return_fz = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
@@ -429,8 +432,12 @@ foreach ($eig_arr as $eignr) {
                     }
 
                 }
-                # echo "L 294:  $indienst <br/>";
-                $m_arr[] = "$indienst|$row->fz_eignr|$row->fz_id|$row->fz_taktbez|$row->fz_allg_beschr|$row->fz_herstell_fg|$row->fz_aufbauer|$row->fz_zustand|$row->fz_bild_1|$row->fz_b_1_komm|$row->fz_sammlg <br>$row->sa_name|$row->fz_hist_bezeichng $t_daten|$tabelle";
+                $sammlung = $row->fz_sammlg;
+                if (isset($sam_arr[$sammlung]) && $sam_arr[$sammlung] != "") {
+                    $sammlung .= "<br>".$sam_arr[$sammlung];
+                }
+                
+                $m_arr[] = "$indienst|$row->fz_eignr|$row->fz_id|$row->fz_taktbez|$row->fz_allg_beschr|$row->fz_herstell_fg|$row->fz_aufbauer|$row->fz_zustand|$row->fz_bild_1|$row->fz_b_1_komm|$sammlung <br>$row->fz_hist_bezeichng $t_daten|$tabelle";
                 $i++;
             }
         }
@@ -559,9 +566,6 @@ foreach ($fzg_arr as $line) {
     }
 
     $sammlung = $line_arr[11];
-    if (isset($sam_arr[$line_arr[11]])) {
-        $sammlung = $sam_arr[$line_arr[11]];
-    }
 
     $zustand = VF_Zustand[$line_arr[7]];
 
@@ -635,6 +639,11 @@ function modifyRow(array &$row, $tabelle)
 
                 $row['fm_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $fm_foto_1  </a>";
             }
+            $sammlung = $row['fm_sammlg'];
+            if (isset($sam_arr[$sammlung]) && $sam_arr[$sammlung] != "") {
+                $row['fm_sammlg'] .= "<br>".$sam_arr[$sammlung];
+            }
+            
             break;
         case "mu_gerae":
             $mg_id = $row['mg_id'];
@@ -647,7 +656,11 @@ function modifyRow(array &$row, $tabelle)
 
                 $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $mg_foto_1  </a>";
             }
-
+            $sammlung = $row['mg_sammlg'];
+            if (isset($sam_arr[$sammlung]) && $sam_arr[$sammlung] != "") {
+                $row['mg_sammlg'] .= "<br>".$sam_arr[$sammlung];
+            }
+            
             break;
     }
 

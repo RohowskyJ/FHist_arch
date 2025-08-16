@@ -14,11 +14,11 @@ $tabelle = '';
 $tabelle_f = "ma_fahrzeug_";
 $tabelle_e = "ma_eigner_";
 
-/** für PHP-Logging */
+/** für PHP-Logging 
 ini_set("log_errors", 1);
 ini_set("error_log", "aa_VF_FZ_php-error.log");
 error_log("Hello, errors!");
-/* */
+*/
 
 /**
  * Angleichung an den Root-Path
@@ -28,6 +28,7 @@ error_log("Hello, errors!");
 $path2ROOT = "../";
 
 $debug = false; // Debug output Ein/Aus Schalter
+$debug_log = true; // logging in datei per fputs
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -391,7 +392,11 @@ function modifyRow(array &$row, $tabelle)
             $aud  = $row['fz_ausdienst'];
             $row['fz_baujahr'] = "BJ : &nbsp; $bauj<br>In : &nbsp; $ind<br>Aus: &nbsp;$aud";
 
-            $row['fz_sammlg'] .= "<br>".$row['sa_name'];
+            $sammlg = $row['fz_sammlg'];
+            if (isset($sam_arr[$sammlg]) && $sam_arr[$sammlg] !="") {
+                $row['fz_sammlg'] .= "<br>".$sam_arr[$sammlg]; #"<br>".$row['sa_name'];
+            }
+ 
             # var_dump($taktb_arr);
             $taktbez = $row['fz_taktbez'];
             if (isset($taktb_arr[$taktbez])) {

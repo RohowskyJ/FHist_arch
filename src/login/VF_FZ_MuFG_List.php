@@ -165,6 +165,15 @@ if (isset($_POST['level1'])) {
 }
 
 # var_dump($_POST);
+/**
+ * Einlesen der Sammlungs- Kürzeln in arr
+ */
+$sam_arr = array();
+$sql_s = "SELECT * FROM fh_sammlung ORDER BY sa_sammlg ";
+$res_sa = SQL_QUERY($db, $sql_s);
+while ($row_s = mysqli_fetch_object($res_sa)) {
+    $sam_arr[$row_s->sa_sammlg] = $row_s->sa_name;
+}
 
 /**
  * Eigentümerdaten  oder Sammlung neu einlesen
@@ -236,18 +245,13 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
     $sql = $sql_where = $orderBy = "";
 
     if (substr($_SESSION[$module]['fm_sammlung'], 0, 4)  == 'MU_F') {   # Mukelgezogene - Fahrzeuge
-
         require "VF_FZ_MuF_List.inc.php";
-
     } elseif (substr($_SESSION[$module]['fm_sammlung'], 0, 4)  == 'MU_G') {  # Muskel betriebene Geräte
-
         require "VF_FZ_MuG_List.inc.php";
-
     }
 
     $sql .= $sql_where . $orderBy;
-    echo "L 0249 sql $sql <br>";
-
+    
     List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
 
     echo "</fieldset>";
@@ -272,7 +276,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
  */
 function modifyRow(array &$row, $tabelle)
 {
-    global $path2ROOT, $T_List, $module, $herst_arr;
+    global $path2ROOT, $T_List, $module, $herst_arr,$sam_arr;
 
     $s_tab = substr($tabelle, 0, 8);
 
@@ -304,7 +308,7 @@ function modifyRow(array &$row, $tabelle)
                 } else {
                     $p = $pict_path . $row['fm_foto_1'];
                 }
-                $row['fm_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='150px'> <br> $fm_foto_1  </a>";
+                $row['fm_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='200px'> <br> $fm_foto_1  </a>";
             }
 
             $herst = $row['fm_herst'];
@@ -340,7 +344,12 @@ function modifyRow(array &$row, $tabelle)
                 }
                 $row['mg_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='150px'> <br> $mg_foto_1  </a>";
             }
-
+            
+            $sammlg = $row['mg_sammlg'];
+            if (isset($sam_arr[$sammlg]) && $sam_arr[$sammlg] !="") {
+                $row['mg_sammlg'] .= "<br>".$sam_arr[$sammlg]; #"<br>".$row['sa_name'];
+            }
+            
             break;
     }
 

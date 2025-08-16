@@ -222,6 +222,15 @@ if (! $tables_act) {
     echo "keine Tabellen gefunden - ABBRUCH <br>";
     exit();
 }
+/**
+ * Einlesen der Sammlungs- Kürzeln in arr
+ */
+$sam_arr = array();
+$sql_s = "SELECT * FROM fh_sammlung ORDER BY sa_sammlg ";
+$res_sa = SQL_QUERY($db, $sql_s);
+while ($row_s = mysqli_fetch_object($res_sa)) {
+    $sam_arr[$row_s->sa_sammlg] = $row_s->sa_name;
+}
 
 /**
  * einlesen der Eigentümer in array $eig_arr
@@ -246,20 +255,17 @@ foreach ($eig_arr as $eignr) {
 
         if (array_key_exists($tabelle, $mug_arr)) {
 
-            # Zeile n der Ausgabe:
-            # echo "<tr><td>$row->fm_eignr<br/>$row->fm_id</td><td>$row->fm_bezeich<br/>$row->fm_indienst, $zustand<br/>$row->fm_herst</td><td>$row->fm_komment</td><td>$Bild</td></tr>";
-            # $g_arr [i] indienst|eigentümer,recnr,zustand,bezeichnung,kommentar,hersteller,bild,
             // einlesen der Fzgdaten in Arr
             # $table = "fz_muskel_$eignr";
             $sql = "SELECT * FROM `$tabelle`  $sql_where ORDER BY `mg_id` ASC";
-            #echo "L 240: \$sql $sql <br/>";
+            
             $return_ge = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
 
-            # print_r($return_ge);echo "<br>$sql <br>";
             $indienst = "";
-            while ($row = mysqli_fetch_object($return_ge)) {
+            while ($row = mysqli_fetch_assoc($return_ge)) {
+                $result = modifyRow($row,$tabelle);
                 # print_r($row);echo "<br>L 0244 row <br>";
-                $indienst = trim($row->mg_indienst);
+                $indienst = trim($row['mg_indienst']);
 
                 # echo "L 246 indienst $indienst <br>";
                 if (strlen($indienst) == 4) {
@@ -274,7 +280,12 @@ foreach ($eig_arr as $eignr) {
                         $indienst = $d_arr[0];
                     }
                 }
-                $g_arr[$i] = "$indienst|$row->mg_eignr|$row->mg_id|$row->mg_bezeich|$row->mg_komment|$row->mg_herst|$row->mg_type|$row->mg_zustand|$row->mg_foto_1|$row->mg_komm_1|$row->mg_sammlg|$tabelle";
+                $sammlg = $row['mg_sammlg'];
+                if (isset($sam_arr[$sammlg]) && $sam_arr[$sammlg] !="") {
+                    $row['mg_sammlg'] = $sammlg."<br>".$sam_arr[$sammlg]; 
+                }
+                
+                $g_arr[$i] = $indienst."|".$row['mg_eignr']."|".$row['mg_id']."|".$row['mg_bezeich']."|".$row['mg_komment']."|".$row['mg_herst']."|".$row['mg_type']."|".$row['mg_zustand']."|".$row['mg_foto_1']."|".$row['mg_komm_1']."|".$row['mg_sammlg']."|$tabelle";
                 $i++;
             }
         }
@@ -292,8 +303,10 @@ foreach ($eig_arr as $eignr) {
 
             $return_fz = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
 
-            while ($row = mysqli_fetch_object($return_fz)) {
-                $indienst = trim($row->fm_indienst);
+            while ($row = mysqli_fetch_assoc($return_fz)) {
+                $result = modifyRow($row,$tabelle);
+                # $result = modifyRow($row,$tabelle);
+                $indienst = trim($row['fm_indienst']);
                 if (strlen($indienst) == 4) {
                 } elseif (strlen($indienst) > 4) {
                     $d_arr = explode(".", $indienst);
@@ -305,8 +318,14 @@ foreach ($eig_arr as $eignr) {
                         $indienst = $d_arr[0];
                     }
                 }
+                # var_dump($row);
+                $sammlg = $row['fm_sammlg'];
+                if (isset($sam_arr[$sammlg]) && $sam_arr[$sammlg] !="") {
+                    $row['fm_sammlg'] .= "<br>".$sam_arr[$sammlg]; 
+                }
+                
                 # echo "L 294:  $indienst <br/>";
-                $m_arr[] = "$indienst|$row->fm_eignr|$row->fm_id|$row->fm_bezeich|$row->fm_komment|$row->fm_herst|$row->fm_type|$row->fm_zustand|$row->fm_foto_1|$row->fm_komm_1|$row->fm_sammlg|$tabelle";
+                $m_arr[] = "$indienst|".$row['fm_eignr']."|".$row['fm_id']."|".$row['fm_bezeich']."|".$row['fm_komment']."|".$row['fm_herst']."|".$row['fm_type']."|".$row['fm_zustand']."|".$row['fm_foto_1']."|".$row['fm_komm_1']."|".$row['fm_sammlg']."|$tabelle";
                 $i++;
             }
         }
@@ -381,12 +400,13 @@ echo "<table class='w3-table w3-striped w3-hoverable scroll'
 foreach ($fzg_arr as $line) {
     $line_arr = explode("|", $line);
     # $m_arr[] = "$indienst|$row->fm_eignr|$row->fm_id|$row->fm_bezeich|$row->fm_komment|$row->fm_herst|$row->fm_type|$row->fm_zustand|$row->fm_foto_1|$row->fm_komm_1|$row->fm_sammlg|$tabelle";
-    if ($line_arr[10] == 'MU_F') {
+   
+    $smg_a = explode('<br>',$line_arr[10]);
+    if ($smg_a[0] == 'MU_F') {
         $pic_d = 'MuF' ;
     } else {
         $pic_d = 'MuG';
     }
-
 
     if ($line_arr[8] == "") {
         $Bild = "";
@@ -398,8 +418,9 @@ foreach ($fzg_arr as $line) {
 
         $Bild = "<a href='$p1' target='Bild ' > <img src='$p1' alter='$p1' width='240px'>&nbsp;</a>";
     }
+
     $zustand = VF_Zustand[$line_arr[7]];
-    echo "<tr><th>$line_arr[0]</th><td>$line_arr[1]<br>$line_arr[2]</td><td>$line_arr[5]<br>$line_arr[6]<br>$zustand</td><td>$line_arr[3]<br/>$line_arr[4] </td><td>$Bild<br/>$line_arr[9]</td><td>$line_arr[10]</td></tr>";
+    echo "<tr><th>$line_arr[0]</th><td>$line_arr[1]<br>$line_arr[2]</td><td>$line_arr[5]<br>$line_arr[6]<br>$zustand</td><td>$line_arr[3]<br/>$line_arr[4] </td><td>$line_arr[8]<hr/>$line_arr[9]</td><td>$line_arr[10]</td></tr>";
 }
 
 echo "  </table></div>";
@@ -425,8 +446,8 @@ HTML_trailer();
  */
 function modifyRow(array &$row, $tabelle)
 {
-    global $path2ROOT, $T_List, $module;
-
+    global $path2ROOT, $T_List, $module,$sam_arr,$eignr;
+#var_dump($row);
     $s_tab = substr($tabelle, 0, 8);
     # echo "<br/> L 135: \$s_tab $s_tab <br/>";
     switch ($s_tab) {
@@ -436,19 +457,17 @@ function modifyRow(array &$row, $tabelle)
             break;
         case "mu_fahrz":
             $fm_id = $row['fm_id'];
-            $row['fm_id'] = "<a href='VF_FM_MU_Edit.php?fm_id=$fm_id' >" . $fm_id . "</a>";
+            # $row['fm_id'] = "<a href='VF_FM_MU_Edit.php?fm_id=$fm_id' >" . $fm_id . "</a>";
             if ($row['fm_foto_1'] != "") {
-                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuF/";
+                $pict_path = "AOrd_Verz/" . $eignr . "/MuF/";
 
                 $fm_foto_1 = $row['fm_foto_1'];
                 $p1 = $pict_path . $row['fm_foto_1'];
 
-                #$row['fm_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $fm_foto_1  </a>";
-                
                 $fo = $row['fm_foto_1'];
                 $fo_arr = explode("-", $row['fm_foto_1']);
                 $cnt_fo = count($fo_arr);
-                $row->fm_ausdienst = "L 0451 cnt_fo $cnt_fo fo $fo <br>";
+                $row['fm_ausdienst'] = "L 0451 cnt_fo $cnt_fo fo $fo <br>";
                 if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
                     $urh = $fo_arr[0]."/";
                     $verz = $fo_arr[1]."/";
@@ -458,28 +477,29 @@ function modifyRow(array &$row, $tabelle)
                         }
                     }
                     $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$row['fm_foto_1'] ;
-                    $row->fm_ausdienst .=  "L 02368 pic new P  $p <br>";
+                    # $row['fm_ausdienst'] .=  "L 02368 pic new P  $p <br>";
                     if (!is_file($p)) {
                         $p = $pict_path . $row['fm_foto_1'];
-                        $row->fm_ausdienst .=  "L 0464 pic oldP  $p <br>";
+                        # $row->fm_ausdienst .=  "L 0464 pic oldP  $p <br>";
                     }
                 } else {
                     $p = $pict_path . $row['fm_foto_1'];
-                    $row->fm_ausdienst .= "L 0468 pic old def $p <br>";
+                    # $row['fm_ausdienst'] .= "L 0468 pic old def $p <br>";
                 }
-                $row['fm_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='70px'>  $fm_foto_1  </a>";
+                $row['fm_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$p' width='200px'>  $fm_foto_1  </a>";
             }
+            
             break;
         case "mu_gerae":
             $mg_id = $row['mg_id'];
-            $row['mg_id'] = "<a href='VF_FM_GE_Edit.php?ge_id=$mg_id' >" . $mg_id . "</a>";
+            # $row['mg_id'] = "<a href='VF_FM_GE_Edit.php?ge_id=$mg_id' >" . $mg_id . "</a>";
             if ($row['mg_foto_1'] != "") {
-                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
+                $pict_path = "AOrd_Verz/" . $eignr . "/MuG/";
 
                 $mg_foto_1 = $row['mg_foto_1'];
                 $p1 = $pict_path . $row['mg_foto_1'];
 
-                $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'>  $mg_foto_1  </a>";
+                $row['mg_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='200px'>  $mg_foto_1  </a>";
             }
 
             break;

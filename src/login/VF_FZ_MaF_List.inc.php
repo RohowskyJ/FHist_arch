@@ -38,9 +38,6 @@ $res_sa = SQL_QUERY($db, $sql_s);
 while ($row_s = mysqli_fetch_object($res_sa)) {
     $sam_arr[$row_s->sa_sammlg] = $row_s->sa_name;
 }
-#var_dump($sam_arr);
-
-
 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
@@ -127,22 +124,11 @@ if ($return != true) {
     echo "error: mysqli_errno($return)";
 }
 
-#$sql = "SELECT * FROM $tabelle ";
-
 $sql_where = "";
 $orderBy = "  ";
-/*
-if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_string'] != '') {
-    $select_string = $_SESSION[$module]['select_string'];
-    if ($_SESSION[$module]['sammlung'] != "") {
-        $sql_where = " WHERE fz_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
-    } else {
-        $sql_where = ""; # " WHERE fz_sammlg LIKE '" . $_SESSION[$module]['sammlung'] . "%' ";
-    }
 
-}
-*/
-$sql = "SELECT * FROM `$tabelle`  \n
-                    LEFT JOIN fh_sammlung ON $tabelle.fz_sammlg = fh_sammlung.sa_sammlg   \n
-                    WHERE  fz_sammlg LIKE '%" . $_SESSION[$module]['sammlung'] . "%' ";
+$sql = "SELECT * FROM `$tabelle` f \n
+                    WHERE  f.fz_sammlg LIKE '%" . $_SESSION[$module]['sammlung'] . "%' ";
+
+
 $orderBy = "";
