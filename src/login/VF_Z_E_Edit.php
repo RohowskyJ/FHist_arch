@@ -79,7 +79,7 @@ if ($phase == 0) {
         $neu['ei_sterbdat'] = NULL;
         $neu['ei_id'] = $now_ei_id;
         $neu['ei_org_typ'] = "Privat";
-        $neu['ei_mitglnr'] = "";
+        $neu['ei_mitglnr'] = "0";
         $neu['ei_mitglnr'] = $neu['ei_staat'] = $neu['ei_bdld'] = $neu['ei_bezirk'] =$neu['ei_org_name'] = "";
         $neu['kont_name'] = $neu['ei_fwkz'] = "";
         $neu['ei_grdgj'] = $neu['ei_titel'] = $neu['ei_vname'] = $neu['ei_name'] = $neu['ei_dgr'] = $neu['ei_adresse'] = "";
@@ -122,7 +122,7 @@ if ($phase == 0) {
 if ($phase == 1) {
 
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
 }
 
