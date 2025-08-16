@@ -653,10 +653,12 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
 {
     global $debug, $path2ROOT, $module, $List_parm,
     $Tabellen_Spalten, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_tabelle, $Tabellen_Spalten_typ, $Tabellen_Spalten_style,
-    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text, $CSV_Spalten;
+    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text, $CSV_Spalten, $debug_log;
 
-    flow_add($module, "List_Funcs.inc Funct: List_Create");
+    flow_add($module, "BA_List_Funcs.inc.php Funct: List_Create");
 
+    $debug_log_file = "BA_List_Fu_Debug.log";
+    
     if ($debug) {
         echo "<pre class=debug style='color:red;'><b>Function List_Create in List_Funcs.inc</b></pre>";
     }
@@ -665,7 +667,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
         $zus_text = "";
     }
     if (!isset($Kateg_name)) {
-        $kKateg_Name = "";
+        $Kateg_Name = "";
     }
     if ($Kateg_Name != "") {
         $Kateg_Name = "<span style='background-color:yellow;' > $Kateg_Name </span>";
@@ -710,21 +712,38 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     $zeilen = mysqli_num_rows($query_result_1); # Anzahl der gefundenen Rows/Zeilen
     $Table_csv = array();
     $Table_Out = array();
+    
+    if ($debug_log) {
+        file_put_contents($debug_log_file, "L 717 sql1 $sql_1 \n Anz. Recs $zeilen " . PHP_EOL, FILE_APPEND);
+    }
+    
     if ($debug) {
         echo "<pre class=debug>";
         print_r($query_result_1);
         echo "L 717 \$zeilen=$zeilen</pre>";
     }
-    # echo "L 0714 vor einlesen tab_nam_1 $tab_nam_1 <br>";
+    
+    if ($debug_log) {
+        file_put_contents($debug_log_file, "L 727 sql1 $sql_1 \n Anz. Recs $zeilen " . PHP_EOL, FILE_APPEND);
+    }
+    
+
     while ($row = mysqli_fetch_assoc($query_result_1)) { # Für alle Tabellenzeilen
         
+        if ($debug_log) {
+            file_put_contents($debug_log_file, "L 734 row ".json_encode($row). PHP_EOL, FILE_APPEND);
+        }
+        
         $Table_csv[] = $row;
-        $modRC = modifyRow($row, $tab_nam_1);
-
+        $modRC = modifyRow($row, $tab_nam_1); 
+        
+        if ($debug_log) {
+            file_put_contents($debug_log_file, "L 741 row ".json_encode($row). PHP_EOL, FILE_APPEND);
+        }
+        
         if (isset($row['Sort_Key']) && $row['Sort_Key'] != "") {
             $Table_Out[$row['Sort_Key']] = $row;
             /**
-             *
              * @code $row['Sort_Key']] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
              */
         } else {
@@ -741,8 +760,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
             if (isset($row['Sort_Key']) && $row['Sort_Key'] != "") {
                 $Table_Out[$row['Sort_Key']] = $row;
                 /**
-                 *
-                 * @code $row['Sort_Key']] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
+                 * @code $row['Sort_Key'] = $row[$name] ." ".$row[$vname] -> KO_Gem_List
                  */
             } else {
                 $Table_Out[] = $row;

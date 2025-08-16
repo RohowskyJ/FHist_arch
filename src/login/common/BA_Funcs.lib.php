@@ -261,6 +261,7 @@ function LinkDB($db_proj = "")
                 $database = $ini_arr[$server_name]['l_dbn'];
             }
         } else {
+            # echo "L 0264 homp $hompg <br>";
             $s_a =  explode(".",$server_name);
             $cnt_s = count($s_a);
             $s_c =  explode(".",$hompg);
