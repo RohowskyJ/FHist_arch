@@ -140,8 +140,8 @@ $title = "";
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
-if (isset($_POST['eigentuemer'])) {
-    $ei_id = $_POST['eigentuemer'];
+if (isset($_POST['eigentuemer_1'])) {
+    $ei_id = $_POST['eigentuemer_1'];
     VF_Displ_Eig($ei_id);
     # $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {

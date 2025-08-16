@@ -18,7 +18,6 @@ if ($debug) {
 }
 #var_dump($neu);
 $neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
-#var_dump($_FILES);
 
 /* Sammlung aufbereiten */
 if (isset($_POST['level1'])) {
@@ -55,33 +54,10 @@ if (isset($_FILES)) {
     }
     #var_dump($neu);
 }
-/*
-if (isset($_FILES['uploaddatei_1']['name'])) {
-    $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/" . $neu['ad_sg'] . "/" . $neu['ad_subsg'] . "/";
-    # echo "L 072 \$uploaddir $uploaddir <br/>";
-    if (! file_exists($uploaddir)) {
-        mkdir($uploaddir, 0777, true);
-    }
-    
-    if ($_FILES['uploaddatei_1']['name'] != "" ) {
-        $neu['ad_doc_1'] = VF_Upload($uploaddir, 1);
-    }
-    if ($_FILES['uploaddatei_2']['name'] != "" ) {
-        $neu['ad_doc_2'] = VF_Upload($uploaddir, 2);
-    }
-    if ($_FILES['uploaddatei_3']['name'] != "" ) {
-        $neu['ad_doc_3'] = VF_Upload($uploaddir, 3);
-    }
-    if ($_FILES['uploaddatei_4']['name'] != "" ) {
-        $neu['ad_doc_4'] = VF_Upload($uploaddir, 4);
-    }
-}
-*/
-if (isset($neu['eigentuemer'])) {
-    $neu['ad_neueigner'] = $neu['eigentuemer'];
-    unset($neu['eigentuemer']);
-}
 
+if (isset($neu['eigentuemer_1']) && $neu['eigentuemer_1'] != "") {
+    $neu['ad_neueigner'] = $neu['eigentuemer_1'];
+}
 
 if ($neu['ad_id'] == 0) { # neueingabe
     $arcnewnr = "";
@@ -125,7 +101,7 @@ if ($neu['ad_id'] == 0) { # neueingabe
         echo "<br> \$sql $sql <br>";
         echo "</pre>";
     }
-echo "L 091 sql $sql <br>";
+
     $result = SQL_QUERY($db, $sql);
 
     $neu['ad_id'] = mysqli_insert_id($db);
@@ -137,9 +113,11 @@ echo "L 091 sql $sql <br>";
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        
+        if (substr($name,0,3) != 'ad_') {
             continue;
-        } #
+        }
+        
         if ($name == "ad_doc_11") {
             continue;
         } #
@@ -150,39 +128,6 @@ echo "L 091 sql $sql <br>";
             continue;
         }
         if ($name == "ad_doc_44") {
-            continue;
-        } #
-
-        if ($name == 'ak_s0') {
-            continue;
-        }
-        if (substr($name, 0, 4) == 'l_ad') {
-            continue;
-        }
-        if (substr($name, 0, 4) == 'l_sb') {
-            continue;
-        }
-
-        if ($name == "in_eignr") {
-            continue;
-        } #
-        if ($name == "InvNr") {
-            continue;
-        } #
-        if ($name == "eigentmr") {
-            continue;
-        } #
-
-        if ($name == "ArchNr") {
-            continue;
-        } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "auto") {
-            continue;
-        } #
-        if (substr($name,0,4) == "leve") {
             continue;
         } #
 

@@ -6,7 +6,7 @@
  *
  */
 if ($debug) {echo "<pre class=debug>VF_A_AR_Edit_ph0.inc.php ist gestarted</pre>";}
-  #var_dump($neu);
+ # var_dump($_POST);
 
 if ($neu['ad_id'] == 0) { // Neueingabe
     $hide_area = 0;

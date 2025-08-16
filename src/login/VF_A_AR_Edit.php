@@ -148,7 +148,7 @@ if ($phase == 1) {
     # $debug = True;
     
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
     # print_r($neu);echo "<br>L 0183 neu <br>";
     if ($debug) {
@@ -250,8 +250,6 @@ BA_HTML_header('Archiv- Verwaltung <br>'.  $Eigent, $header, 'Form', '90em'); # 
 
 echo " <form id='myform' name='myform' method='post' action='" . $_SERVER['PHP_SELF'] . "' enctype='multipart/form-data' >";
 
-##echo "<script src='" . $path2ROOT . "login/common/javascript/VF_Z_E_AutoLoad.js'></script>";
-
 switch ($phase) {
     case 0:
         require ('VF_A_AR_Edit_ph0.inc.php');
@@ -292,7 +290,7 @@ function modifyRow(array &$row, $tabelle)
                 $vl_id = $row['vl_id'];
                 $row['vl_id'] = "<a href='VF_A_AR_Edit.php?vl_id=$vl_id' >" . $vl_id . "</a>";
                 # $ei_zust_aus_bild = $row['ei_zust_aus_bild'];
-                $p1 = $pict_path . $ei_zust_aus_bild;
+                # $p1 = $pict_path . $ei_zust_aus_bild;
                 # $row['ei_zust_aus_bild'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'> Groß </a>";
                 break;
         }
