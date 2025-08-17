@@ -116,16 +116,16 @@ Edit_Select_Feld('in_linkerkl', $Opt_Det);
 Edit_Daten_Feld('in_entstehungszeit', 10);
 Edit_Select_Feld('in_epoche', VF_Epoche);
 Edit_Daten_Feld('in_hersteller', 100);
-
+/*
 $ST_Opt_A = VF_Sel_Staat('in_herstld', '9');
 Edit_Select_Feld('in_herstld', $ST_Opt_A);
 
 $ST_Opt_A = VF_Sel_Staat('in_aufbld_1', '9');
 Edit_Select_Feld('in_aufbld_1', $ST_Opt_A);
 # Edit_Daten_Feld('in_aufbld_1',10);
-
-Edit_Daten_Feld('in_wert', 20);
+*/
 Edit_Daten_Feld('in_wert_neu', 30);
+
 Edit_Daten_Feld('in_neu_waehrg', 50);
 Edit_Daten_Feld('in_wert_kauf', 30);
 Edit_Daten_Feld('in_kauf_waehrung', 50);
@@ -142,7 +142,6 @@ Edit_Daten_Feld('in_gewicht', 50, " in Kg");
 echo "<input type='hidden' name='in_aufbld_2' value='" . $neu['in_aufbld_2'] . "'/>";
 echo "<input type='hidden' name='in_aufbld_3' value='" . $neu['in_aufbld_3'] . "'/>";
 echo "<input type='hidden' name='in_nutzld' value='" . $neu['in_nutzld'] . "'/>";
-echo "<input type='hidden' name='in_det_beschrbg' value='" . $neu['in_det_beschrbg'] . "'/>";
 echo "<input type='hidden' name='in_vwlinks' value='" . $neu['in_vwlinks'] . "'/>";
 echo "<input type='hidden' name='in_beschreibung' value='" . $neu['in_beschreibung'] . "'/>";
 echo "<input type='hidden' name='in_refindex' value='" . $neu['in_refindex'] . "'/>";
@@ -159,6 +158,7 @@ echo "<div>";
 
 echo "<input type='hidden' name='in_foto_1' value='" . $neu['in_foto_1'] . "'>";
 echo "<input type='hidden' name='in_foto_2' value='" . $neu['in_foto_2'] . "'>";
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
 echo "<input type='hidden' id='sammlung' value='".$neu['in_sammlg'] ."'>";
 echo "<input type='hidden' id='eigner' value='".$neu['ei_id'] ."'>";
@@ -226,7 +226,7 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-require "VF_I_IN_VL_List.php";
+# require "VF_I_IN_VL_List.php";
 
 echo "<p><a href='VF_I_IN_List.php'>Zurück zur Liste</a></p>";
 echo "</div>";

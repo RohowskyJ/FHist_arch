@@ -134,8 +134,8 @@ $_SESSION[$module]['$select_string'] = $select_string;
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
-if (isset($_POST['eigentuemer'])) {
-    $ei_id = $_POST['eigentuemer'];
+if (isset($_POST['eigentuemer_1'])) {
+    $ei_id = $_POST['eigentuemer_1'];
     VF_Displ_Eig($ei_id);
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
@@ -383,13 +383,34 @@ function modifyRow(array &$row, $tabelle)
             $in_id = $row['in_id'];
             $row['in_id'] = "<a href='VF_I_IN_Edit.php?in_id=$in_id' >" . $in_id . "</a>";
             if ($row['in_foto_1'] != "") {
-                $pictpath = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
+                $fo = $row['in_foto_1'];
+                
 
+                    $fo = $row['in_foto_1'];
+                    $fo_arr = explode("-", $fo);
+                    $cnt_fo = count($fo_arr);
+                    
+                    if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                        $urh = $fo_arr[0]."/";
+                        $verz = $fo_arr[1]."/";
+                        
+                        $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fo ;
+                        
+                        if (!is_file($p)) {
+                            $p = $pict_path . $in_foto_1;
+                        }
+                    } else {
+                        $p = $pict_path . $row['in_foto_1'];
+                    }
+                    $row['in_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$fo' width='200px'> $fo </a>";
+                
+                /*
                 $in_foto_1 = $row['in_foto_1'];
                 $p1 = $pictpath . $row['in_foto_1'];
 
-                $row['in_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$in_foto_1' width='150px'> $in_foto_1 </a>";
-                
+                $row['in_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$in_foto_1' width='150px'> $in_foto_1 </a>";
+                */
             }
           
             if ($row['in_neueigner'] > 0) { # OR !is_null($row['in_neueigner'])

@@ -45,7 +45,6 @@ $flow_list = True;
 $jq = $jqui = true;
 $BA_AJA = true;
 
-
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
@@ -131,15 +130,9 @@ if ($phase == 0) {
             'in_zustand' => "",
             "in_entstehungszeit" => "",
             "in_hersteller" => "",
-            "in_herstld" => "",
-            "in_aufbld_1" => "",
-            "in_aufbld_2" => "",
-            "in_aufbld_3" => "",
-            "in_nutzld" => "",
             'in_bezeichnung' => "",
             "in_beschreibg" => "",
             "in_det_beschrbg" => "",
-            "in_wert" => "0",
             "in_wert_neu" => "0",
             "in_neu_waehrg" => "",
             "in_wert_kauf" => "0",
