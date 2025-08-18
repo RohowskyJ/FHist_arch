@@ -29,7 +29,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -125,7 +125,7 @@ if ($phase == 0) {
             'in_eingbuchdat' => "",
             'in_altbestand' => "",
             "in_invnr" => "",
-            "in_sammlg" => "S",
+            "in_sammlg" => "",
             'in_epoche' => "",
             'in_zustand' => "",
             "in_entstehungszeit" => "",
@@ -162,8 +162,7 @@ if ($phase == 0) {
         );
 
     } else {
-        $sql = 
-        # $fw_id = ;
+        
         $sql_be = "SELECT * FROM $tabelle_a
              INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg
              WHERE `in_id` = '" . $_SESSION[$module]['in_id'] . "' ORDER BY `in_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg 

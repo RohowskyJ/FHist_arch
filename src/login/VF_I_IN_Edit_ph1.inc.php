@@ -66,7 +66,7 @@ if ($_SESSION[$module]['in_id'] == 0) {
                 '$neu[ei_id]','$neu[in_invjahr]','$neu[in_eingbuchnr]','$neu[in_eingbuchdat]','$neu[in_altbestand]','$neu[in_invnr]',
                 '$neu[in_sammlg]','$neu[in_epoche]',
                 '$neu[in_zustand]','$neu[in_entstehungszeit]','$neu[in_hersteller]',
-               ,'$neu[in_bezeichnung]','$neu[in_beschreibg]',
+                '$neu[in_bezeichnung]','$neu[in_beschreibg]',
                 '$neu[in_wert_neu]','$neu[in_neu_waehrg]','$neu[in_wert_kauf]','$neu[in_kauf_waehrung]','$neu[in_wert_besch]','$neu[in_besch_waehrung]',
                 '$neu[in_abmess]','$neu[in_gewicht]','$neu[in_linkerkl]','$neu[in_kommentar]',
                 '$neu[in_namen]',

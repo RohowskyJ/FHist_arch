@@ -722,7 +722,7 @@ function SQL_QUERY($db, $sql)
     # if ($debug OR $return===FALSE ) { echo '<pre class=debug>sql result: ' ; print_r($return); echo '</pre>'; }
 
     if ($return = mysqli_query($db, $sql)) {
-        #echo "<pre class=debug>L 729 SQL_Query sql $sql <br>result: " ; print_r($return); echo '</pre>';
+        # echo "<pre class=debug>L 725 SQL_Query sql $sql <br>result: " ; print_r($return); echo '</pre>';
         return $return;
     } else {
         echo "<br><b style='color:red;background:white;'>Fehler in mysqli_query: <i>" . mysqli_error($db) . "</i></b> <b><pre style='background:white;'>$sql</pre></b><br>";

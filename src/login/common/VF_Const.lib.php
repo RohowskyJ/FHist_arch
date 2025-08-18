@@ -111,12 +111,12 @@ const VF_FZG_Aera = array(
  */
 const VF_Epoche = array(
     "999" => "Nicht Bekannt",
-    "0" => "Vorrömische Zeit (bis 500 v-Chr.)",
+    "0" => "Vorrömische Zeit (bis ca. 500 v. Chr.)",
     "1" => "Römische Zeit (300 v.Chr - 488 n. Chr.)",
     "2" => "Mittelalter (489 - 1500 n. Chr.",
     "3" => "Neuzeit (1500 - 18xx n.Chr",
     "4" => "Gründungszeit der 1. Freiwilligen Feuerwehren",
-    "5" => "1. Weltkrieg und Zwischenkriegszeit (1914 -1938)",
+    "5" => "1. Weltkrieg und Zwischenkriegszeit (1914 - 1918 - 1938)",
     "6" => "2. Weltkrieg (1939 - 1945)",
     "7" => "Nachkriegszeit (ab 1946)"
 );

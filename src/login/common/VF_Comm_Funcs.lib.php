@@ -1216,7 +1216,7 @@ function VF_Sel_Det($sammlg, $invblink, $sub_funct)
     flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Sel_Det");
 
     if ($debug) {
-        echo "<pre class=debug>VF_Det_Ausw L Beg: \$sammlg $sammlg <pre>";
+        echo "<pre class=debug>VF_Sel_Det L Beg: \$sammlg $sammlg <pre>";
     }
     $opt_val = array('Momentan keine Detailanfragen möglich.','Struktur muss neu aufgebaut werden.');
     /*
@@ -1642,7 +1642,7 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
             } else {
                 $target = $fn_arr['basename'];
             }
-            echo "L 01773 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+            echo "L 01645 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
             var_dump($_FILES[$fdsn]);
             if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
                 var_dump($_FILES[$fdsn]);

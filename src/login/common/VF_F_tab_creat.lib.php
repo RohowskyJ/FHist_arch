@@ -81,6 +81,7 @@ function Cr_n_ar_chivdt($tabelle)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Archivalien- Verzeichnis' ";
 
     $return = SQL_QUERY($db, $sql);
+    var_dump($return);
     return $return;
 } # Ende Funktion Cr_n_ar_chivdt
 
@@ -150,7 +151,7 @@ function Cr_n_in_ventar($tabelle)
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-  `in_id` int(11)  NULL  AUTO_INCREMENT COMMENT 'Fortl. Nr.',
+  `in_id` int(11)   AUTO_INCREMENT COMMENT 'Fortl. Nr.',
   `ei_id` int(11)  NULL  COMMENT 'Eigentümer- Nummer',
   `in_invjahr` varchar(4) DEFAULT NULL COMMENT 'Inventarisierungs- Jahr',
   `in_eingbuchnr` varchar(15)  NULL  COMMENT 'Eingangsbuch Nummer',
@@ -162,19 +163,12 @@ function Cr_n_in_ventar($tabelle)
   `in_zustand` varchar(500)  NULL  COMMENT 'Zustand',
   `in_entstehungszeit` varchar(10)  NULL  COMMENT 'Entstehungszeit',
   `in_hersteller` char(100)  NULL  COMMENT 'Hersteller',
-  `in_herstld` char(2)  NULL  COMMENT 'Herstellungs- Land',
-  `in_aufbld_1` char(2)  NULL  COMMENT 'Aufbau- Land 1',
-  `in_aufbld_2` char(2)  NULL  COMMENT 'Aufbau- Land 2',
-  `in_aufbld_3` char(2)  NULL  COMMENT 'Aufbau- Land 3',
-  `in_nutzld` char(2)  NULL  COMMENT 'Nutzungs- Land',
   `in_bezeichnung` varchar(100)  NULL  COMMENT 'Beszeichnung',
   `in_beschreibg` text  NULL  COMMENT 'Beschreibung',
-  `in_det_beschrbg` varchar(10)  NULL  COMMENT 'Beschreibungen ?? Obsolete',
-  `in_wert` decimal(15,2)  NULL  COMMENT 'Wert ?? Obsolete',
   `in_wert_neu` decimal(15,2)  NULL  COMMENT 'Neuwert',
-  `in_neu_waehrg` varchar(50)  NULL  COMMENT 'Wahrung beim Akauf',
+  `in_neu_waehrg` varchar(50)  NULL  COMMENT 'Währung beim Akauf',
   `in_wert_kauf` decimal(15,2)  NULL  COMMENT 'Kaufwert',
-  `in_kauf_waehrung` varchar(50)  NULL  COMMENT 'WÃ¤hrung beim Ankauf',
+  `in_kauf_waehrung` varchar(50)  NULL  COMMENT 'Währung beim Ankauf',
   `in_wert_besch` decimal(15,2)  NULL  COMMENT 'Wiederbeschaffungs- Wert',
   `in_besch_waehrung` varchar(50)  NULL  COMMENT 'Wiederbeschaffungswert',
   `in_abmess` varchar(50)  NULL  COMMENT 'Abmessungen lxbxh in mm',
@@ -183,7 +177,7 @@ function Cr_n_in_ventar($tabelle)
   `in_kommentar` text  NULL  COMMENT 'Kommentar',
   `in_namen` varchar(1024)  NULL  COMMENT 'Name von Personen im Zusammenhang genannt',
   `in_vwlinks` varchar(45)  NULL  COMMENT 'Weitere Links ? ?? Obsolete',
-  `in_beschreibung` varchar(60)  NULL  COMMENT 'Beschreibung ? Obsolete',
+  `in_beschreibung` varchar(60)  NULL  COMMENT 'Beschreibung',
   `in_foto_1` char(50)  NULL  COMMENT 'Foto 1',
   `in_fbeschr_1` text  NULL  COMMENT 'Beschreibung Foto 1',
   `in_foto_2` char(50)  NULL  COMMENT 'Foto_2',
@@ -199,8 +193,8 @@ function Cr_n_in_ventar($tabelle)
   PRIMARY KEY (`in_id`)
 ) ENGINE=MyISAM DEFAULT  CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  ";
 
-
     $return = SQL_QUERY($db, $sql);
+  
     return $return;
 } # Ende Funktion Cr_n_in_vent_n
 
@@ -209,23 +203,23 @@ function Cr_n_in_vent_verleih($tabelle)
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
     $sql = "CREATE TABLE IF NOT EXISTS $tabelle (
-   `vl_id` tinyint(4)  NULL  COMMENT 'Fortl. Nr.',
-  `in_id` int(19)  NULL  COMMENT 'Invntar-Nummer',
-  `ei_id` int(15)  NULL  COMMENT 'Eigentuemer- Nummer',
-  `ei_invnr` varchar(6) COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT 'Inventar- Nummer',
-  `ei_zustand_aus` char(200) COLLATE utf8mb4_german2_ci  NULL  COMMENT 'Zustand Ausgabe',
-  `ei_zustand_ret` char(200) COLLATE utf8mb4_german2_ci  NULL  COMMENT 'Zustand retour',
-  `ei_zust_aus_bild` char(60) COLLATE utf8mb4_german2_ci  NULL  COMMENT 'Zustand Ausgabe, Bild',
-  `ei_zust_ret_bild` char(60) COLLATE utf8mb4_german2_ci  NULL  COMMENT 'Zustand retour, Bild',
-  `ei_leiher` varchar(100) COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT 'Leiher',
-  `ei_leihvertr` char(1) COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT 'Leihvertrag gedruckt',
-  `ei_verlbeg` varchar(12)  NULL  COMMENT 'Verleih Beginn',
-  `ei_verlend` varchar(12)  NULL  COMMENT 'Verleih Ende',
-  `ei_verlgrund` varchar(250) COLLATE utf8mb4_german2_ci DEFAULT NULL COMMENT 'Verleih Grund',
-  `ei_verlrueck` varchar(12)  NULL  COMMENT 'Rueckgabe- Datum',
-  `ei_verluebn` varchar(15) COLLATE utf8mb4_german2_ci  NULL  COMMENT 'Übernehmer - ID',
-  `ei_uidaend` varchar(4) COLLATE utf8mb4_german2_ci  NULL  DEFAULT '' COMMENT 'Änderer',
-  `ei_aenddat` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
+  `vl_id` tinyint(4)  AUTO_INCREMENT   COMMENT 'Fortl. Nr.',
+  `in_id` int(19)   DEFAULT NULL  COMMENT 'Invntar-Nummer',
+  `ei_id` int(15)   DEFAULT NULL  COMMENT 'Eigentuemer- Nummer',
+  `ei_invnr` varchar(6) DEFAULT NULL COMMENT 'Inventar- Nummer',
+  `ei_komm_1` char(200)  DEFAULT NULL   NULL  COMMENT 'Zustand Ausgabe',
+  `ei_komm_2` char(200)  DEFAULT NULL  COMMENT 'Zustand retour',
+  `ei_bild_1` char(60)  DEFAULT NULL   COMMENT 'Zustand Ausgabe, Bild',
+  `ei_bild_2` char(60)  DEFAULT NULL   COMMENT 'Zustand retour, Bild',
+  `ei_leiher` varchar(500) DEFAULT NULL COMMENT 'Leiher',
+  `ei_leihvertr` char(1) DEFAULT NULL COMMENT 'Leihvertrag gedruckt',
+  `ei_verlbeg` varchar(12)   DEFAULT NULL  COMMENT 'Verleih Beginn',
+  `ei_verlend` varchar(12) DEFAULT NULL  COMMENT 'Verleih Ende',
+  `ei_verlgrund` varchar(250) DEFAULT NULL COMMENT 'Verleih Grund',
+  `ei_verlrueck` varchar(12)   DEFAULT NULL  COMMENT 'Rueckgabe- Datum',
+  `ei_verluebn` varchar(15)  DEFAULT NULL  NULL  COMMENT 'Übernehmer - ID',
+  `ei_uidaend` varchar(4)  DEFAULT NULL   NULL  DEFAULT '' COMMENT 'Änderer',
+  `ei_aenddat` timestamp  DEFAULT NULL ON UPDATE current_timestamp() COMMENT 'Letzte Änderung',
   PRIMARY KEY (`vl_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT  'Inventarverleih'";
 

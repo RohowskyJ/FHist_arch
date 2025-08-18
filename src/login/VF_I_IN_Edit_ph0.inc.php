@@ -47,7 +47,7 @@ if ($neu['in_id'] == 0) {
     
     Edit_Daten_Feld('in_sammlg','');
     Edit_Daten_feld('sa_name','');
-    echo "</div>";
+   # echo "</div>";
     
     echo "<div class='w3-container '> ";
     
@@ -96,26 +96,26 @@ if ($neu['in_id'] == 0) {
     Edit_Daten_Feld('in_sammlg','');
     Edit_Daten_feld('sa_name','');
 }
-
+echo "</div>";
 # =========================================================================================================
 Edit_Separator_Zeile('Inventar- Beschreibung');
 # =========================================================================================================
-Edit_Daten_Feld('in_bezeichnung', 100);
-Edit_textarea_Feld('in_beschreibg');
+# var_dump($Tabellen_Spalten_COMMENT);
+# var_dump($Tabellen_Spalten_MAXLENGTH);
+Edit_Daten_Feld('in_bezeichnung', 60);
 Edit_textarea_Feld('in_kommentar');
 
-# $pict_path = "referat".$_SESSION[$module]['in_referat']."/".$_SESSION['Eigner']['eig_eigner']."/";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
 
 if ($neu['in_sammlg'] != "") {
     $pict_path .= $neu['in_sammlg'] . "/";
+    $Opt_Det = VF_Sel_Det($neu['in_sammlg'], $neu['in_linkerkl'], 8);
+    Edit_Select_Feld('in_linkerkl', $Opt_Det);
 }
 
-$Opt_Det = VF_Sel_Det($neu['in_sammlg'], $neu['in_linkerkl'], 8);
-Edit_Select_Feld('in_linkerkl', $Opt_Det);
 Edit_Daten_Feld('in_entstehungszeit', 10);
 Edit_Select_Feld('in_epoche', VF_Epoche);
-Edit_Daten_Feld('in_hersteller', 100);
+Edit_Daten_Feld('in_hersteller', 60);
 /*
 $ST_Opt_A = VF_Sel_Staat('in_herstld', '9');
 Edit_Select_Feld('in_herstld', $ST_Opt_A);
@@ -139,9 +139,6 @@ Edit_Daten_Feld('in_abmess', 50, " Abmessungen:  l x b xh in mm");
 
 Edit_Daten_Feld('in_gewicht', 50, " in Kg");
 
-echo "<input type='hidden' name='in_aufbld_2' value='" . $neu['in_aufbld_2'] . "'/>";
-echo "<input type='hidden' name='in_aufbld_3' value='" . $neu['in_aufbld_3'] . "'/>";
-echo "<input type='hidden' name='in_nutzld' value='" . $neu['in_nutzld'] . "'/>";
 echo "<input type='hidden' name='in_vwlinks' value='" . $neu['in_vwlinks'] . "'/>";
 echo "<input type='hidden' name='in_beschreibung' value='" . $neu['in_beschreibung'] . "'/>";
 echo "<input type='hidden' name='in_refindex' value='" . $neu['in_refindex'] . "'/>";
@@ -187,7 +184,7 @@ Edit_Daten_Feld('in_eingbuchnr', 15);
 Edit_Daten_Feld('in_eingbuchdat', 10);
 Edit_Daten_Feld('in_erstdat', 10);
 Edit_Daten_Feld('in_ausgdat', 10);
-#echo "<div>";
+
 
 $button = "";
 /*

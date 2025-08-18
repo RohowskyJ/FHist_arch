@@ -221,20 +221,11 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
         );
     }
 
-    /*
-    # ===========================================================================================================
-    # Haeder ausgeben
-    # ===========================================================================================================
-    $title = "Inventar des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . ", " . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'] . ", " . $_SESSION['Eigner']['eig_adresse'] . ", " . $_SESSION['Eigner']['eig_ort'];
-    ;
-    
-    $header = "";
-
-    $prot = True;
-    BA_HTML_header('Inventar des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, '', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-    */
     $tabelle_m = $_SESSION[$module]['tabelle_m'] = "in_ventar";
     $tabelle = $tabelle_m . "_" . $_SESSION['Eigner']['eig_eigner'];
+    
+    $result = Cr_n_in_ventar($tabelle);
+
     List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
     
     $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>in_id</q> Klicken.</li>';
@@ -341,8 +332,6 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     if ($_SESSION[$module]['sammlung'] != "" && $_SESSION[$module]['sammlung'] != "Nix") {
         $sql_where = " WHERE in_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
     }
-    
-    Cr_n_in_ventar($tabelle);
 
     # echo "L 0348 sql $sql <br>";
     
