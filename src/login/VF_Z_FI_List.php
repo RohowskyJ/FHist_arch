@@ -71,9 +71,10 @@ initial_debug();
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-$T_list_texte  = array("Alle" =>"Alle Firmen "
+$T_list_texte  = array("Alle" =>"Alle Firmen (Auswahl)"
     ,"FZGE" =>  'Alle Fahrzeug- Hersteller '
     ,'AUFB' =>  'Alle Aufbau- Firmen'
+    ,'GER'  =>  'Alle Geräte- Hersteller'
     ,"NeuItem" =>"<a href='VF_Z_FI_Edit.php?ID=0' >Neuen Firma eingeben</a>"
 );
 
@@ -104,7 +105,7 @@ $T_list_texte  = array("Alle" =>"Alle Firmen "
       */
       case "AdrList":
           
-          break;
+          # break;
  
 
       default    :            
@@ -155,6 +156,9 @@ $T_list_texte  = array("Alle" =>"Alle Firmen "
           break;
       case "AUSR" :
           $sql_where=" WHERE fi_funkt ='A' ";   $orderBy = ' ORDER BY fi_id ';
+          break;
+      case "GER" :
+          $sql_where=" WHERE fi_funkt ='G' ";   $orderBy = ' ORDER BY fi_id ';
           break;
   }
  

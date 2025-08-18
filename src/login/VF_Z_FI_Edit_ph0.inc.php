@@ -22,14 +22,14 @@ echo "<input type='hidden' name='fi_id' value='".$neu['fi_id']."' />";
   
   Edit_Daten_Feld('fi_abk',20);
   
-  Edit_Daten_Feld('fi_name',100);
-  Edit_Daten_Feld('fi_ort',100);
+  Edit_Daten_Feld('fi_name',60);
+  Edit_Daten_Feld('fi_ort',60);
   
   Edit_Select_Feld('fi_funkt', VF_Fahrz_Herst);
   
-  Edit_Daten_Feld('fi_vorgaenger',100);
+  Edit_Daten_Feld('fi_vorgaenger',60);
   
-  Edit_Daten_Feld('fi_inet',100);
+  Edit_Daten_Feld('fi_inet',60);
 
   # =========================================================================================================
   Edit_Separator_Zeile('Letzte Änderung');
