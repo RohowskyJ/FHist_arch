@@ -83,4 +83,5 @@ if ($einverkl == "Y") {
 if ($debug) {
     echo "<pre class=debug>VF_M_yellow_ph1.inc.php beendet</pre>";
 }
-?> 
+
+?>

@@ -80,7 +80,7 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
     );
     $text = strtr($text, $tr);
 
-    $adr_list = Mail_Set('Mitgl');
+    $adr_list = VF_Mail_Set('Mitgl');
 
     if ($module == "0_EM") {
         sendEMail($neu['mi_email'] . ", $adr_list , josef@kexi.at", "VFHNÖ Mitglieds- Neuanmeldung ", $text); # service@feuerwehrhistoriker.at, helmut-riegler@aon.at, f.blueml@gmx.at"
@@ -100,7 +100,7 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
     $text .= "Mitgliedsnummer:  " . $_SESSION['neu_mitgl']['neu_mi_id'] . "\n";
     $text .= "Anmeldelog  Mail Ende\n";
 
-    VF_sendEmail("$adr_list, josef@kexi.at", // Empänger(Liste)
+    sendEmail("$adr_list, josef@kexi.at", // Empänger(Liste)
     "Neuanmeldung " . $neu['mi_name'] . " ", // Subject Text der EMail
     $text, // Inhalt der Email in HTML format
     "service@feuerwehrhistoriker.at"); // optionale 'Reply-To' E-Mail-Adresse
