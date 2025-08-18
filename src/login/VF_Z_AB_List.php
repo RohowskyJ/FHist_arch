@@ -1,6 +1,6 @@
 <?php
 /**
- * Benutzervrwaltung, Liste
+ * Abkürzungen bei der Feuerwehr, Liste
  *
  * @author Josef Rohowsky - neu 2018
  *
@@ -76,7 +76,7 @@ $T_list_texte  = array("Alle" =>"Alle Benutzer ( Auswahl ) "
     ,'MA_G' => ' Motorisierte Geräte'
     ,'MU_F' => 'Muskelgezogene Fahrzeuge'
     ,'MU_G' => 'Muskelbetriebene Geräte'
-    ,"NeuItem" =>"<a href='VF_Z_AB_Edit.php?ID=0' >Neuen Benutzer eingeben</a>"
+    ,"NeuItem" =>"<a href='VF_Z_AB_Edit.php?ID=0' >Neuen Abkürzung eingeben</a>"
 );
 
 # ===========================================================================================================
@@ -85,7 +85,7 @@ $T_list_texte  = array("Alle" =>"Alle Benutzer ( Auswahl ) "
   $title = "Benutzer ";
   
   $logo = 'NEIN';
-  BA_HTML_header('Benutzer- und Zugriffs- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width 
+  BA_HTML_header('Abkürzungen','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width 
   
   echo "<fieldset>";
 
@@ -164,7 +164,7 @@ dd.</li>';
   { switch($T_List)
     { 
     
-      default        : $sql_where .= " AND (be_org_name LIKE '%$select_string%' OR be_name LIKE '%$select_string%' )";  
+      # default        : $sql_where .= " AND (be_org_name LIKE '%$select_string%' OR be_name LIKE '%$select_string%' )";  
     }
   } 
   

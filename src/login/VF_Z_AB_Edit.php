@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Benutzervrwaltung, Warten
+ * Abkürzungen der Feuerwehr
  * 
- * @author Josef Rohowsky - neu 2018
+ * @author Josef Rohowsky - neu 2025
  * 
  * 
  */
@@ -60,7 +60,7 @@ if (isset($_POST['ab_id'])) {
 }
 
 if ($phase == 99) {
-    header('Location: VF_AB_List.php');
+    header('Location: VF_Z_AB_List.php');
 }
 $Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
                               # --------------------------------------------------------
