@@ -5,7 +5,6 @@ header('Content-Type: application/json');
 require "../BA_Funcs.lib.php";
 require "../VF_Comm_Funcs.lib.php";
 require "../VF_Const.lib.php";
-
 /* für PHP-Logging */
  ini_set('display_errors', '1');
  ini_set("log_errors", 1);
@@ -25,9 +24,8 @@ if ($debug_log) {
 
 $eintragen = Date("Y-m-d H:i:s") . "\n";
 
-$sammlg = $_GET['sammlg'] ?? '';
-$eigner = $_GET['eigner'] ?? '';
-
+$sammlg = $_POST['sammlg'] ?? '';
+$eigner = $_POST['eigner'] ?? '';
 
 /**  Testt- Parms für direkt- Aufruf 
   $sammlg = "Ma_F-L";
@@ -114,7 +112,7 @@ foreach ($dm_arr as $dsn => $drop) {
         continue;
     }
 
-    $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_feuerwehr LIKE '%$eigner%' ";
+    $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_fw_id LIKE '%$eigner%' ";
 
     $sql = "SELECT * FROM $dsn $where ";
    
@@ -124,7 +122,7 @@ foreach ($dm_arr as $dsn => $drop) {
     if (mysqli_num_rows($return) === 0) {
         if (strlen($sammlg) > 4 ) {
             $s_samm = substr($sammlg,0,4);
-            $sql = "SELECT * FROM $dsn WHERE  md_feuerwehr LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND 
+            $sql = "SELECT * FROM $dsn WHERE  md_fw_id LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND 
             $return = SQL_QUERY($db,$sql);
         }
     }
