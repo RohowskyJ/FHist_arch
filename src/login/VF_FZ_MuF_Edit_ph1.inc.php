@@ -12,7 +12,7 @@ if ($debug) {
 $Inc_Arr[] = "VF_FZ_MuF_Edit_ph1.inc.php";
 #
 foreach ($_POST as $name => $value) {
-    $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
 
 if (!isset($neu['fm_invnr'])) {
