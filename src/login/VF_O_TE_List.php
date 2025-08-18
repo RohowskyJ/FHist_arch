@@ -192,7 +192,7 @@ switch ($T_List) {
     case "Alles":
         break;
     default:
-        VF_HTML_trailer();
+        BA_HTML_trailer();
         exit(); # wenn noch nix gewählt wurde >> beenden
 }
 

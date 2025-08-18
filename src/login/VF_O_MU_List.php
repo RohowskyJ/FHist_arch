@@ -289,7 +289,7 @@ switch ($T_List) {
         $orderBy = ' ORDER BY mu_id';
         break;
     default:
-        VFH_HTML_trailer();
+        BA_HTML_trailer();
         exit(); # wenn noch nix gewÃ¤hlt wurde >> beenden
 }
 
