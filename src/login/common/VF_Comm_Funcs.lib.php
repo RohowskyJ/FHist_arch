@@ -15,7 +15,7 @@
  *  - VF_Displ_Aro      - Anzeige Archivordnug, 1+2. Ebene Generelles Sachgebiet und Sub-Sachgebiet
  *  - VF_Displ_Eig      - Daten zur Anzeige der Eigentümer-Daten, Speichern in SESSION[Eigner [
  *  - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen - VF_Displ_Suchb    - Suchbegriffe für Anzeige einlesen
- *  - VF_Displ_Urheb_n  - Urheber Daten in $_Sess[$module]['Fo']['URHEBER'] einlesen  fh_urheber_n/fh_urh_erw_n
+ *  - VF_Displ_Urheb    - Urheber Daten in $_Sess[$module]['Fo']['URHEBER'] einlesen  fh_urheber_n/fh_urh_erw_n
  *  - VF_Login          - Login durchführen
  *  - VF_Log_Pw_chg     - Passwortänderung beim Login Daten erfassen
  *  - VF_Log_PW_Upd     - Passworänderung schreiben
@@ -39,7 +39,7 @@
  *  - VF_Sel_Eign_Urheb - Urheber- Auswahl aus Eigentümer- Datei
  *  fehlende scripts in der liste
  *  - VF_Auto_
- *  - VF_Upload_
+ *  - VF_Upload_Form_M  - Upload (Single- File- Multiple- upload von Audio, Foto und Video Files
  */
 global $debug;
 if ($debug) {
@@ -622,16 +622,13 @@ function VF_Displ_Suchb($invsb1, $invsb2, $invsb3, $invsb4, $invsb5, $invsb6)
  * @global array $db Datenbank Handle
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  */
-function VF_Displ_Urheb_n($urhebernr, $typ = "F")
+function VF_Displ_Urheb($urhebernr)
 // --------------------------------------------------------------------------------
 {
-    global $debug, $db, $module, $fm_typ, $flow_list;
+    global $debug, $db, $module, $flow_list;
 
     flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Displ_Urheb_n");
 
-    if (!isset($fm_typ)) {
-        $fm_typ = $typ;
-    }
     if ($debug) {
         echo "<pre class=debug>VF Displ_Urheb_n L 687 Beg: \$urhebernr $urhebernr fm_typ $fm_typ <pre>";
     }
@@ -642,39 +639,20 @@ function VF_Displ_Urheb_n($urhebernr, $typ = "F")
 
     while ($row = mysqli_fetch_object($return_ur)) {
 
-        $_SESSION[$module]['URHEBER']['BE']['ei_id'] = $row->ei_id;
+        $_SESSION[$module]['Urheber']['ei_id'] = $row->ei_id;
 
         if ($row->ei_org_typ == "") {
             $urheber = $row->name ." .$row->ei_vname";
         } else {
             $urheber = $row->ei_org_typ ." ". $row->ei_org_name;
         }
-        $_SESSION[$module]['URHEBER']['BE']['ei_urheber'] = $urheber;
-
-        $_SESSION[$module]['URHEBER']['BE']['ei_urh_kurzz'] = $row->ei_urh_kurzz;
-        $_SESSION[$module]['URHEBER']['BE']['ei_media'] = $row->ei_media;
-
-        $sql_urh_det = "SELECT * from fh_eign_urh WHERE fs_eigner='$row->ei_id' AND fs_typ = '$fm_typ' ";
-        $return_urh_det = SQL_QUERY($db, $sql_urh_det);
-        $num_rec = mysqli_num_rows($return_urh_det);
-        if ($num_rec > 0) {
-            # $num_r_u_d = mysqli_num_rows($return_urh_det);
-            $_SESSION[$module]['URHEBER']['BE']['urh_abk'] = array();
-            while ($row_urh_d = mysqli_fetch_object($return_urh_det)) {
-                $_SESSION[$module]['URHEBER']['BE']['urh_abk'][$row_urh_d->fs_urh_nr][$row_urh_d->fs_urh_kurzz] = $row_urh_d->fs_fotograf;
-
-            }
-
-            break;
-        }
-
-
+        $_SESSION[$module]['Urheber'][$row->ei_id] = array( 'urh_name'=> $urheber,'urh_Kennz'=>$row->ei_urh_kurzz,'urh_Media'=>$row->ei_media);
     }
 
     mysqli_free_result($return_ur);
 }
 
-// Ende von function VF_Displ_Urheb_n
+// Ende von function VF_Displ_Urheb
 
 /**
  * Feststellen ob die Login Parameter UID und PW korrekt eingegeben wurden
@@ -2281,7 +2259,7 @@ function VF_Upload_Form_M()
     $hide_area_group1 = $hide_area_group2 = $hide_area;
     
     if ($debug) {
-        echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
+        echo "<pre class=debug>VF_Upload_Form_M L 2262 Beg: \$Picts ";
         var_dump($_SESSION[$module]['Pct_Arr']);
         echo "<pre>";
     }
@@ -2529,8 +2507,10 @@ function startAjax(biNr) {
     // Beispiel: Daten sammeln
     var sammlg = $('#sammlung').val().trim();
     var eigner = $('#eigner').val();
+    var aufnDat =$('#aufnDat').val();
     console.log('Sammlg ',sammlg);
     console.log('Eigner ',eigner);
+    console.log('AufnDatum ',aufnDat);
 
     // Level-Filter (hast du ggf. in deiner Seite)
     var level1 = $('#level1').val() || '';
@@ -2541,27 +2521,28 @@ function startAjax(biNr) {
     var level6 = $('#level6').val() || '';
 
     // Auswahl anhand der Level
-    if (level6 && level6.toLowerCase() !== 'nix' && fz_sammlg.length < level6.length) {
-        fz_sammlg = level6;
-    } else if (level5 && level5.toLowerCase() !== 'nix' && fz_sammlg.length < level5.length) {
-        fz_sammlg = level5;
-    } else if (level4 && level4.toLowerCase() !== 'nix' && fz_sammlg.length < level4.length) {
-        fz_sammlg = level4;
-    } else if (level3 && level3.toLowerCase() !== 'nix' && fz_sammlg.length < level3.length) {
-        fz_sammlg = level3;    
-    } else if (level2 && level2.toLowerCase() !== 'nix' && fz_sammlg.length < level2.length) {
-        fz_sammlg = level2;
+    if (level6 && level6.toLowerCase() !== 'nix' && sammlg.length < level6.length) {
+        sammlg = level6;
+    } else if (level5 && level5.toLowerCase() !== 'nix' && sammlg.length < level5.length) {
+        sammlg = level5;
+    } else if (level4 && level4.toLowerCase() !== 'nix' && sammlg.length < level4.length) {
+        sammlg = level4;
+    } else if (level3 && level3.toLowerCase() !== 'nix' && sammlg.length < level3.length) {
+        sammlg = level3;    
+    } else if (level2 && level2.toLowerCase() !== 'nix' && sammlg.length < level2.length) {
+        sammlg = level2;
     }    
+console.log('abfr sammlg ',sammlg);
 
     // AJAX-Anfrage
     $.ajax({
         url: 'common/API/VF_SelPictLib.API.php',
         method: 'POST',
-        data: {
-            'sammlg': sammlg,
-            'eigner': eigner
-        },
-        dataType: 'json',
+        data: {'sammlg' : sammlg,
+               'eigner' : eigner,
+               'aufnDat' : aufnDat
+         },
+        dataType: 'json', 
         success: function(daten) {
             console.log('Success ',daten);
             bilder[biNr] = daten;
@@ -2828,21 +2809,21 @@ $(document).ready(function() {
 </script>
 <?php 
 
-} // end VF_M_Foto
-
+} // end VF_Upload_Form_M
+/*
 function VF_M_Foto_N_ori()
 {
     global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
 
     flow_add($module, "VF_Upload.lib.php Funct: VF_M_Foto_N");
 
-    /**
+    / **
      * Parameter für die Fotos:
      *
      * $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '', 'f1' => '','f2'=>'');
      * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegemeinsame Box, rb1 und up_err werden vom Uploader gesetzt,
      *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
-     */
+     * /
 
     if ($debug) {
         echo "<pre class=debug>VF_M_Foto L Beg: \$Picts ";
@@ -2855,9 +2836,9 @@ function VF_M_Foto_N_ori()
     #var_dump($_SESSION[$module]['Pct_Arr']);
     # var_dump($neu);
 
-    /**
+    / **
      * Floating Block mit Bild, Bildbeschreibung , Bildname und Upload-Block
-     */
+     * /
     echo "<div class='w3-container'>";                           // container für Foto und Beschreibung
     #console_log('L 056 vor class w3-row ');
     echo "<div class = 'w3-row w3-border'>";                     // Responsive Block start
@@ -2922,9 +2903,9 @@ function VF_M_Foto_N_ori()
         # echo "Bild- Box $key wird angezeigt <br>";
         $pict_path = VF_Upload_Pfad_M('', '', '', '');
 
-        /**
+        / **
          * Responsive Container innerhalb des loops
-         */
+         * /
         echo "<div class = 'w3-container w3-half'>";                                  // start half contailer
         echo "<fieldset>";
         echo "Bild $j <br>";
@@ -3007,7 +2988,7 @@ function VF_M_Foto_N_ori()
     echo "</div>";  // Responsive Block end
     echo "</div>";        // end container
 } // end VF_Upload_Form_M
-
+*/
 /**
  * Hochladen von Dateien
  *
