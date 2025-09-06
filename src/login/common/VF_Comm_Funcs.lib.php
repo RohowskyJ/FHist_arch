@@ -2431,8 +2431,7 @@ function VF_Upload_Form_M()
 
             
             <div id="sel_lib_upload<?php echo $j; ?>" style="display:none;">
-                      <input type="file" id="upload_file_<?php echo $j; ?>">
-                 
+    
                  <?php
                  if ($module != 'OEF') {
                      VF_Auto_Eigent('U', false,$j);
@@ -2464,6 +2463,7 @@ function VF_Upload_Form_M()
                  echo "</div>";
                  echo "</div>"; // ende foload
                  ?>
+                 <br><input type="file" id="upload_file_<?php echo $j; ?>">
              </div>
         <?php
 
@@ -2622,13 +2622,12 @@ function setupUploadBlock(j) {
     $('#rotate_left_' + j).remove();
     $('#rotate_right_' + j).remove();
 
-    // Preview and controls container
+   // Preview and controls container
     const previewDiv = $('<div id="preview_' + j + '" style="margin:10px 0;"></div>');
+    const uploadBtn = $('<button type="button" id="upload_btn_' + j + '" style="color: #cc0000">zum Hochladen der Datei nach dem Ausfüllen anklicken</button>');   
     fileInput.after(previewDiv);
-    // const uploadBtn = $('<button type="button" id="upload_btn_' + j + '" style="color: #cc0000">zum Hochladen der Datei nach dem Ausfüllen anklicken</button>');
-    const uploadBtn = $('<button type="button" id="upload_btn_A" style="color: #cc0000">zum Hochladen der Dateien und anschließendes Abspeichern anklicken</button>');
-    fileInput.after(uploadBtn);
-
+    previewDiv.after(uploadBtn);
+    
     // Store selected files and their rotation
     let selectedFiles = [];
     let rotations = [];

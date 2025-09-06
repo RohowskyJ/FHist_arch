@@ -12,7 +12,7 @@
  */
 
 if ($debug) {
-    echo "L 042: VF_HTML_Funcs.inc.php ist geladen. <br/>";
+    echo "L 015: VF_HTML_Funcs.inc.php ist geladen. <br/>";
 }
 
 
@@ -34,7 +34,7 @@ if ($debug) {
  *
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
  * @global bool $jq lädt jquery.js
- * @global bool $JQUI lädt jquery-uiF
+ * @global bool $qui lädt jquery-ui
  */
 function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 // --------------------------------------------------------------------------------
@@ -63,9 +63,6 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3-2.52.css'  type='text/css'>"; ## -2.52
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
 
-    if (isset($prot) && $prot) {
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/prototype.js' ></script>";
-    }
     if (isset($jq) && $jq) {
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-3.7.1.min.js' ></script>";
     }
@@ -85,7 +82,6 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         }
         </style>
         <?php
-        # echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
     }
     
     if (isset($BA_AJA) && $BA_AJA) {
