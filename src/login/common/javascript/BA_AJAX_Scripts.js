@@ -14,19 +14,20 @@ $(function() {
     initAutocomplete();
     initMultiDropDown();
 
-	initRadio();
+	// initRadio();
 	//sucheBibliothek();
 });
 
 function initAutocomplete() {
     // Alle Input-Felder mit Klasse 'autocomplete' initialisieren
 	console.log('initAutocomplete aktiv');
+	
     $(".autocomplete").each(function() {
         var $input = $(this);
         var proc = $input.data('proc');
         var targetId = $input.data('target'); // z.B. 'suggestTaktisch'
         var feedId = $input.data('feed'); // z.B. 'taktisch'
-        console.log('trgetid ',targetId);
+        // console.log('trgetid ',targetId);
         $input.autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -80,9 +81,9 @@ function initMultiDropDown() {
             const opVal = $("#opval").val();
 	        $nextSelect.empty();
 	        $nextSelect.append('<option value="Nix">Bitte wählen</option>');
-console.log('level',level);
-console.log("parentValue",parentValue);
-console.log('opVal',opVal);
+// console.log('level',level);
+// console.log("parentValue",parentValue);
+// console.log('opVal',opVal);
 	        if (parentValue === 'Nix') return;
 
 	        $.ajax({
@@ -161,62 +162,6 @@ console.log('opVal',opVal);
 	    });
 }
 
-// Button-Event zum togglen
-$('#toggleUploadsButton').on('click', function() {
-	toggleUploadBlocks();
-});
-	
-
-function initRadio () {
-	console.log('initRadio aktiv');
-	$('input[type=radio].sel_libs').on('change', function() {
-	       var name = $(this).attr('name');
-	       var value = $(this).val();
-	       //var id = name; // Annahme: name='sel_libs_1' etc. nicht mehr aktuell, est ist nur mehr split_libs
-	       console.log('name ', name);
-	       console.log('value ',value);
-	       //console.log('id ',id);
-	       if (value == 'Ja') {
-	           $('#upl_libs' ).show();
-	           $('#upl_new' ).hide();
-	       } else {
-	           $('#upl_libs').hide();  // $('#upl_libs_' + id).hide()
-	           $('#upl_new' ).show();
-			   
-	       }
-	   });         
-}
-
-
-/*
-function sucheBibliothek(index) {
-	console.log('SucheBibliothek ativ');
-     var suchbegriff = $('#suche_' + index).val();
-    
-     console.log('Suchbegriff ',suchbegriff);
-     // Hier sollte die AJAX-Anfrage an die API erfolgen
-                // Für dieses Beispiel simulieren wir einige Bilder
-                var simulations = [
-                   'bild1.jpg',
-                   'stadt_urlaub.png',
-                   'natur_gruen.gif',
-                   'architektur_building.jpg'
-                   ];
-                var ergebnisDiv = $('#suchergebnis_' + index);
-                ergebnisDiv.empty();
-                simulations.forEach(function(datei) {
-                  if (datei.includes(suchbegriff) || suchbegriff.trim() == '') {
-                     // Einfach alle Bilder anzeigen, die den Suchbegriff enthalten oder alle, wenn leer
-                     var btn = $('<button type="button">Auswählen</button>');
-                     btn.click(function() {
-                     $('#foto_' + index).val(datei);
-                      });
-                     ergebnisDiv.append($('<div></div>').append('Datei: ' + datei + ' ').append(btn));
-                  }
-                });
- }
- */        
-
  function toggleVisibility(id) {
 	console.log('toggleVisibility aktiv');
              var el = document.getElementById(id);
@@ -227,23 +172,6 @@ function sucheBibliothek(index) {
                  el.style.display = 'none';
              }
 }
-
-/**
- * Toggle eine einzelne Gruppe anhand ihrer ID
- */
-/*
-function toggleGroup(groupId) {
-	console.log('toggleGroup aktiv');
-    var el = document.getElementById(groupId);
-    if (el) {
-        if (window.getComputedStyle(el).display === 'none') {
-            el.style.display = 'block';
-        } else {
-            el.style.display = 'none';
-        }
-    }
-}
-*/
 
 /**
  * Toggle alle 'foto-upd'-Elemente
