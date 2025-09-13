@@ -482,9 +482,9 @@ function VF_Displ_Aro($sg, $ssg)
  * @global array $db Datenbank Handle
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  */
-function VF_Displ_Eig($eigentmr)
+function VF_Displ_Eig($eigentmr, $id='E')
 {
-    global $debug, $db, $module, $flow_list;
+    global $debug, $db, $module, $sub_mod, $flow_list;
 
     flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Displ_Eig");
 
@@ -526,28 +526,52 @@ function VF_Displ_Eig($eigentmr)
                 $leihname = "$row->ei_org_name  ";
                 break;
         }
-
-        $_SESSION['Eigner']['eig_eigner'] = $eigentmr;
-        $_SESSION['Eigner']['eig_org'] = $leihname;
-        $_SESSION['Eigner']['eig_name'] = $leihname;
-        $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
-
-        if ($row->ei_org_typ == "Privat") {
-            $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
-            $_SESSION['Eigner']['eig_verant'] = "";
-            $_SESSION['Eigner']['eig_staat'] = "";
-            $_SESSION['Eigner']['eig_adresse'] = "";
-            $_SESSION['Eigner']['eig_ort'] = "";
-            $_SESSION['Eigner']['eig_name'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
-            $_SESSION['Eigner']['eig_urhname'] = "$row->ei_vname $row->ei_name ";
-        } else {
-            $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
+        if ($id == 'E') {
+            $_SESSION['Eigner']['eig_eigner'] = $eigentmr;
+            $_SESSION['Eigner']['eig_org'] = $leihname;
+            $_SESSION['Eigner']['eig_name'] = $leihname;
             $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
-            $_SESSION['Eigner']['eig_staat'] = $row->ei_staat;
-            $_SESSION['Eigner']['eig_adresse'] = $row->ei_adresse;
-            $_SESSION['Eigner']['eig_ort'] = $row->ei_plz . " " . $row->ei_ort;
-            $_SESSION['Eigner']['eig_urhname'] = $leihname;
+            
+            if ($row->ei_org_typ == "Privat") {
+                $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
+                $_SESSION['Eigner']['eig_verant'] = "";
+                $_SESSION['Eigner']['eig_staat'] = "";
+                $_SESSION['Eigner']['eig_adresse'] = "";
+                $_SESSION['Eigner']['eig_ort'] = "";
+                $_SESSION['Eigner']['eig_name'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+                $_SESSION['Eigner']['eig_urhname'] = "$row->ei_vname $row->ei_name ";
+            } else {
+                $_SESSION['Eigner']['eig_vopriv'] = $row->ei_vopriv;
+                $_SESSION['Eigner']['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+                $_SESSION['Eigner']['eig_staat'] = $row->ei_staat;
+                $_SESSION['Eigner']['eig_adresse'] = $row->ei_adresse;
+                $_SESSION['Eigner']['eig_ort'] = $row->ei_plz . " " . $row->ei_ort;
+                $_SESSION['Eigner']['eig_urhname'] = $leihname;
+            }
+        } else {
+            $_SESSION[$module][$sub_mod]['eig_eigner'] = $eigentmr;
+            $_SESSION[$module][$sub_mod]['eig_org'] = $leihname;
+            $_SESSION[$module][$sub_mod]['eig_name'] = $leihname;
+            $_SESSION[$module][$sub_mod]['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+            
+            if ($row->ei_org_typ == "Privat") {
+                $_SESSION[$module][$sub_mod]['eig_vopriv'] = $row->ei_vopriv;
+                $_SESSION[$module][$sub_mod]['eig_verant'] = "";
+                $_SESSION[$module][$sub_mod]['eig_staat'] = "";
+                $_SESSION[$module][$sub_mod]['eig_adresse'] = "";
+                $_SESSION[$module][$sub_mod]['eig_ort'] = "";
+                $_SESSION[$module][$sub_mod]['eig_name'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+                $_SESSION[$module][$sub_mod]['eig_urhname'] = "$row->ei_vname $row->ei_name ";
+            } else {
+                $_SESSION[$module][$sub_mod]['eig_vopriv'] = $row->ei_vopriv;
+                $_SESSION[$module][$sub_mod]['eig_verant'] = "$row->ei_titel $row->ei_vname $row->ei_name $row->ei_dgr ";
+                $_SESSION[$module][$sub_mod]['eig_staat'] = $row->ei_staat;
+                $_SESSION[$module][$sub_mod]['eig_adresse'] = $row->ei_adresse;
+                $_SESSION[$module][$sub_mod]['eig_ort'] = $row->ei_plz . " " . $row->ei_ort;
+                $_SESSION[$module][$sub_mod]['eig_urhname'] = $leihname;
+            }
         }
+        
     }
     mysqli_free_result($return_ei);
 }

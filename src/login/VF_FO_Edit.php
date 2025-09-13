@@ -8,8 +8,8 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'Foto';
 $tabelle = 'dm_edien_';
 
 const Prefix = '';
@@ -91,7 +91,7 @@ $Edit_Funcs_FeldName = False; // Feldname der wird nicht angezeigt !!
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
 
-$tabelle = $tabelle . $_SESSION['Eigner']['eig_eigner'];
+$tabelle = $tabelle . $_SESSION[$module][$sub_mod]['eig_eigner'];
 Tabellen_Spalten_parms($db, $tabelle);
 
 $Tabellen_Spalten_COMMENT['md_namen'] = "Namen der vorkommenden Personen";

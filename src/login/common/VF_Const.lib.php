@@ -41,6 +41,16 @@ const VF_JN = array(
 );
 
 /**
+ * Konstante für Berichte erstellen: Unterseiten J/N
+ */
+const VF_Unterseiten = array('J' => 'Bericht mit Unterseiten','N' => 'Bericht Einseitig');
+
+/**
+ * Konstante für die Nutzung der Fahrzeugbeschreibungen
+ */
+const VF_Fahrzeugbeschr = array('J' => 'Fahzeugbeschreibungen nutzen','N' => 'keine zusätliche Beschreibung nutzen');
+
+/**
  * Konstante für Urheber- Zuodnung, Media- Definition
  * @var array
  */

@@ -87,7 +87,7 @@ echo "Eingabe der Berichte - <b>muss noch erstellt werden</b>.";
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "<a href='VF_BE_List.php?sk=$sk&Act=1' target='Bericht'>Veranstaltungs- Berichte erstellen</a>";
+echo "<a href='VF_FO_Ber_List.php?sk=$sk&Act=1' target='Bericht'>Veranstaltungs- Berichte erstellen</a>";
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
 BA_HTML_trailer();

@@ -7,12 +7,12 @@
  * 
  * 
  */
-session_start();
+session_start(); # die SESSION aktivieren
 
-# die SESSION aktivieren
-const Module_Name = 'OEF';
-$module = Module_Name;
-$tabelle = 'fo_todaten';
+$module = 'OEF';
+$sub_mod = 'Beri';
+
+$tabelle = 'dm_edien';
 
 /**
  * Angleichung an den Root-Path
@@ -21,7 +21,9 @@ $tabelle = 'fo_todaten';
  */
 $path2ROOT = "../";
 
-$debug = False;
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FO_List_Bericht.inc.php";
+
 $debug = True; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/common/VF_Funcs.inc';
@@ -54,8 +56,8 @@ if (!isset($_SESSION['VF_LISTE'])) {
     );
 }
 
-$VF_LinkDB_database = '';
-$db = VF_LinkDB('Mem');
+$LinkDB_database = '';
+$db = LinkDB('Mem');
 
 VF_chk_valid();
 
@@ -67,15 +69,15 @@ if (isset($_POST['phase'])) {
     $phase = 0;
 }
 
-if (isset($_GET['fo_eigner'])) {
-    $fo_eigner = $_GET['fo_eigner'];
+if (isset($_GET['md_eigner'])) {
+    $dm_eigner = $_GET['dm_urheb'];
 } else {
-    $fo_eigner = "";
+    $dm_urheber = "";
 }
 
-if ($fo_eigner != "") {
-    $_SESSION[$module]['eigner'] = $fo_eigner;
-    VF_Displ_Eig($fo_eigner);
+if ($dm_eigner != "") {
+    $_SESSION[$module]['dm_urheber'] = $dm_urheber;
+    VF_Displ_Urheber($dm_urheber);
 }
 
 if ($phase == 99) {
@@ -89,12 +91,12 @@ $lowHeight = True;
 
 if (isset($_GET['ID'])) {
     if ($_GET['ID'] == "NextEig") {
-        $_SESSION[$module]['eigner'] = "";
+        $_SESSION[$module][$sub_mod]['eigner'] = "";
     }
 }
 
 if (isset($_GET['fo_aufn_d'])) {
-    $_SESSION[$module]['fo_aufn_d'] = $fo_aufn_d = $_GET['fo_aufn_d'];
+    $_SESSION[$module]['md_aufn_d'] = $md_aufn_d = $_GET['md_aufn_d'];
 }
 
 if (isset($_POST['select_string'])) {
@@ -115,13 +117,13 @@ if ($phase == 0) {}
 
 VF_HTML_header("Foto Auswahl für Bericht", '', '', 'Form');
 
-require "VF_O_FO_List_Bericht.inc";
+require "VF_O_FO_List_Bericht.inc.php";
 
 if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
-VF_HTML_trailer();
+BA_HTML_trailer();
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
@@ -167,12 +169,12 @@ function modifyRow(array &$row, $tabelle)
             $fm_mandkennz = $row['fm_mandkennz'];
             $row['fm_id'] = "<a href='VF_O_FO_M_Edit.php?fm_id=$fm_id' >" . $fm_id . "</a>";
             $fm_eigner = $row['fm_eigner'];
-            $row['fm_eigner'] = "<a href='VF_O_FO_List.php?fm_eigner=$fm_eigner'  target='Foto'>" . $fm_eigner . " Fotos </a>";
+            $row['md_eigner'] = "<a href='VF_O_FO_List.php?fm_eigner=$fm_eigner'  target='Foto'>" . $fm_eigner . " Fotos </a>";
             break;
 
-        case "fo_todat":
-            $fo_id = $row['fo_id'];
-            $row['fo_id'] = "<a href='VF_O_FO_Edit.php?fo_id=$fo_id&fo_eigner=" . $row['fo_eigner'] . "&verz=N' >" . $fo_id . "</a>";
+        case "dm_edien":
+            $md_id = $row['md_id'];
+            $row['md_id'] = "<a href='VF_O_FO_Edit.php?md_id=$md_id&md_eigner=" . $row['mdo_eigner'] . "&verz=N' >" . $md_id . "</a>";
             /*
              * if ($row['fo_dsn'] != "") {
              * $dsn = $row['fo_dsn'];
@@ -182,43 +184,37 @@ function modifyRow(array &$row, $tabelle)
              * }
              */
 
-            $row['in Bericht'] = "<label for='ber_$fo_id'>in den Bericht</label><br> <input type='checkbox' id='ber_$fo_id' name='ber_$fo_id' value='eini'>";
-            $row['fo_media'] = $VF_Foto_Video[$row['fo_media']];
-            if ($row['fo_dsn'] != "") {
+            $row['inmdfo_media'] = $VF_Foto_Video[$row['md_media']];
+            if ($row['md_dsn_1'] != "") {
 
-                $dsn = $row['fo_dsn'];
+                $dsn = $row['md_dsn_1'];
 
-                if ($row['fo_typ'] == "F") {
-                    $fo_d_spl = explode("-", $dsn);
-                    $cnt_f_d = count($fo_d_spl);
+                if ($row['fo_typ'] == "Foto") {
+                    $md_d_spl = explode("-", $dsn);
+                    $cnt_f_d = count($md_d_spl);
 
                     $file_arr = explode("-", $dsn);
 
-                    $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
-                    $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
-                    if ($row['fo_zus_pfad'] != "") {
-                        $d_path .= $row['fo_zus_pfad'] . "/";
-                    }
-
+                    $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/06/";
+                    $d_path = $pict_path . $row['mdo_aufn_datum'] . "/";
+              
                     # $d_path = $pict_path.$row['fo_aufn_datum']."/";
-                    VF_Displ_Urheb($row['fo_eigner']);
+                    VF_Displ_Urheb($row['md_eigner']);
 
-                    $row['fo_dsn'] = "<a href='VF_O_FO_Detail.php?eig=" . $row['fo_eigner'] . "&id=$fo_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a><br>" . $_SESSION[$module]['URHEBER']['fm_beschreibg'] . "<br>" . $d_path . $dsn;
+                    $row['md_dsn'] = "<a href='VF_O_FO_Detail.php?eig=" . $row['fod_eigner'] . "&id=$md_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a><br>" . $_SESSION[$module]['URHEBER']['fm_beschreibg'] . "<br>" . $d_path . $dsn;
 
-                    $begltext = $row['fo_begltxt'];
+                    $begltext = $row['md_beschreibg'];
                     # $row['fo_begltxt'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' >$begltext</a>";
                 } else {
                     $vi_d_spl = explode("-", $dsn);
                     $cnt_f_d = count($vi_d_spl);
-                    if ($cnt_f_d >= 2 and stripos($row['fo_basepath'], "ARCHIV_VFHNOe")) {
-                        $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
-                        $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
-                        if ($row['fo_zus_pfad'] != "") {
-                            $d_path .= $row['fo_zus_pfad'] . "/";
-                        }
+                    if ($cnt_f_d >= 2 and stripos($row['md_basepath'], "ARCHIV_VFHNOe")) {
+                        $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/10/";
+                        $d_path = $pict_path . $row['md_aufn_datum'] . "/";
+          
                     } else {
-                        $pict_path = "login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
-                        $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
+                        $pict_path = "login/AOrd_Verz/" . $row['md_eigner'] . "/09/10/";
+                        $d_path = $pict_path . $row['md_aufn_datum'] . "/";
                     }
 
                     /*
@@ -233,16 +229,14 @@ function modifyRow(array &$row, $tabelle)
                      */
                     # $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
 
-                    $begltext = $row['fo_begltxt'];
-                    $row['fo_begltxt'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
-                    $row['fo_dsn'] = "";
-                    echo "L 0173 fo_begltxt " . $row['fo_begltxt'] . " <br>";
+                    $begltext = $row['md_beschreibg'];
+                    $row['md_beschreibg'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
+                    $row['md_dsn_1'] = "";
+                    echo "L 0173 md_beschreibg" . $row['md_bechreibg'] . " <br>";
                 }
             }
-            if ($row['fo_suchb1'] != "") {
-                $row['fo_suchb'] = $row['fo_suchb1'] . "-" . $row['fo_suchb2'] . "-" . $row['fo_suchb3'] . "-" . $row['fo_suchb4'] . "-" . $row['fo_suchb5'] . "-" . $row['fo_suchb6'];
-            }
-            $fo_aufn_datum = $row['fo_aufn_datum'];
+    
+            $md_aufn_datum = $row['md_aufn_datum'];
 
             break;
     }

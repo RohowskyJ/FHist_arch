@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'Foto';
+
 $tabelle = 'dm_edien_';
 
 const Prefix = '';

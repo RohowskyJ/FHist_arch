@@ -6,36 +6,26 @@
  *
  *
  */
+
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FO_List_Bericht.inc.php";
+
 if ($debug) {echo "<pre class=debug>VF_FO_List_Bericht.inc.php ist gestartet</pre>";}
 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if (!isset($_SESSION[$module]['URHEBER'])) {
-    VF_Displ_Urheb_n($_SESSION['Eigner']['eig_eigner']);
+if (!isset($_SESSION[$module][$sub_mod]['eig_eigner'])) {
+    VF_Displ_Urheb($_SESSION[$module][$sub_mod]['eig_eigner'], 'U');
 }
-#var_dump($_SESSION[$module]['URHEBER']['BE']);
-$eignr = $_SESSION['Eigner']['eig_eigner'];
-if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
-    $media = "Foto";
-} else {
-    $media = "Video";
-}
+var_dump($_SESSION[$module]['Urheber']);
+$urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
 
 $T_list_texte = array(
-    "Alle" => "Alle " . $media . "s des Urhebers. ",
+    "Alle" => "Alle Medien der Urheber. ",
 );
-/*
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-$title = $media . "s des Urhebers " . $_SESSION['Eigner']['eig_eigner'] . " - " . $_SESSION['Eigner']['eig_verant'];
 
-$header = "";
-$logo = 'NEIN';
-HTML_header($title, 'Auswahl', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-*/
-$tabelle .= "_" . $_SESSION['Eigner']['eig_eigner'];
+$tabelle .= "_" . $_SESSION[$module][$sub_mod]['eig_eigner'];
 # echo "L 0133 tabelle $tabelle <br>";
 
 # echo "$heading";
@@ -46,14 +36,10 @@ $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle,'MEM'); # lesen der Tab
 
 if ($_SESSION[$module]['Fo']['FOTO']) {
     $Tabellen_Spalten = array(
-        'fo_id',
-        'fo_dsn',
-        'in Bericht',
-        'fo_begltxt',
-        'fo_typ',
-        'fo_media',
-        'fo_uidaend',
-        'fo_aenddat'
+        'md_id',
+        'md_dsn_1',
+        'md beschreibg',
+        'mdfo_media'
     );
     /*
     'fo_eigner',
@@ -62,17 +48,13 @@ if ($_SESSION[$module]['Fo']['FOTO']) {
                
                     'fo_suchb',
     */
-} elseif ($_SESSION[$module]['BERI']) {
+} elseif ($_SESSION[$module][$sub_mod]) {
     $Tabellen_Spalten = array(
-        'fo_id',
-        'fo_dsn',
+        'md_id',
+        'md_dsn_1',
         'Aktion',
-        'fo_begltxt',
-        'fo_suchb',
-        'fo_typ',
-        'fo_media',
-        'fo_namen',
-        'fo_aenddat'
+        'md beschreibg',
+        'md_media'
     );
     $Tabellen_Spalten_COMMENT['Aktion'] = "Sortierung Auswahl";
 }
@@ -98,7 +80,7 @@ $List_Hinweise .= '</ul></li>';
 
 $zus_ausw = "";
 
-List_Action_Bar($tabelle,$media . "s des Urhebers " . $_SESSION['Eigner']['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
+List_Action_Bar($tabelle,$media . "s des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 $sql = "SELECT * FROM $tabelle ";
 
 $sql_where = " WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' ";

@@ -10,12 +10,8 @@
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-/*
-if (! isset($_SESSION[$module]['URHEBER'])) {
-    VF_Z_U_Sel_List($_SESSION[$module]['URHEBER']['fm_eigner']);
-}
-*/
-$eignr = $_SESSION['Eigner']['eig_eigner'];
+
+$urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
 
 $md_aufn_d = $_SESSION[$module]['md_aufn_d'];
 $T_list_texte = array(
@@ -26,7 +22,7 @@ $T_list_texte = array(
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-$title = "medien des Urhebers " . $_SESSION['Eigner']['eig_eigner'] . " - " . $_SESSION['Eigner']['eig_verant'];
+$title = "medien des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'] . " - " . $_SESSION[$module][$sub_mod]['eig_verant'];
 
 $header = "";
 
@@ -41,11 +37,11 @@ if (!$reply) {
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
-$tabelle .= $_SESSION['Eigner']['eig_eigner'];
+$tabelle .= $_SESSION[$module][$sub_mod]['eig_eigner'];
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 
-if ($_SESSION[$module]['FOTO']) {
+if ($_SESSION[$module]['Foto']) {
     $Tabellen_Spalten = array(
         'md_id',
         'md_dsn_1',
@@ -93,7 +89,7 @@ $List_Hinweise .= '</ul></li>';
 
 $zus_ausw = "";
 
-List_Action_Bar($tabelle,"Medien des Urhebers " . $_SESSION['Eigner']['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
+List_Action_Bar($tabelle,"Medien des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 
 $sql = "SELECT * FROM $tabelle ";
 

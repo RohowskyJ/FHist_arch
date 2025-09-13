@@ -146,9 +146,9 @@ if ($phase == 2) {
         $_SESSION[$module]['Up_Parm'][$key] = $value;
     }
 }
+
 if ($phase == 3) {
-    echo "L 0156 phase 3 <br>";
-    
+
     $watermark = $_POST['watermark'] ?? 'N';
     
     $md_beschreibg = $_POST['md_beschreibg'] ?? '';
@@ -178,12 +178,10 @@ if ($phase == 3) {
                         '','$media',
                         '" . $_SESSION['VF_Prim']['p_uid'] . "'
                       )";
-            echo "L 0185 sql_add $sql_add <br>";
             $result = SQL_QUERY($db, $sql_add);
         }
-
     }
-    
+    $phase = 1;
 }
 
 switch ($phase) {

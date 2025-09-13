@@ -9,8 +9,8 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module  = 'OEF';
+$sub_mod = 'Foto';
 $tabelle = 'dm_edien_';
 
 /**
@@ -55,8 +55,8 @@ if (isset($_GET['fo_eigner'])) {
 }
 
 if ($fo_eigner != "") {
-    $_SESSION[$module]['eigner'] = $fo_eigner;
-    VF_Displ_Eig($fo_eigner);
+    $_SESSION[$module][$sub_mod]['eigner'] = $fo_eigner;
+    VF_Displ_Eig($fo_eigner,'U');
 }
 
 if ($phase == 99) {
@@ -65,7 +65,7 @@ if ($phase == 99) {
 
 if (isset($_GET['ID'])) {
     if ($_GET['ID'] == "NextEig") {
-        $_SESSION[$module]['eigner'] = "";
+        $_SESSION[$module][$sub_mod]['eigner'] = "";
     }
 }
 
@@ -226,7 +226,7 @@ function modifyRow(array &$row, $tabelle)
  * wenn fo_dsn != *.jpeg fo_dsn korrigieren, alte *.Graf löschen 
  */
 Function Fo_Tab_gener() {
-    global $module, $debug, $db;
+    global $module, $sub_mod, $debug, $db;
 
     if ($debug) {
         echo "<pre class=debug>func FO_Tab_gener ist gestarted</pre>";
@@ -236,9 +236,9 @@ Function Fo_Tab_gener() {
      * Tabelle einlesen für Aufnahmedatum
      */
     # var_dump($_SESSION[$module]['URHEBER']);echo "<br>L 0244 sess[urhebg<br>";
-    $eignr = $_SESSION['Eigner']['eig_eigner'];
+    $urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
   
-    $tabelle_g = "dm_edien_".$eignr;
+    $tabelle_g = "dm_edien_".$urheb;
     $sql_g = "SELECT * FROM $tabelle_g  WHERE md_aufn_datum='" . $_SESSION[$module]['md_aufn_d'] . "'  ";
     # echo "L 0249 sql_g $sql_g <br>";
     $return_g = SQL_QUERY($db,$sql_g);
@@ -356,7 +356,7 @@ Function Fo_Tab_gener() {
                             if ($o_ext == "jpg") {  
                                 if ($o_dsn === $n_dsn) { // identisch, keine aktion erforderlich, löschen der Arr- Einträge
                                     unset($tab_arr['$o_key']);
-                                    unset($verz_arr['n_dsn']);
+                                    unset($verz_arr['$n_dsn']);
                                     #var_dump($tab_arr);
                                     #var_dump($verz_arr);
                                 } else { // replace with new, delete old, unset arr- entry

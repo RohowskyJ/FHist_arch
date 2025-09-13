@@ -23,9 +23,9 @@ $T_list_texte = array(
     "NeuItem" => "<a href='VF_FO_Edit.php?md_id=0&verz=J' > Neues Verzeichnis anlegen </a>"
 );
 
-$eignr = $_SESSION['Eigner']['eig_eigner'];
+$urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
 
-$tabelle .=  $eignr;
+$tabelle .=  $urheb;
 echo "<fieldset>";
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -60,7 +60,7 @@ $List_Hinweise .= '</ul></li>';
 
 $zus_ausw = "";
 
-List_Action_Bar($tabelle,"Fotos/Videos des Urhebers " . $_SESSION['Eigner']['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
+List_Action_Bar($tabelle,"Fotos/Videos des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 
 $sql_where = $sql_order = "";
 

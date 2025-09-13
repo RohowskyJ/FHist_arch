@@ -7,8 +7,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'Foto';
+
 $tabelle = 'dm_edien_';
 
 /**
@@ -93,40 +94,31 @@ initial_debug();
  * Löschen Parameter, wenn neue Urheber gewünscht
  */
 if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") { // Urhebe- Parameter und Eigner- Information löschen
-     $_SESSION['Eigner']['eig_eigner'] = "";
+    $_SESSION[$module][$sub_mod]['eig_eigner'] = "";
 }
 
 /**
- * Phasne- Informationen
+ * Phase- Informationen
  * $phase = 0 einlesen
  */
 if (isset($_POST['phase'])) {
     $phase = $_POST['phase'];
 }
 
-$_SESSION[$module]['FOTO'] = True;
+$_SESSION[$module][$sub_mod] = array();
 
 if ($phase == 0  ) {
-    /*
-    $eig_header = "Eigentümer/Urheber Auswahl";
-    require 'VF_Z_E_U_Sel_List.inc.php';
-    */
     VF_Auto_Eigent('U',True,1);
 }
 
 if ($phase  == "1")  {
     
     if (isset($_POST['eigentuemer_1'])) {  // ei_id
-        $_SESSION['Eigner']['eig_eigner'] = $_POST['eigentuemer_1'];
-        $eign_ret = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
-        
-        #if (VF_Sel_Eign_Urheb($_POST['eigentuemer'],$urh_kurz)) {
+        $_SESSION[$module][$sub_mod]['eig_eigner'] = $_POST['eigentuemer_1'];
+      
+        $eign_ret = VF_Displ_Eig($_POST['eigentuemer_1'], 'U');
             require "VF_FO_List.inc.php";
-       # } else {
-     #      echo "Parameter- Fehler, Inhalte (Daten und/oder Fotos) können nicht angezeigt werden.<br>";
             exit;
-     #   }
-        
     }
 }
 

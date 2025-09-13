@@ -16,8 +16,8 @@ $_SESSION['VF_LISTE']['SpaltenNamenAnzeige'] =  "Ein";
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if (! isset($_SESSION[$module]['URHEBER'])) {
-    VF_Displ_Urheb_n($_SESSION['Eigner']['eig_eigner']);
+if (! isset($_SESSION[$module][$sub_mod])) {
+    VF_Displ_Urheb_n($_SESSION[$module][$sub_mod]['eig_eigner']);
 }
 
 if ($_SESSION[$module]['URHEBER']['BE']['ei_media'] == "F") {
@@ -62,7 +62,7 @@ $List_Hinweise .= '</ul></li>';
 
 $zus_ausw = "";
 
-List_Action_Bar($tabelle,$media . "s des Urhebers " . $_SESSION['Eigner']['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
+List_Action_Bar($tabelle,$media . "s des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 $sql = "SELECT * FROM $tabelle ";
 
 $sql_where = " WHERE vb_flnr='" . $neu['vb_flnr'] . "' ";

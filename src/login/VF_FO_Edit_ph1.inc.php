@@ -140,7 +140,7 @@ if ($md_id == 0) { # Neueingabe
         echo '<pre class=debug> L 0121: \$sql $sql </pre>';
     }
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
     $recnr = $_SESSION[$module]['md_id'];
