@@ -105,7 +105,7 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
     $return = SQL_QUERY($db, $sql);
 }
 
-header("Location: VF_O_TE_List.php?Act=" . $_SESSION[$module]['Act'] . ">Zurück zur Liste</a></p>");
+header("Location: VF_O_TE_List.php?Act=" . $_SESSION[$module]['Act']);
 
 echo "</div>";
 
