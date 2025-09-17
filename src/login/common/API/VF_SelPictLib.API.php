@@ -1,23 +1,26 @@
 <?php
-
+ob_clean();
 header('Content-Type: application/json');
 
 require "../BA_Funcs.lib.php";
 require "../VF_Comm_Funcs.lib.php";
 require "../VF_Const.lib.php";
-/* für PHP-Logging */
- ini_set('display_errors', '1');
- ini_set("log_errors", 1);
- ini_set("error_log", "SelPict_php-error.log");
- error_log( "Hello, errors!" );
-/* */ 
+
 $path2ROOT = "../../../";
 $module = "";
+
 $debug = false;
-$debug_log = true;
+$VS_err_log = "VF_SelPict_php-error.log.txt";
+/* für PHP-Logging 
+ini_set('display_errors', '1');
+ini_set("log_errors", 1);
+ini_set("error_log", $VS_err_log);
+error_log( "Hello, errors!" );
+*/ 
+$VS_debug_log = false;
 
 if ($debug_log) {
-    file_put_contents('SelPictLib_debug.log', "VF_SelPictLib.API L 007 " . PHP_EOL, FILE_APPEND);
+    file_put_contents($VS_debug_log, "SF_SelPictLib.API L 007 " . PHP_EOL, FILE_APPEND);
 }
 
 # if ($_SERVER['REQUEST_METHOD'] === 'GET') { #) { # $_SERVER['REQUEST_METHOD'] === 'POST' ) { #
@@ -26,11 +29,20 @@ $eintragen = Date("Y-m-d H:i:s") . "\n";
 
 $sammlg = $_POST['sammlg'] ?? '';
 $eigner = $_POST['eigner'] ?? '';
+$aufndat = $_POST['aufnDat'] ?? '';
 
-/**  Testt- Parms für direkt- Aufruf 
+/**  Test- Parms für direkt- Aufruf 
   $sammlg = "Ma_F-L";
   $eigner = "21"; #"Wiener Neudorf";
+  $aufndat = '20250504';
 */
+
+// Dateien
+if ($sammlg == '' && $eigner == '' && $aufndat == '') {
+    echo json_encode(['status' => 'error', 'message' => 'Keine Daten empfangen.']);
+    ob_end_flush();
+    exit;
+}
 
 $dbhost = "";
 $dbuser = "";
@@ -43,7 +55,7 @@ $database = "";
     $ini_d = "../config_d.ini";
     $ini_arr = parse_ini_file($ini_d, true, INI_SCANNER_NORMAL);
     # print_r($ini_s_arr); echo "<br>L 0251 ini_s_arr $hompg <br>";
-    file_put_contents('SelPictLib_debug.log', "L 040 ini_d $ini_d " . PHP_EOL, FILE_APPEND);
+    file_put_contents($VS_debug_log, "L 040 ini_d $ini_d " . PHP_EOL, FILE_APPEND);
     $server_name = $_SERVER['SERVER_NAME'];
     
     if (isset($ini_arr)) {
@@ -69,7 +81,7 @@ $database = "";
             $dbpass = $ini_arr[$server_name]['h_dbp'];
             $database = $ini_arr[$server_name]['h_dbn'];
         }
-        # file_put_contents('SelPictLib_debug.log', "L 066 $dbhost $dbuser $database " . PHP_EOL, FILE_APPEND);
+        # file_put_contents($VS_debug_log, "L 066 $dbhost $dbuser $database " . PHP_EOL, FILE_APPEND);
         
         $db = $dblink = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
         
@@ -78,91 +90,97 @@ $database = "";
         $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
 
 } else {
-    $result['status'] = 'error';
-    $result['error'] = 'Konfigurations- Datei nicht gefunden ';
-    echo json_encode($result);
+    echo json_encode(['status' => 'error', 'message' => 'Datenbank kann nicht geöffnet werden - Abbruch.']);
     ob_end_flush();
     exit;
 }
 
-
-$db = $dblink = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
-
-mysqli_select_db($dblink, $database) or die("Datenbankzugriff zu $database gescheitert!");
-mysqli_set_charset($dblink, 'utf8mb4');
-$LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
-
-$basispfad = "../../AOrd_Verz/";
-
-if ($debug_log) {
-    $eintragen .= "sammlg $sammlg \n";
-    $eintragen .= "feuerwehr $eigner  \n";
-    file_put_contents('SelPictLib_debug.log', "L 087 $eintragen" . PHP_EOL, FILE_APPEND);
-}
-
-$ar_arr = $dm_arr = $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr =  $zt_arr = array();
-$tables_act = VF_tableExist();          // Array der existierenden Tabellen
-# var_dump($dm_arr);
-$where = "";
-
-$bilder = array();
-$anz_bilder = 0;
-foreach ($dm_arr as $dsn => $drop) {
-    if ($dsn == 'dm_edien_') {
-        continue;
+// für direkt- Aufruf auskommentiert
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $response = [
+        'status' => 'ok',
+        'files' => [],
+        'errors' => []
+    ];
+    
+    $basispfad = "../../AOrd_Verz/";
+    
+    if ($debug_log) {
+        $eintragen .= "sammlg $sammlg \n";
+        $eintragen .= "eigner $eigner  \n";
+        $eintragen .= "aufndat $aufndat\n";
+        file_put_contents($VS_debug_log, "L 0113 $eintragen" . PHP_EOL, FILE_APPEND);
     }
-
-    $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_fw_id LIKE '%$eigner%' ";
-
-    $sql = "SELECT * FROM $dsn $where ";
-   
-    file_put_contents('SelPictLib_debug.log', "L 0108 sql $sql " . PHP_EOL, FILE_APPEND);
-
-    $return = SQL_QUERY($db, $sql);
-    if (mysqli_num_rows($return) === 0) {
-        if (strlen($sammlg) > 4 ) {
-            $s_samm = substr($sammlg,0,4);
-            $sql = "SELECT * FROM $dsn WHERE  md_fw_id LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND 
-            $return = SQL_QUERY($db,$sql);
-        }
-    }
-    while ($row = mysqli_fetch_object($return)) {
-        # print_r($row);echo "<br>";
-        if ($row->md_dsn_1 == "") {
+    
+    $ar_arr = $dm_arr = $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr =  $zt_arr = array();
+    $tables_act = VF_tableExist();          // Array der existierenden Tabellen
+    # var_dump($dm_arr);
+    $where = "";
+    $bilder = array();
+    $anz_bilder = 0;
+    foreach ($dm_arr as $dsn => $drop) {
+        if ($dsn == 'dm_edien_') {
             continue;
         }
+  
+        if ($aufndat != "") {
+            $where = " WHERE md_aufn_datum = '$aufndat' ";
+        } else {
+            $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_fw_id LIKE '%$eigner%' ";
+        }
         
-        $eintragen = "$sammlg  row $row->md_dsn_1 \n";
-        file_put_contents('SelPictLib_debug.log', "L 0125 $eintragen" . PHP_EOL, FILE_APPEND);
+        $sql = "SELECT * FROM $dsn $where ";
         
-        $p_arr = pathinfo($row->md_dsn_1);
-        $subsg = "";
-        if (in_array(strtolower($p_arr['extension']), GrafFiles)) {
-            $subsg = "06";
+        file_put_contents($VS_debug_log, "L 0135 sql $sql " . PHP_EOL, FILE_APPEND);
+        
+        $return = SQL_QUERY($db, $sql);
+        if (mysqli_num_rows($return) === 0) {
+            if (strlen($sammlg) > 4 ) {
+                $s_samm = substr($sammlg,0,4);
+                $sql = "SELECT * FROM $dsn WHERE  md_fw_id LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND
+                $return = SQL_QUERY($db,$sql);
+            }
         }
-        $sdir = "";
-        if ($row->md_aufn_datum != "") {
-            $sdir  = $row->md_aufn_datum."/";
+        while ($row = mysqli_fetch_object($return)) {
+            # print_r($row);echo "<br>";
+            if ($row->md_dsn_1 == "") {
+                continue;
+            }
+            
+            $eintragen = "$sammlg  row $row->md_dsn_1 \n";
+            file_put_contents($VS_debug_log, "L 0152 $eintragen" . PHP_EOL, FILE_APPEND);
+            
+            $p_arr = pathinfo($row->md_dsn_1);
+            $subsg = "";
+            if (in_array(strtolower($p_arr['extension']), GrafFiles)) {
+                $subsg = "06";
+            }
+            $sdir = "";
+            if ($row->md_aufn_datum != "") {
+                $sdir  = $row->md_aufn_datum."/";
+            }
+            if ($debug_log) {
+                $eintragen .= "sammlg $sammlg \n";
+                $eintragen .= "feuerwehr $eigner  \n";
+                $eintragen .= "Foto $row->md_dsn_1 \n";
+                file_put_contents($VS_debug_log, "L 0167 $eintragen" . PHP_EOL, FILE_APPEND);
+            }
+            
+            $response['files'][] = [
+                'dateiname' => $row->md_dsn_1, 
+                'pfad' => "AOrd_Verz/$row->md_eigner/09/$subsg/$sdir$row->md_dsn_1",
+                'beschreibung' => $row->md_beschreibg
+            ];
         }
-        if ($debug_log) {
-            $eintragen .= "sammlg $sammlg \n";
-            $eintragen .= "feuerwehr $eigner  \n";
-            $eintragen .= "Foto $row->md_dsn_1 \n";
-            file_put_contents('SelPictLib_debug.log', "L 0140 $eintragen" . PHP_EOL, FILE_APPEND);
-        }
-
-        $bilder[] = array('dateiname' => $row->md_dsn_1, 'pfad' => "AOrd_Verz/$row->md_eigner/09/$subsg/$sdir$row->md_dsn_1");
-        $anz_bilder ++;
+        # var_dump($bilder);
     }
-    # var_dump($bilder);
-}
-
-if ($debug_log) {
-    $eintragen .= "json ".json_encode($bilder)." \n";
-    $eintragen .= "$sammlg  $eigner anz_foto $anz_bilder \n";
-    file_put_contents('SelPictLib_debug.log', "L 0152 $eintragen" . PHP_EOL, FILE_APPEND);
-}
-echo json_encode($bilder);
-# return json_encode($bilder);
-
-# }
+    if ($debug_log) {
+        file_put_contents($VS_debug_log, "L 0178 ".json_encode($response) . PHP_EOL, FILE_APPEND);
+    }
+    ob_clean();
+    echo json_encode($response);
+    exit;
+    
+// }
+    echo json_encode(['status' => 'error', 'message' => 'Ungültige Anfrage.']);
+    exit;
