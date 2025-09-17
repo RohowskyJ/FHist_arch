@@ -70,11 +70,7 @@ echo "  </div>";  // Ende Feldname
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_FZ_MaFG_List.php?sk=$sk&ID=NextEig' target='MotorFahrzeuge'>Motorisierte Fahrzeug- und Geräte Wartung </a>";
 echo "</div>"; // Ende der Inhalt Spalte
-if ($_SESSION['VF_Prim']['p_uid'] == 1) {
-    echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
-    echo "<a href='VS_FZ_MaF_Edit.php?ID=0' target='MotorFahrzeuge'>Motorisierte Fahrzeug- Edit TEST für Upload </a>";
-    echo "</div>"; // Ende der Inhalt Spalte
-}
+
 echo "  <div class='w3-row'>"; // Beginn Inhalt- Spalte
 echo "<a href='VF_FZ_MaFG_Katalog_List.php?sk=$sk' target='Automobil-Katalog'>Automobil- Fahrzeugkatalog</a>";
 echo "</div>"; // Ende der Inhalt Spalte
