@@ -2289,10 +2289,7 @@ function VF_Upload_Form_M()
     }
     
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
-    #console_log('L 048 Anz Upl. '.$pic_cnt);
-    #var_dump($_SESSION[$module]['Pct_Arr']);
-    # var_dump($neu);
-    
+
     /**
      * Floating Block mit Bild, Bildbeschreibung , Bildname und Upload-Block
      */
@@ -2300,13 +2297,9 @@ function VF_Upload_Form_M()
     #console_log('L 056 vor class w3-row ');
     echo "<div class = 'w3-row w3-border'>";                     // Responsive Block start
     echo "<fieldset>";  #1
-    #console_log('L 059 vor pct_arr loop ');
-    
-    # var_dump($_SESSION[$module]['Pct_Arr']);
-    
+  
     ?>
 
- 
   <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
 
     <?php
@@ -2335,8 +2328,6 @@ function VF_Upload_Form_M()
         echo "Bild $j <br>";
         echo "<div class='bild-data_$j' >";
 
-
-        #console_log('L 0128 komm '.$key);
         if ($p_a['ko'] != "") {
             if (isset($Tabellen_Spalten_COMMENT[$p_a['ko']])) {
                 echo $Tabellen_Spalten_COMMENT[$p_a['ko']];
@@ -2358,7 +2349,7 @@ function VF_Upload_Form_M()
         if ($neu[$p_a['bi']] != "") {
             
             $fo = $neu[$p_a['bi']];
-            console_log('L 02356 foto '.$fo);
+           
             $fo_arr = explode("-", $neu[$p_a['bi']]);
             $cnt_fo = count($fo_arr);
 
@@ -2371,14 +2362,12 @@ function VF_Upload_Form_M()
                     }
                 }
                 $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
-                # echo "L 02368 pic new P  $p <br>";
+                
                 if (!is_file($p)) {
                     $p = $pict_path . $neu[$p_a['bi']];
-                    # echo "L 02371 pic oldP  $p <br>";
                 }
             } else {
                 $p = $pict_path . $neu[$p_a['bi']];
-                # echo "L 02375 pic old def $p <br>";
             }
 
             $f_arr = pathinfo($neu[$p_a['bi']]);
@@ -2432,14 +2421,14 @@ function VF_Upload_Form_M()
            ?>
              
                 <?php 
-                if ($_SERVER['SERVER_NAME'] == 'localhost' ) {
+                #if ($_SERVER['SERVER_NAME'] == 'localhost' ) {
                    ?> 
                    <!-- Radio Buttons für die Auswahl  -->
                    <label>
                        <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> aus Bibliothek auswählen
                    </label>
                    <?php 
-                }
+                #}
            }
            ?>
            <label>
@@ -2453,7 +2442,6 @@ function VF_Upload_Form_M()
                  
            </div>
 
-            
             <div id="sel_lib_upload<?php echo $j; ?>" style="display:none;">
     
                  <?php
@@ -2567,14 +2555,14 @@ console.log('abfr sammlg ',sammlg);
                'aufnDat' : aufnDat
          },
         dataType: 'json', 
-        success: function(daten) {
-            console.log('Success ',daten);
-            bilder[biNr] = daten;
+        success: function(response) {
+            console.log('Success ',response);
+            bilder[biNr] = response.files;
             // Galerie im Dialog füllen
             var dialog = $('#dialog-bilder_' + biNr);
             var galerieHtml = '<div style="display:flex; flex-wrap:wrap; gap:10px;">';
-            for (let i=0; i<daten.length; i++) {
-                let b = daten[i];
+            for (let i=0; i<response.files.length; i++) {
+                let b = response.files[i];
                 galerieHtml += `<div class="bild-item" data-index="${i}" style="cursor:pointer; border:1px solid #ccc; padding:5px;">
                         <img src="${b.pfad}" alt="${b.dateiname}" width="200"><br>${b.dateiname}
                     </div>`;
@@ -2586,6 +2574,9 @@ console.log('abfr sammlg ',sammlg);
             dialog.find('#bild-nummer-dialog_' + biNr).val(1);
             // Dialog öffnen
             dialog.dialog({ width: 800, modal: true });
+        },
+        error: function(xhr) {
+            alert('Fehler beim Upload: ' + xhr.statusText);
         }
     });
 }
