@@ -55,7 +55,7 @@ $db = LinkDB('VFH');
 
 initial_debug();
 
-var_dump($_POST);
+ #var_dump($_POST);
 /**
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
@@ -112,13 +112,14 @@ Tabellen_Spalten_parms($db, Tabellen_Name);
 
 if ($phase == 0) {
     if ($_SESSION[$module]['vb_flnr'] == 0) {
+        
         $vb_flnr = $_SESSION[$module]['vb_flnr'] ;
         $neu = array(
             "vb_flnr" => 0,
             "vb_unterseiten" => "J",
-            "vb_datum" => '20250504',
-            "vb_titel" => "120 j",
-            'vb_beschreibung' => 'OLDIES',
+            "vb_datum" => '',
+            "vb_titel" => "",
+            'vb_beschreibung' => '',
             'vb_urheb' => '',
             'vb_fzg_beschr' => 'J',
             "vb_uid" => "",
@@ -141,35 +142,18 @@ if ($phase == 0) {
         */
     } else {
         
-        $_SESSION[$module]['BERI']['vb_flnr'] = $vb_flnr;
+        $_SESSION[$module][$sub_mod]['vb_flnr'] = $vb_flnr;
         
 
         $sql = "SELECT * FROM vb_bericht_4 WHERE vb_flnr = '$vb_flnr' ";
 
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+        # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
 
         $neu = mysqli_fetch_array($result);
 
         $vb_flnr = $neu['vb_flnr'];
-       
-      //  $d_arr = explode("-", $neu['vb_datum']);
-      //  $_SESSION[$module]['dm_aufn_d'] = $d_arr[0] . $d_arr[1] . $d_arr[2];
-        $sql = "SELECT * FROM vb_ber_detail_4 WHERE  vb_flnr='$vb_flnr' ORDER BY vd_unter,vd_suffix,vd_foto ASC ";
-        $return = SQL_QUERY($db, $sql);
-        if ($return) {
-            $num_rows = mysqli_num_rows($return);
-            if ($num_rows >= 1) {
-                while ($row = mysqli_fetch_assoc($return)) {
-                    $ber_arr[$row['vd_flnr']] = $row;
-                }
-            }
-        } else { // Fotos aus Libs suchen
-            
-        }
-
-      
     }
   
     if ($debug) {
@@ -282,9 +266,6 @@ switch ($phase) {
         break;
     case 1:
         require 'VF_FO_Ber_Edit_ph1.inc.php'; // abspeichern Daten
-        break;
-    case 2:
-        require 'VF_FO_Ber_Edit_ph2.inc.php'; // Bilder aussuchen/ editieren 
         break;
     case 99:
         echo "<a href='VF_FO_Ber_List.php?Act=" . $_SESSION[$module]['BERI']['Act'] . "'>Zurück zur Liste</a>";

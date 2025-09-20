@@ -213,7 +213,7 @@ if ($_SESSION[$module]['all_upd']) {
  *
  * @var integer $TabButton
  */
-$TabButton = "1|green|Bilder für den Bericht speichern.||True"; # 0: phase, 1: Farbe, 2: Text, 3: Rücksprung-Link, 5: True Änderungen abspeichern
+//$TabButton = ""; // "1|green|Bilder für den Bericht speichern.||True"; # 0: phase, 1: Farbe, 2: Text, 3: Rücksprung-Link, 5: True Änderungen abspeichern
 List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
 echo "</fieldset>";
 BA_HTML_trailer();
