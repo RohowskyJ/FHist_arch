@@ -59,15 +59,6 @@ if (isset($_GET['vb_unter'])) {
     $vb_unter = 0;
 }   
 
-# ------------------------------------------------------------------------------------------------------------
-# Lesen der Daten aus der sql Tabelle
-# ------------------------------------------------------------------------------------------------------------
-
-$sql = "SELECT * FROM vb_bericht_4 WHERE vb_flnr=$vb_flnr "; #
-$return = SQL_QUERY($db, $sql);
-$row = mysqli_fetch_assoc($return);
-modifyrow($row, 'vb_bericht_4' );
-
 $header = "<style>
       table, th, td {
       padding: 10px;
@@ -76,107 +67,80 @@ $header = "<style>
       }
     </style>";
 
-BA_HTML_header('Veranstaltungs Anzeige', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+BA_HTML_header('Veranstaltungs Foto- Bericht', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<div class='white'>";
 echo "<framearea>";
 
-echo "<table class='w3-table w3-striped w3-hoverable scroll'
-     style='border:1px solid black;background-color:white;margin:5px;'>";
 
-echo "<thead>";
-echo "<tr style='border-bottom:1px solid black;'>";
+# ------------------------------------------------------------------------------------------------------------
+# Lesen der Daten aus der sql Tabelle
+# ------------------------------------------------------------------------------------------------------------
 
-echo "<tr><th colspan='8'><h2>" . $row['vb_titel'] . "</h2></th></tr>";
-echo "<tr><td colspan='8'>" . $row['vb_beschreibung'] . "</td><td></td></tr>";
-echo "</thead><tbody>";
+$sql_b = "SELECT * FROM vb_bericht_4 WHERE vb_flnr=$vb_flnr "; #
+$return_b = SQL_QUERY($db, $sql_b);
+$row_b = mysqli_fetch_assoc($return_b);
+modifyrow($row_b, 'vb_bericht_4' );
 
-$unter = $row['vb_unterseiten'];
+$unter = $row_b['vb_unterseiten'];
 # echo "L 094  vb_unter $vb_unter <br>";
-if ($unter == "J") { # # and $vb_unter == 0
-    # echo "L 091 Unterseiten <br>";
-    /**
-     * Anzeige mit Unterseiten
-     * Anzeige der Unterseiten vb_suffix = 0
-     *
-     * Wenn Unterseite aufgerufen wird übergabe vb_flnr und vb_unter
-     */
 
-    $sql = "SELECT * FROM vb_ber_detail_4 WHERE vb_flnr='$vb_flnr'   ORDER BY vb_flnr, vd_unter, vd_suffix ASC"; # # AND vb_unter!='0' AND vb_suffix='0'
-    $return = SQL_QUERY($db, $sql);
+/**
+ * einlesen der Bilddaten
+ */
+
+$sql_d = "SELECT * FROM vb_ber_detail_4 WHERE vb_flnr='$vb_flnr'
+        ORDER BY vb_flnr, vd_unter, vd_suffix ASC"; # # AND vb_unter!='0' AND vb_suffix='0'
+$return_d = SQL_QUERY($db, $sql_d);
+
+$l_cnt = 0;
+WHILE ($row_d = mysqli_fetch_assoc($return_d)) {
+    # var_dump($row);
+    $fo_dsarr = explode('-',$row_d['vd_foto']);
+    $urh = $fo_dsarr[0];
+    $sql_fot = "SELECT * FROM dm_edien_$urh WHERE md_dsn_1='$row_d[vd_foto]' ";
     
-    $cnt = 1;
-    WHILE ($row = mysqli_fetch_assoc($return)) {
-        # var_dump($row);
-        $fo_dsarr = explode('-',$row['vd_foto']);
-        $urh = $fo_dsarr[0];
-        $sql_fot = "SELECT * FROM dm_edien_$urh WHERE md_dsn_1='$row[vd_foto]' ";
-        
-        $return_fot = SQL_QUERY($db, $sql_fot);
-        $recno = mysqli_num_rows($return_fot);
-        # console_log('L 0116');
-        if ($recno >= 1) {
-            $row_fot = mysqli_fetch_assoc($return_fot);
-            # var_dump($row_fot);
-            modifyRow($row_fot, "dm_edien_$urh");
-            # console_log('L 0121 - '.$row['vd_unter'] . "vb_unter $vb_unter");
-            if ($row['vd_unter'] == $vb_unter) {
-                # console_log('L 0123' );
-                if ($cnt % 2 == 0) { # gerade Anzahl
-                    echo "<tr><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td><td>" . $row_fot['md_dsn_1'] . "</td></tr>";
-                } else {
-                    console_log('L 0127');
-                    echo "<tr><td>" . $row_fot['md_dsn_1'] . "</td><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td></tr>";
-                }
-                $cnt ++;
-            } else {
-                console_log('L 0132');
-                if ($row['vd_suffix'] == 0) {
-                    # console_log('L 0134');
-                    echo "<tr><td><a href='" . $_SERVER['PHP_SELF'] . "?vb_flnr=" . $row['vb_flnr'] . "&vb_unter=" . $row['vd_unter'] . "' target='_blanc'>" . $row['vd_titel'] . "</a> </td><td>" . $row_fot['md_beschreibg'] . "</td><td>" . $row_fot['md_dsn_1'] . "</th></tr>";
-                }
-            }
-            # console_log('L 0138');
-        }
-        # console_log('L 0140');
-    }
-    # console_log('L 0142');
-} else {
-    /**
-     * Anzeige ohne Unterseiten
-     */
-    #  echo "L 0128 Keine Unterseiten <br>";
-    $sql = "SELECT * FROM vb_ber_detail_4 WHERE vb_flnr='$vb_flnr'  ORDER BY vb_flnr, vd_unter, vd_suffix ASC";
-    $return = SQL_QUERY($db, $sql);
-    if ($return) {
-        $cnt = 1;
-        WHILE ($row = mysqli_fetch_assoc($return)) {
-            # var_dump($row);
-            $fo_dsarr = explode('-',$row['vd_foto']);
-            $urh = $fo_dsarr[0];
-            $sql_fot = "SELECT * FROM dm_edien_$urh WHERE md_dsn_1='$row[vd_foto]' ";
+    $return_fot = SQL_QUERY($db, $sql_fot);
+    $recno = mysqli_num_rows($return_fot);
+    $row_fot = mysqli_fetch_assoc($return_fot);
+    modifyRow($row_fot, "dm_edien_$urh");
+    
+    if ($row_d ['vd_unter'] == 1) {
+        if ($row_d['vd_suffix'] == 0) {
+            echo "<div class='w3-row w3-container' >";
+            echo "<span class='w3-left'> ".$row_b['vb_beschreibung']."</span><span class='w3-right' ".$row_fot['md_dsn_1']."'></span>";
+            echo "</div>";
+        } else {
+            $line_pic = $row_fot['md_dsn_1'];
+            $line_txt = $row_d['vd_beschreibung'];
             
-            $return_fot = SQL_QUERY($db, $sql_fot);
-            if ($return_fot) {
-                $row_fot = mysqli_fetch_assoc($return_fot);
-                #$vb_urheber = $row['vb_foto_Urheber'];
-                # var_dump($row_fot);
-                modifyRow($row_fot, "dm_edien_$urh");
-
-                if ($cnt % 2 == 0) { # gerade Anzahl
-                    //echo "<tr><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td><td>" . $row_fot['md_dsn_1'] . "</td></tr>";
-                    echo "<tr><td colspan='2'>" . $row['vd_beschreibung'] . "</td><td>" . $row_fot['md_dsn_1'] . "</td></tr>";
-                } else {
-                    //echo "<tr><td>" . $row_fot['md_dsn_1'] . "</td><td colspan='2'>" . $row_fot['md_beschreibg'] . "</td></tr>";
-                    echo "<tr><td>" . $row_fot['md_dsn_1'] . "</td><td colspan='2'>" . $row['vd_beschreibung'] . "</td></tr>";
-                }
-                $cnt ++;
+            echo "<div class='w3-row w3-container' >";
+            if ($l_cnt % 2 == 0) { # gerade Anzahl
+                echo "<span class='w3-left'>$line_txt</span><span class='w3-right'>$line_pic</span>";
+            } else {
+                echo "<span class='w3-left'>$line_pic</span><span class='w3-right'>$line_txt</span>";
             }
+            echo "</div>";
+            $l_cnt++;
         }
+        
+    } else {
+        $line_pic = $row_fot['md_dsn_1'];
+        $line_txt = $row_d['vd_beschreibung'];
+        
+        echo "<div class='w3-row w3-container' >";
+        if ($l_cnt % 2 == 0) { # gerade Anzahl
+            echo "<span class='w3-left'>$line_txt</span><span class='w3-right'>$line_pic</span>";
+        } else {
+            echo "<span class='w3-left'>$line_pic</span><span class='w3-right'>$line_txt</span>";
+        }
+        echo "</div>";
+        $l_cnt++;
     }
+    
+  
 }
 
-echo "</tbody></table>";
 echo "</framearea>";
 echo "</div>";
 
@@ -203,12 +167,6 @@ function modifyRow(array &$row, $tabelle)
 
     $s_tab = substr($tabelle, 0, 8);    
     switch ($s_tab) {
-        case "md_urheb":
-            $pict_base_pfad = 
-            $fm_id = $row['fm_id'];
-            $fm_eig = $row['fm_eigner'];
-            $row['fm_id'] = "<a href='VF_C_MassUpload_v4.php?fm_eig=$fm_eig' >" . $fm_id . "</a>";
-            break;
 
         case "dm_edien":
             $pict_basis_pfad = $path2ROOT."login/AOrd_Verz/" . $row['md_eigner'] . "/09/";

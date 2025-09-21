@@ -205,7 +205,8 @@ function modifyRow(array &$row, $tabelle)
             if ($row['md_dsn_1'] != "") {
                 $dsn = $row['md_dsn_1'];
                 $d_path = $pict_path . $row['md_aufn_datum'] . "/";
-                if ($_SESSION[$module]['URHEBER'][$row['md_eigner']]['urh_abk']['typ'] == "F") {
+                $d_arr = pathinfo(strtolower($dsn));
+                if ($d_arr['extension'] == 'jpg' || $d_arr['extension'] == 'jpeg' || $d_arr['extension'] == 'gif' || $d_arr['extension'] == 'tiff' || $d_arr['extension'] == 'png' || $d_arr['extension'] == 'ico' ) {
                     $row['md_dsn_1'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
                 } else {
                     $row['md_dsn_1'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['md_dsn_1'] . "</a>";

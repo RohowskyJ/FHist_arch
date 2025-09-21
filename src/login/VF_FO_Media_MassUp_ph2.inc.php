@@ -232,7 +232,7 @@ function uploadNext(i, files) {
       return xhr;
     },
     success: function(resp) {
-                         console.log('Upload resp typeof:', typeof resp, resp);
+                console.log('Upload resp typeof:', typeof resp, resp);
                 // If response is a string, try to parse as JSON
                 if (typeof resp === 'string') {
                     try {
