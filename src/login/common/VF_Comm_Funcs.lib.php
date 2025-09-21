@@ -2303,6 +2303,7 @@ function VF_Upload_Form_M()
   <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
 
     <?php
+    echo "<input type='text' id='berPhase' value='init' >";
     echo "<input type='hidden' name='pic_cnt' value='$pic_cnt' >";
     for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
