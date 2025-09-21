@@ -60,7 +60,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 
     echo "<link rel='icon' type='image/x-icon' href='" . $path2ROOT . "login/common/imgs/favicon.ico'>";
 
-    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3-2.52.css'  type='text/css'>"; ## -2.52
+    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3-5.02.css'  type='text/css'>"; 
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
 
     if (isset($jq) && $jq) {
