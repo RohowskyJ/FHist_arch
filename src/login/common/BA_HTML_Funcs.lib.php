@@ -4,7 +4,7 @@
  *
  * @author  Josef Rohowsky josef@kexi.at start 01.01.2025
  *
- * Enthält und Unterprogramme für die Auwahl von Namen und Begriffen
+ * Enthält und Unterprogramme für die Auwahl von Namen und Begriffen,
  *
  *  BA_HTML_header      - Ausgabe des Seiten- Headers, Laden der Seitenparameter aud config_s.ini
  *  BA_HTML_trailer     - Ausgabe Seitenende
