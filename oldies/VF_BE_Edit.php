@@ -22,6 +22,9 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_BE_Edit.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -35,11 +38,24 @@ require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
 $flow_list = False;
 
+# ====================================================================================================
+# Anzeigen
+# ====================================================================================================
+
+$jq = $jqui = true;
+$BA_AJA = true;
+
+$header = "
+";
+
+BA_HTML_header('Veranstaltungs Definition', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
 initial_debug();
 
+var_dump($_POST);
 /**
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
@@ -70,6 +86,12 @@ if (isset($_POST['phase'])) {
 } else {
     $phase = 95;
 }
+/*
+if (isset($_POST['eigentuemer_1'])) {
+    $_SESSION[$module]['Urheber'] = $_POST['eigentuemer_1'];
+    
+}
+*/
 if (isset($_GET['vb_flnr'])) {
     $_SESSION[$module]['vb_flnr'] = $vb_flnr = $_GET['vb_flnr'];
     if ($_GET['vb_flnr'] == 0) {
@@ -94,11 +116,11 @@ if ($phase == 99) {
 # ------------------------------------------------------------------------------------------------------------
 
 Tabellen_Spalten_parms($db, Tabellen_Name);
-
-unset($_SESSION[$module]['Urheber_List']);
-
-VF_Sel_Urheber_n();
-
+/*
+if (!isset($_SESSION[$module]['Urheber'])) {
+    VF_Auto_Eigent('U',True,1);
+}
+*/
 // ==============================================================================================================
 if ($phase == 95) // Einlesen Berichsts- Datum
 {
@@ -114,9 +136,10 @@ if ($phase == 95) // Einlesen Berichsts- Datum
 if ($phase == 96) // Einlesen der vorhandenen Foto-Saätze aller Urheber/Eigentümer
 {
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
     $_SESSION[$module]['fo_aufn_d'] = $veranst_datum = $neu['vb_datum'];
+    # $_SESSION[$module]['Urheber'] = $ber_urheb = $_POST['dm_id'];
 }
 
 if ($phase == 0) {
@@ -129,6 +152,7 @@ if ($phase == 0) {
             "vb_titel" => "",
             'vb_beschreibung' => '',
             'vb_urheb' => '',
+            'vb_auto' => 'N',
             "vb_uid" => "",
             "vb_aenddat" => ""
         );
@@ -140,10 +164,11 @@ if ($phase == 0) {
          */
         $eig_foto = array();
         foreach ($_POST as $key => $value) {
-            if (substr($key, 0, 2) == "fo") {
-                $eig_foto[] = $value;
+            if (substr($key, 0, 2) == "dm") {
+                $urh_arr[] = $value;
             }
         }
+        var_dump($urh_arr);
     } else {
         $_SESSION[$module]['vb_flnr'] = $vb_flnr;
         $_SESSION[$module]['Fo']['FOTO'] = False;
@@ -285,14 +310,6 @@ if ($phase == 2) { # Werte von FO_List_Ber_det.php
     }
 }
 
-# ====================================================================================================
-# Anzeigen
-# ====================================================================================================
-
-$header = "
-";
-
-BA_HTML_header('Veranstaltungs Definition', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 95:
@@ -389,6 +406,7 @@ function modifyRow(array &$row, $tabelle)
                             $row['vb_foto'] = "<a href='$pict_path$md_aufn_d_s$dsn' target='_blank'><img src='$pict_path$md_aufn_d_s$dsn' alt='$dsn' height='200' ></a>";
                             $DsName = "<a href='VF_FO_Detail.php?id=$vb_foto&eig=$urh' target='_blank'><img src='$pict_path$dsn' alt='$dsn' height='200' ></a>";
                         } else {
+                            $d_path = $pict_path.$md_aufn_d_s;
                             $video = "
                             <video width='320' height='240' controls>
                             <source src='$d_path" . $row_foto['md_dsn_1'] . " type='video/mp4'>
@@ -417,11 +435,11 @@ function modifyRow(array &$row, $tabelle)
             break;
               
         case "dm_edien":
-            if ($row_foto['md_media'] == "Audio") {
+            if ($row['md_media'] == "Audio") {
                 $pict_path .= $row['md_eigner'] . "/09/02/";
-            } elseif ($row_foto['md_media'] == "Foto") {
+            } elseif ($row['md_media'] == "Foto") {
                 $pict_path .= $row['md_eigner'] . "/09/06/";
-            } elseif ($row_foto['md_media'] == "Video") {
+            } elseif ($row['md_media'] == "Video") {
                 $pict_path .= $row['mf_eigner'] . "/09/10/";
             }
             $nodat = false;
@@ -467,7 +485,7 @@ function modifyRow(array &$row, $tabelle)
             if (in_array($md_id,$fo_arr[$md_eigner] )) {
                 $checked = "checked";
             }
-            $row['in Bericht'] = "<input type='checkbox' id='$d_id' name='$md_id' value='$md_eigner|$md_id' $checked >in den Bericht nehmen";
+            $row['in Bericht'] = "<input type='checkbox' id='$md_id' name='$md_id' value='$md_eigner|$md_id' $checked >in den Bericht nehmen";
 
             break;
     }

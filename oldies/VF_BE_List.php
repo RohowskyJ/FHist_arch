@@ -20,6 +20,10 @@ $tabelle = 'vb_bericht_4';
  */
 $path2ROOT = "../";
 
+
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_BE_List.php";
+
 /**
  * Debug- Option
  *
@@ -114,10 +118,10 @@ if (isset($_GET['ID'])) {
     if ($_GET['ID'] == "NextEig") {
         $_SESSION['Eigner']['eig_eigner'] = "";
         $eig_header = "Eigentümer/Urheber Auswahl";
-        require ('VF_FO_U_Select_List.inc.php');
+ ##       require ('VF_FO_U_Select_List.inc.php');
         VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
     } else {
-        require "VF_BE_List.inc.php";
+ ##       require "VF_BE_List.inc.php";
     }
 }
 
@@ -153,7 +157,7 @@ if (isset($_GET['ei_id'])) {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
 VF_Displ_Eig($ei_id);
-VF_Displ_Urheb_n($ei_id);
+VF_Displ_Urheb($ei_id);
 
 # ===========================================================================================================
 # Haeder ausgeben
@@ -213,7 +217,7 @@ switch ($T_List) {
     # case "Thema" : $sql_where="WHERE dk_Thema = '$doc_art'"; $orderBy = ' ORDER BY dk_nr'; break;
 
     default:
-        VF_HTML_trailer();
+       BA_HTML_trailer();
         exit(); # wenn noch nix gewählt wurde >> beenden
 }
 
@@ -261,7 +265,7 @@ BA_HTML_trailer();
 function modifyRow(array &$row, $tabelle)
 {
     global $path2VF, $T_List, $module;
-
+var_Dump($row);
     $s_tab = substr($tabelle, 0, 8);
 
     switch ($s_tab) {
@@ -284,7 +288,7 @@ function modifyRow(array &$row, $tabelle)
             if ($row['vb_foto'] != "") {
                 $d_arr = explode("-", $row['vb_datum']);
                 $v_date = $d_arr[0] . $d_arr[1] . $d_arr[2];
-                VF_Displ_Urheb_n($row['vb_urheb']);
+                VF_Displ_Urheb($row['vb_urheb']);
                 $vb_foto = $row['vb_foto'];
                 $DsName = $pict_path . $row['vb_urheb'] . "/09/06/$v_date/" . $row['vb_foto'];
                 $image1 = "<img src='$DsName' alt='Foto1' width='100px'/> ";
