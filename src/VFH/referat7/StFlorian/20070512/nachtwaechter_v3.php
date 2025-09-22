@@ -47,7 +47,7 @@ AW Ing. Schmotzer
 
 <tr>
  <td>
-<img src="20070512_img_5789_2_96.jpg" alt="Nachtwächter" align="left">
+<img src="124-20070512-W-IMG_5789_2_96.JPG" alt="Nachtwächter" align="left">
 "Sicherheit" vor Gefahren ist seit jeher Grundbedürfnis der Menschen, Wächter auf Türmen sehen von
 weitem annähernde Feinde aber auch aufflammende Brände. In der Neuzeit werden die Nacht- und Turmwächter
 "Organe der Feuerpolizei"

@@ -42,7 +42,7 @@ Ingo Weickenkas und Martin Pammer, Braunau am Inn
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-IMG_5861.JPG" alt="TLF 2000 auf Steyr 380 Z" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5861.JPG" alt="TLF 2000 auf Steyr 380 Z" align="right" />
 Die Steyrwerke konnten ab 1946 wieder ihre Fahrzeugproduktion aufnehmen.
 Der erste Typ, der 3 t Benzin-LKW Steyr 370 mit 80 PS, entsprach weitgehend dem
 Kriegsfahrgestelltyp 1500 A, bewährte sich aber für die Feuerwehren nicht.
