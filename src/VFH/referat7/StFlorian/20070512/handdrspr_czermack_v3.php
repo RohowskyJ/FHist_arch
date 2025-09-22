@@ -45,7 +45,7 @@ FF Marchtrenk
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-IMG_5798.JPG" alt="Handdruckspritze Czermack" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5798.JPG" alt="Handdruckspritze Czermack" align="right" />
 Erst die Erfindung des Saugschlauches, die erste Abbildung stammt aus 1724,
 erlaubt die "direkte" Wasserentnahme aus einer Wasserstelle.
 Leistungen der Handdruckspritzen: 120 bis 300 l/min, Spritzweiten horizontal
@@ -60,7 +60,7 @@ auch die Bevölkerung und das Militär herangezogen werden!
 <br/>
 <br/>
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-IMG_5801.JPG" alt="Handdruckspritze Czermack" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5801.JPG" alt="Handdruckspritze Czermack" align="left" />
 Zur Versorgung der in der Regel unmittelbar vor Ort aufgestellten
 Handdruckspritzen werden später auch eigene Wasserzubringer (Hydrophore)
 eingesetzt. Diese Feuerlöschpumpen, die  aber auch zur direkten

@@ -115,10 +115,10 @@ Verleihung einer Ehrenmitgliedschaft
     <table summary="Ehrenmitgliedschaft" >
      <tr>
        <th>
-<IMG SRC="../../../../../login/AOrd_Verz/124/09/06/20060902/124-20060902-IMG_4309.JPG" NAME="Ehrenmitglied Patricia H. Fischer" BORDER=0>
+<IMG SRC="../../../../../login/AOrd_Verz/124/09/06/20060902/124-20060902-W-IMG_4309.JPG" NAME="Ehrenmitglied Patricia H. Fischer" BORDER=0>
         </th>
        <th>
-<IMG SRC="../../../../../login/AOrd_Verz/124/09/06/20060902/124-20060902-IMG_4294.JPG" NAME="Urkunde"  height="360">
+<IMG SRC="../../../../../login/AOrd_Verz/124/09/06/20060902/124-20060902-W-IMG_4294.JPG" NAME="Urkunde"  height="360">
         </th>
       </tr>
      <tr>

@@ -46,7 +46,7 @@ vorgesehenen Zeitrahmen hinaus dauerten, wurde mit den bereits zur Trophy
 eingetroffenen Fahrzeugen die Amethyst-Welt in Maissau besucht.
 </p>
 
-<a href="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4421.JPG" target="B1" ><img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4421.JPG" alt="Ehrengaeste Start" align="right" width="30%"></a>
+<a href="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4421.JPG" target="B1" ><img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4421.JPG" alt="Ehrengaeste Start" align="right" width="30%"></a>
 <p>Die Rundfahrt begann am 3. September 2006 um 9:30 am Hauptplatz in Eggenburg, wo
 auf der Ehrentribüne  einige wichtige regionale und überregionale
 Persönlichkeiten Platz genommen hatten.
@@ -103,7 +103,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
 </td>
 
 <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4364.JPG" alt="Fahrzeug 1" align="left" width="90%">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4364.JPG" alt="Fahrzeug 1" align="left" width="90%">
       </td>
 
 </tr>
@@ -148,7 +148,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
        </table>
        </td>
        <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4366.JPG" alt="Fahrzeug 3" align="right"  width="90%">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4366.JPG" alt="Fahrzeug 3" align="right"  width="90%">
       </td>
 </tr>
 <tr>
@@ -185,7 +185,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
        </table>
        </td>
        <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4367.JPG" alt="Fahrzeug 4" align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4367.JPG" alt="Fahrzeug 4" align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -223,7 +223,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4369.JPG" alt="Fahrzeug 5" align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4369.JPG" alt="Fahrzeug 5" align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -261,7 +261,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4370.JPG" alt="Fahrzeug 6" align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4370.JPG" alt="Fahrzeug 6" align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -299,7 +299,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4371.JPG" alt="Fahrzeug 7 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4371.JPG" alt="Fahrzeug 7 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -337,7 +337,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4372.JPG" alt="Fahrzeug 8 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4372.JPG" alt="Fahrzeug 8 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -375,7 +375,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4373.JPG" alt="Fahrzeug 9 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4373.JPG" alt="Fahrzeug 9 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -413,7 +413,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4374.JPG" alt="Fahrzeug 10 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4374.JPG" alt="Fahrzeug 10 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -451,7 +451,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4377.JPG" alt="Fahrzeug 11 " align="right" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4377.JPG" alt="Fahrzeug 11 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -489,7 +489,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4478.JPG" alt="Fahrzeug 12 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4478.JPG" alt="Fahrzeug 12 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -527,7 +527,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4378.JPG" alt="Fahrzeug 13 " align="right" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4378.JPG" alt="Fahrzeug 13 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -565,7 +565,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4380.JPG" alt="Fahrzeug 14 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4380.JPG" alt="Fahrzeug 14 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -603,7 +603,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4382.JPG" alt="Fahrzeug  " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4382.JPG" alt="Fahrzeug  " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -641,7 +641,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4383.JPG" alt="Fahrzeug 16  " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4383.JPG" alt="Fahrzeug 16  " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -679,7 +679,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4384.JPG" alt="Fahrzeug 17 " align="right" width="90%"> 
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4384.JPG" alt="Fahrzeug 17 " align="right" width="90%"> 
       </td>
 </tr>
 <tr>
@@ -717,7 +717,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4385.JPG" alt="Fahrzeug 18 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4385.JPG" alt="Fahrzeug 18 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -755,7 +755,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4386.JPG" alt="Fahrzeug 19 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4386.JPG" alt="Fahrzeug 19 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -831,7 +831,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4387.JPG" alt="Fahrzeug 21 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4387.JPG" alt="Fahrzeug 21 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -869,7 +869,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4388.JPG" alt="Fahrzeug 22 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4388.JPG" alt="Fahrzeug 22 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -907,7 +907,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4389.JPG" alt="Fahrzeug  " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4389.JPG" alt="Fahrzeug  " align="right" width="90%">
 
       </td>
 </tr>
@@ -946,7 +946,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4446.JPG" alt="Fahrzeug 24 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4446.JPG" alt="Fahrzeug 24 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -984,7 +984,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4390.JPG" alt="Fahrzeug 25 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4390.JPG" alt="Fahrzeug 25 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1022,7 +1022,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4392.JPG" alt="Fahrzeug 26 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4392.JPG" alt="Fahrzeug 26 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1060,7 +1060,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4393.JPG" alt="Fahrzeug 27 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4393.JPG" alt="Fahrzeug 27 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1098,7 +1098,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4394.JPG" alt="Fahrzeug 28 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4394.JPG" alt="Fahrzeug 28 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1136,7 +1136,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-        <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4395.JPG" alt="Fahrzeug 29 " align="right" width="90%">
+        <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4395.JPG" alt="Fahrzeug 29 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1174,7 +1174,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4396.JPG" alt="Fahrzeug 30 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4396.JPG" alt="Fahrzeug 30 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1212,7 +1212,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4397.JPG" alt="Fahrzeug 31 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4397.JPG" alt="Fahrzeug 31 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1250,7 +1250,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4399.JPG" alt="Fahrzeug 32 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4399.JPG" alt="Fahrzeug 32 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1297,7 +1297,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4402.JPG" alt="Fahrzeug 34 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4402.JPG" alt="Fahrzeug 34 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1335,7 +1335,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4512.JPG" alt="Fahrzeug 35 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4512.JPG" alt="Fahrzeug 35 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1373,7 +1373,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4404.JPG" alt="Fahrzeug 36 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4404.JPG" alt="Fahrzeug 36 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1411,7 +1411,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4405.JPG" alt="Fahrzeug 37 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4405.JPG" alt="Fahrzeug 37 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1449,7 +1449,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4406.JPG" alt="Fahrzeug 38 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4406.JPG" alt="Fahrzeug 38 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1487,7 +1487,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4407.JPG" alt="Fahrzeug 39 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4407.JPG" alt="Fahrzeug 39 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1531,7 +1531,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4408.JPG" alt="Fahrzeug 41 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4408.JPG" alt="Fahrzeug 41 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1569,7 +1569,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4409.JPG" alt="Fahrzeug 42 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4409.JPG" alt="Fahrzeug 42 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1607,7 +1607,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4410.JPG" alt="Fahrzeug 43 " align="right" width="90%">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4410.JPG" alt="Fahrzeug 43 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1645,7 +1645,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4411.JPG" alt="Fahrzeug 44 " align="left" width="90%">
+<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4411.JPG" alt="Fahrzeug 44 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1683,7 +1683,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4412.JPG" alt="Fahrzeug 45 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4412.JPG" alt="Fahrzeug 45 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1721,7 +1721,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
               </td>
        
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4413.JPG" alt="Fahrzeug 46 " align="left" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4413.JPG" alt="Fahrzeug 46 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1758,7 +1758,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
        </table>
               </td>
             <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4416.JPG" alt="Fahrzeug 47 " align="right" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4416.JPG" alt="Fahrzeug 47 " align="right" width="90%">
       </td>
 </tr>
 <tr>
@@ -1795,7 +1795,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
        </table>
               </td>
       <td>
-       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4418.JPG" alt="Fahrzeug 48 " align="left" width="90%">
+       <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4418.JPG" alt="Fahrzeug 48 " align="left" width="90%">
       </td>
 </tr>
 <tr>
@@ -1832,7 +1832,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
        </table> 
               </td>
       <td>
-      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4400.JPG" alt="Fahrzeug 49 " align="right" width="90%">
+      <img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4400.JPG" alt="Fahrzeug 49 " align="right" width="90%">
       </td>
 </tr>
 
@@ -1840,7 +1840,7 @@ Nonndorf, zum Ziel in Gars. Die Streckenlänge betrug 67 km.
      </table>
      
      <br><br>
-<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-IMG_4541.JPG" alt="Ehrengaeste Ziel" align="left" width="90%"><br>
+<img src="../../../../../login/AOrd_Verz/124/09/06/20060903/124-20060903-W-IMG_4541.JPG" alt="Ehrengaeste Ziel" align="left" width="90%"><br>
 <p>Die Siegerparade in Gars vor dem Feuerwehrhaus wurde von Peter Krumhaar
 (Verein der Feuerwehrhistoriker in NÖ, Referatsleiter, Referat 2 "Mit Motorkraft
 bewegte Fahrzeuge") kommentiert. <br>
