@@ -195,7 +195,7 @@ function modifyRow(array &$row, $tabelle)
 
             $md_aufn_d   = $row['md_aufn_datum'];
             $md_eigner   = $row['md_eigner'];
-
+            $pfad = "";
             if ($md_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
                 $pfad = $md_aufn_d . "/";
             }
