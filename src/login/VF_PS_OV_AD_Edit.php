@@ -103,7 +103,7 @@ if ($phase == 0) {
                 }
             }
 
-            VF_HTML_trailer();
+            BA_HTML_trailer();
             exit();
         }
         $neu = mysqli_fetch_array($result);
