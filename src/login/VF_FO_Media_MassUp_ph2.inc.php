@@ -14,6 +14,8 @@ if ($debug) {
 
 if (isset($_POST['aufn_dat'])) {
     $aufn_dat = $_SESSION[$module]['Up_Parm']['aufn_dat'] = $_POST['aufn_dat'];
+    $trans = array('-'=>'_','/'=>'_');
+    $aufn_dat = strtr($aufn_dat,$trans);
 }
 if (isset($_POST['beschreibg'])) {
     $beschreibg = $_SESSION[$module]['Up_Parm']['beschreibg'] = $_POST['beschreibg'];
