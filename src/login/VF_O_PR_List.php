@@ -177,7 +177,7 @@ switch ($T_List) {
     # case "Thema" : $sql_where="WHERE dk_Thema = '$doc_art'"; $orderBy = ' ORDER BY dk_nr'; break;
 
     default:
-        VFH_HTML_trailer();
+        BA_HTML_trailer();
         exit(); # wenn noch nix gewählt wurde >> beenden
 }
 
