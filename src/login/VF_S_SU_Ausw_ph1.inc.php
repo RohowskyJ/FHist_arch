@@ -91,7 +91,7 @@ if (!$tables_act) {
     echo "keine Tabellen gefunden - ABBRUCH <br>";
     exit;
 }
-
+# var_dump($dm_arr);
 if (isset($_POST['eigentmr']))      {$_SESSION[$module]['eig_ausw'] = $s_such_eigent    = $_POST['eigentmr'];}
 
 if (isset($_POST['s_such_eigent'])) {$s_such_eigent    = $_POST['s_such_eigent'];}

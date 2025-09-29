@@ -38,6 +38,7 @@ foreach ($muf_arr as $fm_table => $aa) {
 # =========================================================================================================
 
 if ($debug) {
-    echo "<pre class=debug>VF_VF_S_Find_Mus_sa.inc.php beendet</pre>";
+    echo "<pre class=debug>VF_VF_S_Find_MuF_sa.inc.php beendet</pre>";
 }
 ?>  
+ 
