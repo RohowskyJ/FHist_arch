@@ -250,20 +250,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     // Stücke in Referat:Sammlung/alle Stücke
     $eignr = $_SESSION['Eigner']['eig_eigner'];
     $pref_eignr = substr("00000", 1, 5 - strlen($eignr)) . $eignr;
-    /*
-    if ($_SESSION[$module]['suchausw'] != "") {
-        $text = $_SESSION[$module]['sammlung'];
-        
-        $zus_ausw .= "<div class='w3-container w3-sand'>  Stücke in Sammlung &nbsp; $text ";
-        $zus_ausw .= "<br/>Inventarnummer Prefix (Verein  Eigentümernummer Sammlung) <font size='+1'>V$pref_eignr" . $_SESSION[$module]['sammlung'] . "</font> und der Inventar- Nummer in der Spalte <i>Inv.Nr.</i> (Keine Leerzeichen)</div>";
-    } else {
-        
-    */
-        $zus_ausw .= "<div class='w3-container w3-sand'> Alle Stücke des Eigentümers ";
-        $zus_ausw .= "<br/>Inventarnummer Prefix (Verein Eigentümernummer) <font size=\"+2\">V$pref_eignr</font> und der Inhalt der Spalte <i>in_sammlung</i> und <i>Inv.Nr.</i> (Keine Leerzeichen, InvNr. 6 Stellig, führende 0)</div> ";
-    #}
-    
-    
+  
+    $zus_ausw .= "<div class='w3-container w3-sand'> Alle Stücke des Eigentümers ";
+    $zus_ausw .= "<br/>Inventarnummer Prefix (Verein Eigentümernummer) <font size=\"+2\">V$pref_eignr</font> und der Inhalt der Spalte <i>in_sammlung</i> und <i>Inv.Nr.</i> (Keine Leerzeichen, InvNr. 6 Stellig, führende 0)</div> ";
+
     List_Action_Bar($tabelle, "Inventar des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 
     # ===========================================================================================================
@@ -387,19 +377,13 @@ function modifyRow(array &$row, $tabelle)
                         $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fo ;
                         
                         if (!is_file($p)) {
-                            $p = $pict_path . $in_foto_1;
+                            $p = $pict_path . $fo;
                         }
                     } else {
                         $p = $pict_path . $row['in_foto_1'];
                     }
                     $row['in_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$fo' width='200px'> $fo </a>";
-                
-                /*
-                $in_foto_1 = $row['in_foto_1'];
-                $p1 = $pictpath . $row['in_foto_1'];
 
-                $row['in_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$in_foto_1' width='150px'> $in_foto_1 </a>";
-                */
             }
           
             if ($row['in_neueigner'] > 0) { # OR !is_null($row['in_neueigner'])
