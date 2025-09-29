@@ -22,17 +22,25 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
-
-require $path2ROOT . 'login/common/VF_Const.inc.php';
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-require $path2ROOT . 'login/common/List_Funcs.inc.php';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
+
+$jq = $jq_ui = true;
+$BA_AJA = true;
+
+$header = "";
+
+BA_HTML_header('Inventar- Verleih', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
@@ -87,7 +95,7 @@ if ($phase == 0) {
         $neu['vl_id'] = $vl_id;
         $neu['ei_id'] = $_SESSION['Eigner']['eig_eigner'];
         $neu['ei_invnr'] = $_SESSION[$module]['in_id'];
-        $neu['ei_zustand_aus'] = $neu['ei_zustand_ret'] = $neu['ei_zust_aus_bild'] = $neu['ei_zust_ret_bild'] = $neu['ei_leiher'] = $neu['ei_leihvertr'] = "";
+        $neu['ei_komm_1'] = $neu['ei_komm_2'] = $neu['ei_bild_1'] = $neu['ei_bild_2'] = $neu['ei_leiher'] = $neu['ei_leihvertr'] = "";
         $neu['ei_verlbeg'] = $neu['ei_verlend'] = $neu['ei_verlgrund'] = $neu['ei_verlrueck'] = $neu['ei_verluebn'] = "";
         $neu['ei_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
         $neu['ei_aenddat'] = "";
@@ -125,27 +133,17 @@ if ($phase == 0) {
 if ($phase == 1) {
 
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
-var_dump($neu);
+
     $neu['ei_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
     
-    if (stripos($neu['auto'],"-") >=1 ) {
-        $n_leiher = explode("-",$neu['auto']);
-        $neu['ei_leiher'] = $n_leiher[0];
+    $pic_cnt = $neu['pic_cnt'];
+    for ($i=1;$i<=$pic_cnt;$i++) {
+        if ($neu['bild_datei_'.$i] != "") {
+            $neu['ei_bild_'.$i] = $neu['bild_datei_'.$i];
+        }
     }
-    echo "L 0138 leiher ".$neu['ei_leiher']." <br>";
-    
-    if (isset($_FILES['uploaddatei_1']['name'])) {
-        $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
-        
-        if ($_FILES['uploaddatei_1']['name'] != "" ) {
-            $neu['ei_zust_aus_bild'] = VF_Upload($uploaddir, 1);
-        }
-        if ($_FILES['uploaddatei_2']['name'] != "" ) {
-            $neu['ei_zust_ret_bild'] = VF_Upload($uploaddir, 2);
-        }
-    } 
     
     if ($debug) {
         echo '<pre class=debug>';
@@ -156,12 +154,12 @@ var_dump($neu);
 
     if ($neu['vl_id'] == 0) { # neueingabe
         $sql = "INSERT INTO $table_ty (
-              ei_id,ei_invnr,ei_zustand_aus,ei_zustand_ret,
-              ei_zust_aus_bild,ei_zust_ret_bild,ei_leiher,ei_leihvertr,ei_verlbeg,ei_verlend,
+              ei_id,ei_invnr,ei_komm_1,ei_komm_2,
+              ei_bild_1,ei_bild_2,ei_leiher,ei_leihvertr,ei_verlbeg,ei_verlend,
               ei_verlgrund,ei_verlrueck,ei_verluebn,ei_uidaend
            ) VALUE (
-              '$neu[ei_id]','$neu[ei_invnr]','$neu[ei_zustand_aus]','$neu[ei_zustand_ret]',
-              '$neu[ei_zust_aus_bild]','$neu[ei_zust_ret_bild]','$neu[ei_leiher]','$neu[ei_leihvertr]','$neu[ei_verlbeg]','$neu[ei_verlend]',
+              '$neu[ei_id]','$neu[ei_invnr]','$neu[ei_komm_1]','$neu[ei_komm_2]',
+              '$neu[ei_bild_1]','$neu[ei_bild_2]','$neu[ei_leiher]','$neu[ei_leihvertr]','$neu[ei_verlbeg]','$neu[ei_verlend]',
               '$neu[ei_verlgrund]','$neu[ei_verlrueck]','$neu[ei_verluebn]','$neu[ei_uidaend]'
                )";
 
@@ -177,6 +175,7 @@ var_dump($neu);
             if (! preg_match("/[^0-9]/", $name)) {
                 continue;
             } # überspringe Numerische Feldnamen
+
             if ($name == "MAX_FILE_SIZE") {
                 continue;
             } #
@@ -207,23 +206,17 @@ var_dump($neu);
         }
 
         echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
-        $result = SQL_QUERYy($db, $sql) ;
+        $result = SQL_QUERY($db, $sql) ;
     }
 
     $in_id = $_SESSION[$module]['in_id'];
     header("Location: VF_I_IN_Edit.php?ID=$in_id");
 }
 
-$jq = $jq_ui = False;
-$prot = True; # prototype.js laden
-$header = "";
-
-HTML_header('Inventar- Verleih','', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
 switch ($phase) {
     case 0:
         require ('VF_I_IN_VL_Edit_ph0.inc');
         break;
 }
-HTML_trailer();
+BA_HTML_trailer();
 ?>
