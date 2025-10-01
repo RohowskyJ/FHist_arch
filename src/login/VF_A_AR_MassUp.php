@@ -37,7 +37,8 @@ $db = LinkDB('VFH');
 initial_debug();
 
 
-$prot = True;
+$jq = $jqui  = True;
+$BA_AJA = True;
 $header = "
 <style>
         #preview {
@@ -68,6 +69,7 @@ VF_set_module_p();
 // Eingabenerfassung und defauls Teil 1 - alle POST Werte werden später in array $neu gestelltt
 // ============================================================================================================
 # var_dump($_POST);
+# var_dump($_GET);
 
 if (isset($_POST['phase'])) {
     $phase = $_POST['phase'];
@@ -111,8 +113,8 @@ if (!isset($Err_Msg)) {
 }
 
 if ($phase == 1) {
-    if (isset($_POST['auto']) ) {
-        VF_Displ_Eig($_POST['auto']);
+    if (isset($_POST['eigentuemer_1']) ) {
+        VF_Displ_Eig($_POST['eigentuemer_1']);
     }
 
     require "VF_A_AR_MassUp_ph1.inc.php";
@@ -122,14 +124,25 @@ if ($phase == 1) {
 if ($phase == 0) {
 
         echo "<h2>Eigentümer auswählen zum Archivalien hochladen</h2>";
+        /*
         VF_Eig_Ausw();
-      
+           */
+        /**VF_Eig_Ausw
+         * neuen Eigentümer auswählen
+         */
+        if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten") {
+            if ($_SESSION['Eigner']['eig_eigner'] == "") {
+                VF_Auto_Eigent("E");
+            }
+        } else {
+            $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
+        }
         echo "<br> <button type='submit' name='phase' value='1' class=green>Auswahl bestätigen</button></p>";
+     
+
     
 }
 
 
 BA_HTML_trailer();
-?>
-
-                           
+?>                         
