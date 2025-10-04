@@ -49,6 +49,8 @@ function Cr_n_ar_chivdt($tabelle)
       `ad_subsg` varchar(2)  NULL  COMMENT 'SubSachgeb.',
       `ad_lcsg` varchar(2)  NULL  COMMENT 'Lokales SG',
       `ad_lcssg` varchar(2)  NULL  COMMENT 'Lokales SubSG',
+      `ad_lcssg_s0` varchar(2)  NULL  COMMENT 'Lokales SubSG Erw 0',
+      `ad_lcssg_s1` varchar(2)  NULL  COMMENT 'Lokales SubSG Erw 1',
       `ad_ao_fortlnr` smallint(6) DEFAULT NULL COMMENT 'Fortl. Archivalien-Nr',
       `ad_sammlg` varchar(20)  NULL  COMMENT 'Sammlungs- Abkürzung',
       `ad_doc_date` varchar(12)  NULL  COMMENT 'Archvalien- Datum',
