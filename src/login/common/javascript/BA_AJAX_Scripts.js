@@ -122,6 +122,7 @@ function initMultiDropDown() {
 	        $('#level4').val('Nix');
 	        $('#level5').val('Nix');
 	        $('#level6').val('Nix');
+			console.log('selectedEval 1',selectedVal);
 	    });
 
 	    // Event-Listener für Dropdown 2
@@ -132,6 +133,7 @@ function initMultiDropDown() {
 	        $('#level4').val('Nix');
 	        $('#level5').val('Nix');
 	        $('#level6').val('Nix');
+			console.log('selectedEval 2',selectedVal);
 	    });
 	        // Event-Listener für Dropdown 3
 	    $('#level3').on('change', function() {
@@ -140,6 +142,7 @@ function initMultiDropDown() {
 	        $('#level4').val('Nix');
 	        $('#level5').val('Nix');
 	        $('#level6').val('Nix');
+			console.log('selectedEval 3',selectedVal);
 	    });
 	        // Event-Listener für Dropdown 4
 	    $('#level4').on('change', function() {
@@ -147,6 +150,7 @@ function initMultiDropDown() {
 	        loadOptions(4, selectedVal);
 	        $('#level5').val('Nix');
 	        $('#level6').val('Nix');
+			console.log('selectedEval 4',selectedVal);
 	    });
 	        // Event-Listener für Dropdown 5c
 	    $('#level5').on('change', function() {
@@ -193,44 +197,5 @@ function toggleAll() {
     });
 }
 
-// Funktion zum Hochladen eines Bildes via AJAX
-function uploadImage(fileInputId, index) {
-		 	    var fileInput = document.getElementById(fileInputId);
-		 	    var file = fileInput.files[0];
-		 console.log('funct uploadImage geladen');
-		 	    if (!file) {
-		 	        alert('Bitte wählen Sie eine Datei aus.');
-		 	        return;
-		 	    }
-		 console.log("Urheber ",urheber);
-		 	    var formData = new FormData();
-		 	    formData.append('file', file);
-		 	    formData.append('urheber', '<?php echo json_encode($urheber); ?>');  // vorschlag von chatgpt : als korrektuur :  formData.append('urheber', <?php echo json_encode($urheber); ?>);
-		 	    formData.append('targPfad', '<?php echo $verzeichnis; ?>');
-		 	    formData.append('urhEinfg', '<?php echo $urh_einfueg; ?>'); // Wasserzeichen einfügen, wenn urheber und aufnDat  > '' und = J
-		 	    formData.append('aufnDat', '<?php echo $aufn_datum; ?>'); // Teil des Bild-Dateinamens wenn rename - oder Blank
-		 		
-		 		console.log("FormData ",formData);
-		 	    $.ajax({
-		 	        url: 'common/API/VF_Upload_FO_API.php', // Server-Skript
-		 	        type: 'POST',
-		 	        data: formData,
-		 	        contentType: false,
-		 	        processData: false,
-		 	        success: function(response) {
-		 	            // Antwort des Servers interpretieren
-		 	            var res = JSON.parse(response);
-		 	            if (res.success) {
-		 	                alert('Upload erfolgreich: ' + res.dateiname);
-		 	                // Setze Dateinamen in das Input-Feld
-		 	                $('#fz_bild_' + index).val(res.dateiname);
-		 	            } else {
-		 	                alert('Fehler: ' + res.message);
-		 	            }
-		 	        },
-		 	        error: function() {
-		 	            alert('Fehler beim Upload.');
-		 	        }
-		 	    });
-}
+
 
