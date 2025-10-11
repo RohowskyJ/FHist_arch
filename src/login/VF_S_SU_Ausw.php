@@ -27,7 +27,6 @@ $debug = False; # Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
-require $path2ROOT . 'login/common/BA_AJAX_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
@@ -42,7 +41,9 @@ $db = LinkDB('VFH');
 $item = "";
 
 $form_start = True;
-$prot = True;
+# $prot = True;
+$jq = $jqui  = True; // Laden von jquery und jquery-ui
+$BA_AJA = True;
 $header = "";
 
 BA_HTML_header('Suche nach Suchbegriffen', $header, 'Form', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
@@ -86,7 +87,7 @@ if (! isset($_SESSION[$module]['ArOrd_Name'])) {
     $_SESSION[$module]['ArOrd_Name'] = "Anzeiger der ausgewählten Daten";
 }
 if (! isset($_SESSION[$module]['Ord_Ausw'])) {
-    $_SESSION[$module]['Ord_Ausw'] = "0,0,0,0";
+    $_SESSION[$module]['Ord_Ausw'] = "0,0,0,0,0,0";
 }
 if (! isset($_SESSION[$module]['List_Sel'])) {
     $_SESSION[$module]['List_Sel'] = "";
@@ -168,8 +169,6 @@ switch ($phase) {
 }
 
 echo "</div>";
-# echo "<script type='text/javascript' src='VF_C_Suchbegr_Funcs.js'></script>";
-# echo "<script type='text/javascript' src='VF_C_AOrd_Funcs.js'></script>";
 
 BA_HTML_trailer();
 
