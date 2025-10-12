@@ -9,8 +9,7 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
 # const Tabellen_Name = 'fh_dokumente';
 
 /**
@@ -76,7 +75,8 @@ if ($_SESSION['VF_Prim']['p_uid'] == 1) {
     echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-    echo "<a href='VF_FO_Media_MassUp.php?sk=$sk&res_eign=1' target='Foto_Up'> Medien- Massen- Upload (Audio, Fotos, Videos)</a>";
+    # echo "<a href='VF_FO_Media_MassUp.php?sk=$sk&res_eign=1' target='Foto_Up'> Medien- Massen- Upload (Audio, Fotos, Videos)</a><br>";
+    echo "<a href='VF_C_MassUp.php?sk=$sk&typ=Medi' target='Upl_Fo'> Medien- Massen- Upload (Audio, Fotos, Videos)</a>";
     echo "</div>"; // Ende der Ausgabe- Einheit Feld
 }
 

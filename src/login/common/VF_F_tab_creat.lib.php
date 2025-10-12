@@ -38,7 +38,7 @@ function Cr_n_Medien_Daten($tabelle)
     return $return;
 } # Ende Funktion Cr_n_fo_varchar(12)n
 
-function Cr_n_ar_chivdt($tabelle)
+function Cr_n_ar_chivdat($tabelle)
 {
     global $debug, $db;
     mysqli_set_charset($db, "utf8mb4");
@@ -83,7 +83,7 @@ function Cr_n_ar_chivdt($tabelle)
     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='Archivalien- Verzeichnis' ";
 
     $return = SQL_QUERY($db, $sql);
-    var_dump($return);
+    
     return $return;
 } # Ende Funktion Cr_n_ar_chivdt
 
