@@ -62,7 +62,6 @@ if (isset($arr_ak)) {
         $AO_dat = VF_Displ_Arl($arr_ak[0], $arr_ak[1], $arr_ak[2], $arr_ak[3], $arr_ak[4], $arr_ak[5]);
     } else {
         $AO_dat = VF_Displ_Arl($arr_ak[0], $arr_ak[1], $arr_ak[2], $arr_ak[3], $arr_ak[4], $arr_ak[5]);
-        # = "$row->al_lcsg|$row->al_lcssg|$row->al_lcssg_s0|$row->al_lcssg_s1|$row->al_sammlung|$row->al_bezeich";
     }
 }
 
