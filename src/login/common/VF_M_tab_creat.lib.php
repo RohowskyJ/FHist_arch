@@ -176,9 +176,9 @@ function Cr_n_ma_geraet($tabelle)
   `ge_ort` varchar(60) NULL  COMMENT 'Aufbewahrungs- Ort',
   `ge_zustand` varchar(2) NULL  COMMENT 'Zustand',
   `ge_pruef_id` varchar(10) NULL  COMMENT 'von wem gepr�ft',
-  `ge_pruef_dat` varchar(10) NULL  COMMENT 'Pr�fung am',
-  `ge_aenduid` varchar(10) NULL  COMMENT 'letzter �nderer',
-  `ge_aenddat` timestamp NULL   COMMENT 'letztr �nderung' DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ge_pruef_dat` varchar(10) NULL  COMMENT 'Prüfung am',
+  `ge_aenduid` varchar(10) NULL  COMMENT 'letzter Änderer',
+  `ge_aenddat` timestamp NULL   COMMENT 'letzte Änderung' DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`ge_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
          ";
