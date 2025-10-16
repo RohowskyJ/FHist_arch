@@ -42,7 +42,7 @@ function Cr_n_mu_fahrzeug($tabelle)
   `fm_uidaend` varchar(10) NULL  COMMENT 'Letzter Änderer',
   `fm_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'letzte Änderung',
   PRIMARY KEY (`fm_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  ";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci  COMMENT='muskelgezogene Fahrzeuge ' ";
     $return = SQL_QUERY($db, $sql);
     return $return;
 } # Ende Funktion Cr_n_fz_muskel
@@ -83,7 +83,7 @@ function Cr_n_mu_geraet($tabelle)
   `mg_uidaend` varchar(10) NULL  COMMENT 'Letzter Änderer',
   `mg_aenddat` timestamp NULL  DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Letzte Änderug',
   PRIMARY KEY (`mg_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='muskelgetriebene Geräte'
     ";
     $return = SQL_QUERY($db, $sql);
     return $return;
@@ -180,7 +180,7 @@ function Cr_n_ma_geraet($tabelle)
   `ge_aenduid` varchar(10) NULL  COMMENT 'letzter Änderer',
   `ge_aenddat` timestamp NULL   COMMENT 'letzte Änderung' DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`ge_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='motorbetriebene Gräte'
          ";
     $return = SQL_QUERY($db, $sql);
     return $return;
