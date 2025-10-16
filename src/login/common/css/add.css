@@ -287,3 +287,8 @@ header {
   .bild-item { cursor: pointer; border: 2px solid transparent; padding: 2px; }
   .bild-item:hover { border: 2px solid blue; }
   #auswahl-bild { margin-top: 20px; }
+  
+/* Style für CSS Show/Hide */
+.toggle-block { display: none; }
+.toggle-block.visible { display: block; }
+
