@@ -86,6 +86,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     
     if (isset($BA_AJA) && $BA_AJA) {
         echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_AJAX_Scripts.js' ></script>";
+        
     }
   
     echo $head;
@@ -191,13 +192,15 @@ function BA_HTML_trailer()
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
 
     ?>
+     
    <script>
+   /*
        function submitForm() {
            console.log('on click ausgelöst');
            document.getElementById('myform').submit();
        }
+       */
     </script>
-    
    
     <br>
     <footer class='footer'>
