@@ -2252,6 +2252,8 @@ function VF_Upload_Pfad_M($aufnDatum, $suffix = '', $aoPfad = '', $urh_nr = '')
  * Formular- Teil zum hochladen von mehrfach-Dateien (fotos, Dokumente, ..) Modifizierte Vwers
  *
  *
+ * in allen Programmteilen mit Foto Anzeige und hochladen verwendet, die Mandantenfähig sind.
+ *
  * @return
  *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
@@ -2266,13 +2268,13 @@ function VF_Upload_Form_M()
 {
     global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
     
-    flow_add($module, "VF_Upload.lib.php Funct: VF_M_Foto");
+    flow_add($module, "VF_comm_Funct_lib.php Funct: VF_UpLoad_Form_M");
     
     /**
      * Parameter für die Fotos:
      *
      * $_SESSION[$module]['Pct_Arr'][] = array("k1" => 'fz_b_1_komm', 'b1' => 'fz_bild_1', 'rb1' => '', 'up_err1' => '', 'f1' => '','f2'=>'');
-     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keinegeminsame Box, rb1 und up_err werden vom Uploader gesetzt,
+     * wobei k1 = blank : kein Bild- Text- Feld - kein Bildtext , keine gemeinsame Box, rb1 und up_err werden vom Uploader gesetzt,
      *                           f1 und f2 sind 2 Felder, die zusätzlich im Block eingegeben, angezeigt werden können
      */
  
@@ -2325,7 +2327,7 @@ function VF_Upload_Form_M()
         /**
          * Responsive Container innerhalb des loops
          */
-        echo "<div class = 'block-container w3-container w3-half ' data-index='$i'  data-hide-area='$hide_area'>";                 // start half contailer
+        echo "<div class = 'block-container w3-container w3-half '>";                 // start half contailer
         echo "<fieldset>";
         echo "Bild $j <br>";
         echo "<div class='bild-data_$j' >";
@@ -2410,10 +2412,11 @@ function VF_Upload_Form_M()
 
         ?>
         
-        <div id="gruppe2" class="foto-upd-container" 
-            style="<?php echo ($hide_area_group2 == 1) ? 'display:none;' : ''; ?>">
-           <div class='foto-upd'  style='margin-bottom:20px; border:1px solid #ccc; padding:10px;'> 
-          
+       <div class="toggle-group foto-upd-container" data-group="group1">
+           <div class="toggle-block" id="block1<?php echo $j ?>a"> 
+            
+           Block1 <?php echo $j ?>a
+           <div class='foto-upd'  style='margin-bottom:20px; border:1px solid #ccc; padding:10px;'>           
            <!-- Upload Parameter Gruppe -->
                 
            <h3>Bild <?php echo $j; ?></h3>
@@ -2433,10 +2436,9 @@ function VF_Upload_Form_M()
                 #}
            }
            ?>
-           <label>
-               <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_nein<?php echo $j; ?>" value="nein"> neu Hochladen
-           </label>
-       
+   <label><input type="checkbox" id="toggleGroup5" checked> Datei neu Hochladen</label>
+           
+     
            <!-- Bibliothekssuche Gruppe -->
            <div id='sel_lib_suche' style='display:none;'>
                  <!-- Inhalte für die Bibliothekssuche -->
@@ -2444,8 +2446,11 @@ function VF_Upload_Form_M()
                  
            </div>
 
-            <div id="sel_lib_upload<?php echo $j; ?>" style="display:none;">
-    
+            <div id="sel_lib_upload<?php echo $j; ?>" ">  <!-- style="display:none; -->
+            
+                 <div class="toggle-group" data-group="group5" id="sel_lib_upload<?php echo $j; ?>">
+                 <div class="toggle-block" id="block5<?php echo $j; ?>a">
+                 Block 5a
                  <?php
                  if ($module != 'OEF') {
                      VF_Auto_Eigent('U', false,$j);
@@ -2478,6 +2483,11 @@ function VF_Upload_Form_M()
                  echo "</div>"; // ende foload
                  ?>
                  <br><input type="file" id="upload_file_<?php echo $j; ?>">
+                 
+            </div>
+                 
+             </div>          
+
              </div>
         <?php
 
@@ -2705,13 +2715,14 @@ function setupUploadBlock(j) {
     }
 
     uploadBtn.on('click', function() {
+    console.log('uploadBtn');
         let hasError = false;
         // Remove previous error styles/messages
         $('#aufnDat_' + j).removeClass('input-error');
         $('#eigentuemer_' + j).removeClass('input-error');
         $('#aufnDat_' + j).next('.error-msg').hide();
         $('#eigentuemer_' + j).next('.error-msg').hide();
-
+console.log('selFile length ',selectedFiles.length);
         if (!selectedFiles.length) {
             alert('Bitte wählen Sie mindestens eine Datei aus.');
             return;
@@ -2720,12 +2731,15 @@ function setupUploadBlock(j) {
         const aufnDat = $('#aufnDat_' + j).val() || ''; 
         const urhEinfg = $('#urhEinfgJa_' + j).val() || 'N';
         
-        const urhNr = $('#eigentuemer_' + j).val() || '';
+        let urhNr = $('#eigentuemer_' + j).val() || '';
+        //if (urhNr === "" ) {urhNr = $('#urhNr'}.val() ;}
         const urhName = $('#urhName').val() || '';
         const reSize = $('#reSize').val() || '800'; // Default size
         const aord = $('#aord_' + j).val() || '';
         const eigner = $('#eigner_' + j).val() || '';
         let rotation = 0;
+        console.log('urhNr ',urhNr );
+        console.log('Eigentuemer ',$('#eigentuemer_' + j).val());
         // Validate required fields
         if (urhNr === '') {
             $('#eigentuemer_' + j).addClass('input-error');
@@ -2737,10 +2751,12 @@ function setupUploadBlock(j) {
             $('#aufnDat_' + j).next('.error-msg').text('Pflichtfeld!').show();
             hasError = true;
         }
+        console.log('has error ',hasError);
+       
         if (hasError) {
             return;
         }
-
+console.log('vor FormData');
         const formData = new FormData();
         selectedFiles.forEach((file, idx) => {
             formData.append('file[]', file);
@@ -2751,7 +2767,7 @@ function setupUploadBlock(j) {
         });
         formData.append('urhNr', urhNr);
         formData.append('urhName', urhName);
-        formData.append('watermark', urhEinfg);
+        formData.append('urhEinfgJa', urhEinfg);
         formData.append('aufnDat', aufnDat);
         formData.append('reSize', reSize);
         formData.append('aord', aord); 
@@ -2760,7 +2776,7 @@ function setupUploadBlock(j) {
         console.log('formData ',formData);
 
         $.ajax({
-            url: 'common/API/VF_Upload.API.php',   
+            url: 'common/API/VF_C_MassUp.API.php',   //    common/API/VF_Upload.API.php
             type: 'POST',
             data: formData,
             processData: false,
