@@ -30,7 +30,7 @@ Edit_Daten_Feld('fm_eignr');
 $button = "";
 if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
+    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
 }
 Edit_Separator_Zeile('Sammlung'.$button);
 # =========================================================================================================
@@ -48,7 +48,8 @@ echo "<input type='hidden' id='fm_sammlg'  name='fm_sammlg' value='".$neu['fm_sa
 if ($hide_area == 0) {
     echo "<div>";
 } else {
-    echo "<div id='unhide_sa' style='display:none'>";
+    echo "<div class='block-container' >";
+    echo "<div class='toggle-block' id='block10'>";
 }
 /**
  * Parameter für den Aufruf von Multi-Dropdown
@@ -82,7 +83,9 @@ switch ($MS_Opt) {
 
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val, $titel);
-echo "</div>";
+
+echo "</div>"; # ende toggle
+echo "</div>"; # ende dropdown Sammlung
 
 # =========================================================================================================
 Edit_Separator_Zeile('Geräte- Beschreibung');
@@ -104,7 +107,7 @@ if (isset($neu['fi_name']) && $neu['fi_name'] != "") {
 $button = "";
 if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_herst')\">zum anzeigen/ändern klicken!</button>";
+    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock30' > zum anzeigen/ändern anklicken</label> ";
 }
 
 echo "<input type='hidden' name='fm_herst' value='".$neu['fm_herst']."' >";
@@ -115,10 +118,12 @@ Edit_Daten_Feld(Prefix . 'fm_herst', 60, '', '', $button);
 if ($hide_area == 0) {
     echo "<div>";
 } else {
-    echo "<div id='unhide_herst' style='display:none'>";
+    echo "<div class='block-container' >";
+    echo "<div class='toggle-block' id='block30'>";
 }
 VF_Auto_Herstell();
 
+echo "</div>"; # ende toggle
 echo "</div>"; # ende hide herstb
 
 Edit_Daten_Feld('fm_baujahr', 10);
@@ -133,7 +138,7 @@ Edit_Daten_Feld('fm_zug', 10);
 $button_f = "";
 if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+    $button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' > Foto Daten eingeben/ändern </label>"; 
 }
 Edit_Separator_Zeile('Fotos'.$button_f);  #
 # =========================================================================================================
@@ -179,7 +184,8 @@ if ($_SESSION[$module]['all_upd']) {
 
 echo "<p><a href='VF_FZ_MuFG_List.php?ID=MU_F'>Zurück zur Liste</a></p>";
 
-#BA_Auto_Funktion();
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
+
 # =========================================================================================================
 
 if ($debug) {

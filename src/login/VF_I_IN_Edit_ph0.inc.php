@@ -20,6 +20,7 @@ if ($neu['in_id'] == 0) { // Neueingabe
 echo "<input type='hidden' name='in_id' value='" . $neu['in_id'] . "'/>";
 echo "<input type='hidden' name='ei_id' value='" . $neu['ei_id'] . "'/>";
 echo "<input type='hidden' name='in_sammlg' value='" . $neu['in_sammlg'] . "'/>";
+echo "<input type='hidden' name='in_linkerkl' value='" . $neu['in_linkerkl'] . "'/>";
 
 $inveignr = $_SESSION['Eigner']['eig_eigner'];
 $pref_eignr_s = "0" . $inveignr; // Kurz- Variante
@@ -115,6 +116,7 @@ if ($neu['in_sammlg'] != "") {
 
 Edit_Daten_Feld('in_entstehungszeit', 10);
 Edit_Select_Feld('in_epoche', VF_Epoche);
+
 Edit_Daten_Feld('in_hersteller', 60);
 /*
 $ST_Opt_A = VF_Sel_Staat('in_herstld', '9');
@@ -144,11 +146,12 @@ echo "<input type='hidden' name='in_beschreibung' value='" . $neu['in_beschreibu
 echo "<input type='hidden' name='in_refindex' value='" . $neu['in_refindex'] . "'/>";
 
 # =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
 }
+// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
 Edit_Separator_Zeile('Fotos'.$button_f);
 # =========================================================================================================
 echo "<div>";
@@ -159,6 +162,7 @@ echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
 echo "<input type='hidden' id='sammlung' value='".$neu['in_sammlg'] ."'>";
 echo "<input type='hidden' id='eigner' value='".$neu['ei_id'] ."'>";
+echo "<input type='hidden' id='urhNr' value=''>";
 
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
 $Feldlaenge = "100px";
@@ -228,6 +232,9 @@ if ($_SESSION[$module]['all_upd']) {
 echo "<p><a href='VF_I_IN_List.php'>Zurück zur Liste</a></p>";
 echo "</div>";
 echo "</div>";
+
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
+
 # =========================================================================================================
 
 if ($debug) {

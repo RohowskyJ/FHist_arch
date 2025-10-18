@@ -115,13 +115,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    
     // Metadaten
     $rotations = isset($_POST['rotation']) ? $_POST['rotation'] : '';
-    $eigner = $urhNr = $_POST['urhNr'] ?? '';
+    $urhNr = $_POST['urhNr'] ?? '';
     $urhName = $_POST['urhName'] ??  '';
     $aufnDat = $_POST['aufnDat'] ?? '';
     $urhEinfgJa = $_POST['urhEinfgJa'] ?? 'N';
     $reSize = $_POST['reSize'] ?? '800';   
     $aOrd = $_POST['aOrd'] ??''; 
-    # $eigner = $_POST['eigner'] ??''; 
+    $eigner = $_POST['eigner'] ??''; 
     
     if ($urhEinfgJa == '1') { $urhEinfgJa ='J';}
     

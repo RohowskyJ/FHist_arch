@@ -12,7 +12,7 @@ $Inc_Arr[] = "VF_FO_Edit_ph1.inc.php";
 if ($debug) {
     echo "<pre class=debug>VF_FO_Edit_ph1.inc.php ist gestarted</pre>";
 }
-# var_dump($neu);
+#var_dump($neu);
 $neu['md_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';
@@ -31,27 +31,8 @@ if (isset($neu['level1'])) {
      
 }
 
-if (isset($_FILES)) {
-    $i = 0;
-    $uploaddir = $path2ROOT."login/AOrd_Verz/" . $neu['md_eigner'] . "/09/"; # 06/" 10/ 02/;
-    foreach ($_FILES as $upLoad  => $file_arr) {
-        #var_dump($_FILES[$upLoad]);
-        # var_dump($_SESSION[$module]['Pct_Arr']);
-        if ($_FILES[$upLoad] != "") {
-            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir,$upLoad,$neu['md_eigner'],$neu['md_aufn_datum']); # ,$urh_abk,$fo_aufn_datum
-            
-            if ($result == "") {
-                continue;
-            }
-            if (substr($result,0,5) == 'Err: ' ) {
-                continue;
-            }
-            $neu["md_dsn_".$i+1] = $result;
-            
-            $i++;
-        }
-    }
+if ($neu['bild_datei_1'] != ""){
+    $neu['md_dsn_1'] = $neu['bild_datei_1'];
 }
 
 /** setzen der Medien-Art */
@@ -139,7 +120,7 @@ if ($md_id == 0) { # Neueingabe
     if ($debug) {
         echo '<pre class=debug> L 0121: \$sql $sql </pre>';
     }
-
+# var_dump($sql);
     # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
@@ -147,7 +128,7 @@ if ($md_id == 0) { # Neueingabe
 }
 
 VF_Add_Namen($tabelle, # Einfügen der Schalgworte
-            $recnr, 'md_id', $neu['md_namen']); # für Referat
+    $recnr, 'md_id', $neu['md_namen'], $neu['md_eigner']); # für Referat
 
 VF_Add_Findbuch($tabelle,$neu['md_suchbegr'], 'md_suchbegr', $recnr,  $neu['md_eigner']);
 

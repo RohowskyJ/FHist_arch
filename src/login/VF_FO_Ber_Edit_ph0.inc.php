@@ -73,7 +73,7 @@ echo "<input type='hidden' id='eigner' value=''>";
     ?>
    
     <!-- Bereich für die diversen Ausgaben von js  -->
-   // <input type="hidden" id="bild-datei-auswahl" name="bilder_datei" value="" />
+    <input type="hidden" id="bild-datei-auswahl" name="bilder_datei" value="" />
     
 
     <div id="bild-vorschau-auswahl"></div>
@@ -114,11 +114,9 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='button'  style='visibility:visible;' onclick='startAnal()'>Daten abspeichern</button>";
 }
 
-echo "<script src='" . $path2ROOT . "login/common/javascript/VS_SelFotoLibs.js' ></script>";
+echo "<script src='" . $path2ROOT . "login/common/javascript/VF_SelFotoLibs.js' ></script>";
 
 echo "<p><a href='VF_FO_Ber_List.php?Act=" . $_SESSION[$module][$sub_mod]['Act'] . "'>Zurück zur Liste</a></p>";
-
-
 
 # =========================================================================================================
 if ($debug) {

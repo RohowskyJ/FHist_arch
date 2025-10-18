@@ -211,14 +211,12 @@ Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 
 # =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    # $button_f = " &nbsp; &nbsp; &nbsp; <button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
-    # $button_f = " &nbsp; &nbsp; &nbsp; <button id='toggleButton_M' class='button-sm'>Foto Daten eingeben/ändern</button>";
-    $button_f = "<label><input type='checkbox' id='toggleGroup1' > Foto Daten eingeben/ändern </label>"; # $checked = 'checked';
-    
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
 }
+// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
 Edit_Separator_Zeile('Fotos',$button_f);  #
 # =========================================================================================================
 /*

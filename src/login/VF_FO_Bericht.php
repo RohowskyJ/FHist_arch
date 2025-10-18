@@ -78,12 +78,14 @@ echo "<framearea>";
 # ------------------------------------------------------------------------------------------------------------
 
 $sql_b = "SELECT * FROM vb_bericht_4 WHERE vb_flnr=$vb_flnr "; #
+# echo "L 081 sql $sql_b <br>";
 $return_b = SQL_QUERY($db, $sql_b);
 $row_b = mysqli_fetch_assoc($return_b);
+# var_dump($row_b);
 modifyrow($row_b, 'vb_bericht_4' );
 
 $unter = $row_b['vb_unterseiten'];
-# echo "L 094  vb_unter $vb_unter <br>";
+# echo "L 088  vb_unter $vb_unter <br>";
 
 /**
  * einlesen der Bilddaten
@@ -99,7 +101,8 @@ WHILE ($row_d = mysqli_fetch_assoc($return_d)) {
     $fo_dsarr = explode('-',$row_d['vd_foto']);
     $urh = $fo_dsarr[0];
     $sql_fot = "SELECT * FROM dm_edien_$urh WHERE md_dsn_1='$row_d[vd_foto]' ";
-    
+    $sql_b = "SELECT * FROM vb_bericht_4 WHERE vb_flnr=$vb_flnr "; #
+    # echo "L 0104 sql $sql_fot <br>";
     $return_fot = SQL_QUERY($db, $sql_fot);
     $recno = mysqli_num_rows($return_fot);
     $row_fot = mysqli_fetch_assoc($return_fot);

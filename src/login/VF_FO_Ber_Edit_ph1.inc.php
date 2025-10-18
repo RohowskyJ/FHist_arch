@@ -7,7 +7,8 @@
  *
  */
 if ($debug) {echo "<pre class=debug>VF_BE_Edit_ph1.inc.php ist gestartet</pre>";}
-
+var_dump($_POST);
+var_dump($neu);
 # =====================================================================================================
 # Datensatz in der Tabelle ändern
 # =====================================================================================================
@@ -23,6 +24,7 @@ if ($neu['vb_flnr'] == 0) {
                         '$neu[vb_datum]','$neu[vb_unterseiten]','$neu[vb_titel]','$neu[vb_beschreibung]','$neu[vb_foto]','$neu[vb_fzg_beschr]'
                         ,'$p_uid'             
                        ) ";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 022 $sql</pre>";
     $result = SQL_QUERY($db, $sql);
     $vb_flnr = mysqli_insert_id($db);
     #console_log("neuer Recno ".$neu['vb_flnr']);
@@ -44,6 +46,7 @@ if ($neu['vb_flnr'] == 0) {
             $u_arr = explode('-',$d_arr[2]);
             $urh = $u_arr[0];
             $sql_fo = "UPDATE dm_edien_$urh SET md_beschreibg='$d_arr[3]' WHERE md_dsn_1='$d_arr[2]'  ";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 048 $sql</pre>";
             $ret = SQL_QUERY($db,$sql_fo);
         }
     }
@@ -76,7 +79,7 @@ if ($neu['vb_flnr'] == 0) {
         echo '<pre class=debug> L 0197: \$sql $sql </pre>';
     }
 
-    #echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 092 $sql</pre>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 080 $sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
     foreach ($neu as $key => $data) {
@@ -88,11 +91,13 @@ if ($neu['vb_flnr'] == 0) {
                 $sql = "INSERT INTO vb_ber_detail_4 (vb_flnr,vd_unter,vd_suffix,vd_foto,vd_beschreibung,vd_titel,vd_uid
                          ) VALUE ( '$vb_flnr','$d_arr[0]','$d_arr[1]','$d_arr[2]','$d_arr[3]','$d_arr[4]','$p_uid')";
             }
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 094 $sql</pre>";
             $result = SQL_QUERY($db, $sql);
             // fotodatei kommentar updaten foto d_arr[2] kommentar d_arr[3]
             $u_arr = explode('-',$d_arr[2]);
             $urh = $u_arr[0];
             $sql_fo = "UPDATE dm_edien_$urh SET md_beschreibg='$d_arr[3]' WHERE md_dsn_1='$d_arr[2]'  ";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 0100 $sql</pre>";
             $ret = SQL_QUERY($db,$sql_fo);
             
         }

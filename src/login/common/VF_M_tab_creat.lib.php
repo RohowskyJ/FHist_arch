@@ -175,7 +175,7 @@ function Cr_n_ma_geraet($tabelle)
   `ge_raum` varchar(60) NULL  COMMENT 'in Raum',
   `ge_ort` varchar(60) NULL  COMMENT 'Aufbewahrungs- Ort',
   `ge_zustand` varchar(2) NULL  COMMENT 'Zustand',
-  `ge_pruef_id` varchar(10) NULL  COMMENT 'von wem gepr�ft',
+  `ge_pruef_id` varchar(10) NULL  COMMENT 'von wem geprüft',
   `ge_pruef_dat` varchar(10) NULL  COMMENT 'Prüfung am',
   `ge_aenduid` varchar(10) NULL  COMMENT 'letzter Änderer',
   `ge_aenddat` timestamp NULL   COMMENT 'letzte Änderung' DEFAULT current_timestamp() ON UPDATE current_timestamp(),

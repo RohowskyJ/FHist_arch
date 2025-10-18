@@ -11,7 +11,7 @@ if ($debug) {
 }
 
 $Inc_Arr[] = "VF_FO_Edit_ph0.inc.php";
-
+# var_dump($neu);
 if ($neu['md_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
@@ -23,7 +23,7 @@ if (!isset($neu['sa_name'])) { /** initialisierung falls noch nicht existent */
 }
 
 echo "<input type='hidden' name='md_id' value='" . $neu['md_id'] . "'/>";
-echo "<input type='hidden' name='md_eigner' value='" . $neu['md_eigner'] . "'/>";
+echo "<input type='hidden' id='urhNr' name='md_eigner' value='" . $neu['md_eigner'] . "'/>";
 echo "<input type='hidden' name='md_media' value='" . $neu['md_media'] . "'/>";
 echo "<input type='hidden' name='md_Urheber' value='" . $neu['md_Urheber'] . "'/>";
 echo "<input type='hidden' name='md_aenduid' value='" . $neu['md_aenduid'] . "'/>";
@@ -47,7 +47,7 @@ Edit_textarea_Feld(Prefix . 'md_namen', 'Namen der Personen am Bild', "rows='2' 
 
 Edit_textarea_Feld(Prefix . 'md_suchbegr', 'Suchbegriffe', "rows='2' cols='50'");
 
-echo "<input type='hidden' name='md_aufn_datum' value='" . $neu['md_aufn_datum'] . "'/>";
+echo "<input type='hidden' id='aufnDat_1' name='md_aufn_datum' value='" . $neu['md_aufn_datum'] . "'/>";
 echo "<input type='hidden' name='md_dsn_1' value='" . $neu['md_dsn_1'] . "'/>";
 echo "<input type='hidden' name='verz' value='" . $verz . "'/>";
 
@@ -60,11 +60,12 @@ Edit_Daten_Feld('md_Urheber', 60, 'Verfüger');
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='500000' />";
 
 # =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+   $checked_f = 'checked';
 }
+// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
 Edit_Separator_Zeile('Fotos'.$button_f);
 # =========================================================================================================
 echo "<div>";
@@ -80,13 +81,14 @@ while ($i <= $num_foto) {
 }
 
 VF_Upload_Form_M();
+
 echo "</div>";
 
 # =========================================================================================================
 $button = "";
 if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
+    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
 }
 Edit_Separator_Zeile('Sammlung'.$button);
 # =========================================================================================================
@@ -101,7 +103,8 @@ Edit_Daten_Feld('sa_name');
 if ($hide_area == 0 || mb_strlen($neu['md_sammlg']) <= 4) {
     echo "<div>";
 } else {
-    echo "<div id='unhide_sa' style='display:none'>";
+    echo "<div class='block-container' >";
+    echo "<div class='toggle-block' id='block10'>";
 }
 # =========================================================================================================
 
@@ -111,7 +114,7 @@ if ($hide_area == 0 || mb_strlen($neu['md_sammlg']) <= 4) {
  * Benötigt jquery
  *
  *
- * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
+ * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Daten kommen aus Tabellen) [Werte array(Key=>txt)]
  * @var string $MS_Lvl Anzahl der gewüschten Ebenen - 2 nur eine 2.Ebene ... bis 6 Ebenen
  * @var string $MS_Opt Name der Options- Datei, die die Werte für die weiteren Ebenen liefert
  *
@@ -138,13 +141,14 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val,$titel);
 
-echo "</div>";
+echo "</div>"; # ende toggle
+echo "</div>"; # ende dropdown Sammlung
 
 if ($hide_area == 0) {  //toggle??
     $button = "";
 } else {
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_fe')\">zum anzeigen/ändern klicken!</button>";
+    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock80' > zum anzeigen/ändern anklicken</label> ";
 }
 
 # $Edit_Funcs_Protect = true;
@@ -152,13 +156,16 @@ Edit_Daten_Feld('md_fw_id',10,'','',$button);
 $Edit_Funcs_Protect = false;
 echo $button;
 if ($hide_area == 0) {
-    echo "<div>"; 
+    echo "<div>";
 } else {
-    echo "<div id='unhide_fe' style='display:none'>";
+    echo "<div class='block-container' >";
+    echo "<div class='toggle-block' id='block80'>";
 }
 
 VF_Auto_Eigent('E','',1);
-echo "</div>";
+
+echo "</div>"; # ende toggle
+echo "</div>"; # ende hide Eigner
 
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');
@@ -166,6 +173,7 @@ Edit_Separator_Zeile('Letzte Änderung');
 
 Edit_Daten_Feld('md_aenduid');
 Edit_Daten_Feld('md_aenddat');
+
 # =========================================================================================================
 Edit_Tabellen_Trailer();
 
@@ -175,6 +183,8 @@ if ($_SESSION[$module]['all_upd']) {
 }
 
 echo "<p><a href='VF_FO_List_Detail.php?md_aufn_d=" . $neu['md_aufn_datum'] . "'>Zurück zur Liste</a></p>";
+
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 

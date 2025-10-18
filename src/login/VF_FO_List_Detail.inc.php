@@ -16,7 +16,7 @@ $urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
 $md_aufn_d = $_SESSION[$module]['md_aufn_d'];
 $T_list_texte = array(
     "Alle" => "Alle Medien des Urhebers. ", 
-    "NeuItem" => "<a href='VF_FO_Edit.php?fo_id=0&verz=N&md_aufn_d=$md_aufn_d' > Neues Medium anlegen </a>"
+    "NeuItem" => "<a href='VF_FO_Edit.php?md_id=0&verz=N&md_aufn_d=$md_aufn_d' > Neues Medium anlegen </a>"
 );
 
 # ===========================================================================================================

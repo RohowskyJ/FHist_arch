@@ -17,8 +17,8 @@ ini_set("log_errors", 1);
 ini_set("error_log", $VS_err_log);
 error_log( "Hello, errors!" );
 */ 
-$VS_debug_log = false;
-
+$debug_log = false;
+$VS_debug_log = "VF_SelPictLib_Debug.log.txt";
 if ($debug_log) {
     file_put_contents($VS_debug_log, "SF_SelPictLib.API L 007 " . PHP_EOL, FILE_APPEND);
 }
@@ -30,11 +30,13 @@ $eintragen = Date("Y-m-d H:i:s") . "\n";
 $sammlg = $_POST['sammlg'] ?? '';
 $eigner = $_POST['eigner'] ?? '';
 $aufndat = $_POST['aufnDat'] ?? '';
+$berID    = $_POST['berID'] ?? '0';
 
 /**  Test- Parms für direkt- Aufruf 
   $sammlg = "Ma_F-L";
   $eigner = "21"; #"Wiener Neudorf";
   $aufndat = '20250504';
+  $berID    = '1';
 */
 
 // Dateien
@@ -109,71 +111,107 @@ $database = "";
         $eintragen .= "sammlg $sammlg \n";
         $eintragen .= "eigner $eigner  \n";
         $eintragen .= "aufndat $aufndat\n";
+        $eintragen .= "berPhase $berPhase\n";
+        $eintragen .= "Ber- Nr $berID\n";
         file_put_contents($VS_debug_log, "L 0113 $eintragen" . PHP_EOL, FILE_APPEND);
     }
-    
-    $ar_arr = $dm_arr = $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr =  $zt_arr = array();
-    $tables_act = VF_tableExist();          // Array der existierenden Tabellen
-    # var_dump($dm_arr);
-    $where = "";
-    $bilder = array();
-    $anz_bilder = 0;
-    foreach ($dm_arr as $dsn => $drop) {
-        if ($dsn == 'dm_edien_') {
-            continue;
-        }
-  
-        if ($aufndat != "") {
-            $where = " WHERE md_aufn_datum = '$aufndat' ";
-        } else {
-            $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_fw_id LIKE '%$eigner%' ";
-        }
-        
-        $sql = "SELECT * FROM $dsn $where ";
-        
-        file_put_contents($VS_debug_log, "L 0135 sql $sql " . PHP_EOL, FILE_APPEND);
-        
-        $return = SQL_QUERY($db, $sql);
-        if (mysqli_num_rows($return) === 0) {
-            if (strlen($sammlg) > 4 ) {
-                $s_samm = substr($sammlg,0,4);
-                $sql = "SELECT * FROM $dsn WHERE  md_fw_id LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND
-                $return = SQL_QUERY($db,$sql);
+    $used_arr = array();
+    if ($berPhase == 'addNew') { // Einlesen der Bilder, die bereits benutzt werden
+        $sql_usd = "SELECT  vd_foto FROM vb_ber_detail_4 WHERE vb_flnr='$berID' ";
+        $res_usd = SQL_QUERY($db,$sql_usd);
+        if ($res_usd ) {
+            WHILE ($row_usd = mysqli_fetch_object($res_usd)) {
+                $used_arr[] = $row_usd->vd_foto;
             }
         }
-        while ($row = mysqli_fetch_object($return)) {
-            # print_r($row);echo "<br>";
-            if ($row->md_dsn_1 == "") {
+        # var_dump($used_arr);
+    }
+    
+        $ar_arr = $dm_arr = $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr =  $zt_arr = array();
+        $tables_act = VF_tableExist();          // Array der existierenden Tabellen
+        # var_dump($dm_arr);
+        $where = "";
+        $bilder = array();
+        $anz_bilder = 0;
+        foreach ($dm_arr as $dsn => $drop) {
+            if ($dsn == 'dm_edien_') {
                 continue;
             }
             
-            $eintragen = "$sammlg  row $row->md_dsn_1 \n";
-            file_put_contents($VS_debug_log, "L 0152 $eintragen" . PHP_EOL, FILE_APPEND);
-            
-            $p_arr = pathinfo($row->md_dsn_1);
-            $subsg = "";
-            if (in_array(strtolower($p_arr['extension']), GrafFiles)) {
-                $subsg = "06";
-            }
-            $sdir = "";
-            if ($row->md_aufn_datum != "") {
-                $sdir  = $row->md_aufn_datum."/";
-            }
-            if ($debug_log) {
-                $eintragen .= "sammlg $sammlg \n";
-                $eintragen .= "feuerwehr $eigner  \n";
-                $eintragen .= "Foto $row->md_dsn_1 \n";
-                file_put_contents($VS_debug_log, "L 0167 $eintragen" . PHP_EOL, FILE_APPEND);
+            if ($aufndat != "") {
+                $where = " WHERE md_aufn_datum = '$aufndat' ";
+            } else {
+                $where = " WHERE md_sammlg LIKE '%$sammlg%'  AND  md_fw_id LIKE '%$eigner%' ";
             }
             
-            $response['files'][] = [
-                'dateiname' => $row->md_dsn_1, 
-                'pfad' => "AOrd_Verz/$row->md_eigner/09/$subsg/$sdir$row->md_dsn_1",
-                'beschreibung' => $row->md_beschreibg
-            ];
+            $sql = "SELECT * FROM $dsn $where ";
+            
+            file_put_contents($VS_debug_log, "L 0135 sql $sql " . PHP_EOL, FILE_APPEND);
+            
+            $return = SQL_QUERY($db, $sql);
+            if (mysqli_num_rows($return) === 0) {
+                if (strlen($sammlg) > 4 ) {
+                    $s_samm = substr($sammlg,0,4);
+                    $sql = "SELECT * FROM $dsn WHERE  md_fw_id LIKE '%$eigner%'  "; // md_sammlg like '%s_samm%' AND
+                    $return = SQL_QUERY($db,$sql);
+                }
+            }
+            while ($row = mysqli_fetch_object($return)) {
+                # print_r($row);echo "<br>";
+                if ($row->md_dsn_1 == "") {
+                    continue;
+                }
+                
+                $eintragen = "$sammlg  row $row->md_dsn_1 \n";
+                file_put_contents($VS_debug_log, "L 0152 $eintragen" . PHP_EOL, FILE_APPEND);
+                
+                $p_arr = pathinfo($row->md_dsn_1);
+                $subsg = "";
+                if (in_array(strtolower($p_arr['extension']), GrafFiles)) {
+                    $subsg = "06";
+                }
+                $sdir = "";
+                if ($row->md_aufn_datum != "") {
+                    $sdir  = $row->md_aufn_datum."/";
+                }
+                $foto = $row->md_dsn_1;
+                $flnr = 0;
+                $page  = 0;
+                $pos = 0;
+                $titel = '';
+                $beschreibg = '';
+                if ($berID > 0) {
+                    
+                    $sql_upd = "SELECT * FROM vb_ber_detail_4 WHERE vb_flnr='$berID' AND vd_foto = '$foto' " ;
+                    $res_upd =  SQL_QUERY($db,$sql_upd);
+                    if ($res_upd) {
+                        $num_recs = mysqli_num_rows($res_upd);
+                        WHILE ($row_upd = mysqli_fetch_object($res_upd)) {
+                            $flnr = $row_upd->vd_flnr;
+                            $page = $row_upd->vd_unter;
+                            $pos = $row_upd->vd_suffix;
+                            $titel = $row_upd->vd_titel;
+                            $beschreibg = $row_upd->vd_beschreibung;
+                        }
+                    }
+                    if ($beschreibg == '') {
+                        $beschreibg = $row->md_beschreibg;
+                    }
+                }
+                
+                $response['files'][] = [
+                    'flNr' => $flnr,
+                    'page' => $page,
+                    'pos' => $pos,
+                    'titel' => $titel,
+                    'dateiname' => $row->md_dsn_1,
+                    'pfad' => "AOrd_Verz/$row->md_eigner/09/$subsg/$sdir$row->md_dsn_1",
+                    'beschreibung' => $row->md_beschreibg
+                ];
+            }
         }
         # var_dump($bilder);
-    }
+   
     if ($debug_log) {
         file_put_contents($VS_debug_log, "L 0178 ".json_encode($response) . PHP_EOL, FILE_APPEND);
     }

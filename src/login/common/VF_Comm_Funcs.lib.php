@@ -155,7 +155,7 @@ function VF_Add_Findbuch($table, $keywords, $fld, $fdid, $eigner)
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  *
  */
-function VF_Add_Namen($table, $recordnr, $feldnam, $names) # für Referat
+function VF_Add_Namen($table, $recordnr, $feldnam, $names,$eigner) # für Referat
 {
     global $debug, $db, $neu, $module, $flow_list;
     if ($debug) {
@@ -181,7 +181,7 @@ function VF_Add_Namen($table, $recordnr, $feldnam, $names) # für Referat
             $sql_fb = "INSERT INTO `fh_find_namen` (`na_table`, `na_fldname`,
                  `na_fdid`, `na_name`, `na_eigner`
                  ) VALUES
-         ('$table','$feldnam','$recordnr','$value','" . $_SESSION['Eigner']['eig_eigner'] . "'
+         ('$table','$feldnam','$recordnr','$value','$eigner'
                  )";
             $return_fb = SQL_QUERY($db, $sql_fb);
         }
@@ -1696,7 +1696,7 @@ function VF_Upload_M($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
             } else {
                 $target = $fn_arr['basename'];
             }
-            echo "L 01784 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+            echo "L 01699 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
             # var_dump($_FILES[$fdsn]);
             if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
                 # var_dump($_FILES[$fdsn]);
@@ -2306,7 +2306,7 @@ function VF_Upload_Form_M()
   <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
 
     <?php
-    echo "<input type='text' id='berPhase' value='init' >";
+    // ?? echo "<input type='text' id='berPhase' value='init' >";
     echo "<input type='hidden' name='pic_cnt' value='$pic_cnt' >";
     for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
@@ -2536,7 +2536,7 @@ function startAjax(biNr) {
     console.log('Eigner ',eigner);
     console.log('AufnDatum ',aufnDat);
 
-    // Level-Filter (hast du ggf. in deiner Seite)
+    // Level-Filter (hast du ggf. in deiner Seite);
     var level1 = $('#level1').val() || '';
     var level2 = $('#level2').val() || '';
     var level3 = $('#level3').val() || '';
@@ -2730,29 +2730,33 @@ console.log('selFile length ',selectedFiles.length);
         // Collect additional data
         const aufnDat = $('#aufnDat_' + j).val() || ''; 
         const urhEinfg = $('#urhEinfgJa_' + j).val() || 'N';
-        
-        let urhNr = $('#eigentuemer_' + j).val() || '';
-        //if (urhNr === "" ) {urhNr = $('#urhNr'}.val() ;}
+        let urhNr = $('#urhNr').val() || '';
+        let eigentuemer = $('#eigentuemer_' + j).val() || '';
+        if (urhNr === "" ) {urhNr = $('#urhNr').val() ;}
         const urhName = $('#urhName').val() || '';
         const reSize = $('#reSize').val() || '800'; // Default size
         const aord = $('#aord_' + j).val() || '';
         const eigner = $('#eigner_' + j).val() || '';
         let rotation = 0;
         console.log('urhNr ',urhNr );
-        console.log('Eigentuemer ',$('#eigentuemer_' + j).val());
+        // console.log('eigentuemer ',$('#eigentuemer_' + j).val());
         // Validate required fields
-        if (urhNr === '') {
-            $('#eigentuemer_' + j).addClass('input-error');
-            $('#eigentuemer_' + j).next('.error-msg').text('Pflichtfeld!').show();
-            hasError = true;
+        if (urhNr === '' || urhNr === 'undefined') {
+            // $('#eigentuemer_' + j).addClass('input-error');
+            // $('#eigentuemer_' + j).next('.error-msg').text('Pflichtfeld!').show();
+            // hasError = true;
+            if (eigentuemer != '') {
+               urhNr = eigentuemer;
+            }
         }
+        /*
         if (aufnDat === '') {
             $('#aufnDat_' + j).addClass('input-error');
             $('#aufnDat_' + j).next('.error-msg').text('Pflichtfeld!').show();
             hasError = true;
         }
-        console.log('has error ',hasError);
-       
+        console.log('aufnDat has error ',hasError);
+       */
         if (hasError) {
             return;
         }

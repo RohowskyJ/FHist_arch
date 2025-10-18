@@ -32,6 +32,7 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Upload.lib.php';
 
 $flow_list = false;
 
@@ -103,8 +104,8 @@ if ($phase == 0) {
 
     if ($_SESSION[$module]['md_id'] == 0) {
 
-        $md_eigner = $_SESSION['Eigner']['eig_eigner'];
-        $md_urheber = $_SESSION['Eigner']['eig_urhname'];
+        $md_eigner = $_SESSION[$module][$sub_mod]['eig_eigner'];
+        $md_urheber = $_SESSION[$module][$sub_mod]['eig_urhname'];
 
         $pict_path = "../login/AOrd_Verz/" . $md_eigner . "/09/"; # 06/";
 

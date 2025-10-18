@@ -40,7 +40,7 @@ $Tabellen_Spalten = array(
 );
 $Tabellen_Spalten_COMMENT['fo_basepath'] = "Pfad zu den Fotos";
 
-$Tabellen_Spalten_style['md_eigner'] = $Tabellen_Spalten_style['md_id'] = $Tabellen_Spalten_style['fz_baujahr'] = 'text-align:center;';
+$Tabellen_Spalten_style['md_eigner'] = $Tabellen_Spalten_style['md_id'] = 'text-align:center;';
 
 $return = Cr_n_Medien_Daten($tabelle);
 if ($return != True) {

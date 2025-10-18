@@ -135,77 +135,74 @@ function modifyRow(array &$row, $tabelle)
 */
         case "dm_edien":
             $md_id = $row['md_id'];
-            console_log("L0145 $md_id");
+            console_log("L0138 $md_id");
             $row['md_id'] = "<a href='VF_FO_Edit.php?md_id=$md_id&md_eigner=" . $row['md_eigner'] . "&verz=N' >" . $md_id . "</a>";
-            if ($row['md_dsn_1'] == "") {
-                console_log("L 0148 ".$row['md_aufn_datum']);
+            if ($row['md_dsn_1'] == "") {   
+                console_log("L 0141 ".$row['md_aufn_datum']);
                 $_SESSION[$module]['md_aufn_d'] = $row['md_aufn_datum'];
             }           
-            /*
-             * if ($row['fo_dsn'] != "") {
-             * $dsn = $row['fo_dsn'];
-             * $d_path = $pict_path.$row['fo_aufn_datum']."/";
-             *
-             * $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
-             * }
-             */
-
-            $row['md_media'] = $VF_Foto_Video[$row['md_media']];
-            if ($row['md_dsn_1'] != "") {
-
-                $dsn = $row['md_dsn_1'];
-
-                $bn_arr = pathinfo($dsn);
+            
+            if ($row['md_dsn_1'] == '' ) {
+                $row['md_dsn_1'] = "Kein Medium eingegeben - bitte eingeben.";
+            } else {
+                $row['md_media'] = $VF_Foto_Video[$row['md_media']];
+                if ($row['md_dsn_1'] != "") {
+                    
+                    $dsn = $row['md_dsn_1'];
+                    
+                    $bn_arr = pathinfo($dsn);
+                    
+                    $ext = "";
+                    
+                    if (in_array(strtolower($bn_arr['extension']),AudioFiles)) {
+                        $ext = "Audio";
+                    }
+                    if (in_array(strtolower($bn_arr['extension']),GrafFiles)) {
+                        $ext = "Graf";
+                    }
+                    if (in_array(strtolower($bn_arr['extension']),VideoFiles)) {
+                        $ext = "Video";
+                    }
+                    
+                    if ($ext == "Audio") {
+                        $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/02/";
+                        
+                        
+                    } elseif ($ext == "Graf") {
+                        $md_d_spl = explode("-", $dsn);
+                        $cnt_f_d = count($md_d_spl);
+                        
+                        $file_arr = explode("-", $dsn);
+                        
+                        $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/06/";
+                        
+                        $d_path = $pict_path . $row['md_aufn_datum'] ."/" ;
+                        
+                        
+                        $Urh_anz = "Urheber: " . $row['md_Urheber'];
+                        # $row['fo_dsn'] = "<a href='VF_O_FO_Detail.php?eig=" . $row['fo_eigner'] . "&id=$fo_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a><br>" . $_SESSION[$module]['URHEBER']['fm_beschreibg'] . "<br>" . $d_path . $dsn;
+                        $row['md_dsn_1'] = "<a href='VF_FO_Detail.php?eig=" . $row['md_eigner'] . "&id=$md_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' width='250' ></a><br>$Urh_anz<br>" . $d_path . $dsn;
+                        
+                        $begltext = $row['md_beschreibg'];
+                        # $row['fo_begltxt'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' >$begltext</a>";
+                        
+                        $row['md_namen'] .= "<br>" . $row['md_suchbegr'];
+                    } elseif ($ext == "Video") {
+                        $vi_d_spl = explode("-", $dsn);
+                        $cnt_f_d = count($vi_d_spl);
+                        
+                        $pict_path = "login/AOrd_Verz/" . $row['md_eigner'] . "/09/10/";
+                        $d_path = $pict_path . $row['md_aufn_datum'] . "/";
+                        
+                        $begltext = $row['md_beschreibg'];
+                        $row['md_beschreibg'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
+                        $row['md_dsn_1'] = "";
+                        #echo "L 0202 fo_begltxt " . $row['fo_begltxt'] . " <br>";
+                    }
+                }
                 
-                $ext = "";
-                
-                if (in_array(strtolower($bn_arr['extension']),AudioFiles)) {
-                    $ext = "Audio";
-                }
-                if (in_array(strtolower($bn_arr['extension']),GrafFiles)) {
-                    $ext = "Graf";
-                }
-                if (in_array(strtolower($bn_arr['extension']),VideoFiles)) {
-                    $ext = "Video";
-                }
-                
-                if ($ext == "Audio") {
-                    $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/02/";
-                    
-                    
-                } elseif ($ext == "Graf") {
-                    $md_d_spl = explode("-", $dsn);
-                    $cnt_f_d = count($md_d_spl);
-
-                    $file_arr = explode("-", $dsn);
-
-                    $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/06/";
-
-                    $d_path = $pict_path . $row['md_aufn_datum'] ."/" ;
-                    
-
-                    $Urh_anz = "Urheber: " . $row['md_Urheber'];
-                    # $row['fo_dsn'] = "<a href='VF_O_FO_Detail.php?eig=" . $row['fo_eigner'] . "&id=$fo_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a><br>" . $_SESSION[$module]['URHEBER']['fm_beschreibg'] . "<br>" . $d_path . $dsn;
-                    $row['md_dsn_1'] = "<a href='VF_FO_Detail.php?eig=" . $row['md_eigner'] . "&id=$md_id' target='_blank'><img src='$d_path$dsn' alt='$dsn' width='250' ></a><br>$Urh_anz<br>" . $d_path . $dsn;
-
-                    $begltext = $row['md_beschreibg'];
-                    # $row['fo_begltxt'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' >$begltext</a>";
-                    
-                    $row['md_namen'] .= "<br>" . $row['md_suchbegr'];
-                } elseif ($ext == "Video") {
-                    $vi_d_spl = explode("-", $dsn);
-                    $cnt_f_d = count($vi_d_spl);
-               
-                    $pict_path = "login/AOrd_Verz/" . $row['md_eigner'] . "/09/10/";
-                    $d_path = $pict_path . $row['md_aufn_datum'] . "/";
- 
-                    $begltext = $row['md_beschreibg'];
-                    $row['md_beschreibg'] = "<a href='www.feuerwehrhistoriker.at/$pict_path$dsn' target='_blank'>$begltext</a>";
-                    $row['md_dsn_1'] = "";
-                    #echo "L 0202 fo_begltxt " . $row['fo_begltxt'] . " <br>";
-                }
             }
-
+            
             $md_aufn_datum = $row['md_aufn_datum'];
 
             break;

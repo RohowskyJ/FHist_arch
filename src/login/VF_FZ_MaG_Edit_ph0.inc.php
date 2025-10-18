@@ -36,7 +36,7 @@ Edit_Daten_Feld('ge_eignr');
 $button = "";
 if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
+    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
 }
 
 Edit_Separator_Zeile('Sammlung'.$button);
@@ -51,7 +51,8 @@ $Edit_Funcs_Protect = false;
 if ($hide_area == 0) {
     echo "<div>";
 } else {
-    echo "<div id='unhide_sa' style='display:none'>";
+    echo "<div class='block-container' >";
+    echo "<div class='toggle-block' id='block10'>";
 }
 /**
  * Parameter für den Aufruf von Multi-Dropdown
@@ -93,8 +94,8 @@ $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeig
 
 VF_Multi_Dropdown($in_val, $titel);
 
+echo "</div>"; # ende toggle
 echo "</div>"; # ende dropdown Sammlung
-
 
 # =========================================================================================================
 Edit_Separator_Zeile('Geräte- Beschreibung');
@@ -134,7 +135,7 @@ Edit_Select_Feld(Prefix . 'ge_zustand', VF_Zustand, '');
 $button_f = "";
 if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<button type='button' class='button-sm'  onclick='toggleAll()'>Foto Daten eingeben/ändern</button>";
+    $button_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' > Foto Daten eingeben/ändern </label>";
 }
 Edit_Separator_Zeile('Fotos'.$button_f);
 # =========================================================================================================
@@ -241,6 +242,8 @@ if ($_SESSION[$module]['all_upd']) {
 }
 
 echo "<p><a href='VF_FZ_MaFG_List.php'>Zurück zur Liste</a></p>"; # ?ID='.$_SESSION[$module]['fz_sammlung']
+
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 
