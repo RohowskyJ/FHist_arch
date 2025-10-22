@@ -81,5 +81,6 @@ else if (! empty($errM)) {
 					E-Mail-Adresse bei unserem Verein registriert.</font></span></b>
 	</p>
 
-<?php if ($debug) {echo "<pre class=debug>VF_M_yellow_ph0.inc.php beendet </pre>";} ?> 
-
+<?php 
+if ($debug) {echo "<pre class=debug>VF_M_yellow_ph0.inc.php beendet </pre>";} 
+?> 

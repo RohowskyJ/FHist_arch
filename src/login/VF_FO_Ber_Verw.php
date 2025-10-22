@@ -9,8 +9,7 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
 # const Tabellen_Name = 'fh_dokumente';
 
 /**
@@ -57,10 +56,6 @@ echo "Ab 2024.06 müssen die hochzuladenden Foto-Dateinamen das richtige Format 
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "Die Funktionen Massupload (Hochladen) und Tabellen- erstellen können zum Hochladen von kompleten Fotoserien benutzt werden.";
-echo "</div>"; // Ende der Ausgabe- Einheit Feld
-
-echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "<a href='VF_FO_List.php?sk=$sk' target='Foto'>Fotos, Videos </a>";
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
@@ -72,13 +67,13 @@ if ($_SESSION['VF_Prim']['p_uid'] == 1) {
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
     echo "Hier können die von Mitgliedern erstellten Fotos auf den Server je  Veranstaltung massenweise geladen und die erste Tabelleneintragung für die Fotos wird erstellt.
           Die bearbeiteten Fotos (Größenanpassung, Copyright Info) werden in dem dazu bestimmten Verzeichnis abgelegt.
-          Die Daten über die Veranstaltung werden erfasst. Die erstellung der Tabellen- Eintragungen erfolgt durch Aufruf der Foto- Funktionen. ";
-    echo "</div>"; // Ende der Ausgabe- Einheit Feld
-    
-    echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-    echo "<a href='VF_FO_MassUp.php?sk=$sk' target='Foto'> Massen- Upload (Fotos, Videos)</a>";
+          Die Daten über die Veranstaltung werden erfasst. ";
     echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
+    echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
+    # echo "<a href='VF_FO_Media_MassUp.php?sk=$sk&res_eign=1' target='Foto_Up'> Medien- Massen- Upload (Audio, Fotos, Videos)</a><br>";
+    echo "<a href='VF_C_MassUp.php?sk=$sk&typ=Medi' target='Upl_Fo'> Medien- Massen- Upload (Audio, Fotos, Videos)</a>";
+    echo "</div>"; // Ende der Ausgabe- Einheit Feld
 }
 
 Edit_Separator_Zeile('Berichte über Vereins- oder historisch interessante Ereignisse');
@@ -88,7 +83,7 @@ echo "Eingabe der Berichte - <b>muss noch erstellt werden</b>.";
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "<a href='VF_BE_List.php?sk=$sk&Act=1' target='Bericht'>Veranstaltungs- Berichte erstellen</a>";
+echo "<a href='VF_FO_Ber_List.php?sk=$sk&Act=1' target='Bericht'>Veranstaltungs- Berichte erstellen</a>";
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
 
 BA_HTML_trailer();

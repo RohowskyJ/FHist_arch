@@ -39,6 +39,22 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+$header = "
+     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
+         
+    <script>
+      tinymce.init({
+        selector: 'textarea#va_beschr',
+        menubar: 'edit format'
+         });
+    </script>
+";
+
+$jq = $jqui = true;
+$BA_AJA = true;
+
+BA_HTML_header('Veranstaltungs Definition', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 // ============================================================================================================
@@ -80,11 +96,11 @@ if ($phase == 0) {
     if ($va_id == "0") {
         $neu = array(
             "va_id" => 0,
-            "va_datum" => "",
-            "va_begzt" => "",
-            'va_dauer' => '',
-            'va_end_dat' => '',
-            "va_endzt" => "",
+            "va_datum" => "0000-00-00",
+            "va_begzt" => "00.´:00",
+            'va_dauer' => '0',
+            'va_end_dat' => '0000-00-00',
+            "va_endzt" => "00:00",
             "va_titel" => "",
             "va_beschr" => "",
             "va_kateg" => "",
@@ -101,12 +117,13 @@ if ($phase == 0) {
             "va_kontakt" => "",
             "va_umfang" => "",
             "va_link_einladung" => "",
-            'va_bild' => '',
-            'va_prosp_1' => '',
-            'va_prosp_2' => '',
+            'va_bild_1' => '',
+            'va_bild_2' => '',
+            'va_bild_3' => '',
+            'va_bild_4' => '',
             'va_internet' => '',
             'va_anm_text' => '',
-            'va_anmeld_end' => '',
+            'va_anmeld_end' => '0000-00-00',
             "va_raum" => "",
             "va_plaetze" => "0",
             "va_warte" => "0",
@@ -155,26 +172,13 @@ if ($phase == 1) // prüfe die Werte in array $neu <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                   // ============================================================================================================
 {
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
 }
 
 # ====================================================================================================
 # Anzeigen
 # ====================================================================================================
-
-$header = "
-     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
-         
-    <script>
-      tinymce.init({
-        selector: 'textarea#va_beschr',
-        menubar: 'edit format'
-         });
-    </script>
-";
-
-BA_HTML_header('Veranstaltungs Definition', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

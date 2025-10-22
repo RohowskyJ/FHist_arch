@@ -11,30 +11,31 @@ if ($debug) {
 }
 
 echo "<div class=white> ";
-
+var_dump($neu);
+# var_dump($_FILES);
 # =====================================================================================================
 # Datensatz in der Tabelle ändern
 # =====================================================================================================
 
-if (isset($_FILES['uploaddatei_1']['name'])) {
-    $cjahr = substr($neu['va_datum'], 0, 4);
-    $uploaddir = $path2ROOT . "/login/AOrd_Verz/Termine/" . $cjahr . "/";
+if ( $neu['bild_datei_1'] != '') {
+    $neu['va_bild_1'] =  $neu['bild_datei_1'];
+}
+if ( $neu['bild_datei_2'] != '') {
+    $neu['va_bild_2'] =  $neu['bild_datei_2'];
+}
+if ( $neu['bild_datei_3'] != '') {
+    $neu['va_bild_3'] =  $neu['bild_datei_3'];
+}
+if ( $neu['bild_datei_4'] != '') {
+    $neu['va_bild_4'] =  $neu['bild_datei_4'];
+}
+var_dump($neu);
+if ($neu['va_end_dat'] == '') {
+    $neu['va_end_dat'] =  $neu['va_datum'];   # '0000-00-00';
+}
 
-    # echo "L 072 \$uploaddir $uploaddir <br/>";
-    if (! file_exists($uploaddir)) {
-        mkdir($uploaddir, 0777, true);
-    }
-    
-    if ($_FILES['uploaddatei_1']['name'] != "" ) {
-        $neu['va_bild'] = VF_Upload($uploaddir, 1);
-    }
-    if ($_FILES['uploaddatei_2']['name'] != "" ) {
-        $neu['va_prosp_1'] = VF_Upload($uploaddir, 2);
-    }
-    if ($_FILES['uploaddatei_3']['name'] != "" ) {
-        $neu['va_prosp_2'] = VF_Upload($uploaddir, 3);
-    }
-
+if ($neu['va_anmeld_end'] == '') {
+    $neu['va_anmeld_end'] = '0000-00-00';
 }
 
 if ($neu['va_id'] == 0) { # Neueer Datensatz
@@ -44,7 +45,7 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
                        va_inst,va_adresse,
                        va_plz,va_ort,va_staat,va_bdld,va_beitrag_m,va_beitrag_g,
                        va_admin_email,va_kontakt,va_link_einladung,va_umfang,
-                       va_bild,va_prosp_1,va_prosp_2,va_internet,va_anm_text,va_raum,
+                       va_bild_1,va_bild_2,va_bild_3,va_bild_4,va_internet,va_anm_text,va_raum,
                        va_plaetze,va_warte,
                        va_anmeld_end,
                        va_angelegt,va_ang_uid
@@ -54,21 +55,20 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
                        '$neu[va_inst]','$neu[va_adresse]',
                        '$neu[va_plz]','$neu[va_ort]','$neu[va_staat]','$neu[va_bdld]','$neu[va_beitrag_m]','$neu[va_beitrag_g]',
                        '$neu[va_admin_email]','$neu[va_kontakt]','$neu[va_link_einladung]','$neu[va_umfang]',
-                       '$neu[va_bild]','$neu[va_prosp_1]','$neu[va_prosp_2]','$neu[va_internet]','$neu[va_anm_text]','$neu[va_raum]',
+                       '$neu[va_bild_1]','$neu[va_bild_2]]','$neu[va_bild_3]','$neu[va_bild_4]','$neu[va_internet]','$neu[va_anm_text]','$neu[va_raum]',
                        '$neu[va_plaetze]','$neu[va_warte]',
                        '$neu[va_anmeld_end]',
                        now(),' $p_uid'
                        ) ";
+    
     $return = SQL_QUERY($db, $sql);
 } else { # Update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
 
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     {
-        if (! preg_match("/[^0-9]/", $name)) {
-            continue;
-        } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+      
+        if (substr($name,0,3) != "va_") {
             continue;
         } #
         if ($name == "va_bild1") {
@@ -81,14 +81,20 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
             continue;
         } #
           #
-
+/*
+        if (! preg_match("/[^0-9]/", $name)) {
+            continue;
+        } # überspringe Numerische Feldnamen
+        if ($name == "MAX_FILE_SIZE") {
+            continue;
+        } #
         if ($name == "sammlg") {
             continue;
         } #
         if ($name == "phase") {
             continue;
         } #
-
+*/
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
@@ -105,7 +111,7 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
     $return = SQL_QUERY($db, $sql);
 }
 
-header("Location: VF_O_TE_List.php?Act=" . $_SESSION[$module]['Act'] . ">Zurück zur Liste</a></p>");
+header("Location: VF_O_TE_List.php?Act=" . $_SESSION[$module]['Act']);
 
 echo "</div>";
 

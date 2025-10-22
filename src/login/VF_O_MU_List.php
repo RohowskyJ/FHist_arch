@@ -36,6 +36,8 @@ $flow_list = False;
 $LinkDB_database = '';
 $db = LinkDB('VFH');
 
+BA_HTML_header('Museums- Daten- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 /**
@@ -187,7 +189,6 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
 # Haeder ausgeben
 # ===========================================================================================================
 
-BA_HTML_header('Museums- Daten- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<fieldset>";
 
@@ -289,7 +290,7 @@ switch ($T_List) {
         $orderBy = ' ORDER BY mu_id';
         break;
     default:
-        VFH_HTML_trailer();
+        BA_HTML_trailer();
         exit(); # wenn noch nix gewÃ¤hlt wurde >> beenden
 }
 

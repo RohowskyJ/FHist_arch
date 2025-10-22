@@ -13,71 +13,59 @@ if ($debug) {echo "<pre class=debug>VF_C_DS_2_ph1.inc.php ist gestarted</pre>";}
 $field_arr=$cont_arr= "";
 
 $form_cont = "";
-$k = -1;
+$k = 0;
 if (file_exists("$indata") ) {          // Eingegebene Datei existiert
     echo "Datei <b>$indata wurde gefunden.</b><br/>";
     echo "Einlesen des Inhaltes.<br/>";
     $phase = 2;
-    $i = $j = 0;
-    $handle = fopen("$indata","rt");
+   $l = $i = $j = 0;
+    $handle = @fopen("$indata","r");
     $table_name = $table_varfld = $table_fixfld = $table_vardata = "";
+    $fields = "";
     while (!feof($handle)) {
         $line = fgets($handle);
+       
+        echo "L 026 line $line <br>";
+        if ($line == "") {
+            break;
+        }
+        $l++;
         $lcont_arr = explode("|",$line);
         $linetype = "";
-        foreach($lcont_arr as $value) {
-            if ($value == "0") {    //kommentar
-                continue 2;
-            }
-            if ($value == "1") {    // Table name, fix valued Cols
-                $dsarr = explode("=",$lcont_arr[1]);
-                $table_name = $dsarr[1];
-                $table_fixfld = $lcont_arr[2];
-                echo "Daten für die Tabelle $table_name wird eingelesen.<br/>";
-                continue 2;
-            }
-            if ($value == "2" || $linetype == "2") {    //  Col Headers of variable Values
-                if ($value =="2") {
-                    $linetype = "2";
-                    $i = 0;
-                } else {
-                    $fldname = ltrim($value);
-                    $table_varfld[$i] = $fldname;
-                    $i++;
-                }
-            }
-            
-            if ($value == "D" || $linetype == "D") {    //  Col Content
-                if ($value == "D") {
-                    $linetype = "D";
-                    $i = 0;
-                    $k++;
-                } else {
-                    $fldcont = rtrim($value);
-                    $table_vardata[$k][$i] = $fldcont;
-                    $i++;
-                }
-            }
+        #var_dump($lcont_arr);
+        if ($l === 1){
+            $table_name = trim ($line);
+            echo "Daten für die Tabelle $table_name wird eingelesen.<br/>";
+            continue;
         }
+        $ds_arr = explode("|", $line);
+        #var_dump($ds_arr);
+        if ($l == 2) {
+            foreach ( $ds_arr as $fld) {
+                $fields .= $fld.",";
+            }
+            $fields = substr($fields,0,-1);
+            #var_dump($fields);
+        }
+        if ($l >= 3) {
+            $k++;
+            $content = "";
+            foreach ($ds_arr as $cont) {
+                $content .= "'$cont',";
+            }
+            #var_dump($content);
+            $content = substr($content,0,-1);
+            $sql = "INSERT INTO $table_name ($fields) VALUES ($content)";
+            echo  "L 059 sql $sql <br>";
+            $return = SQL_QUERY($db,$sql);
+
+        }
+        
     }
     
     fclose($handle);
     
-    foreach ( $table_vardata as $subt) {
-        $j=0;
-        $varfld = "";
-        foreach ($table_varfld as $fldname) {
-            if ($varfld == "") {
-                $varfld = "$fldname='$subt[$j]'";
-            } else {
-                $varfld .= ",$fldname='$subt[$j]'";
-            }
-            $j++;
-        }
-        $sql = "INSERT INTO `$table_name` SET $table_fixfld,$varfld  ";
-        $result = mysqli_query($connect,$sql) or die("Die Operation $sql konnte nicht durchgeführt werden. ".mysqli_error($connect));
-    }
-    mysqli_close($connect);
+    mysqli_close($db);
     echo "<h2>$k Datensätze wurden eingelesen.</h2>";
     
 } else {

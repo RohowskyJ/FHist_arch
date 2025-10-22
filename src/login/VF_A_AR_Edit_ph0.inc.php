@@ -6,7 +6,13 @@
  *
  */
 if ($debug) {echo "<pre class=debug>VF_A_AR_Edit_ph0.inc.php ist gestarted</pre>";}
-#  print_r($neu);echo "<br>L 009 neu <br>";
+ # var_dump($_POST);
+
+if ($neu['ad_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+}
 
 $inveignr = $neu['ad_eignr'];
 
@@ -119,42 +125,59 @@ echo "<input type='hidden' name='ad_aenddat' id='ad_aenddat' value='".$neu['ad_a
   $doc_1 = $doc_2 = $doc_3 = $doc_4 = "";
   if ($neu['ad_doc_1'] <> "") {
       $doc_1 = "<a href='$pict_path".$neu['ad_doc_1']."' target='Doc_1'>".$neu['ad_doc_1']."</a>";
+      echo "Dokument 1  " . "<a href='$pict_path".$neu['ad_doc_1']."' target='Doc_1'>".$neu['ad_doc_1']."</a>";
+  } else {
+      Edit_Upload_File('ad_doc_1'          # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
+          ,'1'    # Identifier bei mehreren uploads
+          ) ;
   }
+  echo "<br>";
   if ($neu['ad_doc_2'] <> "") {
-      $doc_2 = "<a href='$pict_path".$neu['ad_doc_2']."' target='Doc_2'>".$neu['ad_doc_2']."</a>";
+      echo "Dokument 2  " . "<a href='$pict_path".$neu['ad_doc_2']."' target='Doc_2'>".$neu['ad_doc_2']."</a>";
+  } else {
+      Edit_Upload_File('ad_doc_2'          # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
+          ,'2'    # Identifier bei mehreren uploads
+          ) ;
   }
+  echo "<br>";
   if ($neu['ad_doc_3'] <> "") {
-      $doc_3 = "<a href='$pict_path".$neu['ad_doc_3']."' target='Doc_3'>".$neu['ad_doc_3']."</a>";
+      echo "Dokument 3  " . "<a href='$pict_path".$neu['ad_doc_3']."' target='Doc_3'>".$neu['ad_doc_3']."</a>";
+  } else {
+      Edit_Upload_File('ad_doc_3'         # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
+          ,'3'    # Identifier bei mehreren uploads
+          ) ;
   }
+  echo "<br>";
   if ($neu['ad_doc_4'] <> "") {
-      $doc_4 = "<a href='$pict_path".$neu['ad_doc_4']."' target='Doc_4'>".$neu['ad_doc_4']."</a>";
-  } 
-  echo "$doc_1 ";
-  Edit_Upload_File('ad_doc_1'          # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
-      ,'1'    # Identifier bei mehreren uploads
-      ) ;
+      echo "Dokument 4  " . "<a href='$pict_path".$neu['ad_doc_4']."' target='Doc_4'>".$neu['ad_doc_4']."</a>";
+  } else {
+      Edit_Upload_File('ad_doc_4'          # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
+          ,'4'    # Identifier bei mehreren uploads
+          ) ; 
+  }
   echo "<br>";
-  echo "$doc_2 ";
-  Edit_Upload_File('ad_doc_2'          # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
-      ,'2'    # Identifier bei mehreren uploads
-      ) ;
-  echo "<br>";
-  echo "$doc_3";
-  Edit_Upload_File('ad_doc_3'         # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
-      ,'3'    # Identifier bei mehreren uploads
-      ) ;
-  echo "<br>";
-  echo "$doc_4";
+echo "</div>";
+ # Edit_Daten_Feld('ad_neueigner',100);
 
-  Edit_Upload_File('ad_doc_4'          # Array index Name in $neu[] und $Tabellen_Spalten_Titel[]
-      ,'4'    # Identifier bei mehreren uploads
-      ) ; 
-  
-  Edit_Daten_Feld('ad_neueigner');
   echo "<input type='hidden' name=''ad_neueigner' val='".$neu['ad_neueigner']."' >";
-  $tit_eig_leih = "Neuen Eigentümer";
-  VF_Eig_Ausw();
   
+  $button = "";
+  if ($hide_area != 0) {
+      // Der Button, der das toggling übernimmt
+      $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ne')\">zum ändern klicken!</button>";
+  }
+  
+  Edit_Daten_Feld('ad_neueigner',75,$button);
+
+  if ($hide_area == 0) {
+      echo "<div>";
+  } else {
+      echo "<div id='unhide_ne' style='display:none'>";
+  }
+  VF_Auto_Eigent('E','');
+
+  echo "</div>";
+
   # =========================================================================================================
   Edit_Separator_Zeile('Werte');
   # =========================================================================================================

@@ -12,21 +12,14 @@ if ($debug) {
 }
 
 foreach ($_POST as $name => $value) {
-    $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
 
-if (isset($_FILES['uploaddatei_1']['name'])) {
-    $uploaddir = "AOrd_Verz/Museen/";
-    # echo "L 072 \$uploaddir $uploaddir <br/>";
-    if (! file_exists($uploaddir)) {
-        mkdir($uploaddir, 0777, true);
-    }
-    if ($_FILES['uploaddatei_1']['name'] != "" ) {
-        $neu['mu_bildnam_1'] = VF_Upload($uploaddir, 1);
-    }
-    if ($_FILES['uploaddatei_2']['name'] != "" ) {
-        $neu['mu_bildnam_2'] = VF_Upload($uploaddir, 2);
-    }
+if ( $neu['bild_datei_1'] != '') {
+    $neu['mu_bildnam_1'] =  $neu['bild_datei_1'];
+}
+if ( $neu['bild_datei_2'] != '') {
+    $neu['mu_bildnam_2'] =  $neu['bild_datei_2'];
 }
 
 if ($debug) {
@@ -74,22 +67,10 @@ if ($mu_id == 0) { # neueingabe
     
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     {
-        if (! preg_match("/[^0-9]/", $name)) {
-            continue;
-        } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        if (substr($name,0,3) != "mu_") {
             continue;
         } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "mu_bildnam_11") {
-            continue;
-        }
-        if ($name == "mu_bildnam_22") {
-            continue;
-        }
-        
+   
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
     

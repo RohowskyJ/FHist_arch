@@ -110,7 +110,7 @@ if ($phase == 0) {
                 }
             }
 
-            VF_HTML_trailer();
+            BA_HTML_trailer();
             exit();
         }
         $neu = mysqli_fetch_array($result);
@@ -129,14 +129,14 @@ if ($phase == 1) {
     foreach ($_POST as $name => $value) {
         $neu[$name] = mysqli_real_escape_string($db, $value);
     }
-
+var_dump($_FILES);
     $neu['az_fw_id'] = $_SESSION[$module]['fw_id'];
 
     if (isset($_FILES['uploaddatei_1']['name'])) {
-        $uploaddir = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
+        $uploaddir = $path2ROOT."login/AOrd_Verz/AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
         
         if ($_FILES['uploaddatei_1']['name'] != "" ) {
-            $neu['az_bild_v'] = VF_Upload($uploaddir, 1);
+            $neu['az_bild_v'] = VF_Upload($uploaddir, 'uploaddatei_1');
         }
         if ($_FILES['uploaddatei_2']['name'] != "" ) {
             $neu['az_bild_r'] = VF_Upload($uploaddir, 2);

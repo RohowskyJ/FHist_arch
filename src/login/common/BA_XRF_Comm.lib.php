@@ -70,10 +70,10 @@ const TxtFiles = array(
  *            Dateiinformationen (Dateiame, Größe,letze Änderng, letzer Zugriff)
  */
 function XR_Htacc_Add($db, $V_Pfad, # der Pfad ab root
-$File, # zum hinzufügen
-$Stat) # Statistische File-Daten
-        #
-        // --------------------------------------------------------------------------------
+    $File, # zum hinzufügen
+    $Stat) # Statistische File-Daten
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Sachg_arr;
 
@@ -93,7 +93,7 @@ $Stat) # Statistische File-Daten
     $sql = "INSERT INTO $Table (H_Pfad,H_Acc_Name,H_H_L_Aend,H_H_L_Use,H_PW_Path,H_PW_Name,H_Sachgeb,H_PW_L_Aend,H_PW_L_Use,H_Aufruf_Sequ)
                     VALUES ('$V_Pfad','$File','$L_Acc_T','$L_Aend_T','','','$Sachgeb','','','')       ";
     # echo "<br/>L 059 \$return \$sql $sql <br/> ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
     # print_r($return); echo "<br/>L 060 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
 
     # print_r($return);
@@ -116,8 +116,8 @@ $Stat) # Statistische File-Daten
  *            Commentar Text aus der .htaccess Datei
  */
 function XR_Htacc_Upd($db, $D_Str, # Aufrufs -sequenz aus .htaccess
-$P_Str, # Name der htpasswd Datei
-$Sachgeb = "")
+    $P_Str, # Name der htpasswd Datei
+    $Sachgeb = "")
 #
 // --------------------------------------------------------------------------------
 {
@@ -141,7 +141,7 @@ $Sachgeb = "")
     $sql = "UPDATE $Table SET H_PW_Path='$D_PWPfad',H_PW_Name='$P_Str',H_Sachgeb='$Sachgeb',
                            H_PW_L_Aend='$L_Aend_T',H_PW_L_Use='$L_Acc_T',H_Aufruf_Sequ='$D_Str'
                            WHERE H_id = '$H_Id'  ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
     # echo "L 097 htacc_upd sql $sql <br>";
 }
 
@@ -160,10 +160,10 @@ $Sachgeb = "")
  *            Dateiinformationen (Name, Größe, ...)
  */
 function XR_Graf_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Status Info der Date
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Status Info der Date
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -177,7 +177,7 @@ $Stat) # Status Info der Date
 
     $sql = "INSERT INTO $Table (F_Dir,F_Name,F_Groesse,F_L_Aend,F_L_Use)
                     VALUES ('$V_Pfad','$File','$Size','$L_Acc_T','$L_Aend_T')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -195,10 +195,10 @@ $Stat) # Status Info der Date
  *            Dateiinformationen (Name,Größe, ..)
  */
 function XR_Script_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Status
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Status
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -213,7 +213,7 @@ $Stat) # Status
 
     $sql = "INSERT INTO $Table (F_Dir,F_Name,F_Groesse,F_L_Aend,F_L_Use)
                     VALUES ('$V_Pfad','$File','$Size','$L_Acc_T','$L_Aend_T')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -231,10 +231,10 @@ $Stat) # Status
  *            Datei Informationen
  */
 function XR_Text_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Status
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Status
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
@@ -245,7 +245,7 @@ $Stat) # Status
 
     $sql = "INSERT INTO $Table (F_Dir,F_Name,F_Groesse,F_L_Aend,F_L_Use)
                     VALUES ('$V_Pfad','$File','$Size','$L_Acc_T','$L_Aend_T')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -263,8 +263,8 @@ $Stat) # Status
  *            Anzahl der Verzeichnisse eingefügt
  */
 function XR_Dir_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-&$V_cnt)
+    $File, # Dateiname
+    &$V_cnt)
 #
 // --------------------------------------------------------------------------------
 {
@@ -281,14 +281,14 @@ $File, # Dateiname
     $Table = "doc_verzeichn_$Project";
 
     $sql = "SELECT * FROM doc_verzeichn_$Project WHERE V_Pfad='$V_Pfad' AND V_Name='$File'";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
     # print_r($return); echo "<br/>L 0477 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
     $numrows = mysqli_num_rows($return);
     if ($numrows == 0) {
         $sql = "INSERT INTO $Table (V_Pfad,V_Name)
                     VALUES ('$V_Pfad','$File')       ";
-        $return = XR_SQL_QUERY($db, $sql);
-        $V_cnt ++;
+        $return = SQL_QUERY($db, $sql);
+        $V_cnt++;
     }
 }
 
@@ -307,10 +307,10 @@ $File, # Dateiname
  *            Dateiinformatione
  */
 function XR_File_Add($db, $V_Pfad, # Pfad ab Root
-$File, # Dateiname
-$Stat) # Statistik der Datei
-        #
-        // --------------------------------------------------------------------------------
+    $File, # Dateiname
+    $Stat) # Statistik der Datei
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Projects;
     # print_r($Dir_Arr);
@@ -364,8 +364,8 @@ $Stat) # Statistik der Datei
  *            Record- Nummer
  */
 function XR_File_Ref_Add($db, $F_Id) # Datensat-Nummer
-                                      #
-                                      // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr;
     # print_r($Dir_Arr);
@@ -403,8 +403,8 @@ function XR_File_Ref_Add($db, $F_Id) # Datensat-Nummer
  *            Record- Nummer $F_Id
  */
 function XR_Graf_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
-                                      #
-                                      // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr, $Src_Path; // global $debug, $db, $Project, $GrafFiles,$ScrFiles,$TxtFiles,$Caller,$Zeil_Nr;
 
@@ -414,7 +414,7 @@ function XR_Graf_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
 
     $sql = "INSERT INTO $Table (F_Id,R_Unter,R_Zeilenrnr)
                     VALUES ('$F_Id','$Caller','$Zeil_Nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -428,8 +428,8 @@ function XR_Graf_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
  *            Record- Nummer $F_Id
  */
 function XR_Script_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
-                                        #
-                                        // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr, $Src_Path;
 
@@ -437,7 +437,7 @@ function XR_Script_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
 
     $sql = "INSERT INTO $Table (F_Id,R_Unter,R_Zeilenrnr)
                     VALUES ('$F_Id','$Caller','$Zeil_Nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 }
 
 // Ende von function
@@ -451,8 +451,8 @@ function XR_Script_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
  *            Record- Nummer $F_Id
  */
 function XR_Text_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
-                                      #
-                                      // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr, $Src_Path;
 
@@ -461,8 +461,8 @@ function XR_Text_Ref_Add($db, $F_Id) # Satz Nummer der aufgerufenen Datei
     $Table = "doc_t_dat_ref_$Project";
 
     $sql = "INSERT INTO $Table (F_Id,F_Unter,F_Zeilennr)
-                    VALUES ('$F_Id','$Caller','$Zeil_nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+                    VALUES ('$F_Id','$Caller','$Zeil_Nr')       ";
+    $return = SQL_QUERY($db, $sql);
     # print_r($return); echo "<br/>L 0425 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
     # print_r($return);
     # echo "<br/> XR_text_add L 793: \$return \$sql $sql <br/>";
@@ -515,22 +515,22 @@ function XR_recursive_scan($path)
  *            Zeilennummer
  */
 function XR_Func_Add($db, $T_Id, # ID-Nr desFunkt_Dsn
-$FD_Fnkt_Name, # Funktions-Name
-$FD_Zeile) # Zeilennr.
-            #
-            // --------------------------------------------------------------------------------
+    $FD_Fnkt_Name, # Funktions-Name
+    $FD_Zeile) # Zeilennr.
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project;
 
     $Table = "doc_funkt_def_$Project";
 
     $sql = "SELECT * FROM $Table WHERE T_Id='$T_Id' AND FD_Fnkt_Name='$FD_Fnkt_Name'";
-    $return = XR_SQL_QUERY($db, $sql); // // print_r($return); echo "<br/>L 0484 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
+    $return = SQL_QUERY($db, $sql); // // print_r($return); echo "<br/>L 0484 \$return \$sql $sql ". mysqli_error($db)."<br/> ";
     $numrows = mysqli_num_rows($return);
     if ($numrows === 0) {
         $sql = "INSERT INTO $Table (T_Id,FD_Fnkt_Name,FD_Zeile)
                     VALUES ('$T_Id','$FD_Fnkt_Name','$FD_Zeile')       ";
-        $return = XR_SQL_QUERY($db, $sql);
+        $return = SQL_QUERY($db, $sql);
     }
 }
 
@@ -545,8 +545,8 @@ $FD_Zeile) # Zeilennr.
  *            ibliotheks- Nummer
  */
 function XR_Func_Ref_Add($db, $FD_Id) # ID-Nr des Funkt_Dsn
-                                       #
-                                       // --------------------------------------------------------------------------------
+#
+// --------------------------------------------------------------------------------
 {
     global $debug, $Project, $Caller, $Zeil_Nr;
 
@@ -555,7 +555,5 @@ function XR_Func_Ref_Add($db, $FD_Id) # ID-Nr des Funkt_Dsn
     $Table = "doc_funkt_ref_$Project";
     $sql = "INSERT INTO $Table (FD_Id,R_Name,R_Zeile)
                     VALUES ('$FD_Id','$Caller','$Zeil_Nr')       ";
-    $return = XR_SQL_QUERY($db, $sql);
+    $return = SQL_QUERY($db, $sql);
 } // Ende von function
-
-?>

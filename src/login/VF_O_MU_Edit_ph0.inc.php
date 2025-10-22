@@ -11,6 +11,12 @@ if ($debug) {
     echo "<pre class=debug>VF_O_MU_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+if ($neu['mu_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+}
+
 echo "<div class='white'>";
 
 # =========================================================================================================
@@ -137,23 +143,41 @@ Edit_Daten_Feld(Prefix . 'mu_f2_handy', 20);
 Edit_Daten_Feld(Prefix . 'mu_f2_email', 45);
 
 # =========================================================================================================
-Edit_Separator_Zeile('Bilder ');
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
+}
+// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Bilder ',$button_f);
 # =========================================================================================================
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = $path2ROOT."login/AOrd_Verz/Museen/";
 
-echo "<input type='hidden' name='mu_bildnam_1'value='" . $neu['mu_bildnam_1'] . "'>";
-echo "<input type='hidden' name='mu_bildnam_2'value='" . $neu['mu_bildnam_2'] . "'>";
+echo "<input type='hidden' name='mu_bildnam_1' value='" . $neu['mu_bildnam_1'] . "'>";
+echo "<input type='hidden' name='mu_bildnam_2' value='" . $neu['mu_bildnam_2'] . "'>";
+
+echo "<input type='hidden' id='urhNr' value=''>";
+echo "<input type='hidden' id='aOrd' value=''>";
+
+echo "<input type='hidden' id='reSize' value='1754'>";
 
 $Feldlaenge = "100px";
 
-$pic_arr = array(
-    "1" => "|||mu_bildnam_1",
-    "2" => "|||mu_bildnam_2"
-);
-VF_Multi_Foto($pic_arr);
+$_SESSION[$module]['Pct_Arr' ] = array();
+$num_foto = 2;
+$i = 1;
+while ($i <= $num_foto) {
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => '', 'bi' => 'mu_bildnam_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');
+    
+    echo "<input type='hidden' id='aOrd_$i' value='Museen/'>";
+    $i++;
+}
+
+VF_Upload_Form_M();
 
 # =========================================================================================================
+
 Edit_Separator_Zeile('Letzte Änderung ');
 # =========================================================================================================
 Edit_Daten_Feld('mu_uidaend', 5);
@@ -170,6 +194,9 @@ if ($_SESSION[$module]['all_upd']) {
 echo "<p><a href='VF_O_MU_List.php?Act=" . $_SESSION[$module]['Act'] . "'>Zurück zur Liste</a></p>";
 
 echo "</div>";
+
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
+
 # =========================================================================================================
 
 if ($debug) {

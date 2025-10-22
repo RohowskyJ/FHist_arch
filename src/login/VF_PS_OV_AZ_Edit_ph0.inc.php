@@ -42,7 +42,7 @@ echo "<input type='hidden' name='az_bild_klsp' value='" . $neu['az_bild_klsp'] .
 echo "<input type='hidden' name='az_urkund_1' value='" . $neu['az_urkund_1'] . "'>";
 echo "<input type='hidden' name='az_urkund_2' value='" . $neu['az_urkund_2'] . "'>";
 
-$pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
+$pict_path = $path2ROOT."login/AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
 
 $Feldlaenge = "300px";
 

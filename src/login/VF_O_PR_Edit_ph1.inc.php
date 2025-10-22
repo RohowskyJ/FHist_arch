@@ -12,32 +12,26 @@ if ($debug) {
 }
 
 foreach ($_POST as $name => $value) {
-    $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
-
-if (isset($_FILES['uploaddatei_1']['name'])) {
-    $uploaddir = $path2ROOT."login/AOrd_Verz/Presse/";
-    
-    if (! file_exists($uploaddir)) {
-        mkdir($uploaddir, 0777, true);
-    }
-    
-    if ($_FILES['uploaddatei_1']['name'] != "" ) {
-        $neu['pr_bild1'] = VF_Upload($uploaddir, 1);
-    }
-    if ($_FILES['uploaddatei_2']['name'] != "" ) {
-        $neu['pr_bild2'] = VF_Upload($uploaddir, 2);
-    }
-    if ($_FILES['uploaddatei_3']['name'] != "" ) {
-        $neu['pr_bild3'] = VF_Upload($uploaddir, 3);
-    }
-    if ($_FILES['uploaddatei_4']['name'] != "" ) {
-        $neu['pr_bild4'] = VF_Upload($uploaddir, 4);
-    }
-    
-    if ($_FILES['uploaddatei_5']['name'] != "" ) {
-        $neu['pr_bild5'] = VF_Upload($uploaddir, 5);
-    }
+var_dump($neu);
+if ( $neu['bild_datei_1'] != '') {
+    $neu['pr_bild_1'] =  $neu['bild_datei_1'];
+}
+if ( $neu['bild_datei_2'] != '') {
+    $neu['pr_bild_2'] =  $neu['bild_datei_2'];
+}
+if ( $neu['bild_datei_3'] != '') {
+    $neu['pr_bild_3'] =  $neu['bild_datei_3'];
+}
+if ( $neu['bild_datei_4'] != '') {
+    $neu['pr_bild_4'] =  $neu['bild_datei_4'];
+}
+if ( $neu['bild_datei_5'] != '') {
+    $neu['pr_bild_5'] =  $neu['bild_datei_5'];
+}
+if ( $neu['bild_datei_6'] != '') {
+    $neu['pr_bild_6'] =  $neu['bild_datei_6'];
 }
 
 $p_uid = $_SESSION['VF_Prim']['p_uid']; 
@@ -55,8 +49,8 @@ if ($neu['pr_id'] == 0) { # neueingabe
               pr_bild5,pr_web_site,pr_web_text,pr_inet,pr_uidaend
               ) VALUE (
                '$neu[pr_datum]','$neu[pr_name]','$neu[pr_ausg]','$neu[pr_medium]','$neu[pr_seite]',
-               '$neu[pr_teaser]','$neu[pr_text]','$neu[pr_bild1]','$neu[pr_bild2]','$neu[pr_bild3]','$neu[pr_bild4]',
-               '$neu[pr_bild5]','$neu[pr_web_site]','$neu[pr_web_text]','$neu[pr_inet]','$p_uid'
+               '$neu[pr_teaser]','$neu[pr_text]','$neu[pr_bild_1]','$neu[pr_bild_2]','$neu[pr_bild_3]','$neu[pr_bild_4]',
+               '$neu[pr_bild_5]','$neu[pr_bild_6]','$neu[pr_web_site]','$neu[pr_web_text]','$neu[pr_inet]','$p_uid'
                )";
 
     $result = SQL_QUERY($db, $sql) ;
@@ -67,30 +61,10 @@ if ($neu['pr_id'] == 0) { # neueingabe
 
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     {
-        if (! preg_match("/[^0-9]/", $name)) {
-            continue;
-        } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        if (substr($name,0,3) != "pr_") {
             continue;
         } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "pr_bild11") {
-            continue;
-        }
-        if ($name == "pr_bild22") {
-            continue;
-        }
-        if ($name == "pr_bild33") {
-            continue;
-        }
-        if ($name == "pr_bild44") {
-            continue;
-        }
-        if ($name == "pr_bild55") {
-            continue;
-        }
+
         if ($name == "pr_id") {
             continue;
         }

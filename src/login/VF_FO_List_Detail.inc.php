@@ -10,29 +10,19 @@
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-/*
-if (! isset($_SESSION[$module]['URHEBER'])) {
-    VF_Z_U_Sel_List($_SESSION[$module]['URHEBER']['fm_eigner']);
-}
-*/
-$eignr = $_SESSION['Eigner']['eig_eigner'];
-# echo "L 019 eignr $eignr <br>";
-if ($_SESSION[$module]['URHEBER'][$eignr]['urh_abk']['typ'] == "F") {
-    $media = "Foto";
-} else {
-    $media = "Video";
-}
 
-$fo_aufn_d = $_SESSION[$module]['fo_aufn_d'];
+$urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
+
+$md_aufn_d = $_SESSION[$module]['md_aufn_d'];
 $T_list_texte = array(
-    "Alle" => "Alle " . $media . "s des Urhebers. ",
-    "NeuItem" => "<a href='VF_FO_Edit.php?fo_id=0&verz=N&fo_aufn_d=$fo_aufn_d' > Neues $media anlegen </a>"
+    "Alle" => "Alle Medien des Urhebers. ", 
+    "NeuItem" => "<a href='VF_FO_Edit.php?md_id=0&verz=N&md_aufn_d=$md_aufn_d' > Neues Medium anlegen </a>"
 );
 
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-$title = $media . "s des Urhebers " . $_SESSION['Eigner']['eig_eigner'] . " - " . $_SESSION['Eigner']['eig_verant'];
+$title = "medien des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'] . " - " . $_SESSION[$module][$sub_mod]['eig_verant'];
 
 $header = "";
 
@@ -47,38 +37,35 @@ if (!$reply) {
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
-$tabelle .= "_" . $_SESSION['Eigner']['eig_eigner'];
+$tabelle .= $_SESSION[$module][$sub_mod]['eig_eigner'];
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 
-if ($_SESSION[$module]['FOTO']) {
+if ($_SESSION[$module]['Foto']) {
     $Tabellen_Spalten = array(
-        'fo_id',
-        'fo_dsn',
-        'fo_aufn_datum',
-        'fo_begltxt',
-        'fo_namen',
-        'fo_typ',
-        'fo_media'
+        'md_id',
+        'md_dsn_1',
+        'md_aufn_datum',
+        'md_beschreibg',
+        'md_namen',
+        'md_media'
     ); 
-    $Tabellen_Spalten_COMMENT['fo_namen'] = "Namen, Suchbegriffe";
+    $Tabellen_Spalten_COMMENT['md_namen'] = "Namen, Suchbegriffe";
 } elseif ($_SESSION[$module]['Fo']['BERI']) {
     $Tabellen_Spalten = array(
-        'fo_id',
-        'fo_dsn',
+        'md_id',
+        'md_dsn_1',
         'Aktion',
-        'fo_begltxt',
-        'fo_typ',
-        'fo_media',
-        'fo_namen',
-        'fo_aenddat'
+        'md_beschreibg',
+        'md_namen',
+        'md_aenddat'
     );
     $Tabellen_Spalten_COMMENT['Aktion'] = "Sortierung Auswahl";
 }
 
-$Tabellen_Spalten_style['fo_id'] = $Tabellen_Spalten_style['fo_eigner'] = 'text-align:center;';
+$Tabellen_Spalten_style['md_id'] = $Tabellen_Spalten_style['md_eigner'] = 'text-align:center;';
 
-$return = Cr_n_fo_daten($tabelle);
+$return = Cr_n_Medien_Daten($tabelle);
 if ($return != True) {
     echo "error: mysqli_errno($return)";
 }
@@ -102,12 +89,12 @@ $List_Hinweise .= '</ul></li>';
 
 $zus_ausw = "";
 
-List_Action_Bar($tabelle,$media . "s des Urhebers " . $_SESSION['Eigner']['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
+List_Action_Bar($tabelle,"Medien des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 
 $sql = "SELECT * FROM $tabelle ";
 
 
-$sql_where = " WHERE fo_aufn_datum='" . $_SESSION[$module]['fo_aufn_d'] . "' AND fo_aufn_suff ='" . $_SESSION[$module]['fo_aufn_s'] . "' "; #  AND fo_basepath = '$basepath'  AND fo_zus_pfad = '$zus_pfad'
+$sql_where = " WHERE md_aufn_datum='" . $_SESSION[$module]['md_aufn_d'] . "' "; #  AND fo_basepath = '$basepath'  AND fo_zus_pfad = '$zus_pfad'
 $orderBy = "  ";
 if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_string'] != '') {
     $select_string = $_SESSION[$module]['select_string'];

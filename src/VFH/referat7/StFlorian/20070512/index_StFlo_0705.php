@@ -48,7 +48,7 @@ dem Bayrischen Raum (Region Passau).
 
 <tr>
  <td colspan="2">
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5762.WebP" alt="Feuerwehrmusikkapelle Windhaag" align="right"  width="250px" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5762.JPG" alt="Feuerwehrmusikkapelle Windhaag" align="right"  width="250px" />
    Für die musikalische Umrahmung sorgte die
    Feuerwehr-Musikkapelle WINDHAAG bei Freistadt unter ihrem Kapellmeister
    Leopold PAMMER.
@@ -61,7 +61,7 @@ dem Bayrischen Raum (Region Passau).
 
 <tr>
  <td colspan="2">
-    <img src="../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5777.WebP" alt="Ehrungen" align="left"  width="250px" />
+    <img src="../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5777.JPG" alt="Ehrungen" align="left"  width="250px" />
     <img src="20070512_img_5789_1_96.jpg" alt="Ehrungen" align="right" width="70px" />
     Anschliessend an die Ehrungen und Festansprachen fand eine Vorführung
     von historischen Löscheinsätzen stand. Die Moderation erfolgte durch
@@ -91,7 +91,7 @@ Nachtwächter-Darstellung durch Kamerad Bernecker
  <th>2.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5792.WebP" alt="Kastenspritze ohne Saugwerk" align="right"   width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5792.JPG" alt="Kastenspritze ohne Saugwerk" align="right"   width="250px" />
 <a href="kastspr_o_s_v3.php" target=_new>Kastenspritze ohne Saugwerk</a>,
 Füllung mittels Löscheimer
 <br>
@@ -105,7 +105,7 @@ und FF Lambach
  <th>3.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5798.WebP" alt="Handdruckspritze Czermack" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5798.JPG" alt="Handdruckspritze Czermack" align="right"  width="250px" />
 <a href="handdrspr_czermack_v3.php" target=_new>Handdruckspritze der
 Firma CZERMACK,
 mit Saugwerk, im Handzug</a>
@@ -120,7 +120,7 @@ FF Marchtrenk
  <th>4.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5804.WebP" alt="Handdruckspritze mit Saugwerk" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5804.JPG" alt="Handdruckspritze mit Saugwerk" align="right"  width="250px" />
 <a href="handdrspr_m_s_v3.php" target=_new>Handdruckspritze
 mit Saugwerk,
 mit Pferdezug</a>
@@ -135,7 +135,7 @@ FF Höft
  <th>5.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5815.WebP" alt="Dampffeuerspritze" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5815.JPG" alt="Dampffeuerspritze" align="right"  width="250px" />
 <a href="dampffeuerspr_v3.php" target=_new>Dampffeuerspritze
 mit Pferdezug</a>
 (1902 - 1947)
@@ -148,7 +148,7 @@ FF Vöcklabruck
  <th>6.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5831.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5831.JPG" alt="" align="right"  width="250px" />
 <a href="anhspr_v3.php" target=_new>Anhängespritze LINZ III
 mit Traktor Lanz-Bulldog</a>
 (1925 - unbekannt)
@@ -161,7 +161,7 @@ Oldtimerverein FF Wels
  <th>7.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5836.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5836.JPG" alt="" align="right"  width="250px" />
 <a href="fiat_turin_v3.php" target=_new>Löschfahrzeug Fiat Turin
 mit Vorbaupumpe</a>
 (1922 - heute als Oldtimer)
@@ -174,7 +174,7 @@ FF Schwertberg
  <th>8.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5838.WebP" alt="Löschfahrzeug ÖAF" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5838.JPG" alt="Löschfahrzeug ÖAF" align="right"  width="250px" />
 <a href="oeaf_anhspr_v3.php" target=_new>Löschfahrzeug ÖAF
 mit Anhängespritze</a>
 (1927 - 1964)
@@ -187,7 +187,7 @@ Oldtimerverein FF Wels
  <th>9.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5840.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5840.JPG" alt="" align="right"  width="250px" />
 <a href="lf8_tsa_v3.php" target=_new>LF 8
 mit TSA</a>
 (1943 - 1982)
@@ -201,7 +201,7 @@ Oldtimerverein FF Wels
 
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5850.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5850.JPG" alt="" align="right"  width="250px" />
 <a href="tlf_15-43_v3.php
 " target=_new>TLF 15/43</a>
 (1944 - 1975)
@@ -216,7 +216,7 @@ betreut durch Oldtimerverein der FF Wels
  <th>10.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5859.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5859.JPG" alt="" align="right"  width="250px" />
 <a href="blitz_wien_v3.php" target=_new>TLF Opel-Blitz,
 Modell Wien</a>
 <br>
@@ -229,7 +229,7 @@ Oldtimerverein FF Wels
  <th>11.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5861.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5861.JPG" alt="" align="right"  width="250px" />
 <a href="steyr_380_v3.php" target=_new>TLF 2000 auf Steyr 380 Z</a>
 (1957 - 1997)
 <br>
@@ -241,7 +241,7 @@ Ingo Weickenkas und Martin Pammer, Braunau am Inn
  <th>12.</th>
 
  <td>
-    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5862.WebP" alt="" align="right"  width="250px" />
+    <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5862.JPG" alt="" align="right"  width="250px" />
 <a href="mb_1113_v3.php" target=_new>TLF 2000 auf MB 1113</a>
 (1968 - 2006)
 <br>

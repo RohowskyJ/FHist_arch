@@ -10,7 +10,7 @@
 if ($debug) {
     echo "<pre class=debug>VF_Z_E_Edit_ph1.inc.php ist gestarted</pre>";
 }
-
+# var_dump($neu);
 $neu['ei_org_name'] = mb_convert_case($neu['ei_org_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 $neu['ei_name'] = mb_convert_case($neu['ei_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 $neu['ei_vname'] = mb_convert_case($neu['ei_vname'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
@@ -18,6 +18,7 @@ $neu['ei_titel'] = mb_convert_case($neu['ei_titel'], MB_CASE_TITLE, 'UTF-8'); //
 $neu['ei_ort'] = mb_convert_case($neu['ei_ort'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 $neu['ei_adresse'] = mb_convert_case($neu['ei_adresse'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
                                                                                   # $neu['ei_'] = mb_convert_case($neu['ei_'] ,MB_CASE_TITLE,'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
+if ($neu['ei_mitglnr'] == '') {$neu['ei_mitglnr'] = 0;}
 
 if ($neu['ei_name'] == "") {
     $neu['ei_name'] = $neu['ei_org_name'];

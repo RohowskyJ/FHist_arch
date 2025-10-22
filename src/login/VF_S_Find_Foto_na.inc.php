@@ -14,7 +14,7 @@ if ($debug) {
     echo "<pre class=debug>VF_S_Find_Foto_na.inc ist gestarted</pre>";
 }
 
-$sql_na = "SELECT * FROM `fh_find_namen` WHERE na_table LIKE 'fo_to%' ";
+$sql_na = "SELECT * FROM `fh_find_namen` WHERE na_table LIKE 'dm_edi%' ";
 
 if ($_SESSION[$module]['su_Eig'] == "A") {
     $eignr = "0";

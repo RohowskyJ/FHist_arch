@@ -8,6 +8,13 @@
  */
 session_start();
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_IZ_IN_Edit.php";
+
 # die SESSION am leben halten
 const Module_Name = 'INV';
 $module = Module_Name;
@@ -22,7 +29,7 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -35,8 +42,24 @@ require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = True;
 
+$jq = $jqui = true;
+$BA_AJA = true;
+
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$Eigent = "Eigentümer: " . $_SESSION['Eigner']['eig_eigner'];
+
+if (! $_SESSION['Eigner']['eig_name'] == "") {
+    $Eigent .= ", " . $_SESSION['Eigner']['eig_name'];
+}
+$Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
+
+$jq = $jqui = True;
+$BA_AJA = True;
+$header = "";
+BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 
 initial_debug();
 
@@ -102,25 +125,19 @@ if ($phase == 0) {
             'in_eingbuchdat' => "",
             'in_altbestand' => "",
             "in_invnr" => "",
-            "in_sammlg" => "S",
+            "in_sammlg" => "",
             'in_epoche' => "",
             'in_zustand' => "",
             "in_entstehungszeit" => "",
             "in_hersteller" => "",
-            "in_herstld" => "",
-            "in_aufbld_1" => "",
-            "in_aufbld_2" => "",
-            "in_aufbld_3" => "",
-            "in_nutzld" => "",
             'in_bezeichnung' => "",
             "in_beschreibg" => "",
             "in_det_beschrbg" => "",
-            "in_wert" => "",
-            "in_wert_neu" => "",
+            "in_wert_neu" => "0",
             "in_neu_waehrg" => "",
-            "in_wert_kauf" => "",
+            "in_wert_kauf" => "0",
             "in_kauf_waehrung" => "",
-            "in_wert_besch" => "",
+            "in_wert_besch" => "0",
             'in_besch_waehrung' => "",
             'in_abmess' => "",
             'in_gewicht' => '',
@@ -145,8 +162,7 @@ if ($phase == 0) {
         );
 
     } else {
-        $sql = 
-        # $fw_id = ;
+        
         $sql_be = "SELECT * FROM $tabelle_a
              INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg
              WHERE `in_id` = '" . $_SESSION[$module]['in_id'] . "' ORDER BY `in_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg 
@@ -174,18 +190,7 @@ if ($phase == 1) {
     
 }
 
-$Eigent = "Eigentümer: " . $_SESSION['Eigner']['eig_eigner'];
 
-if (! $_SESSION['Eigner']['eig_name'] == "") {
-    $Eigent .= ", " . $_SESSION['Eigner']['eig_name'];
-}
-$Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
-
-$prot = True;
-$header = "";
-BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
-echo "<script src='" . $path2ROOT . "login/common/javascript/VF_Z_E_AutoLoad.js'></script>";
 
 switch ($phase) {
     case 0:

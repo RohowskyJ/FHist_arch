@@ -45,10 +45,10 @@ if ($debug) {
 if ($dk_nr == 0) { // neuer Eintrag
     $sql = "INSERT INTO $tabelle (
               dk_Thema,dk_Titel,dk_Author,dk_Urspr,dk_Dsn,dk_Dsn_2,
-              dk_Path2Dsn,dk_url,dk_aenduid,dk_aenddat
+              dk_Path2Dsn,dk_url,dk_sg,dk_aenduid,dk_aenddat
               ) VALUE (
                '$neu[dk_Thema]','$neu[dk_Titel]','$neu[dk_Author]','$neu[dk_Urspr]','$neu[dk_Dsn]','$neu[dk_Dsn_2]',
-               '$neu[dk_Path2Dsn]','$neu[dk_url]','$p_uid',now()
+               '$neu[dk_Path2Dsn]','$neu[dk_url]','$neu[dk_sg]','$p_uid',now()
                
                )";
 

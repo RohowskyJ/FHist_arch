@@ -106,7 +106,7 @@ if ($phase == 0) {
                 }
             }
 
-            VF_HTML_trailer();
+            BA_HTML_trailer();
             exit();
         }
         $neu = mysqli_fetch_array($result);
@@ -136,7 +136,7 @@ if ($phase == 1) {
         echo '</pre>';
     }
 
-    $uploaddir = $pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
+    $uploaddir = $pict_path = $path2ROOT."login/AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/Stat/";
 
     if ($_FILES['uploaddatei_1']['name'] != "" ) {
         $neu['ad_extern'] = VF_Upload($uploaddir, 1);

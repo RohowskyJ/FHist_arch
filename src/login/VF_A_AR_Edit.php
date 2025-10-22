@@ -112,11 +112,11 @@ if ($phase == 0) {
             "ad_format" => "",
             'ad_keywords' => "",
             "ad_beschreibg" => "",
-            "ad_wert_orig" => "",
+            "ad_wert_orig" => "0",
             "ad_orig_waehrung" => "",
-            "ad_wert_kauf" => "",
+            "ad_wert_kauf" => "0",
             "ad_kauf_waehrung" => "",
-            "ad_wert_besch" => "",
+            "ad_wert_besch" => "0",
             'ad_besch_waehrung' => "",
             "ad_namen" => "",
             "ad_doc_1" => "",
@@ -125,23 +125,11 @@ if ($phase == 0) {
             "ad_doc_4" => "",
             "ad_isbn" => "",
             "ad_lagerort" => "",
-            "in_wert" => "",
-            "in_wert_neu" => "",
-            "in_neu_waehrg" => "",
-            "in_wert_kauf" => "",
-            "in_kauf_waehrung" => "",
-            "in_wert_besch" => "",
             'ad_l_raum' => '',
             'ad_l_kasten' => "",
             'ad_l_fach' => "",
             'ad_l_pos_x' => "",
             'ad_l_pos_y' => "",
-            "ad_suchb1" => "",
-            'ad_suchb2' => "",
-            "ad_suchb3" => "",
-            "ad_suchb4" => "",
-            'ad_suchb5' => "",
-            'ad_suchb6' => "",
             'ad_neueigner' => "",
             'ad_uidaend' => ".",
             'ad_aenddat' => "."
@@ -160,7 +148,7 @@ if ($phase == 1) {
     # $debug = True;
     
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
     # print_r($neu);echo "<br>L 0183 neu <br>";
     if ($debug) {
@@ -209,20 +197,27 @@ if ($phase == 1) {
     
     $sql_where = "";
     if ($neu['ad_lcssg_s1'] != '00') {
-        $sql_where = " WHERE al_sg='".$ao_arr[0]."' AND al_lcsg='".$neu['ad_lcsg']."' AND  al_lcssg='".$neu['ad_lcssg']."' AND  al_lcssg_s0='".$neu['ad_lcssg_s0']."' AND  al_lcssg_s1='".$neu['ad_lcssg_s1']."' ";
+        $sql_where = " WHERE al_sg='".$neu['ad_sg'].".".$neu['ad_subsg']."' AND al_lcsg='".$neu['ad_lcsg']."' AND  al_lcssg='".$neu['ad_lcssg']."' AND  al_lcssg_s0='".$neu['ad_lcssg_s0']."' AND  al_lcssg_s1='".$neu['ad_lcssg_s1']."' ";
     } elseif ($neu['ad_lcssg_s0'] != '00') {
-        $sql_where = " WHERE al_sg='".$ao_arr[0]."' AND al_lcsg='".$neu['ad_lcsg']."' AND  al_lcssg='".$neu['ad_lcssg']."' AND  al_lcssg_s0='".$neu['ad_lcssg_s0']."' ";
+        $sql_where = " WHERE al_sg='".$neu['ad_sg'].".".$neu['ad_subsg']."' AND al_lcsg='".$neu['ad_lcsg']."' AND  al_lcssg='".$neu['ad_lcssg']."' AND  al_lcssg_s0='".$neu['ad_lcssg_s0']."' ";
     } elseif ($neu['ad_lcssg'] != '00') {
-        $sql_where = " WHERE al_sg='".$ao_arr[0]."' AND al_lcsg='".$neu['ad_lcsg']."' AND  al_lcssg='".$neu['ad_lcssg']."' ";
+        $sql_where = " WHERE al_sg='".$neu['ad_sg'].".".$neu['ad_subsg']."' AND al_lcsg='".$neu['ad_lcsg']."' AND  al_lcssg='".$neu['ad_lcssg']."' ";
     } 
 
     if ($sql_where != '') {
         $sql_aol ="SELECT * FROM ar_ord_local $sql_where ";
+        echo "L 0209 $sql_aol <br>";
         $return_aol = SQL_QUERY($db,$sql_aol);
-        $row_aol = mysqli_fetch_object($return_aol);
-        if ($row_aol->al_sammlung != '') {
-            $neu['ad_sammlg'] = $row_aol->al_sammlung;
+        if ($return_aol) {
+            $row_aol = mysqli_fetch_object($return_aol);
+            var_dump($row_aol);
+            if ($row_aol->al_sammlung != '') {
+                $neu['ad_sammlg'] = $row_aol->al_sammlung;
+            } else {
+                $neu['ad_sammlg'] = '';
+            }
         }
+       
     }
 
     If ($neu['ad_beschreibg'] == "") {
@@ -247,14 +242,13 @@ if (! $_SESSION['Eigner']['eig_name'] == "") {
 }
 $Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
 
-$prot = True;
+$jq = $jqui = True;
+$BA_AJA = true;
 
-$header = ""; # "<script type=' module' src=' common/javascript/jq_3-6/src/jquery.js' ></script>";
-BA_HTML_header('Archiv- Verwaltung '.  $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+$header = ""; 
+BA_HTML_header('Archiv- Verwaltung <br>'.  $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo " <form id='myform' name='myform' method='post' action='" . $_SERVER['PHP_SELF'] . "' enctype='multipart/form-data' >";
-
-echo "<script src='" . $path2ROOT . "login/common/javascript/VF_Z_E_AutoLoad.js'></script>";
 
 switch ($phase) {
     case 0:
@@ -296,7 +290,7 @@ function modifyRow(array &$row, $tabelle)
                 $vl_id = $row['vl_id'];
                 $row['vl_id'] = "<a href='VF_A_AR_Edit.php?vl_id=$vl_id' >" . $vl_id . "</a>";
                 # $ei_zust_aus_bild = $row['ei_zust_aus_bild'];
-                $p1 = $pict_path . $ei_zust_aus_bild;
+                # $p1 = $pict_path . $ei_zust_aus_bild;
                 # $row['ei_zust_aus_bild'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='70px'> Groß </a>";
                 break;
         }

@@ -149,7 +149,8 @@ $Tabellen_Spalten = array(
     'dk_Titel',
     'dk_Author',
     'dk_Urspr',
-    'dk_Dsn'
+    'dk_Dsn',
+    'dk_sg'
 );
 
 $Tabellen_Spalten_style['dk_nr'] = 
@@ -175,7 +176,7 @@ $List_Hinweise .= '</ul></li>';
 $Sel_Dok = "";
 if ($thema == 1) {
     $sel = VF_Doku_Art; 
-    $Sel_Dok = "Themen- Auswahl: &nbsp; &nbsp;  <select name='sel_thema' > ";
+    $Sel_Dok = "Themen- Auswahl: &nbsp; &nbsp;  <select name='sel_thema' onchange= submitForm() > ";
     foreach ($sel as $key => $value) {
         $Sel_Dok .= "<option value='$key'>$value</option>";
     }
@@ -191,10 +192,17 @@ echo "</div>";
 # Je nach ausgewähltem Radio Button das sql SELECT festlegen
 # ===========================================================================================================
 $sql = "SELECT * FROM $tabelle ";
-
+$sql_where = "";
 if ($sel_thema != "0" ) {
-    $sql .= " WHERE dk_Thema = '$sel_thema' ";
+    $sql_where = " WHERE dk_Thema = '$sel_thema' ";
+    if ($sel_thema == 'kb') {
+        $sql_where = " WHERE dk_thema = 'kb' ORDER BY dk_sg";
+    }
+    if ($sel_thema == 1 || $sel_thema == 2) {
+        $sql_where = " WHERE dk_sg = '$sel_thema' ";
+    }
 }
+$sql .= $sql_where;
 
 $New_Link = "";
 if ($_SESSION[$module]['all_upd']) {

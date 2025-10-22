@@ -43,7 +43,7 @@ Oldtimerverein FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5840.WebP" alt="LF( mit TSA" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5840.JPG" alt="LF( mit TSA" align="right" />
 Während die Feuerschutzpolizeien, wie die früheren Berufsfeuerwehren
 in der Zeit 1938 - 1945 bezeichnet wurden, überwiegend mit dem Fahrzeugtypen
 Schweres Löschgruppenfahrzeug (SLG) und Großes

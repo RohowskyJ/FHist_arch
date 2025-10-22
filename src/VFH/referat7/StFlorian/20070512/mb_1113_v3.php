@@ -42,7 +42,7 @@ Michael Thomasberger, Eidenberg
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5862.WebP" alt="TLF 2000 auf MB 1113" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5862.JPG" alt="TLF 2000 auf MB 1113" align="right" />
 Um die sechziger Jahre finden wir für TLF auch die Kurzhauber-Fahrgestelle
 von MERCEDES BENZ, die sich großer Akzeptanz erfreut haben,
 wie beispielsweise die Typen MB 911, MB 322 und dann die leistungsstärkere

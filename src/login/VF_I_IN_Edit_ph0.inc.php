@@ -10,9 +10,17 @@ if ($debug) {
     echo "<pre class=debug>VF_I_IN_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+
+if ($neu['in_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+}
+
 echo "<input type='hidden' name='in_id' value='" . $neu['in_id'] . "'/>";
 echo "<input type='hidden' name='ei_id' value='" . $neu['ei_id'] . "'/>";
 echo "<input type='hidden' name='in_sammlg' value='" . $neu['in_sammlg'] . "'/>";
+echo "<input type='hidden' name='in_linkerkl' value='" . $neu['in_linkerkl'] . "'/>";
 
 $inveignr = $_SESSION['Eigner']['eig_eigner'];
 $pref_eignr_s = "0" . $inveignr; // Kurz- Variante
@@ -31,7 +39,6 @@ Edit_Tabellen_Header("Inventar für ".$_SESSION['Eigner']['eig_name']);
 Edit_Daten_Feld('in_id');
 Edit_Daten_Feld('ei_id');
 Edit_Daten_Feld('InvNr');
-# Edit_Daten_Feld('in_invnr');
 
 if ($neu['in_id'] == 0) {
     # =========================================================================================================
@@ -41,9 +48,9 @@ if ($neu['in_id'] == 0) {
     
     Edit_Daten_Feld('in_sammlg','');
     Edit_Daten_feld('sa_name','');
-    echo "</div>";
+   # echo "</div>";
     
-    echo "<tr><td colspan='2'><div class='w3-container '> ";
+    echo "<div class='w3-container '> ";
     
     echo "<input type='hidden' name='in_sammlg' value='".$neu['in_sammlg']."'/>";
     
@@ -90,36 +97,37 @@ if ($neu['in_id'] == 0) {
     Edit_Daten_Feld('in_sammlg','');
     Edit_Daten_feld('sa_name','');
 }
-
+echo "</div>";
 # =========================================================================================================
 Edit_Separator_Zeile('Inventar- Beschreibung');
 # =========================================================================================================
-Edit_Daten_Feld('in_bezeichnung', 100);
-Edit_textarea_Feld('in_beschreibg');
+# var_dump($Tabellen_Spalten_COMMENT);
+# var_dump($Tabellen_Spalten_MAXLENGTH);
+Edit_Daten_Feld('in_bezeichnung', 60);
 Edit_textarea_Feld('in_kommentar');
 
-# $pict_path = "referat".$_SESSION[$module]['in_referat']."/".$_SESSION['Eigner']['eig_eigner']."/";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
 
 if ($neu['in_sammlg'] != "") {
     $pict_path .= $neu['in_sammlg'] . "/";
+    $Opt_Det = VF_Sel_Det($neu['in_sammlg'], $neu['in_linkerkl'], 8);
+    Edit_Select_Feld('in_linkerkl', $Opt_Det);
 }
 
-$Opt_Det = VF_Sel_Det($neu['in_sammlg'], $neu['in_linkerkl'], 8);
-Edit_Select_Feld('in_linkerkl', $Opt_Det);
 Edit_Daten_Feld('in_entstehungszeit', 10);
 Edit_Select_Feld('in_epoche', VF_Epoche);
-Edit_Daten_Feld('in_hersteller', 100);
 
+Edit_Daten_Feld('in_hersteller', 60);
+/*
 $ST_Opt_A = VF_Sel_Staat('in_herstld', '9');
 Edit_Select_Feld('in_herstld', $ST_Opt_A);
 
 $ST_Opt_A = VF_Sel_Staat('in_aufbld_1', '9');
 Edit_Select_Feld('in_aufbld_1', $ST_Opt_A);
 # Edit_Daten_Feld('in_aufbld_1',10);
-
-Edit_Daten_Feld('in_wert', 20);
+*/
 Edit_Daten_Feld('in_wert_neu', 30);
+
 Edit_Daten_Feld('in_neu_waehrg', 50);
 Edit_Daten_Feld('in_wert_kauf', 30);
 Edit_Daten_Feld('in_kauf_waehrung', 50);
@@ -133,29 +141,43 @@ Edit_Daten_Feld('in_abmess', 50, " Abmessungen:  l x b xh in mm");
 
 Edit_Daten_Feld('in_gewicht', 50, " in Kg");
 
-echo "<input type='hidden' name='in_aufbld_2' value='" . $neu['in_aufbld_2'] . "'/>";
-echo "<input type='hidden' name='in_aufbld_3' value='" . $neu['in_aufbld_3'] . "'/>";
-echo "<input type='hidden' name='in_nutzld' value='" . $neu['in_nutzld'] . "'/>";
-echo "<input type='hidden' name='in_det_beschrbg' value='" . $neu['in_det_beschrbg'] . "'/>";
 echo "<input type='hidden' name='in_vwlinks' value='" . $neu['in_vwlinks'] . "'/>";
 echo "<input type='hidden' name='in_beschreibung' value='" . $neu['in_beschreibung'] . "'/>";
 echo "<input type='hidden' name='in_refindex' value='" . $neu['in_refindex'] . "'/>";
 
 # =========================================================================================================
-Edit_Separator_Zeile('Fotos');
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
+}
+// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Fotos'.$button_f);
 # =========================================================================================================
+echo "<div>";
 
 echo "<input type='hidden' name='in_foto_1' value='" . $neu['in_foto_1'] . "'>";
 echo "<input type='hidden' name='in_foto_2' value='" . $neu['in_foto_2'] . "'>";
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
+
+echo "<input type='hidden' id='sammlung' value='".$neu['in_sammlg'] ."'>";
+echo "<input type='hidden' id='eigner' value='".$neu['ei_id'] ."'>";
+echo "<input type='hidden' id='urhNr' value=''>";
 
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
 $Feldlaenge = "100px";
 
-$pic_arr = array(
-    "1" => "||in_fbeschr_1|in_foto_1",
-    "2" => "||in_fbeschr_2|in_foto_2"
-);
-VF_Multi_Foto($pic_arr);
+$_SESSION[$module]['Pct_Arr' ] = array();
+$num_foto = 2;
+$i = 1;
+while ($i <= $num_foto) {
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'in_fbeschr_'.$i, 'bi' => 'in_foto_'.$i, 'rb' => '', 'up_err' => '', 'f1' => '','f2'=>'');
+    $i++;
+}
+VF_Upload_Form_M();
+
+echo "</div>";
+
 # =========================================================================================================
 Edit_Separator_Zeile('Archiv- Einteilung (Bestandsdaten)');
 # =========================================================================================================
@@ -167,8 +189,24 @@ Edit_Daten_Feld('in_eingbuchdat', 10);
 Edit_Daten_Feld('in_erstdat', 10);
 Edit_Daten_Feld('in_ausgdat', 10);
 
-Edit_Daten_Feld_auto('in_neueigner',75,'','','srch_eigent');
 
+$button = "";
+/*
+if ($hide_area != 0) {
+    // Der Button, der das toggling übernimmt
+    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ne')\">zum ändern klicken!</button>";
+}
+*/
+Edit_Daten_Feld('in_neueigner',75,$button); #
+/*
+if ($hide_area == 0) {
+    echo "<div>";
+} else {
+    echo "<div id='unhide_ne' style='display:none'>";
+}
+VF_Auto_Eigent('E','');
+echo "<div>";
+*/
 # =========================================================================================================
 Edit_Separator_Zeile('Lagerort');
 # =========================================================================================================
@@ -189,9 +227,13 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-require "VF_I_IN_VL_List.php";
+# require "VF_I_IN_VL_List.php";
 
 echo "<p><a href='VF_I_IN_List.php'>Zurück zur Liste</a></p>";
+echo "</div>";
+echo "</div>";
+
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 

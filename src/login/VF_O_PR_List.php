@@ -138,7 +138,7 @@ $Tabellen_Spalten = array(
     'pr_text',
     'pr_web_seite',
     'pr_web_text',
-    'pr_bild1',
+    'pr_bild_1',
     'pr_inet'
 );
 
@@ -177,7 +177,7 @@ switch ($T_List) {
     # case "Thema" : $sql_where="WHERE dk_Thema = '$doc_art'"; $orderBy = ' ORDER BY dk_nr'; break;
 
     default:
-        VFH_HTML_trailer();
+        BA_HTML_trailer();
         exit(); # wenn noch nix gewählt wurde >> beenden
 }
 
@@ -248,41 +248,43 @@ function modifyRow(array &$row,$tabelle)
         }
     }
 
-    if ($row['pr_bild1'] != "") {
-
-        $pr_bild1 = $row['pr_bild1'];
-        $DsName = $pict_path . $row['pr_bild1'];
+    if ($row['pr_bild_1'] != "") {
+        $pr_bild_1 = $row['pr_bild_1'];
+        $DsName = $pict_path . $row['pr_bild_1'];
         $image1 = "<img src='$DsName' alt='Bild 1' width='100px'/> ";
-        $row['pr_bild1'] = "<a href=\"$DsName\" target='Bild 2'> $image1 </a>";
+        $row['pr_bild_1'] = "<a href=\"$DsName\" target='Bild 1'> $image1 </a>";
     }
-    if ($row['pr_bild2'] != "") {
-
-        $pr_bild2 = $row['pr_bild2'];
-        $DsName = $pict_path . $row['pr_bild2'];
-        $image2 = "<img src='$pict_path" . $pr_bild2 . "' alt='Bild 2' width='100px'/> ";
-        $row['pr_bild2'] = "<a href=\"$DsName\" target='Bild 2'> $image2 </a>";
+    if ($row['pr_bild_2'] != "") {
+        $pr_bild_2 = $row['pr_bild_2'];
+        $DsName = $pict_path . $row['pr_bild_2'];
+        $image2 = "<img src='$pict_path" . $pr_bild_2 . "' alt='Bild 2' width='100px'/> ";
+        $row['pr_bild_2'] = "<a href=\"$DsName\" target='Bild 2'> $image2 </a>";
     }
-    if ($row['pr_bild3'] != "") {
-
-        $pr_bild3 = $row['pr_bild3'];
-        $DsName = $pict_path . $row['pr_bild3'];
+    if ($row['pr_bild_3'] != "") {
+        $pr_bild_3 = $row['pr_bild_3'];
+        $DsName = $pict_path . $row['pr_bild_3'];
         $image3 = "<img src='$DsName' alt='Bild 3' width='100px'/> ";
-        $row['pr_bild3'] = "<a href=\"$DsName\" target='Bild 3'> $image3 </a>";
+        $row['pr_bild_3'] = "<a href=\"$DsName\" target='Bild 3'> $image3 </a>";
     }
-    if ($row['pr_bild4'] != "") {
-
-        $pr_bild4 = $row['pr_bild4'];
-        $DsName = $pict_path . $row['pr_bild4'];
+    if ($row['pr_bild_4'] != "") {
+        $pr_bild_4 = $row['pr_bild_4'];
+        $DsName = $pict_path . $row['pr_bild_4'];
         $image4 = "<img src='$DsName' alt='Bild 4' width='100px'/> ";
-        $row['pr_bild4'] = "<a href=\"$DsName\" target='Bild 4_blanc'> $image4 </a>";
+        $row['pr_bild_4'] = "<a href=\"$DsName\" target='Bild 4_blanc'> $image4 </a>";
     }
-    if ($row['pr_bild5'] != "") {
-
-        $pr_bild5 = $row['pr_bild5'];
-        $DsName = $pict_path . $row['pr_bild5'];
+    if ($row['pr_bild_5'] != "") {
+        $pr_bild_5 = $row['pr_bild_5'];
+        $DsName = $pict_path . $row['pr_bild_5'];
         $image5 = "<img src='$DsName' alt='Bild 5' width='100px'/> ";
-        $row['pr_bild5'] = "<a href=\"$DsName\" target='Bild 5'> $image5 </a>";
-    } # -------------------------------------------------------------------------------------------------------------------------
+        $row['pr_bild_5'] = "<a href=\"$DsName\" target='Bild 5'> $image5 </a>";
+    } 
+    if ($row['pr_bild_6'] != "") {
+        $pr_bild_6 = $row['pr_bild_6'];
+        $DsName = $pict_path . $row['pr_bild_6'];
+        $image5 = "<img src='$DsName' alt='Bild 5' width='100px'/> ";
+        $row['pr_bild_6'] = "<a href=\"$DsName\" target='Bild 6'> $image5 </a>";
+    } 
+    # -------------------------------------------------------------------------------------------------------------------------
     return True;
 } # Ende von Function modifyRow
 

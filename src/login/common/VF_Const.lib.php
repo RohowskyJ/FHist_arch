@@ -1,32 +1,33 @@
-<?php 
+
+<?php
 /**
  * Defintion der Konstanten aller Bereiche
- * 
+ *
  * 2024-05-02 neu Josef Rohowsky
- * 
+ *
  */
 
 /**
  * config_m.ini Parameter- Bedeutung
  *  Funktion
  * J .. Aktiv, N .. Inaktiv
- * 
+ *
  * m_1  Archiv
  * m_2  Buchbesprechung
  * m_3  Fzg/Geräte
- * m_4 
+ * m_4
  * m_5  Inventur
  * m_6  Terminplan
  * m_7  Biete/Suche
  * m_8  Presseberichte
  * m_9  Suchen nach Suchbegriffen
- * m_10 
- * m_11 
+ * m_10
+ * m_11
  * m_12 Protokolle
  * m_13 Persönl. Ausrüstung
  * m_14 Dokumente
  * m_15 Feuerwehrzeitschriften
- * 
+ *
  */
 
 /**
@@ -40,28 +41,40 @@ const VF_JN = array(
 );
 
 /**
+ * Konstante für Berichte erstellen: Unterseiten J/N
+ */
+const VF_Unterseiten = array('J' => 'Bericht mit Unterseiten','N' => 'Bericht Einseitig');
+
+/**
+ * Konstante für die Nutzung der Fahrzeugbeschreibungen
+ */
+const VF_Fahrzeugbeschr = array('J' => 'Fahzeugbeschreibungen nutzen','N' => 'keine zusätliche Beschreibung nutzen');
+
+/**
  * Konstante für Urheber- Zuodnung, Media- Definition
  * @var array
  */
-Const VF_Foto_Video = array("A"=>"Audio","F"=>"Foto","I"=>"Film","V"=>"Video");
+const VF_Foto_Video = array("A" => "Audio","F" => "Foto","I" => "Film","V" => "Video");
 
 /**
  * Definiton der Konstante für die Einteilung der abgespeicherten, herunterladbarer Dokumente
- * 
+ *
  * ersetzt func vF_Sel_ Doc_thema
  *
  * @var array VF_Doku_Art
  */
-const VF_Doku_Art = array(  
+const VF_Doku_Art = array(
     'ab' => 'Aus- und Weiterbildung',
     'as' => 'Atemchutz',
     'aut' => 'Automobile',
     'az' => 'Auszeichnungen, Ehrungen, Leistungsabzeichen',
     'bew' => 'Bewerbe',
     'fa' =>  'Fahrzeuge allgemein',
+    'fg' => 'Firmengeschchte',
     'fw' => 'Feuerwehr. allgemein',
     'ge' => 'Feuerwehrgeschichte',
-    'ka' => 'Kataloge',
+    'ka' => 'Kataloge (Werbematerial)',
+    'kb' => 'Katalog der FG (Broschüren)',
     'mus' => 'Muskelbewegte Fahrzeuge und Geräte',
     'pa' => 'Persönliche Ausrüstung',
     'pl' => 'Persönlichkeiten und Lebensläufe',
@@ -69,11 +82,23 @@ const VF_Doku_Art = array(
     'sp' => 'Sprengdienst',
     'td' => 'Tauchdienst',
     'wd' => 'Wasserdienst'
+
+);
+
+const VF_Doku_SG = array(
+    '1' => 'mit Muskelkraft bewegte Fahrzeuge und Geräte',
+    '2' => 'mit Motorkraft bewegte Fzg und Geräte',
+    '3' => 'Sonstige Geräte',
+    '4' => 'Persönliche Ausrüstung',
+    '5' => 'Dokumentation',
+    '6' => 'Museen',
+    '7' => 'Kataloge'
+
 );
 
 /**
  * Fahrzeug-Beschaffungs- Zeiträume
- * 
+ *
  * @var array VF_FZG_Aera
  */
 const VF_FZG_Aera = array(
@@ -84,7 +109,7 @@ const VF_FZG_Aera = array(
     '5' => '1951 - 1975 - Fahrzeug Neubeschaffungen',
     '6' => '1976 - 2000 - ',
     '7' => '2001 - 2025 - ',
-    '8' => '2024 - 2050 - ',
+    '8' => '2026 - 2050 - ',
     '9' => '2051 - 2075 - ',
     '10' => '2076 - '
 );
@@ -96,12 +121,12 @@ const VF_FZG_Aera = array(
  */
 const VF_Epoche = array(
     "999" => "Nicht Bekannt",
-    "0" => "Vorrömische Zeit (bis 500 v-Chr.)",
+    "0" => "Vorrömische Zeit (bis ca. 500 v. Chr.)",
     "1" => "Römische Zeit (300 v.Chr - 488 n. Chr.)",
     "2" => "Mittelalter (489 - 1500 n. Chr.",
     "3" => "Neuzeit (1500 - 18xx n.Chr",
     "4" => "Gründungszeit der 1. Freiwilligen Feuerwehren",
-    "5" => "1. Weltkrieg und Zwischenkriegszeit (1914 -1938)",
+    "5" => "1. Weltkrieg und Zwischenkriegszeit (1914 - 1918 - 1938)",
     "6" => "2. Weltkrieg (1939 - 1945)",
     "7" => "Nachkriegszeit (ab 1946)"
 );
@@ -116,7 +141,7 @@ const VF_Sammlung_Typ_Ausw = array(
 
 /**
  * Neuer Versuch, Arrsays trennen
- * 
+ *
  */
 const MA = [
     'MA_F' => 'Maschinengetriebene Fahrzeuge',
@@ -130,20 +155,21 @@ const MU = [
 /**
  * Definitionen zur Sammlung- Auswahl, wie im´n der Archivordnung ar_ord_loc_xy definiert,
  * und mittel MUlti-Select anzuwenden in FZG und Geräte- Wartung und Suche
- * 
- * 
+ *
+ *
  * @var array $sammlung
  */
 const VF_Sel_SA_Such = array(  // für Suchfunktionen und Inventar
     'MA_F' => 'von Maschinen angetriebene Fahrzeuge',
     'MA_G' => 'Von Maschinen angetriebene Geräte',
     'MU_F' => 'Mit Muskeln bewegte Transportmittel',
-    'MU_G' => 'Geräte',
+    'MU_G' => 'Mit Muskeln betriebene Geräte',
     'PA_R' => 'Persönliche Ausrüstung',
     'AR_U' => 'Geschichte in Wort und Bild',
     'KA_A' => 'Kaiserreich Österreich (bis 1918)',
     'WW_2' => '2. Weltkrieg'
 );
+
 
 const VF_Sel_SA_MA = array(  // für Fahrzeuge ud Geräte
     'MA_F' => 'von Maschinen angetriebene Fahrzeuge',
@@ -165,11 +191,24 @@ const VF_Sel_SA_MA_G = array(  // für Fahrzeuge ud Geräte
     'MA_G' => 'Von Maschinen angetriebene Geräte'
 );
 const VF_Sel_SA_MU_G = array(  // für Fahrzeuge ud Geräte
-    'MU_G' => 'Geräte'
+    'MU_G' => 'Mit Muskeln betriebene Geräte'
 );
 
+const VF_Sel_SA_PA = array(   // für Perönliche Schutzausrüstung
+    'PA_R' => 'Persönliche Ausrüstung'
+);
 
-const VF_Sel_SA_PA = array(   // für Perönliche Schutzausrüstung 
+/**
+ * Definitionen für Glossary
+ *
+ *
+ * @var array $sammlung
+ */
+const VF_Abk = array(  // Glossar
+    'MA_F' => 'von Maschinen angetriebene Fahrzeuge',
+    'MA_G' => 'Von Maschinen angetriebene Geräte',
+    'MU_F' => 'Mit Muskeln bewegte Fahrzeugel',
+    'MU_G' => 'Mit Muskeln betriebene Geräte',
     'PA_R' => 'Persönliche Ausrüstung'
 );
 
@@ -246,11 +285,11 @@ const VF_zuldateitypen = array(
 /**
  * Definition Zertifizierungsklasse CTIF
  */
-const VF_CTIF_Class = array("I" => "1. Klasse","II"=> "2. Klasse","III"=>"3. Klasse");
+const VF_CTIF_Class = array("" => "","I" => "1. Klasse","II" => "2. Klasse","III" => "3. Klasse");
 
 /**
  * mime- Typen für Dokumente- Upload
- * 
+ *
  * @var array VF_upl_DOC Mime Typen für upload von Dokumenten
  */
 const VF_upl_DOC = array(
@@ -259,7 +298,7 @@ const VF_upl_DOC = array(
 
 /**
  * Mime-- Typen für upload von Bild- Materialien (Bild/Video)
- * 
+ *
  * @var array
  */
 const VF_upl_PICT = array(
@@ -308,86 +347,86 @@ const VF_Gruesse = '<p style="margin-top:1em">Mit freundlichen Grüßen<br/>Das 
  * Fahrzeuge und Geräte
  */
 const VF_Zustand = array(
-    ''=>'Unbekannt',
-    'eb'=>'Einsatzbereit',
-    'fb'=>'Fahrbereit',
-    'ok'=>'keine Beanstandung, alles OK',
-    'rp'=>'Reparaturbedürftig',
-    'rs'=>'Restauration notwendig',
-    'vk'=>'Abgegeben',
-    'xx'=>'Verschrottet'
+    '' => 'Unbekannt',
+    'eb' => 'Einsatzbereit',
+    'fb' => 'Fahrbereit',
+    'ok' => 'keine Beanstandung, alles OK',
+    'rp' => 'Reparaturbedürftig',
+    'rs' => 'Restauration notwendig',
+    'vk' => 'Abgegeben',
+    'xx' => 'Verschrottet'
 );
 
 /**
  * Persönliche Ausrüstung
- * 
+ *
  */
 const VF_Ausz = array(
-    'AE'=>'Auszeichnungen und Ehrungen',
-    'AV'=>'Verdienstzeichen',
-    'AV-A'=>'Ausbilder- Verdienstzeichen',
-    'AV-B'=>'Bewerter- Verdienstzeichen',
-    'JU'=>'Jugend',
-    'FL-A'=>'Leistungsabzeichen Klassisch (Land)',
-    'FL-F'=>'Leistungsabzeichen Funk',
-    'FL-SP'=>'Leistungsabzeichen Sprengen',
-    'FL-ST'=>'Leistungsabzeichen Strahlensch.',
-    'FL-WA'=>'Leistungsabzeichen Wasser',
-    'FL-A-AS'=>'Ausbildungsprüfung Atemchutz',
-    'FL-A-FB'=>'Ausbildungsprüfung Feuerwehrboote',
-    'FL-A-LE'=>'Ausbildungsprüfung Löscheinsatz',
-    'FL-A-TE'=>'Ausbildungsprüfung Technicher Einsatz',
-    'VE'=>'Vereinsabzeichen',
-    'VG'=>'Gemeinde-/FF- Auszeichnungen',
-    'VO'=>'ÖRK - Österr. Rotes Kreuz',
-    'EM'=>'Erinnerungs- Medaillen' ,
-    'UN'=>'Unbekannte Verwendung',
-    'ZI'=>'Zivilabzeichen'
-    
+    'AE' => 'Auszeichnungen und Ehrungen',
+    'AV' => 'Verdienstzeichen',
+    'AV-A' => 'Ausbilder- Verdienstzeichen',
+    'AV-B' => 'Bewerter- Verdienstzeichen',
+    'JU' => 'Jugend',
+    'FL-A' => 'Leistungsabzeichen Klassisch (Land)',
+    'FL-F' => 'Leistungsabzeichen Funk',
+    'FL-SP' => 'Leistungsabzeichen Sprengen',
+    'FL-ST' => 'Leistungsabzeichen Strahlensch.',
+    'FL-WA' => 'Leistungsabzeichen Wasser',
+    'FL-A-AS' => 'Ausbildungsprüfung Atemchutz',
+    'FL-A-FB' => 'Ausbildungsprüfung Feuerwehrboote',
+    'FL-A-LE' => 'Ausbildungsprüfung Löscheinsatz',
+    'FL-A-TE' => 'Ausbildungsprüfung Technicher Einsatz',
+    'VE' => 'Vereinsabzeichen',
+    'VG' => 'Gemeinde-/FF- Auszeichnungen',
+    'VO' => 'ÖRK - Österr. Rotes Kreuz',
+    'EM' => 'Erinnerungs- Medaillen' ,
+    'UN' => 'Unbekannte Verwendung',
+    'ZI' => 'Zivilabzeichen'
+
 );
 
-const VF_Aermelabz_text  = array('TE'=>'Spezielle Beschreibung notwendig',
-    'BR'=>'Ärmelabzeichen für die Braune Uniform',
-    'BB'=>'Ärmelabzeichen für die Braune oder Blaue Uniform',
-    'BG'=>'Ärmelabzeichen für die Braune oder Grüne Uniform',
-    'BL'=>'Ärmelabzeichen für die Blaue Uniform',
-    'HE'=>'Ärmelabzeichen für das Hemd',
-    'PO'=>'Abzeichen für das Poloshirt, Fleecejacke, ...',
-    'GR'=>'Ärmelabzeichen für die Grüne Uniorm',
-    'FR'=>'Zugehörigkeitsabzeichen auf Freizeitkleidung (ev. Verein)',
-    'XX'=>'Noch nicht näher bestimmte Verwendung'
+const VF_Aermelabz_text  = array('TE' => 'Spezielle Beschreibung notwendig',
+    'BR' => 'Ärmelabzeichen für die Braune Uniform',
+    'BB' => 'Ärmelabzeichen für die Braune oder Blaue Uniform',
+    'BG' => 'Ärmelabzeichen für die Braune oder Grüne Uniform',
+    'BL' => 'Ärmelabzeichen für die Blaue Uniform',
+    'HE' => 'Ärmelabzeichen für das Hemd',
+    'PO' => 'Abzeichen für das Poloshirt, Fleecejacke, ...',
+    'GR' => 'Ärmelabzeichen für die Grüne Uniorm',
+    'FR' => 'Zugehörigkeitsabzeichen auf Freizeitkleidung (ev. Verein)',
+    'XX' => 'Noch nicht näher bestimmte Verwendung'
 );
 
-const VF_Stifter = array('  '=>'keine Definition',
-    'LA'=>'Land, Staat, Gemeinde - Ziviler Stifter',
-    'LF'=>'Feuerwehr als Stifter (LF- Bez-, FF- KDO)'
+const VF_Stifter = array('  ' => 'keine Definition',
+    'LA' => 'Land, Staat, Gemeinde - Ziviler Stifter',
+    'LF' => 'Feuerwehr als Stifter (LF- Bez-, FF- KDO)'
 );
 
 /**
  * Öffentlichkeitsarbeit
- * 
+ *
  */
 const VF_Arc_Type = array(
-    'AU'=>'Ausweis, Pass'
-    ,'DO'=>'Dokument'
-    ,'EI'=>'Einladung'
-    ,'PL'=>'Plakat'
-    ,'PR'=>'Protokoll'
-    ,'PRU'=>'Protokoll, Übersetzt'
-    ,'PRB'=>'Protokollbuch'
-    ,'PRBU'=>'aus Protokollbuch, Übersetzt'
-    
+    'AU' => 'Ausweis, Pass'
+    ,'DO' => 'Dokument'
+    ,'EI' => 'Einladung'
+    ,'PL' => 'Plakat'
+    ,'PR' => 'Protokoll'
+    ,'PRU' => 'Protokoll, Übersetzt'
+    ,'PRB' => 'Protokollbuch'
+    ,'PRBU' => 'aus Protokollbuch, Übersetzt'
+
 );
 
 const VF_Arc_Format = array(
-    'A0'=>'DIN A0'
-    ,'A1'=>'DIN A1'
-    ,'A2'=>'DIN A2'
-    ,'A3'=>'DIN A3'
-    ,'A4'=>'DIN A4'
-    ,'A5'=>'DIN A5'
-    ,'BU'=>'Buch'
-    ,'HE'=>'Heft'
+    'A0' => 'DIN A0'
+    ,'A1' => 'DIN A1'
+    ,'A2' => 'DIN A2'
+    ,'A3' => 'DIN A3'
+    ,'A4' => 'DIN A4'
+    ,'A5' => 'DIN A5'
+    ,'BU' => 'Buch'
+    ,'HE' => 'Heft'
 );
 
 const VF_Unterst = array(
@@ -399,233 +438,239 @@ const VF_Unterst = array(
     ,'SP' => 'Sponsoren'
 );
 
-const VF_Anrede = array( "Fr." =>"Frau", "Hr." => "Herr",""=>'Keine');
+const VF_Anrede = array( "Fr." => "Frau", "Hr." => "Herr","" => 'Keine');
 
 const VF_Mus_Typ = array(
-    '0'=>'Sammlung, Depot'
-    ,'1'=>'Schausammlung'
-    ,'2'=>'Traditionsraum'
-    ,'3'=>'Schauraum, Museum'
+    '0' => 'Sammlung, Depot'
+    ,'1' => 'Schausammlung'
+    ,'2' => 'Traditionsraum'
+    ,'3' => 'Schauraum, Museum'
 );
 
 const VF_Mus_Oeffzeit = array(
-    'G'=>'Ganzjährig','S'=>'Saison','V'=>'nur nach Vereinbarung', ' ' => 'Nicht definiert'
+    'G' => 'Ganzjährig','S' => 'Saison','V' => 'nur nach Vereinbarung', ' ' => 'Nicht definiert'
 );
 
 
 /**
- * von XRF, für Hochladen 
- * 
+ * von XRF, für Hochladen
+ *
  */
-const DocFiles = array("pdf");
-const GrafFiles = array("gif","ico","jpeg","jpg","png","tiff","webp");
-const VideoFiles = array("mp4");
+const DocFiles = array("pdf"); // nach Archivordnung
+const GrafFiles = array("gif","ico","jpeg","jpg","png","tiff"); // 09/06
+const VideoFiles = array("mp4"); // 09/10
 const ScrFiles  = array("css","htm","php","js","inc");
 const TxtFiles  = array("csv","dbf","doc","log","pps","odp","odt","txt","xml");
+const AudioFiles = array("mp3", "aac", "wav"); // 09/02
+
+/**
+ * Organisaionen
+ *
+ *
+ */
+const Org_Typ = array("P" => "Prvat","V" => "Verein","F" => "Feuerwehr","GV" => "Behörde","KI" => "Kirchliche Struktur","L" => "Feuerwehrstruktur AFKDO bis CTIF");
+
+/**
+ * Definition der Konstante der Mitglieder- Art
+ *
+ * @var array M_Typ
+ */
+const M_Typ = array(
+    "UM" => "Unterstützendes Mitglied",
+    "FG" => "Sachbearbeiter Feuerwehrgeschichte",
+    "EM" => "Ehrenmitglied",
+    "OE" => "Ohne Erlagschein - Fahrzeughalter"
+);
+
+/**
+ * Definition der Konstante für die Vorstands- Funktion des Mitgliedes im Verein
+ *
+ * @var M_Funktion
+ */
+const V_Funktion = array(
+    " " => "keine Funktion",
+    "O" => "Vereinsobmann",
+    "P" => "1. Obmann Stellvertreter",
+    "Q" => "2. Obmann Stellvertreter",
+    "F" => "Finanzen",
+    "G" => "Finanz Stellvertreter",
+    "J" => "Jurist",
+    "S" => "Schriftführer",
+    "T" => "Schriftführer Stellvertreter"
+);
+
+/**
+ * Definition der Konstante für die Referats-Leiter Funktion und des bekundeten Interesses (Mitarbeit oder Info) des Mitgliedes im Verein
+ *
+ * @var M_Funktion
+ */
+const L_Funktion = array(
+    " " => "keine Funktion",
+    "1" => "Referatsleiter 1",
+    "2" => "Referatsleiter 2 - Fahrzeuge",
+    "3" => "Referatsleiter 3 - Öffentlichkeitsarbeit",
+    "4" => "Referatsleiter 4 - Persönliche Ausrüstung"
+);
+
+const I_Funktion = array(
+    " " => "keine Preferenz",
+    "2" => "Fahrzeuge und Geräte",
+    "3" => "Öffentlichkeitsarbeit",
+    "4" => "Persönliche Ausrüstung"
+);
+
+/**
+ * Definition der Konstante für die Organisation des Mitgliedes
+ *
+ * @var M_Org
+ */
+const M_Org = array(
+    "Privat" => "Privatperson",
+    "FM" => "Feuerwehrmuseum",
+    "FF" => "Feuerwehr",
+    "V" => "Verein",
+    "AFKDO" => "AFKDO",
+    "BFKDO" => "BFKDO",
+    "LFKDO" => "LFKDO"
+);
+
+/**
+ * Definition der Konstante für die zur Erlaubnis der Verarbeitung der persönlichen Daten
+ *
+ * @var M_Einv
+ */
+const M_Einv = array(
+    "ONL" => "Online abgegeben",
+    "PAP" => "Unterschriebenes Dokument"
+);
+
+/**
+ * Definition der Egentümer- Orgnisation
+ *
+ * @var VF_Eig_Org_Typ
+ */
+const VF_Eig_Org_Typ = array(
+    "" => "Kein Eintrag",
+    "Privat" => "Privatperson",
+    "BtF" => "Betries- Feuerwehr",
+    "Fa."  => "Firma, Betrieb",
+    "Fa"  => "Firma, Betrieb",
+    "FM" => "Feuerwehrmuseum",
+    "FF" => "Feuerwehr",
+    "V" => "Verein",
+    "AFKDO" => "AFKDO",
+    "BFKDO" => "BFKDO",
+    "LFKDO" => "LFKDO",
+    "GV" => "Organisation, Staat/Land/Gde, Kirche"
+);
+
+/**
+ * Definition der Konstante für die Zugriffs- Berechtigungen
+ * Umstellung 202402 bei Reorg ser HP
+ */
+const VF_Berechtig = array(
+    'V' => 'Administrator = alle Rechte',
+    'Q' => 'Schreiben, Ändern',
+    'A' => 'nur Lesen',
+    'N' => 'keine Rechte'
+);
+
+/**
+ * Definition der altenZugriffs- Berechtigungen
+ * wird nach Abschluß der Umstellung nicht mehr gebraucht
+ */
+const VF_Berechtig_Z = array(
+    'V' => 'Administrator = alle Rechte',
+    'Q' => 'Schreiben, Ändern',
+    'A' => 'nur Lesen',
+    'N' => 'keine Rechte',
+    'Z' => 'Administrator = Superuser'
+);
+
+/**
+ * Definition der Refrate (neu seit 4.5.2024)
+ *
+ * @var array
+ */
+
+const VF_Referate_anmeld = array(
+    '2' => 'Fahrzeuge und Geräte',
+    '3' => 'Öffentlichkeitsarbeit und Archiv',
+    '4' => 'Uniformierung und Persönliche Ausrüstung'
+);
 
 
 /**
- * Organisaionen 
- * 
- * 
+ * Definition der Fachbereiche
+ *
+ * @var VF_Fachbereich
  */
- const Org_Typ = array("P"=>"Prvat","V"=>"Verein","F"=>"Feuerwehr","GV"=>"Behörde","KI"=>"Kirchliche Struktur","L"=>"Feuerwehrstruktur AFKDO bis CTIF");
- 
- /**
-  * Definition der Konstante der Mitglieder- Art
-  *
-  * @var array M_Typ
-  */
- const M_Typ = array(
-     "UM" => "Unterstützendes Mitglied",
-     "FG" => "Sachbearbeiter Feuerwehrgeschichte",
-     "EM" => "Ehrenmitglied",
-     "OE" => "Ohne Erlagschein - Fahrzeughalter"
- );
- 
- /**
-  * Definition der Konstante für die Vorstands- Funktion des Mitgliedes im Verein
-  *
-  * @var M_Funktion
-  */
- const V_Funktion = array(
-     " " => "keine Funktion",
-     "O" => "Vereinsobmann",
-     "P" => "1. Obmann Stellvertreter",
-     "Q" => "2. Obmann Stellvertreter",
-     "F" => "Finanzen",
-     "G" => "Finanz Stellvertreter",
-     "J" => "Jurist",
-     "S" => "Schriftführer",
-     "T" => "Schriftführer Stellvertreter"
- );
- 
- /**
-  * Definition der Konstante für die Referats-Leiter Funktion und des bekundeten Interesses (Mitarbeit oder Info) des Mitgliedes im Verein
-  *
-  * @var M_Funktion
-  */
- const L_Funktion = array(
-     " " => "keine Funktion",
-     "1" => "Referatsleiter 1",
-     "2" => "Referatsleiter 2 - Fahrzeuge",
-     "3" => "Referatsleiter 3 - Öffentlichkeitsarbeit",
-     "4" => "Referatsleiter 4 - Persönliche Ausrüstung"
- );
- 
- const I_Funktion = array(
-     " " => "keine Preferenz",
-     "2" => "Fahrzeuge und Geräte",
-     "3" => "Öffentlichkeitsarbeit",
-     "4" => "Persönliche Ausrüstung"
- );
- 
- /**
-  * Definition der Konstante für die Organisation des Mitgliedes
-  *
-  * @var M_Org
-  */
- const M_Org = array(
-     "Privat" => "Privatperson",
-     "FM" => "Feuerwehrmuseum",
-     "FF" => "Feuerwehr",
-     "V" => "Verein",
-     "AFKDO" => "AFKDO",
-     "BFKDO" => "BFKDO",
-     "LFKDO" => "LFKDO"
- );
- 
- /**
-  * Definition der Konstante für die zur Erlaubnis der Verarbeitung der persönlichen Daten
-  *
-  * @var M_Einv
-  */
- const M_Einv = array(
-     "ONL" => "Online abgegeben",
-     "PAP" => "Unterschriebenes Dokument"
- );
- 
- /**
-  * Definition der Egentümer- Orgnisation
-  *
-  * @var VF_Eig_Org_Typ
-  */
- const VF_Eig_Org_Typ = array(
-     "" => "Kein Eintrag",
-     "Privat" => "Privatperson",
-     "BtF" => "Betries- Feuerwehr",
-     "Fa."  => "Firma, Betrieb",
-     "Fa"  => "Firma, Betrieb",
-     "FM" => "Feuerwehrmuseum",
-     "FF" => "Feuerwehr",
-     "V" => "Verein",
-     "AFKDO" => "AFKDO",
-     "BFKDO" => "BFKDO",
-     "LFKDO" => "LFKDO",
-     "GV" => "Organisation, Staat/Land/Gde, Kirche"
- );
- 
- /**
-  * Definition der Konstante für die Zugriffs- Berechtigungen
-  * Umstellung 202402 bei Reorg ser HP
-  */
- const VF_Berechtig = array(
-     'V' => 'Administrator = alle Rechte',
-     'Q' => 'Schreiben, Ändern',
-     'A' => 'nur Lesen',
-     'N' => 'keine Rechte'
- );
- 
- /**
-  * Definition der altenZugriffs- Berechtigungen
-  * wird nach Abschluß der Umstellung nicht mehr gebraucht
-  */
- const VF_Berechtig_Z = array(
-     'V' => 'Administrator = alle Rechte',
-     'Q' => 'Schreiben, Ändern',
-     'A' => 'nur Lesen',
-     'N' => 'keine Rechte',
-     'Z' => 'Administrator = Superuser'
- );
- 
- /**
-  * Definition der Refrate (neu seit 4.5.2024)
-  *
-  * @var array
-  */
- 
- const VF_Referate_anmeld = array(
-     '2' => 'Fahrzeuge und Geräte',
-     '3' => 'Öffentlichkeitsarbeit und Archiv',
-     '4' => 'Uniformierung und Persönliche Ausrüstung'
- );
- 
- 
- /**
-  * Definition der Fachbereiche
-  *
-  * @var VF_Fachbereich
-  */
- const VF_Fachbereich = array(
-     ' ' => "Keinem Fachbereich zugeordnet",
-     'SUC' => 'Suche nach Suchbegriffen',
-     'F_G' => "Muskelbewegte Fahrzeuge und Geräte",
-     'F_M' => "Motorbewegte Fahrzeuge und Geräte",
-     "S_G" => "Sonstige Gerätschafte, ausser persönlicher Ausrüstung",
-     'PSA' => "persönliche Ausrüstung",
-     'ARC' => "Archivalien",
-     'INV' => "Inventar",
-     'OEF' => "Öffentlichkeitsarbeit und Dokumentation",
-     'ADM' => "Admnistration",
-     'MVW' => "Mitgliederverwaltung"
- );
- 
- /**
-  * Definiton der Admin- Verständiungs- E-Mail- Gruppen
-  *
-  * @var VF_Mail_Grup
-  */
- const VF_Mail_Grup = array(
-     'Mitgl' => 'Mitgliederverwaltung',
-     'Vorst' => 'Vorstand',
-     'eVors' => 'erweiterter Vorstand',
-     'Bezah' => 'Bezahl-Info',
-     'Tech' => 'Technische Infos, Programmierer'
- );
- 
- const VF_ZT_Kategorie  = array(
-     'A' => 'Artikel',
-     'W' => 'Werbung',
-     'V' => 'Veranstaltung'
- );
- 
- const VF_ZT_Sachgeb = array(
-     'A' => 'Atemschutz',
-     'L' => 'Ausbildung',
-     'E' => 'Einsatz/Übung',
-     'F' => 'Fahrzeuge/Geräte',
-     'G' => 'Gefahrengut',
-     'S' => 'Strahlenschutz',
-     'T' => 'Tauchdienst',
-     'V' => 'Vorbeugender Brandschutz',
-     'W' => 'Wasserdienst',
-     'Z' => 'Zeugmeisterei',
-     'H' => 'Historisches, Archiv',
-     'R' => 'Rettungsdienste',
-     'P' => 'Personelles',
-     'B' => 'Fehler B !' ,
-     'K' => 'Fehler K !'
- );
- 
- const VF_ZT_Sub_Sachg = array(
-     'B' => 'Brandeinsatz/Übung',
-     'T' => 'Technischer Einsatz/Übung',
-     'G' => 'Gefahrengut',
-     'S' => 'Strahlenschutz',
-     'W' => 'Wasserdienst',
-     'K' => 'Katastrophenchutz',
-     "P" => 'Persönliche Ausrüstung'
- );
+const VF_Fachbereich = array(
+    ' ' => "Keinem Fachbereich zugeordnet",
+    'SUC' => 'Suche nach Suchbegriffen',
+    'F_G' => "Muskelbewegte Fahrzeuge und Geräte",
+    'F_M' => "Motorbewegte Fahrzeuge und Geräte",
+    "S_G" => "Sonstige Gerätschafte, ausser persönlicher Ausrüstung",
+    'PSA' => "persönliche Ausrüstung",
+    'ARC' => "Archivalien",
+    'INV' => "Inventar",
+    'OEF' => "Öffentlichkeitsarbeit und Dokumentation",
+    'ADM' => "Admnistration",
+    'MVW' => "Mitgliederverwaltung"
+);
+
+/**
+ * Definiton der Admin- Verständiungs- E-Mail- Gruppen
+ *
+ * @var VF_Mail_Grup
+ */
+const VF_Mail_Grup = array(
+    'Mitgl' => 'Mitgliederverwaltung',
+    'Vorst' => 'Vorstand',
+    'eVors' => 'erweiterter Vorstand',
+    'Bezah' => 'Bezahl-Info',
+    'Tech' => 'Technische Infos, Programmierer'
+);
+
+const VF_ZT_Kategorie  = array(
+    'A' => 'Artikel',
+    'W' => 'Werbung',
+    'V' => 'Veranstaltung'
+);
+
+const VF_ZT_Sachgeb = array(
+    'A' => 'Atemschutz',
+    'L' => 'Ausbildung',
+    'E' => 'Einsatz/Übung',
+    'F' => 'Fahrzeuge/Geräte',
+    'G' => 'Gefahrengut',
+    'S' => 'Strahlenschutz',
+    'T' => 'Tauchdienst',
+    'V' => 'Vorbeugender Brandschutz',
+    'W' => 'Wasserdienst',
+    'Z' => 'Zeugmeisterei',
+    'H' => 'Historisches, Archiv',
+    'R' => 'Rettungsdienste',
+    'P' => 'Personelles',
+    'B' => 'Fehler B !' ,
+    'K' => 'Fehler K !'
+);
+
+const VF_ZT_Sub_Sachg = array(
+    'B' => 'Brandeinsatz/Übung',
+    'T' => 'Technischer Einsatz/Übung',
+    'G' => 'Gefahrengut',
+    'S' => 'Strahlenschutz',
+    'W' => 'Wasserdienst',
+    'K' => 'Katastrophenchutz',
+    "P" => 'Persönliche Ausrüstung'
+);
+
+const VF_Fahrz_Herst = array(
+    'F' => 'Fahrzeughersteller'
+    ,'A' => 'Aufbauer (Karosseur)'
+    ,'G' => 'Geräte- Hersteller'
+);
  
 /**
  * Ende der Bibliothek

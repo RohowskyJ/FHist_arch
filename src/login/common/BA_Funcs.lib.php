@@ -1,32 +1,32 @@
 <?php
 /**
  * Bibliothek für allgemeine Funktionen.
- * 
- * @author  B.R.Gaicki  - neu 2018   mod 2024     
- * 
+ *
+ * @author  B.R.Gaicki  - neu 2018   mod 2024
+ *
  * Funcs - Gemeinsame Konstantendefinitionen und Unterprogramme - Version 5 by B.Richard Gaicki
- * 
+ *
  * change Avtivity:
- * 2024_04_28 JR          - Test Prefix für Aufrufe 
+ * 2024_04_28 JR          - Test Prefix für Aufrufe
  * ----------------------------------------------------------------------------------
  * Unterprogramme:
  *  - logo         - Logo Banner
  *  - getmicrotime - zur Berechnung der Dauer der Abfrage (Zeitpunke für $startzeit $stopzeit)
- *  - writelog     - zum Schreiben von Eintragungen in LOG Files 
+ *  - writelog     - zum Schreiben von Eintragungen in LOG Files
  *  - absoluteURL  - konvertiert eine relative URL zu einer absoluten URL (in Mails benötigt)
- *  - logandMail   - zum Schreiben von Eintragungen in LOG Files und versenden einer Mail an die Admins 
- *  - LinkDB       - um den 'Link' zur SQL Datenbank herzustellen 
+ *  - logandMail   - zum Schreiben von Eintragungen in LOG Files und versenden einer Mail an die Admins
+ *  - LinkDB       - um den 'Link' zur SQL Datenbank herzustellen
  *  - Vdir_sort     - Anzeige der sortierten Log Direktory-Inhalte          - von VF_ übernommen
- *  - EMail_Eingabe - Anzeige des Feldes zur Eingabe der E-Mail-Adresse zur Indentifikation des Mitglieds 
- *  - EMail_Adr_check - E-Mail-Adresse prüfen und Eintrag aus TNTab lesen - oder Fehlermedung zurückgeben 
- *  - HTML_header  - gibt den HTML Header aus 
- *  - HTML_trailer - gibt passend zu VF_HTML_Header den trailer aus 
+ *  - EMail_Eingabe - Anzeige des Feldes zur Eingabe der E-Mail-Adresse zur Indentifikation des Mitglieds
+ *  - EMail_Adr_check - E-Mail-Adresse prüfen und Eintrag aus TNTab lesen - oder Fehlermedung zurückgeben
+ *  - HTML_header  - gibt den HTML Header aus
+ *  - HTML_trailer - gibt passend zu VF_HTML_Header den trailer aus
  *  - initial_debug- Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
- *  - Button_senden - fügt die Aufforderung zum Fehler beheben - und den Button 'senden' - ein 
- *  - SQL_QUERY     - Aufruf des mysqli Query 
- *  - mb_ucfirst    - weil es derzeit in php keine unktion mb_ucfirst gibt  
+ *  - Button_senden - fügt die Aufforderung zum Fehler beheben - und den Button 'senden' - ein
+ *  - SQL_QUERY     - Aufruf des mysqli Query
+ *  - mb_ucfirst    - weil es derzeit in php keine unktion mb_ucfirst gibt
  *  - console_log   - Text information in console von WEB-Tools
- *  - flow_add      - Aufrufs- Mitschnitte 
+ *  - flow_add      - Aufrufs- Mitschnitte
  */
 flow_add('funcs', "Funcs.inc.php geladen");
 global $debug;
@@ -38,7 +38,7 @@ if ($debug) {
  * Unterprogramm um das Logo Bild einzufügen.
  *
  * @return string Anzeige des Logo-Bildes
- *        
+ *
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
  */
 function logo()
@@ -51,7 +51,7 @@ function logo()
     $logo = "";
 
     if (is_file($path2ROOT . 'login/common/config_s.ini')) {
-        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', True, INI_SCANNER_NORMAL);
+        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
     }
 
     if (isset($ini_arr['Config'])) {
@@ -76,9 +76,10 @@ function logo()
 function getmicrotime()
 // --------------------------------------------------------------------------------
 {
+    global $module;
     flow_add($module, "Funcs.inc Funct: getmicrotime");
 
-    list ($usec, $sec) = explode(' ', microtime());
+    list($usec, $sec) = explode(' ', microtime());
     return ((float) $usec + (float) $sec);
 }
 
@@ -94,7 +95,7 @@ function getmicrotime()
  * @param string $logtext
  *            Log- Text welcher Einzutragen ist (wird mit Systemdaten ergänzt)
  * @return string Ergänzter DSN des MonatsLogFiles (mit YYYY und .log)
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  */
 function writelog($log_DSN, $logtext)
@@ -116,7 +117,7 @@ function writelog($log_DSN, $logtext)
     if (isset($_SERVER['REMOTE_USER'])) {
         $eintragen .= "\n         REMOTE_USER: " . $_SERVER['REMOTE_USER'];
     }
-    $eintragen .= "\n                Host: " . gethostbyaddr($_SERVER["REMOTE_ADDR"]) . 
+    $eintragen .= "\n                Host: " . gethostbyaddr($_SERVER["REMOTE_ADDR"]) .
     # . "\n IP: " . $_SERVER["REMOTE_ADDR"]
     # . "\n Server name: " . $_SERVER['SERVER_NAME']
     "\n                Page: " . $_SERVER["REQUEST_URI"];
@@ -144,11 +145,11 @@ function writelog($log_DSN, $logtext)
  * @param string $url
  *            relative URL
  * @return string absolute URL
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  */
 function absoluteURL($url) //
-                            // --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
 {
     global $debug, $module;
     if ($debug) {
@@ -194,7 +195,7 @@ function absoluteURL($url) //
  * @param string $Mailtext
  *            Inhalt der Email in HTML format (wird mit Zusatzinformation ergän
  * @return boolean Rückgabewert: immer True
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global $module Modul-Name für $_SESSION[$module] - Parameter
  */
@@ -230,11 +231,11 @@ function logandMail($log_DSN, $logtext, $MailTo, $MailSubject, $Mailtext)
  * @param
  *            string <code>$db_proj</code> Falls mehrer Datenbanken benutzt werden (
  * @return array Datenbank Handle
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global string $LinkDB_database Datenbank- Name
  *         - diese wird in Funktion Tabellen_Spalten_parms (Tabellen_Spalten) verwendet
- *        
+ *
  */
 function LinkDB($db_proj = "")
 {
@@ -242,21 +243,16 @@ function LinkDB($db_proj = "")
 
     flow_add($module, "Funcs.inc Funct: LinkDB_n");
     # echo $path2ROOT."login/common/config_d.ini <br> ";
+    $ini_s = $path2ROOT . "login/common/config_s.ini";
+    $ini_s_arr = parse_ini_file($ini_s, true, INI_SCANNER_NORMAL);
+    $hompg = $ini_s_arr['Config']['homp'];
     $ini_d = $path2ROOT . "login/common/config_d.ini";
-    $ini_arr = parse_ini_file($ini_d, True, INI_SCANNER_NORMAL);
-    # print_r($ini_arr); echo "<br>L 0239 ini_arr <br>";
+    $ini_arr = parse_ini_file($ini_d, true, INI_SCANNER_NORMAL);
+  # print_r($ini_s_arr); echo "<br>L 0251 ini_s_arr $hompg <br>";
 
     $server_name = $_SERVER['SERVER_NAME'];
 
-    # echo "L 0248 server name $server_name <br>";
-    if (stripos($server_name, "www") || stripos($server_name, "WWW")) {
-        $url_arr = explode(".", $server_name);
-        $cnt_u = count($url_arr);
-        $server_name = $url_arr[$cnt_u - 2] . "." . $url_arr[$cnt_u - 1];
-        # echo "l 0247 srvNam $server_name <br>";
-    }
-
-    if (isset($ini_arr)) { # (isset($ini_arr[$server_name])){
+    if (isset($ini_arr)) { 
         if ($server_name == 'localhost') {
             if (isset($ini_arr[$server_name])) {
                 $dbhost = $ini_arr[$server_name]['l_dbh'];
@@ -265,28 +261,29 @@ function LinkDB($db_proj = "")
                 $database = $ini_arr[$server_name]['l_dbn'];
             }
         } else {
-            if (stripos($server_name, "www") || stripos($server_name, "WWW")) {
-                $url_arr = explode(".", $server_name);
-                $cnt_u = count($url_arr);
-                $server_name = $url_arr[$cnt_u - 2] . "." . $url_arr[$cnt_u - 1];
-                # echo "l 0247 srvNam $server_name <br>";
+            # echo "L 0264 homp $hompg <br>";
+            $s_a =  explode(".",$server_name);
+            $cnt_s = count($s_a);
+            $s_c =  explode(".",$hompg);
+            $cnt_s = count($s_c);
+            if ($cnt_s < $cnt_c) {
+                if ($s_a[$cnt_s-2] == $s_c[$cnt_c-2]) {
+                    $server_name = "HOST";
+                }
             }
-            $server_name = "HOST";
-            if (isset($ini_arr[$server_name])) {
-                $dbhost = $ini_arr[$server_name]['h_dbh'];
-                $dbuser = $ini_arr[$server_name]['h_dbu'];
-                $dbpass = $ini_arr[$server_name]['h_dbp'];
-                $database = $ini_arr[$server_name]['h_dbn'];
-            }
+            $dbhost = $ini_arr[$server_name]['h_dbh'];
+            $dbuser = $ini_arr[$server_name]['h_dbu'];
+            $dbpass = $ini_arr[$server_name]['h_dbp'];
+            $database = $ini_arr[$server_name]['h_dbn'];
         }
 
-        # echo "L 280 linkdb_n dbhost $dbhost dbnam $database user $dbuser pass $dbpass <br>";
+        # echo "L 284 linkdb_n dbhost $dbhost dbnam $database user $dbuser <br>";  # pass $dbpass 
 
         $dblink = mysqli_connect($dbhost, $dbuser, $dbpass) or die('Verbindung zu MySQL gescheitert!' . mysqli_connect_error());
 
         mysqli_select_db($dblink, $database) or die("Datenbankzugriff zu $database gescheitert!");
         # if ($debug) { echo "<pre class=debug> mysqli_select_db:"; print_r($dblink); echo '</pre>'; }
-        mysqli_set_charset($dblink, 'utf8');
+        mysqli_set_charset($dblink, 'utf8mb4');
         $LinkDB_database = $database; # wird in Funktion Tabellen_Spalten_v2.php verwendet
         return $dblink;
     } else {
@@ -319,10 +316,10 @@ function dir_sort($Pfad, $FType, $direkt_ausg)
     # if ($debug) {echo "<pre class=debug>Funct dir_sort L 206: <br/>Pfad=$Pfad <br/>FType=$FType</pre>";}
     if ($Pfad == "") {
         $Pfad = "./";
-        if ($FTyp == "") {
-            $FTyp = "txt";
+        if ($FType == "") {
+            $FType = "txt";
         }
-        if ($direct_ausg == "") {
+        if ($direkt_ausg == "") {
             $direkt_ausg = false;
         }
     }
@@ -361,7 +358,7 @@ function dir_sort($Pfad, $FType, $direkt_ausg)
  * @return array returniert immer ein Array. Bestehend aus
  *         - entweder dem element 'message' - weches den Fehlertext enthält
  *         - oder aus den Spalten des gefundenen Eintrags der Tabelle TNTab
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
@@ -428,8 +425,7 @@ function EMail_Adr_check(&$EMail, $dblink, $MailTo = '')
             </pre>";
     }
 
-    if (mysqli_num_rows($sqlresult) == 0) # keine Eintragung in TNTAB gefunden ----------------------------------
-    {
+    if (mysqli_num_rows($sqlresult) == 0) { # keine Eintragung in TNTAB gefunden ----------------------------------
         $MailSubject = "Abgewiesener Request! E-Mail-Adresse $EMail unbekannt."; // text in the Subject field of the mail
         $Mailbody = "<p>Abgewiesener $module Request!</p>";
         logandMail($path2ROOT . "login/logs/" . $module . "_nok_log", '', $MailTo, $MailSubject, $Mailbody);
@@ -447,17 +443,16 @@ function EMail_Adr_check(&$EMail, $dblink, $MailTo = '')
         echo '</pre>';
     }
 
-    $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', True, INI_SCANNER_NORMAL);
+    $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
     $email = $ini_arr['Config']['vema'];
-    if ($TNTab_row['mi_einversterkl'] != "Y") # Keine Einverständniserklärung -------------------------------------
-    {
+    if ($TNTab_row['mi_einversterkl'] != "Y") { # Keine Einverständniserklärung -------------------------------------
         $MailSubject = "VFH-$module: Abgewiesener Request! E-Mail-Adresse $EMail. Keine Einverständniserklärung."; // text in the Subject field of the mail
         $Mailbody = "<p>Abgewiesener $module Request!</p>";
         logandMail($path2ROOT . "login/logs/" . $module . "_nok_log", // Name der Log Datei (wird mit Jahr ,Monat .log ergänzt)
-        '', // Text welcher in den LOG Einzutragen ist (wird mit Datum , Uhrzeit und Systemdaten ergänzt)
-        $email, // Mail Empänger(Liste)
-        $MailSubject, // Subject Text der EMail
-        $Mailbody); // Inhalt der Email in HTML format (wird mit Zusatzinformation ergänzt)
+            '', // Text welcher in den LOG Einzutragen ist (wird mit Datum , Uhrzeit und Systemdaten ergänzt)
+            $email, // Mail Empänger(Liste)
+            $MailSubject, // Subject Text der EMail
+            $Mailbody); // Inhalt der Email in HTML format (wird mit Zusatzinformation ergänzt)
 
         return array(
             'message' => "Keine Einverständnisserklärung gegeben"
@@ -480,8 +475,8 @@ function EMail_Adr_check(&$EMail, $dblink, $MailTo = '')
  *            zusätzliche <head> Zeilen. Auch <style>......</style
  * @param string $type
  *            Form der Seite
- *            
- *            
+ *
+ *
  * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
  * @global string $logo NEIN: keine Anzeige des Logo
  */
@@ -506,7 +501,7 @@ function HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '90em
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3.css'  type='text/css'>";
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
     #echo " <link rel='alternate stylesheet' href='" . $path2ROOT . "login/common/css/color_blue.css' type='text/css' title='standard'>";
-   
+
     if (isset($jq_ui) && $jq_ui) {
         echo "<link  href='" . $path2ROOT . "login/common/javascript/jquery-ui-1.14.0/jquery-ui.min.css'  rel='stylesheet' type='text/css'>";
         echo "<link  href='" . $path2ROOT . "login/common/javascript/jquery-ui-1.14.0/jquery-ui.theme.min.css'  rel='stylesheet' type='text/css'>";
@@ -515,23 +510,23 @@ function HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '90em
     if (isset($jq) && $jq) {
         echo "<script src='" . $path2ROOT . "login/common/javascript/jquery-1.12.4.min.js' ></script>";
     }
-    if (isset($jq_ui) && $jq_ui) {   
+    if (isset($jq_ui) && $jq_ui) {
         echo "<script src='" . $path2ROOT . "login/common/javascript/jquery-ui-1.14.0/jquery-ui.min.js'></script>";
     }
     if (isset($prot) && $prot) {
-       echo "<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+        echo "<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
     }
     # echo " <script src='" . $path2ROOT."login/common/javascript/stylesheet-wechsler.js' type='text/javascript'></script>";
     # echo " <script src='" . $path2ROOT."login/common/javascript/stoprkey.js' type='text/javascript'></script>";
-    
+
     echo $head;
     echo "</head>";
 
     if (is_file($path2ROOT . 'login/common/config_s.ini')) {
-        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', True, INI_SCANNER_NORMAL);
+        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
         if ($ini_arr['Config']['mode'] == "Single" && $ini_arr['Config']['eignr'] != "") {
             if (!isset($_SESSION['VF_Prim'])) {
-               
+
                 $_SESSION['VF_Prim']['mode'] = $ini_arr['Config']['mode'];
                 $_SESSION['VF_Prim']['eignr'] = $ini_arr['Config']['eignr'];
                 VF_Displ_Eig($ini_arr['Config']['eignr']);
@@ -545,12 +540,12 @@ function HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '90em
     if (! isset($actor) || $actor == "") {
         $actor = $_SERVER["PHP_SELF"];
     }
-    
+
     if ($type == 'Form') {
-       echo "<body class='w3-container' style='max-width:$width;' >"; //
-       echo '<fieldset>'; ## FS 1 - 
-       
-       ?>
+        echo "<body class='w3-container' style='max-width:$width;' >"; //
+        echo '<fieldset>'; ## FS 1 -
+
+        ?>
            <div class='w3-container' id='header'>
     <fieldset>
     <header>
@@ -570,20 +565,21 @@ function HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '90em
     </header>
     </fieldset>
    
-   <?php 
-       
-        if ($ini_arr['Config']['wart'] == "N") {} else {
-            
-            if ($ini_arr['Config']['wart'] == "J") {
-                echo "<p class='error' style='font-size: 1.875em;'>Wartungsarbeiten - nur Abfragen möglich - keine Änderungen</p>";
-            }
-            if ($ini_arr['Config']['wart'] == "U") {
-                echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
-            }
-        }
+   <?php
 
-       echo '</div>';                               ## div 1 end - titeln und Logo
-       echo "<fieldset>"; ## FS 2 Institution und Titel
+         if ($ini_arr['Config']['wart'] == "N") {
+         } else {
+
+             if ($ini_arr['Config']['wart'] == "J") {
+                 echo "<p class='error' style='font-size: 1.875em;'>Wartungsarbeiten - nur Abfragen möglich - keine Änderungen</p>";
+             }
+             if ($ini_arr['Config']['wart'] == "U") {
+                 echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
+             }
+         }
+
+        echo '</div>';                               ## div 1 end - titeln und Logo
+        echo "<fieldset>"; ## FS 2 Institution und Titel
     } else {
         echo "<body class='w3-container'  style='max-width:$width;'>";
         echo '<fieldset>';
@@ -591,7 +587,7 @@ function HTML_header($title, $stitle, $head = '', $type = 'Form', $width = '90em
     if (!isset($form_start) || !$form_start) {
         echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data'>";
     }
-   
+
     flow_add($module, "Funcs.inc.php Funct: HTML_Header");
 }
 
@@ -607,7 +603,7 @@ function HTML_trailer()
 
     flow_add($module, "Funcs.inc Funct: HTML_trailer");
 
-   
+
     echo "
     <br>
     <footer class='footer'>
@@ -620,7 +616,7 @@ function HTML_trailer()
     </footer>
 ";
     echo "</form>";
-    
+
     echo "</div></fieldset></body></html>";
 }
 
@@ -677,8 +673,8 @@ function initial_debug()
  *            Text für den Button
  * @param number $Errors
  *            Fehler- Anzahl der vorhergegangnen Eingabe
- *            
- *            
+ *
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  * @global string $module Modul-Name für $_SESSION[$module] - Parameter
  */
@@ -708,7 +704,7 @@ function Button_senden($Button_text, $Errors = 0)
  * @param string $sql
  *            SQL- Statement
  * @return array|boolean Antwort des mysqli_query
- *        
+ *
  * @global boolean $debug Anzeige von Debug- Informationen: if ($debug) { echo "Text" }
  */
 function SQL_QUERY($db, $sql)
@@ -726,12 +722,12 @@ function SQL_QUERY($db, $sql)
     # if ($debug OR $return===FALSE ) { echo '<pre class=debug>sql result: ' ; print_r($return); echo '</pre>'; }
 
     if ($return = mysqli_query($db, $sql)) {
-        #echo "<pre class=debug>L 729 SQL_Query sql $sql <br>result: " ; print_r($return); echo '</pre>';
+        # echo "<pre class=debug>L 725 SQL_Query sql $sql <br>result: " ; print_r($return); echo '</pre>';
         return $return;
     } else {
         echo "<br><b style='color:red;background:white;'>Fehler in mysqli_query: <i>" . mysqli_error($db) . "</i></b> <b><pre style='background:white;'>$sql</pre></b><br>";
-        
-        if ($debug or $return === FALSE) {
+
+        if ($debug or $return === false) {
             echo '<pre class=debug>sql result: ';
             print_r($return);
             echo '</pre>';
@@ -792,6 +788,7 @@ function EMail_Eingabe($Feld_name, $EMail, $Err_EMail)
  */
 function _mb_ucfirst($str)
 {
+    global $module;
     flow_add($module, "Funcs.inc Funct: _mb_ucfirst");
 
     $a = mb_strtoupper(mb_substr($str, 0, 1, 'UTF-8'), 'UTF-8');

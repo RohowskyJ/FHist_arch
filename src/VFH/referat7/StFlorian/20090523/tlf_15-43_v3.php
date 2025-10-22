@@ -43,7 +43,7 @@ betreut durch <br/>Oldtimerverein der FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-IMG_9262.JPG" alt="" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-W-IMG_9262.JPG" alt="" align="right" />
 Tanklöschfahrzeuge haben vor dem Zweiten Weltkrieg nicht zu den
 Standardfahrzeugen der Feuerwehren gehört: Aufgrund der Erfahrungen aus den
 Bombenangriffen auf die deutschen Städte mit den vielen Großbränden und

@@ -16,35 +16,48 @@ if ($debug) {
     print_r($neu);
     echo '</pre>';
 }
-
+#var_dump($neu);
 $neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
 
-if (isset($_FILES['uploaddatei_1']['name'])) {
-    $uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/" . $neu['ad_sg'] . "/" . $neu['ad_subsg'] . "/";
-    # echo "L 072 \$uploaddir $uploaddir <br/>";
-    if (! file_exists($uploaddir)) {
-        mkdir($uploaddir, 0777, true);
+/* Sammlung aufbereiten */
+if (isset($_POST['level1'])) {
+    $response = VF_Multi_Sel_Input();
+    if ($response == "" || $response == "Nix") {
+        
+    } else {
+        $neu['fz_sammlg'] = $response;
     }
+}
+
+$uploaddir = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/" . $neu['ad_sg'] . "/" . $neu['ad_subsg'] . "/";
+
+if (isset($_FILES)) {
+    $i = 0;
     
-    if ($_FILES['uploaddatei_1']['name'] != "" ) {
-        $neu['ad_doc_1'] = VF_Upload($uploaddir, 1);
+    foreach ($_FILES as $upLoad  => $file_arr) {
+        #var_dump($_FILES[$upLoad]);
+        # var_dump($_SESSION[$module]['Pct_Arr']);
+        if ($_FILES[$upLoad] != "") {
+            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
+            $result = VF_Upload_Save_M($uploaddir,$upLoad); # ,$urh_abk,$fo_aufn_datum
+            
+            if ($result == "") {
+                continue;
+            }
+            if (substr($result,0,5) == 'Err: ' ) {
+                continue;
+            }
+            $neu["ad_doc_".$i+1] = $result;
+            
+            $i++;
+        }
     }
-    if ($_FILES['uploaddatei_2']['name'] != "" ) {
-        $neu['ad_doc_2'] = VF_Upload($uploaddir, 2);
-    }
-    if ($_FILES['uploaddatei_3']['name'] != "" ) {
-        $neu['ad_doc_3'] = VF_Upload($uploaddir, 3);
-    }
-    if ($_FILES['uploaddatei_4']['name'] != "" ) {
-        $neu['ad_doc_4'] = VF_Upload($uploaddir, 4);
-    }
+    #var_dump($neu);
 }
 
-if (isset($neu['auto'])) {
-    $ei_arr = explode("-",$neu['auto']);
-    $neu['ad_neueigner'] = $ei_arr[0];
+if (isset($neu['eigentuemer_1']) && $neu['eigentuemer_1'] != "") {
+    $neu['ad_neueigner'] = $neu['eigentuemer_1'];
 }
-
 
 if ($neu['ad_id'] == 0) { # neueingabe
     $arcnewnr = "";
@@ -100,9 +113,11 @@ if ($neu['ad_id'] == 0) { # neueingabe
         if (! preg_match("/[^0-9]/", $name)) {
             continue;
         } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        
+        if (substr($name,0,3) != 'ad_') {
             continue;
-        } #
+        }
+        
         if ($name == "ad_doc_11") {
             continue;
         } #
@@ -113,39 +128,6 @@ if ($neu['ad_id'] == 0) { # neueingabe
             continue;
         }
         if ($name == "ad_doc_44") {
-            continue;
-        } #
-
-        if ($name == 'ak_s0') {
-            continue;
-        }
-        if (substr($name, 0, 4) == 'l_ad') {
-            continue;
-        }
-        if (substr($name, 0, 4) == 'l_sb') {
-            continue;
-        }
-
-        if ($name == "in_eignr") {
-            continue;
-        } #
-        if ($name == "InvNr") {
-            continue;
-        } #
-        if ($name == "eigentmr") {
-            continue;
-        } #
-
-        if ($name == "ArchNr") {
-            continue;
-        } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "auto") {
-            continue;
-        } #
-        if (substr($name,0,4) == "leve") {
             continue;
         } #
 

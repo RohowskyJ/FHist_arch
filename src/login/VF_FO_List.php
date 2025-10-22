@@ -7,9 +7,10 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
-$tabelle = 'fo_todaten';
+$module = 'OEF';
+$sub_mod = 'Foto';
+
+$tabelle = 'dm_edien_';
 
 /**
  * Pfad zum Root- Verzeichnis, wird abgelöst
@@ -17,6 +18,9 @@ $tabelle = 'fo_todaten';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FO_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -68,69 +72,55 @@ VF_upd();
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-$title = "Urheber Auswahl";
+if (!isset($phase)) {
+    $phase = 0;
+}
 
+if ($phase == 0) {
+    $title = "Urheber Auswahl";
+} else {
+    $title = "Medien- Bearbeitung (Audio, Foto, Video) ";
+}
+
+
+$jq = $jqui = True;
+$BA_AJA = true;
 BA_HTML_header($title, '', 'List', '75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
 
-if (!isset($phase)) {
-    $phase = 0;
-}
-
-/**
- * Setzen Parameter wen nicht existent
- */
-if (!isset($_SESSION[$module]['URHEBER'] )) {
-    $_SESSION['Eigner']['eig_eigner'] = "";
-    $_SESSION[$module]['URHEBER'] = array();
-}
-
 /**
  * Löschen Parameter, wenn neue Urheber gewünscht
  */
 if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") { // Urhebe- Parameter und Eigner- Information löschen
-     unset($_SESSION[$module]['URHEBER']);
-     $_SESSION['Eigner']['eig_eigner'] = "";
+    $_SESSION[$module][$sub_mod]['eig_eigner'] = "";
 }
 
 /**
- * Phasne- Informationen
+ * Phase- Informationen
  * $phase = 0 einlesen
  */
 if (isset($_POST['phase'])) {
     $phase = $_POST['phase'];
 }
 
-$_SESSION[$module]['FOTO'] = True;
+$_SESSION[$module][$sub_mod] = array();
 
 if ($phase == 0  ) {
-    $eig_header = "Eigentümer/Urheber Auswahl";
-    require 'VF_Z_E_U_Sel_List.inc.php';
+    VF_Auto_Eigent('U',True,1);
 }
 
 if ($phase  == "1")  {
     
-    if (isset($_POST['ei_id'])) {
-        $_SESSION['Eigner']['eig_eigner'] = $_POST['ei_id'];
-        $eign_ret = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
-        
-        $urh_kurz = "";
-        if (isset($_POST['urh_kurz']))     {
-            $urh_kurz = $_POST['urh_kurz'];
-        }
-        if (VF_Sel_Eign_Urheb($_POST['ei_id'],$urh_kurz)) {
+    if (isset($_POST['eigentuemer_1'])) {  // ei_id
+        $_SESSION[$module][$sub_mod]['eig_eigner'] = $_POST['eigentuemer_1'];
+      
+        $eign_ret = VF_Displ_Eig($_POST['eigentuemer_1'], 'U');
             require "VF_FO_List.inc.php";
-        } else {
-            echo "Parameter- Fehler, Inhalte (Daten und/oder Fotos) können nicht angezeift werden.<br>";
             exit;
-        }
-        
     }
-
 }
-
 
 BA_HTML_trailer();
 
@@ -179,43 +169,47 @@ function modifyRow(array &$row, $tabelle)
                 
             }
             break;
-        case "fo_todat":
+        case "dm_edien":
         
-            if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {   
-                $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/06/";
-            } else {
-                $pict_path = "../login/AOrd_Verz/" . $row['fo_eigner'] . "/09/10/";
-            }
-
-            $fo_id = $row['fo_id'];
-            $verz = "N";
-            if ($row['fo_dsn'] == "") {
+            $verz = "N"; /** Daten anzeigen, J = Nur Verzeichnisse anzeigen */
+            $md_id = $row['md_id'];
+            
+            
+            $pict_path = $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/";
+            if ($row['md_dsn_1'] != "") {
                 $verz = "J";
+                $md_arr = pathinfo($pict_path);
+                
+                if (in_array(strtolower($md_arr['extension']), AudioFiles)) {
+                    $pict_path ."02/";
+                }
+                if (in_array(strtolower($md_arr['extension']), GrafFiles)) {
+                    $pict_path ."06/";
+                }
+                if (in_array(strtolower($md_arr['extension']), VideoFiles)) {
+                    $pict_path ."10/";
+                }
             }
-            $row['fo_id'] = "<a href='VF_FO_Edit.php?fo_id=$fo_id&fo_eigner=" . $row['fo_eigner'] . "&verz=$verz' >" . $fo_id . "</a>";
+          
+            $row['md_id'] = "<a href='VF_FO_Edit.php?md_id=$md_id&md_eigner=" . $row['md_eigner'] . "&verz=$verz' >" . $md_id . "</a>";
 
-            $fo_aufn_d   = $row['fo_aufn_datum'];
-            $fo_aufn_s   = $row['fo_aufn_suff'];
-            $fo_eigner   = $row['fo_eigner'];
-
-            if ($fo_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
-                $pfad = $fo_aufn_d . "/";
+            $md_aufn_d   = $row['md_aufn_datum'];
+            $md_eigner   = $row['md_eigner'];
+            $pfad = "";
+            if ($md_aufn_d != "") { # Datums orientertes Archiv (neue Arcive oder Fotoserien
+                $pfad = $md_aufn_d . "/";
             }
-            if ($fo_aufn_s != "") {
-                $pfad .= $fo_aufn_s."/";
-            }
+ 
+            $row['md_aufn_datum'] = "<a href='VF_FO_List_Detail.php?md_eigner=$md_eigner&md_aufn_d=$md_aufn_d'  target='_blanc'>" . $pfad . "</a> &nbsp; Fotos ";  # $md_aufn_d         
 
-            if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {
-                $row['fo_aufn_datum'] = "<a href='VF_FO_List_Detail.php?fo_eigner=$fo_eigner&fo_aufn_d=$fo_aufn_d&fo_aufn_s=$fo_aufn_s'  target='_blanc'>" . $pfad . "</a> &nbsp; Fotos ";  # $fo_aufn_d
-            }
-
-            if ($row['fo_dsn'] != "") {
-                $dsn = $row['fo_dsn'];
-                $d_path = $pict_path . $row['fo_aufn_datum'] . "/";
-                if ($_SESSION[$module]['URHEBER'][$row['fo_eigner']]['urh_abk']['typ'] == "F") {
-                    $row['fo_dsn'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
+            if ($row['md_dsn_1'] != "") {
+                $dsn = $row['md_dsn_1'];
+                $d_path = $pict_path . $row['md_aufn_datum'] . "/";
+                $d_arr = pathinfo(strtolower($dsn));
+                if ($d_arr['extension'] == 'jpg' || $d_arr['extension'] == 'jpeg' || $d_arr['extension'] == 'gif' || $d_arr['extension'] == 'tiff' || $d_arr['extension'] == 'png' || $d_arr['extension'] == 'ico' ) {
+                    $row['md_dsn_1'] = "<a href='$d_path$dsn' target='_blank'><img src='$d_path$dsn' alt='$dsn' height='200' ></a>";
                 } else {
-                    $row['fo_dsn'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['fo_dsn'] . "</a>";
+                    $row['md_dsn_1'] = "<a href='$pict_path$dsn' target='_blank'>" . $row['md_dsn_1'] . "</a>";
                 }
             }
             

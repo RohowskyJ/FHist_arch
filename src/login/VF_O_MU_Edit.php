@@ -32,12 +32,15 @@ require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
-
-
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$jq = $jqui = true;
+$BA_AJA = true;
+
+BA_HTML_header('Museums- Daten', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -133,7 +136,6 @@ if ($phase == 1) {
     
 }
 
-BA_HTML_header('Museums- Daten', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

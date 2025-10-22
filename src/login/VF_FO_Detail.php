@@ -9,9 +9,10 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
-$tabelle = 'fo_todaten';
+$module = 'OEF';
+$sub_mod = 'Foto';
+
+$tabelle = 'dm_edien_';
 
 const Prefix = '';
 
@@ -42,26 +43,26 @@ $db = LinkDB('VFH'); // Connect zur Datenbank
 // ============================================================================================================
 
 if (isset($_GET['id'])) {
-    $fo_id = $_GET['id'];
+    $md_id = $_GET['id'];
 }
 
 if (isset($_GET['eig'])) {
-    $fo_eigner = $_GET['eig'];
+    $md_eigner = $_GET['eig'];
 }
 
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
 
-$tabelle = $tabelle . "_" . $fo_eigner;
+$tabelle = $tabelle . $md_eigner;
 
-$sql = "SELECT fo_eigner,fo_dsn, fo_Urheber, fo_aufn_datum,fo_begltxt,fo_namen,fo_aufn_suff FROM $tabelle WHERE fo_id='$fo_id' ";
+$sql = "SELECT md_eigner,md_dsn_1, md_Urheber, md_aufn_datum,md_beschreibg,md_namen FROM $tabelle WHERE md_id='$md_id' ";
 
 $return = SQL_QUERY($db, $sql);
 
 $row = mysqli_fetch_object($return);
 
-$pict_path = "../login/AOrd_Verz/$row->fo_eigner/09/06/";
+$pict_path = "../login/AOrd_Verz/$row->md_eigner/09/06/";
 
 $nodat = false;
 /*
@@ -82,21 +83,21 @@ if ($row->fo_zus_pfad  != "") {
     #$d_path .=  "/";
 }
 */
-$f_path = VF_set_PictPath($row->fo_aufn_datum,$row->fo_aufn_suff);
-$d_path = $pict_path . $f_path ;
+
+$d_path = $pict_path . $row->md_aufn_datum."/" ;
 
 $header = "";
 BA_HTML_header('Foto- Detailanzeige', $header, 'Form', '50em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<table>";
-echo "<tr><th>Aufnahmedatum: $row->fo_aufn_datum</th></tr>";
-echo "<tr><th><img src='$d_path$row->fo_dsn' alt='foto' ></th></tr>";
-if ($row->fo_namen != "") {
-    echo "<tr><th>$row->fo_namen</th></tr>";
+echo "<tr><th>Aufnahmedatum: $row->md_aufn_datum</th></tr>";
+echo "<tr><th><img src='$d_path$row->md_dsn_1' alt='foto' ></th></tr>";
+if ($row->md_namen != "") {
+    echo "<tr><th>$row->md_namen</th></tr>";
 }
 
-echo "<tr><th><b>$row->fo_begltxt</b></th></tr>";
-echo "<tr><th>Urheber: $row->fo_Urheber</th></tr>";
+echo "<tr><th><b>$row->md_beschreibg</b></th></tr>";
+echo "<tr><th>Urheber: $row->md_Urheber</th></tr>";
 echo "</table>";
 BA_HTML_trailer();
 ?>

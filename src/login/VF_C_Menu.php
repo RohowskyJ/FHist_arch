@@ -91,20 +91,20 @@ if ($phase_p == 1) {
     }
     ;
     if ($password == $password1) {
-        Log_Pw_Upd($password, $password1);
+        VF_Log_Pw_Upd($password, $password1);
         $phase_p = "";
     } else {
         $p_uid = $_SESSION[$module]['p_uid'];
         echo '<form id="test" name="test" method="post" action="VF_C_Menu.php">';
         echo "<p class='error'>Die eingegebenen Passworte sind nicht gleich, bitte neu eingeben.</p>";
-        Log_Pw_Chg();
+        VF_Log_Pw_Chg();
         echo "<input name='pwchg' type='hidden' id='pwchg' value='$pwchg'>";
         echo "<input name='phase_p' type='hidden' id='phase_p' value='$phase_p'>";
         echo "<input name='p_uid' type='hidden' id='p_uid' value='$p_uid'>";
         echo '<input name="Submit" type="submit" class="erfolg" value="Ändern">';
         echo "</fieldset></div>";
         echo "</form>";
-        HTML_trailer();
+        BA_HTML_trailer();
         exit();
     }
 }
@@ -182,6 +182,7 @@ $sk = $_SESSION['VF_Prim']['SK'];
 
 $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini',True,INI_SCANNER_NORMAL);
 $cnt_m = count($ini_arr['Modules']);
+
 if (isset($ini_arr['Modules']) && $cnt_m >10){
     Edit_Tabellen_Header('Programmauswahl für Mitglieder');
     
@@ -232,7 +233,7 @@ if (isset($ini_arr['Modules']) && $cnt_m >10){
         echo "Beschreibungen für alle Gegenstände die je FF Mitglied direkt der Person zugordnet ist (Uniform, Auszeichnugen, ... )";
         echo "</div>"; // Ende der Inhalt Spalte
         echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-        if ($ini_arr['Modules']['m_8'] == "J") {
+        if ($ini_arr['Modules']['m_10'] == "J") {
             echo "<a href='VF_PS_Info_Ausz_Abz.php?sk=$sk' target='Info_R4'>Auszeichnungen, Ärmelabzeichen, Wappen - DA 1.5.3, Uniformen, Heraldik</a>";
         } else {
             echo "Programmteil nicht verfügbar.";

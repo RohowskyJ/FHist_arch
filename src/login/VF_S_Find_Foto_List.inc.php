@@ -43,7 +43,7 @@ for ($i = 0; ! empty($arr_foto[$i]); $i ++) {
     $select_f = "WHERE `fo_id`='$foto_arr[1]' ";
     $sql = "SELECT * FROM `$table_f` $select_f  ORDER BY `fo_id` ASC";
     # echo "Find_Foto_sb L 038: \$sql $sql <br>";
-    $return_fo = mysqli_query($db, $sql) or die("Datenbankabfrage gescheitert. " . mysql_error($db));
+    $return_fo = SQL_QUERY($db, $sql);
     while ($row = mysqli_fetch_object($return_fo)) {
         $fot_dsn = $row->fo_dsn;
         $fot_id = $row->fo_id;

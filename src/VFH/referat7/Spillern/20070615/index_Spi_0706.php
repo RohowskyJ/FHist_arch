@@ -27,7 +27,7 @@ BA_HTML_header('Verein Feuerwehrhistoriker in NÖ) ',$header,'Form','75em'); # P
 
 <h1>135 Jahre FF Spillern mit Fahrzeug- und Fahnenweihe</h1>
 
-<img src="../../../../login/AOrd_Verz/124/09/06/20070617/124-20070617-img_5926.WebP" alt="Fahnenweihe" align="right">
+<img src="../../../../login/AOrd_Verz/124/09/06/20070617/124-20070617-W-IMG_5926.JPG" alt="Fahnenweihe" align="right">
 <p>Am 15. Juni 2007 fand die 135 Jahrfeier der FF Spillern statt. Am Festakt
 wurde musikalisch von der Kapelle Feldbach begleitet. Eine Abteilung der
 Hoch- und Deutschmeister mit Fahnenträgern war vertreten, ebenso einige Fahnengruppen
@@ -42,5 +42,5 @@ aus Österreich und aus dem Ausland.
 </fieldset>
 </div>
 <?php 
-BA_TML_trailer();
+BA_HTML_trailer();
  ?>

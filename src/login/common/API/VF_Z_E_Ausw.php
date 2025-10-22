@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Eigentümer- Auswahl
  *
@@ -18,6 +19,8 @@ $tabelle = "";
 # 'fh_zugriffe_n';
 const Prefix = '';
 
+file_put_contents('ZE_AUsw_debug.log', "VF_ZE_Ausw.php L 007 " . PHP_EOL, FILE_APPEND);
+
 /**
  * Angleichung an den Root-Path
  *
@@ -25,7 +28,7 @@ const Prefix = '';
  */
 $path2ROOT = "../../../";
 
-$debug = False;
+$debug = false;
 
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 
@@ -33,10 +36,10 @@ if (isset($_GET["term"])) {
     $term = $_GET["term"];
 }
 
-if (isset($_POST['query']) ) {
+if (isset($_POST['query'])) {
     $term = $_POST['query'];
 }
-if (isset($_POST['proc']) ) {
+if (isset($_POST['proc'])) {
     $proc = $_POST['proc'];
 }
 
@@ -47,12 +50,12 @@ $db = LinkDB('VFH'); // Connect zur Datenbank
 $srch_arr = array();
 
 if (isset($term)) {
-    
+
     $query = "SELECT * FROM fh_eigentuemer WHERE ei_name LIKE '{$term}%' OR ei_org_name  LIKE '{$term}%' LIMIT 100";
     $result = SQL_QUERY($db, $query);
-    
+
     if (mysqli_num_rows($result) > 0) {
-        
+
         while ($user = mysqli_fetch_array($result)) {
             $lab = $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
             $val = $user['ei_id'] . "- " . $user['ei_org_name'] . " - " . $user['ei_name'] . " " . $user['ei_vname'];
@@ -81,4 +84,3 @@ foreach ($srch_arr as $company) {
 }
 
 # echo json_encode($result);
-?>

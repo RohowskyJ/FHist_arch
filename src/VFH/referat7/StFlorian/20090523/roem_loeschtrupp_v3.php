@@ -39,7 +39,7 @@ Römischer Löschtrupp
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-IMG_9177.JPG" alt="roem. Loeschtrupp" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20090523/124-20090523-W-IMG_9177.JPG" alt="roem. Loeschtrupp" align="right" />
 
  Dieser Aufmarsch einer römischen Löschtruppe - eine Bezeichnung "Feuerwehr", wie sie auch im deutschen Sprachgebrauch erst ab 1847
 (KARLSRUHE9 eingeführt wurde, gibt es im lateinischen Wortschatz nicht - ist bei unserem Museumsfest eine Premiere!

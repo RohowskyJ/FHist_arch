@@ -46,7 +46,7 @@ FF Höft
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5804.WebP" alt="Handdruckspritze mit Saugwerk" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5804.JPG" alt="Handdruckspritze mit Saugwerk" align="right" />
 Der Transport der Feuerlöschgeräte geschah früher grundsätzlich
 händisch, für vierrädrige Mannschaftswagen, Fahrspritzen
 und Wasserwagen war jedoch Vorspann mit Pferden notwendig: Beistellung auf dem
@@ -59,7 +59,7 @@ der Erste erhält einen Gulden!
 FF mit ständiger Wache wie FF LINZ.
 <br/>
 <br/>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5807.WebP" alt="Handdruckspritze mit Saugwerk" align="left" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5807.JPG" alt="Handdruckspritze mit Saugwerk" align="left" />
 Die heute benötigten vier Pferde hat uns Herr Adolf PRAMENDORFER
 aus Hofkirchen an der Trattnach, Bezirk Grieskirchen, beigestellt.
 Herr PRAMENDORFER hat früher die Furthmühle in Ruhringsdorf

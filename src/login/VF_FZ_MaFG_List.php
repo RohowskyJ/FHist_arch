@@ -1,0 +1,453 @@
+<?php
+
+/**
+ * Fahrzeug- Liste
+ *
+ * @author Josef Rohowsky - neu 2025, modifizierung von VF_FA_List
+ *
+ *
+ */
+session_start();
+
+$module = 'F_G';
+$tabelle = '';
+$tabelle_f = "ma_fahrzeug_";
+$tabelle_e = "ma_eigner_";
+
+/** für PHP-Logging 
+ini_set("log_errors", 1);
+ini_set("error_log", "aa_VF_FZ_php-error.log");
+error_log("Hello, errors!");
+*/
+
+/**
+ * Angleichung an den Root-Path
+ *
+ * @var string $path2ROOT
+ */
+$path2ROOT = "../";
+
+$debug = false; // Debug output Ein/Aus Schalter
+$debug_log = true; // logging in datei per fputs
+
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
+
+$flow_list = false;
+
+$LinkDB_database  = '';
+$db = LinkDB('VFH');
+
+/**
+ * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
+ *
+ * @global array $_SESSION['VF_LISTE']
+ *   - select_string
+ *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
+ *   - SpaltenNamenAnzeige    Ein: Anzeige der Spaltennamen
+ *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
+ *   - LangListe              Ein: Liste zum Drucken
+ *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
+ *   - CSVDatei               Ein: CSV Datei ausgeben
+ */
+if (!isset($_SESSION['VF_LISTE'])) {
+    $_SESSION['VF_LISTE']    = array(
+        "select_string"       => "",
+        "SelectAnzeige"       => "Aus",
+        "SpaltenNamenAnzeige" => "Aus",
+        "DropdownAnzeige"     => "Aus",
+        "LangListe"           => "Ein",
+        "VarTableHight"       => "Ein",
+        "CSVDatei"            => "Aus"
+    );
+}
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$Inc_Arr = array();
+$Inc_Arr[] = "VF_FZ_MaFG_List.php";
+
+/**
+ * Variablen für Eigentümer und Sammlung initialisieren
+ */
+if (! isset($_SESSION['Eigner']['eig_eigner'])) {
+    $_SESSION['Eigner']['eig_eigner'] = "";
+}
+
+if (! isset($_SESSION[$module]['sammlung'])) {
+    $_SESSION[$module]['sammlung'] = 'MA';
+}
+
+/**
+ * Header ausgeben, body und form
+ */
+
+$header = "";
+
+$jq = $jqui = true; // JQ-UI laden
+$BA_AJA = true; // AJAX- Scripts laden
+BA_HTML_header('Maschinengetriebenes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+initial_debug();
+
+VF_chk_valid(); // Test auf gültigen Login- String
+
+VF_set_module_p(); // Setzen Variable für Update, Berechtigung
+
+foreach ($_POST as $name => $value) {
+    $post[$name] = $value;
+}
+
+if (isset($post['phase'])) {
+    $phase = $post['phase'];
+} else {
+    $phase = 0;
+}
+
+if ($phase == 99) {
+    header("Location: /login/VF_C_Menu.php");
+}
+
+/**
+ * neue Sammlung auswählen
+ */
+if (isset($_GET['ID'])) {
+    if ($_GET['ID'] == "NextSam") {
+        $_SESSION[$module]['sammlung'] = "MA";
+    } else {
+        $sammlg = $_SESSION[$module]['sammlung'] = $_GET['ID'];
+    }
+}
+
+if (isset($_GET['ID']) && $_GET['ID'] == "NextEig") {
+    if ($_SESSION['VF_Prim']['mode'] == 'Mandanten') {
+        $_SESSION['Eigner']['eig_eigner'] = "";
+    } else {
+        $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
+    }
+    $_SESSION[$module]['sammlung'] = "MA";
+}
+if (isset($post['select_string'])) {
+    $select_string = $post['select_string'];
+} else {
+    $select_string = "";
+}
+
+$_SESSION[$module]['$select_string'] = $select_string;
+
+/**
+ * Eigentümer- Auswahl (Autocomplete)
+*/
+if (isset($_POST['eigentuemer_1'])) {
+    $ei_id = $_POST['eigentuemer_1'];
+    VF_Displ_Eig($ei_id);
+} else {
+    $ei_id = $_SESSION['Eigner']['eig_eigner'];
+}
+
+/**
+ * Sammlung auswählen, Input- Analyse
+ */
+if (isset($_POST['level1'])) {
+    $response = VF_Multi_Sel_Input();
+    if ($response == "" || $response == "Nix") {
+        $sammlg = $_SESSION[$module]['sammlung'] = "MA_F";
+    } else {
+        $sammlg = $_SESSION[$module]['sammlung'] = $response;
+    }
+}
+
+/**
+ * Eigentümerdaten  oder Sammlung neu einlesen
+ */
+if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "MA") {
+    /**VF_Eig_Ausw
+     * neuen Eigentümer auswählen
+     */
+    if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten") {
+        if ($_SESSION['Eigner']['eig_eigner'] == "") {
+            VF_Auto_Eigent("E");
+        }
+    } else {
+        $_SESSION['Eigner']['eig_eigner'] = $_SESSION['VF_Prim']['eignr'];
+    }
+
+    if ($_SESSION[$module]['sammlung'] == "MA") {
+        /**
+         * Parameter für den Aufruf von Multi-Dropdown
+         *
+         * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+         *
+         *
+         * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
+         * @var string $MS_Lvl Anzahl der gewüschten Ebenen - 2 nur eine 2.Ebene ... bis 6 Ebenen
+         * @var string $MS_Opt Name der Options- Datei, die die Werte für die weiteren Ebenen liefert
+         *
+         * @Input-Parm $_POST['Level1...6']
+         */
+
+        $MS_Lvl   = 1; # 1 ... 6
+        $MS_Opt   = 1; # 1: SA für Sammlung, 2: AO für Archivordnung
+
+        $MS_Txt = array(
+            'Auswahl der Sammlungs- Type (1. Ebene)  ',
+            'Auswahl der Sammlungs- Gruppe (2. Ebene)  ',
+            'Auswahl der Untergrupppe (3. Ebene) ',
+            'Auswahl des Spezifikation (4. Ebene)  '
+        );
+
+        switch ($MS_Opt) {
+            case 1:
+                $in_val = '';
+                $MS_Init = VF_Sel_SA_MA ; # VF_Sel_SA_Such|VF_Sel_AOrd
+                break;
+                /*
+                 case 2:
+                 $in_val = '07';
+                 $MS_Init = VF_Sel_AOrd; # VF_Sel_SA_Such|VF_Sel_AOrd
+                 break;
+                 */
+        }
+
+        $titel  = 'Suche nach der Sammlungs- Beschreibung (- oder Änderung der  angezeigten)';
+
+        VF_Multi_Dropdown($in_val, $titel);
+    }
+
+    echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
+
+} else {
+
+    console_log("L 0220 Aufteilung fg/ger");
+    /**
+     * Hier erfolgt die Aufteilung nach Fahrzeug oder Gerät
+     */
+    VF_upd();
+
+    $sql = $sql_where = $orderBy = "";
+
+    if (substr($_SESSION[$module]['sammlung'], 0, 4)  == 'MA_F') {   # Mukelgezogene - Fahrzeuge
+
+        require "VF_FZ_MaF_List.inc.php";
+
+    } elseif (substr($_SESSION[$module]['sammlung'], 0, 4)  == 'MA_G') {  # Muskel betriebene Geräte
+
+        require "VF_FZ_MaG_List.inc.php";
+
+    }
+
+    $sql .= $sql_where . $orderBy;
+
+    List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
+
+    echo "</fieldset>";
+
+    BA_HTML_trailer();
+}
+
+/**
+ * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste
+ *
+ * Funktion wird vom List_Funcs einmal pro Datensatz aufgerufen.
+ * Die Felder die Funktionen auslösen sollen oder anders angezeigt werden sollen, werden hier entsprechend geändert
+ *
+ *
+ * @param array $row
+ * @param string $tabelle
+ * @return boolean immer true
+ *
+ * @global string $path2ROOT String zur root-Angleichung für relative Adressierung
+ * @global string $T_List Auswahl der Listen- Art
+ * @global string $module Modul-Name für $_SESSION[$module] - Parameter
+ */
+function modifyRow(array &$row, $tabelle)
+{
+    global $path2ROOT, $T_List, $module, $taktb_arr, $herst_arr, $aufb_arr, $sam_arr;
+
+    $s_tab = substr($tabelle, 0, 8);
+
+    switch ($s_tab) {
+        case "ma_eigen":
+            $ei_id = $row['ei_id'];
+            $row['ei_id'] = "<a href='VF_FZ_List.php?ei_id=$ei_id' >" . $ei_id . "</a>";
+            break;
+        case "ma_fahrz":
+            # var_dump($row);
+            $fz_id = $row['fz_id'];
+            $row['fz_id'] = "<a href='VF_FZ_MaF_Edit.php?fz_id=$fz_id' >" . $fz_id . "</a>";
+            if ($row['fz_bild_1'] != "") {
+                $fz_bild_1 = $row['fz_bild_1'];
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
+
+                $fo_arr = explode("-", $fz_bild_1);
+                $cnt_fo = count($fo_arr);
+               
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+
+                    $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fz_bild_1;
+
+                    if (!is_file($p1)) {
+                        $p1 = $pict_path . $fz_bild_1;
+                    }
+                } else {
+                    $p1 = $pict_path . $fz_bild_1;
+                }
+
+                $row['fz_bild_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $fz_bild_1 </a>";
+            }
+
+            $t_daten = "";
+
+            if ($row['fz_sammlg'] != 'MA_F-AH') {
+                /**
+                 * Techn Daten- Anzeige
+                 */
+                /* Dropdown Header */
+                $t_daten_head =  "
+                        <div class='w3-dropdown-hover '
+                             style='padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 3'>
+                             <b style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Technische Daten</b>
+                             <div class='w3-dropdown-content w3-bar-block w3-card-4'
+                                       style='width: 50em; right: 0'>
+                      ";
+
+                $t_daten_trail = "
+                             </div>
+                             <!-- w3-dropdown-content -->
+                    
+                       </div>
+                       <!-- w3-dropdown-hover -->
+                      ";
+                #var_dump($row);
+                if ($row['fz_motor'] == ', 0 ccm, , ') {
+                    $row['fz_motor'] = "";
+                }
+                if ($row['fz_besatzung'] == "0 + 0") {
+                    $row['fz_besatzung'] = "";
+                }
+                $motor = $antrieb = $einbau = $t_daten = '';
+                if ($row['fz_motor'] != "") {
+                    $motor = "Motor : ".$row['fz_motor'];
+                }
+                #echo "L 0332 ". $row['fz_antrieb'] ."; <br>";
+                if ($row['fz_antrieb'] != "" && strlen($row['fz_antrieb']) >= 4) {
+                    $antrieb = "<br>Antrieb : ".$row['fz_antrieb'];
+                    if ($row['fz_geschwindigkeit'] != "") {
+                        $antrieb .= "<br>Geschwindigk.: ".$row['fz_geschwindigkeit'];
+                    }
+                }
+
+                if ($row['fz_l_pumpe'] != "" || $row['fz_t_kran'] != ""  || $row['fz_t_winde'] != ''   || $row['fz_t_leiter'] != ''  || $row['fz_t_abschlepp'] != ''
+                    || $row['fz_l_tank'] != "" || $row['fz_g_atemsch'] != ""  || $row['fz_t_strom'] != ""  || $row['fz_t_beleuchtg'] != ""
+                ) {
+                    $einbau = "<br>Fixe Einbauten : ";
+                    if ($row['fz_l_tank'] != "") {
+                        $einbau .= "<br>".$row['fz_l_tank'];
+                    }
+                    if ($row['fz_l_pumpe'] != '') {
+                        $einbau .= "<br>".$row['fz_l_pumpe'];
+                    }
+                    if ($row['fz_t_kran'] != '') {
+                        $einbau .= "<br>".$row['fz_t_kran'];
+                    }
+                    if ($row['fz_t_winde'] != '') {
+                        $einbau .= "<br>".$row['fz_t_winde'];
+                    }
+                    if ($row['fz_t_leiter'] != '') {
+                        $einbau .= "<br>".$row['fz_t_leiter'];
+                    }
+                    if ($row['fz_t_abschlepp'] != '') {
+                        $einbau .= "<br>".$row['fz_t_abschlepp'];
+                    }
+                    if ($row['fz_t_geraet'] != '') {
+                        $einbau .= "<br>".$row['fz_t_geraet'];
+                    }
+                    if ($row['fz_g_atemsch'] != '') {
+                        $einbau .= "<br>".$row['fz_g_atemsch'];
+                    }
+                    if ($row['fz_t_strom'] != '') {
+                        $einbau .= "<br>".$row['fz_t_strom'];
+                    }
+                    if ($row['fz_t_beleuchtg'] != '') {
+                        $einbau .= "<br>".$row['fz_t_beleuchtg'];
+                    }
+                }
+                if ($motor != "" || $antrieb != "" || $einbau != "") {
+                    $t_daten = "<br>".$t_daten_head.$motor.$antrieb.$einbau.$t_daten_trail;
+                }
+            }
+
+            $bauj = $row['fz_baujahr'];
+            $ind  = $row['fz_indienstst'];
+            $aud  = $row['fz_ausdienst'];
+            $row['fz_baujahr'] = "BJ : &nbsp; $bauj<br>In : &nbsp; $ind<br>Aus: &nbsp;$aud";
+
+            $sammlg = $row['fz_sammlg'];
+            if (isset($sam_arr[$sammlg]) && $sam_arr[$sammlg] !="") {
+                $row['fz_sammlg'] .= "<br>".$sam_arr[$sammlg]; #"<br>".$row['sa_name'];
+            }
+ 
+            # var_dump($taktb_arr);
+            $taktbez = $row['fz_taktbez'];
+            if (isset($taktb_arr[$taktbez])) {
+                $row['fz_taktbez'] = $taktbez ."<br>" .$taktb_arr[$taktbez];
+            }
+            if (isset($row['fz_hist_bezeichng']) && $row['fz_hist_bezeichng'] != "") {
+                $row['fz_taktbez'] .= "<hr> Hist. Bezeichn. ".$row['fz_hist_bezeichng'];
+            }
+            $herst = $row['fz_herstell_fg'];
+
+            if (isset($herst_arr[$herst])) {
+                $row['fz_herstell_fg'] = "Hersteller " . $herst_arr[$herst];
+            }
+            if ($row['fz_aufbauer'] != "") {
+                if (isset($aufb_arr[$row['fz_aufbauer']]) && $aufb_arr[$row['fz_aufbauer']] != "") {
+                    $row['fz_herstell_fg'] .= "<br>Aufbauer ". $aufb_arr[$row['fz_aufbauer']];
+                } else {
+                    $row['fz_herstell_fg'] .= "<br>Aufbauer ".$row['fz_aufbauer'];
+                }
+            }
+
+            $row['fz_herstell_fg'] .= $t_daten;
+
+            break;
+        case "ma_gerae":
+            $ge_id = $row['ge_id'];
+            $row['ge_id'] = "<a href='VF_FZ_MaG_Edit.php?ge_id=$ge_id' >" . $ge_id . "</a>";
+            
+            if ($row['ge_foto_1'] != "") {
+                $ge_foto_1 = $row['ge_foto_1'];
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
+                
+                $fo_arr = explode("-", $ge_foto_1);
+                $cnt_fo = count($fo_arr);
+                console_log("foto dsn $ge_foto_1 cnt_fo $cnt_fo");
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0]."/";
+                    $verz = $fo_arr[1]."/";
+
+                    $p1 = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$ge_foto_1;
+                    
+                    if (!is_file($p1)) {
+                        $p1 = $pict_path . $ge_foto_1;
+                    }
+                } else {
+                    $p1 = $pict_path . $ge_foto_1;
+                }
+                $row['ge_foto_1'] = "<a href='$p1' target='Bild 1' >  <img src='$p1' alter='$p1' width='150px'><br>  $ge_foto_1 </a>";
+            }
+            break;
+    }
+
+    return true;
+} # Ende von Function modifyRow

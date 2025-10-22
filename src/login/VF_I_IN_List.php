@@ -71,9 +71,9 @@ if (!isset($_SESSION['Eigner'])) {
  * Haeder ausgeben, body und form
  */
 
+$jq = $jqui = True;
+$BA_AJA = True;
 $header = "";
-
-$prot = True; // Prototype.js laden
 BA_HTML_header('Inventar des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'],  $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -133,21 +133,20 @@ $_SESSION[$module]['$select_string'] = $select_string;
 
 /**
  * Eigentümer- Auswahl (Autocomplete)
- */
-if (isset($_POST['auto']) ) {
-    $ei_arr = explode("-",$_POST['auto']);
-    $ei_id = $ei_arr[0];
+*/
+if (isset($_POST['eigentuemer_1'])) {
+    $ei_id = $_POST['eigentuemer_1'];
     VF_Displ_Eig($ei_id);
-    $_SESSION[$module]['eigname'] = $_POST['auto'];
 } else {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
-
+#var_dump($_POST);
 /**
  * Sammlung auswählen, Input- Analyse
  */
 if (isset($_POST['level1'])) {
     $sammlg = $_SESSION[$module]['sammlung'] = VF_Multi_Sel_Input();
+    #echo "L 0150 sammlg $sammlg <br>";
 }
 
 /**
@@ -156,7 +155,7 @@ if (isset($_POST['level1'])) {
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "") { 
     
     if ($_SESSION['Eigner']['eig_eigner'] == "") {
-        VF_Eig_Ausw();
+        VF_Auto_Eigent('E','');
     }
     
     if ($_SESSION[$module]['sammlung'] == ""){
@@ -222,20 +221,11 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
         );
     }
 
-    /*
-    # ===========================================================================================================
-    # Haeder ausgeben
-    # ===========================================================================================================
-    $title = "Inventar des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . ", " . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'] . ", " . $_SESSION['Eigner']['eig_adresse'] . ", " . $_SESSION['Eigner']['eig_ort'];
-    ;
-    
-    $header = "";
-
-    $prot = True;
-    BA_HTML_header('Inventar des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, '', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-    */
     $tabelle_m = $_SESSION[$module]['tabelle_m'] = "in_ventar";
     $tabelle = $tabelle_m . "_" . $_SESSION['Eigner']['eig_eigner'];
+    
+    $result = Cr_n_in_ventar($tabelle);
+
     List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
     
     $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>in_id</q> Klicken.</li>';
@@ -260,20 +250,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     // Stücke in Referat:Sammlung/alle Stücke
     $eignr = $_SESSION['Eigner']['eig_eigner'];
     $pref_eignr = substr("00000", 1, 5 - strlen($eignr)) . $eignr;
-    /*
-    if ($_SESSION[$module]['suchausw'] != "") {
-        $text = $_SESSION[$module]['sammlung'];
-        
-        $zus_ausw .= "<div class='w3-container w3-sand'>  Stücke in Sammlung &nbsp; $text ";
-        $zus_ausw .= "<br/>Inventarnummer Prefix (Verein  Eigentümernummer Sammlung) <font size='+1'>V$pref_eignr" . $_SESSION[$module]['sammlung'] . "</font> und der Inventar- Nummer in der Spalte <i>Inv.Nr.</i> (Keine Leerzeichen)</div>";
-    } else {
-        
-    */
-        $zus_ausw .= "<div class='w3-container w3-sand'> Alle Stücke des Eigentümers ";
-        $zus_ausw .= "<br/>Inventarnummer Prefix (Verein Eigentümernummer) <font size=\"+2\">V$pref_eignr</font> und der Inhalt der Spalte <i>in_sammlung</i> und <i>Inv.Nr.</i> (Keine Leerzeichen, InvNr. 6 Stellig, führende 0)</div> ";
-    #}
-    
-    
+  
+    $zus_ausw .= "<div class='w3-container w3-sand'> Alle Stücke des Eigentümers ";
+    $zus_ausw .= "<br/>Inventarnummer Prefix (Verein Eigentümernummer) <font size=\"+2\">V$pref_eignr</font> und der Inhalt der Spalte <i>in_sammlung</i> und <i>Inv.Nr.</i> (Keine Leerzeichen, InvNr. 6 Stellig, führende 0)</div> ";
+
     List_Action_Bar($tabelle, "Inventar des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
 
     # ===========================================================================================================
@@ -331,7 +311,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
         'in_linkerkl',
         'in_foto_1'
     );
-    $Tabellen_Spalten_COMMENT['in_sammlg'] ." ". $Tabellen_Spalten_COMMENT['in_invnr'];
+    #$Tabellen_Spalten_COMMENT['in_sammlg'] ." ". $Tabellen_Spalten_COMMENT['in_invnr'];
     
     $Tabellen_Spalten_style['in_id'] = 'text-align:center;';
     
@@ -342,10 +322,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     if ($_SESSION[$module]['sammlung'] != "" && $_SESSION[$module]['sammlung'] != "Nix") {
         $sql_where = " WHERE in_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
     }
-    
-    Cr_n_in_ventar($tabelle);
 
-    $sql .= $sql_where . $orderBy;
+    # echo "L 0348 sql $sql <br>";
     
     List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
     
@@ -384,13 +362,28 @@ function modifyRow(array &$row, $tabelle)
             $in_id = $row['in_id'];
             $row['in_id'] = "<a href='VF_I_IN_Edit.php?in_id=$in_id' >" . $in_id . "</a>";
             if ($row['in_foto_1'] != "") {
-                $pictpath = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
-
-                $in_foto_1 = $row['in_foto_1'];
-                $p1 = $pictpath . $row['in_foto_1'];
-
-                $row['in_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$in_foto_1' width='150px'> $in_foto_1 </a>";
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
+                $fo = $row['in_foto_1'];
                 
+
+                    $fo = $row['in_foto_1'];
+                    $fo_arr = explode("-", $fo);
+                    $cnt_fo = count($fo_arr);
+                    
+                    if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                        $urh = $fo_arr[0]."/";
+                        $verz = $fo_arr[1]."/";
+                        
+                        $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$fo ;
+                        
+                        if (!is_file($p)) {
+                            $p = $pict_path . $fo;
+                        }
+                    } else {
+                        $p = $pict_path . $row['in_foto_1'];
+                    }
+                    $row['in_foto_1'] = "<a href='$p' target='Bild 1' > <img src='$p' alter='$fo' width='200px'> $fo </a>";
+
             }
           
             if ($row['in_neueigner'] > 0) { # OR !is_null($row['in_neueigner'])

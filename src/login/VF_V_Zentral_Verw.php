@@ -72,6 +72,18 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" ) {
     echo "<a href='VF_Z_EM_List.php?sk=$sk' target='Mail_List'>Empfänger der automatischen E-Mails</a>"; # neu ok
     echo "</div>";
     
+    Edit_Separator_Zeile('Firmen (Fzg/Gerät - Hersteller/Aufbauer) ');
+    echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
+    echo "<tr><TD>Liste Fahrzeug- und Geräte- Heersteller und Aufbauer </d><br>";
+    echo "<a href='VF_Z_FI_List.php?sk=$sk' target='Config'>Firmen</a>"; # neu OK
+    echo "</div>";
+    
+    Edit_Separator_Zeile('Abkürzungen ');
+    echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
+    echo "<tr><TD>Abkürzungen im Fahrzeug- Gerätebereich  </d><br>";
+    echo "<a href='VF_Z_AB_List.php?sk=$sk' target='Config'>Abkürzungen</a>"; # neu OK
+    echo "</div>";
+    
     Edit_Separator_Zeile('Konfiguration der Seite ');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "<tr><TD>Betreiber der Seite, Vereinsregister, E-Mail-Adresse,  </d><br>";
@@ -85,9 +97,17 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" ) {
         echo "Pflege verschiedener Daten </br>";
         echo "<a href='VF_Z_Suchb_Gen.php?sk=$sk' target='suchbegr'>Suchbegriffe (Findbücher) regenerieren </a><br>";
         echo "<a href='VF_Z_Pict_Valid.php?sk=$sk' target='Bilder Prüfg'>Bilder- Prüfung (Tabellen - Dirs / vorhanden - nicht vorhanden)</a><br>";
-        echo "<a href='VF_Z_DS_2_Table.php?sk=$sk' target='Flat-File Imp'>FlatFile Import in eine Tabelle</a><br>";
+        
         echo "<a href='VF_Z_AR_Renum_AN.php?sk=$sk&ei_id=1' target='ArchNr-Renum'>Archiv- Nummern Renum Eig=1 (Verein)</a><br>";
         echo "<a href='VF_Z_AR_Renum_AN.php?sk=$sk&ei_id=21' target='ArchNr-Renum'>Archiv- Nummern Renum Eig=21 (FF WrNdf)</a><br>";
+        echo "</div>";
+        echo "<div>";
+        Edit_Separator_Zeile('Daten von CSV-Datei in Tabellen einlesen:');
+        echo "Dateiformat:<br>";
+        echo "1. Zeile: Tabellen- Name, z.B.: Test_tab<br>";
+        echo "2. Zeile: fld_nam1|fld-nam2| ....<br>";
+        echo "ab der 3. Zeile: Inhalte, z.B.: inh1|inh2| ....<br>";
+        echo "<a href='VF_Z_DS_2_Table.php?sk=$sk' target='Flat-File Imp'>FlatFile Import in eine Tabelle</a><br>";
         echo "</div>";
     }
     

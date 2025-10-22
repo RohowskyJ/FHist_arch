@@ -41,7 +41,7 @@ Oldtimerverein FF Wels
 
 <tr>
  <td>
-   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-img_5859.WebP" alt="Opel Blitz Modell Wien" align="right" />
+   <img src="../../../../login/AOrd_Verz/124/09/06/20070512/124-20070512-W-IMG_5859.JPG" alt="Opel Blitz Modell Wien" align="right" />
 Nach Kriegsende bis zur Lieferung von Feuerwehr-Fahrgestellen durch die
 österreichische Fahrzeugindustrie wurden von den
 Aufbauherstellern in Österreich, hauptsächlich Rosenbauer, eine
