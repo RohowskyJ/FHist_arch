@@ -38,6 +38,11 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+$jq = $jqui = true;
+$BA_AJA = true;
+
+BA_HTML_header('Pressespiegel- Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 // ============================================================================================================
@@ -71,8 +76,8 @@ if ($phase == 0) {
     if ($pr_id == 0) {
         $neu['pr_id'] = "0";
         $neu['pr_datum'] = $neu['pr_name'] = $neu['pr_ausg'] = $neu['pr_medium'] = $neu['pr_seite'] = "";
-        $neu['pr_teaser'] = $neu['pr_text'] = $neu['pr_bild1'] = $neu['pr_bild2'] = $neu['pr_bild3'] = "";
-        $neu['pr_bild4'] = $neu['pr_bild5'] = $neu['pr_web_site'] = $neu['pr_web_text'] = $neu['pr_inet'] = "";
+        $neu['pr_teaser'] = $neu['pr_text'] = $neu['pr_bild_1'] = $neu['pr_bild_2'] = $neu['pr_bild_3'] = "";
+        $neu['pr_bild_4'] = $neu['pr_bild_5'] = $neu['pr_bild_6'] = $neu['pr_web_site'] = $neu['pr_web_text'] = $neu['pr_inet'] = "";
         $neu['pr_uidaend'] = $neu['pr_aenddat'] = "";
     } else {
         $sql = "SELECT * FROM pr_esse";
@@ -107,8 +112,6 @@ if ($phase == 0) {
 if ($phase == 1) {
     
 }
-
-BA_HTML_header('Pressespiegel- Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

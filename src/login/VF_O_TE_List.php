@@ -133,7 +133,7 @@ switch ($T_List) {
             'va_adresse',
             'va_staat',
             'va_bdld',
-            'va_bild'
+            'va_bild_1'
         );
 
         break;
@@ -244,9 +244,9 @@ function modifyRow(array &$row,$tabelle)
 
     $ev_datum = $row['va_datum'];
     $va_umfang = $row['va_umfang'];
-    $va_bild = $row['va_bild'];
-    $va_prosp_1 = $row['va_prosp_1'];
-    $va_prosp_2 = $row['va_prosp_2'];
+    $va_bild_1 = $row['va_bild_1'];
+    $va_bild_2 = $row['va_bild_2'];
+    $va_bild_3 = $row['va_bild_3'];
 
     # ----------------------------------------------------------------------------------------------------------------------------------
     # id Spalte
@@ -304,18 +304,18 @@ function modifyRow(array &$row,$tabelle)
     $cjahr = substr($va_datum, 0, 4);
 
     $pict_path = $path2ROOT . "/login/AOrd_Verz/Termine/" . $cjahr . "/";
-    if ($row['va_bild'] != "") {
+    if ($row['va_bild_1'] != "") {
 
-        $p1 = $pict_path . $row['va_bild'];
+        $p1 = $pict_path . $row['va_bild_1'];
 
         # $row['fz_bild_1'] = "<img src='$p1' alter='$p1' width='70px'> $fz_bild_1";
-        $row['va_bild'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  Groß  </a><br>";
+        $row['va_bild_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  Groß  </a><br>";
     }
-    if ($row['va_prosp_1'] != "") {
-        $row['va_bild'] .= "<br/><a href='$pict_path$va_prosp_1' target='Prospekt 1'>$va_prosp_1</a><br>";
+    if ($row['va_bild_2'] != "") {
+        $row['va_bild_1'] .= "<br/><a href='$pict_path$va_bild_2' target='Prospekt 1'>$va_bild_2</a><br>";
     }
-    if ($row['va_prosp_2'] != "") {
-        $row['va_bild'] .= "<br/><a href='$pict_path$va_prosp_2' target='Prospekt 2'>$va_prosp_2</a><br>";
+    if ($row['va_bild_3'] != "") {
+        $row['va_bild_1'] .= "<br/><a href='$pict_path$va_bild_3' target='Prospekt 2'>$va_bild_3</a><br>";
     }
     $va_internet = $row['va_internet'];
     if ($row['va_internet'] != "") {

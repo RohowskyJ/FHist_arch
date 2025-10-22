@@ -10,6 +10,12 @@ if ($debug) {
     echo "<pre class=debug>VF_O_TE_Edit_ph0.inc ist gestarted</pre>";
 }
 
+if ($neu['va_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+}
+
 $cdate = date("Y-m-d");
 
 echo $Err_Msg;
@@ -28,7 +34,7 @@ if ($_SESSION[$module]['Act'] == 0) {
     $Edit_Funcs_Protect = true;
 }
 
-if ($neu['va_id'] == "NeuItem") {
+if ($neu['va_id'] == "0") {
     Edit_Daten_Feld('va_id', 0, 'Neue Veranstaltung');
 }
 
@@ -80,29 +86,47 @@ $ST_bdld = VF_Sel_Bdld($va_bdld, 8, $stabkz);
 Edit_Select_Feld('va_bdld', $ST_bdld);
 # Edit_Daten_Feld('va_bdld',50);
 
-Edit_Daten_Feld('va_bild', 50);
-echo "<input type='hidden' name='va_bild' value='" . $neu['va_bild'] . "'>";
+# =========================================================================================================
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
+}
+// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Fotos',$button_f);  #
+# =========================================================================================================
+
+#Edit_Daten_Feld('va_bild', 50);
+echo "<input type='hidden' name='va_bild_1' value='" . $neu['va_bild_1'] . "'>";
+echo "<input type='hidden' name='va_bild_2' value='" . $neu['va_bild_2'] . "'>";
+echo "<input type='hidden' name='va_bild_3' value='" . $neu['va_bild_3'] . "'>";
+echo "<input type='hidden' name='va_bild_4' value='" . $neu['va_bild_4'] . "'>";
+
+
 $cjahr = substr($neu['va_datum'],0,4); #date('Y');
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = $path2ROOT . "login/AOrd_Verz/Termine/" . $cjahr . "/";
 
+echo "<input type='hidden' id='urhNr' value=''>";
+echo "<input type='hidden' id='aOrd' value=''>";
+
+echo "<input type='hidden' id='reSize' value='1754'>";
+
 $Feldlaenge = "100px";
 
-$pic_arr = array(
-    "1" => "|||va_bild"
-);
-VF_Multi_Foto($pic_arr);
-
-Edit_Daten_Feld('va_prosp_1', 50);
-if ($_SESSION['VF_Prim']['p_uid'] != 999999999) {
-    Edit_Upload_File('va_prosp_1', 2);
+$_SESSION[$module]['Pct_Arr' ] = array();
+$num_foto = 4;
+$i = 1;
+while ($i <= $num_foto) {
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => '', 'bi' => 'va_bild_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');
+    
+    echo "<input type='hidden' id='aOrd_$i' value='/Termine/".$cjahr."/'>";
+    $i++;
 }
 
-Edit_Daten_Feld('va_prosp_2', 50);
-if ($_SESSION[$module]['Act'] == 1) {
-    Edit_Upload_File('va_prosp_2', 3);
-}
+VF_Upload_Form_M();
+#===================================================
 
 Edit_Daten_Feld('va_internet', 50);
 Edit_Daten_Feld('va_anm_text', 50);
@@ -154,6 +178,8 @@ if ($cdate > $neu['va_datum'] && $neu['va_id'] !== 0) {} else {
 }
 
 echo "<p><a href='VF_O_TE_List.php?Act=" . $_SESSION[$module]['Act'] . "'>Zurück zur Liste</a></p>";
+
+echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
 
 # =========================================================================================================
 if ($debug) {
