@@ -16,14 +16,17 @@ foreach ($_POST as $name => $value) {
 
 $uploaddir = "../VFH/scripts/updata/Biete_Suche/";
 
-if ($_FILES['uploaddatei_1']['name'] != "" ) {
-    $neu['bs_bild_1'] = VF_Upload($uploaddir, 1);
+if ( $neu['bild_datei_1'] != '') {
+    $neu['bs_bild_1'] =  $neu['bild_datei_1'];
 }
-if ($_FILES['uploaddatei_2']['name'] != "" ) {
-    $neu['bs_bild_2'] = VF_Upload($uploaddir, 2);
+if ( $neu['bild_datei_2'] != '') {
+    $neu['bs_bild_2'] =  $neu['bild_datei_2'];
 }
-if ($_FILES['uploaddatei_3']['name'] != "" ) {
-    $neu['bs_bild_3'] = VF_Upload($uploaddir, 3);
+if ( $neu['bild_datei_3'] != '') {
+    $neu['bs_bild_3'] =  $neu['bild_datei_3'];
+}
+if ( $neu['bild_datei_4'] != '') {
+    $neu['bs_bild_4'] =  $neu['bild_datei_4'];
 }
 
 $p_uid = $_SESSION['VF_Prim']['p_uid'];
@@ -37,11 +40,11 @@ if ($debug) {
 if ($bs_id == 0) { # Neuer Datensatz anlegen
     $sql = "INSERT INTO $tabelle (
               bs_startdatum,bs_enddatum,bs_kurztext,bs_typ,bs_text,
-              bs_email_1,bs_email_2,bs_bild_1,bs_bild_2,bs_bild_3,
+              bs_email_1,bs_email_2,bs_bild_1,bs_bild_2,bs_bild_3,bs_bild_4,
               bs_aenduid
               ) VALUE (
                '$neu[bs_startdatum]','$neu[bs_enddatum]','$neu[bs_kurztext]','$neu[bs_typ]','$neu[bs_text]',
-               '$neu[bs_email_1]','$neu[bs_email_2]','$neu[bs_bild_1]','$neu[bs_bild_2]','$neu[bs_bild_3]',
+               '$neu[bs_email_1]','$neu[bs_email_2]','$neu[bs_bild_1]','$neu[bs_bild_2]','$neu[bs_bild_3]','$neu[bs_bild_4]',
                '$p_uid'
                )";
 
@@ -53,24 +56,10 @@ if ($bs_id == 0) { # Neuer Datensatz anlegen
 
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     {
-        if (! preg_match("/[^0-9]/", $name)) {
-            continue;
-        } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
+        
+        if (substr($name,0,3) != "bs_") {
             continue;
         } #
-        if ($name == "phase") {
-            continue;
-        } #
-        if ($name == "bs_bild_11") {
-            continue;
-        }
-        if ($name == "bs_bild_22") {
-            continue;
-        }
-        if ($name == "bs_bild_33") {
-            continue;
-        }
 
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife

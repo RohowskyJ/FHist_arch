@@ -162,7 +162,7 @@ $Tabellen_Spalten = array(
     'bu_format',
     'bu_eignr',
     'bu_invnr',
-    'bu_bild1',
+    'bu_bild_1',
     'bu_bew_ges',
     'bu_editor',
     'bu_frei_stat'
@@ -222,11 +222,11 @@ function modifyRow(array &$row,$tabelle)
     $row['bu_id'] = "<a href='VF_O_BU_Edit.php?ID=" . $bu_id . "' >" . $bu_id . "</a>";
 
     $pict_path = "../login/AOrd_Verz/Buch/";
-    if ($row['bu_bild1'] != "") {
-        $bu_bild1 = $row['bu_bild1'];
-        $DsName = $pict_path . $row['bu_bild1'];
+    if ($row['bu_bild_1'] != "") {
+        $bu_bild_1 = $row['bu_bild_1'];
+        $DsName = $pict_path . $row['bu_bild_1'];
         $image1 = "<img src='$DsName' alt='Bild 1' width='100px'/> ";
-        $row['bu_bild1'] = "<a href=\"$DsName\" target='_blanc'> $image1 </a>";
+        $row['bu_bild_1'] = "<a href=\"$DsName\" target='_blanc'> $image1 </a>";
     }
 
     # -------------------------------------------------------------------------------------------------------------------------

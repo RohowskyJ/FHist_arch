@@ -125,7 +125,7 @@ if (isset($ini_arr['Modules']) && $cnt_m >10){
     
     Edit_Separator_Zeile('Archivalien- und Inventar- Verwaltung');
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-    echo "Verwaltung aller Dokumente, Video- Listen, Foto-(Negativ)-Listen (die Fotos und Videos selbst sind unter Öffentlichkeitsarbeit zu finden), ...";
+    echo "Verwaltung aller Dokumente, Video- Listen, Foto-(Negativ)-Listen (die Fotos und Videos selbst sind unter \"Foto,Video und Berichte\" zu finden), ...";
     echo "</div>";
     echo "<div class='w3-row'>"; // Beginn der Anzeige Feld-Name
     if ($ini_arr['Modules']['m_1'] == "J") {    
