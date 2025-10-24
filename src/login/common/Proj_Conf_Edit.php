@@ -32,6 +32,10 @@ require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_Int_Conf_Const.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
+$jq = $jqui = true;
+$BA_AJA = true;
+BA_HTML_header('Konfigurations- Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 if (isset($_GET['inst'])) {
@@ -77,12 +81,14 @@ if ($phase == 0) {
         $neu['c_mode'] = $ini_arr["Config"]['mode'];
         $neu['c_Wartung'] = $ini_arr["Config"]['wart'];
         $neu['c_Wart_Grund'] = $ini_arr["Config"]['warg'];
-        $neu['c_logo'] = $ini_arr["Config"]['sign'];
-        $neu['c_1page'] = $ini_arr["Config"]['fpage'];
+        $neu['c_bild_1'] = $ini_arr["Config"]['sign'];
+        $neu['c_bild_2'] = $ini_arr["Config"]['fpage'];
         $neu['c_Homepage'] = $ini_arr["Config"]['homp'];
         $neu['c_ptyp']  = $ini_arr["Config"]['homp'];
         $neu['c_store']  = $ini_arr["Config"]['store'];
         $neu['c_def_pw']  = $ini_arr["Config"]['def_pw'];
+        $neu['c_Perr']  = $ini_arr["Config"]['cPerr'];
+        $neu['c_Debug'] = $ini_arr["Config"]['cDeb'];
     } else {
         $neu['c_Institution'] = "Organisations- Bezeichnung";
         $neu['c_Vereinsreg'] = 'Vereinsreg- Nummer';
@@ -93,12 +99,14 @@ if ($phase == 0) {
         $neu['c_mode'] = 'Single';
         $neu['c_Wartung'] = 'N';
         $neu['c_Wart_Grund'] = "";
-        $neu['c_logo'] = 'Signet.jpg';
-        $neu['c_1page'] = 'Bild_1_Seite.png';
+        $neu['c_bild_1'] = 'Signet.jpg';
+        $neu['c_bild_2'] = 'Bild_1_Seite.png';
         $neu['c_Homepage'] = 'https://www.homepage-Name.at';
         $neu['c_ptyp']  = "";
         $neu['c_store']  = "AOrd_Verz";
         $neu['c_def_pw']  = "defaultPW";
+        $neu['c_Perr']  = 'error_log.txt';
+        $neu['c_Debug'] = 'debug_log.txt';
     }
     if (is_file($path2ROOT . 'login/common/config_m.ini')) {
         $ini_arr = parse_ini_file($path2ROOT.'login/common/config_m.ini', true, INI_SCANNER_NORMAL);
@@ -146,11 +154,10 @@ if ($phase == 0) {
 if ($phase == 1) {
 
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
 }
 
-BA_HTML_header('Konfigurations- Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

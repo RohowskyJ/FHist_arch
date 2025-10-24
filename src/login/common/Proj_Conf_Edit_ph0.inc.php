@@ -33,6 +33,8 @@ Edit_Daten_Feld('c_Homepage', 60);
 Edit_Daten_Feld('c_ptyp', 60);
 Edit_Daten_Feld('c_store', 60);
 Edit_Daten_Feld('c_def_pw', 60);
+Edit_Daten_Feld('c_Perr', 60);
+Edit_Daten_Feld('c_Debug', 60);
 
 # =========================================================================================================
 Edit_Separator_Zeile('Beschreibungs- Nutzungs- Daten');
@@ -50,18 +52,10 @@ Edit_Select_Feld('c_Wartung', array(
 ));
 
 Edit_Daten_Feld('c_Wart_Grund', 100);
-
-echo "<input type='hidden' name='c_logo' value='".$neu['c_logo']."' >";
-echo "<input type='hidden' name='c_1page' value='".$neu['c_1page']."' >";
-
 /*
-Edit_Daten_feld('c_logo', 50);
-Edit_Upload_file('c_logo');
+echo "<input type='hidden' name='c_bild_1' value='".$neu['c_bild_1']."' >";
+echo "<input type='hidden' name='c_bild_2' value='".$neu['c_bild_2']."' >";
 
-Edit_Daten_feld('c_1page', 50);
-Edit_Upload_file('c_1page');
-
-*/
 $pict_path = 'imgs/';
 $Feldlaenge = "100px";
 
@@ -70,6 +64,36 @@ $pic_arr = array(
     "02" => "|||c_1page"
 );
 VF_Multi_Foto($pic_arr);
+*/
+# =========================================================================================================
+$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' checked > Foto Daten eingeben/ändern </label>"; # $checked = 'checked';
+    
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
+# =========================================================================================================
+/*
+ echo "<div>";
+ */
+echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
+echo "<input type='hidden' name='c_bild_1' value='".$neu['c_bild_1']."' class='monitor' >";
+echo "<input type='hidden' name='c_bild_2' value='".$neu['c_bild_2']."' >";
+
+echo "<input type='hidden' id='sammlung' value=''>";
+echo "<input type='hidden' id='eigner' value=''>";
+
+echo "<input type='hidden' id='aOrd' value=''>";
+echo "<input type='hidden' id='urhNr' value=''>";
+
+$pict_path = 'imgs/';
+
+$_SESSION[$module]['Pct_Arr' ] = array();
+$num_foto = 2;
+$i = 1;
+while ($i <= $num_foto) {
+    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => '', 'bi' => 'c_bild_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');
+    $i++;
+}
+
+VF_Upload_Form_M(); // _M im Original
 
 
 const Ja_Nein = array(
