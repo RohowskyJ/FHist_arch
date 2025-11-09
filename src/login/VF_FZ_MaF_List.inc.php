@@ -1,6 +1,10 @@
 <?php
 
-$Inc_Arr[] = 'VF_FZ_MaF_List_inc.php';
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */ 
+$_SESSION[$module]['Inc_Arr'][] = 'VF_FZ_MaF_List.inc.php';
 
 /**
  * einlesen Hersteller und Aufbauer in arrs
@@ -15,9 +19,6 @@ while ($row_a = mysqli_fetch_object($res_a)) {
         $aufb_arr[$row_a->fi_abk] = $row_a->fi_name.", ".$row_a->fi_ort;
     }
 }
-# var_dump($herst_arr);
-# var_dump($aufb_arr);
-
 
 /**
  * Einlesen der taktischen Bezeichnungen in taktb_arr
@@ -28,7 +29,7 @@ $res_t = SQL_QUERY($db, $sql_t);
 while ($row_t = mysqli_fetch_object($res_t)) {
     $taktb_arr[$row_t->ab_abk] = $row_t->ab_bezeichn;
 }
-# var_dump($taktb_arr);
+
 /**
  * Einlesen der Sammlungs- Kürzeln in arr
  */
@@ -40,22 +41,22 @@ while ($row_s = mysqli_fetch_object($res_sa)) {
 }
 
 # ===========================================================================================
-# Definition der Auswahlmöglichkeiten (mittels radio Buttons)
+# Definition der Auswahlmöglichkeiten 
 # ===========================================================================================
 if ($_SESSION['VF_Prim']['mode'] == 'Single') { // Fixer Eigentümer
     $T_list_texte = array(
         "Alle" => "Nach Indienststellung. ",
-        "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-        "NeuItem" => "<a href='VF_FZ_MaF_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
+        "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
     );
 } else {
     $T_list_texte = array(
         "Alle" => "Nach Indienststellung. ",
         "NextEig" => "<a href='VF_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-        "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-        "NeuItem" => "<a href='VF_FZ_MaF_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
+        "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
     );
 }
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FZ_MaF_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 echo "<fieldset>";
 
@@ -129,6 +130,5 @@ $orderBy = "  ";
 
 $sql = "SELECT * FROM `$tabelle` f \n
                     WHERE  f.fz_sammlg LIKE '%" . $_SESSION[$module]['sammlung'] . "%' ";
-
 
 $orderBy = "";

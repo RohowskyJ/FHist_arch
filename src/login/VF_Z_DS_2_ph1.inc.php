@@ -6,9 +6,14 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "Z_DS_2_ph2.inc.php";
+
 if ($debug) {echo "<pre class=debug>VF_C_DS_2_ph1.inc.php ist gestarted</pre>";}
-#----------------------------------------------------------------------------------
-#  VF_C_DS_2_v3ph1_v3.inc
 
 $field_arr=$cont_arr= "";
 
@@ -56,7 +61,11 @@ if (file_exists("$indata") ) {          // Eingegebene Datei existiert
             #var_dump($content);
             $content = substr($content,0,-1);
             $sql = "INSERT INTO $table_name ($fields) VALUES ($content)";
-            echo  "L 059 sql $sql <br>";
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'DS 2 Table Edit $sql </pre>";
+            echo "</div>";
+            
             $return = SQL_QUERY($db,$sql);
 
         }

@@ -7,6 +7,7 @@
  *
  */
 $module = 'MVW';
+$sub_mod = 'all';
 
 /**
  * Angleichung an den Root-Path
@@ -14,6 +15,12 @@ $module = 'MVW';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Mail_kontakt.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 

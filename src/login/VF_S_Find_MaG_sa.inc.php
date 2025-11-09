@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MaG_sa.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_S_Find_MaG_sa.inc.php ist gestarted</pre>";
 }
@@ -23,6 +30,11 @@ foreach ($mag_arr as $ge_table => $ge_nix) {
     }
 
     $sql_ge = "SELECT * FROM `$ge_table` $select ORDER BY ge_sammlg";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU MaG sa  $sql_ge </pre>";
+    echo "</div>";
+    
     $return_ge = mysqli_query($db, $sql_ge);
 
     while ($row = mysqli_fetch_object($return_ge)) {

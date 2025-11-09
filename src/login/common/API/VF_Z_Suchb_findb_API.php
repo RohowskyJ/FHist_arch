@@ -8,18 +8,18 @@ if ($debug_log) {
     file_put_contents('Suchb_findb.log', "VF_Z_Suchb_findb.API L 007 " . PHP_EOL, FILE_APPEND);
 }
 
-/* für PHP-Logging
+/* für PHP-Logging */
 
  ini_set('display_errors', '1');
  ini_set("log_errors", 1);
  ini_set("error_log", "Findbuch_php-error.log");
  error_log( "Hello, errors!" );
- */
+/*  */
 
 $debug_log = false;
 
 if ($debug_log) {
-    file_put_contents('Findb_debug.log', "VF_Z_Suchb_findb.API L 018 " . PHP_EOL, FILE_APPEND);
+    file_put_contents('Findb_debug.log.txt', "VF_Z_Suchb_findb.API L 022 " . PHP_EOL, FILE_APPEND);
 }
 
 # echo "findb gestartet";

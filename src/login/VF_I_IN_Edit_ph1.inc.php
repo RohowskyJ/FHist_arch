@@ -6,6 +6,12 @@
  * @author  Josef Rohowsky <josef@kexi.at>
  */
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_Edit_ph1.inv.php";
+
 if ($debug) {echo "<pre class=debug>VF_I_IN_Edit_ph1.inc ist gestarted</pre>";}
 
 foreach ($_POST as $name => $value)
@@ -75,7 +81,10 @@ if ($_SESSION[$module]['in_id'] == 0) {
                 '$neu[in_ausgdat]','$neu[in_neueigner]','$neu[in_uidaend]',now()
                )";
     
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db,$sql); // or die('INSERT nicht möglich: ' . mysqli_error($db));
  
     $neu['in_id'] = mysqli_insert_id($db);
@@ -91,13 +100,13 @@ if ($_SESSION[$module]['in_id'] == 0) {
         $updas .= ",`$name`='".$neu[$name]."'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
     
-    #$updas = mb_substr($updas,1); # 1es comma entfernen nur notwendig, wenn vorer keine Update-Strings sind
     $updas = "in_aenddat=now(),in_uidaend='".$neu['in_uidaend']."'$updas";
     if ( $_SESSION[$module]['all_upd']  ) {
         $sql = "UPDATE $tabelle_a SET $updas WHERE `in_id`='".$neu['in_id']."'";
-        if ( $debug ) { echo '<pre class=debug> L 0197: \$sql $sql </pre>'; }
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN Edit ph1 $sql </pre>";
+        echo "</div>";
         
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
         $result = mysqli_query($db,$sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
     }
 
@@ -105,7 +114,6 @@ if ($_SESSION[$module]['in_id'] == 0) {
 unset($_SESSION[$module]['Pct_Arr']);
 
 if ($neu['in_namen'] != "")    {
- #   require('../add_namefind.php');
     VF_Add_Namen($tabelle_a,$neu['in_id'],'in_id',$neu['in_namen'], $neu['in_eignr'] ) ;
 }
     

@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_Select_List.inc.php";
+
 $tabelle = 'zt_zeitungen';
 
 /**
@@ -14,8 +21,6 @@ $tabelle = 'zt_zeitungen';
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropDownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -24,8 +29,6 @@ $tabelle = 'zt_zeitungen';
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropDownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -37,20 +40,10 @@ if (!isset($_SESSION['VF_LISTE'])) {
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
 $T_list_texte = array(
-    "Alle" => "Alle Zeitungen ( Auswahl ) ",
-    "NeuItem" => "<a href='VF_O_ZT_Z_Edit.php?ID=0' >Neue Zeitung eingeben</a>"
+    "Alle" => "Alle Zeitungen ( Auswahl ) "
 );
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-$title = "Zeitung- Auswahl";
-# $heading = "<h1>Mitglieder Daten aus Tabelle <q>".$tabelle."</q></h1>";
-
-$logo = 'NEIN';
-HTML_header($title, '', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
-echo "<fieldset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_ZT_Z_Edit.php?ID=0' >Neue Zeitung eingeben</a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -86,6 +79,10 @@ $sql .= $sql_where . $orderBy;
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O ZT Sel List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql,'', $tabelle,'');
 

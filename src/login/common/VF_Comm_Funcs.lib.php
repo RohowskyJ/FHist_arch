@@ -36,10 +36,16 @@
  *  - VF_Eig_Ausw       - Autokomplete Auswahl Eigner
  *  - VF_Multi_Dropdown - Multiple Dropdown Auswahl mit bis zu 6 Ebenen, Verwendet für Sammlungsauswahl, AOrd- Auswahl
  *  - VF_Sel_Eigner     - Eigentümer- Auswahl für Berechtigungen (wieder aktiviert)
- *  - VF_Sel_Eign_Urheb - Urheber- Auswahl aus Eigentümer- Datei
- *  fehlende scripts in der liste
- *  - VF_Auto_
+ *  - VF_Auto_Aufbau    - Autocomplete von Abfbaufirmen
+ *  - VF_Auto_Eigent    - Autocomplete von Eigentümer  oder Urheber
+ *  - VF_Auto_Herstell  - Autocomplete von Fahrzeug- und Geräteherstellern
+ *  - VF_Auto_Taktb     - Autocomplete von Taktischen Bezeichnungen
+ *  - VF_Upload_Pfad_M  - Erstellung Pfad für die hochgeladenen Dateien, abhängig vom aufrufenden Script
  *  - VF_Upload_Form_M  - Upload (Single- File- Multiple- upload von Audio, Foto und Video Files
+ *  - VF_Upload_Save_M  - Aufbereiteen der Datun zum Eintrag in Tabellen
+ *  
+ *  - VF_Save_Conf_deb  - Sichern der Debug- Definitionen, cPerr, cDeb, SelDis (Erro-Log-File-Dsn, Debug-Log-Dsn, Anzeige des SQL Sel Statements
+ *  - VF_Save_Conf_prt  - Sichern der Listen- Parametern, pVarTabL, pLangList, pCsvData und pDropDown A/I - Aktiv/Inaktiv
  */
 global $debug;
 if ($debug) {
@@ -1043,8 +1049,9 @@ function VF_M_Foto()
 
         #echo $neu[$p_a[2]]. " ".$p_a[2] . " " . $neu[$p_a[3]]." ". $p_a[3] ."<br>";
 
-        if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''))) {
-
+        # if ($hide_area == 0 || ($hide_area == 1 && ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != ''))) {
+        if ($neu[$p_a['ko']] != '' || $neu[$p_a['bi']] != '') {
+   
             # echo "Bild- Box $key wird angezeigt <br>";
 
             echo "<div class='w3-half'><fieldset>";
@@ -1393,19 +1400,7 @@ function VF_Urh_ini()
     if ($debug) {
         echo "<pre class=debug>Urheber-ini L Beg:  <pre>";
     }
- /*   
-#echo "L 1393 $LinkDB_database <br>";
-    $ar_arr = $dm_arr =  $in_arr = $maf_arr = $mag_arr  = $muf_arr  = $mug_arr  = $ge_arr = $zt_arr = array();
-    $tables_act = VF_tableExist(); 
-    #var_dump($dm_arr);
-    #var_dump($tables_act);
-    if (!$tables_act) {
-        echo " Fehler beim lesen der DB Tabellen <br>";
-        exit;
-    }
-    
-    var_dump($dm_arr);
-*/
+
     $sql_ur = "SELECT * FROM `fh_eigentuemer` WHERE ei_urh_kurzz <> '' ORDER BY ei_id ASC "; # WHERE ei_urh_kurzz != '' ORDER BY ei_id ASC
 
     $return_ur = SQL_QUERY($db, $sql_ur);
@@ -1623,8 +1618,8 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
     global $debug, $module, $flow_list;
 
     flow_add($module, "VF_Comm_Funcs.inc Funct: VF_Upload");
-
-    echo " L 01752 Upl upldir $uploaddir fdsn $fdsn <br>";
+console_log('VF_Upload $uploaddir, $fsdn');
+    echo " L 01627 Upl upldir $uploaddir fdsn $fdsn <br>";
     var_dump($_FILES);
     $target = "";
     if (! empty($_FILES[$fdsn])) {
@@ -1645,7 +1640,7 @@ function VF_Upload($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
             } else {
                 $target = $fn_arr['basename'];
             }
-            echo "L 01645 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
+            echo "L 01648 fdsn $fdsn ; uploaddir $uploaddir; target $target <br>";
             var_dump($_FILES[$fdsn]);
             if (move_uploaded_file($_FILES[$fdsn]['tmp_name'], $uploaddir . $target)) {
                 var_dump($_FILES[$fdsn]);
@@ -1723,18 +1718,21 @@ function VF_Upload_M($uploaddir, $fdsn, $urh_abk = "", $fo_aufn_datum = "")
 function VF_Upload_Pic($FldName, $uploaddir, $urh_abk = "", $fo_aufn_datum = "")
 {
     global $debug, $module, $flow_list;
+    
+    #echo "L 1722 Upl_Pic fldName $FldName uplddir $uploaddir urhabk $urh_abk fo_aufnDat $fo_aufn_datum <br>";
 
     flow_add($module, "VF_Comm_Funcs.inc.php Funct: VF_Upload_Pic");
 
     $target1 = "";
     if (! empty($_FILES['uploaddatei_1'])) {
         $target1 = basename($_FILES['uploaddatei_1']['name']);
-
+console_log("target 1 $target1");
         if ($target1 != "") {
             $target1 = VF_trans_2_separate($target1);
 
             $fn_arr = pathinfo($target1);
             $ft = strtolower($fn_arr['extension']);
+            console_log("ext $ft");
             if (in_array($ft, GrafFiles)) {
                 $newfn_arr = explode('-', $target1);
                 $cnt = count($newfn_arr);
@@ -1743,8 +1741,11 @@ function VF_Upload_Pic($FldName, $uploaddir, $urh_abk = "", $fo_aufn_datum = "")
                 } else {
                     $target1 = $fn_arr['basename'];
                 }
+console_log("targ1 ende $target1");
+#var_dump($_FILES);
 
                 if (move_uploaded_file($_FILES['uploaddatei_1']['tmp_name'], $uploaddir . $target1)) {
+                    console_log("ret $target1");
                     return $target1;
                 }
             }
@@ -2279,12 +2280,12 @@ function VF_Upload_Form_M()
      */
  
     /* Schalten der Foto- Update blöcke */
-    
+    /*
     if (!isset($hide_area)) {
         $hide_area = 0;
     }
     $hide_area_group1 = $hide_area_group2 = $hide_area;
-    
+    */
     if ($debug) {
         echo "<pre class=debug>VF_Upload_Form_M L 2262 Beg: \$Picts ";
         var_dump($_SESSION[$module]['Pct_Arr']);
@@ -2310,7 +2311,9 @@ function VF_Upload_Form_M()
     echo "<input type='hidden' name='pic_cnt' value='$pic_cnt' >";
     for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
-
+#var_dump($neu);
+#var_dump($p_a);
+/*
         // Entscheidung, ob versteckt wird bei bestehendem Daten
         $hide_upl = $hide_bild = '';
         if ($hide_area == 1) {
@@ -2318,12 +2321,15 @@ function VF_Upload_Form_M()
                 $hide_upl = $hide_bild = 'hide'; // wird versteckt
             }
         }
-
+*/
         $j = $i + 1; /** Für die Bil- Nr- Anzeige */
-
-        $pict_path = VF_Upload_Pfad_M('', '', '', '');
+        
+        if ($p_a['udir'] == '') {
+            $pict_path = VF_Upload_Pfad_M('', '', '', '');
+        } else {
+            $pict_path = $p_a['udir'] ;
+        }
        
-        # echo "L 0129 pct_path $pict_path <br>";
         /**
          * Responsive Container innerhalb des loops
          */
@@ -2362,19 +2368,28 @@ function VF_Upload_Form_M()
                 $verz = $fo_arr[1]."/";
                 if ($cnt_fo > 3) {
                     if (isset($fo_arr[3])) {
-                        $s_verz = $fo_arr[3]."/";
+                        $s_verz = $fo_arr[3]."/" ;
                     }
                 }
-                $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
                 
-                if (!is_file($p)) {
+                $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
+                /*
+                if (is_file($p) {
+                # if ($p_a['udir'] == '') {
+                    $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
+                } else {
+                    $p = $p_a['udir'].$neu[$p_a['bi']] ;
+                }
+                */
+                if (!is_file($p) ) {
                     $p = $pict_path . $neu[$p_a['bi']];
                 }
             } else {
                 $p = $pict_path . $neu[$p_a['bi']];
             }
-
-            $f_arr = pathinfo($neu[$p_a['bi']]);
+# var_dump($p);
+            # $f_arr = pathinfo($neu[$p_a['bi']]);
+            $f_arr = pathinfo($p);
             if ($f_arr['extension'] == "pdf") {
                 echo "<a href='$p' target='Bild $j' > Dokument</a>";
             } else {
@@ -2713,7 +2728,7 @@ function setupUploadBlock(j) {
     if ($('#eigentuemer_' + j).next('.error-msg').length === 0) {
         $('#eigentuemer_' + j).after('<span class="error-msg" style="color:red;display:none;margin-left:8px;"></span>');
     }
-
+    
     uploadBtn.on('click', function() {
     console.log('uploadBtn');
         let hasError = false;
@@ -2735,13 +2750,16 @@ console.log('selFile length ',selectedFiles.length);
         if (urhNr === "" ) {urhNr = $('#urhNr').val() ;}
         const urhName = $('#urhName').val() || '';
         const reSize = $('#reSize').val() || '800'; // Default size
-        const aord = $('#aord_' + j).val() || '';
+        const aOrd = $('#aOrd_' + j).val() || '';
         const eigner = $('#eigner_' + j).val() || '';
         let rotation = 0;
         console.log('urhNr ',urhNr );
         // console.log('eigentuemer ',$('#eigentuemer_' + j).val());
         // Validate required fields
-        if (urhNr === '' || urhNr === 'undefined') {
+        if (urhNr === 'undefined') {
+           urhNr = '';
+        }
+        if (urhNr === '' || urhNr == 'undefined') {
             // $('#eigentuemer_' + j).addClass('input-error');
             // $('#eigentuemer_' + j).next('.error-msg').text('Pflichtfeld!').show();
             // hasError = true;
@@ -2749,6 +2767,7 @@ console.log('selFile length ',selectedFiles.length);
                urhNr = eigentuemer;
             }
         }
+        
         /*
         if (aufnDat === '') {
             $('#aufnDat_' + j).addClass('input-error');
@@ -2774,7 +2793,7 @@ console.log('vor FormData');
         formData.append('urhEinfgJa', urhEinfg);
         formData.append('aufnDat', aufnDat);
         formData.append('reSize', reSize);
-        formData.append('aord', aord); 
+        formData.append('aOrd', aOrd); 
         formData.append('eigner', eigner); 
 
         console.log('formData ',formData);
@@ -2940,7 +2959,51 @@ function VF_Upload_Save_M($uploaddir, $fdsn, $urh_nr = "", $md_aufn_datum = "")
     return false;
 } // end VF_Upload_Save_M
 
+/**
+ * Schreiben der Debug- Informationen in die .ini - .datei
+ * 
+ *  [Debug] cPerr_A = I cDeb_A = I SelDis = A A .. aktiv, I .. Inaktiv
+ *  
+ */
+function VF_Save_Conf_deb () {
+    global $path2ROOT;
+    /** Schreiben der config_dbg.ini */
+    $updas_dbg = "\n[Debug]\n";
+    
+    foreach ($_SESSION['VF_Prim']['debug'] as $key => $value) { # für alle Felder aus der tabelle
+        $updas_dbg .= "$key = $value\n";
+    } # Ende der Schleife
+    
+    echo "L 02973 updas_dbg $updas_dbg <br>";
+    $dsn = $path2ROOT."login/common/config_dbg.ini";
+    
+    $datei = fopen($dsn, 'w');
+    fputs($datei, $updas_dbg);
+    fclose($datei);
+    
+}
 
+/**
+ * Sichern der Listen- Parameter, werden eventuell im list_creste geändert, müssen im folgenden Edit- Pgm gesichert werden
+ * ev später sichern per js AJAX
+ *
+ *
+ */
+function VF_Save_Conf_Prt() {
+    
+    echo "<input type='hidden' id='varTblLen' name='varTblLen' value='".$_SESSION[$module][$sub_mod]['List_Parm']['varTblLen']."' >";
+    echo "<input type='hidden' id='LangListe' name='LangListe' value='".$_SESSION[$module][$sub_mod]['List_Parm']['LangListe']."' >";
+    echo "<input type='hidden' id='LDropDown' name='varTblLen' value='".$_SESSION[$module][$sub_mod]['List_Parm']['LDropDown']."' >";
+    echo "<input type='hidden' id='CsvOutPut' name='CsvOutPut' value='".$_SESSION[$module][$sub_mod]['List_Parm']['CsvOutPut']."' >";
+    
+    /*
+    [PrtParm]
+    pVarTabL  = 'A'
+    pLangList = 'I'
+    pCsvData  = 'I'
+    pDropDwn  = 'I    
+    */
+}
 /**
  * Ende der Bibliothek
  *

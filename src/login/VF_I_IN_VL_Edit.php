@@ -22,6 +22,12 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_VL_Edit.php";
+
 $debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -105,7 +111,10 @@ if ($phase == 0) {
         if ($vl_id != '') {
             $sql .= " WHERE vl_id = '$vl_id'";
         }
-
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN VL Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
 
         $num_rows = mysqli_num_rows($result);
@@ -162,7 +171,11 @@ if ($phase == 1) {
               '$neu[ei_bild_1]','$neu[ei_bild_2]','$neu[ei_leiher]','$neu[ei_leihvertr]','$neu[ei_verlbeg]','$neu[ei_verlend]',
               '$neu[ei_verlgrund]','$neu[ei_verlrueck]','$neu[ei_verluebn]','$neu[ei_uidaend]'
                )";
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql); // or die('INSERT nicht möglich: ' . mysqli_error($db));
 
         $neu['vl_id'] = mysqli_insert_id($db);
@@ -204,8 +217,10 @@ if ($phase == 1) {
         if ($debug) {
             echo '<pre class=debug> L 0127: \$sql $sql </pre>';
         }
-
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql) ;
     }
 

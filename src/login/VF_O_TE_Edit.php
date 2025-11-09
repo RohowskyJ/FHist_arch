@@ -6,11 +6,10 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'TE';
 
 const Tabellen_Name = 'va_daten';
 
@@ -23,7 +22,12 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = True;
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_TE_Edit.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -143,8 +147,11 @@ if ($phase == 0) {
         );
     } else {
         $sql = "SELECT * FROM va_daten WHERE va_id = '$va_id' ";
-
-        # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O TE Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) { # wenn die anzahl der gefundenen Rows nicht = 1 ist -->> Fehler

@@ -95,8 +95,12 @@ if ($phase == 0) {
         if ($now_ei_id != '') {
             $sql .= " WHERE ei_id = '$now_ei_id'";
         }
-
-        $result = mysqli_query($db, $sql) or die('Lesen Satz $now_ei_id nicht möglich: ' . mysqli_error($db));
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z E Edit $sql </pre>";
+        echo "</div>";
+        
+        $result = SQL_QUERY($db, $sql) ;
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {
             if ($num_rows == 0) {

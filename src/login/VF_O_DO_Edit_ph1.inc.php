@@ -6,6 +6,13 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_DO_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_O_DO_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -51,7 +58,11 @@ if ($dk_nr == 0) { // neuer Eintrag
                '$neu[dk_Path2Dsn]','$neu[dk_url]','$neu[dk_sg]','$p_uid',now()
                
                )";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O DO Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 } else { // Update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
@@ -81,7 +92,11 @@ if ($dk_nr == 0) { // neuer Eintrag
 
     $sql = "UPDATE $tabelle SET  $updas WHERE `dk_nr`='$dk_nr'";
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O DO Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
 }
 

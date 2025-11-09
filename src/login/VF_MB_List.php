@@ -7,12 +7,18 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module = 'MVW';
+$sub_mod = "all";
 
 const Tabellen_Name = 'fh_mitglieder';
 $tabelle = Tabellen_Name;
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_MB_List.php"; 
 /**
  * Angleichung an den Root-Path
  *
@@ -27,13 +33,21 @@ require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
-require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs_MB.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database = '';
 $db = LinkDB('VFH');
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+
+BA_HTML_header("Mitglieds Beitrag", '', '', 'Adm', '200em');
+
+echo "<fieldset>";
 
 initial_debug();
 
@@ -107,14 +121,7 @@ if (isset($_GET['mod_t_id'])) {
     $mod_t_id = $_GET['mod_t_id'];
 }
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-
-BA_HTML_header("Mitglieds Beitrag", '', '', 'Adm', '200em');
-
-echo "<fieldset>";
-
+$NeuRec = "";
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle);
@@ -222,10 +229,14 @@ if ($select_string != '') {
     }
 }
 $sql .= " ORDER BY mi_name, mi_vname ASC  ";
-# echo "L 0218 sql $sql <br>";
+
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MB List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql, '', Tabellen_Name, '');
 
@@ -269,8 +280,11 @@ function modifyRow(array &$row, $tabelle)
     if ($row['mi_name'] == "" and $row['mi_org_name'] != "") {
         $row['mi_name'] = $row['mi_org_name'];
     }
-
-    $mi_beitr_jahr = substr($row['mi_beitritt'], 0, 4);
+    
+    $mi_beitr_jahr = '0000';
+    if ($row['mi_beitritt'] != '' && !is_null($row['mi_beitritt']) ) {
+        $mi_beitr_jahr = substr($row['mi_beitritt'], 0, 4);
+    }
 
     $a = "<a href='VF_MB_buchung.php?mi_id=$mi_id&p_uid=$p_uid";
     /*

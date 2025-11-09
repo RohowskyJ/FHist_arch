@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MuF1_List.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_S_Find_MuF1_List.inc.php ist gestarted</pre>";
 }
@@ -36,7 +43,11 @@ for ($i = 0; ! empty($arr_fzg[$i]); $i ++) {
 
     $select_f = "WHERE `fm_id`='".$fz_arr[1]."' ";
     $sql = "SELECT * FROM ".$fz_arr[0]." $select_f  ORDER BY `fm_id` ASC";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU MuF1 List sql </pre>";
+    echo "</div>";
+    
     $return_fz = SQL_QUERY($db, $sql);
     while ($row = mysqli_fetch_object($return_fz)) {
 

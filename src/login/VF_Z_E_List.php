@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module  = 'ADM';
+$sub_mod = 'Einr';
+
 $tabelle = 'fh_eigentuemer';
 
 /**
@@ -18,7 +19,14 @@ $tabelle = 'fh_eigentuemer';
  *
  * @var string $path2ROOT
  */
+
 $path2ROOT = "../";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_E_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -65,7 +73,14 @@ VF_Count_add();
 $mitgl_nrs = "";
 $mitgl_einv_n = 0;
 
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+$title = "Eigentümer Daten";
 
+BA_HTML_header('Eigentümer- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<fieldset>";
 if (isset($_POST['select_string'])) {
     $select_string = $_POST['select_string'];
 } else {
@@ -80,18 +95,10 @@ initial_debug();
 # ===========================================================================================
 $T_list_texte = array(
     "Alle" => "Alle jemals gemeldeten Eigentümer ( Auswahl ) ",
-    "AdrList" => "Adress-Liste der Eigentümer   ",
-    "NeuItem" => "<a href='VF_Z_E_Edit.php?ID=0' >Neuen Eigentümer eingeben</a>"
+    "AdrList" => "Adress-Liste der Eigentümer   "
 );
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-$title = "Eigentümer Daten";
-
-BA_HTML_header('Eigentümer- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
-echo "<fieldset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; &nbsp; <a href='VF_Z_E_Edit.php?ID=0' >Neuen Eigentümer eingeben</a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -176,6 +183,10 @@ if ($select_string != '') {
     }
 }
 $sql .= $sql_where . $orderBy;
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z E List vor list_create $sql </pre>";
+echo "</div>";
 
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben

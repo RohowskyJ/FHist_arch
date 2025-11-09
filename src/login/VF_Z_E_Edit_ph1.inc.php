@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = 'VF_F_E_Edit_ph1.inc.php';
+
 if ($debug) {
     echo "<pre class=debug>VF_Z_E_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -66,7 +73,11 @@ if ($neu['ei_id'] == "0") { // NeuItem
                '$neu[ei_wlmus]','$neu[ei_vomus]','$neu[ei_wlinv]','$neu[ei_voinv]','$neu[ei_voinf]','$neu[ei_vofo]',
                '$neu[ei_voar]','$neu[ei_drwvs]','$neu[ei_drneu]','$p_uid',now()
                )";
-#echo "<br> L 074 sql $sql <br>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z E List ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 } else {
 # var_dump($neu);
@@ -74,12 +85,10 @@ if ($neu['ei_id'] == "0") { // NeuItem
 
     foreach ($neu as $name => $value) # für alle Felder aus der tabelle
     {
-        if (! preg_match("/[^0-9]/", $name)) {
+        if (substr($name,0,3) != "ei_") {
             continue;
-        } # überspringe Numerische Feldnamen
-        if ($name == "MAX_FILE_SIZE") {
-            continue;
-        } #
+        } 
+        /*#
         if ($name == "phase") {
             continue;
         } #
@@ -87,7 +96,7 @@ if ($neu['ei_id'] == "0") { // NeuItem
             continue;
         } 
         
-
+*/
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
@@ -98,32 +107,43 @@ if ($neu['ei_id'] == "0") { // NeuItem
 
     if ($caller[$cnt - 1] == "VF_M_Anmeld.php" or $_SESSION[$module]['all_upd']) {
         $sql = "UPDATE `fh_eigentuemer` SET  $updas WHERE `ei_id`='$neu[ei_id]'";
-        if ($debug) {
-            echo '<pre class=debug> L 0197: \$sql $sql </pre>';
-        }
-# echo "L 0111 sql $sql <br>";
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z E List ph1 $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
     }
-    
+    /*
     if (strlen($neu['ei_media']) > 2 ){ // erweiterung angelegt? je medium ein Record!
         $med_arr = explode(",",$neu['ei_media']);
         foreach($med_arr as $medium) {
             $sql_m = "SELECT * FROM fh_eign_urh WHERE fs_eigner='".$neu['ei_id']."'  AND fs_typ='$medium' AND fs_urh_kurzz ='".$neu['ei_urh_kurzz']."' " ;
+           
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z E List ph1 $sql_m </pre>";
+            echo "</div>";
+            
             $ret_m = SQL_QUERY($db,$sql_m);
+            
             $num_rows = mysqli_num_rows($ret_m);
-            echo "L 0114 num_rows $num_rows <br>";
             if ($num_rows === 0 ) {
                 $sql_i = "INSERT INTO fh_eign_urh (fs_eigner,fs_typ,fs_fotograf,fs_urh_nr,fs_urh_kurzz,fs_uidaend
                       ) VALUE (
                         '$neu[ei_id]','$medium','".$neu['ei_org_typ']." ".$neu['ei_org_name']."','$neu[ei_id]','$neu[ei_urh_kurzz]','$p_uid'
                        ) ";
+                
+                echo "<div class='toggle-SqlDisp'>";
+                echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z E List ph1 $sql_i </pre>";
+                echo "</div>";
+                
                 $ret_i = SQL_QUERY($db,$sql_i);
             }
             
         }
         
     }
+    */
 }
 
 if ($debug) {

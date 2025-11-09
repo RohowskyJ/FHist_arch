@@ -8,6 +8,13 @@
  *
  */
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_MassUp_FO_ph2.inc.php.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_MassUp_FO_ph2.inc.php ist gestarted</pre>";
 }
@@ -37,7 +44,7 @@ $tabelle_in = "dm_edien_$eignr";
 
 Cr_n_Medien_Daten($tabelle_in);
 
-$sql = "SELECT * FROM $tabelle_in where md_aufn_datum = '$aufn_dat' AND md_dsn_1 = '' ";
+$sql = "SELECT * FROM $tabelle_in where md_aufn_datum = '$aufn_dat' AND md_dsn_1 = '0_Verz' ";
 $urhname = $_SESSION['Eigner']['eig_urhname'];
 
 $media = "Foto";
@@ -51,7 +58,7 @@ if (mysqli_num_rows($return) == "0") {
                          md_sammlg,md_media,
                          md_aenduid
                       ) VALUE (
-                        '$eignr','$urhname','','$aufn_dat','$beschreibg','',
+                        '$eignr','$urhname','0_Verz','$aufn_dat','$beschreibg','',
                         '','$media',
                         '" . $_SESSION['VF_Prim']['p_uid'] . "'
                       )";

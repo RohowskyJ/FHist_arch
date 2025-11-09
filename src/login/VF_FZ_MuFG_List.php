@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'F_M';
-$module = Module_Name;
+$module = 'F_M';
+$sub_mod = 'all';
+
 $tabelle = 'mu_fahrzeug'; # mu_geraet
 
 /**
@@ -19,6 +20,12 @@ $tabelle = 'mu_fahrzeug'; # mu_geraet
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuFG_List.php"; 
 
 $debug = false; // Debug output Ein/Aus Schalter
 
@@ -41,8 +48,6 @@ $db = LinkDB('VFH');
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Spaltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -51,9 +56,7 @@ $db = LinkDB('VFH');
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Ein",
-        "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -64,8 +67,8 @@ if (!isset($_SESSION['VF_LISTE'])) {
  * Includes-Liste
  * enthält alle jeweils includierten Scritpt Files
  */
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FZ_MuFG_List.php";
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuFG_List.php";   
 
 /**
  * Variablen für Eigentümer und Sammlung initialisieren
@@ -74,7 +77,7 @@ if (! isset($_SESSION['Eigner']['eig_eigner'])) {
     $_SESSION['Eigner']['eig_eigner'] = "";
 }
 
-if (! isset($_SESSION[$module]['fmsammlung'])) {
+if (! isset($_SESSION[$module]['fm_sammlung'])) {
     $_SESSION[$module]['fm_sammlung'] = 'MU';
 }
 
@@ -151,7 +154,6 @@ if (isset($_POST['eigentuemer_1'])) {
     $ei_id = $_SESSION['Eigner']['eig_eigner'];
 }
 
-
 /**
  * Sammlung auswählen, Input- Analyse
  */
@@ -183,6 +185,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
     /**VF_Eig_Ausw
      * neuen Eigentümer auswählen
      */
+    echo "<h3>".$_SESSION['VF_Prim']['OrgNam']."</h3>";
+    echo "<h2>Eigentümer Auswahl</h2>";
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten") {
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
             VF_Auto_Eigent('E', '',1);
@@ -251,6 +255,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
     }
 
     $sql .= $sql_where . $orderBy;
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MuFG List vor list_create $sql </pre>";
+    echo "</div>";
     
     List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
 

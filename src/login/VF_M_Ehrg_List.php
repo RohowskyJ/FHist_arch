@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module  = 'MVW';
+$sub_mod = 'all';
+
 $tabelle = 'fh_m_ehrung';
 
 /**
@@ -19,7 +20,12 @@ $tabelle = 'fh_m_ehrung';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
-$debug = True;
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Ehrg_List.php";
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -55,8 +61,6 @@ if ($phase == 99) {
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -65,8 +69,6 @@ if ($phase == 99) {
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -189,6 +191,10 @@ if ($select_string != '') {
     }
 }
 $sql .= $sql_where . $order_By;
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M ehrg List vor list crea $sql </pre>";
+echo "</div>";
 
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben

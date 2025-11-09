@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_I_Edit:ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_O_ZT_I_Edit.inc.php ist gestarted</pre>";
 }
@@ -30,7 +37,11 @@ if ($neu['ih_id'] == 0) { # Neueingabe
                 '$neu[ih_fax]','$neu[ih_seite]','$neu[ih_spalte]','$neu[ih_fwehr]','$neu[ih_uidaend]'
                )";
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT I Edit ph1 $sql_be </pre>";
+    echo "</div>";
+ 
     $result = SQL_QUERY($db, $sql);
 } else { # Update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
@@ -61,7 +72,11 @@ if ($neu['ih_id'] == 0) { # Neueingabe
         echo '<pre class=debug> L 0197: \$sql $sql </pre>';
     }
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT I Edit ph1 $sql_be </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 }
 
@@ -70,6 +85,6 @@ header("Location: VF_O_ZT_List.php");
 # =========================================================================================================
 
 if ($debug) {
-    echo "<pre class=debug>VF_O_ZT_I_Edit_ph1.inc beendet</pre>";
+    echo "<pre class=debug>VF_O_ZT_I_Edit_ph1.inc.php beendet</pre>";
 }
 ?>

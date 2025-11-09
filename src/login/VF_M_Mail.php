@@ -8,7 +8,9 @@
  * 
  */
 session_start(); # die SESSION aktivieren
+
 $module = 'MVW';
+$sub_mod = 'all';
 
 /**
  * Angleichung an den Root-Path
@@ -16,6 +18,13 @@ $module = 'MVW';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Mail.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -48,6 +57,10 @@ $sql = "SELECT * FROM fh_mitglieder ";
 
 $sql .= "\n$sql_where" . "\nORDER BY  mi_name ASC";
 
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Mailt $sql </pre>";
+echo "</div>";
+
 $sqlresult = SQL_QUERY($db, $sql);
 
 if (empty($sqlresult)) {
@@ -59,9 +72,9 @@ if ($zeilen == 0) {
 }
 ?>
 
-<!-- ======================================================================================================= -->
+<!-- ======================================================================================================= 
 <fieldset>
-
+-->
  
 <?php
 echo "<br>Klicken Sie auf <q><b>Mail</b></q> um eine Nachricht an die Person Ihrer Wahl zu senden";
@@ -107,6 +120,6 @@ while ($row = mysqli_fetch_assoc($sqlresult)) {
     </tbody>
 	</table>
 
-</fieldset>
+<!--  /fieldset>  -->
 <br>
 <?php BA_HTML_trailer();?>

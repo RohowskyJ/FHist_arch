@@ -4,6 +4,14 @@
  * 
  */
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_MassUp_FO_ph3.inc.php.php";
+
+
 if ($debug) {
     echo "<pre class=debug>VF_C_MassUp_FO_ph3.inc.php ist gestarted</pre>";
 }
@@ -36,6 +44,11 @@ foreach ($_POST as $key => $value) {
                         '','$media',
                         '" . $_SESSION['VF_Prim']['p_uid'] . "'
                       )";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'C MassUp FO ph3 $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql_add);
     }
 }

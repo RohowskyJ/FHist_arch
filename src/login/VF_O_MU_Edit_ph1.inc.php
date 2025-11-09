@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_MU_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_O_MU_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -60,6 +67,10 @@ if ($mu_id == 0) { # neueingabe
                 '$neu[mu_f2_dgr]','$neu[mu_f2_tel]','$neu[mu_f2_handy]','$neu[mu_f2_email]','$p_uid',now()
                )";
     
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O MU Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
     
 } else { # update
@@ -77,11 +88,11 @@ if ($mu_id == 0) { # neueingabe
     $updas = mb_substr($updas, 1); # 1es comma entfernen nur notwendig, wenn vorer keine Update-Strings sind
     
     $sql = "UPDATE $tabelle SET  $updas WHERE `mu_id`='$mu_id'";
-    if ($debug) {
-        echo '<pre class=debug> L 0127: \$sql $sql </pre>';
-    }
     
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O MU Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql) or die('UPDATE nicht möglich: ' . mysqli_error($db));
     
     $mu_id = $_SESSION[$module]['mu_id'];

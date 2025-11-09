@@ -11,7 +11,6 @@
 # ===========================================================================================
 
 $T_list_texte = array(
-    "NeuItem" => "<a href='VF_FZ_EI_Edit.php?ID=0' >Neuen Datensatz eingeben</a>"
 );
 
 # ===========================================================================================================
@@ -19,6 +18,7 @@ $T_list_texte = array(
 # ===========================================================================================================
 
 $logo = 'NEIN';
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FZ_EI_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -65,7 +65,5 @@ List_Action_Bar($tabelle, "", $T_list_texte, $T_List, $List_Hinweise); # Action 
 # ===========================================================================================================
 
 $New_Link = "";
-if ($_SESSION[$module]['all_upd']) {
-    $New_Link = "<a href='VF_FZ_EI_Edit.php?ID=0' >Neu</a>";
-}
+
 List_Create($db, $sql_ei, '', $tabelle_ei_a, '', $New_Link); # die liste ausgeben

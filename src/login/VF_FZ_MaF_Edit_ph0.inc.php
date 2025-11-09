@@ -7,6 +7,8 @@
  *
  *
  */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaF_Edit_ph0.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MA_Edit_ph0.inc.php gestartet </pre>";
 }
@@ -20,7 +22,7 @@ if ($neu['fz_id'] == 0) { // Neueingabe
 }
 
 echo "<input type='hidden' id='hide_area' value='$hide_area'>";
-echo "Verstecken $hide_area <br>";
+# echo "Verstecken $hide_area <br>";
 # =========================================================================================================
 Edit_Tabellen_Header('Motorisierte Fahrzeuge von Eigentümer '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -29,13 +31,12 @@ Edit_Daten_Feld('fz_id');
 Edit_Daten_Feld('fz_eignr');
 
 # =========================================================================================================
-$button = "";
+$chkbox = "";
 if ($hide_area != 0) {
-    // Der Button, der das toggling übernimmt
-   # $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_sa')\">zum anzeigen/ändern klicken!</button>";
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
+    // Die Checkbox,ie das toggling steuert
+    $chkbox = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
 }
-Edit_Separator_Zeile('Sammlung'.$button);
+Edit_Separator_Zeile('Sammlung'.$chkbox);
 # =========================================================================================================
 
 echo "<input type='hidden' id='fz_sammlg' name='fz_sammlg' value='".$neu['fz_sammlg']."'>";
@@ -92,6 +93,7 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 
 VF_Multi_Dropdown($in_val, $titel);
+
 echo "</div>"; # ende toggle
 echo "</div>"; # ende dropdown Sammlung
 
@@ -108,7 +110,7 @@ if ($hide_area == 0) {  //toggle??
     $button = "";
 } else {
     // Der Button, der das toggling übernimmt
-   #$button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_taktb')\">zum anzeigen/ändern klicken!</button>";
+  
     $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock20' > zum anzeigen/ändern anklicken</label> ";
 
 }
@@ -205,6 +207,7 @@ VF_Auto_Aufbau();
 
 echo "</div>"; # ende toggle
 echo "</div>"; # ende hide aufbauer
+
 Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 50);
 Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 
@@ -215,9 +218,8 @@ $checked_f = "";
 if ($hide_area == 0) {  //toggle??
     $checked_f = 'checked';
 }
-// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-Edit_Separator_Zeile('Fotos',$button_f);  #
+$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 /*
 echo "<div>";
@@ -231,6 +233,9 @@ echo "<input type='hidden' name='fz_bild_4' value='".$neu['fz_bild_4']."' >";
 echo "<input type='hidden' id='sammlung' value='".$neu['fz_sammlg'] ."'>";
 echo "<input type='hidden' id='eigner' value='".$neu['fz_eignr'] ."'>";
 
+echo "<input type='hidden' id='aOrd' value=''>";
+echo "<input type='hidden' id='urhNr' value=''>";
+
 $pict_path = "";
 
 $_SESSION[$module]['Pct_Arr' ] = array();
@@ -242,59 +247,11 @@ while ($i <= $num_foto) {
 }
 
 VF_Upload_Form_M();
-/*
-echo "</div";
-# echo "</div";
-*/
-if ($hide_area == 0) {  //toggle??
-    $button = "";
-} else {
-    // Der Button, der das toggling übernimmt
-   # $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ctif')\">zum anzeigen/ändern klicken!</button>";
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock60' > zum anzeigen/ändern anklicken</label> ";
-}
-# =========================================================================================================
-Edit_Separator_Zeile('CTIF Zertifizierung ', $button); # , $button
-# =========================================================================================================
 
-if ($hide_area == 0) {
-    echo "<div>";
-   
-} else {
-    # echo "<div id='unhide_ctif' style='display:none'>";
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block60'>";
-    echo "Anzeige-Block 60";
-}
 
-Edit_Select_Feld('fz_ctif_klass', VF_CTIF_Class);
-Edit_Daten_Feld('fz_ctif_date', 10);
-Edit_Daten_Feld('fz_ctif_darst_jahr', 4);
-Edit_Daten_Feld('fz_ctif_juroren', 70);
-
-echo "</div>"; # ende toggle
-echo "</div>"; # ende hide ctif
-
-if ($hide_area == 0) {  //toggle??
-    $button = "";
-} else {
-    // Der Button, der das toggling übernimmt
-   #$button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_einb')\">zum anzeigen/ändern klicken!</button>";
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock70' > zum anzeigen/ändern anklicken</label> ";
-}
-# =========================================================================================================
-Edit_Separator_Zeile('Fix Eingebaute Ausrüstung ', $button); # , $button
-# =========================================================================================================
-
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-    # echo "<div id='unhide_einb' style='display:none'>";
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block70'>";
-    echo "Anzeige-Block 70";
-}
-
+echo "<details name='my-accordion'>";
+echo "<summary>Fix Eingebaute Ausrüstung   <span style='align: right;  font-weight: normal;'; >(zum Anzeigen oder Ändern rechts auf den Pfeil klicken) </span>
+    </summary>";
 Edit_Daten_Feld('fz_l_tank', 70);
 Edit_Daten_Feld('fz_l_monitor', 70);
 Edit_Daten_Feld('fz_l_pumpe', 70);
@@ -306,9 +263,16 @@ Edit_Daten_Feld('fz_t_beleuchtg', 70);
 Edit_Daten_Feld('fz_t_geraet', 70);
 Edit_Daten_Feld('fz_t_strom', 70);
 Edit_Daten_Feld('fz_g_atemsch', 70);
+echo "</details>";
 
-echo "</div>"; # ende toggle
-echo "</div>"; # ende hide einbauten
+echo "<details name='my-accordion'>";
+echo "<summary>CTIF Zertifizierung  <span style='align: right; font-weight: normal; ' >(zum Anzeigen oder Ändern rechts auf den Pfeil klicken) </span>
+    </summary>";
+Edit_Select_Feld('fz_ctif_klass', VF_CTIF_Class);
+Edit_Daten_Feld('fz_ctif_date', 10);
+Edit_Daten_Feld('fz_ctif_darst_jahr', 4);
+Edit_Daten_Feld('fz_ctif_juroren', 70);
+echo "</details>";
 
 # =========================================================================================================
 Edit_Separator_Zeile('Datenfreigabe');

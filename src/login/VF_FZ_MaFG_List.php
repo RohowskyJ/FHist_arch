@@ -10,15 +10,11 @@
 session_start();
 
 $module = 'F_G';
+$sub_mod = 'all';
+
 $tabelle = '';
 $tabelle_f = "ma_fahrzeug_";
 $tabelle_e = "ma_eigner_";
-
-/** für PHP-Logging 
-ini_set("log_errors", 1);
-ini_set("error_log", "aa_VF_FZ_php-error.log");
-error_log("Hello, errors!");
-*/
 
 /**
  * Angleichung an den Root-Path
@@ -26,6 +22,13 @@ error_log("Hello, errors!");
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaFG_List.php"; 
 
 $debug = false; // Debug output Ein/Aus Schalter
 $debug_log = true; // logging in datei per fputs
@@ -49,8 +52,6 @@ $db = LinkDB('VFH');
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Spaltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -59,21 +60,12 @@ $db = LinkDB('VFH');
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
     );
 }
-
-/**
- * Includes-Liste
- * enthält alle jeweils includierten Scritpt Files
- */
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FZ_MaFG_List.php";
 
 /**
  * Variablen für Eigentümer und Sammlung initialisieren
@@ -172,6 +164,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     /**VF_Eig_Ausw
      * neuen Eigentümer auswählen
      */
+    echo "<h3>".$_SESSION['VF_Prim']['OrgNam']."</h3>";
+    echo "<h2>Eigentümer Auswahl</h2>";
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten") {
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
             VF_Auto_Eigent("E");
@@ -226,25 +220,28 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
 
 } else {
 
-    console_log("L 0220 Aufteilung fg/ger");
     /**
      * Hier erfolgt die Aufteilung nach Fahrzeug oder Gerät
      */
     VF_upd();
 
     $sql = $sql_where = $orderBy = "";
-
+    $NeuRec = '';
     if (substr($_SESSION[$module]['sammlung'], 0, 4)  == 'MA_F') {   # Mukelgezogene - Fahrzeuge
-
+        $sub_mod = 'MaF';
         require "VF_FZ_MaF_List.inc.php";
 
     } elseif (substr($_SESSION[$module]['sammlung'], 0, 4)  == 'MA_G') {  # Muskel betriebene Geräte
-
+        $sub_mod = 'MaG';
         require "VF_FZ_MaG_List.inc.php";
 
     }
 
     $sql .= $sql_where . $orderBy;
+    
+    echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MaFG List vor list_create $sql </pre>";
+    echo "</div>";
 
     List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
 
@@ -315,7 +312,7 @@ function modifyRow(array &$row, $tabelle)
                 /* Dropdown Header */
                 $t_daten_head =  "
                         <div class='w3-dropdown-hover '
-                             style='padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 3'>
+                             style='padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; z-index: auto'>
                              <b style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Technische Daten</b>
                              <div class='w3-dropdown-content w3-bar-block w3-card-4'
                                        style='width: 50em; right: 0'>
@@ -427,7 +424,7 @@ function modifyRow(array &$row, $tabelle)
             
             if ($row['ge_foto_1'] != "") {
                 $ge_foto_1 = $row['ge_foto_1'];
-                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaF/";
+                $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MaG/";
                 
                 $fo_arr = explode("-", $ge_foto_1);
                 $cnt_fo = count($fo_arr);

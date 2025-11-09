@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "Z_DS_2_ph0.inc.php";
+
 if ($debug) {echo "<pre class=debug>VF_Z_DS_2_ph0.inc.php ist gestarted</pre>";}
 
 echo "<div>";

@@ -6,6 +6,13 @@
  * @author Josef Rohowsky - neu 2018
  * 
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_B_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_Z_B_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -44,7 +51,11 @@ if ($be_id == "0") {
                '$neu[be_adresse]','$neu[be_staat]','$neu[be_plz]','$neu[be_ort]','$neu[be_telefon]','$neu[be_fax]',
                '$neu[be_email]','$neu[eig_id]','$neu[be_uidaend]'
                )";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z B Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 
     $ben_id = mysqli_insert_id($db);
@@ -61,7 +72,11 @@ if ($be_id == "0") {
     '$ben_id','$newpw','$neu[eig_id]','$neu[eig_id]','$neu[eig_id]','$neu[eig_id]','$neu[eig_id]',
     'A','Q','Q','Q','Q','Q','Q','A','N','N',
     '$neu[be_uidaend]')";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z B Edit ph1 $sql_ZU </pre>";
+    echo "</div>";
+    
     $result_zu = SQL_QUERY($db, $sql_zu);
 } else {
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
@@ -87,8 +102,11 @@ if ($be_id == "0") {
     if ($debug) {
         echo '<pre class=debug> L 052: \$sql $sql </pre>';
     }
-
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z B Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 }
 

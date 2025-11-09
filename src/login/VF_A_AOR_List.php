@@ -7,10 +7,18 @@
  * Hinzufügen zweier zusätzlicher Ebenen zur Archivordnung vom ÖBFV
  */
 session_start();
-
 # die SESSION aktivieren
-const Module_Name = 'ARC';
-$module = Module_Name;
+
+$module = 'ARC';
+$sub_mod ='all';
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AOR_List.php";  
+
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -22,6 +30,13 @@ $tabelle = "";
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AOR_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -39,14 +54,22 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+$title = "Erweiterte Archivordnung des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
+
+$jq = True;
+$header = ""; // "<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+
+BA_HTML_header('Erweiterte Archivordnung ', $header, 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 /**
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -54,8 +77,6 @@ initial_debug();
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -106,20 +127,12 @@ if (isset($_POST['select_string'])) {
     # ===========================================================================================
     
     $T_list_texte = array(
-        "Alle" => "Archivordnung, Erweiterungen für den Eigentümer ",
-        "NeuItem" => "<a href='VF_A_AOR_Edit.php?al_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+        "Alle" => "Archivordnung, Erweiterungen für den Eigentümer "
     );
     
-    # ===========================================================================================================
-    # Haeder ausgeben
-    # ===========================================================================================================
-    $title = "Erweiterte Archivordnung des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
+
+    $NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_A_AOR_Edit.php?al_id=0' > Neuen Datensatz anlegen </a>";
     
-    $prot = True;
-    $header = ""; // "<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
-   
-    BA_HTML_header('Erweiterte Archivordnung ', $header, 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-       
     List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
     
     $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Erweiterungs- Daten ändern: Auf die Zahl in Spalte <q>al_id</q> Klicken.</li>';
@@ -167,6 +180,10 @@ if (isset($_POST['select_string'])) {
     $Tabellen_Spalten_style['al_id'] = $Tabellen_Spalten_style['al_sg'] = $Tabellen_Spalten_style['al_lcsg'] = $Tabellen_Spalten_style['al_lcssg'] = $Tabellen_Spalten_style['ar_usg'] = 'text-align:center;';
     
     $sql .= $sql_where . $sql_orderBy;
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>A_AOR List vor list_create $sql </pre>";
+    echo "</div>";
     
     List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 

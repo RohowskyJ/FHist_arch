@@ -40,8 +40,8 @@ require  $path2ROOT . 'login/common/VF_M_tab_creat.lib.php' ;
  * Includes-Liste
  * enthält alle jeweils includierten Scritpt Files
  */
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FZ_MaG_Edit.php";
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_Mag_Edit.php";
 
 $flow_list = true;
 

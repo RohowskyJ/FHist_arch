@@ -5,12 +5,17 @@
  *
  * @author Josef Rohowsky - neu 2023
  */
-session_start();
+session_start(); // die SESSION aktivieren
 
-# die SESSION aktivieren
-const Module_Name = 'F_G';
-$module = Module_Name;
-# const Tabellen_Name = 'fh_dokumente';
+$module  = 'F_G';
+$sub_mod = 'all';
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_Ger_Verw.php"; 
 
 /**
  * Angleichung an den Root-Path
@@ -27,9 +32,15 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 
 $flow_list = false;
-
+$jq = true;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+
+BA_HTML_header('Fahrzeuge und Geräte', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -39,12 +50,7 @@ VF_set_module_p();
 
 VF_Count_add();
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-
 $sk = $_SESSION['VF_Prim']['SK'];
-BA_HTML_header('Fahrzeuge und Geräte', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 Edit_Tabellen_HEader('Beschreibungen der Fahrzeuge und Geräte');
 

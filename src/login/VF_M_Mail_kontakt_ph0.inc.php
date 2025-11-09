@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Mail_kontakt_ph0.inc.php"; 
+
 if ($debug) {echo "<pre class=debug>pls_kontakt_ph0.inc.php gestarted</pre>";}
 #----------------------------------------------------------------------------------
 # # Mail an anders Mitglied senden - Phase 0

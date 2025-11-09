@@ -5,8 +5,15 @@
  */
 
 /**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuF_List.inc.php"; 
+
+/**
  * einlesen Hersteller und Aufbauer in arrs
  */
+
 $herst_arr = $aufb_arr = array();
 $sql_a = "SELECT * FROM fh_firmen ORDER BY fi_name ASC  ";
 $res_a = SQL_QUERY($db, $sql_a);
@@ -18,20 +25,21 @@ while ($row_a = mysqli_fetch_object($res_a)) {
         ;
     }
 }
-#var_dump($herst_arr);
-#var_dump($aufb_arr);
 
 /**
  * Einlesen der Sammlungs- Kürzeln in arr
  */
 $sam_arr = array();
 $sql_s = "SELECT * FROM fh_sammlung ORDER BY sa_sammlg ";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MuF List inc sa_sammlg $sql_s </pre>";
+echo "</div>";
+
 $res_sa = SQL_QUERY($db, $sql_s);
 while ($row_s = mysqli_fetch_object($res_sa)) {
     $sam_arr[$row_s->sa_sammlg] = $row_s->sa_name;
 }
-#var_dump($sam_arr);
-
 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
@@ -39,15 +47,13 @@ while ($row_s = mysqli_fetch_object($res_sa)) {
 if ($_SESSION['VF_Prim']['mode'] == 'Single') { // Fixer Eigentümer
     $T_list_texte = array(
         "Alle" => "Nach Indienststellung. (Auswahl)",
-        "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-        "NeuItem" => "<a href='VF_FZ_MuF_Edit.php?fm_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+        "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
     );
 } else {
     $T_list_texte = array(
         "Alle" => "Nach Indienststellung. (Auswahl)",
         "NextEig" => "<a href='VF_FZ_MuFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-        "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-        "NeuItem" => "<a href='VF_FZ_MuF_Edit.php?fm_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+        "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
     );
 }
 
@@ -59,6 +65,8 @@ $title = "Muskelbewegte Fahrzeuge des Eigentümers " . $_SESSION['Eigner']['eig_
 
 echo "<fieldset>";
 $tabelle = 'mu_fahrzeug_'.$_SESSION['Eigner']['eig_eigner'];
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FZ_MuF_Edit.php?fm_id=0' > Neuen Datensatz anlegen </a>";
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
 

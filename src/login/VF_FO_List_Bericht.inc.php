@@ -7,8 +7,11 @@
  *
  */
 
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FO_List_Bericht.inc.php";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_List_Bericht.inc.php";
 
 if ($debug) {echo "<pre class=debug>VF_FO_List_Bericht.inc.php ist gestartet</pre>";}
 
@@ -29,8 +32,8 @@ $tabelle .= "_" . $_SESSION[$module][$sub_mod]['eig_eigner'];
 # echo "L 0133 tabelle $tabelle <br>";
 
 # echo "$heading";
-#
-# List_Prolog($T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
+
+$NeuRec = '';
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle,'MEM'); # lesen der Tabellen Spalten Informationen
 
@@ -91,10 +94,12 @@ if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_st
 
 $sql .= $sql_where . $orderBy;
 
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO List vor list_create $sql </pre>";
+echo "</div>";
+
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 
 if ($debug) {echo "<pre class=debug>VF_FO_List_Bericht.inc.php ist beendet</pre>";}
-
-# HTML_trailer();
 
 ?>

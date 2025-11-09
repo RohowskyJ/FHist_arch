@@ -9,8 +9,9 @@
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuF_Edit_ph1.inc.php ist gestarted</pre>";
 }
-$Inc_Arr[] = "VF_FZ_MuF_Edit_ph1.inc.php";
-#
+
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuF_Edit_ph1.inc.php";
+
 foreach ($_POST as $name => $value) {
     $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }

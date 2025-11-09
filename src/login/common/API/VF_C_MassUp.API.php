@@ -212,8 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $storePath = "../../AOrd_Verz/$urhNr/09/02/"; 
                     
                 } elseif (in_array($ext, ['mp4'])) {
-                    $storePath = "../../AOrd_Verz/$urhNr/09/10/";       // vollständiger Pfad für Videos
-                    
+                    $storePath = "../../AOrd_Verz/$urhNr/09/10/";       // vollständiger Pfad für Videos 
                 } else {    // if (in_array($ext, ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods'])) {
                     file_put_contents($debug_log_file, "L 0199 aOrd $aOrd  " . PHP_EOL, FILE_APPEND);
                     if ($eigner != "" && $aOrd != "") {
@@ -223,7 +222,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 file_put_contents($debug_log_file, "L 0206 storepath $storePath  " . PHP_EOL, FILE_APPEND);
-                if (!is_dir($storePath)) {
+                # if (!is_dir($storePath)) {
+                if (!is_file($storePath)) {
                     mkdir($storePath, 0755, true);
                 }
                 copy($targetPath,$storePath . basename($targetPath));

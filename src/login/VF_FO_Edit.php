@@ -10,6 +10,7 @@ session_start();
 
 $module = 'OEF';
 $sub_mod = 'Foto';
+
 $tabelle = 'dm_edien_';
 
 const Prefix = '';
@@ -21,7 +22,11 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$Inc_Arr[] = "VF_FO_Edit.php";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Edit.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -127,6 +132,10 @@ if ($phase == 0) {
             'sa_name' => ''
         );
          
+        if ($verz == 'J') {
+            $neu['md_dsn_1'] = '0_Verz';
+        }
+        
         if ($_SESSION[$module]['verzeich'] == "N") {
             $neu['md_aufn_datum'] = $_SESSION[$module]['md_aufn_d'];
         }
@@ -134,7 +143,11 @@ if ($phase == 0) {
         $sql_fo = "SELECT * FROM $tabelle 
                            LEFT JOIN fh_sammlung ON $tabelle.md_sammlg LIKE fh_sammlung.sa_sammlg
                            WHERE `md_id` = '" . $_SESSION[$module]['md_id'] . "' ORDER BY `md_id` ASC";
- 
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto Edit $sql </pre>";
+        echo "</div>";
+        
         $return_fo = SQL_QUERY($db, $sql_fo);
 
         $neu = mysqli_fetch_array($return_fo);

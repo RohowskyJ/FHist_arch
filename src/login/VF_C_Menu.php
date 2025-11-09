@@ -13,6 +13,12 @@ $module = 'VF_Prim';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_Menu.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -21,19 +27,14 @@ require $path2ROOT .  'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT .  'login/common/BA_Funcs.lib.php';
 require $path2ROOT .  'login/common/BA_Edit_Funcs.lib.php';
 
-$N = False;
-if (isset($_GET['N'])) {$N = True;}
-
 $db = LinkDB('VFH');
 
 $title = "Haupt- Menu";
 
-$logo = 'JA';
+$jq = true;
 $form_start = True;
 $actor = "VF_C_Menu.php";
 BA_HTML_header($title, '', 'Form', '70em'); 
-
-echo "<fieldset>";
 
 $flow_list = False;
 
@@ -102,7 +103,7 @@ if ($phase_p == 1) {
         echo "<input name='phase_p' type='hidden' id='phase_p' value='$phase_p'>";
         echo "<input name='p_uid' type='hidden' id='p_uid' value='$p_uid'>";
         echo '<input name="Submit" type="submit" class="erfolg" value="Ändern">';
-        echo "</fieldset></div>";
+        echo "</div>";
         echo "</form>";
         BA_HTML_trailer();
         exit();
@@ -149,7 +150,7 @@ if ($emailadr != "" && $password != "") { // Login auf erlaubt prüfen, zugriffe
         echo "<input name=\"p_uid\" type=\"hidden\" id=\"p_uid\" value=\"$p_uid\"/><br>";
 
         echo "<button type='submit' name='phase' value='1' class=green>Ändern</button></p>";
-        echo "</fieldset></div>";
+        echo "</div>";
 
         HTML_trailer();
         exit();
@@ -252,6 +253,6 @@ if (isset($ini_arr['Modules']) && $cnt_m >10){
     echo "Konfigurations- Fehler. Konfirguration der <b>Module</b> neu aufsetzen. <br>";
 }
 
-#echo "</fieldset>";
+
 BA_HTML_trailer();
 ?>

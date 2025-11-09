@@ -6,6 +6,13 @@
  *
  * Hinzufügen zweier zusätzlicher Ebenen zur Archivordnung vom ÖBFV
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AOR_Edit_ph0.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_A_AOR_Edit_ph0.inc.php ist gestarted</pre>";
 }
@@ -43,7 +50,6 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
 
-# echo "<p><button type='submit' name='phase' value='99' class=green>Zurück zur Liste</button></p>";
 echo "<p><a href='VF_A_AOR_List.php'>Zurück zur Liste</a></p>";
 
 # =========================================================================================================

@@ -6,7 +6,14 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
-if ($debug) {echo "<pre class=debug>VFH_O_AR_Edit_ph0.php ist gestarted</pre>";}
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AR_Edit_ph0.inc.php"; 
+
+if ($debug) {echo "<pre class=debug>VFH_O_AR_Edit_ph0.inc.php ist gestarted</pre>";}
 
 echo "<input type='hidden' name='fa_id' value='".$neu['fa_id']."' >";
 
@@ -21,7 +28,7 @@ Edit_Tabellen_Header('Bibliotheks- und Archiv- Links');
   # =========================================================================================================
     
   Edit_Daten_Feld(Prefix.'fa_link',50);
-  Edit_Daten_Feld(Prefix.'fa_text',100);
+  Edit_Daten_Feld(Prefix.'fa_text',60);
 
 # =========================================================================================================
   Edit_Tabellen_Trailer();
@@ -32,12 +39,7 @@ Edit_Tabellen_Header('Bibliotheks- und Archiv- Links');
           echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
       }
       
-      if ($_SESSION[$module]['Act'] == 1) {
-          echo "<p><a href='VF_O_AR_List.php?Act=l'>Zurück zur Liste</a></p>";
-      } else {
-          echo "<p><a href='VF_O_AR_List.php?Act=0'>Zurück zur Liste</a></p>";
-      }
-      
+      echo "<p><a href='VF_O_AR_List.php?Act=".$_SESSION[$module]['Act']."'>Zurück zur Liste</a></p>";
 # =========================================================================================================
  
 if ($debug) {echo "<pre class=debug>VF_O_AR_Edit_ph0.inc.php beendet</pre>";}

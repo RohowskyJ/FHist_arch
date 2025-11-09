@@ -7,8 +7,15 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_Z_Edit_ph1.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_Z_Z_Edit_ph1.php ist gestarted </pre>";
+    echo "<pre class=debug>VF_Z_Z_Edit_ph1.inc.php ist gestarted </pre>";
 }
 
 $p_uid = $_SESSION['VF_Prim']['p_uid'];
@@ -38,7 +45,11 @@ if ($zu_id == 0) { // Neueingabe
                '$neu[zu_F_G]','$neu[zu_F_M]','$neu[zu_S_G]','$neu[zu_PSA]','$neu[zu_ARC]','$neu[zu_INV]','$neu[zu_OEF]','$neu[zu_MVW]','$neu[zu_ADM]','$neu[zu_SUC]',
                '$neu[zu_valid_until]','$p_uid'
                )";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z Z Edit $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 } else {
 
@@ -89,7 +100,11 @@ if ($zu_id == 0) { // Neueingabe
         echo '<pre class=debug> L 0135: \$sql $sql </pre>';
     }
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z Z Edit $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 }
 header("Location: VF_Z_B_List.php");

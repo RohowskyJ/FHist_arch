@@ -6,12 +6,19 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_TE_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_O_TE_Edit_ph1.php gestartet</pre>";
 }
 
 echo "<div class=white> ";
-var_dump($neu);
+# var_dump($neu);
 # var_dump($_FILES);
 # =====================================================================================================
 # Datensatz in der Tabelle ändern
@@ -29,7 +36,7 @@ if ( $neu['bild_datei_3'] != '') {
 if ( $neu['bild_datei_4'] != '') {
     $neu['va_bild_4'] =  $neu['bild_datei_4'];
 }
-var_dump($neu);
+# var_dump($neu);
 if ($neu['va_end_dat'] == '') {
     $neu['va_end_dat'] =  $neu['va_datum'];   # '0000-00-00';
 }
@@ -55,11 +62,15 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
                        '$neu[va_inst]','$neu[va_adresse]',
                        '$neu[va_plz]','$neu[va_ort]','$neu[va_staat]','$neu[va_bdld]','$neu[va_beitrag_m]','$neu[va_beitrag_g]',
                        '$neu[va_admin_email]','$neu[va_kontakt]','$neu[va_link_einladung]','$neu[va_umfang]',
-                       '$neu[va_bild_1]','$neu[va_bild_2]]','$neu[va_bild_3]','$neu[va_bild_4]','$neu[va_internet]','$neu[va_anm_text]','$neu[va_raum]',
+                       '$neu[va_bild_1]','$neu[va_bild_2]','$neu[va_bild_3]','$neu[va_bild_4]','$neu[va_internet]','$neu[va_anm_text]','$neu[va_raum]',
                        '$neu[va_plaetze]','$neu[va_warte]',
                        '$neu[va_anmeld_end]',
                        now(),' $p_uid'
                        ) ";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O TE Edit ph1 $sql </pre>";
+    echo "</div>";
     
     $return = SQL_QUERY($db, $sql);
 } else { # Update
@@ -103,11 +114,11 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
     $update_dat = ",va_aenderung=now(),va_aend_uid='" . $_SESSION['VF_Prim']['p_uid'] . "'";
 
     $sql = "UPDATE `va_daten` SET $updas $update_dat WHERE `va_id`='$va_id'";
-
-    if ($debug) {
-        echo '<pre class=debug> L 0197: \$sql $sql  </pre>';
-    }
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O TE Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $return = SQL_QUERY($db, $sql);
 }
 

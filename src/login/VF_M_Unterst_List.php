@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module = 'MVW';
+$sub_mod = 'all';
+
 $tabelle = 'fh_unterst';
 
 /**
@@ -19,6 +20,12 @@ $tabelle = 'fh_unterst';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Unterst_list.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -56,8 +63,6 @@ if ($phase == 99) {
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -66,8 +71,6 @@ if ($phase == 99) {
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -98,7 +101,6 @@ $T_list_texte = array(
     "WeihnP" => "Für den Versand vorgesehene Einträge   ( Auswahl ) ",
     "AdrListE" => "Adress-Liste für die Aussendung, Änderungen    ",
     "AdrListV" => "Adress-Liste für die Aussendung, Versand    ",
-    "NeuItem" => "<a href='VF_M_Unt_Edit.php?fu_id=0' >Neuen Unterstützer eingeben</a>"
 ); 
 
 # ===========================================================================================================
@@ -110,7 +112,7 @@ $title = "Unterstützer Daten";
 $logo = 'NEIN';
 BA_HTML_header('Mitglieder- Verwaltung', '', 'Admin', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
-#echo "<fieldset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; &nbsp; <a href='VF_M_Unt_Edit.php?fu_id=0' >Neuen Unterstützer eingeben</a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -247,7 +249,7 @@ $Kateg_Name = "";
 if ($T_List != "AdrListE" && $T_List != "AdrListV" ) { 
     $Kateg_Name = $T_List;
     $csv_DSN = $path2ROOT . "login/Downloads/Unterst.csv";
-    List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
+
 } else {
     
     $folge = array('FF','FG','FK','SP','BP','FA');
@@ -259,11 +261,15 @@ if ($T_List != "AdrListE" && $T_List != "AdrListV" ) {
         $orderBy = ' ORDER BY fu_name ';
         $sql .= $sql_where . $orderBy;
 
-        List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
     }
     
 }
 
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Unt List $sql </pre>";
+echo "</div>";
+
+List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 
 #echo "</fieldset>";
 

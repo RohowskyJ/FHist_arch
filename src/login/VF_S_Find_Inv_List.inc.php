@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Inv_List.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_0_SU_Find_Inv_List_v3.inc ist gestarted</pre>";
 }
@@ -58,6 +65,11 @@ foreach ($arr_inv as $value) {
     $eig_verant = $_SESSION['Eigner']['eig_verant'];
 
     $sql_in = "SELECT * FROM $tabelle $select ";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU Inv List sql_in </pre>";
+    echo "</div>";
+    
     $return_in = SQL_QUERY($db, $sql_in);
 
     while ($row = mysqli_fetch_object($return_in)) {

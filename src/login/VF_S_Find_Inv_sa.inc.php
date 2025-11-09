@@ -10,8 +10,15 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_Inv_sa.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_S_Find_Inv_sa.inc ist gestarted</pre>";
+    echo "<pre class=debug>VF_S_Find_Inv_sa.inc.php ist gestarted</pre>";
 }
 
 if (substr($neu['s_suchtext'], 1, 1) == "0") {
@@ -26,6 +33,11 @@ foreach ($in_arr as $in_table=>$aa) {
         continue;
     }
     $sql_in = "SELECT * FROM $in_table $select ORDER BY in_sammlg";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU Inv sa  $sql_inu </pre>";
+    echo "</div>";
+    
     $return_in = mysqli_query($db, $sql_in);
     # print_r($return_in);echo "<br> return_in sql_in $sql_in <br>";
     # echo "sql $sql_in <br>";

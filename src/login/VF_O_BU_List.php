@@ -7,8 +7,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'BU';
+
 $tabelle = 'bu_echer';
 
 /**
@@ -17,6 +18,13 @@ $tabelle = 'bu_echer';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_BU_List.php"; 
 
 $debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
@@ -34,6 +42,14 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+
+BA_HTML_header('Buch- Beschreibungs- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<frameset>";
+
 initial_debug();
 
 /**
@@ -41,8 +57,6 @@ initial_debug();
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -51,8 +65,6 @@ initial_debug();
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -130,18 +142,11 @@ if ($_SESSION[$module]['Act'] == 0) {
         $_SESSION[$module]['all_upd'] = True;
     }
     $T_list_texte = array(
-        "Alle" => "Alle verfügbaren Rezensionen ",
-        "NeuItem" => "<a href='VF_O_BU_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
+        "Alle" => "Alle verfügbaren Rezensionen "
     );
 }
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-
-BA_HTML_header('Buch- Beschreibungs- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
-echo "<frameset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_BU_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -188,6 +193,10 @@ List_Action_Bar($tabelle," Buch- Besprechungen ", $T_list_texte, $T_List, $List_
 # Je nach ausgewähltem Radio Button das sql SELECT festlegen
 # ===========================================================================================================
 $sql = "SELECT * FROM $tabelle ";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O BU List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 

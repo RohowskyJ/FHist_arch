@@ -7,8 +7,15 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_Z_Edit_ph1.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_O_ZT_Z_Edit_ph1.inc ist gestarted</pre>";
+    echo "<pre class=debug>VF_O_ZT_Z_Edit_ph1.inc.php ist gestarted</pre>";
 }
 
 foreach ($_POST as $name => $value) {
@@ -31,7 +38,10 @@ if ($neu['zt_id'] == 0) { # Neueingabe
                 '$neu[zt_uidaend]'
                )";
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 } else { # Update
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
@@ -55,11 +65,11 @@ if ($neu['zt_id'] == 0) { # Neueingabe
     $updas = mb_substr($updas, 1); # 1es comma entfernen nur notwendig, wenn vorer keine Update-Strings sind
 
     $sql = "UPDATE $tabelle SET  $updas WHERE `zt_id`='" . $_SESSION[$module]['zt_id'] . "'";
-    if ($debug) {
-        echo '<pre class=debug> L 047: \$sql $sql </pre>';
-    }
-
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 }
 
@@ -68,6 +78,6 @@ header("Location: VF_O_ZT_List.php");
 # =========================================================================================================
 
 if ($debug) {
-    echo "<pre class=debug>VF_O_ZT_Z_Edit_ph1.inc beendet</pre>";
+    echo "<pre class=debug>VF_O_ZT_Z_Edit_ph1.inc.php beendet</pre>";
 }
 ?>

@@ -5,6 +5,13 @@
  * @author j. Rohowsky - neu 2019
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_BU_Edit_ph0.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_O_Bu_Edit_ph0.inc.php ist gestarted</pre>";
 }
@@ -73,12 +80,16 @@ if ($_SESSION[$module]['all_upd']) {
 }
 # =========================================================================================================
 $checked_f = "";
-if ($hide_area == 0) {  //toggle??
-    $checked_f = 'checked';
+$checkbox_f = "";
+if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
+    if ($hide_area == 0) {  //toggle??
+        $checked_f = 'checked';
+    }
+    // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
 }
-// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-Edit_Separator_Zeile('Bilder und Bildbeschreibungen ',$button_f);
+
+Edit_Separator_Zeile('Bilder und Bildbeschreibungen ',$checkbox_f);
 # =========================================================================================================
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 

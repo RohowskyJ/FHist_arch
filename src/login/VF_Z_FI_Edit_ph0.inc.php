@@ -7,6 +7,13 @@
  * 
  * 
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_FI_Edit_ph0.php";
+
 if ($debug) {echo "<pre class=debug>VF_Z_FI_Edit_ph0.inc.php ist gestarted</pre>";}
 
 echo "<div class='white'>";
@@ -45,7 +52,7 @@ echo "<input type='hidden' name='fi_id' value='".$neu['fi_id']."' />";
           echo "<button type='submit' name='phase' value='1' class='green'>Daten abspeichern</button></p>";
    }
   
-  echo "<p><a href='VF_Z_B_List.php'>Zurück zur Liste</a></p>";
+  echo "<p><a href='VF_Z_FI_Edit.php'>Zurück zur Liste</a></p>";
   
   
   echo "</div>";    

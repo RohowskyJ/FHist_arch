@@ -7,12 +7,14 @@
  *
  *
  */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'F_G';
-$module = Module_Name;
+$module = 'F_G';
+$sub_mod = 'MaF';
 $tabelle = 'ma_fahrzeug';
+
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaF_Edit_ph0.inc.php";
 
 const Prefix = '';
 
@@ -34,12 +36,17 @@ require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
+require $path2ROOT . 'login/common/VF_Upload.lib.php';
+
 /**
  * Includes-Liste
  * enthält alle jeweils includierten Scritpt Files
  */
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FZ_MaF_Edit.php";
+$len_inc = count($_SESSION[$module]['Inc_Arr']);
+if ($len_inc >= 10 ) {
+    $_SESSION[$module]['Inc_Arr']  = array();
+}
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaF_Edit.php";
 
 $flow_list = false;
 if ($flow_list) {
@@ -51,10 +58,7 @@ $db = LinkDB('VFH');
 $jq = $jqui = true;
 $BA_AJA = true;
 
-$js_ini = $js_au = $js_md = $js_mfu = $js_suf = $js_togg = false; // laden aller js-Scripts
-
-$header = "<style>.button-sm {font-size:14px;font-weight:bold;color:black ;padding:0px 6px 0px 4px;margin:1px;
-             background-color:#FFF0F5;border:2px solid blue;border-radius:2px}</style>";
+$header = "";
 
 $A_Off = false;  # set autocomplete=off in Header
 
@@ -190,6 +194,10 @@ if ($phase == 0) {
 
         # echo "L 0174 sql_be $sql_be <br>";
         $return_be = SQL_QUERY($db, $sql_be);
+     
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MaFG List vor list_create $sql_be </pre>";
+        echo "</div>";
 
         $neu = mysqli_fetch_array($return_be);
 

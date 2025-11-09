@@ -5,10 +5,17 @@
  * @author josef Rohowsky - neu 2019
  *
  */
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_A_AR_Edit_ph1.inc.php ist gestarted</pre>";
 }
-
+# var_dump($_POST);
+# var_dump($neu);
 $neu['ad_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';
@@ -17,7 +24,7 @@ if ($debug) {
     echo '</pre>';
 }
 #var_dump($neu);
-$neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
+$neu['ad_eignr'] = $_SESSION['Eigner']['eig_eigner'];
 
 /* Sammlung aufbereiten */
 if (isset($_POST['level1'])) {
@@ -94,14 +101,12 @@ if ($neu['ad_id'] == 0) { # neueingabe
                 '$neu[ad_l_raum]','$neu[ad_l_kasten]','$neu[ad_l_fach]',
                 '$neu[ad_l_pos_x]','$neu[ad_l_pos_y]','$neu[ad_neueigner]','$neu[ad_uidaend]',now()
                )";
-
-    if ($debug) {
-        echo "<pre class=debug>";
-        print_r($return_fi);
-        echo "<br> \$sql $sql <br>";
-        echo "</pre>";
-    }
-
+    
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'A AR Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 
     $neu['ad_id'] = mysqli_insert_id($db);
@@ -141,18 +146,18 @@ if ($neu['ad_id'] == 0) { # neueingabe
     $updas = mb_substr($updas, 1); # 1es comma entfernen nur notwendig, wenn vorer keine Update-Strings sind
 
     $sql = "UPDATE $tabelle_a SET  $updas WHERE `ad_id`='" . $_SESSION[$module]['ad_id'] . "'";
-    if ($debug) {
-        echo '<pre class=debug> L 0197: \$sql $sql </pre>';
-    }
-
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'A AR Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 
     $debug = False;
 }
 
 if ($neu['ad_namen'] != "") {
-    VF_Add_Namen($tabelle_a, $neu['ad_id'], 'ad_id', $neu['ad_namen']);
+    VF_Add_Namen($tabelle_a, $neu['ad_id'], 'ad_id', $neu['ad_namen'], $neu['ad_eignr']);
 }
 
 if ($neu['ad_keywords'] != "") {

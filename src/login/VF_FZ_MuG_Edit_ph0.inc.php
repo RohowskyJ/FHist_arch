@@ -111,12 +111,12 @@ Edit_Daten_Feld('mg_gew', 6);
 Edit_Select_Feld(Prefix . 'mg_zustand', VF_Zustand, '');
 
 # =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' > Foto Daten eingeben/ändern </label>"; 
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
 }
-Edit_Separator_Zeile('Fotos'.$button_f);  #
+$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
@@ -127,6 +127,9 @@ echo "<input type='hidden' name='mg_foto_4' value='" . $neu['mg_foto_4'] . "'>";
 
 echo "<input type='hidden' id='sammlung' value='".$neu['mg_sammlg'] ."'>";
 echo "<input type='hidden' id='eigner' value='".$neu['mg_eignr'] ."'>";
+
+echo "<input type='hidden' id='aOrd' value=''>";
+echo "<input type='hidden' id='urhNr' value=''>";
 
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuG/";
 

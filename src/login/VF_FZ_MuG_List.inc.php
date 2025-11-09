@@ -1,4 +1,9 @@
 <?php
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = 'VF_FZ_MuG_List.inc.php';
 
 /**
  * Ausgabe der Liste der Muskelbetriebenen Geräte
@@ -15,12 +20,12 @@ $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen 
 $T_list_texte = array(
     "Alle" => "Nach Indienststellung. (Auswahl)",
     "NextEig" => "<a href='VF_FZ_MuFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-    "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-    "NeuItem" => "<a href='VF_FZ_MuG_Edit.php?mg_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+    "NextSam" => "<a href='VF_FZ_MuFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
 );
 
 echo "<fieldset>";
 
+$NeuRec = "";
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>*_id</q> Klicken.</li>';
@@ -40,6 +45,8 @@ switch ($T_List) {
 $List_Hinweise .= '</ul></li>';
 
 $eig_data = VF_Displ_Eig($_SESSION['Eigner']['eig_eigner']);
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FZ_MuG_Edit.php?mg_id=0' > Neuen Datensatz anlegen </a>";
 
 List_Action_Bar($tabelle, "Geräte des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " " . $_SESSION['Eigner']['eig_org'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 

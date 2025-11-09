@@ -7,9 +7,10 @@
  * 
  */
 session_start();
+ 
+$module = 'OEF';
+$sub_mod = 'TE';
 
-const Module_Name = 'OEF';
-$module = Module_Name;
 $tabelle = 'va_daten';
 
 /**
@@ -19,7 +20,13 @@ $tabelle = 'va_daten';
  */
 $path2ROOT = "../";
 
-$debug = True;
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_TE_List.php"; 
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -35,14 +42,20 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+
+BA_HTML_header("Veranstaltungs- Kalender ",  '', 'Adm', '60em');
+
+echo "<fieldset>";
+
 initial_debug();
 
 /**
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -50,8 +63,6 @@ initial_debug();
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -98,18 +109,11 @@ if ($_SESSION[$module]['Act'] == 0) {
         "Aktuell" => "Aktuelle/zukünftige Veranstaltungen ",
         "Alle" => "Alle Veranstaltungen <span style='font:90% normal;'> (Historie der Veranstaltungen mit Jahres Auswahl)</span>",
         "Details" => "Alle mit Details <span style='font:90% normal;'> (Historie der Veranstaltungen mit Jahres Auswahl)</span>",
-        "Alles" => "Alle Daten aller Veranstaltungen",
-        "Neuer Datensatz" => "<a href='VF_O_TE_Edit.php?va_id=0' >Neue Veranstaltung definieren</a>"
+        "Alles" => "Alle Daten aller Veranstaltungen"
     );
 }
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-
-BA_HTML_header("Veranstaltungs- Kalender ",  '', 'Adm', '60em');
-
-echo "<fieldset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_TE_Edit.php?va_id=0' >Neue Veranstaltung definieren</a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -169,9 +173,7 @@ switch ($T_List) {
         $sql = "SELECT * FROM va_daten";
         break;
     default:
-
         $sql = "SELECT * FROM va_daten";
-
 }
 
 $select_string = $_SESSION[$module]['select_string'];
@@ -195,22 +197,25 @@ switch ($T_List) {
         BA_HTML_trailer();
         exit(); # wenn noch nix gewählt wurde >> beenden
 }
-
+/*
 switch ($_SESSION[$module]['scol']) {
     case '':
-        $_SESSION[$module]['scol'] = 'va_data_id';
-        $_SESSION[$module]['sord'] = 'ASC';
     case 'va_id':
-        $sql .= "\n ORDER BY va_id " . $_SESSION[$module]['sord'] . ",va_datum ASC,va_begzt ASC,va_id ASC";
+        $sql .= "\n ORDER BY va_id ,va_datum ASC,va_begzt ASC,va_id ASC";
         break;
     case 'va_datum':
-        $sql .= "\n ORDER BY va_datum " . $_SESSION[$module]['sord'] . ",va_begzt " . $VF_List_parm['sort_richtung'];
+        $sql .= "\n ORDER BY va_datum ASC ,va_begzt ASC ";
         break;
 }
-
+*/
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O TE List vor list_create $sql </pre>";
+echo "</div>";
+
 $zus_text = "";
 List_Create($db, $sql,'', $tabelle,'', $zus_text);
 
@@ -319,7 +324,7 @@ function modifyRow(array &$row,$tabelle)
     }
     $va_internet = $row['va_internet'];
     if ($row['va_internet'] != "") {
-        $row['va_bild'] .= "<a href='$va_internet' target='Internet' >$va_internet</a>";
+        $row['va_bild_1'] .= "<a href='$va_internet' target='Internet' >$va_internet</a>";
     }
     $va_datum = $row['va_datum'];
     $row['va_datum'] = "$va_datum <br>".$row['va_begzt'];

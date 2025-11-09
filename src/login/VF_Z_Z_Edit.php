@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module = 'ADM';
+$sub_mod = 'alle';
+
 $tabelle = 'fh_zugriffe_n';
 
 const Prefix = '';
@@ -21,6 +22,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_Z_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -71,6 +78,14 @@ $Edit_Funcs_FeldName = true; // Feldname der Tabelle wird nicht angezeigt !!
 
 Tabellen_Spalten_parms($db, 'fh_zugriffe_n');
 
+$Tabellen_Spalten[] = 'passwd'; 
+$Tabellen_Spalten[] = 'passwd_K';
+$Tabellen_Spalten_COMMENT['passwd'] = 'Neues Passwort';
+$Tabellen_Spalten_COMMENT['passwd_K'] = 'Kontrolle für neues Passwort';
+$Tabellen_Spalten_typ['passwd'] = "text";
+$Tabellen_Spalten_typ['passwd_K'] = "text";
+$Tabellen_Spalten_MAXLENGTH['passwd'] = '50';
+$Tabellen_Spalten_MAXLENGTH['passwd_K'] = '50';
 # -------------------------------------------------------------------------------------------------------
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
 # -------------------------------------------------------------------------------------------------------
@@ -93,6 +108,10 @@ if ($phase == 0) {
         if ($zu_id != '') {
             $sql .= " WHERE zu_id = '$zu_id' ";
         }
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z Z Edit $sql </pre>";
+        echo "</div>";
         
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
@@ -123,7 +142,11 @@ if ($phase == 0) {
         if ($zu_id != '') {
             $sql .= " WHERE zu_id = '$zu_id' ";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z Z Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {
@@ -169,7 +192,7 @@ if ($phase == 0) {
                 $neu['zu_MVW'] = $neu['zu_ADM'];
             }
         }
-
+var_dump($neu);
         if ($debug) {
             echo '<pre class=debug>';
             echo '<hr>$neu: ';
@@ -182,7 +205,7 @@ if ($phase == 0) {
 if ($phase == 1) {
 
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
 }
 

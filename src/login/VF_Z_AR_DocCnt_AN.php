@@ -8,8 +8,9 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module = 'ADM';
+$sub_mod = 'all';
+
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -22,7 +23,6 @@ $tabelle = "";
  */
 $path2ROOT = "../";
 
-$debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -32,6 +32,7 @@ require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
 VF_chk_valid();
+
 BA_HTML_header("Anzahl der Dokumente je Archivordnungs Gruppe",'','Form','70em');
 
 initial_debug();

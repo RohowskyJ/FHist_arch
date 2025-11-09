@@ -5,9 +5,11 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
-session_start(); # die SESSION aktivieren  
-const Module_Name   = 'MVW';
-$module             = Module_Name;
+session_start(); # die SESSION aktivieren   
+
+$module  = 'MVW';
+$sub_mod = 'Bez';
+
 $tabelle = 'fh_benutzer'; 
 
 /**
@@ -16,6 +18,13 @@ $tabelle = 'fh_benutzer';
  * @var string $path2ROOT
  */
 $path2ROOT          = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_B_List.php";
 
 $debug = True;  $debug = False;  // Debug output Ein/Aus Schalter
 
@@ -48,8 +57,6 @@ $_SESSION['VF']['$select_string'] = $select_string;
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -58,33 +65,31 @@ $_SESSION['VF']['$select_string'] = $select_string;
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
     );
 }
+# ===========================================================================================================
+#                                            Haeder ausgeben
+# ===========================================================================================================
+$title = "Benutzer ";
+
+$logo = 'NEIN';
+BA_HTML_header('Benutzer- und Zugriffs- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<fieldset>";
+
 initial_debug(); 
   
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
 $T_list_texte  = array("Alle" =>"Alle Benutzer ( Auswahl ) "
-    ,"NeuItem" =>"<a href='VF_Z_B_Edit.php?ID=0' >Neuen Benutzer eingeben</a>"
 );
 
-# ===========================================================================================================
-#                                            Haeder ausgeben
-# ===========================================================================================================
-  $title = "Benutzer ";
-  
-  $logo = 'NEIN';
-  BA_HTML_header('Benutzer- und Zugriffs- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width 
-  
-  echo "<fieldset>";
-
+  $NeuRec = " &nbsp; &nbsp; &nbsp; &nbsp; <a href='VF_Z_B_Edit.php?ID=0' >Neuen Benutzer eingeben</a>";
   List_Prolog($module,$T_list_texte); #  Paramerter einlesen und die Listen Auswahl anzeigen
 
   $Tabellen_Spalten = Tabellen_Spalten_parms($db,$tabelle);
@@ -150,7 +155,6 @@ $T_list_texte  = array("Alle" =>"Alle Benutzer ( Auswahl ) "
   #    case "AdrList"  : $sql_where=" WHERE ((be_sterbdat<='0000-00-00' AND be_abgdat<='0000-00-00') OR (be_sterbdat IS NOT NULL AND be_abgdat IS NULL) ) ";    $orderBy = ' ORDER BY be_name';          break;
 
   }
- 
     
   if ($select_string<>'' )
   { switch($T_List)
@@ -161,7 +165,11 @@ $T_list_texte  = array("Alle" =>"Alle Benutzer ( Auswahl ) "
   } 
    $sql .= $sql_where.$order_By;
   
-
+   
+   echo "<div class='toggle-SqlDisp'>";
+   echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z B List vor list_create $sql </pre>";
+   echo "</div>";
+   
 # ===========================================================================================================
 #  Die Daten lesen und Ausgeben
 # ===========================================================================================================

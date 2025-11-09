@@ -8,9 +8,10 @@
  * 
  */
 session_start();
+ 
+$module = 'OEF';
+$sub_mod = 'MUS';
 
-const Module_Name = 'OEF';
-$module = Module_Name;
 $tabelle = 'mu_basis';
 
 /**
@@ -19,6 +20,13 @@ $tabelle = 'mu_basis';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_MU_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -29,7 +37,6 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
-require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
 $flow_list = False;
 
@@ -38,14 +45,14 @@ $db = LinkDB('VFH');
 
 BA_HTML_header('Museums- Daten- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
+echo "<fieldset>";
+
 initial_debug();
 
 /**
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *         - SelectAnzeige Ein: Anzeige der SQL- Anforderung
- *         - SpaltenNamenAnzeige Ein: Anzeige der Apsltennamen
  *         - DropdownAnzeige Ein: Anzeige Dropdown Menu
  *         - LangListe Ein: Liste zum Drucken
  *         - VarTableHight Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -53,8 +60,6 @@ initial_debug();
  */
 if (! isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE'] = array(
-        "SelectAnzeige" => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige" => "Aus",
         "LangListe" => "Ein",
         "VarTableHight" => "Ein",
@@ -178,19 +183,13 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
 } else {
     $T_list_texte = array(
         "Alle" => "Alle bekannten Museen anzeigen",
-        "NeuItem" => "<a href='VF_O_MU_Edit.php?ID=0' > Neuen Datensatz anlegen </a>",
         "Staat" => "Auswahl nach Staat ",
         "Bundld" => "Auswahl nach Bundesland  ",
         "MTyp" => "Auswahl nach Museumstyp  "
     );
 }
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-
-
-echo "<fieldset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_MU_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -204,6 +203,10 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
     );
     $Tabellen_Spalten_COMMENT['Information'] = "Öffnungszeiten, Kontakt, Sammlungsschwerpunkt";
     $Tabellen_Spalten_COMMENT['mu_name'] = "Museumsname, Adresse, Typ";
+    $Tabellen_Spalten_typ['Information'] = 'text';
+    #$Tabellen_Spalten_typ['mu_name'] = 'text';
+    $Tabellen_Spalten_MAXLENGTH['Information'] = 40;
+    #$Tabellen_Spalten_MAXLENGTH['mu_name'] = ;
 } else {
     $Tabellen_Spalten = array(
         'mu_id',
@@ -295,6 +298,10 @@ switch ($T_List) {
 }
 
 $sql .= $sql_where . $orderBy;
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O MU List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
 

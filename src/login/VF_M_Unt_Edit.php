@@ -7,8 +7,9 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module= 'MVW';
+$sub_mod = 'alle';
+
 $tabelle = 'fh_unterst';
 
 const Prefix = '';
@@ -19,6 +20,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Unt_Edit.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -94,7 +101,11 @@ if ($phase == 0) {
         if ($fu_id != '') {
             $sql .= " WHERE fu_id = '$fu_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Unt Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

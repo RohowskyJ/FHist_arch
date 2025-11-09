@@ -132,12 +132,12 @@ Edit_Daten_Feld('ge_ag_leinh', 60);
 Edit_Select_Feld(Prefix . 'ge_zustand', VF_Zustand, '');
 
 # =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' > Foto Daten eingeben/ändern </label>";
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
 }
-Edit_Separator_Zeile('Fotos'.$button_f);
+$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 echo "<div>";
 
@@ -183,10 +183,12 @@ echo "<input type='hidden' name='ge_g8_sernr' value='" . $neu['ge_g8_sernr'] . "
 echo "<input type='hidden' name='ge_g9_sernr' value='" . $neu['ge_g9_sernr'] . "'>";
 echo "<input type='hidden' name='ge_g10_sernr' value='" . $neu['ge_g10_sernr'] . "'>";
 
+echo "<input type='hidden' id='aOrd' value=''>";
+echo "<input type='hidden' id='urhNr' value=''>";
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
-$pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner']."/"; # . "/MaG/";
+$pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner']."/MaG/"; # . "/MaG/";
 
 $Feldlaenge = "100px";
 

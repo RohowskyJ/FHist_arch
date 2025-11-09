@@ -19,11 +19,10 @@
  */
 session_start();
 
-const Module_Name = 'VF_MB';
-$module = Module_Name;
+$module = 'VF_MB';
+$sub_mod = 'alle';
 
-const Tabellen_Name = 'fh_mitglieder';
-$tabelle = Tabellen_Name;
+$tabelle = 'fh_mitglieder';
 
 /**
  * Angleichung an den Root-Path
@@ -32,7 +31,12 @@ $tabelle = Tabellen_Name;
  */
 $path2ROOT = "../";
 
-$debug = True;
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_MB_Buchung.php"; 
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
@@ -70,11 +74,6 @@ if (isset($_GET['mi_m_abo_bez'])) {
     $mi_m_abo_bez_bis = $_GET['mi_m_abo_bez'];
 }
 
-# ===========================================================================================================
-# die HTML Seite ausgeben
-# ===========================================================================================================
-
-
 # ------------------------------------------------------------------------------------------------------------
 # Lesen der Daten aus Tabelle TNTab
 # ------------------------------------------------------------------------------------------------------------
@@ -82,6 +81,7 @@ $sql = "SELECT * FROM $tabelle WHERE mi_id = '$mi_id'";
 if ($debug) {
     echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
 }
+
 $result = SQL_QUERY($db, $sql);
 $num_rows = mysqli_num_rows($result);
 if ($num_rows !== 1) {

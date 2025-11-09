@@ -10,8 +10,10 @@
 session_start();
 
 # die SESSION am leben halten
-const Module_Name = 'OEF';
-$module = Module_Name;
+
+$module = 'OEF';
+$sub_mod = 'ZT';
+
 $tabelle = 'zt_inhalt';
 
 const Prefix = '';
@@ -22,6 +24,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_I_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -110,6 +118,11 @@ if ($phase == 0) {
         );
     } else {
         $sql_be = "SELECT * FROM $tabelle ORDER BY `ih_id` ASC";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT I Edit $sql_be </pre>";
+        echo "</div>";
+        
         $return_be = SQL_QUERY($db, $sql_be);
 
         $neu = mysqli_fetch_array($return_be);

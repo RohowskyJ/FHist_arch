@@ -7,6 +7,12 @@
  *
  *
  */
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_yellow_ph0.inc.php"; 
+
 if ($debug) {echo "<pre class=debug>VF_M_yellow_ph0.inc.php ist gestarted</pre>";} ?>
 <!-- ====================================================================================================== -->
 

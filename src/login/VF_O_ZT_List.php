@@ -6,11 +6,11 @@
  * 
  * 
  */
-session_start();
+session_start(); # die SESSION aktivieren
 
-# die SESSION aktivieren
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module  = 'OEF';
+$sub_mod = 'ZT';
+
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -22,6 +22,13 @@ $tabelle = "";
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -39,14 +46,23 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+$title = "Inhalt der Zeitung " ; #. $_SESSION[$module]['zt_name'];
+
+$header = "";
+
+BA_HTML_header('Zeitungs- Inhaltsverzeichnis ', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width    . $_SESSION[$module]['zt_name']
+
+echo "<fieldset>";
+
 initial_debug();
 
 /**
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -54,8 +70,6 @@ initial_debug();
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -107,10 +121,15 @@ $_SESSION[$module]['zt_id'] = $zt_id;
 
 if ($_SESSION[$module]['zt_id'] == "") {
     $eig_header = "Zeitungs- Auswahl";
-    require ('VF_O_ZT_Select_List.inc');
+    require ('VF_O_ZT_Select_List.inc.php');
 } else {
 
     $sql = "SELECT * FROM zt_zeitungen WHERE zt_id = '$zt_id' ";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'OZT List  $sql </pre>";
+    echo "</div>";
+    
     $return = SQL_QUERY($db, $sql);
     if ($return) {
         $row = mysqli_fetch_object($return);
@@ -126,22 +145,10 @@ if ($_SESSION[$module]['zt_id'] == "") {
         "Alle" => "Alle Eintragungen. ",
         "A" => "nur Artikel",
         "W" => "nur Werbung",
-        "V" => "nur Veranstaltungen",
-        "Neueing" => "<a href='VF_O_ZT_I_Edit.php?ih_id=0' > neue Beschreibung eingeben </a>",
-        "NextEig" => "<a href='VF_O_ZT_List.php?ID=NextEig' > andere Zeitung auswählen </a>"
+        "V" => "nur Veranstaltungen"
     );
-    # if ($tablle ==)
 
-    # ===========================================================================================================
-    # Haeder ausgeben
-    # ===========================================================================================================
-    $title = "Inhalt der Zeitung " . $_SESSION[$module]['zt_name'];
-
-    $header = "";
-    
-    BA_HTML_header('Zeitungs- Inhaltsverzeichnis ' . $_SESSION[$module]['zt_name'], '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-    
-    echo "<fieldset>";
+    $NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_ZT_I_Edit.php?ih_id=0' > neue Beschreibung eingeben </a>";
 
     List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -185,6 +192,10 @@ if ($_SESSION[$module]['zt_id'] == "") {
     }
 
     $sql .= $sql_where . $sql_orderBy;
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT List vor list_create $sql </pre>";
+    echo "</div>";
 
     $zus_text = "Zeitschrift: ".$_SESSION[$module]['zt_name'].", ". $T_list_texte[$T_List] ;
     

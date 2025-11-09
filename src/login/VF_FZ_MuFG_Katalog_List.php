@@ -300,6 +300,10 @@ foreach ($eig_arr as $eignr) {
             // einlesen der Fzgdaten in Arr
 
             $sql = "SELECT * FROM `$tabelle`  $sql_where ORDER BY `fm_id` ASC";
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MuFG atalog List vor Anzeige $sql </pre>";
+            echo "</div>";
 
             $return_fz = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
 

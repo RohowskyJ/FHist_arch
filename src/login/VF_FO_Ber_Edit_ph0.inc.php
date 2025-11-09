@@ -6,11 +6,16 @@
  * @author Josef Rohowsky - neu 2023
  *
  */
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_BE_Edit_ph0.inc.php";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Ber_Edit_ph0.inc.php";
+;
 
 if ($debug) {
-    echo "<pre class=debug>VF_BE_Edit_ph0.inc.php ist gestarted</pre>";
+    echo "<pre class=debug>VF_FO_Ber_Edit_ph0.inc.php ist gestarted</pre>";
 }
 # var_dump($neu);
 echo $Err_Msg;
@@ -68,8 +73,7 @@ echo "<input type='hidden' id='eigner' value=''>";
     # =========================================================================================================
     Edit_Separator_Zeile('Auswahl der Fotos'); 
     # =========================================================================================================
-    
-    
+       
     ?>
    
     <!-- Bereich für die diversen Ausgaben von js  -->
@@ -120,7 +124,7 @@ echo "<p><a href='VF_FO_Ber_List.php?Act=" . $_SESSION[$module][$sub_mod]['Act']
 
 # =========================================================================================================
 if ($debug) {
-    echo "<pre class=debug>VF_BE_edit.ph0.php beendet</pre>";
+    echo "<pre class=debug>VF_FO_Ber_edit.ph0.php beendet</pre>";
 }
 
 ?>
