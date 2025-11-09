@@ -32,20 +32,21 @@ function handleImageSpecial($filePath, $urhNr, $urhName, $aufnDat, $rotation = 0
     // Beispiel: return $filePath; // oder neuen Pfad nach Bearbeitung
     // $filepath == fullpath of uploaed sourcefile
 
-    
-    if ($urhNr != '' && $urhName == '' ) {
-        $urh_arr = parse_ini_file('../config_u.ini', true, INI_SCANNER_NORMAL);
-        $urhName = $urh_arr['Urheber'][$urhNr];
+    if ($urhNr != '') {
+        if ($urhNr != '' && $urhName == '' ) {
+            $urh_arr = parse_ini_file('../config_u.ini', true, INI_SCANNER_NORMAL);
+            $urhName = $urh_arr['Urheber'][$urhNr];
+        }
+        
+        $storePath .= "06/$aufnDat/";  // Storagepath für Fotos fertig
+        
+        if ($aOrd != ''  ) {
+            # $resize = '1754';
+            $storePath = "../../AOrd_Verz/$urhNr/$aOrd/";
+            # $urhEinfgJa = 'N';
+        }
     }
-
-    $storePath .= "06/$aufnDat/";  // Storagepath für Fotos fertig
-    
-    if ($aOrd != ''  ) {
-        # $resize = '1754';
-        $storePath = "../../AOrd_Verz/$urhNr/$aOrd/";
-        # $urhEinfgJa = 'N';
-    }
-    
+ 
     if (!is_dir($storePath)) {
         mkdir($storePath, 0755, true);
     } 
@@ -120,15 +121,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $aufnDat = $_POST['aufnDat'] ?? '';
     $urhEinfgJa = $_POST['urhEinfgJa'] ?? 'N';
     $reSize = $_POST['reSize'] ?? '800';   
-    $aOrd = $_POST['aOrd'] ??''; 
-    $eigner = $_POST['eigner'] ??''; 
+    $aOrd = $_POST['aOrd'] ?? ''; 
+    $eigner = $_POST['eigner'] ??'0'; 
+    if ($urhNr == 'undefined') {
+        $urhNr = '';
+    }
     
     if ($urhEinfgJa == '1') { $urhEinfgJa ='J';}
     
     if ($aOrd != '') {
         $urhEinfgJa ='N';
     }
-    
+    if ($urhNr == '') {
+        $urhEinfgJa ='N';
+    }
   $storePath = "";
 
   if ($debug_log) {
@@ -188,7 +194,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($tmp, $targetPath)) { 
             // Spezialbehandlung für Bilder
             if (in_array($ext, ['gif', 'ico', 'jpeg', 'jpg', 'png', 'tiff']) ) {
-                $storePath = "../../AOrd_Verz/$urhNr/09/";  // unvollständiger Pfad zum Zielverzeichnis
+                if ($urhNr != '' && $aOrd == "") {
+                    $storePath = "../../AOrd_Verz/$urhNr/09/";  // unvollständiger Pfad zum Zielverzeichnis
+                } else {
+                    $storePath = "../../AOrd_Verz/$aOrd";  // unvollständiger Pfad zum Zielverzeichnis
+                }
+                
                 if ($debug_log) {
                     file_put_contents($debug_log_file, "L 0189  Zielpfad $storePath  " . PHP_EOL, FILE_APPEND);
                 }

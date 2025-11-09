@@ -106,6 +106,7 @@ echo "<input type='hidden' name='va_bild_4' value='" . $neu['va_bild_4'] . "'>";
 $cjahr = substr($neu['va_datum'],0,4); #date('Y');
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
+
 $pict_path = $path2ROOT . "login/AOrd_Verz/Termine/" . $cjahr . "/";
 
 echo "<input type='hidden' id='urhNr' value=''>";

@@ -38,6 +38,11 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+$jq = $jqui = true;
+$BA_AJA = true;
+
+BA_HTML_header('Buch- Beschreibungs- Verwaltung',  $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 // ============================================================================================================
@@ -79,9 +84,9 @@ if ($phase == 0) {
         $neu['bu_id'] = "0";
         $neu['bu_titel'] = $neu['bu_utitel'] = $neu['bu_author'] = $neu['bu_verlag'] = $neu['bu_isbn'] = "";
         $neu['bu_seiten'] = $neu['bu_preis'] = $neu['bu_bilder_anz'] = $neu['bu_bilder_art'] = $neu['bu_format'] = "";
-        $neu['bu_eignr'] = $neu['bu_invnr'] = $neu['bu_teaser'] = $neu['bu_text'] = $neu['bu_bild1'] = "";
-        $neu['bu_bild2'] = $neu['bu_bild3'] = $neu['bu_bild4'] = $neu['bu_bild5'] = $neu['bu_text1'] = "";
-        $neu['bu_text2'] = $neu['bu_text3'] = $neu['bu_text4'] = $neu['bu_text5'] = $neu['bu_bew_ges'] = "";
+        $neu['bu_eignr'] = $neu['bu_invnr'] = $neu['bu_teaser'] = $neu['bu_text'] = $neu['bu_bild_1'] = "";
+        $neu['bu_bild_2'] = $neu['bu_bild_3'] = $neu['bu_bild4_'] = $neu['bu_bild_5'] = $neu['bu_bild_5'] = $neu['bu_bild_6'] = $neu['bu_text_1'] = "";
+        $neu['bu_text_2'] = $neu['bu_text_3'] = $neu['bu_text_4'] = $neu['bu_text_5'] = $neu['bu_text_5'] = $neu['bu_bew_ges'] = "";
         $neu['bu_bew_bild'] = $neu['bu_bew_txt'] = $neu['bu_editor'] = $neu['bu_ed_id'] = $neu['bu_edit_dat'] = "";
         $neu['bu_frei_id'] = $neu['bu_frei_dat'] = "";
         $neu['bu_frei_stat'] = "U";
@@ -117,13 +122,12 @@ if ($phase == 0) {
 
 if ($phase == 1) {
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
 }
 
 $tinymce_header = "
-     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
-         
+     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>     
     <script>
       tinymce.init({
         selector: 'textarea#bu_text',
@@ -132,7 +136,6 @@ $tinymce_header = "
     </script>
 ";
 
-HTML_header('Buch- Beschreibungs- Verwaltung', 'Änderungsdienst', $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:
@@ -142,5 +145,5 @@ switch ($phase) {
         require "VF_O_BU_Edit_ph1.inc.php";
         break;
 }
-HTML_trailer();
+BA_HTML_trailer();
 ?>

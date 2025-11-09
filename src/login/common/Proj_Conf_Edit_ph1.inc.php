@@ -1,71 +1,26 @@
 <?php
 
-$debug = true;
+#$debug = true;
 if ($debug) {
     echo "<pre class=debug>Proj_Conf_Edit_ph1.inc.php ist gestarted</pre>";
 }
-# var_dump($_FILES);
-$uploaddir = $path2ROOT . "login/common/imgs/";
 
-$target1 = "";
-if (! empty($_FILES['uploaddatei_01'])) {
-    $pict1 = basename($_FILES['uploaddatei_01']['name']);
-    if (! empty($pict1)) {
-        $target1 = $uploaddir . basename($_FILES['uploaddatei_01']['name']);
-        if (move_uploaded_file($_FILES['uploaddatei_01']['tmp_name'], $target1)) {
-            $f_arr = pathinfo($target1);
-            $neu['c_logo'] = $f_arr['basename'];
-        }
-    }
+if ($neu['bild_datei_1'] != "") {
+    $neu['c_bild_1'] = $neu['bild_datei_1'];
 }
-if (! empty($_FILES['uploaddatei_02'])) {
-    $pict1 = basename($_FILES['uploaddatei_02']['name']);
-    if (! empty($pict1)) {
-        $target1 = $uploaddir . basename($_FILES['uploaddatei_02']['name']);
-        if (move_uploaded_file($_FILES['uploaddatei_02']['tmp_name'], $target1)) {
-            $f_arr = pathinfo($target1);
-            $neu['c_1page'] = $f_arr['basename'];
-        }
-    }
+if ($neu['bild_datei_2'] != "") {
+    $neu['c_bild_2'] = $neu['bild_datei_2'];
 }
-/*
-#$c_logo = "";
-if (isset($_FILES)) {
-     $_SESSION[$module]['sign'] = $c_logo = VF_Upload_Pic('sign', $path2ROOT."login/common/imgs/", "", "");
-}
-if (isset($_FILES['uploaddatei_1']['name'])) {
-
-    if ($_FILES['uploaddatei_01']['name'] != "" ) {
-        $neu['c_logo'] = VF_Upload($uploaddir, '01');
-    }
-
-    if ($_FILES['uploaddatei_02']['name'] != "" ) {
-        $neu['c_1page'] = VF_Upload($uploaddir, '02');
-    }
-}
-*/
-console_log("logo ".$neu['c_logo']);
 
 $updas_s = "\n[Config]\n";
 $updas_m = "\n[Modules]\n"; # assignements for UPDATE xxxxx SET `variable` = 'Wert'
 
-foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
-    if (! preg_match("/[^0-9]/", $name)) {
-        continue;
-    } # überspringe Numerische Feldnamen
-    if ($name == "c_flnr") {
-        continue;
-    } #
-    if ($name == "phase") {
-        continue;
-    } #
-    if ($name == "MAX_FILE_SIZE") {
-        continue;
-    } #
-    if ($name == "c_logo1") {
-        continue;
-    } #
+foreach ($neu as $name => $value) { # fÃ¼r alle Felder aus der tabelle 
 
+    if (substr($name,0,2) != "c_") {
+        continue;
+    } #
+ 
     if ($name == "c_Institution") {
         $updas_s .= "inst = '$value'\n ";
     }
@@ -94,10 +49,10 @@ foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
     if ($name == "c_Eignr") {
         $updas_s .= "eignr = '$value'\n ";
     }
-    if ($name == "c_logo") {
+    if ($name == "c_bild_1") {
         $updas_s .= "sign = '$value'\n ";
     }
-    if ($name == "c_1page") {
+    if ($name == "c_bild_2") {
         $updas_s .= "fpage = '$value'\n ";
     }
     if ($name == "c_Homepage") {
@@ -114,6 +69,12 @@ foreach ($neu as $name => $value) { # für alle Felder aus der tabelle
     }
     if ($name == "c_def_pw") {
         $updas_s .= "def_pw = '$value'\n ";
+    }
+    if ($name == "c_Perr") {
+        $updas_s .= "cPerr = '$value'\n ";
+    }
+    if ($name == "c_Debug") {
+        $updas_s .= "cDeb = '$value'\n ";
     }
 
     if ($name == "c_Module_1") {
@@ -180,7 +141,14 @@ fclose($datei);
 
 $updas = "";
 foreach ($neu as $fld => $value ) {
-    if ($fld == 'MAX_FILE_SIZE' || $fld == 'phase') {continue;}
+    
+    if (substr($fld,0,2) != "c_") {
+        continue;
+    } #
+    if ($fld == 'cPerr_A' || $fld == 'cDeb_A' || $fld == 'SelDisA' ){
+        continue;
+    }
+    
     $updas .= ",$fld = '$value'";
 }
 
@@ -189,7 +157,7 @@ if ($debug) {
     echo '<pre class=debug> L 0197: \$sql $sql </pre>';
 }
 
-echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+#echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
 $result = SQL_QUERY($db, $sql);
 
 if (isset($_SESSION[$module]['inst'])) {

@@ -35,6 +35,20 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+$tinymce_header = "
+     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
+    <script>
+      tinymce.init({
+        selector: 'textarea#bs_text',
+        menubar: 'edit format'
+         });
+    </script>
+   ";
+
+$jq = $jqui = true;
+$BA_AJA = true;
+
+BA_HTML_header('Biete / Suche - Marktplatz', $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -80,7 +94,7 @@ if ($phase == 0) {
 
         $neu['bs_id'] = 0;
         $neu['bs_startdatum'] = $neu['bs_enddatum'] = $neu['bs_kurztext'] = $neu['bs_text'] = $neu['bs_typ'] = "";
-        $neu['bs_email_1'] = $neu['bs_email_2'] = $neu['bs_bild_1'] = $neu['bs_bild_2'] = $neu['bs_bild_3'] = "";
+        $neu['bs_email_1'] = $neu['bs_email_2'] = $neu['bs_bild_1'] = $neu['bs_bild_2'] = $neu['bs_bild_3'] = $neu['bs_bild_4'] = "";
         $neu['bs_aenduid'] = $neu['bs_aenddate'] = "";
     } else {
         $sql = "SELECT * FROM $tabelle";
@@ -116,18 +130,7 @@ if ($phase == 1) {
    
 }
 
-$tinymce_header = "
-     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
-         
-    <script>
-      tinymce.init({
-        selector: 'textarea#bs_text',
-        menubar: 'edit format'
-         });
-    </script>
-   ";
 
-BA_HTML_header('Biete / Suche - Marktplatz', 'Änderungsdienst', $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<form id='myform' name='myform' method='post' action='" . $_SERVER['PHP_SELF'] . "' enctype='multipart/form-data'>";
 
