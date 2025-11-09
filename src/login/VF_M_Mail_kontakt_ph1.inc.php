@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Mail_kontekt_ph1.php"; 
+
 if ($debug) {
     echo "<pre class=debug>VF_M_Mail_kontakt_ph1.inc.php für $module ist gestarted</pre>";
 }

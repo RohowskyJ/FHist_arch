@@ -22,8 +22,11 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FO_Ber_Edit.php";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Ber_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -88,7 +91,7 @@ if (isset($_POST['phase'])) {
 }
 
 if (isset($_GET['vb_flnr'])) {
-    $_SESSION[$module]['vb_flnr'] = $vb_flnr = $_GET['vb_flnr'];
+    $_SESSION[$module][$sub_mod]['vb_flnr'] = $_SESSION[$module]['vb_flnr'] = $vb_flnr = $_GET['vb_flnr'];
     if ($_GET['vb_flnr'] == 0) {
         $phase = 0;
     }
@@ -142,12 +145,14 @@ if ($phase == 0) {
         */
     } else {
         
-        $_SESSION[$module][$sub_mod]['vb_flnr'] = $vb_flnr;
+        $vb_flnr = $_SESSION[$module][$sub_mod]['vb_flnr'] ;
         
-
         $sql = "SELECT * FROM vb_bericht_4 WHERE vb_flnr = '$vb_flnr' ";
-
-        # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Ber Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
 

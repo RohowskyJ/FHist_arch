@@ -6,11 +6,11 @@
  * @author j. Rohowsky - neu 2019
  *
  */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'BU';
+
 
 const Tabellen_Name = 'bu_echer';
 
@@ -22,6 +22,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_BU_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -37,6 +43,16 @@ $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$tinymce_header = "
+     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
+    <script>
+      tinymce.init({
+        selector: 'textarea#bu_text',
+        menubar: 'edit format'
+         });
+    </script>
+";
 
 $jq = $jqui = true;
 $BA_AJA = true;
@@ -85,8 +101,8 @@ if ($phase == 0) {
         $neu['bu_titel'] = $neu['bu_utitel'] = $neu['bu_author'] = $neu['bu_verlag'] = $neu['bu_isbn'] = "";
         $neu['bu_seiten'] = $neu['bu_preis'] = $neu['bu_bilder_anz'] = $neu['bu_bilder_art'] = $neu['bu_format'] = "";
         $neu['bu_eignr'] = $neu['bu_invnr'] = $neu['bu_teaser'] = $neu['bu_text'] = $neu['bu_bild_1'] = "";
-        $neu['bu_bild_2'] = $neu['bu_bild_3'] = $neu['bu_bild4_'] = $neu['bu_bild_5'] = $neu['bu_bild_5'] = $neu['bu_bild_6'] = $neu['bu_text_1'] = "";
-        $neu['bu_text_2'] = $neu['bu_text_3'] = $neu['bu_text_4'] = $neu['bu_text_5'] = $neu['bu_text_5'] = $neu['bu_bew_ges'] = "";
+        $neu['bu_bild_2'] = $neu['bu_bild_3'] = $neu['bu_bild_4'] = $neu['bu_bild_5'] = $neu['bu_bild_6'] = $neu['bu_text_1'] = "";
+        $neu['bu_text_2'] = $neu['bu_text_3'] = $neu['bu_text_4'] = $neu['bu_text_5'] = $neu['bu_text_6'] = $neu['bu_bew_ges'] = "";
         $neu['bu_bew_bild'] = $neu['bu_bew_txt'] = $neu['bu_editor'] = $neu['bu_ed_id'] = $neu['bu_edit_dat'] = "";
         $neu['bu_frei_id'] = $neu['bu_frei_dat'] = "";
         $neu['bu_frei_stat'] = "U";
@@ -96,7 +112,11 @@ if ($phase == 0) {
         if ($bu_id != '') {
             $sql .= " WHERE bu_id = '$bu_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O BU Edit $sql </pre>";
+        echo "</div>";
+        
         $result = mysqli_query($db, $sql) or die('Lesen Satz $now_bu_id nicht möglich: ' . mysqli_error($db));
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {
@@ -125,17 +145,6 @@ if ($phase == 1) {
         $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
 }
-
-$tinymce_header = "
-     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>     
-    <script>
-      tinymce.init({
-        selector: 'textarea#bu_text',
-        menubar: 'edit format'
-         });
-    </script>
-";
-
 
 switch ($phase) {
     case 0:

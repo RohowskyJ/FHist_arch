@@ -8,9 +8,9 @@
  */
 session_start();
 
-# die SESSION am leben halten
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'AR';
+
 $tabelle = 'fh_falinks';
 
 const Prefix = '';
@@ -21,6 +21,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AR_Edit.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -37,6 +43,8 @@ $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+BA_HTML_header('Bibliothek- und Archiv- Links  Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -66,8 +74,6 @@ if ($phase == 99) {
     header('Location: VF_O_Verw.php');
 }
 
-BA_HTML_header('Bibliothek- und Archiv- Links  Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
 $Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
 
 # --------------------------------------------------------
@@ -89,7 +95,11 @@ if ($phase == 0) {
         if ($fa_id != '') {
             $sql .= " WHERE fa_id = '$fa_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AR Edit $sql </pre>";
+        echo "</div>";
+        
         $result = mysqli_query($db, $sql) or die('Lesen Satz $now_fa_id nicht möglich: ' . mysqli_error($db));
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

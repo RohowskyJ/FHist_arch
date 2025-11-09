@@ -6,8 +6,15 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AN_Edit.ph1.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VFH_O_An_Edit_ph0.php ist gestarted</pre>";
+    echo "<pre class=debug>VFH_O_An_Edit_ph1.inc.php ist gestarted</pre>";
 }
 
 foreach ($_POST as $name => $value) {
@@ -47,8 +54,11 @@ if ($bs_id == 0) { # Neuer Datensatz anlegen
                '$neu[bs_email_1]','$neu[bs_email_2]','$neu[bs_bild_1]','$neu[bs_bild_2]','$neu[bs_bild_3]','$neu[bs_bild_4]',
                '$p_uid'
                )";
-
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AN Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 } else { # Update betehender Satz
 
@@ -70,6 +80,11 @@ if ($bs_id == 0) { # Neuer Datensatz anlegen
     if ($debug) {
         echo '<pre class=debug> L 099: \$sql $sql </pre>';
     }
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AN Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 }
 

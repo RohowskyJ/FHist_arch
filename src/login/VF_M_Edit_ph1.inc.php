@@ -6,6 +6,13 @@
  * @author Josef Rohowsky - neu 2020
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Edit_ph1.inc.php"; 
+
 if ($debug) {
     echo "<pre class=debug>VF_M_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -40,6 +47,11 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
                '$neu[mi_einv_art]','$neu[mi_einversterkl]','$neu[mi_einv_dat]','$p_uid',now()
                )";
 
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
     $_SESSION['neu_mitgl']['neu_mi_id'] = mysqli_insert_id($db);
 
@@ -111,9 +123,11 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
     $tabelle = 'fh_mitglieder';
 
     $sql = "SELECT * FROM $tabelle WHERE mi_id = '$mi_id'";
-    if ($debug) {
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
-    }
+
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Edit ph1 $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
     $num_rows = mysqli_num_rows($result);
     if ($num_rows !== 1) {
@@ -166,7 +180,11 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
         if ($debug) {
             echo '<pre class=debug> L 0166: \$sql $sql </pre>';
         }
-# echo "L 0163 sql $sql <bR>";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Edit ph1 $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $_SESSION['neu_mitgl']['neu_mi_id'] = $mi_id;
     }

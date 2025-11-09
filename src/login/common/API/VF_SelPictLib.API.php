@@ -146,7 +146,7 @@ $database = "";
             
             $sql = "SELECT * FROM $dsn $where ";
             
-            file_put_contents($VS_debug_log, "L 0135 sql $sql " . PHP_EOL, FILE_APPEND);
+            file_put_contents($VS_debug_log, "L 0149 sql $sql " . PHP_EOL, FILE_APPEND);
             
             $return = SQL_QUERY($db, $sql);
             if (mysqli_num_rows($return) === 0) {
@@ -158,12 +158,12 @@ $database = "";
             }
             while ($row = mysqli_fetch_object($return)) {
                 # print_r($row);echo "<br>";
-                if ($row->md_dsn_1 == "") {
+                if ($row->md_dsn_1 == "0_Verz") {
                     continue;
                 }
                 
                 $eintragen = "$sammlg  row $row->md_dsn_1 \n";
-                file_put_contents($VS_debug_log, "L 0152 $eintragen" . PHP_EOL, FILE_APPEND);
+                file_put_contents($VS_debug_log, "L 0167 $eintragen" . PHP_EOL, FILE_APPEND);
                 
                 $p_arr = pathinfo($row->md_dsn_1);
                 $subsg = "";

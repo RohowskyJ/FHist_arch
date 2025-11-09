@@ -8,8 +8,7 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module  = 'ADM';
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -22,16 +21,21 @@ $tabelle = "";
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_DocCnt_AN.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
-# require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
-# require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 VF_chk_valid();
 
@@ -72,11 +76,11 @@ if (isset($_GET['ei_id'])) {
 
 VF_Displ_Eig($ei_id);
 
-$tabelle_m = $_SESSION[$module]['tabelle_m'] = "ar_chivdt";
+$tabelle_m = $_SESSION[$module]['tabelle_m'] = "ar_chivdat";
 $tabelle = $tabelle_m . "_" . $_SESSION['Eigner']['eig_eigner'];
 $_SESSION[$module]['tabelle'] = $tabelle;
 
-$sql = "SELECT ad_sg,ad_subsg,ad_lcsg,ad_lcssg,SUM(ad_eignr) AS Anzahl FROM $tabelle GROUP BY ad_sg,ad_subsg,ad_lcsg,ad_lcssg ORDER BY ad_sg,ad_subsg,ad_lcsg,ad_lcssg "; # ,SUM(ad_eignr) AS Anzahl
+$sql = "SELECT ad_sg,ad_subsg,ad_lcsg,ad_lcssg,ad_lcssg_s0,ad_lcssg_s1,SUM(ad_eignr) AS Anzahl FROM $tabelle GROUP BY ad_sg,ad_subsg,ad_lcsg,ad_lcssg ORDER BY ad_sg,ad_subsg,ad_lcsg,ad_lcssg "; # ,SUM(ad_eignr) AS Anzahl
 
 $return = SQL_QUERY($db, $sql);
 
@@ -90,18 +94,22 @@ echo "</thead>";
 echo "<tbody>";
 while ($row = mysqli_fetch_object($return)) {
 
-    $cnt = $row->Anzahl/21;
+    $cnt = $row->Anzahl/$_SESSION['Eigner']['eig_eigner']  ; #21;
     $s_cnt += $cnt;
     $arl_str = "";
-    if ($row->ad_lcsg != "0" || $row->ad_lcssg != "0") {
-        $arl_str = VF_Displ_Arl($row->ad_sg,$row->ad_subsg,$row->ad_lcsg,$row->ad_lcssg);
-    } elseif ($row->ad_sg != "" ) { ## || $row->ad_subsg != "0"
-        $arl_str = VF_Displ_Aro($row->ad_sg,$row->ad_subsg);
+    if ($row->ad_lcsg != "00" || $row->ad_lcssg != "00") {
+        $arl_str = VF_Displ_Arl($row->ad_sg,$row->ad_subsg,$row->ad_lcsg,$row->ad_lcssg,$row->ad_lcssg_s0,$row->ad_lcssg_s1);
+        $arl_arr = explode("|", $arl_str);
+        $arl_name = $arl_arr[5];
+        #echo "L 097 arl_str $arl_str <br>";
+    } elseif ($row->ad_sg != "" ) { ## || $row->ad_subsg != "00"
+        $arl_name = substr(VF_Displ_Aro($row->ad_sg,$row->ad_subsg), 6);
+        
     } else {
-        $arl_str = "Falsche Archiv- Ordnungs- Bezeichnung";
+        $arl_name =  "Falsche Archiv- Ordnungs- Bezeichnung";;
     }
    
-    echo "<tr><td>$row->ad_sg</td><td> $row->ad_subsg</td><td> $row->ad_lcsg</td><td> $row->ad_lcssg</td><td>$arl_str</td><td>$cnt </td></tr>";
+    echo "<tr><td>$row->ad_sg</td><td> $row->ad_subsg</td><td> $row->ad_lcsg</td><td> $row->ad_lcssg</td><td>$arl_name</td><td>$cnt </td></tr>";
       
 }
 echo "<tr><td></td><td> </td><td> </td><td> </td><td> </td><td>$s_cnt </td></tr>";

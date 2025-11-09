@@ -24,6 +24,12 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Bericht.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -72,20 +78,23 @@ BA_HTML_header('Veranstaltungs Foto- Bericht', $header, 'Form', '90em'); # Parm:
 echo "<div class='white'>";
 echo "<framearea>";
 
-
 # ------------------------------------------------------------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle
 # ------------------------------------------------------------------------------------------------------------
 
 $sql_b = "SELECT * FROM vb_bericht_4 WHERE vb_flnr=$vb_flnr "; #
-# echo "L 081 sql $sql_b <br>";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Bericht $sql_b </pre>";
+echo "</div>";
+
 $return_b = SQL_QUERY($db, $sql_b);
+
 $row_b = mysqli_fetch_assoc($return_b);
-# var_dump($row_b);
+
 modifyrow($row_b, 'vb_bericht_4' );
 
 $unter = $row_b['vb_unterseiten'];
-# echo "L 088  vb_unter $vb_unter <br>";
 
 /**
  * einlesen der Bilddaten
@@ -93,6 +102,11 @@ $unter = $row_b['vb_unterseiten'];
 
 $sql_d = "SELECT * FROM vb_ber_detail_4 WHERE vb_flnr='$vb_flnr'
         ORDER BY vb_flnr, vd_unter, vd_suffix ASC"; # # AND vb_unter!='0' AND vb_suffix='0'
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Bericht $sql_d </pre>";
+echo "</div>";
+
 $return_d = SQL_QUERY($db, $sql_d);
 
 $l_cnt = 0;

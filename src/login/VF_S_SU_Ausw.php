@@ -12,8 +12,9 @@
  */
 session_start();
 
-const Module_Name = 'SUC';
-$module = Module_Name;
+$module = 'SUC';
+$sub_mod = 'all';
+
 $tabelle = '';
 
 /**
@@ -22,6 +23,13 @@ $tabelle = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_SU_Ausw.php"; 
 
 $debug = False; # Debug output Ein/Aus Schalter
 
@@ -54,8 +62,6 @@ initial_debug();
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropDownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -63,8 +69,6 @@ initial_debug();
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropDownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",

@@ -20,6 +20,13 @@ $debug = False; // Debug output Ein/Aus Schalter
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_yellow.php"; 
+
 require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
@@ -119,8 +126,12 @@ if ($phase == 2)
         $curjahr = date("y");
     }
     $sql = "SELECT * FROM  fh_mitglieder WHERE mi_email='$EMail' ";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'M yellow $sql </pre>";
+    echo "</div>";
     $result = SQL_QUERY($db, $sql);
-
+    
     $num_rows = mysqli_num_rows($result);
 
     while ($row = mysqli_fetch_object($result)) {
@@ -189,8 +200,6 @@ if ($phase == 2)
             $t_TelNo = "kein Eintrag";
         }
         $RPmsg .= "Telefonnummer:<b> " . $row->mi_tel_handy . "</b><br>";
-
-
 
         if ($t_gebtag == "") {
             $t_gebtag = "kein Datum eingegeben";

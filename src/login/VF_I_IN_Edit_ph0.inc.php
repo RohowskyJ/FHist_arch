@@ -6,10 +6,16 @@
  * 
  * 
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_Edit_ph0.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_I_IN_Edit_ph0.inc.php ist gestarted</pre>";
 }
-
 
 if ($neu['in_id'] == 0) { // Neueingabe
     $hide_area = 0;

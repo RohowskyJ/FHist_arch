@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MuG_List.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_0_SU_Find_MuG_List.inc.php ist gestarted</pre>";
 }
@@ -46,7 +53,13 @@ for ($i = 0; ! empty($arr_fzg[$i]); $i ++) {
 
     $select_f = "WHERE `mg_id`='$fz_arr[1]' ";
     $sql = "SELECT * FROM $tabelle $select_f  ORDER BY `mg_id` ASC";
-
+    
+    /**
+     * Includes-Liste
+     * enthält alle jeweils includierten Scritpt Files
+     */
+    $_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MuG_List.inc.php";
+    
     $return_fz = SQL_QUERY($db, $sql);
     while ($row = mysqli_fetch_object($return_fz)) {
         

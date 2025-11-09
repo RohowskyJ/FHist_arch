@@ -114,9 +114,9 @@ $al_sg = '07.01';
 $al_lcsg = $al_lcssg = $al_lcssg_s0 = $al_lcssg_s1 = "";
 $sa_s1 = $sa_s2 = $sa_s3 = $sa_s4 = $sa_s5 = "";
 
-VF_Sammlung_Ausw_js($sa_s1,$sa_s2,$sa_s3,$sa_s4,$sa_s5);
+#VF_Sammlung_Ausw_js($sa_s1,$sa_s2,$sa_s3,$sa_s4,$sa_s5);
 
-VF_Sammlung_Edit();
+#VF_Sammlung_Edit();
 
 echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 

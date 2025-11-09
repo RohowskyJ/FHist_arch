@@ -1,18 +1,19 @@
-    <?php
+<?php
 
-    /**
-     * Anzeige aller Fahrzeuge/Geräte einer auszuwählenden Sammlung
-     *
-     * @author Josef Rohowsky - neu 2019
-     *
-     * change Avtivity:
-     *   2019 J. Rohowsky nach B.R.Gaicki - neu
-     *   2024-04-07 J. Rohowsky - Liste für alle Geräte und Fahrzeuge gemeinsam
-     */
-    session_start();
+/**
+ * Anzeige aller Fahrzeuge/Geräte einer auszuwählenden Sammlung
+ *
+ * @author Josef Rohowsky - neu 2019
+ *
+ * change Avtivity:
+ *   2019 J. Rohowsky nach B.R.Gaicki - neu
+ *   2024-04-07 J. Rohowsky - Liste für alle Geräte und Fahrzeuge gemeinsam
+ */
+session_start();
 
-const Module_Name = 'F_G';
-$module = Module_Name;
+$module = 'F_G';
+$sub_mod = 'all';
+
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -25,6 +26,13 @@ $tabelle = "";
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaFG_Katalog_List.php"; 
+
 $debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -34,12 +42,27 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
-# require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php';
 
 $flow_list = true;
 
 $LinkDB_database = '';
 $db = LinkDB('VFH');
+
+$T_list_texte = array(
+    "Alle" => "Alle bekannten Maschinengetriebenen Fzg/Geräte nach Indienststellung (Auswahl)"
+);
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+$title = "Maschinengetriebene Fahrzeuge oder Geräte";
+
+$header = "";
+
+$prot = true;
+BA_HTML_header('Katalog Maschinengetriebene Fahrzeuge und Geräte ', '', 'List', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<fieldset>";
 
 initial_debug();
 
@@ -102,21 +125,7 @@ if (isset($_POST['level1'])) {
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-$T_list_texte = array(
-    "Alle" => "Alle bekannten Maschinengetriebenen Fzg/Geräte nach Indienststellung (Auswahl)"
-);
-
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-$title = "Maschinengetriebene Fahrzeuge oder Geräte";
-
-$header = "";
-
-$prot = true;
-BA_HTML_header('Katalog Maschinengetriebene Fahrzeuge und Geräte ', '', 'List', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
-echo "<fieldset>";
+$NeuRec = "";
 
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -184,6 +193,11 @@ $tabelle_g = $tabelle_m = "";
  */
 $taktb_arr = array();
 $sql_t = "SELECT * FROM fh_abk ORDER BY ab_abk  ASC ";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MaFG Katalog List Abkürzungen $sql_t </pre>";
+echo "</div>";
+
 $res_t = SQL_QUERY($db, $sql_t);
 while ($row_t = mysqli_fetch_object($res_t)) {
     $taktb_arr[$row_t->ab_abk] = $row_t->ab_bezeichn;
@@ -218,8 +232,6 @@ if ($_SESSION[$module]['sammlung'] == "MA_F") {
             $aufb_arr[$row_a->fi_abk] = $row_a->fi_name;
         }
     }
-    #var_dump($herst_arr);
-    #var_dump($aufb_arr);
 
 }
 
@@ -268,12 +280,14 @@ foreach ($eig_arr as $eignr) {
         if (array_key_exists($tabelle, $mag_arr)) {
 
             // einlesen der Fzgdaten in Arr
-            # $table = "fz_muskel_$eignr";
             $sql = "SELECT * FROM `$tabelle`  $sql_where ORDER BY `ge_id` ASC";
-            #echo "L 238: \$sql $sql <br/>";
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MaFG List vor list_create $sql </pre>";
+            echo "</div>";
+            
             $return_ge = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
-
-            # print_r($return_fz);echo "<br>$sql <br>";
+          
             $indienst = "";
             while ($row = mysqli_fetch_object($return_ge)) {
                 # print_r($row);echo "<br>L 0244 row <br>";
@@ -318,6 +332,10 @@ foreach ($eig_arr as $eignr) {
             $sql = "SELECT * FROM `$tabelle`  \n
                     WHERE  fz_sammlg LIKE '%" . $_SESSION[$module]['sammlung'] . "%' ";
 
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>MaFG KatalogList vor Anzeige $sql </pre>";
+            echo "</div>";
+            
             $return_fz = SQL_QUERY($db, $sql); // or die( "Zugriffsfehler ".mysqli_error($connect_fz)."<br/>");
 
             $t_daten = "";

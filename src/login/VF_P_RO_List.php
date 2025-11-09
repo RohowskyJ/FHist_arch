@@ -8,9 +8,10 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
-$tabelle = 'fo_todaten';
+$module = 'ADM';
+$sub_mod = 'PR';
+
+$tabelle = '';
 
 /**
  * Angleichung an den Root-Path
@@ -18,6 +19,13 @@ $tabelle = 'fo_todaten';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_P_PRO_MaFG_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -27,6 +35,12 @@ require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+
+# ===========================================================================================================
+# Haeder ausgeben
+
+$header = "";
+BA_HTML_header('Sitzungs-Protokolle ', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -53,8 +67,6 @@ if ($phase == 99) {
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -62,8 +74,6 @@ if ($phase == 99) {
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -109,19 +119,13 @@ $T_list_texte = array(
     
 );
 if ($_SESSION[$module]['p_zug'] == "V") {
-    $T_list_texte["NeuItem"] = "<a href='VF_P_RO_Edit.php?fo_id=0' > Neues Protokoll hochladen </a>";
-      
 }
 
-# ===========================================================================================================
-# Haeder ausgeben
-
-$header = "";
-BA_HTML_header('Sitzungs-Protokolle ', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_P_RO_Edit.php?fo_id=0' > Neues Protokoll hochladen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
-$List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Foto - Daten ändern: Auf die Zahl in Spalte <q>fo_id</q> Klicken.</li>';
+$List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;"> ';
 
 switch ($T_List) {
     case "Alle":
@@ -183,9 +187,6 @@ if ($cnt_file >=1 ){
 } else {
     echo "Keine Protokolle vorhaden.<br><br>";
 }
-
-
-
 
 BA_HTML_trailer();
 ?>

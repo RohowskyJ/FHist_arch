@@ -8,8 +8,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'AR';
+
 $tabelle = 'fh_falinks';
 
 /**
@@ -18,6 +19,13 @@ $tabelle = 'fh_falinks';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AR_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -34,6 +42,10 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+BA_HTML_header('Archiv- und Bibliotheks- Links', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<framework>";
+
 initial_debug();
 
 /**
@@ -41,8 +53,6 @@ initial_debug();
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -51,8 +61,6 @@ initial_debug();
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -107,20 +115,12 @@ $_SESSION[$module]['$select_string'] = $select_string;
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
     $T_list_texte = array(
         "Alle" => "Alle verfügbaren LINKS "
     );
-} else {
-    $T_list_texte = array(
-        "Alle" => "Alle verfügbaren LINKS ",
-        "NeuItem" => "<a href='VF_O_AR_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
-    );
-}
 
-BA_HTML_header('Archiv- und Bibliotheks- Links', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
-echo "<framework>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_AR_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -153,6 +153,10 @@ List_Action_Bar($tabelle,"Archiv- und Bibliotheks- Links", $T_list_texte, $T_Lis
 #
 # ===========================================================================================================
 $sql = "SELECT * FROM $tabelle ";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>OAR List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 

@@ -6,6 +6,13 @@
  * @author J. Rohowsky  - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Edit_ph0.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_FO_Edit_ph0.inc.php ist gestarted</pre>";
 }
@@ -57,32 +64,39 @@ if ($hide_area == 0) {
 
 Edit_Daten_Feld('md_Urheber', 60, 'Verfüger');
 
-echo "<input type='hidden' name='MAX_FILE_SIZE' value='500000' />";
-
-# =========================================================================================================
-$checked_f = "";
-if ($hide_area == 0) {  //toggle??
-   $checked_f = 'checked';
+if ($verz == 'J' || $neu['md_dsn_1'] == "0_Verz") {
+   Edit_textarea_Feld('md_beschreibg');
+} else {
+    echo "<input type='hidden' name='MAX_FILE_SIZE' value='500000' />";
+    
+    # =========================================================================================================
+    $checked_f = "";
+    if ($hide_area == 0) {  //toggle??
+        $checked_f = 'checked';
+    }
+    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+    Edit_Separator_Zeile('Fotos'.$button_f);
+    # =========================================================================================================
+    echo "<div>";
+    
+    $pict_path = $path2ROOT."login/".$_SESSION['VF_Prim']['store'].'/'.$neu['md_eigner']."/09/";
+    
+    $_SESSION[$module]['Pct_Arr' ] = array();
+    $num_foto = 1;
+    $i = 1;
+    while ($i <= $num_foto) {
+        $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'md_beschreibg', 'bi' => 'md_dsn_1', 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
+        $i++;
+    }
+    
+    
+    VF_Upload_Form_M();
+    
+    echo "</div>";
+    
 }
-// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-Edit_Separator_Zeile('Fotos'.$button_f);
-# =========================================================================================================
-echo "<div>";
 
-$pict_path = $path2ROOT."login/".$_SESSION['VF_Prim']['store'].'/'.$neu['md_eigner']."/09/";
-
-$_SESSION[$module]['Pct_Arr' ] = array();
-$num_foto = 1;
-$i = 1;
-while ($i <= $num_foto) {
-    $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'md_beschreibg', 'bi' => 'md_dsn_1', 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
-    $i++;
-}
-
-VF_Upload_Form_M();
-
-echo "</div>";
 
 # =========================================================================================================
 $button = "";
@@ -184,7 +198,7 @@ if ($_SESSION[$module]['all_upd']) {
 
 echo "<p><a href='VF_FO_List_Detail.php?md_aufn_d=" . $neu['md_aufn_datum'] . "'>Zurück zur Liste</a></p>";
 
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
+echo "<script src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 

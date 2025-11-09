@@ -8,6 +8,7 @@ session_start();  # die SESSION am leben halten
  
 $module = 'OEF';
 $sub_mod = "";
+
 $tabelle = '';
 
 const Prefix = '';
@@ -18,6 +19,13 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_Massup.php";
 
 $debug = false; // Debug output Ein/Aus Schalter
 

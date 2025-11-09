@@ -5,8 +5,15 @@
  * @author josef Rohowsky - neu 2019
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_Edit_ph0.inc.php";
+
 if ($debug) {echo "<pre class=debug>VF_A_AR_Edit_ph0.inc.php ist gestarted</pre>";}
- # var_dump($_POST);
+# var_dump($_POST);
 
 if ($neu['ad_id'] == 0) { // Neueingabe
     $hide_area = 0;
@@ -19,6 +26,9 @@ $inveignr = $neu['ad_eignr'];
 $pref_eignr_s = "0".$inveignr;   //  Kurz- Variante
 $pref_eignr = substr("00000",1,5-strlen($inveignr)).$inveignr;
 
+if (is_null($neu['ad_ao_fortlnr'])) {
+    $neu['ad_ao_fortlnr'] = '0';
+}
 $ad_fl = $neu['ad_ao_fortlnr'];
 $pref_invnr_s = "0".$ad_fl;    //  kurz- Variante
 $ad_flnr = substr("000000",1,6-strlen($ad_fl)).$ad_fl;
@@ -93,7 +103,7 @@ echo "<input type='hidden' name='ad_aenddat' id='ad_aenddat' value='".$neu['ad_a
   } else {
       $Aro_Def = $Arl_Def = "";
       $Aro_Def = VF_Displ_Aro($neu['ad_sg'],$neu['ad_subsg']);
-      $Arl_Def = VF_Displ_Arl($neu['ad_sg'],$neu['ad_subsg'],$neu['ad_lcsg'],$neu['ad_lcssg']);
+      $Arl_Def = VF_Displ_Arl($neu['ad_sg'],$neu['ad_subsg'],$neu['ad_lcsg'],$neu['ad_lcssg'],$neu['ad_lcssg_s0'],$neu['ad_lcssg_s1']);
       echo "<tr><td>Eingereiht nach  Archivordnung: </td><td colspan = '5'>$Aro_Def $Arl_Def </td></tr>";
   }
   
@@ -164,7 +174,7 @@ echo "</div>";
   $button = "";
   if ($hide_area != 0) {
       // Der Button, der das toggling übernimmt
-      $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ne')\">zum ändern klicken!</button>";
+      $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock70' > zum anzeigen/ändern anklicken</label> ";
   }
   
   Edit_Daten_Feld('ad_neueigner',75,$button);
@@ -172,11 +182,12 @@ echo "</div>";
   if ($hide_area == 0) {
       echo "<div>";
   } else {
-      echo "<div id='unhide_ne' style='display:none'>";
+      echo "<div class='block-container' >";
+      echo "<div class='toggle-block' id='block70'>";
   }
   VF_Auto_Eigent('E','');
 
-  echo "</div>";
+  echo "</div>"; # ende toggleneu eigentuemer
 
   # =========================================================================================================
   Edit_Separator_Zeile('Werte');
@@ -217,7 +228,8 @@ echo "</div>";
 
   echo "<p><a href='VF_A_AR_List.php'>Zurück zur Liste</a></p>";
            
-
+  echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
+  
 # =========================================================================================================
  
 if ($debug) {echo "<pre class=debug>VF_A_AR_Edit_ph0.inc beendet</pre>";}

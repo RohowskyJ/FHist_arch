@@ -6,12 +6,11 @@
  * @author josef Rohowsky - neu 2019
  *
  */
-session_start();
+session_start(); # die SESSION aktivieren
 
-# die SESSION aktivieren
+$module = 'ARC';
+$sub_mod = 'all';
 
-const Module_Name = 'ARC';
-$module = Module_Name;
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -23,6 +22,13 @@ $tabelle = "";
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -53,8 +59,6 @@ $db = LinkDB('VFH');
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -96,7 +100,7 @@ if (! isset($_SESSION[$module]['ArOrd_Name'])) {
     $_SESSION[$module]['ArOrd_Name'] = "Anzeiger der ausgewählten Daten";
 }
 if (! isset($_SESSION[$module]['Ord_Ausw'])) {
-    $_SESSION[$module]['Ord_Ausw'] = "0,0,0,0";
+    $_SESSION[$module]['Ord_Ausw'] = "0,0,0,0,0,0";
 }
 if (! isset($_SESSION[$module]['List_Sel'])) {
     $_SESSION[$module]['List_Sel'] = "";
@@ -132,11 +136,6 @@ if (isset($_POST['select_string'])) {
 
 $_SESSION[$module]['$select_string'] = $select_string;
 
-# ==========================================Arc_List=================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-$title = "";
-
 /**
  * Eigentümer- Auswahl (Autocomplete)
 */
@@ -150,6 +149,8 @@ if (isset($_POST['eigentuemer_1'])) {
 
 if ($_SESSION['Eigner']['eig_eigner'] == "") 
 {
+    echo "<h3>".$_SESSION['VF_Prim']['OrgNam']."</h3>";
+    echo "<h2>Eigentümer Auswahl</h2>";
     if (isset($_SESSION['VF_Prim']['mode']) && $_SESSION['VF_Prim']['mode'] == "Mandanten"){
         if ($_SESSION['Eigner']['eig_eigner'] == "") {
             VF_Auto_Eigent('E','');
@@ -164,7 +165,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     VF_upd();
     
     $AO_Sel = VF_Multi_Sel_Input(); 
-    # echo "L 0167  AO_Sel $AO_Sel <br>";
+    $sg = $subsg = $lcsg = $lcssg = $lcssg_s0 = $lcssg_s1 = '00';
+    #echo "L 0167  AO_Sel $AO_Sel <br>";
     if (isset($AO_Sel) && $AO_Sel != "") {
         $AO_Arr = explode(" ",$AO_Sel);
         $AO_cnt = count($AO_Arr);
@@ -187,6 +189,16 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
                 $_SESSION[$module]['ad_lcssg'] = $AO_Arr[2];
             }
         }
+        if ($AO_cnt >= 4) {
+            if ($AO_Arr[3] != "" && $AO_Arr[3] !='00'){
+                $_SESSION[$module]['ad_lcssg_s0'] = $AO_Arr[3];
+            }
+        }
+        if ($AO_cnt == 5) {
+            if ($AO_Arr[4] != "" && $AO_Arr[4] !='00'){
+                $_SESSION[$module]['ad_lcssg_s1'] = $AO_Arr[4];
+            }
+        }
     }
     
     # ==========================================================================================
@@ -196,11 +208,9 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     $T_list_texte = array(
         "Anzeige" => $_SESSION[$module]['ArOrd_Name']."(Auswahl)",
         "NextOrd" => "<a href='VF_A_AR_List.php?ID=NextArch' > anderen Archivbereich auswählen </a>",
-        "NextEig" => "<a href='VF_A_AR_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-        "NeuItem" => "<a href='VF_A_AR_Edit.php?ad_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+        "NextEig" => "<a href='VF_A_AR_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>"
     );
     
-
     List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
     $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Daten ändern: Auf die Zahl in Spalte <q>ad_id</q> Klicken.</li>';
@@ -217,10 +227,12 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     # Die Sammlungs- Auswahl anzeigen: Referat ist immer 5
     # ===========================================================================================================
   
-    $tabelle_m = $_SESSION[$module]['tabelle_m'] = "ar_chivdt";
+    $tabelle_m = $_SESSION[$module]['tabelle_m'] = "ar_chivdat";
     $tabelle = $tabelle_m . "_" . $_SESSION['Eigner']['eig_eigner'];
    
     $_SESSION[$module]['tabelle'] = $tabelle;
+    
+    $NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_A_AR_Edit.php?ad_id=0' > Neuen Datensatz anlegen </a>";
     
     $zus_ausw = "";
     List_Action_Bar($tabelle,"Archivalien des Eigentümers " . $_SESSION['Eigner']['eig_eigner'] . " <br>" . $_SESSION['Eigner']['eig_name'] . ", " . $_SESSION['Eigner']['eig_verant'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
@@ -230,7 +242,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
         /**
          * Parameter für den Aufruf von Multi-Dropdown
          *
-         * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+         * Benötigt jquery 
          *
          *
          * @var array $MS_Init  Kostante mit den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
@@ -249,7 +261,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
             'Auswahl des 4. Erweiterung (6. Ebene)  '
         );
               
-        $MS_Lvl   = 4; # 1 ... 6
+        $MS_Lvl   = 6; # 1 ... 6
         $MS_Opt   = 2; # 1: SA für Sammlung, 2: AO für Archivordnung
         
         switch ($MS_Opt) {
@@ -275,9 +287,9 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
         echo "keine Tabellen gefunden - ABBRUCH <br>";
         exit();
     }
-    if (array_key_exists($tabelle, $ar_arr)) {  // Tabelle nciht vorhanden, anlegen ar_chivdt_yy und ar_chivord_loc_
+    if (array_key_exists($tabelle, $ar_arr)) {  // Tabelle nciht vorhanden, anlegen ar_chivdat_yy und ar_chivord_loc_
     } else {
-        $ret_cr = Cr_n_ar_chivdt($tabelle);
+        $ret_cr = Cr_n_ar_chivdat($tabelle);
     }
 
     $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
@@ -290,23 +302,27 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
         'ad_beschreibg',
         'ad_type',
         'ad_doc_1',
-        'ad_keywords'
+        'ad_keywords',
+        'ad_sammlg'
     );
     $Tabellen_Spalten_style['ad_id'] = $Tabellen_Spalten_style['ad_sg'] = 'text-align:center;';
 
     $sql = "SELECT * FROM $tabelle ";
+    
     $sql_where = "";
     if ($_SESSION[$module]['List_Sel'] != "") {
         $sql_where = $_SESSION[$module]['List_Sel'];
     }
 
     if (isset($_SESSION[$module]['ad_sg']) && $_SESSION[$module]['ad_sg'] != "") {
+        if ($_SESSION[$module]['ad_sg'] == "Nix") {
+            $_SESSION[$module]['ad_sg'] = '00';
+        }
         if ($_SESSION[$module]['ad_sg'] != "" && $_SESSION[$module]['ad_sg'] !='00'){
             $sql_where = " WHERE ad_sg='".$_SESSION[$module]['ad_sg']."' ";
-            if (isset($_SESSION[$module]['ad_subsg']) && $_SESSION[$module]['ad_subsg'] != "")  {
+            if (isset($_SESSION[$module]['ad_subsg']) && $_SESSION[$module]['ad_subsg'] != "00")  {
                 $sql_where .= " AND ad_subsg='".$_SESSION[$module]['ad_subsg']."' ";
             }
-
         }
         if (isset($_SESSION[$module]['ad_lcsg']) && $_SESSION[$module]['ad_lcsg'] != "" && $_SESSION[$module]['ad_lcsg'] !='00'){
             $sql_where .= " AND ad_lcsg='".$_SESSION[$module]['ad_lcsg']."' ";
@@ -315,7 +331,12 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
         if (isset($_SESSION[$module]['ad_lcssg']) && $_SESSION[$module]['ad_lcssg'] != "" && $_SESSION[$module]['ad_lcssg'] !='00'){
             $sql_where .= " AND ad_lcssg='".$_SESSION[$module]['ad_lcssg']."' ";
         }
-       
+        if (isset($_SESSION[$module]['ad_lcssg_s0']) && $_SESSION[$module]['ad_lcssg_s0'] != "" && $_SESSION[$module]['ad_lcssg_s0'] !='00'){
+            $sql_where .= " AND ad_lcssg_s0='".$_SESSION[$module]['ad_lcssg_s0']."' ";
+        }
+        if (isset($_SESSION[$module]['ad_lcssg_s1']) && $_SESSION[$module]['ad_lcssg_s1'] != "" && $_SESSION[$module]['ad_lcssg_s1'] !='00'){
+            $sql_where .= " AND ad_lcssg_s1='".$_SESSION[$module]['ad_lcssg_s1']."' ";
+        }
     }
     
     if (! isset($sql_orderBy)) {
@@ -337,8 +358,13 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     ;
     $pref_eignr = substr("00000", 1, 5 - strlen($eignr)) . $eignr;
 
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'A AR List vor list_create $sql </pre>";
+    echo "</div>";
+
     $zus_text = "<div class='w3-container w3-sand'>  ";
     $zus_text .= "<br/>Archivaliennummer Prefix (Verein  Eigentümernummer Archivordnung) <font size='+1'>V:" . $pref_eignr . "</font> und der Nummern der Archivordnung und der Fortlaufenden Nummer <i>Inv.Nr.</i> (Keine Leerzeichen)</div>";
+    
     List_Create($db, $sql,'', $tabelle,'', $zus_text); # die liste ausgeben
 
     BA_HTML_trailer();

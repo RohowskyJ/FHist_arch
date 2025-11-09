@@ -6,6 +6,13 @@
  * @author Josef Rohowsky - neu 2020
  * 
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Edit_ph0.inc.php"; 
+
 if ($debug) {
     echo "<pre class=debug>VF_M_Edit_ph0.inc.php ist gestarted </pre>";
 }
@@ -112,7 +119,6 @@ Edit_Daten_Feld(Prefix . 'mi_aenddat');
 # =========================================================================================================
 Edit_Tabellen_Trailer();
 if ($_SESSION[$module]['all_upd'] || $_SESSION['VF_Prim']['p_uid'] == $neu['mi_id']) {
-    # Edit_Send_Button(''); # definiert in Edit_Funcs_v2.php
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
@@ -120,7 +126,7 @@ if ($_SESSION[$module]['all_upd'] || $_SESSION['VF_Prim']['p_uid'] == $neu['mi_i
 echo "<p><a href='VF_M_List.php>Zurück zur Liste</a></p>";
 
 echo "<div class='w3-container'><fieldset> <label> Auszeichnungs- Details: </label><br/>";
-require 'VF_M_EH_List.inc';
+require 'VF_M_EH_List.inc.php';
 echo "</fieldset></div>";
 
 # =========================================================================================================

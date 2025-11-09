@@ -21,8 +21,12 @@ $tabelle = 'vb_bericht_4';
 $path2ROOT = "../";
 
 
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FO_Ber_List.php";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Ber_List.php";
 
 /**
  * Debug- Option
@@ -35,10 +39,8 @@ require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
-#require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
-#require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
 
@@ -56,8 +58,6 @@ VF_set_module_p();
  *
  * @global array $_SESSION['VF_LISTE']
  *         - select_string
- *         - SelectAnzeige Ein: Anzeige der SQL- Anforderung
- *         - SpaltenNamenAnzeige Ein: Anzeige der Apsltennamen
  *         - DropdownAnzeige Ein: Anzeige Dropdown Menu
  *         - LangListe Ein: Liste zum Drucken
  *         - VarTableHight Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -65,8 +65,6 @@ VF_set_module_p();
  */
 if (! isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE'] = array(
-        "SelectAnzeige" => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige" => "Ein",
         "LangListe" => "Aus",
         "VarTableHight" => "Ein",
@@ -118,24 +116,21 @@ $_SESSION[$module]['$select_string'] = $select_string = "";
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if ($_SESSION[$module][$sub_mod]['Act'] == 0) {
+
     $T_list_texte = array(
         "Alle" => "Alle verfügbaren Veranstaltungs- Berichte "
     );
-} else {
-    $T_list_texte = array(
-        "Alle" => "Alle verfügbaren Veranstaltungs- Berichte ",
-        "NeuItem" => "<a href='VF_FO_Ber_Edit.php?vb_flnr=0' > Neuen Datensatz anlegen </a>"
-    );
-}
 
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
 
 BA_HTML_header('Veranstaltungs- Berichte- Verwaltung', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-#var_dump($_SESSION[$module]['URHEBER']['BE']);
+
 echo "<fieldset>";
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FO_Ber_Edit.php?vb_flnr=0' > Neuen Bericht anlegen </a>";
+
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 /**
@@ -204,6 +199,10 @@ if ($select_string != '') {
 }
 $sql .= $sql_where . $orderBy;
 
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Ber List vor list_create $sql </pre>";
+echo "</div>";
+
 $New_Link = "";
 if ($_SESSION[$module]['all_upd']) {
     # $New_Link = "<a href='VF_M_Edit_v3.php?$Parm_Call&ID=0' > Neu</a>";
@@ -214,7 +213,9 @@ if ($_SESSION[$module]['all_upd']) {
  * @var integer $TabButton
  */
 //$TabButton = ""; // "1|green|Bilder für den Bericht speichern.||True"; # 0: phase, 1: Farbe, 2: Text, 3: Rücksprung-Link, 5: True Änderungen abspeichern
+
 List_Create($db, $sql, '', $tabelle, ''); # die liste ausgeben
+
 echo "</fieldset>";
 BA_HTML_trailer();
 

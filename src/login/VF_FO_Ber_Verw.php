@@ -10,7 +10,7 @@
 session_start();
 
 $module = 'OEF';
-# const Tabellen_Name = 'fh_dokumente';
+$sub_mod = 'alle';
 
 /**
  * Angleichung an den Root-Path
@@ -18,6 +18,13 @@ $module = 'OEF';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Ber_Verw.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -28,8 +35,6 @@ require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 
 $flow_list = False;
-
-initial_debug();
 
 VF_chk_valid();
 VF_set_module_p();
@@ -45,6 +50,8 @@ VF_Count_add();
 
 BA_HTML_header('Foto/Video und Berichte- Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
+initial_debug();
+
 Edit_Separator_Zeile('Fotos, Videos (Filme)');
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "Hier werden die von Mitgliedern erstellten Fotos <b>einzeln</b> ins Netz gestellt, 
@@ -58,7 +65,6 @@ echo "</div>"; // Ende der Ausgabe- Einheit Feld
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
 echo "<a href='VF_FO_List.php?sk=$sk' target='Foto'>Fotos, Videos </a>";
 echo "</div>"; // Ende der Ausgabe- Einheit Feld
-
 
 if ($_SESSION['VF_Prim']['p_uid'] == 1) {
 

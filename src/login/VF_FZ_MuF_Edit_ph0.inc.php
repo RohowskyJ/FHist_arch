@@ -11,6 +11,8 @@ if ($debug) {
     echo "<pre class=debug>VF_FMZ_MuF_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuF_Edit_ph0.inc.php";
+
 if ($neu['fm_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
@@ -30,7 +32,7 @@ Edit_Daten_Feld('fm_eignr');
 $button = "";
 if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
+    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";   
 }
 Edit_Separator_Zeile('Sammlung'.$button);
 # =========================================================================================================
@@ -39,7 +41,7 @@ $Edit_Funcs_Protect = true;
 // Edit_Daten_Feld_Button('fm_sammlg', '20','','');
 Edit_Daten_Feld('sa_name', '');
 // $Edit_Funcs_Protect = False;
-Edit_Daten_Feld('sa_name');
+#Edit_Daten_Feld('sa_name');
 $Edit_Funcs_Protect = false;
 echo "</div>";
 
@@ -104,15 +106,15 @@ if (isset($neu['fi_name']) && $neu['fi_name'] != "") {
     $neu['fm_herst'] .= " - ".$neu['fi_name'].", ".$neu['fi_ort'];
 }
 
-$button = "";
+$checkbox = "";
 if ($hide_area != 0) {  //toggle??
     // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock30' > zum anzeigen/ändern anklicken</label> ";
+    $checkbox = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock30' > zum anzeigen/ändern anklicken</label> ";
 }
 
 echo "<input type='hidden' name='fm_herst' value='".$neu['fm_herst']."' >";
 //$Edit_Funcs_Protect = True;
-Edit_Daten_Feld(Prefix . 'fm_herst', 60, '', '', $button);
+Edit_Daten_Feld(Prefix . 'fm_herst', 60, '', '', $checkbox);
 //$Edit_Funcs_Protect = False;
 # Edit_Daten_Feld('fm_herst', 60);
 if ($hide_area == 0) {
@@ -135,12 +137,12 @@ Edit_Daten_Feld('fm_gew', 10);
 Edit_Daten_Feld('fm_zug', 10);
 
 # =========================================================================================================
-$button_f = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' > Foto Daten eingeben/ändern </label>"; 
+$checked_f = "";
+if ($hide_area == 0) {  //toggle??
+    $checked_f = 'checked';
 }
-Edit_Separator_Zeile('Fotos'.$button_f);  #
+$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 
 echo "<input type='hidden' name='fm_foto_1' value='" . $neu['fm_foto_1'] . "'>";
@@ -151,6 +153,9 @@ echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
 echo "<input type='hidden' id='sammlung' value='".$neu['fm_sammlg'] ."'>";
 echo "<input type='hidden' id='eigner' value='".$neu['fm_eignr'] ."'>";
+
+echo "<input type='hidden' id='aOrd' value=''>";
+echo "<input type='hidden' id='urhNr' value=''>";
 
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner'] . "/MuF/";
 

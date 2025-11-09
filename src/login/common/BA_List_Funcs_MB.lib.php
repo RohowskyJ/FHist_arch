@@ -51,15 +51,9 @@
  *                         - CSV- Dateien abschaltbar
  *                         - Tabellen größe  (Höhe) variierbar
  *                         - VF_List[select_string|SelectAnzeige|SpaltenNamenAnzeige|DropDownAnzeige||CSVAusgabe
- *   2025-10-24 J Rohowsky - Umbau einiger Funktionen: Sortierung im sql, Sortierung immer mit js-inline, Neu-Eingabe immer unter Tabellen-Ansicht,  umbau Optionen und Hinweise
- *                           Anzeige Spaltenname immer Komment-Felder, per js zuschalten der Feld-Namen, Feldnamen sind immer vorbereitet, aber hidden              
- *   2025-10-26 JR           Selectanzeige Systemweit durch Sess-Parm VT_Prim.$module-SqlDisp ersetzt  
- *                           Sortierung mit js immer auf allen spalten aktiv, Sort- Auswahl ausgebaut
- *                           Tabellen- Titelzeile  ist immer (so vorhanden) mit dem Feld- Kommentar beschrieben, Dropdown = Ein 
- *                               zeigt  zusätzlich die Feldnamen, Auswahl ist nur mehr Feld nicht anzeigen
  *
  */
-flow_add('List_Funcs', "BA_List_Funcs.lib.php Funct: Edit_Tabellen_Header");
+flow_add('List_Funcs', "BA_List_Funcs_MB.lib.php Funct: Edit_Tabellen_Header");
 
 /**
  * Ausgabe des oberen Listenteiles, Eingabenerfassung und Defaults
@@ -87,6 +81,8 @@ flow_add('List_Funcs', "BA_List_Funcs.lib.php Funct: Edit_Tabellen_Header");
  *         - $List_parm['sort_column'] Name der Spalte nach welcher sortiert werden soll
  *         - $List_parm['sort_richtung'] Sortierrichtung ASC/DESC
  * @global string $csv_DSN Name der *.csv- Datei
+ * @global string $SelectAnzeige Anzeige des Query ($sql) Ein/Aus
+ * @global string $SpaltenNamenAnzeige Anzeige des Spaltennamens (Ein) oder des Kommentares (Klarname)
  * @global string $DropdownAnzeige Anzeige des Dropdown-Menus im Listenkopf
  * @global string $T_List Auswahlname der gewählten Liste, definiert in $T_List_Texte ($_POST)
  *
@@ -94,9 +90,9 @@ flow_add('List_Funcs', "BA_List_Funcs.lib.php Funct: Edit_Tabellen_Header");
  */
 function List_Prolog($id, $T_List_Texte)
 {
-    global $debug, $path2ROOT, $module, $sub_mod, $T_List, $List_parm, $csv_DSN, $DropdownAnzeige ;     
+    global $debug, $path2ROOT, $module, $T_List, $List_parm, $csv_DSN, $SelectAnzeige, $SpaltenNamenAnzeige, $DropdownAnzeige;
 
-    flow_add($module, "BA_List_Funcs.lib.php Funct: List_Prolog");
+    flow_add($module, "BA_List_Funcs_MB.lib.php Funct: List_Prolog");
 
     # ===========================================================================================================
     # die Parameter lesen und die Werte fürs nächste mal aufheben
@@ -145,6 +141,33 @@ function List_Prolog($id, $T_List_Texte)
     $_SESSION[$id]['T_List'] = $List_parm['T_List'] = $T_List;
 
     # -----------------------------------------------------------------------------------------------------------------
+    # Tabellenspezifische Sortierfolge
+    # -----------------------------------------------------------------------------------------------------------------
+    if (isset($_GET['sord'])) {
+        $sord = $_GET['sord'];
+    } # nimm den als Parameter übergebenen Wert
+    elseif (isset($_SESSION[$id]['sord'])) {
+        $sord = $_SESSION[$id]['sord'];
+    } else {
+        $sord = '';
+    }
+    if ($sord != 'DESC') {
+        $sord = 'ASC';
+    } # kein Wert oder ungültiger Wert
+
+    if (isset($_GET['scol'])) {
+        $scol = $_GET['scol'];
+    } # nimm den als Parameter übergebenen Wert
+    elseif (isset($_SESSION[$id]['scol'])) {
+        $scol = $_SESSION[$id]['scol'];
+    } else {
+        $scol = '';
+    }
+
+    $_SESSION[$id]['scol'] = $List_parm['sort_column'] = $scol; # Aufheben fürs nächste mal
+    $_SESSION[$id]['sord'] = $List_parm['sort_richtung'] = $sord; # Aufheben fürs nächste mal
+
+    # -----------------------------------------------------------------------------------------------------------------
     # Tabellenspezifische und Listenspezifische Liste der zu unterdrückenden Spalten
     # -----------------------------------------------------------------------------------------------------------------
     $idT = $id . '_' . $T_List; # id = Tabellenspezifisch und Listenspezifisch
@@ -176,6 +199,32 @@ function List_Prolog($id, $T_List_Texte)
         $select_string = '';
     }
     $_SESSION[$module]['select_string'] = $List_parm['select_string'] = $select_string;
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Select Anweisung Anzeige
+    # -----------------------------------------------------------------------------------------------------------------
+    if (! isset($_SESSION["VF_LISTE"]['SelectAnzeige'])) {
+        $SelectAnzeige = 'Aus'; # der default Wert
+    }
+    if (isset($_GET['SelectAnzeige'])) {
+        $SelectAnzeige = $_GET['SelectAnzeige'];
+    } elseif (isset($_SESSION["VF_LISTE"]['SelectAnzeige'])) {
+        $SelectAnzeige = $_SESSION["VF_LISTE"]['SelectAnzeige'];
+    }
+    $_SESSION["VF_LISTE"]['SelectAnzeige'] = $List_parm['SelectAnzeige'] = $SelectAnzeige;
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Spalten Namen Anzeige
+    # -----------------------------------------------------------------------------------------------------------------
+    if (! isset($_SESSION["VF_LISTE"]['SpaltenNamenAnzeige'])) {
+        $SpaltenNamenAnzeige = 'Ein'; # der default Wert
+    }
+    if (isset($_GET['SpaltenNamenAnzeige'])) {
+        $SpaltenNamenAnzeige = $_GET['SpaltenNamenAnzeige'];
+    } elseif (isset($_SESSION["VF_LISTE"]['SpaltenNamenAnzeige'])) {
+        $SpaltenNamenAnzeige = $_SESSION['VF_LISTE']['SpaltenNamenAnzeige'];
+    }
+    $_SESSION['VF_LISTE']['SpaltenNamenAnzeige'] = $List_parm['SpaltenNamenAnzeige'] = $SpaltenNamenAnzeige;
 
     # -----------------------------------------------------------------------------------------------------------------
     # Dropdown Listen Anzeige
@@ -281,12 +330,12 @@ function List_Prolog($id, $T_List_Texte)
  */
 function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinweise = '', $Zus_Ausw = '', $addit_act = '')
 {
-    global $debug, $path2ROOT, $List_parm, $List_Parameter, $module, $sub_mod, $NeuRec;
+    global $debug, $path2ROOT, $List_parm, $List_Parameter, $module;
 
     flow_add($module, "List_Funcs.inc.php Funct: List_Action_Bar");
 
     if ($debug) {
-        echo '<pre class=debug>L 0289 ';
+        echo '<pre class=debug>L 0336 ';
         echo '$_SESSION["VF_LISTE"]: ';
         print_r($_SESSION["VF_LISTE"]);
         echo '<hr>$List_parm: ';
@@ -314,13 +363,9 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
     if ($Tabellen_Name == 'tfb3_users') {
         $grosklein = "Die Auswahl muss exakt angegeben sein.";
     }
-    $OrgName = "";
+
     ?>
-<!--  
-    /**
-     * Seiten- Kopf neu
-     */
--->	
+
 <div class="List-grid-container"
      style="grid-template-columns: 100px auto">
 
@@ -332,108 +377,111 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
     }
     if (isset($ini_arr['Config'])) {
         $logo = $ini_arr['Config']['sign'];
-        echo "<img src='" . $path2ROOT . "login/common/imgs/$logo' alt='Signet Verein Feuerwehrhistoriker' style='border: 3px solid lightblue;  display: block; margin-left: auto; margin-right: auto; margin-top:6px;  width: 80%;'>";
-        $OrgName = $ini_arr['Config']['inst'];
+        echo "<img src='" . $path2ROOT . "login/common/imgs/$logo' alt='Signet Verein Feuerwehrhistoriker' style='border: 3px solid lightblue;  display: block; margin-left: auto; margin-right: auto; margin-top:6px;  width: 50%;'>";
     }
 
     ?>
      </div>
 
      <div>
-       <?php echo "<span style='float: left;'> <label>".$OrgName."</label></span>"; ?>
-       <p class='w3-xlarge'><?php echo $Heading;?></p>
-     
-       <input type='hidden' name='tabelle' value='<?php echo $Tabellen_Name;?>'>
-         
-        <b><?php echo $DD_aktiv;?></b> 
-         
-        <div class="container w3-border w3-light-grey " style="max-width: 65em;">
-        <!-- =================================================================================================
+     <!--
+          <h2 style='text-align: left;'><?php echo $Heading;?></h2>
+           -->
+<p class='w3-xlarge'><?php echo $Heading;?></p>
+          <input type='hidden' name='tabelle' value='<?php echo $Tabellen_Name;?>'>
+
+    <div class="w3-bar w3-border w3-light-grey">
+
+         <!-- =================================================================================================
         # Tabellen-Ansicht Dropdown
         ================================================================================================== -->
-            <div class='w3-dropdown-hover'
-                    style='padding-left: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 61000;'>
-                    
-                 <b style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Tabellen- Auswahl</b>:
-                    
-                 <div class='w3-dropdown-content w3-bar-block w3-card-4' style='width:40em;'><?php echo $DD_List;?>
-                 </div>
+               <div class='w3-dropdown-hover'
+                    style='padding-left: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 3'>
+                    <b
+                         style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Tabellen-Ansicht</b>:
+                    <b><?php echo $DD_aktiv;?></b>
+                    <div class='w3-dropdown-content w3-bar-block w3-card-4'><?php echo $DD_List;?>
+                </div>
                     <!-- w3-dropdown-content -->
-            </div>
-            <!-- w3-dropdown-hover -->
-            
-           <!--  <b><?php echo $DD_aktiv;?></b>  --> 
-            
-            <!-- =================================================================================================
-            # Optionales Auswahl Feld
-            ================================================================================================= -->
-            <?php if (!strpos($DD_aktiv, 'Auswahl') == false) { ?>
-            <div class='w3-dropdown-hover w3-light-grey '
-                    style='padding-left: 5px; padding-right: 5px; z-index: 11000'>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Suche <input type='text' name='select_string'
-                         value='<?php echo $List_parm['select_string'];?>' maxlength=40
-                         size=10> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-            </div>
- 
-            <!-- =================================================================================================
-            # Refresh Button
-            ================================================================================================= -->
-            <div class='w3-dropdown-hover w3-light-grey'
-                    style='padding-left: 5px; padding-right: 5px; z-index: 11000'>
-                    <button type='submit' style='font-size: 18px'>Daten neu einlesen</button>
-            </div>
-      <?php } ?>
-            <!-- =================================================================================================
-            # Hinweise Dropdown
-            ================================================================================================= -->
-            <div class='w3-dropdown-hover w3-right'
-                    style='padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 11000'>
-                    <b style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Hinweise</b>
-               <div class='w3-dropdown-content w3-bar-block w3-card-4'
-                         style='width: 50em; right: 0'>
-                   <ul style='margin: 0 1em 0em 1em; padding: 0;'>
-                   <?php echo $Hinweise;?>
+               </div>
+               <!-- w3-dropdown-hover -->
 
-                   <!-- ------------------------------------------------------- -->
-                       <li><div class=tooltip>
+     <!-- =================================================================================================
+    # Optionales Auswahl Feld
+    ================================================================================================= -->
+    <?php if (!strpos($DD_aktiv, 'Auswahl') == false) { ?>
+    <div class='w3-dropdown-hover w3-light-grey'
+                    style='padding-left: 5px; padding-right: 5px; z-index: 3'>
+                    <input type='text' name='select_string'
+                         value='<?php echo $List_parm['select_string'];?>' maxlength=40
+                         size=10>
+     </div>
+     <!---
+    < ?php } ?>
+    --->
+    <!-- =================================================================================================
+    # Refresh Button
+    ================================================================================================= -->
+     <div class='w3-dropdown-hover w3-light-grey'
+                    style='padding-left: 5px; padding-right: 5px; z-index: 3'>
+                    <button type='submit' style='font-size: 18px'>Daten neu einlesen</button>
+     </div>
+<?php } ?>
+    <!-- =================================================================================================
+    # Hinweise Dropdown
+    ================================================================================================= -->
+     <div class='w3-dropdown-hover w3-right'
+                    style='padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 3'>
+                    <b
+                         style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Hinweise</b>
+          <div class='w3-dropdown-content w3-bar-block w3-card-4'
+                         style='width: 50em; right: 0'>
+                         <ul style='margin: 0 1em 0em 1em; padding: 0;'>
+          <?php echo $Hinweise;?>
+
+          <!-- ------------------------------------------------------- -->
+           <li><div class=tooltip>
                               Nach Spalteninhalten Sortieren
                          <!-- ------------------------------------------------------- -->
                          <div class='tooltiptext'
-                                             style='bottom: 100%; left: 0; width: 38em;'>
+                                             style='bottom: 100%; left: 0; width: 40em;'>
                                              Um die Liste nach dem Inhalt einen Spalte zu sortiern:
                                              <ol>
                                                   <li>Den Cursor auf den <b>blauen Spalten-Titel-Text</b>
                                                        positionieren.
                                                   </li>
-                                                  <li>Rechts vom Text wird ein kleiner Pfeil sichtbar - dann ist diese Spalte sortierbar.
-                                                  Auf den Pfeil klicken, dann wird diese Spalte sortiert</li>
+                                                  <li>In der Pull-Down-Liste - die Sortierung durch Kicken
+                                                       wählen.</li>
                                              </ol>
-                                             <b>Die aktive Sortierung</b> wird in der jeweiligen Spalte mit einem Pfeil <i>nach oben (</i><b>▴</b><i> - Aufsteigend), 
-                                             nach unten (</i><b>▾</b></i> - Absteigend) oder nach rechts (</i><b>▸</b><i> - nicht sortiert)</i> angezeigt.
+                                             <br>Die aktive Sortierung wird in der jeweiligen Spalte mit <img
+                                                  src='<?php echo $path2ROOT;?>login/common/imgs/arrowUp.gif'
+                                                  alt='Asc'> bzw. <img
+                                                  src='<?php echo $path2ROOT;?>login/common/imgs/arrowDown.gif'
+                                   alt='Desc'> angezeigt.
                          </div>
                </div></li>
 
-                     <!-- ------------------------------------------------------- -->
-                     <li><div class=tooltip>
-                                Anzeige von Spalten Unterdrücken
-                                <!-- ------------------------------------------------------- -->
-                                <div class='tooltiptext'
+                              <!-- ------------------------------------------------------- -->
+                              <li><div class=tooltip>
+                                        Anzeige von Spalten Unterdrücken
+                                        <!-- ------------------------------------------------------- -->
+                                        <div class='tooltiptext'
                                              style='bottom: 100%; left: 0; width: 40em;'>
                                              Um die Anzeige einer eine Spalte zu unterdrücken:
-                                    <ol>
+                                             <ol>
                                                   <li>Den Cursor auf den <b>blauen Spalten-Titel-Text</b>
                                                        positionieren.
                                                   </li>
                                                   <li>In der Pull-Down-Liste - <q>Spalte nicht anzeigen</q>'
                                                        Kicken.
                                                   </li>
-                                    </ol>
+                                             </ol>
                                              <p>Dieser Vorgang kann für mehrere Spalte wiederholt werden.</p>
                                              Wenn mit dieser Funktion Spalten nicht angezeigt werden - wird
                                              die Liste der nicht angezeigten Spalten angezeigt - Und ein
                                              Button <q>Alle anzeigen</q>.
-                                </div>
-                        </div></li>
+                                        </div>
+                                   </div></li>
 
                               <!-- ------------------------------------------------------- -->
                               <li><div class=tooltip>
@@ -464,7 +512,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
                                              Geben sie im Feld <q><i>Auswahl</i>:</q> die Zeichenkette an
                                              nach welcher ausgewählt werden soll (Name oder E-Mail_Adresse
                                              oder ..) <br> <b>Groß/Kleinschreibung:</b><br><?php echo $grosklein;?>
-                                             <br> <b>Wild-Cards:</b>
+              <br> <b>Wild-Cards:</b>
                                              <ul style='list-style-type: none; margin: 0;'>
                                                   <li>% steht für beliebig viele Zeichen</li>
                                                   <li>_ entpricht genau einem unbekannten Zeichen</li>
@@ -483,50 +531,62 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
     <!-- =================================================================================================
     # Options Dropdown
     ================================================================================================== -->
-    <div class='w3-dropdown-hover w3-right'
-                    style='padding-left: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 11000'>
-       <b style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Optionen</b>
-       <div class='w3-dropdown-content w3-bar-block w3-card-4'
+               <div class='w3-dropdown-hover w3-right'
+                    style='padding-left: 5px; padding-top: 5px; padding-bottom: 5px; z-index: 3'>
+                    <b
+                         style='color: blue; text-decoration: underline; text-decoration-style: dotted;'>Optionen</b>
+                    <div class='w3-dropdown-content w3-bar-block w3-card-4'
                          style='width: 25em; right: 0;'>
-          <?php
-          if ($_SESSION['VF_LISTE']['DropdownAnzeige'] == 'Ein') {
-              $EinAus = "Aus$List_Parameter'>Dropdown & Eingabefelder nicht anzeigen";
-          } else {
-              $EinAus = "Ein$List_Parameter'>Dropdown & Eingabefelder anzeigen";
-          }
-          echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?DropdownAnzeige=$EinAus</a>";
-          
-          if ($_SESSION['VF_LISTE']['LangListe'] == 'Ein') {
-              $EinAus = "Aus$List_Parameter'>Liste im Kurzformat (für Eingabe)";
-          } else {
-              $EinAus = "Ein$List_Parameter'>Liste im Langformat (für Druck)";
-          }
-          echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?LangListe=$EinAus</a>";
-          
-          if ($_SESSION['VF_LISTE']['VarTableHight'] == 'Ein') {
-              $EinAus = "Aus$List_Parameter'>Listenhöhe abhängig von Anzahl der Datensätze";
-          } else {
-              $EinAus = "Ein$List_Parameter'>Listenhöhe Groß";
-          }
-          echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?VarTableHight=$EinAus</a>";
-          
-          if ($_SESSION['VF_LISTE']['CSVDatei'] == 'Ein') {
-              $EinAus = "Aus$List_Parameter'>CSV Datei nicht erzeugen";
-          } else {
-              $EinAus = "Ein$List_Parameter'>CSV Datei erzeugen";
-          }
-          echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?CSVDatei=$EinAus</a>";
-          
-          ?>
+                  <?php
+    if ($_SESSION['VF_LISTE']['SelectAnzeige'] == 'Ein') {
+        $EinAus = "Aus$List_Parameter'>Select Anweisung nicht anzeigen";
+    } else {
+        $EinAus = "Ein$List_Parameter'>Select Anweisung anzeigen";
+    }
+    echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?SelectAnzeige=$EinAus</a>";
 
+    if ($_SESSION['VF_LISTE']['SpaltenNamenAnzeige'] == 'Ein') {
+        $EinAus = "Aus$List_Parameter'>Spalten Namen nicht anzeigen";
+    } else {
+        $EinAus = "Ein$List_Parameter'>Spalten Namen anzeigen";
+    }
+    echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?SpaltenNamenAnzeige=$EinAus</a>";
+
+    if ($_SESSION['VF_LISTE']['DropdownAnzeige'] == 'Ein') {
+        $EinAus = "Aus$List_Parameter'>Dropdown & Eingabefelder nicht anzeigen";
+    } else {
+        $EinAus = "Ein$List_Parameter'>Dropdown & Eingabefelder anzeigen";
+    }
+    echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?DropdownAnzeige=$EinAus</a>";
+
+    if ($_SESSION['VF_LISTE']['LangListe'] == 'Ein') {
+        $EinAus = "Aus$List_Parameter'>Liste im Kurzformat (für Eingabe)";
+    } else {
+        $EinAus = "Ein$List_Parameter'>Liste im Langformat (für Druck)";
+    }
+    echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?LangListe=$EinAus</a>";
+
+    if ($_SESSION['VF_LISTE']['VarTableHight'] == 'Ein') {
+        $EinAus = "Aus$List_Parameter'>Listenhöhe abhängig von Anzahl der Datensätze";
+    } else {
+        $EinAus = "Ein$List_Parameter'>Listenhöhe Groß";
+    }
+    echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?VarTableHight=$EinAus</a>";
+
+    if ($_SESSION['VF_LISTE']['CSVDatei'] == 'Ein') {
+        $EinAus = "Aus$List_Parameter'>CSV Datei nicht erzeugen";
+    } else {
+        $EinAus = "Ein$List_Parameter'>CSV Datei erzeugen";
+    }
+    echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . "?CSVDatei=$EinAus</a>";
+    ?>
       </div>
 
-   
                     <!-- w3-dropdown-content -->
      </div>
      <!-- w3-dropdown-hover -->
 
-    <!-- =================================================================================================
+     <!-- =================================================================================================
     # Nicht angezeigte Spalten
     ================================================================================================== -->
 <?php
@@ -539,19 +599,6 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
     ?>
 
   </div>
-  
-  <div class="container" style="max-width: 65em; background-color: #FFFAF0;"> <!-- 2. Bar -->
-   <!--  <div class="w3-bar w3-border  " style="max-width: 65em; background-color: #FFFAF0;">--> <!-- 2. Bar --> 
-           <?php 
-    if ($_SESSION[$module]['all_upd'] == '1') {
-        echo $NeuRec;
-        echo "<span class='toggle-csvDisp'>";   
-        echo " <a href='$csv_DSN'> &nbsp; &nbsp; CSV Version ansehen</a>";
-        echo "</span>";
-    }
-    ?>
- 
-  </div>  <!-- 2. Bar -->
 
   <!-- w3-bar -->
 
@@ -559,10 +606,8 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
    </div>
   </div>
 
-
-   
-
 <?php
+
 
     if ($addit_act != "") { # # Funct- Aufruf oder code ? Berater- Auswahl oder ?
         echo "<div class='w3-center'><br>";
@@ -595,7 +640,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
  * @global array $Tabellen_Spalten_tabelle Global Array (Schlüssel: Spaltenname) mit dem Namen der Tabelle
  * @global array $Tabellen_Spalten_typ Global Array (Schlüssel: Spaltenname) mit 'text'/'num'
  * @global array $Tabellen_Spalten_style Global Array (Schlüssel: Spaltenname) mit den Style für das <td> Element
- * @global array $Tabellen_Spalten_MAXLENGTH  Global Array (Schlüssel: Spaltenname) mit der maximalen Länge des Eingabestrings
+ * @global array $Tabellen_Spalten_MAXLENGTH (Schlüssel: Spaltenname) mit der maximalen Länge des Eingabestrings
  * @global string $csv_DSN Name der *.csv- Datei
  * @global string $SelectAnzeige Anzeige des Query ($sql) Ein/Aus ->$_Sess
  * @global string $SpaltenNamenAnzeige Anzeige des Spaltennamens (Ein) oder des Kommentares (Klarname) ->$_Sess
@@ -606,10 +651,9 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
  */
 function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
 {
-    global $debug, $path2ROOT, $module,  $sub_mod, $List_parm,
+    global $debug, $path2ROOT, $module, $List_parm,
     $Tabellen_Spalten, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_tabelle, $Tabellen_Spalten_typ, $Tabellen_Spalten_style,
-    $Tabellen_Spalten_MAXLENGTH,
-    $csv_DSN, $Div_Parm, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text, $CSV_Spalten, $debug_log;
+    $csv_DSN, $Div_Parm, $SelectAnzeige, $SpaltenNamenAnzeige, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text, $CSV_Spalten, $debug_log;
 
     flow_add($module, "BA_List_Funcs.inc.php Funct: List_Create");
 
@@ -630,17 +674,40 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     }
 
     # =================================================================================================================
+    # Wenn das SQL Query Statement noch kein 'ORDER BY xxx' enthält >>> Ergänze es mit ORDER BY xxx
+    # =================================================================================================================
+    $sql_orderBy = '';
+    if (strpos($sql_1, 'ORDER BY ') === false) { # nicht enthalten
+        # --------------------------------------------------------------------------------------------------------------
+        # Wenn die Spalte in $List_parm['sort_column'] angezeigt wird
+        # - sortiere nach dieser Spalte
+        # - andernfalls sortiern nach der 1en Spalte
+        # ---------------------------------------------------------------------------------------------------------------
+        foreach ($Tabellen_Spalten as $key => $column_name) { # für alle angezeigten Spalten
+            if ($column_name == $List_parm['sort_column']) { # Diese Spalte wird angezeigt
+                $sql_orderBy = "`$List_parm[sort_column]`  $List_parm[sort_richtung]";
+                ;
+                break; # Suche abbrechen
+            }
+        }
+
+        if ($sql_orderBy == '') { # diese Spalte wird nicht angezeigt
+            $List_parm['sort_column'] = $Tabellen_Spalten[0];
+            $sql_orderBy = "`$Tabellen_Spalten[0]` $List_parm[sort_richtung]"; # Default: nach 1er Spalte sortieren
+        }
+        $sql_1 .= "\nORDER BY $sql_orderBy"; # ergänze das SQL QUERY Statement
+        if ($sql_2 != "") {
+            $sql_2 .= "\nORDER BY $sql_orderBy"; # ergänze das SQL QUERY Statement
+        }
+    }
+
+    # =================================================================================================================
     # Das SQL Query Statement durchführen (schon hier weil die Zeilenanzahl benötigt wird)
     # =================================================================================================================
-    /*
     if ($debug) {
         echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>1: $sql_1 \n2: $sql_2</pre>";
     }
-    */
-    echo "<div class='toggle-SqlDisp'>";
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>1: $sql_1 \n2: $sql_2</pre>";
-    echo "</div>";
-    
+
     $query_result_1 = SQL_QUERY($db, $sql_1); # or die('Auslesen nicht möglich: ' . mysqli_error($db).' sql:'.$sql);
     $zeilen = mysqli_num_rows($query_result_1); # Anzahl der gefundenen Rows/Zeilen
     $Table_csv = array();
@@ -704,16 +771,15 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
 
     $zeilen = count($Table_Out);
 
-    echo "<div class='toggle-SqlDisp'>";
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>List_Func $sql_1 </pre>";
-    echo "</div>";  
-    
+    if ($SelectAnzeige == 'Ein') {
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql_1<br>$sql_2</pre>";
+    }
     echo "\n<div class=white>";
     echo "<b>$zeilen Eintragungen mit den gewählten Kriterien $Kateg_Name gefunden. $zus_text</b>";
 
     if ($_SESSION['VF_LISTE']['CSVDatei'] == "Ein") {
         if (isset($csv_DSN)) {
-            echo " <a href='$csv_DSN'> &nbsp; &nbsp; CSV Version ansehen</a>";
+            echo " <a href='$csv_DSN'>CSV Version ansehen</a>";
         }
     }
 
@@ -767,14 +833,13 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     } else {
         echo "<div  class='white'>";
     }
-   
     ?>
 
 <!-- =================================================================================================== -->
 <!-- Tabelle Ausgeben                                                                                    -->
 <!-- =================================================================================================== -->
 
-<table id='myTable' class='w3-table w3-striped w3-hoverable scroll sortable'
+<table id='myTable' class='w3-table w3-striped w3-hoverable scroll js-sort-table'
      style='border: 1px solid black; background-color: white; margin: 0px;'>
 
      <!-- =================================================================================================== -->
@@ -784,12 +849,8 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
           <tr>
 <?php
     $CSV_Text_zeile = $CSV_Text_zeile2 = ";";
-    
     $i = 0; # Spaltenzähler
-    
-    $tit_l1 = "<tr>";
-    $tit_l2 = "<tr>";
-    # var_dump($Tabellen_Spalten_typ);
+
     foreach ($Tabellen_Spalten as $key => $column_name) { # ================ für alle Spalten =================
 
         if (mb_strpos($hide_columns, " $column_name ") !== false) {
@@ -797,66 +858,82 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
         } # skip hidden column
         $j = $i;
         $i++; # Spaltenzähler
+        # echo "\n  <th onclick='sortTable($j)'>";
+        if (!isset($Tabellen_Spalten_typ[$column_name])) {
+            echo "\n <th class='js-sort-none' title=\"class=&quot;js-sort-none&quot;\">";
+        } else {
+            switch ($Tabellen_Spalten_typ[$column_name]) {
+                case "num":
+                    echo "\n <th class='js-sort-number' title=\"class=&quot;js-sort-number&quot;\">";
+                    break;
+                case "text":
+                    echo "\n <th <th class='js-sort-string' title=\"class=&quot;js-sort-string&quot;\">";
+                    break;
+                default:
+                    echo "\n <th class='js-sort-none' title=\"class=&quot;js-sort-none&quot;\">";
+                    break;
+            }
+        }
 
-        if (isset($Tabellen_Spalten_COMMENT[$column_name])) {
-           
+        if ($DropdownAnzeige == 'Ein') {
+            echo "<div class='dropdown'>";
+        }
+
+        # -------------------------------------------- Spalten Überschriften -----------------------------------------
+
+        $Pfeil = '';
+
+        if ($column_name == $List_parm['sort_column'] & # Sortierrichtungs Pfeil nur für diese Spalte anzeigen
+        $zeilen > 1) { # Sortierrichtungs Pfeil nur anzeigen wenn es mehrere Zeilen gibt
+            if ($List_parm['sort_richtung'] == 'ASC') {
+                $Pfeil = "<img src='" . $path2ROOT . "login/common/imgs/arrowUp.gif'   alt='Asc'> ";
+            } else {
+                $Pfeil = "<img src='" . $path2ROOT . "login/common/imgs/arrowDown.gif' alt='Desc'>";
+            }
+        }
+
+        if ($SpaltenNamenAnzeige != 'Ein' && isset($Tabellen_Spalten_COMMENT[$column_name])) {
             $txt = $Tabellen_Spalten_COMMENT[$column_name];
             $txta = explode('<', $txt);
             $txt = $txta[0];
-  
-            if (isset($Tabellen_Spalten_typ[$column_name]) && $Tabellen_Spalten_typ[$column_name] == 'num' || $Tabellen_Spalten_typ[$column_name] == '' 
-                || ($Tabellen_Spalten_typ[$column_name] == 'text' && isset($Tabellen_Spalten_MAXLENGTH[$column_name]) && strlen($txt) > $Tabellen_Spalten_MAXLENGTH[$column_name])) {
-                $txt_arr = explode(" ",$txt);
-                $txt_cnt = count($txt_arr);
-                $txt = $txt_arr[0];
-                for ($i=1;$i<$txt_cnt;$i++) {
-                    $txt .= "<br>".$txt_arr[$i];
-                }
-            }
-
         } else {
             $txt = str_replace("_", " ", $column_name);
         }
-        $tit_l1 .= "<th>$txt";
-        $tit_l2 .= "<td style='background-color: #b0e0e6; font-width: bold;color: #00800;'>" ; //.str_replace("_", " ", $column_name);
- 
+
+
         if ($DropdownAnzeige == 'Ein') {
-            $tit_l2 .= "<div class='dropdown'>"; //.str_replace("_", " ", $column_name) ;
-            $tit_l2 .=  " <button class='dropbtn'>
-                                   ".str_replace("_", " ", $column_name)."
- 
-                          </button>"; # $Pfeil
-            #$tit_l2 .= "<td>$txt";
+            echo " <button class='dropbtn'>$txt</button>$Pfeil";
         } else {
-            $tit_l2 .= str_replace("_", " ", $column_name)."</td>";
+            echo "$txt</th>";
             continue;
         }
 
         # -------------------------------------------- Spalten Drop Down Liste -----------------------------------
         if ($i < 6) {
-            $tit_l2 .= " <div class='dropdown-content'>";
+            echo " <div class='dropdown-content'>";
         } else {
-            $tit_l2 .= " <div class='dropdown-content' style='right:0;'>";
+            echo " <div class='dropdown-content' style='right:0;'>";
         }
 
-        $tit_l2 .= "  <a href='$_SERVER[PHP_SELF]?hide=$column_name$List_Parameter'>Spalte nicht anzeigen</a>";
-        $tit_l2 .= "  </div>"; # Drop Down Liste beenden
-        $tit_l2 .=  "</div>";
-        $tit_l2 .= "</td>";
-      
-    } # Header Spalten Schleife
-    $tit_l1 .= "</tr>";
-    $tit_l2 .= "</tr>";
+        if (isset($Tabellen_Spalten_COMMENT[$column_name])) {
+            echo $Tabellen_Spalten_COMMENT[$column_name];
+        }
 
-    echo $tit_l1;
-    if ($DropdownAnzeige == 'Ein') {
-        echo $tit_l2;
-    } 
-    /*
-    if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
-        file_put_contents($_SESSION['VF_Prim']['cDeb'], date('Y-m-d H:i:s')." $tit_l2 "."\nMETHOD: ".@$_SERVER['REQUEST_METHOD']."\n", FILE_APPEND);
-    }
-     */   
+        if ($zeilen > 1 & # Sortierrichtung nur wenn es mehrere Zeilen gibt
+        isset($Tabellen_Spalten_tabelle[$column_name])) { # Sortierrichtung nur wenn die Spalte aus einer Tabelle kommt
+            if ($Tabellen_Spalten_tabelle[$column_name] != '') { # Sortierrichtung nur wenn die Spalte aus einer Tabelle kommt
+                echo "  <a href='$_SERVER[PHP_SELF]?scol=$column_name&sord=ASC$List_Parameter' >Aufsteigend sortieren</a>";
+                echo "  <a href='$_SERVER[PHP_SELF]?scol=$column_name&sord=DESC$List_Parameter'>Absteigend sortieren</a>";
+            }
+        }
+
+        echo "  <a href='$_SERVER[PHP_SELF]?hide=$column_name$List_Parameter'>Spalte nicht anzeigen</a>";
+        echo "  </div>"; # Drop Down Liste beenden
+        echo "</div>";
+        echo "</th>";
+
+    } # Header Spalten Schleife
+
     ?>
 
   </tr>
@@ -957,7 +1034,6 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
   </tbody>
 </table>
 
-
 <?php
     echo "</div>";
 
@@ -993,9 +1069,8 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
         }
 
     }
-    console_log( $path2ROOT);
-    echo "<script src='".$path2ROOT."login/common/javascript/sortable.auto.min.js' async></script>";
-    
+    echo "<script src='common/javascript/sort-table.min.js' async></script>";
+
 
     beenden:
 }

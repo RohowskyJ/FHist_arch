@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module = 'ADM';
+$sub_mod = 'alle';
+
 $tabelle = 'fh_benutzer';
 
 const Prefix = '';
@@ -21,6 +22,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_B_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -88,7 +95,11 @@ if ($phase == 0) {
         if ($be_id != '') {
             $sql .= " WHERE be_id = '$be_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z B List vor list_create $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

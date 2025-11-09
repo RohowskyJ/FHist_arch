@@ -23,6 +23,12 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_Z_Edit.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -38,6 +44,10 @@ $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$jq  = true;
+$header = "";
+BA_HTML_header('Zeitungs- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -99,6 +109,11 @@ if ($phase == 0) {
     } else {
         # $fw_id = ;
         $sql_be = "SELECT * FROM $tabelle WHERE zt_id = '$zt_id' ORDER BY `zt_id` ASC";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O ZT Edit  $sql </pre>";
+        echo "</div>";
+        
         $return_be = SQL_QUERY($db, $sql_be);
 
         $neu = mysqli_fetch_assoc($return_be);
@@ -106,15 +121,12 @@ if ($phase == 0) {
 }
 
 if ($phase == 1) {
-    require "VF_O_ZT_Z_Edit_ph1.inc";
+    require "VF_O_ZT_Z_Edit_ph1.inc.php";
 }
-
-$header = "";
-BA_HTML_header('Zeitungs- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:
-        require ('VF_O_ZT_Z_Edit_ph0.inc');
+        require ('VF_O_ZT_Z_Edit_ph0.inc.php');
         break;
 }
 

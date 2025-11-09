@@ -7,11 +7,11 @@
  *
  *
  */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module = 'MVW';
+$sub_mod = 'all';
+
 $tabelle = 'fh_m_ehrung';
 
 const Prefix = '';
@@ -22,7 +22,13 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
-$debug = True;
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_EH_Edit.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -53,7 +59,9 @@ if (isset($_POST['phase'])) {
     $phase = 0;
 }
 if (isset($_GET['ID'])) {
-    $fe_lfnr = $_GET['ID'];
+    $fe_lfnr = $_SESSION[$module][$sub_mod]['fe_lfnr'] = $_GET['ID'];
+} else {
+    $fe_lfnr = $_SESSION[$module][$sub_mod]['fe_lfnr'];
 }
 
 $mi_id = $_SESSION[$module]['mi_id'];
@@ -89,7 +97,11 @@ if ($phase == 0) {
         if ($fe_lfnr != '') {
             $sql .= " WHERE fe_lfnr = '$fe_lfnr'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M EH Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {
@@ -188,7 +200,11 @@ if ($phase == 1) {
               ) VALUE (
                '$neu[fe_m_id]','$neu[fe_ehrung]','$neu[fe_eh_datum]','$neu[fe_begruendg]','$neu[fe_bild1]','$neu[fe_bild2]','$neu[fe_bild3]','$neu[fe_bild4]','$p_uid'
                )";
-             
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M EH Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
     } else { # update
         $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
@@ -220,8 +236,11 @@ if ($phase == 1) {
         if ($debug) {
             echo '<pre class=debug> L 0127: \$sql $sql </pre>';
         }
-
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M EH Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
 
         $mi_id = $_SESSION[$module]['mi_id'];

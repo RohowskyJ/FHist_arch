@@ -7,18 +7,16 @@
  *
  */
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Unt_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_M_Unt_Edit_ph1.inc.php ist gestarted</pre>";
 }
-/*
-$neu['mi_org_name'] = mb_convert_case($neu['mi_org_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$neu['mi_name'] = mb_convert_case($neu['mi_name'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$neu['mi_vname'] = mb_convert_case($neu['mi_vname'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$neu['mi_titel'] = mb_convert_case($neu['mi_titel'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$neu['mi_n_titel'] = mb_convert_case($neu['mi_n_titel'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$neu['mi_ort'] = mb_convert_case($neu['mi_ort'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-$neu['mi_anschr'] = mb_convert_case($neu['mi_anschr'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-*/
+
 if ($debug) {
     echo '<pre class=debug>';
     echo '<hr>$neu: ';
@@ -70,6 +68,10 @@ if ($neu['fu_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
     
     echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
 }
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Unt Edit ph1 $sql </pre>";
+echo "</div>";
 
 $result = SQL_QUERY($db, $sql);
 

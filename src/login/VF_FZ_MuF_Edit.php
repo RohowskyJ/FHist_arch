@@ -8,8 +8,7 @@
  */
 session_start();
 
-const Module_Name = 'F_M';
-$module = Module_Name;
+$module = 'F_M'; 
 $tabelle = 'mu_fahrzeug_';
 
 const Prefix = '';
@@ -34,8 +33,8 @@ require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
 $flow_list = true;
 
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FZ_MuF_Edit.php";
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuF_Edit.php";
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');

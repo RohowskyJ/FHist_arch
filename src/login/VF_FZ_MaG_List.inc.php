@@ -1,21 +1,30 @@
 <?php
 
+$_SESSION[$module]['Inc_Arr'][] = 'VF_FZ_MaG_List_inc.php';
+
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
 
-$Inc_Arr[] = 'VF_FZ_MaG_List_inc.php';
 
 $tabelle = "ma_geraet_".$_SESSION['Eigner']['eig_eigner'];
 
-$T_list_texte = array(
-    "Alle" => "Nach Indienststellung. (Auswahl)",
-    "NextEig" => "<a href='VF_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-    "NextSam" => "<a href='VF_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>",
-    "NeuItem" => "<a href='VF_FZ_MaG_Edit.php?ge_id=0' target='neu' > Neuen Datensatz anlegen (Auswahl) </a>"
-);
+if ($_SESSION['VF_Prim']['mode'] == 'Single') { // Fixer Eigentümer
+    $T_list_texte = array(
+        "Alle" => "Nach Indienststellung. ",
+        "NextSam" => "<a href='Vs_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
+    );
+} else {
+    $T_list_texte = array(
+        "Alle" => "Nach Indienststellung. ",
+        "NextEig" => "<a href='Vs_FZ_MaFG_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
+        "NextSam" => "<a href='Vs_FZ_MaFG_List.php?ID=NextSam' > andere Sammlung auswählen </a>"
+    );
+}
 
 echo "<fieldset>";
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FZ_MaG_Edit.php?ge_id=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 

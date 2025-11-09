@@ -9,9 +9,8 @@
  */
 session_start();
 
+$module = 'ADM';
 
-const Module_Name = 'ADM';
-$module = Module_Name;
 $tabelle = '';
 
 const Prefix = '';
@@ -22,6 +21,13 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_Suchb_Gen.php";
 
 $debug = False;
 
@@ -40,7 +46,7 @@ VF_chk_valid();
 
 $db = LinkDB('VFH'); // db zur Datenbank
 
-$prot = True;
+$jq = True;
 BA_HTML_Header('Regeneration Findbücher','', 'Form', '75em');
 
 ?>
@@ -56,76 +62,73 @@ BA_HTML_Header('Regeneration Findbücher','', 'Form', '75em');
 
 
  <script>
+$(document).ready(function() {
         function fetchData() {
             console.log('Started');
-            
-            // Erster Ajax.Request für den ersten Prozess
-            new Ajax.Request('common/API/VF_Z_Suchb_name_API.php', {
-                method: 'get',
-                onLoading: function() {
-                    $('status1').update('Namens- Findbuch regenerierung wurde gestartet ...');
+
+            // Erster Ajax-Request für den ersten Prozess
+            $.ajax({
+                url: 'common/API/VF_Z_Suchb_name_API.php',
+                method: 'GET',
+                beforeSend: function() {
+                    $('#status1').text('Namens-Findbuch Regenerierung wurde gestartet ...');
                 },
-                onSuccess: function(response) {
-                    var lines1 = response.responseText.split('\n'); // Zeilen aufteilen
+                success: function(response) {
+                    var lines1 = response.split('\n'); // Zeilen aufteilen
                     displayData1(lines1); // Daten in der Liste anzeigen
-                    $('status1').update('Namens- Findbuch regenerierung wurde erfolgreich beendet.');
+                    $('#status1').text('Namens-Findbuch Regenerierung wurde erfolgreich beendet.');
                 },
-                onFailure: function() {
-                    $('status1').update('Fehler beim Regenerieren des Namens- Findbuches.');
+                error: function() {
+                    $('#status1').text('Fehler beim Regenerieren des Namens-Findbuches.');
                 }
             });
 
-            // Zweiter Ajax.Request für den zweiten Prozess
-            new Ajax.Request('common/API/VF_Z_Suchb_findb_API.php', {
-                method: 'get',
-                onLoading: function() {
-                    $('status2').update('Findbuch Regenerierung wurde gestartet ...');
+            // Zweiter Ajax-Request für den zweiten Prozess
+            $.ajax({
+                url: 'common/API/VF_Z_Suchb_findb_API.php',
+                method: 'GET',
+                beforeSend: function() {
+                    $('#status2').text('Findbuch Regenerierung wurde gestartet ...');
                 },
-                onSuccess: function(response) {
-                    var lines2 = response.responseText.split('\n'); // Zeilen aufteilen
+                success: function(response) {
+                    var lines2 = response.split('\n'); // Zeilen aufteilen
                     displayData2(lines2); // Daten in der Liste anzeigen
-                    $('status2').update('Findbuch Regenerierung wurde erfolgreich beendet.');
+                    $('#status2').text('Findbuch Regenerierung wurde erfolgreich beendet.');
                 },
-                onFailure: function() {
-                    $('status2').update('Fehler beim Regenerieren des Findbuches.');
+                error: function() {
+                    $('#status2').text('Fehler beim Regenerieren des Findbuches.');
                 }
             });
         }
 
         function displayData1(lines) {
-            var output1 = $('output1');
-            output1.update('<h2>Namens- Findbuch:</h2><ul></ul>'); // Liste initialisieren
-            var list = output1.down('ul'); // Zugriff auf die Liste
+            var $output1 = $('#output1');
+            $output1.html('<h2>Namens-Findbuch:</h2><ul></ul>'); // Liste initialisieren
+            var $list = $output1.find('ul'); // Zugriff auf die Liste
 
-            lines.forEach(function(line) {
-                line = line.trim(); // Leerzeichen am Anfang und Ende entfernen
+            $.each(lines, function(index, line) {
+                line = $.trim(line); // Leerzeichen am Anfang und Ende entfernen
                 if (line !== '') { // Leere Zeilen ignorieren
-                    var listItem = new Element('li'); // Neues Listenelement erstellen
-                    listItem.update(line); // Textinhalt setzen
-                    list.insert(listItem); // Element zur Liste hinzufügen
+                    $list.append('<li>' + line + '</li>'); // Element zur Liste hinzufügen
                 }
             });
         }
 
         function displayData2(lines) {
-            var output2 = $('output2');
-            output2.update('<h2Findbuch:</h2><ul></ul>'); // Liste initialisieren
-            var list = output2.down('ul'); // Zugriff auf die Liste
+            var $output2 = $('#output2');
+            $output2.html('<h2>Findbuch:</h2><ul></ul>'); // Liste initialisieren
+            var $list = $output2.find('ul'); // Zugriff auf die Liste
 
-            lines.forEach(function(line) {
-                line = line.trim(); // Leerzeichen am Anfang und Ende entfernen
+            $.each(lines, function(index, line) {
+                line = $.trim(line); // Leerzeichen am Anfang und Ende entfernen
                 if (line !== '') { // Leere Zeilen ignorieren
-                    var listItem = new Element('li'); // Neues Listenelement erstellen
-                    listItem.update(line); // Textinhalt setzen
-                    list.insert(listItem); // Element zur Liste hinzufügen
+                    $list.append('<li>' + line + '</li>'); // Element zur Liste hinzufügen
                 }
             });
         }
 
-        document.observe("dom:loaded", function() {
-            // $('fetchButton').observe('click', fetchData);
-             fetchData(); // Automatischer Start des Prozesses
-        });
+        fetchData(); // Automatischer Start des Prozesses
+    });
     </script>  
     <?php 
 

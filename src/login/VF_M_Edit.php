@@ -7,8 +7,9 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module = 'MVW';
+$sub_mod = 'all';
+
 $tabelle = 'fh_mitglieder';
 
 const Prefix = '';
@@ -19,6 +20,13 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_Edit.php"; 
+
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -91,7 +99,11 @@ if ($phase == 0) {
         if ($mi_id != '') {
             $sql .= " WHERE mi_id = '$mi_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

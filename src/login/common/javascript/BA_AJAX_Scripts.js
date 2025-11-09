@@ -165,7 +165,7 @@ function initMultiDropDown() {
 	        
 	    });
 }
-
+/*
  function toggleVisibility(id) {
 	console.log('toggleVisibility aktiv');
              var el = document.getElementById(id);
@@ -176,10 +176,12 @@ function initMultiDropDown() {
                  el.style.display = 'none';
              }
 }
+*/
 
 /**
  * Toggle alle 'foto-upd'-Elemente
  */
+/*
 function toggleAll() {
     var containers = document.querySelectorAll('.foto-upd-container');
     var allHidden = true;
@@ -196,6 +198,6 @@ function toggleAll() {
         cont.style.display = allHidden ? 'block' : 'none';
     });
 }
-
+*/
 
 

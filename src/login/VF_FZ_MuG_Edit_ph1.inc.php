@@ -9,7 +9,7 @@ uid<?php
  * 2. Anzeige der Fahrzeuge
  *
  */
-$debug=true;
+
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuG_Edit_ph1.inc.php ist gestarted</pre>";
 }

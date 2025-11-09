@@ -6,18 +6,11 @@
  * 
  * 
  */
-session_start();
+session_start(); # die SESSION am leben halten
+ 
+$module = 'INV';
+$sub_mod = 'all';
 
-/**
- * Includes-Liste
- * enthält alle jeweils includierten Scritpt Files
- */
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_IZ_IN_Edit.php";
-
-# die SESSION am leben halten
-const Module_Name = 'INV';
-$module = Module_Name;
 $tabelle = 'in_ventar';
 
 const Prefix = '';
@@ -28,6 +21,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_Edit.php";
 
 $debug = false; // Debug output Ein/Aus Schalter
 
@@ -166,7 +165,11 @@ if ($phase == 0) {
         $sql_be = "SELECT * FROM $tabelle_a
              INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg
              WHERE `in_id` = '" . $_SESSION[$module]['in_id'] . "' ORDER BY `in_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg 
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN Edit $sql_be </pre>";
+        echo "</div>";
+        
         $return_be = SQL_QUERY($db, $sql_be); 
 
         $num_recs = mysqli_num_rows($return_be);
@@ -174,6 +177,11 @@ if ($phase == 0) {
             $sql_be = "SELECT * FROM $tabelle_a
       
             WHERE `in_id` = '" . $_SESSION[$module]['in_id'] . "' ORDER BY `in_id` ASC"; // INNER JOIN fh_sammlung ON $tabelle_a.in_sammlg LIKE fh_sammlung.sa_sammlg
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN Edit $sql_be </pre>";
+            echo "</div>";
+            
             $return_be = SQL_QUERY($db, $sql_be);
        }
        

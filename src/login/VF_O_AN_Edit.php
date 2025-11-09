@@ -5,11 +5,11 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod ='AN';
+
 $tabelle = 'bs_biete_suche';
 
 const Prefix = '';
@@ -20,6 +20,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AN_Edit.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -102,7 +108,11 @@ if ($phase == 0) {
         if ($bs_id != '') {
             $sql .= " WHERE bs_id = '$bs_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AN Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QuERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

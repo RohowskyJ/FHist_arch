@@ -8,7 +8,13 @@
  *
  */
 
-if ($debug) {echo "<pre class=debug>VFH_O_PR_Edit_ph0.php ist gestarted</pre>";}
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_PR_Edit_ph0.inc.php";
+
+if ($debug) {echo "<pre class=debug>VFH_O_PR_Edit_ph0.inc.php ist gestarted</pre>";}
 
 if ($neu['pr_id'] == 0) { // Neueingabe
     $hide_area = 0;
@@ -50,15 +56,18 @@ if ($neu['pr_id'] == 0) { // Neueingabe
   Edit_Daten_Feld('pr_uidaend',5);
   Edit_Daten_Feld('pr_aenddat');
   
-
   # =========================================================================================================
   $checked_f = "";
-  if ($hide_area == 0) {  //toggle??
-      $checked_f = 'checked';
+  $checkbox_f = "";
+  if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
+      if ($hide_area == 0) {  //toggle??
+          $checked_f = 'checked';
+      }
+      // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
+      $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
   }
-  // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-  $button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-  Edit_Separator_Zeile('Bilder ' ,$button_f);
+
+  Edit_Separator_Zeile('Bilder ' ,$checkbox_f);
   # =========================================================================================================
   echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
   $pict_path = $path2ROOT."login/AOrd_Verz/Presse/";
@@ -103,5 +112,5 @@ if ($neu['pr_id'] == 0) { // Neueingabe
   
 # =========================================================================================================
  
-if ($debug) {echo "<pre class=debug>VFH_O_PR_Edit_ph0.php beendet </pre>";}
+if ($debug) {echo "<pre class=debug>VFH_O_PR_Edit_ph0.inc.php beendet </pre>";}
 ?>

@@ -19,8 +19,12 @@ $tabelle = 'dm_edien_';
  */
 $path2ROOT = "../";
 
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FO_List.php";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -43,8 +47,6 @@ $db = LinkDB('VFH');
  *
  * @global array $_SESSION['VF_LISTE']
  *         - select_string
- *         - SelectAnzeige Ein: Anzeige der SQL- Anforderung
- *         - SpaltenNamenAnzeige Ein: Anzeige der Apsltennamen
  *         - DropdownAnzeige Ein: Anzeige Dropdown Menu
  *         - LangListe Ein: Liste zum Drucken
  *         - VarTableHight Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -52,8 +54,6 @@ $db = LinkDB('VFH');
  */
 if (! isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE'] = array(
-        "SelectAnzeige" => "EIN",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige" => "Aus",
         "LangListe" => "Ein",
         "VarTableHight" => "Ein",
@@ -82,13 +82,11 @@ if ($phase == 0) {
     $title = "Medien- Bearbeitung (Audio, Foto, Video) ";
 }
 
-
 $jq = $jqui = True;
 $BA_AJA = true;
 BA_HTML_header($title, '', 'List', '75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
-
 
 /**
  * Löschen Parameter, wenn neue Urheber gewünscht
@@ -108,6 +106,8 @@ if (isset($_POST['phase'])) {
 $_SESSION[$module][$sub_mod] = array();
 
 if ($phase == 0  ) {
+    echo "<h3>".$_SESSION['VF_Prim']['OrgNam']."</h3>";
+    echo "<h2>$title</h2>";
     VF_Auto_Eigent('U',True,1);
 }
 
@@ -118,7 +118,6 @@ if ($phase  == "1")  {
       
         $eign_ret = VF_Displ_Eig($_POST['eigentuemer_1'], 'U');
             require "VF_FO_List.inc.php";
-            exit;
     }
 }
 
@@ -176,7 +175,7 @@ function modifyRow(array &$row, $tabelle)
             
             
             $pict_path = $pict_path = "../login/AOrd_Verz/" . $row['md_eigner'] . "/09/";
-            if ($row['md_dsn_1'] != "") {
+            if ($row['md_dsn_1'] != "0_Verz") {
                 $verz = "J";
                 $md_arr = pathinfo($pict_path);
                 
@@ -202,7 +201,7 @@ function modifyRow(array &$row, $tabelle)
  
             $row['md_aufn_datum'] = "<a href='VF_FO_List_Detail.php?md_eigner=$md_eigner&md_aufn_d=$md_aufn_d'  target='_blanc'>" . $pfad . "</a> &nbsp; Fotos ";  # $md_aufn_d         
 
-            if ($row['md_dsn_1'] != "") {
+            if ($row['md_dsn_1'] != "0_Verz") {
                 $dsn = $row['md_dsn_1'];
                 $d_path = $pict_path . $row['md_aufn_datum'] . "/";
                 $d_arr = pathinfo(strtolower($dsn));

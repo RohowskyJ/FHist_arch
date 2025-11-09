@@ -6,8 +6,8 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module = 'ADM';
+$sub_adm = 'all';
 
 /**
  * Angleichung an den Root-Path
@@ -15,6 +15,13 @@ $module = Module_Name;
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_V_Zentral_Verw.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -42,7 +49,7 @@ $sk = $_SESSION['VF_Prim']['SK'];
 BA_HTML_header('Administration', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 
-if ($_SESSION['VF_Prim']['ADM'] == "V"  || $_SESSION['VF_Prim']['WVM'] != "N") {
+if ($_SESSION['VF_Prim']['ADM'] == "V"  || $_SESSION['VF_Prim']['MVW'] != "N") {
     Edit_Separator_Zeile('Mitglieder- Verwaltung');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "Verwaltung der Mitglieder, Zahlungeingang und Kontrolle, Mitteilung der gespeicherten Daten nach DSGVO, E-Mail an andere Mitglieder ohne Kenntnis deren Adresse.<br>";
@@ -57,8 +64,9 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['MVW'] == "V" ) {
     echo "</div>";
 }
 
-if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['WVM'] == "Q" || $_SESSION['VF_Prim']['WVM'] == "V") {       
-  
+    
+if ($_SESSION['VF_Prim']['ADM'] == "V" || $_SESSION['VF_Prim']['MVW'] == "Q" || $_SESSION['VF_Prim']['MVW'] == "V") {       
+
     Edit_Separator_Zeile('Benutzer- und Zugriffsverwaltung');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
     echo "Pflege der berechtigten Benutzer, Passworte und Berechtigungen.</d><br>";

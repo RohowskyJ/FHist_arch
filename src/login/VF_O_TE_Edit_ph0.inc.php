@@ -6,8 +6,15 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_TE_Edit_ph0.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_O_TE_Edit_ph0.inc ist gestarted</pre>";
+    echo "<pre class=debug>VF_O_TE_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
 if ($neu['va_id'] == 0) { // Neueingabe
@@ -84,16 +91,19 @@ $stabkz = $neu['va_staat'];
 $va_bdld = $neu['va_bdld'];
 $ST_bdld = VF_Sel_Bdld($va_bdld, 8, $stabkz);
 Edit_Select_Feld('va_bdld', $ST_bdld);
-# Edit_Daten_Feld('va_bdld',50);
 
 # =========================================================================================================
 $checked_f = "";
-if ($hide_area == 0) {  //toggle??
-    $checked_f = 'checked';
+$checkbox_f = "";
+if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
+    if ($hide_area == 0) {  //toggle??
+        $checked_f = 'checked';
+    }
+    // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
 }
-// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-Edit_Separator_Zeile('Fotos',$button_f);  #
+
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 
 #Edit_Daten_Feld('va_bild', 50);

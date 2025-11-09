@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MaF_sa.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_S_Find_MaF_sa.inc.php ist gestarted</pre>";
 }
@@ -24,7 +31,11 @@ foreach ($maf_arr as  $fz_table => $mist) {
     }
 #echo "L 025 fz_table $fz_table <br>";
     $sql_fz = "SELECT * FROM `$fz_table` $select ORDER BY fz_sammlg";
-    #echo "L 027 sql_fz $sql_fz <br>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU MaF sa  $sql_fz </pre>";
+    echo "</div>";
+    
     $return_fz = mysqli_query($db, $sql_fz);
 
     while ($row = mysqli_fetch_object($return_fz)) {

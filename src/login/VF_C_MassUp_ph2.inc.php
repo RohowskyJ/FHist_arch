@@ -7,6 +7,13 @@
  *
  *
  */
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_Massup_ph2.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_C_MassUp_ph2.inc.php ist gestarted</pre>";
 }

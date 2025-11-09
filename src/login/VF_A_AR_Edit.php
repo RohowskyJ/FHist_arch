@@ -10,7 +10,7 @@ session_start();
 # die SESSION am leben halten
 const Module_Name = 'ARC';
 $module = Module_Name;
-$tabelle = 'ar_chivdt';
+$tabelle = 'ar_chivdat';
 
 const Prefix = '';
 
@@ -20,6 +20,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -138,7 +144,11 @@ if ($phase == 0) {
 
         $sql_be = "SELECT * FROM $tabelle_a WHERE `ad_id` = '" . $_SESSION[$module]['ad_id'] . "' ORDER BY `ad_id` ASC";
         $return_be = SQL_QUERY($db, $sql_be); 
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'A AR Edit $sql </pre>";
+        echo "</div>";
+        
         $neu = mysqli_fetch_array($return_be);
         mysqli_free_result($return_be);
     }
@@ -150,7 +160,7 @@ if ($phase == 1) {
     foreach ($_POST as $name => $value) {
         $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
-    # print_r($neu);echo "<br>L 0183 neu <br>";
+    
     if ($debug) {
         echo "<br>\$_POST<br>";
         print_r($_POST);
@@ -159,7 +169,7 @@ if ($phase == 1) {
         echo "<br>";
     }
 
-    if (isset($neu['level1']) && $neu['ad_id'] == 0) {
+    if (isset($neu['level1']) && $neu['level1'] != 'Nix' && $neu['ad_id'] == '00') {
         $response = VF_Multi_Sel_Input();
         echo "$response <br>";
         $ao_arr = explode(" ",$response) ;

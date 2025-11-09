@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MaF2_List.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_S_Find_MaF2_List.inc ist gestarted</pre>";
 }
@@ -40,7 +47,11 @@ for ($i = 0; ! empty($arr_fzg[$i]); $i ++) { // table|fz_id|eignr
 
     $select_f = "WHERE `fz_id` LIKE '$fz_arr[1]' ";
     $sql = "SELECT * FROM $tabelle $select_f  ORDER BY `fz_id` ASC";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU MaF2 List sql </pre>";
+    echo "</div>";
+    
     $return_fz = SQL_QUERY($db, $sql);
     while ($row = mysqli_fetch_object($return_fz)) {
 

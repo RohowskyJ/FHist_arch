@@ -15,8 +15,7 @@ $urheb = $_SESSION[$module][$sub_mod]['eig_eigner'];
 
 $md_aufn_d = $_SESSION[$module]['md_aufn_d'];
 $T_list_texte = array(
-    "Alle" => "Alle Medien des Urhebers. ", 
-    "NeuItem" => "<a href='VF_FO_Edit.php?md_id=0&verz=N&md_aufn_d=$md_aufn_d' > Neues Medium anlegen </a>"
+    "Alle" => "Alle Medien des Urhebers. "
 );
 
 # ===========================================================================================================
@@ -30,10 +29,13 @@ BA_HTML_header($title, '', 'Admin', '180em'); # Parm: Titel,Subtitel,HeaderLine,
 
 # echo "$heading";
 #
+/*
 echo "<fieldset>";
 if (!$reply) {
     echo "$reply <br>";
 }
+*/
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_FO_Edit.php?md_id=0&verz=N&md_aufn_d=$md_aufn_d' > Neues Medium anlegen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -104,6 +106,10 @@ if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_st
 $sql .= $sql_where . $orderBy;
 
 echo "<p>Wo keine Bilder angezeigt werden, sind sie aus Platzgründen nicht auf dem Server. Die angezeigten Bilder werden von Berichten benutzt..</p>";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO List Detail vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 echo "</fieldset>";

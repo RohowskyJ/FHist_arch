@@ -8,11 +8,10 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'DO';
 
-const Tabellen_Name = 'fh_dokumente';
-$tabelle = Tabellen_Name;
+$tabelle  = 'fh_dokumente';
 
 const Prefix = '';
 
@@ -22,6 +21,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_DO_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -84,7 +89,11 @@ if ($phase == 0) {
         if ($dk_nr != '') {
             $sql .= " WHERE dk_nr = '$dk_nr'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O DO Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql) or die('Lesen Satz $dk_nr nicht möglich: ' . mysqli_error($db));
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

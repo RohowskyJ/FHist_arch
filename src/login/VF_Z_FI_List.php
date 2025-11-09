@@ -6,8 +6,10 @@
  *
  */
 session_start(); # die SESSION aktivieren  
-const Module_Name   = 'F_M';
-$module             = Module_Name;
+
+$module  = 'F_M';
+$sub_mod = 'all';
+
 $tabelle = 'fh_firmen'; 
 
 /**
@@ -16,6 +18,13 @@ $tabelle = 'fh_firmen';
  * @var string $path2ROOT
  */
 $path2ROOT          = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_FI_List.php";
 
 $debug = True;  $debug = False;  // Debug output Ein/Aus Schalter
 
@@ -37,6 +46,16 @@ VF_set_module_p();
 
 VF_Count_add();
 
+# ===========================================================================================================
+#                                            Haeder ausgeben
+# ===========================================================================================================
+$title = "Benutzer ";
+
+$logo = 'NEIN';
+BA_HTML_header('Firmen- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<fieldset>";
+
 $mitgl_nrs = "";
 $mitgl_einv_n = 0;
 
@@ -48,8 +67,6 @@ $_SESSION['VF']['$select_string'] = $select_string;
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -57,8 +74,6 @@ $_SESSION['VF']['$select_string'] = $select_string;
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
@@ -75,18 +90,9 @@ $T_list_texte  = array("Alle" =>"Alle Firmen (Auswahl)"
     ,"FZGE" =>  'Alle Fahrzeug- Hersteller '
     ,'AUFB' =>  'Alle Aufbau- Firmen'
     ,'GER'  =>  'Alle Geräte- Hersteller'
-    ,"NeuItem" =>"<a href='VF_Z_FI_Edit.php?ID=0' >Neuen Firma eingeben</a>"
 );
 
-# ===========================================================================================================
-#                                            Haeder ausgeben
-# ===========================================================================================================
-  $title = "Benutzer ";
-  
-  $logo = 'NEIN';
-  BA_HTML_header('Firmen- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width 
-  
-  echo "<fieldset>";
+$NeuRec = " &nbsp;  &nbsp;  &nbsp;  &nbsp; <a href='VF_Z_FI_Edit.php?ID=0' >Neuen Firma eingeben</a>";
 
   List_Prolog($module,$T_list_texte); #  Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -161,19 +167,13 @@ $T_list_texte  = array("Alle" =>"Alle Firmen (Auswahl)"
           $sql_where=" WHERE fi_funkt ='G' ";   $orderBy = ' ORDER BY fi_id ';
           break;
   }
- 
-  /*
-  if ($select_string<>'' )
-  { switch($T_List)
-    { 
-    
-      default        : $sql_where .= " AND (be_org_name LIKE '%$select_string%' OR be_name LIKE '%$select_string%' )";  
-    }
-  } 
-  */
-   $sql .= $sql_where.$order_By;
-  
 
+   $sql .= $sql_where.$order_By;  
+   
+   echo "<div class='toggle-SqlDisp'>";
+   echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z FI List vor list_create $sql </pre>";
+   echo "</div>";
+   
 # ===========================================================================================================
 #  Die Daten lesen und Ausgeben
 # ===========================================================================================================

@@ -9,8 +9,8 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'PR';
 
 const Tabellen_Name = 'pr_esse';
 
@@ -22,6 +22,12 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_PR_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -85,7 +91,11 @@ if ($phase == 0) {
         if ($pr_id != '') {
             $sql .= " WHERE pr_id = '$pr_id'";
         }
-        # $result = mysqli_query($db,$sql) or die('Lesen Satz $now_pr_id nicht möglich: ' . mysqli_error($db));
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O PR Edit $sql </pre>";
+        echo "</div>";
+        
         $result = SQL_QUERY($db, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

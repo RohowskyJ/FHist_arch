@@ -6,6 +6,13 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_DO_Edit_ph0.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_O_DO_Edit_ph0.inc.php ist gestarted</pre>";
 }
@@ -27,9 +34,9 @@ $sel = VF_Doku_SG;
 
 Edit_Select_Feld(Prefix . 'dk_sg', $sel);
 
-Edit_Daten_Feld(Prefix . 'dk_Titel', 256);
-Edit_Daten_Feld(Prefix . 'dk_Author', 256);
-Edit_Daten_Feld(Prefix . 'dk_Urspr', 100);
+Edit_Daten_Feld(Prefix . 'dk_Titel', 65);
+Edit_Daten_Feld(Prefix . 'dk_Author', 65);
+Edit_Daten_Feld(Prefix . 'dk_Urspr', 60);
 
 echo "<input type='hidden' name='dk_Dsn' value='" . $neu['dk_Dsn'] . "' >";
 echo "<input type='hidden' name='dk_Dsn_2' value='" . $neu['dk_Dsn_2'] . "' >";
@@ -48,9 +55,9 @@ $pic_arr = array(
 );
 VF_Multi_Foto($pic_arr);
 
-Edit_Daten_Feld(Prefix . 'dk_Path2Dsn', 70);
+Edit_Daten_Feld(Prefix . 'dk_Path2Dsn', 65);
 
-Edit_Daten_Feld(Prefix . 'dk_url', 100);
+Edit_Daten_Feld(Prefix . 'dk_url', 65);
 
 # =========================================================================================================
 Edit_Separator_Zeile('Letzte Änderung');

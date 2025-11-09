@@ -10,11 +10,22 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_Foto_sa.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_S_Find_Foto_na.inc ist gestarted</pre>";
 }
 
 $sql_na = "SELECT * FROM `fh_find_namen` WHERE na_table LIKE 'dm_edi%' ";
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU Foto na  $sql_mu </pre>";
+echo "</div>";
 
 if ($_SESSION[$module]['su_Eig'] == "A") {
     $eignr = "0";
@@ -36,7 +47,7 @@ while ($row = mysqli_fetch_object($return_na)) {
         $s_usuchname = strtoupper($s_suchname);
         $s_unaname = strtoupper($row->na_name);
         if (strstr($s_unaname, $s_usuchname)) {
-            if (empty($foto_liste)) {
+            if (empty($foto_liste)) {            
                 $foto_liste = "$row->na_table|$row->na_fdid";
             } else {
                 $foto_liste .= ",$row->na_table|$row->na_fdid";

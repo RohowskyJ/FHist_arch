@@ -8,9 +8,11 @@
  * 
  */
 session_start();
-echo "<!DOCTYPE html>";
-const Module_Name = 'INV';
-$module = Module_Name;
+# echo "<!DOCTYPE html>";
+
+$module = 'INV';
+$sub_mod = 'all';
+
 $tabelle = ''; # mu_geraet
 
 /**
@@ -19,6 +21,13 @@ $tabelle = ''; # mu_geraet
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -153,7 +162,8 @@ if (isset($_POST['level1'])) {
  * Eigentümerdaten  oder Sammlung neu einlesen
  */
 if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] == "") { 
-    
+    echo "<h3>".$_SESSION['VF_Prim']['OrgNam']."</h3>";
+    echo "<h2>Eigentümer Auswahl</h2>";
     if ($_SESSION['Eigner']['eig_eigner'] == "") {
         VF_Auto_Eigent('E','');
     }
@@ -211,13 +221,11 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     if ($_SESSION['VF_Prim']['mode'] == 'Mandanten') {
         $T_list_texte = array(
             "Alle" => "Alle Inventarisierten Gegenstände. ",
-            "NextEig" => "<a href='VF_I_IN_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>",
-            "NeuItem" => "<a href='VF_I_IN_Edit.php?in_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+            "NextEig" => "<a href='VF_I_IN_List.php?ID=NextEig' > anderen Eigentümer auswählen </a>"
         );
     } else {
         $T_list_texte = array(
-            "Alle" => "Alle Inventarisierten Gegenstände. ",
-            "NeuItem" => "<a href='VF_I_IN_Edit.php?in_id=0' target='neu' > Neuen Datensatz anlegen </a>"
+            "Alle" => "Alle Inventarisierten Gegenstände. "
         );
     }
 
@@ -226,6 +234,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     
     $result = Cr_n_in_ventar($tabelle);
 
+    $NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_I_IN_Edit.php?in_id=0' > Neuen Datensatz anlegen </a>";
+    
     List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
     
     $List_Hinweise = '<li>Blau unterstrichene Daten sind Klickbar' . '<ul style="margin:0 1em 0em 1em;padding:0;">' . '<li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>in_id</q> Klicken.</li>';
@@ -322,8 +332,10 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     if ($_SESSION[$module]['sammlung'] != "" && $_SESSION[$module]['sammlung'] != "Nix") {
         $sql_where = " WHERE in_sammlg LIKE '%".$_SESSION[$module]['sammlung']."%' ";
     }
-
-    # echo "L 0348 sql $sql <br>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN List vor list_create $sql </pre>";
+    echo "</div>";
     
     List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
     

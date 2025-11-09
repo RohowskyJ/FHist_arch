@@ -10,8 +10,15 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_FNam_List.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_S_Find_FNam_List.inc ist gestarted</pre>";
+    echo "<pre class=debug>VF_S_Find_FNam_List.inc.php ist gestarted</pre>";
 }
 
 echo "<div class='w3-content'><fieldset>";
@@ -27,7 +34,11 @@ for ($i = 0; ! empty($arr_zeitg[$i]); $i ++) {
     $rec_arr = explode("|", $arr_zeitg[$i]);
     $select_f = "WHERE `ih_id`='$rec_arr[1]' ";
     $sql = "SELECT * FROM `$rec_arr[0]` $select_f  ORDER BY `ih_id` ASC";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU FNam List sql </pre>";
+    echo "</div>";
+    
     $return_fo = SQL_QUERY($db, $sql);
     while ($row = mysqli_fetch_object($return_fo)) {
         $zt_titel = $zt_index[$row->ih_zt_id];

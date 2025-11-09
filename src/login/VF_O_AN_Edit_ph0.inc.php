@@ -6,8 +6,15 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AN_Edit.ph0.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VFH_O_An_Edit_ph0.php ist gestarted</pre>";
+    echo "<pre class=debug>VFH_O_An_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
 if ($neu['bs_id'] == 0) { // Neueingabe
@@ -52,12 +59,15 @@ Edit_Daten_Feld('bs_aenddate');
 
 # =========================================================================================================
 $checked_f = "";
-if ($hide_area == 0) {  //toggle??
-    $checked_f = 'checked';
+$checkbox_f = "";
+if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
+    if ($hide_area == 0) {  //toggle??
+        $checked_f = 'checked';
+    }
+    // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
+    $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
 }
-// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-Edit_Separator_Zeile('Bilder ',$button_f);
+Edit_Separator_Zeile('Bilder ',$checkbox_f);
 # =========================================================================================================
 echo "<input type='hidden' name='bs_bild_1' value='" . $neu['bs_bild_1'] . "'>";
 echo "<input type='hidden' name='bs_bild_2' value='" . $neu['bs_bild_2'] . "'>";

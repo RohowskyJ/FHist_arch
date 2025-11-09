@@ -5,12 +5,10 @@
  * 
  * @autor Josef Rohowsky - neu  2020
  */
-session_start();
-
-# die SESSION aktivieren
-const Module_Name = 'INV';
-$module = Module_Name;
-# const Tabellen_Name = 'fh_dokumente';
+session_start(); # die SESSION aktivieren
+ 
+$module = 'INV';
+$sub_mod = 'all';
 
 /**
  * Angleichung an den Root-Path
@@ -18,6 +16,13 @@ $module = Module_Name;
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_Verw.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 

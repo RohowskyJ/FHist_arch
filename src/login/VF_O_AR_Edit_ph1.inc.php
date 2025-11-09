@@ -6,7 +6,14 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
-if ($debug) {echo "<pre class=debug>VF_O_AR_Edit_ph0.php ist gestarted</pre>";}
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_AR_Edit_ph1.inc.php";
+
+if ($debug) {echo "<pre class=debug>VF_O_AR_Edit_ph1.inc.php ist gestarted</pre>";}
 #----------------------------------------------------------------------------------
 
 foreach ($_POST as $name => $value)
@@ -23,13 +30,14 @@ if ($fa_id == 0) { # neuengabe
                '$p_uid',now()
                )";
     
-    $result = SQL_QUERY($db,$sql);
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AR Edit ph1 $sql </pre>";
+    echo "</div>";
     
-    if ($_SESSION[$module]['Act']) {
-        header("Location: VF_O_AR_List.php?Act=l");
-    } else {
-        header("Location: VF_O_AR_List.php?Act=".$_SESSION[$module]['Act']);
-    }
+    $result = SQL_QUERY($db,$sql);  
+ 
+    header("Location: VF_O_AR_List.php?Act=".$_SESSION[$module]['Act']);
+
 } else { # Update
     $updas   = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
     
@@ -47,9 +55,12 @@ if ($fa_id == 0) { # neuengabe
     if ( $_SESSION[$module]['all_upd']
         ) {
             $sql = "UPDATE `fh_falinks` SET  $updas WHERE `fa_id`='$fa_id'";
-            if ( $debug ) { echo '<pre class=debug> L 0197: \$sql $sql </pre>'; }
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AR Edit ph1 $sql </pre>";
+            echo "</div>";
+            
         }
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
         $result = SQL_QUERY($db,$sql);
         
         header("Location:  VF_O_AR_List.php?Act=".$_SESSION[$module]['Act']);

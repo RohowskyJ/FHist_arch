@@ -6,6 +6,13 @@
  * @author Josef Rohowsky - neu 2018
  * 
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_Z_FI_Edit_ph1.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_Z_B_Edit_ph1.inc.php ist gestarted</pre>";
 }
@@ -32,7 +39,11 @@ if ($fi_id == "0") {
                '$neu[fi_abk]','$neu[fi_name]','$neu[fi_ort]','$neu[fi_vorgaenger]','$neu[fi_funkt]','$neu[fi_inet]',
                '$neu[fi_uidaend]'
                )";
-echo "L 035 sql $sql <br>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z FI Edit $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 
   
@@ -60,8 +71,11 @@ echo "L 035 sql $sql <br>";
     if ($debug) {
         echo '<pre class=debug> L 052: \$sql $sql </pre>';
     }
-
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Z FI Edit $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 }
 

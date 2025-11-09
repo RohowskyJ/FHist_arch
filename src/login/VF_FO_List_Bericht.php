@@ -21,8 +21,12 @@ $tabelle = 'dm_edien';
  */
 $path2ROOT = "../";
 
-$Inc_Arr = array();
-$Inc_Arr[] = "VF_FO_List_Bericht.inc.php";
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_List_Bericht.inc.php";
 
 $debug = True; // Debug output Ein/Aus Schalter
 
@@ -38,8 +42,6 @@ VF_initial_debug();
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -47,8 +49,6 @@ VF_initial_debug();
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Ein",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -123,6 +123,7 @@ if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
 }
+
 BA_HTML_trailer();
 
 /**

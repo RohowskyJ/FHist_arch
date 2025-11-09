@@ -22,6 +22,12 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_MU_Edit.php";
+
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -110,7 +116,11 @@ if ($phase == 0) {
         if ($mu_id != '') {
             $sql .= " WHERE mu_id = '$mu_id'";
         }
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O MU Edit $sql </pre>";
+        echo "</div>";
+        
         $result = mysqli_query($db, $sql) or die('Lesen Satz $mu_id nicht möglich: ' . mysqli_error($db));
         $num_rows = mysqli_num_rows($result);
         if ($num_rows !== 1) {

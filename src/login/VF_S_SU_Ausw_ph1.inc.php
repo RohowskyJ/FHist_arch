@@ -9,8 +9,14 @@
  *
  *
  */
-# $debug = True;
-if ($debug) {echo "<pre class=debug>VF_S_Ausw_ph1.inc ist gestarted</pre>";}
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Ausw_ph1.inc.php";
+
+if ($debug) {echo "<pre class=debug>VF_S_Ausw_ph1.inc.php ist gestarted</pre>";}
 
 # print_r($_POST);echo "<br>L 015 post <br>";
 #----------------------------------------------------------------------------------
@@ -183,7 +189,6 @@ if ($s_suchb_ausw == "sammlung") {
     }
 }
 
-
 if (!empty($arc_liste)) {
     require 'VF_S_Find_Arc_List.inc.php' ;
 }
@@ -225,12 +230,18 @@ if ($debug) {echo "<pre class=debug>VF_S_Ausw_ph1.inc beendet</pre>";}
  * 
  * @param string Suchbegriff
  * @return boolean
+ * 
  */
 Function FindB_Archiv ($suchbegr)
 {
     global $db, $debug,$arc_liste;
     
     $sql_in = "SELECT * FROM  `fh_findbuch` WHERE fi_table like '%ar_chivdt_%' ";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU Findb Arch $sql_in </pre>";
+    echo "</div>";
+    
     $return_in = SQL_QUERY($db, $sql_in);
     while ($row = mysqli_fetch_object($return_in)) {
         $s_usuchname = strtoupper($suchbegr);
@@ -258,6 +269,11 @@ Function FindB_Foto ($suchbegr)
     global $db, $debug,$foto_liste;
     
     $sql_in = "SELECT * FROM  `fh_findbuch` WHERE fi_table like '%fo_todaten_%' ";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU FindB Foto $sql_in </pre>";
+    echo "</div>";
+    
     $return_in = SQL_QUERY($db, $sql_in);
     while ($row = mysqli_fetch_object($return_in)) {
         $s_usuchname = strtoupper($suchbegr);

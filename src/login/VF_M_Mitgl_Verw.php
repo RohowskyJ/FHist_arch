@@ -7,9 +7,8 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
-# const Tabellen_Name = 'fh_dokumente';
+$module = 'MVW';
+$sub_mod = 'all';
 
 /**
  * Angleichung an den Root-Path
@@ -17,6 +16,8 @@ $module = Module_Name;
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -71,8 +72,6 @@ if ($_SESSION[$module]['p_zug'] == "V" or $_SESSION[$module]['p_zug'] == "A") {
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
     echo "<tr><td><a href='VF_M_Unterst_List.php??sk=$sk' target='M-Verwaltung'>Unterstützer</a></td></tr>";
     echo "  </div>";  // Ende Feldname
- 
-    
     
     Edit_Separator_Zeile('Mitglieder- Zahlungseingangs- Verwaltung');
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe

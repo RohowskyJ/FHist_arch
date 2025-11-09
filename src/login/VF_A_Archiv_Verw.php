@@ -5,12 +5,11 @@
  * 
  * @author Josef Rohowsky - neu 2020
  */
-session_start();
+session_start(); # die SESSION aktivieren
 
-# die SESSION aktivieren
-const Module_Name = 'ARC';
-$module = Module_Name;
-# const Tabellen_Name = 'fh_dokumente';
+$module  = 'ARC';
+$sub_mod = 'alle';
+
 
 /**
  * Liste der Archivalien
@@ -19,6 +18,13 @@ $module = Module_Name;
  *
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_Arch_Verw.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 

@@ -7,8 +7,15 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_I_Edit_ph0.inc.php";
+
 if ($debug) {
-    echo "<pre class=debug>VF_O_ZT_I_Edit_ph0.inc ist gestarted</pre>";
+    echo "<pre class=debug>VF_O_ZT_I_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
 echo "<input type='hidden' name='ih_id' value='" . $neu['ih_id'] . "'/>";
@@ -62,6 +69,6 @@ if ($_SESSION[$module]['all_upd']) {
 echo "<p><a href='VF_O_ZT_List.php'>Zurück zur Liste</a></p>";
 
 if ($debug) {
-    echo "<pre class=debug>VF_O_ZT_I_Edit_ph0.inc beendet</pre>";
+    echo "<pre class=debug>VF_O_ZT_I_Edit_ph0.inc.php beendet</pre>";
 }
 ?>

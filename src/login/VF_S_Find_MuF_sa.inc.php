@@ -10,6 +10,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_S_Find_MuF_sa.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_S_Find_MuF_sa.inc.php ist gestarted</pre>";
 }
@@ -24,6 +31,11 @@ foreach ($muf_arr as $fm_table => $aa) {
     }
 
     $sql_mu = "SELECT * FROM $fm_table $select ORDER BY fm_sammlg";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>SU MuF sa  $sql_mu </pre>";
+    echo "</div>";
+    
     $return_mu = mysqli_query($db, $sql_mu);
     
     while ($row = mysqli_fetch_object($return_mu)) {

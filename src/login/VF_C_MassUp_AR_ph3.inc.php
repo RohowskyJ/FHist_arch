@@ -3,6 +3,12 @@
  * Speichern der Archivaliendaten  in den entsprechenden Tabellen
  * 
  */
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_Massup_AR_ph3.inc.php.php";
 
 if ($debug) {
     echo "<pre class=debug>VF_C_MassUp_AR_ph3.inc.php ist gestarted</pre>";
@@ -44,6 +50,11 @@ foreach ($_POST as $name => $value ) {
         }
         
         $sql = "SELECT * FROM $tabelle_a WHERE  ad_sg='".$neu['ad_sg']."' AND ad_subsg='".$neu['ad_subsg']."' ";
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'C MassUp AR ph3 $sql </pre>";
+        echo "</div>";
+        
         $res = SQL_QUERY($db,$sql);
         $ao_num = mysqli_num_rows($res);
         
@@ -81,12 +92,10 @@ foreach ($_POST as $name => $value ) {
                 '','','','$neu[ad_uidaend]',now()
                )";
         
-        if ($debug) {
-            echo "<pre class=debug>";
-            print_r($return_fi);
-            echo "<br> \$sql $sql <br>";
-            echo "</pre>";
-        }
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'C MassUp AR ph3 $sql </pre>";
+        echo "</div>";
         
         $result = SQL_QUERY($db, $sql);
     }

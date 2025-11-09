@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'ARC';
-$module = Module_Name;
+$module  = 'ARC';
+$sub_mod = 'all';
+
 $tabelle = 'ar_ord_local';
 
 const Prefix = '';
@@ -21,6 +22,13 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+# $_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_A_AOR_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -94,7 +102,6 @@ if ($phase == 0) {
         $al_grp = $_SESSION[$module]['ar_grp'];
         $neu = array(
             'al_id' => 0,
-            'al_eigner' => "$eignr",
             "al_sg" => "$al_grp",
             'al_lcsg' => "0",
             'al_lcssg' => "0",
@@ -113,7 +120,11 @@ if ($phase == 0) {
         $al_id = $_SESSION[$module]['al_id'];
         $sql_be = "SELECT * FROM $tabelle_a WHERE `al_id` = '$al_id' ORDER BY `al_id` ASC";
         $return_be = SQL_QUERY($db, $sql_be); ;
-
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>A_AOR Edit $sql </pre>";
+        echo "</div>";
+        
         $errno = mysqli_errno($db);
     
         $neu = mysqli_fetch_array($return_be);

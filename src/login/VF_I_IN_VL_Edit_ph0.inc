@@ -7,6 +7,13 @@
  * 
  * 
  */
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_VL_Edit_ph0.inc.php";
+
+
 if ($debug) {
     echo "<pre class=debug>VF_I_IN_VL_Edit_ph0.inc ist gestarted</pre>";
 }
@@ -38,6 +45,7 @@ if ($hide_area != 0) {  //toggle??
 Edit_Separator_Zeile('Zustandsbeschreibung'.$button_f);
 # =========================================================================================================
 echo "<div>";
+echo "<input type='hidden' id='urhNr' value='' >";
 echo "<input type='hidden' name='ei_bild_1' value='" . $neu['ei_bild_1'] . "' >";
 echo "<input type='hidden' name='ei_bild_2' value='" . $neu['ei_bild_2'] . "' >";
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";

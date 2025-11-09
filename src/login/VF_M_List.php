@@ -9,10 +9,17 @@
  */
 session_start();
 
-const Module_Name = 'MVW';
-$module = Module_Name;
+$module = 'MVW';
+$sub_mod = "all";
+
 $tabelle = 'fh_mitglieder';
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_M_List.php"; 
 /**
  * Angleichung an den Root-Path
  *
@@ -56,8 +63,6 @@ if ($phase == 99) {
  *
  * @global array $_SESSION['VF_LISTE']
  *   - select_string
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Apsltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -66,10 +71,7 @@ if ($phase == 99) {
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
-        "LangListe"           => "Ein",
+        "LangListe"           => "Aus",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
     );
@@ -98,10 +100,9 @@ $T_list_texte = array(
     "nMitgl" => "Nicht aktive Mitglieder      <span style='font-weight:normal;'>[Abgemeldet, Verstorben]</span>",
     "BezL" => "Bezahl- und Abo- Daten Der Aktive Mitglieder ( Auswahl )    ",
     "BezL_W" => "Bezahl- und Abo- Daten Der Aktive Mitglieder ( Auswahl )  W-Spec  ",
-    "AdrList" => "Adress-Liste der aktiven Mitglieder, Versand     "
+    "AdrList" => "Liste der Beitragsfreien Mitgliedern (EhrenMitgl, Fahrzeugerhalter) "
 
 ); 
-#     "NeuItem" => "<a href='VF_M_Edit.php?ID=0' >Neues Mitglied eingeben</a>"
 
 # ===========================================================================================================
 # Haeder ausgeben
@@ -113,7 +114,7 @@ $logo = 'NEIN';
 BA_HTML_header('Mitglieder- Verwaltung', '', 'Admin', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 #echo "<fieldset>";
-
+$NeuRec = ""; #     "NeuItem" => "<a href='VF_M_Edit.php?ID=0' >Neues Mitglied eingeben</a>"
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle);
@@ -238,6 +239,14 @@ switch ($T_List) {
         $Tabellen_Spalten_COMMENT['MB'] = 'MB';
         $Tabellen_Spalten_COMMENT['ABO'] = 'ABO';
         $Tabellen_Spalten_COMMENT['Ausg'] = 'Ausg';
+        $Tabellen_Spalten_typ['aktiv'] = 'text';
+        $Tabellen_Spalten_typ['MB'] = 'text';
+        $Tabellen_Spalten_typ['ABO'] = 'text';
+        $Tabellen_Spalten_typ['Ausg'] = 'text';
+        $Tabellen_Spalten_MAXLENGTH['aktiv'] = '5';
+        $Tabellen_Spalten_MAXLENGTH['MB'] = '5';
+        $Tabellen_Spalten_MAXLENGTH['ABO'] = '5';
+        $Tabellen_Spalten_MAXLENGTH['Ausg'] = '5';
         break;
     default:
         $Tabellen_Spalten = array(
@@ -307,7 +316,8 @@ switch ($T_List) {
         $orderBy = ' ORDER BY mi_name';
         break;
     case "AdrList":
-        $sql_where = " WHERE ((mi_austrdat<='0000-00-00' AND mi_sterbdat<='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL)) ";
+        # $sql_where = " WHERE ((mi_austrdat<='0000-00-00' AND mi_sterbdat<='0000-00-00') OR (mi_austrdat == '' AND mi_sterbdat == '') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL)) ";
+        $sql_where = " WHERE ((mi_austrdat == '' OR mi_austrdat IS NULL) AND (  mi_sterbdat == '' OR mi_sterbdat IS NULL)) ";
         $orderBy = ' ORDER BY mi_name';
         break;
     case "nMitgl":
@@ -326,6 +336,7 @@ if ($select_string != '') {
 }
 $sql .= $sql_where . $orderBy;
 
+
 # ===========================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
@@ -338,19 +349,23 @@ if ($T_List == 'AdrList') {
        if ($grp == 'AK') {
            $csv_DSN = $path2ROOT . "login/Downloads/Beitragszahler.csv";
            $Kateg_Name = 'Aktive Mitglieder, Beitragszahler';
-           $sql_where = " WHERE (((mi_austrdat<='0000-00-00' AND mi_sterbdat<='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL)) AND (mi_mtyp<>'OE' OR mi_mtyp<>'EM'))";
+           # $sql_where = " WHERE (((mi_austrdat<='0000-00-00' AND mi_sterbdat<='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL)) AND (mi_mtyp<>'OE' OR mi_mtyp<>'EM'))";
+           $sql_where = " WHERE ((mi_austrdat = '' OR mi_austrdat IS NULL) AND (  mi_sterbdat = '' OR mi_sterbdat IS NULL))  AND (mi_mtyp='OE' OR mi_mtyp='EM') ";
        } else {
            $csv_DSN = $path2ROOT . "login/Downloads/Beitragsfreie.csv";
            $Kateg_Name = 'Aktive Mitglieder, Beitragsbefreit';
-           $sql_where = " WHERE (((mi_austrdat<='0000-00-00' AND mi_sterbdat<='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL))  AND (mi_mtyp='OE' OR mi_mtyp='EM')) ";
+           # $sql_where = " WHERE (((mi_austrdat<='0000-00-00' AND mi_sterbdat<='0000-00-00') OR (mi_austrdat IS NULL AND mi_sterbdat IS NULL))  AND (mi_mtyp='OE' OR mi_mtyp='EM')) ";
+           $sql_where = " WHERE ((mi_austrdat = '' OR mi_austrdat IS NULL) AND (  mi_sterbdat = '' OR mi_sterbdat IS NULL))  AND (mi_mtyp='OE' OR mi_mtyp='EM') ";
        }
        $sql .= $sql_where . $orderBy;
-       List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
    }
-
-} else {
-    List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 }
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M List vor list_create $sql </pre>";
+echo "</div>";
+
+List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 
 
 if ($T_List == "BezL" || $T_List == "BezL_W") {
@@ -360,9 +375,7 @@ if ($T_List == "BezL" || $T_List == "BezL_W") {
     echo "</div>";
 }
 
-#echo "</fieldset>";
-
-HTML_trailer();
+BA_HTML_trailer();
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste

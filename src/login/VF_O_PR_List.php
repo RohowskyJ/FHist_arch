@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'PR';
+
 $tabelle = 'pr_esse';
 
 /**
@@ -19,6 +20,13 @@ $tabelle = 'pr_esse';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_PR_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -34,6 +42,13 @@ $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+BA_HTML_header('Presse- Berichte- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+echo "<fieldset>";
 
 initial_debug();
 
@@ -105,23 +120,13 @@ if (isset($_POST['select_string'])) {
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
-if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
+
     $T_list_texte = array(
         "Alle" => "Alle verfügbaren Presseberichte "
     );
-} else {
-    $T_list_texte = array(
-        "Alle" => "Alle verfügbaren Presseberichte ",
-        "NeuItem" => "<a href='VF_O_PR_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
-    );
-}
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-BA_HTML_header('Presse- Berichte- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
-echo "<fieldset>";
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_O_PR_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -193,10 +198,9 @@ if ($select_string != '') {
 }
 $sql .= $sql_where . $orderBy;
 
-$New_Link = "";
-if ($_SESSION[$module]['all_upd']) {
-    # $New_Link = "<a href='VF_M_Edit_v3.php?$Parm_Call&ID=NeuItem' > Neu</a>";
-}
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O PR List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 

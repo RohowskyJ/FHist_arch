@@ -6,7 +6,14 @@
  * @author Josef Rohowsky - neu 2018
  *
  */
-if ($debug) {echo "<pre class=debug>VF_BE_Edit_ph1.inc.php ist gestartet</pre>";}
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Ber_Edit_ph1.inc.php";
+
+if ($debug) {echo "<pre class=debug>VF_FO_Ber_Edit_ph1.inc.php ist gestartet</pre>";}
 var_dump($_POST);
 var_dump($neu);
 # =====================================================================================================
@@ -46,7 +53,11 @@ if ($neu['vb_flnr'] == 0) {
             $u_arr = explode('-',$d_arr[2]);
             $urh = $u_arr[0];
             $sql_fo = "UPDATE dm_edien_$urh SET md_beschreibg='$d_arr[3]' WHERE md_dsn_1='$d_arr[2]'  ";
-            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 048 $sql</pre>";
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Ber Edit_ph1_create $sql </pre>";
+            echo "</div>";
+            
             $ret = SQL_QUERY($db,$sql_fo);
         }
     }
@@ -74,12 +85,11 @@ if ($neu['vb_flnr'] == 0) {
 
     $vb_flnr = $neu['vb_flnr'];
     $sql = "UPDATE `vb_bericht_4` SET $updas $update_dat WHERE vb_flnr='$vb_flnr'";
-
-    if ($debug) {
-        echo '<pre class=debug> L 0197: \$sql $sql </pre>';
-    }
-
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 080 $sql</pre>";
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Ber Edit_ph1_create $sql </pre>";
+    echo "</div>";
+    
     $result = SQL_QUERY($db, $sql);
 
     foreach ($neu as $key => $data) {
@@ -91,13 +101,21 @@ if ($neu['vb_flnr'] == 0) {
                 $sql = "INSERT INTO vb_ber_detail_4 (vb_flnr,vd_unter,vd_suffix,vd_foto,vd_beschreibung,vd_titel,vd_uid
                          ) VALUE ( '$vb_flnr','$d_arr[0]','$d_arr[1]','$d_arr[2]','$d_arr[3]','$d_arr[4]','$p_uid')";
             }
-            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 094 $sql</pre>";
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Ber Edit_ph1 $sql </pre>";
+            echo "</div>";
+            
             $result = SQL_QUERY($db, $sql);
             // fotodatei kommentar updaten foto d_arr[2] kommentar d_arr[3]
             $u_arr = explode('-',$d_arr[2]);
             $urh = $u_arr[0];
             $sql_fo = "UPDATE dm_edien_$urh SET md_beschreibg='$d_arr[3]' WHERE md_dsn_1='$d_arr[2]'  ";
-            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>L 0100 $sql</pre>";
+            
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO Ber Edit_ph1 $sql_fo </pre>";
+            echo "</div>";
+            
             $ret = SQL_QUERY($db,$sql_fo);
             
         }
@@ -106,7 +124,7 @@ if ($neu['vb_flnr'] == 0) {
  
 }
 
-if ($debug) {echo "<pre class=debug>VF_O_BE_Edit_ph1.inc.php ist beendet</pre>";}
+if ($debug) {echo "<pre class=debug>VF_FO_Ber_Edit_ph1.inc.php ist beendet</pre>";}
 
 header("Location: VF_FO_Ber_List.php");
 ?>

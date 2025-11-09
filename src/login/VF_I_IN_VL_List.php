@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_VL_List.php"; 
 
 # ===========================================================================================
 #
@@ -7,12 +11,13 @@
 #
 # ===========================================================================================
 $T_list_texte = array(
-    "NeuItem" => "<a href='VF_I_IN_VL_Edit.php?ID=0' >Neuen Datensatz eingeben</a>"
 );
 
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_I_IN_VL_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -53,10 +58,12 @@ List_Action_Bar($tabelle_in_a,"Inventar- Verleih", $T_list_texte, $T_List, $List
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
 
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'I IN VL List vor list_create $sql_ft </pre>";
+echo "</div>";
+
 $New_Link = "";
-if ($_SESSION[$module]['all_upd']) {
-    $New_Link = "<a href='VF_I_IN_VL_Edit.php?ID=0' >Neu</a>";
-}
+
 List_Create($db, $sql_ft,'', $tabelle_in_a,'', $New_Link);
 
 ?>

@@ -11,6 +11,7 @@ session_start();
 
 $module  = 'OEF';
 $sub_mod = 'Foto';
+
 $tabelle = 'dm_edien_';
 
 /**
@@ -93,7 +94,7 @@ if (isset($_POST['select_string'])) {
 
 $_SESSION[$module]['select_string'] = $select_string;
 
-$reply = FO_Tab_gener(); // erstellen ergänzen der Tabellen nach Massuploads mit resize, wasserzeichen und *.jpeg - Format
+# $reply = FO_Tab_gener(); // erstellen ergänzen der Tabellen nach Massuploads mit resize, wasserzeichen und *.jpeg - Format
 
 require "VF_FO_List_Detail.inc.php";
 
@@ -122,28 +123,20 @@ function modifyRow(array &$row, $tabelle)
         "Foto" => "Fotografie",
         "Video" => "Videos"
     );
-
+# var_dump($row);
     switch ($s_tab) {
-        /*
-        case "fo_manda":
-            $fm_id = $row['fm_id'];
-            $fm_mandkennz = $row['fm_mandkennz'];
-            $row['fm_id'] = "<a href='VF_O_FO_M_Edit.php?fm_id=$fm_id' >" . $fm_id . "</a>";
-            $fm_eigner = $row['fm_eigner'];
-            $row['fm_eigner'] = "<a href='VF_O_FO_List.php?fm_eigner=$fm_eigner'  target='Foto'>" . $fm_eigner . " Fotos </a>";
-            break;
-*/
+
         case "dm_edien":
             $md_id = $row['md_id'];
-            console_log("L0138 $md_id");
+            #console_log("L0138 $md_id");
             $row['md_id'] = "<a href='VF_FO_Edit.php?md_id=$md_id&md_eigner=" . $row['md_eigner'] . "&verz=N' >" . $md_id . "</a>";
             if ($row['md_dsn_1'] == "") {   
                 console_log("L 0141 ".$row['md_aufn_datum']);
                 $_SESSION[$module]['md_aufn_d'] = $row['md_aufn_datum'];
             }           
             
-            if ($row['md_dsn_1'] == '' ) {
-                $row['md_dsn_1'] = "Kein Medium eingegeben - bitte eingeben.";
+            if ($row['md_dsn_1'] == '' || $row['md_dsn_1'] == '0_Verz') {
+                $row['md_dsn_1'] = "Verzeichnis- Eintrag.";
             } else {
                 $row['md_media'] = $VF_Foto_Video[$row['md_media']];
                 if ($row['md_dsn_1'] != "") {

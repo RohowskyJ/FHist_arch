@@ -7,9 +7,10 @@
  *
  *
  */
-#$debug = True;
 
-$Inc_Arr[] = "VF_FZ_MaF_Edit_ph1.inc.php";
+# VF_Save_Conf_deb ();
+
+$_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaF_Edit_ph1.inc.php";
 
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MaF_Edit_ph1.inc.php ist gestarted</pre>";
@@ -18,7 +19,7 @@ if ($debug) {
 }
 
 foreach ($_POST as $name => $value) {
-    $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
 #var_dump($_FILES);
 # var_dump($neu);
@@ -116,7 +117,10 @@ if ($neu['fz_id'] == 0) { # neueingabe
                 '$neu[fz_pruefg_id]','$neu[fz_pruefg]','$neu[fz_aenduid]'
                )";
 
-    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Maf_Edit ph1 $sql </pre>";
+    echo "</div>"; 
+    
     $result = SQL_QUERY($db, $sql);
     # echo mysqli_error($db) . "  L 0149: \$sql $sql <br/>";
 
@@ -147,11 +151,11 @@ if ($neu['fz_id'] == 0) { # neueingabe
 
     if ($_SESSION[$module]['all_upd']) {
         $sql = "UPDATE $tabelle_a SET  $updas WHERE `fz_id`='" . $_SESSION[$module]['fz_id'] . "'";
-        if ($debug) {
-            echo '<pre class=debug> L 0197: \$sql $sql </pre>';
-        }
+        
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>List_Func $sql_1 </pre>";
+        echo "</div>"; 
 
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
         $result = SQL_QUERY($db, $sql);
     }
 

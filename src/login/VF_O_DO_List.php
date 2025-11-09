@@ -8,8 +8,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'DO';
+
 $tabelle = 'fh_dokumente';
 
 /**
@@ -18,6 +19,13 @@ $tabelle = 'fh_dokumente';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_O_DO_List.php"; 
 
 $debug = False; // Debug output Ein/Aus Schalter
 
@@ -49,8 +57,6 @@ initial_debug();
  * Aussehen der Listen, Default-Werte, Änderbar (VF_List_Funcs.inc)
  *
  * @global array $_SESSION['VF_LISTE']
- *   - SelectAnzeige          Ein: Anzeige der SQL- Anforderung
- *   - SpaltenNamenAnzeige    Ein: Anzeige der Spaltennamen
  *   - DropdownAnzeige        Ein: Anzeige Dropdown Menu
  *   - LangListe              Ein: Liste zum Drucken
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
@@ -58,8 +64,6 @@ initial_debug();
  */
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
-        "SelectAnzeige"       => "Aus",
-        "SpaltenNamenAnzeige" => "Aus",
         "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
@@ -124,21 +128,11 @@ if (isset($_GET['T_List']) and $_GET['T_List'] == "Thema") {
 
 $T_list_texte = array(
     "Alle" => "Alle verfügbaren Dokumente",
-    "Thema" => "<a href='VF_O_DO_List.php?thema=1' > Thema wechseln </a>",
-    "NeuItem" => "<a href='VF_O_DO_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
+    "Thema" => "<a href='VF_O_DO_List.php?thema=1' > Thema wechseln </a>"
 );
-/*
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-# $title = "Fahrzeuge des Eigentümers ".$_SESSION[$module]['eignr'] ;
 
-$logo = 'NEIN';
-HTML_header('Dokumentations- Verwaltung', 'Auswahl', '', 'Admin', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+$NeuRec = " &nbsp; &nbsp; &nbsp; &nbsp; <a href='VF_O_DO_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
-echo "<main>";
-echo "<frameset>";
-*/
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
 $Tabellen_Spalten = Tabellen_Spalten_parms($db, $tabelle); # lesen der Tabellen Spalten Informationen
@@ -204,10 +198,11 @@ if ($sel_thema != "0" ) {
 }
 $sql .= $sql_where;
 
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'O DO List vor list_create $sql </pre>";
+echo "</div>";
+
 $New_Link = "";
-if ($_SESSION[$module]['all_upd']) {
-    # $New_Link = "<a href='VF_M_Edit_v3.php?$Parm_Call&ID=NeuItem' > Neu</a>";
-}
 
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 

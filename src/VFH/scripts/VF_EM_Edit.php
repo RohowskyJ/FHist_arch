@@ -21,13 +21,15 @@ const Prefix = '';
  */
 $path2ROOT = "../../";
 
-$debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php'; // Diverse Unterprogramme
 require $path2ROOT . 'login/common/BA_Funcs.lib.php'; // Diverse Unterprogramme
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
+
+$header = "";
+BA_HTML_header('Meine Nachricht an die Feuerwehrhistoriker in NÖ',  $header, 'Form', '75em');
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 
@@ -105,9 +107,6 @@ if ($phase == 1) {
 
     header("Location: $path2ROOT");
 }
-
-$header = "";
-BA_HTML_header('Meine Nachricht an die Feuerwehrhistoriker in NÖ',  $header, 'Form', '75em');
 
 switch ($phase) {
     case 0:

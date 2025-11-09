@@ -8,9 +8,10 @@
  * 
  */
 session_start(); # die SESSION am leben halten 
-const Module_Name = 'ADM';
-$module    = Module_Name;
-# $tabelle = 'fh_benutzer';
+
+$module  = 'ADM';
+$sub_mod = 'DS2T';
+
 const Prefix  = '';
 
 /**
@@ -19,6 +20,13 @@ const Prefix  = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "Z_DS_2_Table.php";
 
 $debug = False;  // Debug output Ein/Aus Schalter
 
