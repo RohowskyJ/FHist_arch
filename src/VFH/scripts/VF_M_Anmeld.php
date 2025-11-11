@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module = 'ADM';
+$sub_mod = 'NeuAnmeld';
+
 $tabelle = '';
 
 const Prefix = '';
@@ -22,28 +23,31 @@ const Prefix = '';
  */
 $path2ROOT = "../../";
 
-$debug = False; // Debug output Ein/Aus Schalter
+$debug = false; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
-require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
-
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/PHP_Mail_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database = '';
 $db = LinkDB('VFH');
 
-initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
+$header = "";
+HTML_header('Mitglieder- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
+# initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 setlocale(LC_CTYPE, "de_AT"); // für Klassifizierung und Umwandlung von Zeichen, zum Beispiel strtoupper
                               # require($path2ROOT.'login/common/trans_2utf8.php'); # übersetungstabellen
 
 if (! isset($_SESSION[$module])) {
-    $_SESSION[$module][] = "Neuanmeldung";
+    $_SESSION[$module][$sub_mod] = array();
 }
 // ============================================================================================================
 // Eingabenerfassung und defauls
@@ -82,7 +86,7 @@ Tabellen_Spalten_parms($db, 'fh_mitglieder');
 # -------------------------------------------------------------------------------------------------------
 if ($phase == 0) {
     $neu = array(
-        'mi_id' => 'NeuItem',
+        'mi_id' => '0',
         'mi_mtyp' => 'UM',
         'mi_org_typ' => '',
         'mi_org_name' => '',
@@ -115,9 +119,9 @@ if ($phase == 1) {
     $Err_msg = array();
 
     foreach ($_POST as $name => $value) {
-        $neu[$name] = mysqli_real_escape_string($db, $value);
+        $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
-
+var_dump($neu);
     $neu['mi_beitritt'] = date('Y-m-d');
 
     if ($neu['mi_mtyp'] == "UM" && $neu['mi_org_name'] != "") {
@@ -190,9 +194,6 @@ if ($phase == 1) {
     }
 }
 
-$header = "";
-HTML_header('Mitglieder- Verwaltung', '', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
 switch ($phase) {
     case 0:
         require 'VF_M_Anmeld_ph0.inc.php';
@@ -202,5 +203,5 @@ switch ($phase) {
         require $path2ROOT . "login/VF_M_EBZ.inc.php";
         break;
 }
-HTML_trailer();
+BA_HTML_trailer();
 ?>
