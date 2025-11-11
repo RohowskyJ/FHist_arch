@@ -97,19 +97,19 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     echo $head;
     echo "</head>";
 
+    if (!isset($_SESSION['VF_Prim'])) {
+        $_SESSION['VF_Prim'] = array('mode'=>'Mandanten','eignr'=>'','ptyp'=>'','store'=>'','cPerr'=>'','cDeb'=>'',
+            'OrgNam'=>'OrgNam','p_uid'=>'','Inc_Arr'=> '','benutzer'=>'','zu_eignr'=>'',
+            'SUC'=>'','F_G'=>'','F_M'=>'','PSA'=>'','ARC'=>'','INV'=>'','OEF'=>'','ADM'=>'','MVW'=>'','SK'=>'',
+        );
+    }
     if (is_file($path2ROOT . 'login/common/config_s.ini')) {
         $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
+        # var_dump($ini_arr);
         if ($ini_arr['Config']['mode'] == "Single" && $ini_arr['Config']['eignr'] != "") {
-            if (!isset($_SESSION['VF_Prim'])) {
-                #$_SESSION['VF_PRIM'] = array();
-                $_SESSION['VF_Prim']['mode'] = $ini_arr['Config']['mode'];
-                $_SESSION['VF_Prim']['eignr'] = $ini_arr['Config']['eignr'];
-                VF_Displ_Eig($ini_arr['Config']['eignr']);
-            }
-        } else {
-            $_SESSION['VF_Prim']['mode'] = "Mandanten";
-            $_SESSION['VF_Prim']['eignr'] = "";
-
+            $_SESSION['VF_Prim']['mode'] = $ini_arr['Config']['mode'];
+            $_SESSION['VF_Prim']['eignr'] = $ini_arr['Config']['eignr'];
+            VF_Displ_Eig($ini_arr['Config']['eignr']);
         }
         $_SESSION['VF_Prim']['ptyp'] = $ini_arr['Config']['ptyp'];
         $_SESSION['VF_Prim']['store'] = $ini_arr['Config']['store'];
@@ -118,12 +118,11 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         $_SESSION['VF_Prim']['cDeb'] = $path2ROOT."login/logs/debug/".$c_Date."_".$ini_arr['Config']['cDeb'];
         $_SESSION['VF_Prim']['OrgNam'] = $ini_arr['Config']['inst'];
         /** Aufdrehen des PHP Error Log to file */
-        if (isset($_SESSION['VF_Prim']['cPerr']) &&  $_SESSION['VF_Prim']['cPerr'] != "") { 
+        if ($_SESSION['VF_Prim']['cPerr'] != "") { 
             ini_set('log_errors', 1);
             $err_dsn = $_SESSION['VF_Prim']['cPerr'];
             ini_set('error_log', $err_dsn ) ; 
         }
-
     }
 
     if (! isset($actor) || $actor == "") {
