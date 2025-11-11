@@ -12,6 +12,7 @@
  *  - $Tabellen_Spalten_typ       Global Array (Schlüssel: Spaltenname) mit 'text'/'num'
  *  - $Tabellen_Spalten_tabelle   Global Array (Schlüssel: Spaltenname) mit dem Namen der Tabelle
  *         (für Spalten ohne Tabellen Name wird im heading pull down keine sortiermöglichkeit Angeboten)
+ *  - $Tabellen_Spalten__MAXLENGTH maximale Länge des Feldes
  *
  * Änderungen:
  *  2019       B.R.Gaicki - neu
@@ -20,7 +21,7 @@
  *  2021-04-14 B.R.Gaicki - $Tabellen_Spalten_typ hinzugefügt
  *  2022-02-05 B.R.Gaicki - V5 (PixRipTab & login).
  *
- *
+ *  202510     j.Rohowsky - maximale Länge eingeefügt
  */
 
 if ($debug) {
