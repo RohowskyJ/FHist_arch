@@ -23,10 +23,27 @@ if ($neu['va_id'] == 0) { // Neueingabe
     $hide_area = 1;
 }
 
+$dataSetAct = "";
+if ($neu['va_id'] == 0) { // Neueingabe
+    $hide_area = 0;
+} else {
+    $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
+}
+
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] != '1' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='va_id' value='".$neu['va_id']."' >";
+echo "<input type='hidden' id='recEigner' value='' >";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."' >";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
+
 $cdate = date("Y-m-d");
 
 echo $Err_Msg;
-echo "<input name='va_id' id='va_id' type='hidden' value='" . $neu['va_id'] . "' />";
 
 $Edit_Funcs_FeldName = false; // Feldname der Tabelle wird nicht angezeigt !!
                               # =========================================================================================================
@@ -93,16 +110,10 @@ $ST_bdld = VF_Sel_Bdld($va_bdld, 8, $stabkz);
 Edit_Select_Feld('va_bdld', $ST_bdld);
 
 # =========================================================================================================
-$checked_f = "";
 $checkbox_f = "";
-if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
-    if ($hide_area == 0) {  //toggle??
-        $checked_f = 'checked';
-    }
-    // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+if ($_SESSION[$module]['all_upd'] == '1') {
+    $checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 }
-
 Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 
@@ -189,8 +200,6 @@ if ($cdate > $neu['va_datum'] && $neu['va_id'] !== 0) {} else {
 }
 
 echo "<p><a href='VF_O_TE_List.php?Act=" . $_SESSION[$module]['Act'] . "'>Zurück zur Liste</a></p>";
-
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
 
 # =========================================================================================================
 if ($debug) {

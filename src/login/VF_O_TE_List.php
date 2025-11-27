@@ -29,13 +29,13 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_TE_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -76,18 +76,15 @@ if (! isset($_SESSION[$module]['all_upd'])) {
     $_SESSION[$module]['all_upd'] = False;
 }
 
-if (isset($_GET['Act'])) {
-    IF ( $_GET['Act'] == 1) {
-        $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
-        VF_chk_valid();
-        VF_set_module_p();
-    } else {
-        if (!isset($_SESSION[$module]['Act'])){
-            $_SESSION[$module]['Act'] = $Act = 0;
-            $_SESSION['VF_Prim']['p_uid'] = 999999999;
-            $_SESSION[$module]['all_upd'] = False;
-        }
-    }
+if (isset($_GET['Act']) and $_GET['Act'] == 1) {
+    $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
+    VF_chk_valid();
+    VF_set_module_p();
+    $_SESSION['VF_LISTE']['LangListe'] = "Aus";
+} else {
+    $_SESSION[$module]['Act'] = $Act = 0;
+    $_SESSION['VF_Prim']['p_uid'] = 999999999;
+    $_SESSION[$module]['all_upd'] = False;
 }
 
 $_SESSION[$module]['TList'] = "Aktuell";
@@ -99,10 +96,7 @@ VF_Count_add();
 # ===========================================================================================
 if ($_SESSION[$module]['Act'] == 0) {
     $T_list_texte = array(
-        "Aktuell" => "Aktuelle/zukünftige Veranstaltungen ",
-        "Alle" => "Alle Veranstaltungen <span style='font:90% normal;'> (Historie der Veranstaltungen mit Jahres Auswahl)</span>",
-        "Details" => "Alle mit Details <span style='font:90% normal;'> (Historie der Veranstaltungen mit Jahres Auswahl)</span>",
-        "Alles" => "Alle Daten aller Veranstaltungen"
+        "Aktuell" => "Aktuelle/zukünftige Veranstaltungen "
     );
 } else {
     $T_list_texte = array(
@@ -197,18 +191,7 @@ switch ($T_List) {
         BA_HTML_trailer();
         exit(); # wenn noch nix gewählt wurde >> beenden
 }
-/*
-switch ($_SESSION[$module]['scol']) {
-    case '':
-    case 'va_id':
-        $sql .= "\n ORDER BY va_id ,va_datum ASC,va_begzt ASC,va_id ASC";
-        break;
-    case 'va_datum':
-        $sql .= "\n ORDER BY va_datum ASC ,va_begzt ASC ";
-        break;
-}
-*/
-# ===========================================================================================================
+#============================================================================================================
 # Die Daten lesen und Ausgeben
 # ===========================================================================================================
 
@@ -309,18 +292,61 @@ function modifyRow(array &$row,$tabelle)
     $cjahr = substr($va_datum, 0, 4);
 
     $pict_path = $path2ROOT . "/login/AOrd_Verz/Termine/" . $cjahr . "/";
+    
     if ($row['va_bild_1'] != "") {
 
-        $p1 = $pict_path . $row['va_bild_1'];
+        #$p1 = $pict_path . $row['va_bild_1'];
 
-        # $row['fz_bild_1'] = "<img src='$p1' alter='$p1' width='70px'> $fz_bild_1";
-        $row['va_bild_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  Groß  </a><br>";
+        $va_bild_1 = $row['va_bild_1'];
+        
+        $dn_a = pathinfo(strtolower($va_bild_1));
+        
+        if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
+            $image1 = "<a href='".$path2ROOT ."login/AOrd_Verz/Biete_Suche/$va_bild_1' > $ </a>";
+        } else {
+            $aord_sp = "";
+            $pict_path = $path2ROOT ."login/AOrd_Verz/";
+            foreach (GrafFiles as $key => $val ){
+                if ($dn_a['extension'] == $val) {
+                    $aord_sp = "06/";
+                    
+                }
+            }
+            
+            if ($aord_sp == "") {
+                if ($dn_a['extension'] == 'mp3') {
+                    $aord_sp = "02/";
+                } elseif ($dn_a['extension'] == 'mp4') {
+                    $aord_sp = "10/";
+                } else {
+                    $aord_sp = "Termine/" . $cjahr . "/";
+                }
+            }
+            $fo_arr = explode("-", $va_bild_1);
+            $cnt_fo = count($fo_arr);
+            
+            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                
+                $image1 = $pict_path.$urh."09/".$aord_sp.$verz.$va_bild_1;
+                
+                if (!is_file($image1)) {
+                    $image1 = $pict_path . $va_bild_1;
+                }
+            } else {
+                $image1 = $pict_path . "Biete_Suche/". $va_bild_1;
+            }
+            $image1 = "<img src='$image1' alt='Bild 1' width='150px'/> ";
+        }
+        $row['va_bild_1'] = "<a href='".$pict_path .$aord_sp .  $va_bild_1."'  target='_blanc'> $image1 </a>";
+        #$row['va_bild_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  Groß  </a><br>";
     }
     if ($row['va_bild_2'] != "") {
-        $row['va_bild_1'] .= "<br/><a href='$pict_path$va_bild_2' target='Prospekt 1'>$va_bild_2</a><br>";
+        $row['va_bild_2'] .= "<br/><a href='$pict_path$va_bild_2' target='Prospekt 1'>$va_bild_2</a><br>";
     }
     if ($row['va_bild_3'] != "") {
-        $row['va_bild_1'] .= "<br/><a href='$pict_path$va_bild_3' target='Prospekt 2'>$va_bild_3</a><br>";
+        $row['va_bild_3'] .= "<br/><a href='$pict_path$va_bild_3' target='Prospekt 2'>$va_bild_3</a><br>";
     }
     $va_internet = $row['va_internet'];
     if ($row['va_internet'] != "") {
