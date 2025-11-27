@@ -18,10 +18,10 @@ if ($debug) {
 }
 
 foreach ($_POST as $name => $value) {
-    $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
-
-$uploaddir = "../VFH/scripts/updata/Biete_Suche/";
+var_dump($neu);
+# $uploaddir = "../VFH/scripts/updata/Biete_Suche/";
 
 if ( $neu['bild_datei_1'] != '') {
     $neu['bs_bild_1'] =  $neu['bild_datei_1'];

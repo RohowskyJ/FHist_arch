@@ -54,6 +54,8 @@ $tinymce_header = "
 $jq = $jqui = true;
 $BA_AJA = true;
 
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+
 BA_HTML_header('Biete / Suche - Marktplatz', $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
