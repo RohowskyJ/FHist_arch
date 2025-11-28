@@ -17,12 +17,6 @@ if ($debug) {
     echo "<pre class=debug>VF_O_TE_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
-if ($neu['va_id'] == 0) { // Neueingabe
-    $hide_area = 0;
-} else {
-    $hide_area = 1;
-}
-
 $dataSetAct = "";
 if ($neu['va_id'] == 0) { // Neueingabe
     $hide_area = 0;
