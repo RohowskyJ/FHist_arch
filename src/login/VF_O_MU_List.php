@@ -30,19 +30,24 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_MU_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database = '';
 $db = LinkDB('VFH');
+/*
+$jq = $jqui = true;
+$BA_AJA = true;
 
+$jq_toggle = $jq_tabsort = $jq_accordion = true;
+*/
 BA_HTML_header('Museums- Daten- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<fieldset>";
@@ -73,18 +78,15 @@ if (! isset($_SESSION[$module]['all_upd'])) {
     $_SESSION[$module]['all_upd'] = False;
 }
 
-if (isset($_GET['Act'])) {
-    IF ( $_GET['Act'] == 1) {
-        $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
-        VF_chk_valid();
-        VF_set_module_p();
-    } else {
-        if (!isset($_SESSION[$module]['Act'])){
-            $_SESSION[$module]['Act'] = $Act = 0;
-            $_SESSION['VF_Prim']['p_uid'] = 999999999;
-            $_SESSION[$module]['all_upd'] = False;
-        }
-    }
+if (isset($_GET['Act']) and $_GET['Act'] == 1) {
+    $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
+    VF_chk_valid();
+    VF_set_module_p();
+    $_SESSION['VF_LISTE']['LangListe'] = "Aus";
+} else {
+    $_SESSION[$module]['Act'] = $Act = 0;
+    $_SESSION['VF_Prim']['p_uid'] = 999999999;
+    $_SESSION[$module]['all_upd'] = False;
 }
 
 if (isset($_GET['Act']) and $_GET['Act'] == 1) {
@@ -199,7 +201,7 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
     $Tabellen_Spalten = array(
         'mu_name',
         'Information',
-        'mu_bildnam_1'
+        'mu_bild_1'
     );
     $Tabellen_Spalten_COMMENT['Information'] = "Öffnungszeiten, Kontakt, Sammlungsschwerpunkt";
     $Tabellen_Spalten_COMMENT['mu_name'] = "Museumsname, Adresse, Typ";
@@ -212,13 +214,12 @@ if ($_SESSION['VF_Prim']['p_uid'] == 999999999) {
         'mu_id',
         'mu_staat',
         'mu_bdland',
-        'mu_bez',
         'mu_name',
         'mu_bezeichng',
         'mu_adresse_a',
         'mu_plz_a',
         'mu_ort_a',
-        'mu_bildnam_1'
+        'mu_bild_1'
     );
 }
 
@@ -397,10 +398,7 @@ function modifyRow(array &$row, $tabelle)
 
         $row['Information'] = "$oeffnung";
 
-        if ($row['mu_bildnam_1'] != "") {
-            $pict1 = $pict_path . $row['mu_bildnam_1'];
-            $row['mu_bildnam_1'] = "<a href='$pict1' target='Wappen Feuerwehr' > <img src='$pict1' alt='Bild 1' width='150px'/> Groß </a> ";
-        }
+        
     } else {
         $mu_id = $row['mu_id'];
         $row['mu_id'] = "<a href='VF_O_MU_Edit.php?ID=$mu_id' >$mu_id</a>";
@@ -409,12 +407,55 @@ function modifyRow(array &$row, $tabelle)
                 $mu_internet = "http://" . $row['mu_kustos_intern'];
                 $row['mu_kustos_intern'] = "<a href='$mu_internet' target='_blank' > $mu_internet</a>";
         }
-        if ($row['mu_bildnam_1'] != "") {
-            $pict1 = $pict_path . $row['mu_bildnam_1'];
-            $row['mu_bildnam_1'] = "<a href='$pict1' target='Wappen Feuerwehr' > <img src='$pict1' alt='Bild 1' width='150px'/> Groß </a> ";
-        }
+        
     }
-    # $defjahr = date("Y"); // Beitragsjahr, ist Gegenwärtiges Jahr
+    
+    if ($row['mu_bild_1'] != "") {
+
+        $mu_bild_1 = $row['mu_bild_1'];
+        
+        $dn_a = pathinfo(strtolower($mu_bild_1));
+        
+        if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
+            $image1 = "<a href='".$path2ROOT ."login/AOrd_Verz/Museen/$mu_bild_1' > $mu_bild_1 </a>";
+        } else {
+            $aord_sp = "";
+            $pict_path = $path2ROOT ."login/AOrd_Verz/";
+            foreach (GrafFiles as $key => $val ){
+                if ($dn_a['extension'] == $val) {
+                    $aord_sp = "06/";
+                    
+                }
+            }
+            
+            if ($aord_sp == "") {
+                if ($dn_a['extension'] == 'mp3') {
+                    $aord_sp = "02/";
+                } elseif ($dn_a['extension'] == 'mp4') {
+                    $aord_sp = "10/";
+                } else {
+                    $aord_sp = "Biete_Suche/";
+                }
+            }
+            $fo_arr = explode("-", $mu_bild_1);
+            $cnt_fo = count($fo_arr);
+            
+            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                
+                $image1 = $pict_path.$urh."09/".$aord_sp.$verz.$mu_bild_1;
+                
+                if (!is_file($image1)) {
+                    $image1 = $pict_path . $mu_bild_1;
+                }
+            } else {
+                $image1 = $pict_path . "Museen/". $mu_bild_1;
+            }
+            $image2 = "<img src='$image1' alt='Bild 1' width='100px'/> ";
+        }
+        $row['mu_bild_1'] = "<a href='".$image1."'  target='_blanc'> $image2 </a>";
+    }
 
     # -------------------------------------------------------------------------------------------------------------------------
     return True;

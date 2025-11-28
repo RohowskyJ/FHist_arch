@@ -23,10 +23,10 @@ foreach ($_POST as $name => $value) {
 }
 
 if ( $neu['bild_datei_1'] != '') {
-    $neu['mu_bildnam_1'] =  $neu['bild_datei_1'];
+    $neu['mu_bild_1'] =  $neu['bild_datei_1'];
 }
 if ( $neu['bild_datei_2'] != '') {
-    $neu['mu_bildnam_2'] =  $neu['bild_datei_2'];
+    $neu['mu_bild_2'] =  $neu['bild_datei_2'];
 }
 
 if ($debug) {
@@ -42,7 +42,7 @@ if ($mu_id == 0) { # neueingabe
                mu_adresse_p,mu_plz_p,mu_ort_p,mu_eigner,
                mu_kustos_titel,mu_kustos_vname,mu_kustos_name,mu_kustos_dgr,mu_kustos_tel,
                mu_kustos_fax,mu_kustos_handy,mu_kustos_intern,mu_kustos_email,
-               mu_sammlbeg,mu_bildnam_1,mu_bildnam_2,mu_mustyp,mu_museigtyp,mu_sammlgschw,
+               mu_sammlbeg,mu_bild_1,mu_bibeschr_1,mu_bild_2,mu_bibeschr_2,mu_mustyp,mu_museigtyp,mu_sammlgschw,
                mu_besobj_1,mu_besobj_2,mu_besobj_3,mu_anz_obj,mu_archiv,
                mu_protbuch,mu_abzeich,mu_ausruest,mu_kleinger,mu_grossger,
                mu_toilett,mu_garderobe,mu_cafe,mu_sonst_anb,mu_rollstuhl,
@@ -56,7 +56,7 @@ if ($mu_id == 0) { # neueingabe
                 '$neu[mu_adresse_p]','$neu[mu_plz_p]','$neu[mu_ort_p]','$neu[mu_eigner]',
                 '$neu[mu_kustos_titel]','$neu[mu_kustos_vname]','$neu[mu_kustos_name]','$neu[mu_kustos_dgr]','$neu[mu_kustos_tel]',
                 '$neu[mu_kustos_fax]','$neu[mu_kustos_handy]','$neu[mu_kustos_intern]','$neu[mu_kustos_email]',
-                '$neu[mu_sammlbeg]','$neu[mu_bildnam_1]','$neu[mu_bildnam_2]','$neu[mu_mustyp]','$neu[mu_museigtyp]','$neu[mu_sammlgschw]',
+                '$neu[mu_sammlbeg]','$neu[mu_bild_1]','$neu[mu_bibeschr_1]','$neu[mu_bibeschr_2]','$neu[mu_bild_1]','$neu[mu_mustyp]','$neu[mu_museigtyp]','$neu[mu_sammlgschw]',
                 '$neu[mu_besobj_1]','$neu[mu_besobj_2]','$neu[mu_besobj_3]','$neu[mu_anz_obj]','$neu[mu_archiv]'
                 '$neu[mu_protbuch]','$neu[mu_abzeich]','$neu[mu_ausruest]','$neu[mu_kleinger]','$neu[mu_grossger]',
                 '$neu[mu_toilett]','$neu[mu_garderobe]','$neu[mu_cafe]','$neu[mu_sonst_anb]','$neu[mu_rollstuhl]',
