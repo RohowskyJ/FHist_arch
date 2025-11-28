@@ -63,7 +63,7 @@ echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
 echo "Archivalien- Verwaltung: Einordnung entsprechend der Archivordnug, Eingeben der Daten einer Archivalie (Dokument), Eingabe der Schlagworte zum Suchen <br>";
 echo "<a href='VF_A_AR_List.php?sk=$sk' target='Archiv'>Archivalien- Verwaltung </a><br>";
 echo "Die Anzahl der digitalisierten Objekte in den jeweiligen Archiv- Teilen anzeigen.<br>";
-echo "<a href='VF_A_AR_DocCnt_AN.php?sk=$sk&ei_id=21' target='Arch-Docs'>Archiv- Dokumente Anzahl je Arch_Ordnung Eig=21 (FF WrNdf)</a>";
+echo "<a href='VF_A_AR_DocCnt_AN.php?sk=$sk' target='Arch-Docs'>Archiv- Dokumente Anzahl je Arch_Ordnung </a>";
 echo "</div>";
 
 Edit_Separator_Zeile('Archivordnung, erweitert');

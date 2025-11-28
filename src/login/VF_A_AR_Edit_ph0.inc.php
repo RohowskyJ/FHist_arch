@@ -15,11 +15,23 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_Edit_ph0.inc.php";
 if ($debug) {echo "<pre class=debug>VF_A_AR_Edit_ph0.inc.php ist gestarted</pre>";}
 # var_dump($_POST);
 
+$dataSetAct = "";
 if ($neu['ad_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
+
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='ad_id' value='".$neu['ad_id']."'/>";
+echo "<input type='hidden' id='recEigner' name='ad_eignr' value='".$_SESSION['Eigner']['eig_eigner']."'/>";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."'/>";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
 
 $inveignr = $neu['ad_eignr'];
 
@@ -171,23 +183,23 @@ echo "</div>";
 
   echo "<input type='hidden' name=''ad_neueigner' val='".$neu['ad_neueigner']."' >";
   
-  $button = "";
-  if ($hide_area != 0) {
-      // Der Button, der das toggling übernimmt
-      $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock70' > zum anzeigen/ändern anklicken</label> ";
+  // accordion für Neuer Eigentümer
+  echo "<ul id='ne-accordion' class='accordionjs' $dataSetAct >"; // ne- für neuer Eigentümer
+  echo "<li>";
+  echo "<div>";
+  // $readOnly = 'readonly'; 
+  Edit_Daten_Feld_Button(Prefix . 'ad_neueigner', 50,'','');
+  if ($_SESSION[$module]['all_upd'] == '1' ){
+      $readOnly = '';
   }
-  
-  Edit_Daten_Feld('ad_neueigner',75,$button);
-
-  if ($hide_area == 0) {
-      echo "<div>";
-  } else {
-      echo "<div class='block-container' >";
-      echo "<div class='toggle-block' id='block70'>";
-  }
+  echo "Zum Ändern / Suchen - hier anklicken";
+  echo "</div>";
+  echo "<div>";
   VF_Auto_Eigent('E','');
-
-  echo "</div>"; # ende toggleneu eigentuemer
+  echo "</div>";
+  echo "</li>";
+  echo "</ul>";
+  // ende accordion für neuen Eigentümer
 
   # =========================================================================================================
   Edit_Separator_Zeile('Werte');

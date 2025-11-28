@@ -2109,7 +2109,7 @@ function VF_Auto_Eigent($t, $cl = false,$j="1")
 {
     global $debug, $module, $flow_list;
     flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Eigent");
-    console_log('autoeigent');
+    # console_log('autoeigent');
     ?>
     <div class='w3-container' style='background-color: PeachPuff; padding: 10px;'>
     <?php
@@ -2136,7 +2136,7 @@ function VF_Auto_Herstell()
 {
     global $debug, $module, $flow_list;
     flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Herstell");
-    console_log('autoherstell');
+    # console_log('autoherstell');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Hersteller eingeben:</b> <input type="text" class="autocomplete" data-proc="Hersteller" data-target="suggestHersteller" data-feed="hersteller" size='50'/>
@@ -2151,7 +2151,7 @@ function VF_Auto_Taktb()
 {
     global $debug, $module, $flow_list;
     flow_add($module, "VF_Comm_Funcs.lib.php Funct: VF_Auto_Taktb");
-    console_log('autotaktb');
+    # console_log('autotaktb');
     ?>
     <div class='w3-container' style='background-color: PeachPuff '> 
     <b>Suchbegriff für Taktische Bezeichnung eingeben:</b>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input type="text" class="autocomplete" data-proc="Taktisch" data-target="suggestTaktisch" data-feed="taktisch" size='50' />
@@ -2267,10 +2267,15 @@ function VF_Upload_Pfad_M($aufnDatum, $suffix = '', $aoPfad = '', $urh_nr = '')
  */
 function VF_Upload_Form_M()
 {
-    global $debug, $db, $neu, $module, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT;
+    global $debug, $db, $neu, $module, $sub_mod, $Tabellen_Spalten_COMMENT, $flow_list, $hide_area, $path2ROOT ,$dataSetAct ;
     
     flow_add($module, "VF_comm_Funct_lib.php Funct: VF_UpLoad_Form_M");
     
+    $readOnly = "";
+    /** alle <input und <textara Felder werden als readonly gesetzt */
+    if ($_SESSION[$module]['all_upd'] != '1' ){
+        $readOnly = 'readonly';
+    }
     /**
      * Parameter für die Fotos:
      *
@@ -2292,6 +2297,7 @@ function VF_Upload_Form_M()
         echo "<pre>";
     }
     
+    $subMod = $module."|".$sub_mod;
     $pic_cnt = count($_SESSION[$module]['Pct_Arr']);
 
     /**
@@ -2308,34 +2314,42 @@ function VF_Upload_Form_M()
 
     <?php
     // ?? echo "<input type='text' id='berPhase' value='init' >";
-    echo "<input type='hidden' name='pic_cnt' value='$pic_cnt' >";
+    echo "<input type='hidden' id='bildAnz' name='pic_cnt' value='$pic_cnt' >";
     for ($i = 0; $i < $pic_cnt; $i++) {
         $p_a = $_SESSION[$module]['Pct_Arr'][$i];
-#var_dump($neu);
-#var_dump($p_a);
-/*
-        // Entscheidung, ob versteckt wird bei bestehendem Daten
-        $hide_upl = $hide_bild = '';
-        if ($hide_area == 1) {
-            if (empty($neu[$p_a['ko']]) && empty($neu[$p_a['bi']])) {
-                $hide_upl = $hide_bild = 'hide'; // wird versteckt
+        // Fehlerim Bu_Edit, Anzeige der leeren Bilder wird nicht unterdrückt. AN, TE, PR sind OK
+        # var_dump($neu);
+        # echo $_SESSION[$module]['all_upd'] ." NULL or 1<br>";
+        # var_dump($p_a);
+        if ($_SESSION[$module]['all_upd'] != '1' ) {
+            $no_ko = 1;
+            # echo "L 2324 ko  ". $p_a['ko']."  ".$neu[$p_a['ko']]." <br>";
+            if ($p_a['ko'] != '' ) {
+                if ( $neu[$p_a['ko']] == "")  {
+                    $no_ko = '0';
+                }
             }
+            # echo "L 2330 bi  ". $p_a['bi']."  ".$neu[$p_a['bi']]." <br>";
+            if ($neu[$p_a['bi']] == "" && $no_ko == '1') {
+                
+                continue;
+            }
+              
         }
-*/
-        $j = $i + 1; /** Für die Bil- Nr- Anzeige */
+        $j = $i + 1; /** Für die Bild- Nr- Anzeige */
         
         if ($p_a['udir'] == '') {
             $pict_path = VF_Upload_Pfad_M('', '', '', '');
         } else {
             $pict_path = $p_a['udir'] ;
         }
-       
+               
         /**
          * Responsive Container innerhalb des loops
          */
         echo "<div class = 'block-container w3-container w3-half '>";                 // start half contailer
         echo "<fieldset>";
-        echo "Bild $j <br>";
+        # echo "Bild $j <br>";
         echo "<div class='bild-data_$j' >";
 
         if ($p_a['ko'] != "") {
@@ -2344,7 +2358,7 @@ function VF_Upload_Form_M()
             } else {
                 echo $p_a['ko'];
             }
-            echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' >" . $neu[$p_a['ko']] . "</textarea> ";
+            echo "<textarea class='w3-input' rows='7' cols='20' name='".$p_a['ko']."' $readOnly >" . $neu[$p_a['ko']] . "</textarea> ";
         }
 
         if ($p_a['f1'] != '') {
@@ -2359,42 +2373,49 @@ function VF_Upload_Form_M()
         if ($neu[$p_a['bi']] != "") {
             
             $fo = $neu[$p_a['bi']];
-           
-            $fo_arr = explode("-", $neu[$p_a['bi']]);
-            $cnt_fo = count($fo_arr);
-
-            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
-                $urh = $fo_arr[0];
-                $verz = $fo_arr[1]."/";
-                if ($cnt_fo > 3) {
-                    if (isset($fo_arr[3])) {
-                        $s_verz = $fo_arr[3]."/" ;
-                    }
+            
+            $ds_parts = pathinfo($fo);
+            $ext = strtolower($ds_parts['extension']);
+            echo "L 2378 ext $ext <br>";
+            # var_dump(GrafFiles);
+            $graffile = false;
+            foreach (GrafFiles as $key => $val ) {
+                if ($val == $ext ) {
+                    $graffile = true;
+                    break;
                 }
+            }
+            if ($graffile )  {
+                echo "L 2387 Datei ist Grafik- Datei <br>";
+                $fo_arr = explode("-", $neu[$p_a['bi']]);
+                $cnt_fo = count($fo_arr);
                 
-                $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
-                /*
-                if (is_file($p) {
-                # if ($p_a['udir'] == '') {
+                if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                    $urh = $fo_arr[0];
+                    $verz = $fo_arr[1]."/";
+                    if ($cnt_fo > 3) {
+                        if (isset($fo_arr[3])) {
+                            $s_verz = $fo_arr[3]."/" ;
+                        }
+                    }
+                    
                     $p = $path2ROOT ."login/AOrd_Verz/$urh/09/06/".$verz.$neu[$p_a['bi']] ;
+                    
+                    if (!is_file($p) ) {
+                        $p = $pict_path . $neu[$p_a['bi']];
+                    }
                 } else {
-                    $p = $p_a['udir'].$neu[$p_a['bi']] ;
-                }
-                */
-                if (!is_file($p) ) {
                     $p = $pict_path . $neu[$p_a['bi']];
                 }
-            } else {
-                $p = $pict_path . $neu[$p_a['bi']];
-            }
-# var_dump($p);
-            # $f_arr = pathinfo($neu[$p_a['bi']]);
-            $f_arr = pathinfo($p);
-            if ($f_arr['extension'] == "pdf") {
-                echo "<a href='$p' target='Bild $j' > Dokument</a>";
-            } else {
                 echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' height='200px'></a><br>";
                 echo $neu[$p_a['bi']];
+            } else {
+                echo "L 2410 Datei ist KEINE Grafik- Datei <br>";
+                
+                $sdir = SubMod_Dirs[$subMod];
+                $p = "<a href='".$path2ROOT ."login/AOrd_Verz/$sdir/".$neu[$p_a['bi']]."'> ".$neu[$p_a['bi']]."</a>" ;
+                
+                echo "$p"; 
             }
 
         } else {
@@ -2428,46 +2449,45 @@ function VF_Upload_Form_M()
         ?>
         
        <div class="toggle-group foto-upd-container" data-group="group1">
-           <div class="toggle-block" id="block1<?php echo $j ?>a"> 
-            
+           <div class="toggle-block" id="block1<?php echo $j ?>"> 
+           <!--  
            Block1 <?php echo $j ?>a
+            -->
            <div class='foto-upd'  style='margin-bottom:20px; border:1px solid #ccc; padding:10px;'>           
            <!-- Upload Parameter Gruppe -->
                 
-           <h3>Bild <?php echo $j; ?></h3>
-
-           <?php
-           if ($module != 'OEF') {
-           ?>
-             
-                <?php 
-                #if ($_SERVER['SERVER_NAME'] == 'localhost' ) {
-                   ?> 
-                   <!-- Radio Buttons für die Auswahl  -->
-                   <label>
-                       <input type="radio" name="sel_libs_<?php echo $j; ?>" id="sel_libs_ja<?php echo $j; ?>" value="ja"> aus Bibliothek auswählen
-                   </label>
-                   <?php 
-                #}
-           }
-           ?>
-   <label><input type="checkbox" id="toggleGroup5" checked> Datei neu Hochladen</label>
+           <!-- Radio-Buttons für Upload-Methode Auswahl -->
+           <div style="margin:10px 0;">
+               <?php
+               if ($module != 'OEF') {
+               ?>
+                  <label>
+                     <input type="radio" name="upload_method_<?php echo $j; ?>" value="library" data-toggle-group-a="group_lib<?php echo $j; ?>" data-toggle-group-b="group_upload<?php echo $j; ?>" data-toggle-index="<?php echo $j; ?>"> aus Bibliothek auswählen
+                  </label>
+               <?php 
+               }
+               ?>
+               <label>
+                   <input type="radio" name="upload_method_<?php echo $j; ?>" value="upload" data-toggle-group-a="group_upload<?php echo $j; ?>" data-toggle-group-b="group_lib<?php echo $j; ?>" data-toggle-index="<?php echo $j; ?>" checked> Datei neu hochladen
+               </label>
+           </div>
            
-     
            <!-- Bibliothekssuche Gruppe -->
-           <div id='sel_lib_suche' style='display:none;'>
-                 <!-- Inhalte für die Bibliothekssuche -->
-                 <!-- (Preview area moved out) -->
-                 
+           <div class="toggle-group" data-group="group_lib<?php echo $j; ?>" id="sel_lib_suche<?php echo $j; ?>">
+               <div class="toggle-block" id="lib<?php echo $j; ?>">
+                 <!-- keine Daten, es wird nur der Eintrag zum Auslösen gebraucht -->
+               </div>
            </div>
 
             <div id="sel_lib_upload<?php echo $j; ?>" ">  <!-- style="display:none; -->
             
-                 <div class="toggle-group" data-group="group5" id="sel_lib_upload<?php echo $j; ?>">
-                 <div class="toggle-block" id="block5<?php echo $j; ?>a">
-                 Block 5a
+                 <div class="toggle-group" data-group="group_upload<?php echo $j; ?>" id="sel_lib_upload<?php echo $j; ?>">
+                 <div class="toggle-block" id="upload<?php echo $j; ?>">
+                 <!-- Block 5a -->
                  <?php
-                 if ($module != 'OEF') {
+                 $subMod = $module."|".$sub_mod;
+                 echo "<input type='hidden' id='subMod' value='$subMod' >";
+                 if ($module != 'OEF' || ($module == 'OEF' && ($sub_mod == 'AN' || $sub_mod == 'BU' || $sub_mod == 'MUS' || $sub_mod == 'PR' || $sub_mod == 'TE'))) {
                      VF_Auto_Eigent('U', false,$j);
                      
                      Edit_Separator_Zeile('Aufnahme- Datum (Ziel- Pfad der Bilder erweitern mit Anhang möglich)');
@@ -2513,356 +2533,9 @@ function VF_Upload_Form_M()
     echo "</fieldset>";
     echo "</div>";  // Responsive Block end
     echo "</div>";        // end container
-
-    ?>
-<script>
-var bilder = {}; // globale Variable für die Bilderliste
-
-// Funktion zum Umschalten zwischen Bibliothek und Upload --- sollte nicht mehr nätig sein
-function toggleGruppen(biNr) {
-    console.log('toggle Gruppen');
-    const selLibsYes = $('#sel_libs_ja' + biNr);
-    const selLibsNo = $('#sel_libs_nein' + biNr);
-    const groupSearch = $('#sel_lib_suche' + biNr);
-    const groupUpload = $('#sel_lib_upload' + biNr);
-    console.log('grupl ',groupUpload);
-     
-    const auswahlBild = $('#auswahl-bild_' + biNr);
-
-    if (selLibsYes.is(':checked')) {
-        groupSearch.show();
-        groupUpload.hide();
-        auswahlBild.show();
-        startAjax(biNr);
-    } else if (selLibsNo.is(':checked')) {
-        groupSearch.hide();
-        groupUpload.show();
-        auswahlBild.hide();
-    }
-}
-
-// Funktion, um Bilder basierend auf der Auswahl zu laden
-function startAjax(biNr) {
-    // Beispiel: Daten sammeln
-    var sammlg = $('#sammlung').val().trim();
-    var eigner = $('#eigner').val();
-    var aufnDat =$('#aufnDat').val();
-    console.log('Sammlg ',sammlg);
-    console.log('Eigner ',eigner);
-    console.log('AufnDatum ',aufnDat);
-
-    // Level-Filter (hast du ggf. in deiner Seite);
-    var level1 = $('#level1').val() || '';
-    var level2 = $('#level2').val() || '';
-    var level3 = $('#level3').val() || '';
-    var level4 = $('#level4').val() || '';
-    var level5 = $('#level5').val() || '';
-    var level6 = $('#level6').val() || '';
-
-    // Auswahl anhand der Level
-    if (level6 && level6.toLowerCase() !== 'nix' && sammlg.length < level6.length) {
-        sammlg = level6;
-    } else if (level5 && level5.toLowerCase() !== 'nix' && sammlg.length < level5.length) {
-        sammlg = level5;
-    } else if (level4 && level4.toLowerCase() !== 'nix' && sammlg.length < level4.length) {
-        sammlg = level4;
-    } else if (level3 && level3.toLowerCase() !== 'nix' && sammlg.length < level3.length) {
-        sammlg = level3;    
-    } else if (level2 && level2.toLowerCase() !== 'nix' && sammlg.length < level2.length) {
-        sammlg = level2;
-    }    
-console.log('abfr sammlg ',sammlg);
-
-    // AJAX-Anfrage
-    $.ajax({
-        url: 'common/API/VF_SelPictLib.API.php',
-        method: 'POST',
-        data: {'sammlg' : sammlg,
-               'eigner' : eigner,
-               'aufnDat' : aufnDat
-         },
-        dataType: 'json', 
-        success: function(response) {
-            console.log('Success ',response);
-            bilder[biNr] = response.files;
-            // Galerie im Dialog füllen
-            var dialog = $('#dialog-bilder_' + biNr);
-            var galerieHtml = '<div style="display:flex; flex-wrap:wrap; gap:10px;">';
-            for (let i=0; i<response.files.length; i++) {
-                let b = response.files[i];
-                galerieHtml += `<div class="bild-item" data-index="${i}" style="cursor:pointer; border:1px solid #ccc; padding:5px;">
-                        <img src="${b.pfad}" alt="${b.dateiname}" width="200"><br>${b.dateiname}
-                    </div>`;
-            }
-            galerieHtml += '</div>';
-            dialog.find('#bild-vorschau-dialog_' + biNr).html(galerieHtml);
-            dialog.find('#dateiname-dialog_' + biNr).text('');
-            dialog.find('#bild-datei-dialog_' + biNr).val('');
-            dialog.find('#bild-nummer-dialog_' + biNr).val(1);
-            // Dialog öffnen
-            dialog.dialog({ width: 800, modal: true });
-        },
-        error: function(xhr) {
-            alert('Fehler beim Upload: ' + xhr.statusText);
-        }
-    });
-}
-
-
-// Klick auf Bild in Galerie
-$(document).on('click', '[id^=bild-galerie_] .bild-item', function() {
-    // This handler is now obsolete, as gallery is only in dialog. No action needed.
-});
-
-// Click handler for image selection in dialog gallery
-$(document).on('click', '[id^=dialog-bilder_] .bild-item', function() {
-    const biNr = $(this).closest('[id^=dialog-bilder_]').attr('id').split('_')[1];
-    const index = $(this).data('index');
-    if (bilder[biNr]) {
-        const bild = bilder[biNr][index];
-        // Vorschau im Dialog setzen (optional, or just highlight selection)
-        // $('#bild-vorschau-dialog_' + biNr).html(`<img src="${bild.pfad}" width="250">`);
-        $('#dateiname-dialog_' + biNr).text(bild.dateiname);
-        $('#bild-datei-dialog_' + biNr).val(bild.dateiname);
-
-        // Auch in der Auswahl-Box anzeigen
-        $('#bild-vorschau-auswahl_' + biNr).html(`<img src="${bild.pfad}" width="250">`);
-        $('#dateiname-auswahl_' + biNr).text(bild.dateiname);
-        $('#bild-datei-auswahl_' + biNr).val(bild.dateiname);
-
-        // Zeige den Auswahl-Bereich explizit an (falls versteckt)
-        $('#auswahl-bild_' + biNr).show();
-        // Optional: Scrolle zum Auswahl-Bereich
-        document.getElementById('auswahl-bild_' + biNr).scrollIntoView({behavior: 'smooth', block: 'center'});
-
-        // Dialog schließen
-        $('#dialog-bilder_' + biNr).dialog('close');
-    }
-});
-
-$(document).ready(function() {
-    <?php for ($j = 1; $j <= $pic_cnt; $j++): ?>
-        // Initiales Umschalten
-        toggleGruppen(<?php echo $j; ?>);
-        // Event für Radio-Buttons
-        $('#sel_libs_ja<?php echo $j; ?>, #sel_libs_nein<?php echo $j; ?>').change(function() {
-            toggleGruppen(<?php echo $j; ?>);
-        });
-    <?php endfor; ?>
-});
     
-// Reusable upload logic for each upload block
-function setupUploadBlock(j) {
-    console.log('uploadblock ',j);
-    // Make file input accept multiple files
-    const fileInput = $('#upload_file_' + j);
-    fileInput.attr('multiple', 'multiple');
-    // Remove any previous preview/upload UI to avoid duplicates
-    $('#preview_' + j).remove();
-    $('#upload_btn_' + j).remove();
-    $('#filename_' + j).remove();
-    $('#rotate_left_' + j).remove();
-    $('#rotate_right_' + j).remove();
-
-   // Preview and controls container
-    const previewDiv = $('<div id="preview_' + j + '" style="margin:10px 0;"></div>');
-    const uploadBtn = $('<button type="button" id="upload_btn_' + j + '" style="color: #cc0000">zum Hochladen der Datei nach dem Ausfüllen anklicken</button>');   
-    fileInput.after(previewDiv);
-    previewDiv.after(uploadBtn);
-    
-    // Store selected files and their rotation
-    let selectedFiles = [];
-    let rotations = [];
-
-    // File input change handler
-    fileInput.on('change', function(e) {
-        selectedFiles = Array.from(e.target.files);
-        rotations = selectedFiles.map(() => 0);
-        renderPreviews();
-    });
-
-    function renderPreviews() {
-        previewDiv.html('');
-        if (!selectedFiles.length) return;
-        selectedFiles.forEach((file, idx) => {
-            const fileRow = $('<div style="margin-bottom:10px;"></div>');
-            const filenameInput = $('<input type="text" readonly style="width:200px; margin-right:10px;">').val(file.name);
-            const rotateLeftBtn = $('<button type="button" style="margin-right:5px;">⟲</button>');
-            const rotateRightBtn = $('<button type="button" style="margin-right:5px;">⟳</button>');
-            const imgHolder = $('<span></span>');
-
-            rotateLeftBtn.on('click', function() {
-                rotations[idx] = (rotations[idx] - 90) % 360;
-                renderImage(file, rotations[idx], imgHolder);
-                
-            });
-            rotateRightBtn.on('click', function() {
-                rotations[idx] = (rotations[idx] + 90) % 360;
-                renderImage(file, rotations[idx], imgHolder);
-            });
-
-            fileRow.append(filenameInput, rotateLeftBtn, rotateRightBtn, imgHolder);
-            previewDiv.append(fileRow);
-            renderImage(file, rotations[idx], imgHolder);
-        });
-    }
-
-    function renderImage(file, rotation, imgHolder) {
-        if (!file) { imgHolder.html(''); return; }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = $('<img>').attr('src', e.target.result).css({
-                'max-width': '200px',
-                'transform': 'rotate(' + rotation + 'deg)'
-            });
-            imgHolder.html(img);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // Upload button handler
-    // Add error spans if not present
-    if ($('#aufnDat_' + j).next('.error-msg').length === 0) {
-        $('#aufnDat_' + j).after('<span class="error-msg" style="color:red;display:none;margin-left:8px;"></span>');
-    }
-    if ($('#eigentuemer_' + j).next('.error-msg').length === 0) {
-        $('#eigentuemer_' + j).after('<span class="error-msg" style="color:red;display:none;margin-left:8px;"></span>');
-    }
-    
-    uploadBtn.on('click', function() {
-    console.log('uploadBtn');
-        let hasError = false;
-        // Remove previous error styles/messages
-        $('#aufnDat_' + j).removeClass('input-error');
-        $('#eigentuemer_' + j).removeClass('input-error');
-        $('#aufnDat_' + j).next('.error-msg').hide();
-        $('#eigentuemer_' + j).next('.error-msg').hide();
-console.log('selFile length ',selectedFiles.length);
-        if (!selectedFiles.length) {
-            alert('Bitte wählen Sie mindestens eine Datei aus.');
-            return;
-        }
-        // Collect additional data
-        const aufnDat = $('#aufnDat_' + j).val() || ''; 
-        const urhEinfg = $('#urhEinfgJa_' + j).val() || 'N';
-        let urhNr = $('#urhNr').val() || '';
-        let eigentuemer = $('#eigentuemer_' + j).val() || '';
-        if (urhNr === "" ) {urhNr = $('#urhNr').val() ;}
-        const urhName = $('#urhName').val() || '';
-        const reSize = $('#reSize').val() || '800'; // Default size
-        const aOrd = $('#aOrd_' + j).val() || '';
-        const eigner = $('#eigner_' + j).val() || '';
-        let rotation = 0;
-        console.log('urhNr ',urhNr );
-        // console.log('eigentuemer ',$('#eigentuemer_' + j).val());
-        // Validate required fields
-        if (urhNr === 'undefined') {
-           urhNr = '';
-        }
-        if (urhNr === '' || urhNr == 'undefined') {
-            // $('#eigentuemer_' + j).addClass('input-error');
-            // $('#eigentuemer_' + j).next('.error-msg').text('Pflichtfeld!').show();
-            // hasError = true;
-            if (eigentuemer != '') {
-               urhNr = eigentuemer;
-            }
-        }
-        
-        /*
-        if (aufnDat === '') {
-            $('#aufnDat_' + j).addClass('input-error');
-            $('#aufnDat_' + j).next('.error-msg').text('Pflichtfeld!').show();
-            hasError = true;
-        }
-        console.log('aufnDat has error ',hasError);
-       */
-        if (hasError) {
-            return;
-        }
-console.log('vor FormData');
-        const formData = new FormData();
-        selectedFiles.forEach((file, idx) => {
-            formData.append('file[]', file);
-            if(rotations[idx] != 0) {
-            rotation = rotations[idx] * -1 ;
-            }
-            formData.append('rotation', rotation); // []
-        });
-        formData.append('urhNr', urhNr);
-        formData.append('urhName', urhName);
-        formData.append('urhEinfgJa', urhEinfg);
-        formData.append('aufnDat', aufnDat);
-        formData.append('reSize', reSize);
-        formData.append('aOrd', aOrd); 
-        formData.append('eigner', eigner); 
-
-        console.log('formData ',formData);
-
-        $.ajax({
-            url: 'common/API/VF_C_MassUp.API.php',   //    common/API/VF_Upload.API.php
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                console.log('Upload response typeof:', typeof response, response);
-                // If response is a string, try to parse as JSON
-                if (typeof response === 'string') {
-                    try {
-                        response = JSON.parse(response);
-                        console.log('Parsed JSON response:', response);
-                    } catch(e) {
-                        console.log('JSON parse error:', e, response);
-                    }
-                }
-                if (response && response.files) {
-                    console.log('Upload response files:', response.files);
-                    response.files.forEach(function(fileObj, idx) {
-                        var hiddenInput = $("#bild-datei-auswahl_" + j);
-                        if (hiddenInput.length) {
-                            hiddenInput.val(fileObj.filename);
-                        }
-                    });
-                } else {
-                    console.log('No files in response:', response);
-                }
-                alert('Upload erfolgreich!');
-            },
-            error: function(xhr) {
-                alert('Fehler beim Upload: ' + xhr.statusText);
-            }
-        });
-    });
-
-    // Remove error on input change
-    $('#aufnDat_' + j).on('input', function() {
-        if ($(this).val() !== '') {
-            $(this).removeClass('input-error');
-            $(this).next('.error-msg').hide();
-        }
-    });
-    $('#eigentuemer_' + j).on('input', function() {
-        if ($(this).val() !== '') {
-            $(this).removeClass('input-error');
-            $(this).next('.error-msg').hide();
-        }
-    });
-
-    // Add CSS for error highlight
-    if ($('style#input-error-style').length === 0) {
-        $('head').append('<style id="input-error-style">.input-error { border: 2px solid red !important; }</style>');
-    }
-}
-
-// Setup all upload blocks on page load
-$(document).ready(function() {        
-    console.log('set uploadblocks ', <?php echo $j; ?>);
-    <?php for ($j = 1; $j <= $pic_cnt; $j++): ?>
-        setupUploadBlock(<?php echo $j; ?>);
-    <?php endfor; ?>
-});    
-</script>
-<?php 
+    // Add hidden field for JavaScript to know how many image blocks to setup
+    echo "<input type='hidden' id='bildAnz' value='".$pic_cnt."'>";
 
 } // end VF_Upload_Form_M
 

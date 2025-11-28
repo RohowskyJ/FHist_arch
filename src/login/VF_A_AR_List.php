@@ -32,13 +32,13 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
@@ -84,6 +84,7 @@ $sk = $_SESSION['VF_Prim']['SK'];
 
 $jq = $jqui = True; // JQ-UI laden
 $BA_AJA = True; // AJAX- Scripts laden
+$jq_toggle = $jq_tabsort = true; // $jq_accordion = 
 
 $header = "";
 $eigner = $_SESSION['Eigner']['eig_eigner'];
@@ -160,6 +161,9 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     }
 
     echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
+    
+    BA_HTML_trailer();
+    
 } else {
 
     VF_upd();

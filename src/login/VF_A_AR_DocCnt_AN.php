@@ -49,6 +49,19 @@ $db = LinkDB('Mem');
 VF_chk_valid();
 VF_set_module_p();
 
+
+if (isset($_GET['ei_id'])) {
+    $_SESSION['Eigner']['eig_eigner'] = $ei_id = $_GET['ei_id'];
+    VF_Displ_Eig($ei_id);
+} else {
+    if (isset($_SESSION['Eigner']['eig_eigner']) && $_SESSION['Eigner']['eig_eigner'] != '') {
+        $ei_id = $_SESSION['Eigner']['eig_eigner'];
+    } else {
+        echo "Kein Eigentümer ausgewählt. Abbruch.";
+        exit;
+    }
+}
+
 if (isset($_GET['ID'])) {
     if ($_GET['ID'] == "NextEig") {
         $_SESSION['Eigner']['eig_eigner'] = "";
@@ -68,13 +81,8 @@ if (isset($_POST['select_string'])) {
 
 $_SESSION[$module]['$select_string'] = $select_string;
 
-if (isset($_GET['ei_id'])) {
-    $_SESSION['Eigner']['eig_eigner'] = $ei_id = $_GET['ei_id'];
-} else {
-    $ei_id = $_SESSION['Eigner']['eig_eigner'];
-}
 
-VF_Displ_Eig($ei_id);
+
 
 $tabelle_m = $_SESSION[$module]['tabelle_m'] = "ar_chivdat";
 $tabelle = $tabelle_m . "_" . $_SESSION['Eigner']['eig_eigner'];
@@ -93,15 +101,13 @@ echo "<tr><th onclick='sortTable(0)'>Sachgeb</th><th>Sub-Sachgebiet</th><th oncl
 echo "</thead>";
 echo "<tbody>";
 while ($row = mysqli_fetch_object($return)) {
-
     $cnt = $row->Anzahl/$_SESSION['Eigner']['eig_eigner']  ; #21;
     $s_cnt += $cnt;
     $arl_str = "";
     if ($row->ad_lcsg != "00" || $row->ad_lcssg != "00") {
-        $arl_str = VF_Displ_Arl($row->ad_sg,$row->ad_subsg,$row->ad_lcsg,$row->ad_lcssg,$row->ad_lcssg_s0,$row->ad_lcssg_s1);
-        $arl_arr = explode("|", $arl_str);
+        $arl_str = VF_Displ_Arl($row->ad_sg,$row->ad_subsg,$row->ad_lcsg,$row->ad_lcssg,$row->ad_lcssg_s0,$row->ad_lcssg_s1);       
+        $arl_arr = explode("|", $arl_str);     
         $arl_name = $arl_arr[5];
-        #echo "L 097 arl_str $arl_str <br>";
     } elseif ($row->ad_sg != "" ) { ## || $row->ad_subsg != "00"
         $arl_name = substr(VF_Displ_Aro($row->ad_sg,$row->ad_subsg), 6);
         

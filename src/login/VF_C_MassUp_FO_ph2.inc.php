@@ -88,6 +88,7 @@ echo "<input type='hidden' id='urhNr' name='urhNr' value='$eignr' >";
 echo "<input type='hidden' id='aufnDat' value='$aufn_dat' >";
 
 echo "<input type='hidden' id='urhEinfg' value='$urheinfueg' >";
+echo "<input type='hidden' id='subMod' value='FOTO|Upl' >";
 
 if ($debug) {
     echo "<pre class=debug>VF_C_MassUp_FO_ph2.inc.php ist beendet</pre>";

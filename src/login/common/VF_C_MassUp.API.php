@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $urhNr = '';
     }
     $subMod = $_POST['subMod'] ?? '' ;
-
+    
     if ($urhEinfgJa == '1') { $urhEinfgJa ='J';}
     
     if ($aOrd != '') {
@@ -146,11 +146,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eintragen .= " urhNr $urhNr \n";
         $eintragen .= " urhName $urhName \n";
         $eintragen .= " aOrd $aOrd \n";
-        $eintragen .= " eigner $eigner \n";
+        # $eintragen .= " eigner $eigner \n";
         $eintragen .= " reSize $reSize \n";
-        $eintragen .= " subMod $subMod \n";
+        $eintragen .= " subMod $subMd \n";
         
-        file_put_contents($debug_log_file, "L 153 $eintragen" . PHP_EOL, FILE_APPEND);
+        file_put_contents($debug_log_file, "L 134 $eintragen" . PHP_EOL, FILE_APPEND);
     }
     // Dateien
     if (!isset($_FILES['file'])) {
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $size = is_array($_FILES['file']['size']) ? $_FILES['file']['size'][$i] : $_FILES['file']['size'];
         $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
         if ($debug_log) {
-            file_put_contents($debug_log_file, "L 0171 Params: name $name size $size ext $ext " . PHP_EOL, FILE_APPEND);
+            file_put_contents($debug_log_file, "L 0162 Params: name $name size $size ext $ext " . PHP_EOL, FILE_APPEND);
         }
         $rotation = isset($rotations) ? (int)$rotations : 0;
         
@@ -190,12 +190,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $targetPath = $uploadDir . basename($rename);
         if ($debug_log) {
-           file_put_contents($debug_log_file, "L 0193 vor move_upl $targetPath; rename $rename  " . PHP_EOL, FILE_APPEND);
+           file_put_contents($debug_log_file, "L 0182 vor move_upl $targetPath; rename $rename  " . PHP_EOL, FILE_APPEND);
         }
         
         if (move_uploaded_file($tmp, $targetPath)) { 
             // Spezialbehandlung für Bilder
-            if (in_array($ext, ['gif', 'ico', 'jpeg', 'jpg', 'png', 'tiff']) ) {
+            if (in_array($ext, ['gif', 'ico', 'jpeg', 'jpg', 'png', 'tiff','mp3','mp4']) ) {
                 if ($urhNr != '' && $aOrd == "") {
                     $storePath = "../../AOrd_Verz/$urhNr/09/";  // unvollständiger Pfad zum Zielverzeichnis
                 } else {
@@ -203,56 +203,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 
                 if ($debug_log) {
-                    file_put_contents($debug_log_file, "L 0206  Zielpfad $storePath  " . PHP_EOL, FILE_APPEND);
+                    file_put_contents($debug_log_file, "L 0189  Zielpfad $storePath  " . PHP_EOL, FILE_APPEND);
                 }
                 $targetPath = handleImageSpecial($targetPath, $urhNr, $urhName, $aufnDat,$rotation, $urhEinfgJa, $reSize, $aOrd);        
                 if ($debug_log) {
-                    file_put_contents($debug_log_file, "L 0210 fertiges Bild $targetPath  " . PHP_EOL, FILE_APPEND);
+                    file_put_contents($debug_log_file, "L 0193 fertiges Bild $targetPath  " . PHP_EOL, FILE_APPEND);
                 }
             } else {
-                if (in_array($ext, ['mp3'])) {    // AAudio- Files
+                if (in_array($ext, ['mp3'])) {
                     $storePath = "../../AOrd_Verz/$urhNr/09/02/"; 
                     
-                } elseif (in_array($ext, ['mp4'])) {   // Video- Files
+                } elseif (in_array($ext, ['mp4'])) {
                     $storePath = "../../AOrd_Verz/$urhNr/09/10/";       // vollständiger Pfad für Videos 
-                } else {    // alle Dokumenten - Dateien
-                    file_put_contents($debug_log_file, "L 0219 aOrd $aOrd subMod $subMod " . PHP_EOL, FILE_APPEND);
-                    
-                    $mod_arr = explode('|',$subMod);
-                    if ($mod_arr[0] == 'OEF') {
-                        if ($mod_arr[1] == 'AN') {
-                            $storePath = "../../AOrd_Verz/Biete_Suche/"; 
-                        } elseif ($mod_arr[1] == 'BU') {
-                            $storePath = "../../AOrd_Verz/Buch/"; 
-                        } elseif ($mod_arr[1] == 'MUS') {
-                            $storePath = "../../AOrd_Verz/Museen/"; 
-                        } elseif ($mod_arr[1] == 'PR') {
-                            $storePath = "../../AOrd_Verz/Presse/"; 
-                        } elseif ($mod_arr[1] == 'TE') {
-                            $storePath = "../../AOrd_Verz/Termine/"; 
-                        }
-                    } elseif ($mod_arr[0] == 'PSA') {
-                        $storePath = "../../AOrd_Verz/$eigner/$aOrd/"; 
-                    } elseif ($mod_arr[0] == 'ARC') {
-                        if ($eigner != "" && $aOrd != "") {
-                            $storePath = "../../AOrd_Verz/$eigner/$aOrd/";  // vollständiger Pfad für Archivdaten
-                        } else {
-                            $response['errors'][] = "$name: Verzeichnis nach Archivordnung nicht angegeben.";
-                        }
-                    } elseif ($mod_arr[0] == 'INV') {
-                        $storePath = "../../AOrd_Verz/$eigner/INV/"; 
-                    } elseif ($mod_arr[0] == 'Media') {
-                        $storePath = "../../AOrd_Verz/$urhNr/09/"; 
-                    } elseif ($mod_arr[0] == 'PSA') {
-                        $storePath = "../../AOrd_Verz/PSA/"; 
-                    } elseif ($mod_arr[0] == 'F_G') {
-                        $storePath = "../../AOrd_Verz/$eigner/07/01/"; 
-                    } 
+                } else {    // if (in_array($ext, ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ods'])) {
+                    file_put_contents($debug_log_file, "L 0199 aOrd $aOrd  " . PHP_EOL, FILE_APPEND);
+                    if ($eigner != "" && $aOrd != "") {
+                        $storePath = "../../AOrd_Verz/$eigner/$aOrd/";  // vollständiger Pfad für Archivdaten
+                    } else {
+                        $response['errors'][] = "$name: Verzeichnis nach Archivordnung nicht angegeben.";
+                    }
                 }
                 file_put_contents($debug_log_file, "L 0206 storepath $storePath  " . PHP_EOL, FILE_APPEND);
-                
-                if (!is_dir($storePath)) {
-                # if (!is_file($storePath)) {
+                # if (!is_dir($storePath)) {
+                if (!is_file($storePath)) {
                     mkdir($storePath, 0755, true);
                 }
                 copy($targetPath,$storePath . basename($targetPath));
@@ -271,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     if ($debug_log) {
-        file_put_contents($debug_log_file, "L 0283 ".json_encode($response) . PHP_EOL, FILE_APPEND);
+        file_put_contents($debug_log_file, "L 0216 ".json_encode($response) . PHP_EOL, FILE_APPEND);
     }
     
     echo json_encode($response);
