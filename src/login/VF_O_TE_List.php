@@ -295,7 +295,7 @@ function modifyRow(array &$row,$tabelle)
     
     if ($row['va_bild_1'] != "") {
 
-        #$p1 = $pict_path . $row['va_bild_1'];
+        $image1 = $image2 = "";
 
         $va_bild_1 = $row['va_bild_1'];
         
@@ -337,11 +337,12 @@ function modifyRow(array &$row,$tabelle)
             } else {
                 $image1 = $pict_path . "Biete_Suche/". $va_bild_1;
             }
-            $image1 = "<img src='$image1' alt='Bild 1' width='150px'/> ";
+            $image2 = "<img src='$image1' alt='Bild 1' width='150px'/> ";
         }
-        $row['va_bild_1'] = "<a href='".$pict_path .$aord_sp .  $va_bild_1."'  target='_blanc'> $image1 </a>";
+        $row['va_bild_1'] = "<a href='".$image1."'  target='_blanc'> $image2 </a>";
         #$row['va_bild_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$p1' width='150px'>  Groß  </a><br>";
     }
+    /*
     if ($row['va_bild_2'] != "") {
         $row['va_bild_2'] .= "<br/><a href='$pict_path$va_bild_2' target='Prospekt 1'>$va_bild_2</a><br>";
     }
@@ -352,6 +353,7 @@ function modifyRow(array &$row,$tabelle)
     if ($row['va_internet'] != "") {
         $row['va_bild_1'] .= "<a href='$va_internet' target='Internet' >$va_internet</a>";
     }
+    */
     $va_datum = $row['va_datum'];
     $row['va_datum'] = "$va_datum <br>".$row['va_begzt'];
     $va_adresse = $row['va_adresse'];
