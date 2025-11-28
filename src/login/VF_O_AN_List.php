@@ -264,51 +264,9 @@ function modifyRow(array &$row,$tabelle)
             }
         }
     }
-
+    $image1 = $image2 = "";
     if ($row['bs_bild_1'] != "") {
-        $bs_bild_1 = $row['bs_bild_1'];
         
-        $dn_a = pathinfo(strtolower($bs_bild_1));
-        
-        if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
-            $image1 = "<a href='".$path2ROOT ."login/AOrd_Verz/Biete_Suche/$bs_bild_1' > $bs_bild_1 </a>";
-        } else {
-            $aord_sp = "";
-            $pict_path = $path2ROOT ."login/AOrd_Verz/";
-            foreach (GrafFiles as $key => $val ){
-                if ($dn_a['extension'] == $val) {
-                    $aord_sp = "06/";
-                    
-                }
-            }
-            
-            if ($aord_sp == "") {
-                if ($dn_a['extension'] == 'mp3') {
-                    $aord_sp = "02/";
-                } elseif ($dn_a['extension'] == 'mp4') {
-                    $aord_sp = "10/";
-                } else {
-                    $aord_sp = "Biete_Suche/";
-                }
-            }
-            $fo_arr = explode("-", $bs_bild_1);
-            $cnt_fo = count($fo_arr);
-            
-            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
-                $urh = $fo_arr[0]."/";
-                $verz = $fo_arr[1]."/";
-                
-                $image1 = $pict_path.$urh."09/".$aord_sp.$verz.$bs_bild_1;
-                
-                if (!is_file($image1)) {
-                    $image1 = $pict_path . $bs_bild_1;
-                }
-            } else {
-                $image1 = $pict_path . "Biete_Suche/". $bs_bild_1;
-            }
-            $image1 = "<img src='$image1' alt='Bild 1' width='100px'/> ";
-        }
-        $row['bs_bild_1'] = "<a href='".$pict_path . $bs_bild_1."'  target='_blanc'> $image1 </a>";
     }
 
     if ($row['bs_bild_2'] != "") {

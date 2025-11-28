@@ -30,13 +30,13 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_PR_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -68,7 +68,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "SelectAnzeige"       => "Aus",
         "SpaltenNamenAnzeige" => "Aus",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -81,18 +81,15 @@ if (! isset($_SESSION[$module]['all_upd'])) {
     $_SESSION[$module]['all_upd'] = False;
 }
 
-if (isset($_GET['Act'])) {
-    IF ( $_GET['Act'] == 1) {
-        $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
-        VF_chk_valid();
-        VF_set_module_p();
-    } else {
-        if (!isset($_SESSION[$module]['Act'])){
-            $_SESSION[$module]['Act'] = $Act = 0;
-            $_SESSION['VF_Prim']['p_uid'] = 999999999;
-            $_SESSION[$module]['all_upd'] = False;
-        }
-    }
+if (isset($_GET['Act']) and $_GET['Act'] == 1) {
+    $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
+    VF_chk_valid();
+    VF_set_module_p();
+    $_SESSION['VF_LISTE']['LangListe'] = "Aus";
+} else {
+    $_SESSION[$module]['Act'] = $Act = 0;
+    $_SESSION['VF_Prim']['p_uid'] = 999999999;
+    $_SESSION[$module]['all_upd'] = False;
 }
 
 if (isset($_POST['phase'])) {
@@ -251,43 +248,59 @@ function modifyRow(array &$row,$tabelle)
             }
         }
     }
-
+    $image1 = $image2 = "";
     if ($row['pr_bild_1'] != "") {
+        /*
         $pr_bild_1 = $row['pr_bild_1'];
         $DsName = $pict_path . $row['pr_bild_1'];
         $image1 = "<img src='$DsName' alt='Bild 1' width='100px'/> ";
         $row['pr_bild_1'] = "<a href=\"$DsName\" target='Bild 1'> $image1 </a>";
+        */
+        $pr_bild_1 = $row['pr_bild_1'];
+        
+        $dn_a = pathinfo(strtolower($pr_bild_1));
+        
+        if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
+            $image1 = "<a href='".$path2ROOT ."login/AOrd_Verz/Presse/$pr_bild_1' > $pr_bild_1 </a>";
+        } else {
+            $aord_sp = "";
+            $pict_path = $path2ROOT ."login/AOrd_Verz/";
+            foreach (GrafFiles as $key => $val ){
+                if ($dn_a['extension'] == $val) {
+                    $aord_sp = "06/";
+                    
+                }
+            }
+            
+            if ($aord_sp == "") {
+                if ($dn_a['extension'] == 'mp3') {
+                    $aord_sp = "02/";
+                } elseif ($dn_a['extension'] == 'mp4') {
+                    $aord_sp = "10/";
+                } else {
+                    $aord_sp = "Biete_Suche/";
+                }
+            }
+            $fo_arr = explode("-", $pr_bild_1);
+            $cnt_fo = count($fo_arr);
+            
+            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                
+                $image1 = $pict_path.$urh."09/".$aord_sp.$verz.$pr_bild_1;
+                
+                if (!is_file($image1)) {
+                    $image1 = $pict_path . $pr_bild_1;
+                }
+            } else {
+                $image1 = $pict_path . "Presse/". $pr_bild_1;
+            }
+            $image2 = "<img src='$image1' alt='Bild 1' width='100px'/> ";
+        }
+        $row['pr_bild_1'] = "<a href='".$image1."'  target='_blanc'> $image2 </a>";
     }
-    if ($row['pr_bild_2'] != "") {
-        $pr_bild_2 = $row['pr_bild_2'];
-        $DsName = $pict_path . $row['pr_bild_2'];
-        $image2 = "<img src='$pict_path" . $pr_bild_2 . "' alt='Bild 2' width='100px'/> ";
-        $row['pr_bild_2'] = "<a href=\"$DsName\" target='Bild 2'> $image2 </a>";
-    }
-    if ($row['pr_bild_3'] != "") {
-        $pr_bild_3 = $row['pr_bild_3'];
-        $DsName = $pict_path . $row['pr_bild_3'];
-        $image3 = "<img src='$DsName' alt='Bild 3' width='100px'/> ";
-        $row['pr_bild_3'] = "<a href=\"$DsName\" target='Bild 3'> $image3 </a>";
-    }
-    if ($row['pr_bild_4'] != "") {
-        $pr_bild_4 = $row['pr_bild_4'];
-        $DsName = $pict_path . $row['pr_bild_4'];
-        $image4 = "<img src='$DsName' alt='Bild 4' width='100px'/> ";
-        $row['pr_bild_4'] = "<a href=\"$DsName\" target='Bild 4_blanc'> $image4 </a>";
-    }
-    if ($row['pr_bild_5'] != "") {
-        $pr_bild_5 = $row['pr_bild_5'];
-        $DsName = $pict_path . $row['pr_bild_5'];
-        $image5 = "<img src='$DsName' alt='Bild 5' width='100px'/> ";
-        $row['pr_bild_5'] = "<a href=\"$DsName\" target='Bild 5'> $image5 </a>";
-    } 
-    if ($row['pr_bild_6'] != "") {
-        $pr_bild_6 = $row['pr_bild_6'];
-        $DsName = $pict_path . $row['pr_bild_6'];
-        $image5 = "<img src='$DsName' alt='Bild 5' width='100px'/> ";
-        $row['pr_bild_6'] = "<a href=\"$DsName\" target='Bild 6'> $image5 </a>";
-    } 
+
     # -------------------------------------------------------------------------------------------------------------------------
     return True;
 } # Ende von Function modifyRow
