@@ -17,10 +17,12 @@ if ($debug) {
     echo "<pre class=debug>VF_I_IN_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+$dataSetAct = "";
 if ($neu['in_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
 
 echo "<input type='hidden' name='in_id' value='" . $neu['in_id'] . "'/>";
@@ -156,9 +158,8 @@ $checked_f = "";
 if ($hide_area == 0) {  //toggle??
     $checked_f = 'checked';
 }
-// Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-$button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-Edit_Separator_Zeile('Fotos'.$button_f);
+$checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 echo "<div>";
 
@@ -196,23 +197,25 @@ Edit_Daten_Feld('in_erstdat', 10);
 Edit_Daten_Feld('in_ausgdat', 10);
 
 
-$button = "";
-/*
-if ($hide_area != 0) {
-    // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_ne')\">zum ändern klicken!</button>";
-}
-*/
-Edit_Daten_Feld('in_neueigner',75,$button); #
-/*
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-    echo "<div id='unhide_ne' style='display:none'>";
-}
-VF_Auto_Eigent('E','');
+// accordion für Neuer Eigentümer
+echo "<ul id='ne-accordion' class='accordionjs' $dataSetAct >"; // ne- für neuer Eigentümer
+echo "<li>";
 echo "<div>";
-*/
+// $readOnly = 'readonly';
+Edit_Daten_Feld(Prefix . 'in_neueigner', 50);
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
+}
+# echo "<input type='text' id='eigentuemer_99' name='eigentuemer_99' value='' >";
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
+VF_Auto_Eigent('E','',99);
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// ende accordion für neuen Eigentümer
+
 # =========================================================================================================
 Edit_Separator_Zeile('Lagerort');
 # =========================================================================================================
@@ -238,8 +241,6 @@ if ($_SESSION[$module]['all_upd']) {
 echo "<p><a href='VF_I_IN_List.php'>Zurück zur Liste</a></p>";
 echo "</div>";
 echo "</div>";
-
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 
