@@ -11,7 +11,6 @@ session_start(); # die SESSION am leben halten
 $module = 'OEF';
 $sub_mod = 'BU';
 
-
 const Tabellen_Name = 'bu_echer';
 
 const Prefix = '';
@@ -31,31 +30,33 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_BU_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
-# require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
-
+## <script src='" . $path2ROOT . "login/common/javascript/tinymce_8/tinymce.min.js' referrerpolicy='origin'></script>
 $tinymce_header = "
-     <script src='" . $path2ROOT . "login/common/javascript/tinymce/tinymce.min.js' referrerpolicy='origin'></script>
+     <script src='" . $path2ROOT . "login/common/javascript/tinymce_8/tinymce.min.js' referrerpolicy='origin' crossorigin='anonymous'></script>
     <script>
       tinymce.init({
         selector: 'textarea#bu_text',
-        menubar: 'edit format'
+        menubar: 'edit format',
+        license_key: 'gpl' // gpl for open source, T8LK:... for commercial
          });
     </script>
 ";
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
 
 BA_HTML_header('Buch- Beschreibungs- Verwaltung',  $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

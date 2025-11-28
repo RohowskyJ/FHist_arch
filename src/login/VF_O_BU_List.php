@@ -26,16 +26,15 @@ $path2ROOT = "../";
 $_SESSION[$module]['Inc_Arr']  = array();
 $_SESSION[$module]['Inc_Arr'][] = "VF_O_BU_List.php"; 
 
-$debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -62,16 +61,17 @@ initial_debug();
  *   - VarTableHight          Ein: Tabllenhöhe entsprechend der Satzanzahl
  *   - CSVDatei               Ein: CSV Datei ausgeben
  */
+/*
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
     );
 }
-
+*/
 // Wennn Aufruf von Offener Seite kommt - NUR LESE-Berechtigung!
 if (isset($_SERVER['HTTP_REFERER'])) {
     $referer = $_SERVER['HTTP_REFERER'];
@@ -87,18 +87,15 @@ if (! isset($_SESSION[$module]['all_upd'])) {
     $_SESSION[$module]['all_upd'] = False;
 }
 
-if (!isset($_GET['Act']) && $_SESSION[$module]['Act'] == 1)  {
+if (isset($_GET['Act']) and $_GET['Act'] == 1) {
+    $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
+    VF_chk_valid();
+    VF_set_module_p();
+    $_SESSION['VF_LISTE']['LangListe'] = "Aus";
 } else {
-    if (isset($_GET['Act']) and $_GET['Act'] == 1) {
-        $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
-        VF_chk_valid();
-        VF_set_module_p();
-        $_SESSION['VF_LISTE']['LangListe'] = "Aus";
-    } else {
-        $_SESSION[$module]['Act'] = $Act = 0;
-        $_SESSION['VF_Prim']['p_uid'] = 999999999;
-        $_SESSION[$module]['all_upd'] = False;
-    }
+    $_SESSION[$module]['Act'] = $Act = 0;
+    $_SESSION['VF_Prim']['p_uid'] = 999999999;
+    $_SESSION[$module]['all_upd'] = False;
 }
 
 if (strpos($caller, "?") > 0) {
@@ -159,19 +156,18 @@ $Tabellen_Spalten = array(
     'bu_teaser',
     'bu_author',
     'bu_verlag',
-    'bu_isbn',
     'bu_preis',
     'bu_seiten',
     'bu_bilder_anz',
     'bu_bilder_art',
     'bu_format',
-    'bu_eignr',
-    'bu_invnr',
     'bu_bild_1',
     'bu_bew_ges',
-    'bu_editor',
-    'bu_frei_stat'
+    'bu_editor'
 );
+if ($_SESSION[$module]['all_upd'] == '1') {
+    array_push($Tabellen_Spalten,"bu_frei_stat");
+}
 
 $Tabellen_Spalten_style['bu_id'] = 
 $Tabellen_Spalten_style['bu_fbw_st_abk'] = $Tabellen_Spalten_style['ei_staat'] = 'text-align:center;';
@@ -192,8 +188,14 @@ List_Action_Bar($tabelle," Buch- Besprechungen ", $T_list_texte, $T_List, $List_
 # ===========================================================================================================
 # Je nach ausgewähltem Radio Button das sql SELECT festlegen
 # ===========================================================================================================
-$sql = "SELECT * FROM $tabelle ";
+$sql = "SELECT * FROM $tabelle";
+$where = '';
 
+if ($_SESSION[$module]['all_upd'] == '0') {
+    $where = " where bu_frei_stat= 'F' " ;
+}
+    
+$sql .= $where;
 echo "<div class='toggle-SqlDisp'>";
 echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O BU List vor list_create $sql </pre>";
 echo "</div>";
@@ -230,12 +232,55 @@ function modifyRow(array &$row,$tabelle)
     $bu_id = $row['bu_id'];
     $row['bu_id'] = "<a href='VF_O_BU_Edit.php?ID=" . $bu_id . "' >" . $bu_id . "</a>";
 
-    $pict_path = "../login/AOrd_Verz/Buch/";
+    if ($row['bu_isbn'] != "") { 
+        $row['bu_verlag'] .= "<br>".$row['bu_isbn'];
+    }
+
     if ($row['bu_bild_1'] != "") {
+
         $bu_bild_1 = $row['bu_bild_1'];
-        $DsName = $pict_path . $row['bu_bild_1'];
-        $image1 = "<img src='$DsName' alt='Bild 1' width='100px'/> ";
-        $row['bu_bild_1'] = "<a href=\"$DsName\" target='_blanc'> $image1 </a>";
+        
+        $dn_a = pathinfo(strtolower($bu_bild_1));
+        
+        if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
+            $image1 = "<a href='".$path2ROOT ."login/AOrd_Verz/Biete_Suche/$bu_bild_1' > $bu_bild_1 </a>";
+        } else {
+            $aord_sp = "";
+            $pict_path = $path2ROOT ."login/AOrd_Verz/";
+            foreach (GrafFiles as $key => $val ){
+                if ($dn_a['extension'] == $val) {
+                    $aord_sp = "06/";
+                    break;
+                }
+            }
+            echo "L 0259 aord_sp $aord_sp <br>";
+            if ($aord_sp == "") {
+                if ($dn_a['extension'] == 'mp3') {
+                    $aord_sp = "02/";
+                } elseif ($dn_a['extension'] == 'mp4') {
+                    $aord_sp = "10/";
+                } else {
+                    $aord_sp = "Buch/";
+                }
+            }
+            $fo_arr = explode("-", $bu_bild_1);
+            $cnt_fo = count($fo_arr);
+            
+            if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                $urh = $fo_arr[0]."/";
+                $verz = $fo_arr[1]."/";
+                
+                $image1 = $pict_path.$urh."09/".$aord_sp.$verz.$bu_bild_1;
+                
+                if (!is_file($image1)) {
+                    $image1 = $pict_path . $bu_bild_1;
+                }
+            } else {
+                $image1 = $pict_path . "Buch/". $bu_bild_1;
+            }
+            $image2 = "<img src='$image1' alt='Bild 1' width='150px'/> ";
+        }
+        $row['bu_bild_1'] = "<a href='".$image1."'  target='_blanc'> $image2 </a>";
     }
 
     # -------------------------------------------------------------------------------------------------------------------------
