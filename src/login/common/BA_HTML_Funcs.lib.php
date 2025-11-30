@@ -14,7 +14,7 @@
  */
 
 if ($debug) {
-    echo "L 015: VF_HTML_Funcs.inc.php ist geladen. <br/>";
+    echo "L 015: VF_HTML_Funcs.lib.php ist geladen. <br/>";
 }
 
 
@@ -41,7 +41,7 @@ if ($debug) {
 function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 // --------------------------------------------------------------------------------
 {
-    global $path2ROOT, $module, $logo, $jq, $jqui, $BA_AJA, $actor, $Anfix, $form_start,
+    global $path2ROOT, $module, $logo, $jq, $jqui, $BA_AJA, $jq_accordion, $actor, $Anfix, $form_start,
      $A_Off;
 
     if (!isset($form_start)) {
@@ -64,17 +64,15 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3-5.02.css'  type='text/css'>"; 
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
-    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/dropup.css' type='text/css'>";
-    # in add.css eingefügt echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/accordeon.css' type='text/css'>";
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/BA_sortable.css' type='text/css'>";
     # echo " <link rel='stylesheet' href='vz_drpdwnmenu.css' type='text/css'>";
-
-    if (isset($jq) && $jq) {
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-3.7.1.min.js' ></script>";
-    }
+    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/dropup.css' type='text/css'>";
+    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/VF_toggle.css' type='text/css'>";
+    # echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/VF_PopOver.css' type='text/css'>";
+    
     if (isset($jqui) && $jqui) {
         echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/jquery-ui.min.css' type='text/css'>";
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
+        
         ?>
         <style>
         /* Vorschlagsliste optisch anpassen */
@@ -88,12 +86,12 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         }
         </style>
         <?php
+    }   
+    
+    if (isset($jq_accordion) && $jq_accordion) {
+        echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/accordion.css' type='text/css'>";
     }
-    /** eigene JS Funktionen laden */
-    if (isset($BA_AJA) && $BA_AJA) {
-        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_AJAX_Scripts.js' ></script>";
-    }
-  
+
     echo $head;
     echo "</head>";
 
@@ -130,12 +128,17 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     }
 
     echo "<body class='w3-container' style='max-width:$width;' >"; //
+    
+    /**
+     * Globale Variablen 
+     */
+    $readOnly = ''; // $readOnly = 'readonly' : alle Felder mit Edit_*() können nicht mehr geändert werden
    
     # var_dump($_GET);
     echo '<fieldset>'; ## ganze seite
 
     if ($type == 'Form') {
-        echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
+        echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf Form start
         echo "<div class='w3-row'>";
        #  echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
         echo "<div class='w3-col s9 m10 l11 '>"; // div langer Teil
@@ -145,7 +148,75 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         echo "<div class='w3-col s3 m2 l1 ' >"; // div kurzer Teil
         echo "<logo><img  src= '".$path2ROOT."login/common/imgs/".$ini_arr['Config']['sign']."' width='90%'></logo>"; 
         
+         /**
+         *  debug switch beginn
+         */
+        
+         if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' ) {
+            $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
+            $adm_cont = "
+                <ul style='margin: 0 1em 0em 1em; padding: 0;'>
+                $Hinweise
+               </ul>
+                ";
+         
+           ?>
+           <!-- opPopOver -->
+         
+           <div class="dropup w3-right">
+                <b class='dropupstrg' style='color:lightgrey; background-color:white;font-size: 10px;'>Dbg</b>
+               <div class="dropup-content" style='bottom: -100px; right: -100px;'>
+                   <b>Entwanzungs-Optionen</b> <br>
+                   <i>Script-Module</i><br>
+                   <?php
+                   /*
+                   if ($_SESSION['VF_Prim']['debug']['cPerr_A'] == 'A') {
+                       $EinAus = "I '>PHP Error Datei nicht schreiben";
+                   } else {
+                       $EinAus = "A '>PHP Error Datei schreiben";
+                   }
+                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cPerr_A=$EinAus'</a>";
+                   if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
+                       $EinAus = "I '>Debug Datei nicht schreiben";
+                   } else {
+                       $EinAus = "A '>Debug Datei schreiben";
+                   }
+                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cDeb_A=$EinAus'</a>";
+                   */
+                   if (isset($_SESSION[$module]['Inc_Arr']) && count($_SESSION[$module]['Inc_Arr']) > 0) {
+                       echo '<ul style="margin: 8px 0; padding-left: 20px; list-style: disc;">';
+                       foreach ($_SESSION[$module]['Inc_Arr'] as $key) {
+                           echo '<li style="margin: 4px 0; font-size: 0.9em;">' . htmlspecialchars($key) . '</li>';
+                       }
+                       echo '</ul>';
+                   } else {
+                       echo '<p style="color: #999; font-size: 0.9em; margin: 8px 0;">Keine Script Information enthalten</p>';
+                   }
+                   ?>
+                   <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #ddd;">
+                       SQL Befehl anzeigen <button id="toggleButt-sD" class='button-sm'>Einschalten</button><br>
+                   </div>
+         
+             </div>
+          </div>
+         <!-- 
+         <div id="popover" class="popover">
+         <div class="popover-content">
+         Hier ist der Inhalt des Popovers.
+         <! -- Hier können Sie weitere Elemente und Aktionen hinzufügen -- >
+         <button id="closePopover" class="button-sm">Schließen</button>
+         </div>
+         </div>
+         -->
+        
+            <!-- opPopOver ende -->
+            <?php 
+            /**
+             *  debug switch ende
+             */
+        }
         echo "</div>"; // ende kurzer Teil
+        
         if ($ini_arr['Config']['wart'] == "N") {
         } else {
 
@@ -158,9 +229,9 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         }
 
         echo "</div>"; // Ende w3-row
-        echo "</div><fieldset>"; ## Ende Seitenkopf
+        echo "</div><fieldset>"; ## Ende Seitenkopf Form
     } elseif ($type == '1P') {    // 1st Page mit grossem Bild
-        echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start
+        echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start 1.Seite
         echo "<div class='w3-row'>";
         echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
         echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/".$ini_arr['Config']['fpage']."' width='98%'>";
@@ -174,18 +245,11 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
                 echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
             }
         }
-
         echo "</div>"; // Ende w3-row
-        echo "</div><fieldset>"; ## Ende Seitenkopf
+        echo "</div><fieldset>"; ## Ende Seitenkopf 1.Seite
     } else { // List
-        
         /* move nach list_funcs
-        echo "<div class='w3-row'>";
-        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</label></div><br>";
-        echo "</div>"; // Ende w3-row
-        #echo "<body class='w3-container'  style='max-width:$width;'>";
-        #echo '<fieldset>';
-        */
+              */
     }
     $set_auto = "";
     if (isset($A_Off) && $A_Off) {
@@ -193,8 +257,8 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     }
     if (isset($form_start) && $form_start) {
         echo "<form id='myform' name='myform' method='post' action='$actor' enctype='multipart/form-data' $set_auto >";
-
     }
+    
     # var_dump($_SESSION['VF_Prim']['debug']);
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_Header");
 
@@ -209,10 +273,42 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 function BA_HTML_trailer()
 // --------------------------------------------------------------------------------
 {
-    global $module, $path2ROOT;
+    global $module, $path2ROOT, $jq, $jqui,$BA_AJA,$jq_accordion, $jq_toggle, $jq_tabsort, $jq_fotoUp, $jq_MassUp ;
 
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
- 
+    
+    /**
+     * JS- Files
+     */
+    if (isset($jq) && $jq) {
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-3.7.1.min.js' ></script>";
+        // Popover-System (keine jQuery UI nötig)
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_Popover.js' ></script>";
+    }
+    if (isset($jqui) && $jqui) {
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/jquery-ui.min.js' ></script>";
+    }
+    /** eigene JS Funktionen laden */
+    if (isset($BA_AJA) && $BA_AJA) {
+        echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_AJAX_Scripts.js' ></script>";
+    }
+
+    if (isset($jq_accordion) && $jq_accordion) {
+        echo "<script src='".$path2ROOT."login/common/javascript/accordion.min.js' async></script>";
+        echo "<script src='".$path2ROOT."login/common/javascript/VF_accordion.js' async></script>";
+    }
+    if (isset($jq_tabsort) && $jq_tabsort) {
+        # echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_sortable.js' ></script>";
+        echo "<script src='".$path2ROOT."login/common/javascript/sortable.auto.min.js' async></script>";
+    }
+    if (isset($jq_fotoUp) && $jq_fotoUp) {
+        echo "<script src='".$path2ROOT."login/common/javascript/VF_Foto_Upl.js' async></script>";
+        echo "<script src='".$path2ROOT."login/common/javascript/VF_toggle.js' ></script>";
+    }
+    if (isset($jq_MassUp) && $jq_MassUp) {
+        echo "<script type='text/javascript' src='common/javascript/VF_C_MassUp.js' ></script>";
+    }
+    
     ?>
   
    <script>
@@ -232,56 +328,6 @@ function BA_HTML_trailer()
     </span>
     Josef Rohowsky - alle Rechte vorbehalten - All Rights Reserved
      
-    <?php  
-    if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' ) {
-        $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
-        $adm_cont = "
-                         <ul style='margin: 0 1em 0em 1em; padding: 0;'>
-                         $Hinweise 
-                         </ul>
-                     ";
-        
-        ?>
-         <div class="dropup w3-center">
-               <!-- <button class="dropupbtn">Kammerjäger</button> -->
-            <b class='dropupstrg' style='color:red;'>Kammerjäger</b>
-            <div class="dropup-content">
-              <b>Entwanzungs- Optionen</b> <br>
-         
-            <?php      
-              /*
-              if ($_SESSION['VF_Prim']['debug']['cPerr_A'] == 'A') {
-                  $EinAus = "I '>PHP Error Datei nicht schreiben";
-              } else {
-                  $EinAus = "A '>PHP Error Datei schreiben";
-              }
-              echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cPerr_A=$EinAus'</a>";
-              if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
-                  $EinAus = "I '>Debug Datei nicht schreiben";
-              } else {
-                  $EinAus = "A '>Debug Datei schreiben";
-              }
-              echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cDeb_A=$EinAus'</a>";
-              */
-              echo "<i>Script- Module</i><br>";
-              if (isset($_SESSION[$module]['Inc_Arr'] ))
-              {
-                  foreach ($_SESSION[$module]['Inc_Arr'] as $key )    {
-                      echo "$key <br>";
-                  }
-              } else {
-                  echo "Keine Script Information enthalten <br>";
-              }
-              # echo "<br>$adm_cont ";
-              
-              ?>
-             
-              SQL Befehl anzeigen <button id="toggleButt-sD"  class='button-sm' >Einschalten</button><br>  
-
-            </div>
-         </div> 
-       
-         
 <script>
     // Funktion zum Toggeln der Sichtbarkeit
     function toggleElements(buttonId, className) {
@@ -294,7 +340,7 @@ function BA_HTML_trailer()
                     // Sichtbarkeit umschalten
                     element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';
                 });
-
+console.log('button clicked ' );
                 // Text des Buttons umschalten
                 button.textContent = button.textContent === 'Einschalten' ? 'Ausschalten' : 'Einschalten';
             });
@@ -318,14 +364,6 @@ function BA_HTML_trailer()
     */
 </script>
      
-
-    <?php     
-    }
-    
-    # echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_auto_tip.js' ></script>";
-    # echo "<script type='text/javascript' src='VZ_drpdwnmenu.js' ></script>";
-    ?>
-    
     </div>
     </footer>
     </form>

@@ -334,6 +334,76 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
         $logo = $ini_arr['Config']['sign'];
         echo "<img src='" . $path2ROOT . "login/common/imgs/$logo' alt='Signet Verein Feuerwehrhistoriker' style='border: 3px solid lightblue;  display: block; margin-left: auto; margin-right: auto; margin-top:6px;  width: 80%;'>";
         $OrgName = $ini_arr['Config']['inst'];
+        
+        /**
+         *  debug switch beginn
+         */
+        
+        if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' ) {
+            $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
+            $adm_cont = "
+                <ul style='margin: 0 1em 0em 1em; padding: 0;'>
+                $Hinweise
+               </ul>
+                ";
+                
+                ?>
+           <!-- opPopOver -->
+         
+           <div class="dropup w3-center">
+                <b class='dropupstrg' style='color:lightgrey; background-color:white;font-size: 10px; float: right;'>Dbg</b>
+               <div class="dropup-content" style='bottom: -100px; right: -340px;'>
+                   <b>Entwanzungs-Optionen</b> <br>
+                   <i>Script-Module</i><br>
+                   <?php
+                   /*
+                   if ($_SESSION['VF_Prim']['debug']['cPerr_A'] == 'A') {
+                       $EinAus = "I '>PHP Error Datei nicht schreiben";
+                   } else {
+                       $EinAus = "A '>PHP Error Datei schreiben";
+                   }
+                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cPerr_A=$EinAus'</a>";
+                   if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
+                       $EinAus = "I '>Debug Datei nicht schreiben";
+                   } else {
+                       $EinAus = "A '>Debug Datei schreiben";
+                   }
+                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cDeb_A=$EinAus'</a>";
+                   */
+                   if (isset($_SESSION[$module]['Inc_Arr']) && count($_SESSION[$module]['Inc_Arr']) > 0) {
+                       echo '<ul style="margin: 8px 0; padding-left: 20px; list-style: disc;">';
+                       foreach ($_SESSION[$module]['Inc_Arr'] as $key) {
+                           echo '<li style="margin: 4px 0; font-size: 0.9em;">' . htmlspecialchars($key) . '</li>';
+                       }
+                       echo '</ul>';
+                   } else {
+                       echo '<p style="color: #999; font-size: 0.9em; margin: 8px 0;">Keine Script Information enthalten</p>';
+                   }
+                   ?>
+                   <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #ddd;">
+                       SQL Befehl anzeigen <button id="toggleButt-sD" class='button-sm'>Einschalten</button><br>
+                   </div>
+         
+             </div>
+          </div>
+         <!-- 
+         <div id="popover" class="popover">
+         <div class="popover-content">
+         Hier ist der Inhalt des Popovers.
+         <! -- Hier können Sie weitere Elemente und Aktionen hinzufügen -- >
+         <button id="closePopover" class="button-sm">Schließen</button>
+         </div>
+         </div>
+       -->
+        
+            <!-- opPopOver ende -->
+            <?php 
+       
+        # echo "</div>"; // ende kurzer Teil
+        /**
+         *  debug switch ende
+         */
+        }
     }
 
     ?>
@@ -545,6 +615,75 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
            <?php 
     if ($_SESSION[$module]['all_upd'] == '1') {
         echo $NeuRec;
+        /**
+         *  debug switch beginn
+         */
+        
+        if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' ) {
+            $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
+            $adm_cont = "
+                <ul style='margin: 0 1em 0em 1em; padding: 0;'>
+                $Hinweise
+               </ul>
+                ";
+                
+                ?>
+           <!-- opPopOver -->
+         
+           <div class="dropup w3-center">
+                <b class='dropupstrg' style='color:lightgrey; background-color:white;font-size: 10px; float: right;'>Dbg</b>
+               <div class="dropup-content" style='bottom: -100px; right: -300px;'>
+                   <b>Entwanzungs-Optionen</b> <br>
+                   <i>Script-Module</i><br>
+                   <?php
+                   /*
+                   if ($_SESSION['VF_Prim']['debug']['cPerr_A'] == 'A') {
+                       $EinAus = "I '>PHP Error Datei nicht schreiben";
+                   } else {
+                       $EinAus = "A '>PHP Error Datei schreiben";
+                   }
+                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cPerr_A=$EinAus'</a>";
+                   if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
+                       $EinAus = "I '>Debug Datei nicht schreiben";
+                   } else {
+                       $EinAus = "A '>Debug Datei schreiben";
+                   }
+                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cDeb_A=$EinAus'</a>";
+                   */
+                   if (isset($_SESSION[$module]['Inc_Arr']) && count($_SESSION[$module]['Inc_Arr']) > 0) {
+                       echo '<ul style="margin: 8px 0; padding-left: 20px; list-style: disc;">';
+                       foreach ($_SESSION[$module]['Inc_Arr'] as $key) {
+                           echo '<li style="margin: 4px 0; font-size: 0.9em;">' . htmlspecialchars($key) . '</li>';
+                       }
+                       echo '</ul>';
+                   } else {
+                       echo '<p style="color: #999; font-size: 0.9em; margin: 8px 0;">Keine Script Information enthalten</p>';
+                   }
+                   ?>
+                   <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #ddd;">
+                       SQL Befehl anzeigen <button id="toggleButt-sD" class='button-sm'>Einschalten</button><br>
+                   </div>
+         
+             </div>
+          </div>
+         <!-- 
+         <div id="popover" class="popover">
+         <div class="popover-content">
+         Hier ist der Inhalt des Popovers.
+         <! -- Hier können Sie weitere Elemente und Aktionen hinzufügen -- >
+         <button id="closePopover" class="button-sm">Schließen</button>
+         </div>
+         </div>
+       -->
+        
+            <!-- opPopOver ende -->
+            <?php 
+       
+        # echo "</div>"; // ende kurzer Teil
+        /**
+         *  debug switch ende
+         */
+        }
         echo "<span class='toggle-csvDisp'>";   
         echo " <a href='$csv_DSN'> &nbsp; &nbsp; CSV Version ansehen</a>";
         echo "</span>";
@@ -558,9 +697,8 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
 
    </div>
   </div>
-
-
-   
+  
+ 
 
 <?php
 
@@ -610,6 +748,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     $Tabellen_Spalten, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_tabelle, $Tabellen_Spalten_typ, $Tabellen_Spalten_style,
     $Tabellen_Spalten_MAXLENGTH,
     $csv_DSN, $Div_Parm, $List_Parameter, $DropdownAnzeige, $TabButton,$Kateg_Name, $zus_text, $CSV_Spalten, $debug_log;
+    # $NeuRec;
 
     flow_add($module, "BA_List_Funcs.inc.php Funct: List_Create");
 
@@ -791,7 +930,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     $tit_l2 = "<tr>";
     # var_dump($Tabellen_Spalten_typ);
     foreach ($Tabellen_Spalten as $key => $column_name) { # ================ für alle Spalten =================
-
+        
         if (mb_strpos($hide_columns, " $column_name ") !== false) {
             continue;
         } # skip hidden column
@@ -803,19 +942,27 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
             $txt = $Tabellen_Spalten_COMMENT[$column_name];
             $txta = explode('<', $txt);
             $txt = $txta[0];
-  
-            if (isset($Tabellen_Spalten_typ[$column_name]) && $Tabellen_Spalten_typ[$column_name] == 'num' || $Tabellen_Spalten_typ[$column_name] == '' 
-                || ($Tabellen_Spalten_typ[$column_name] == 'text' && isset($Tabellen_Spalten_MAXLENGTH[$column_name]) && strlen($txt) > $Tabellen_Spalten_MAXLENGTH[$column_name])) {
-                $txt_arr = explode(" ",$txt);
-                $txt_cnt = count($txt_arr);
-                $txt = $txt_arr[0];
-                for ($i=1;$i<$txt_cnt;$i++) {
-                    $txt .= "<br>".$txt_arr[$i];
-                }
-            }
-
         } else {
             $txt = str_replace("_", " ", $column_name);
+        }
+        if (isset($Tabellen_Spalten_typ[$column_name]) &&  $Tabellen_Spalten_typ[$column_name] == 'num' ) {
+            $tx_b = explode(' ',$txt);
+            $tx_n = "";
+            foreach ($tx_b as $t_part ) {
+                $tx_n .= $t_part."<br>";
+            }
+            $txt = $tx_n;
+        }
+        if (isset($Tabellen_Spalten_MAXLENGTH) &&  isset($Tabellen_Spalten_MAXLENGTH[$column_name]) ) { 
+            $ln_tx = strlen($txt);
+            if ($ln_tx > $Tabellen_Spalten_MAXLENGTH[$column_name] ) {
+                $tx_b = explode(' ',$txt);
+                $tx_n = "";
+                foreach ($tx_b as $t_part ) {
+                    $tx_n .= $t_part."<br>";
+                }
+                $txt = $tx_n;
+            }
         }
         $tit_l1 .= "<th>$txt";
         $tit_l2 .= "<td style='background-color: #b0e0e6; font-width: bold;color: #00800;'>" ; //.str_replace("_", " ", $column_name);
@@ -852,11 +999,11 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
     if ($DropdownAnzeige == 'Ein') {
         echo $tit_l2;
     } 
-    /*
-    if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
+   
+    if ($_SESSION['VF_Prim']['cDeb'] != '') {
         file_put_contents($_SESSION['VF_Prim']['cDeb'], date('Y-m-d H:i:s')." $tit_l2 "."\nMETHOD: ".@$_SERVER['REQUEST_METHOD']."\n", FILE_APPEND);
     }
-     */   
+        
     ?>
 
   </tr>
@@ -957,7 +1104,6 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
   </tbody>
 </table>
 
-
 <?php
     echo "</div>";
 
@@ -994,7 +1140,7 @@ function List_Create($db, $sql_1, $sql_2 = '', $tab_nam_1 = '', $tab_nam_2 = '')
 
     }
     console_log( $path2ROOT);
-    echo "<script src='".$path2ROOT."login/common/javascript/sortable.auto.min.js' async></script>";
+    # echo "<script src='".$path2ROOT."login/common/javascript/sortable.auto.min.js' async></script>";
     
 
     beenden:
