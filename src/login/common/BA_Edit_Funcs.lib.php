@@ -6,7 +6,7 @@
  * 2019       B.R.Gaicki  - neu
  * 2012       J. Rohowsky - adaptierug für VFHNÖ
  * 2024       J. Rohowsky - Umstellung von Tabelle auf w3-row
- *
+ * 2025       J. Rohowsky - einbau $readonly für externe Anzeigen
  * enthält in Admin-Edit programmen verwendetet Funktionen
  *  - Edit_Send_Button           Send Button für Edit Phase 0 / 1
  *  - Edit_Separator_Zeile       Trennzeile in Edit  wir durch Block_Separator_start und Block_Separator_Ende ersetzt
@@ -53,6 +53,7 @@
  *   2020-10-16 B.R.Gaicki  - Edit_CheckBox weiterer Parameter : $FeldAttrr
  *   2022       J. Rohowsky - * @globale boolean $Edit_Funcs_Protect == 0 True -> Nur Anzeige, keine Eingabe möglich
  *   2024-11-11 J. Rohowsky - Umstellung von Tabelle auf w3-row
+ *   1025-11.15 J.Rohowsky  - Einbau attribute $readOnly in alle Edit- and textarea-  items
  */
 flow_add($module, "Edit_Funcs.inc geladen");
 
@@ -185,10 +186,12 @@ function Edit_Text($FeldName, $InfoText = '')
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
  * @globale boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
+ * @globale string >$readOnly wird Feld als Edit- Feld angezeigt, aber nicht bearbeitbar
  */
 function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '')
 {
-    global $phase, $module, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect , $ed_lcnt,$Tabellen_Spalten_MAXLENGTH,$Tabellen_Spalten_typ;
+    global $phase, $module, $sub_mod, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $Edit_Funcs_Protect ,
+          $ed_lcnt,$Tabellen_Spalten_MAXLENGTH,$Tabellen_Spalten_typ, $readOnly;
 
     flow_add($module, 'Edit_Funcs.inc.php Funct: Edit_Daten_Feld');
 
@@ -205,7 +208,7 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
         if (!$FeldLaenge == 0) {
             if (mb_strpos($InputParm, 'maxlength=') === false) {
                 if ($Tabellen_Spalten_typ[$FeldName] == "text") {
-                    $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."'";
+                    $InputParm .= " maxlength='".$Tabellen_Spalten_MAXLENGTH[$FeldName]."' $readOnly";
                 }
             }
 
@@ -267,42 +270,37 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
  * @globale boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
+ * @globale string >$readOnly wird Feld als Edit- Feld angezeigt, aber nicht bearbeitbar
  */
 function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr = '', $button = '')
 {
-    global $phase, $module, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH, $neu, $Err_msg, $Edit_Funcs_Protect, $ed_lcnt  ;
+    global $phase, $module, $sub_mod, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH, 
+           $neu, $Err_msg, $Edit_Funcs_Protect, $ed_lcnt, $readOnly  ;
 
     Edit_Feld_Zeile_header($FeldName, $button);
 
-    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr";
+    $InputParm = "'id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr $readOnly ";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {
         if (mb_strpos($InputParm, 'type=') === false) {
             $InputParm = " type='text' $InputParm";
         }
-        /*
-        if (! $FeldLaenge == 0) {
-            if (mb_strpos($InputParm, 'maxlength=') === false) {
-                $InputParm .= " maxlength='$FeldLaenge'";
-            }
-            if (mb_strpos($InputParm, 'size=') === false) {
-                $InputParm .= " size='$FeldLaenge'";
-            }
-        }
-        */
-        if (!$FeldLaenge == 0) {
-            $FldLength = "";
-            if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
-                $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
-                $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
-            }
-
-            if (mb_strpos($InputParm, 'maxlength=') === false) {
-                $InputParm .= " maxlength='$FldLength'";
-            }
-            if (mb_strpos($InputParm, 'size=') === false) {
-                $InputParm .= " size='$FeldLaenge'";
+   
+        if ($_SESSION[$module]['all_upd'] == '1') {
+            if ($FeldLaenge > 0 ) {
+                $FldLength = "";
+                if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
+                    $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
+                    $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
+                }
+                
+                if (mb_strpos($InputParm, 'maxlength=') === false) {
+                    $InputParm .= " maxlength='$FldLength'";
+                }
+                if (mb_strpos($InputParm, 'size=') === false) {
+                    $InputParm .= " size='$FeldLaenge'";
+                }
             }
         }
 
@@ -357,22 +355,32 @@ function Edit_Daten_Feld_Button($FeldName, $FeldLaenge = 0, $InfoText = '', $Fel
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
- *
+ * @globale string >$readOnly wird Feld als Edit- Feld angezeigt, aber nicht bearbeitbar
  */
 function Edit_textarea_Feld($FeldName, $InfoText = '', $FeldAttr = '')
 {
-    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH ,$neu, $Err_msg, $module, $ed_lcnt  ;
+    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $Tabellen_Spalten_MAXLENGTH ,$neu, $Err_msg, 
+    $module, $sub_mod, $readOnly, $ed_lcnt  ;
 
     flow_add($module, "Edit_Funcs.inc Funct: Edit_textarea");
     # var_dump($Tabellen_Spalten_MAXLENGTH[$FeldName]);
     Edit_Feld_Zeile_header($FeldName);
-    $FldLength = $MaxLength = "";
-    if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
-        $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
-        $MaxLength = "maxlenght='$FldLength'";
-        $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
+    
+    $InputParm = "";
+    if ($_SESSION[$module]['all_upd'] == '1') {
+        $FldLength = $MaxLength = "";
+        if (isset($Tabellen_Spalten_MAXLENGTH[$FeldName]) && $Tabellen_Spalten_MAXLENGTH[$FeldName] > 0) {
+            $FldLength = $Tabellen_Spalten_MAXLENGTH[$FeldName];
+            $MaxLength = "maxlenght='$FldLength'";
+            $InfoText .= " Maximale Eingabe $FldLength Zeichen ";
+        }
+        $rr = '3';
+        $rl = '70';
+        if ($FldLength > 200) {
+            $rr = 7;
+        }
+        $InputParm = "id='$FeldName' name='$FeldName' $FeldAttr rows='$rr' cols='$rl' $MaxLength $readOnly ";
     }
-    $InputParm = "id='$FeldName' name='$FeldName' $FeldAttr rows='3' cols='50' $MaxLength";
 
     if (! empty($Err_msg[$FeldName])) {
         if (mb_strpos($InputParm, 'autofocus') === false) {
@@ -411,10 +419,11 @@ function Edit_textarea_Feld($FeldName, $InfoText = '', $FeldAttr = '')
  *            Zusatz Informationen für das Feld
  *
  * @globale boolean $Edit_Funcs_Protect == 0 True -> Nur Anzeige, keine Eingabe möglich
+ * @globale string >$readOnly wird Feld als Edit- Feld angezeigt, aber nicht bearbeitbar
  */
 function Edit_Radio_Feld($FeldName, array $Buttons, $InfoText = '') # Zusatz Informationen für das Feld
 {
-    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module , $ed_lcnt ;
+    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module,$sub_mod , $ed_lcnt, $readOnly ;
 
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Radio_Feld");
 
@@ -440,7 +449,7 @@ function Edit_Radio_Feld($FeldName, array $Buttons, $InfoText = '') # Zusatz Inf
         if (is_array($text)) {
             $text = $text[0];
         }
-        echo "<label><input class='w3-radio ' type='radio' name='$FeldName' id='$FeldName' value='$value' $attr> $text <br></label> ";
+        echo "<label><input class='w3-radio ' type='radio' name='$FeldName' id='$FeldName' value='$value' $attr $readOnly > $text <br></label> ";
     }
     if (! empty($Err_msg[$FeldName])) {
         echo " <span class='error'>$Err_msg[$FeldName]</span>";
@@ -471,16 +480,18 @@ function Edit_Radio_Feld($FeldName, array $Buttons, $InfoText = '') # Zusatz Inf
  * @global boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
+ * @globale string >$readOnly wird Feld als Edit- Feld angezeigt, aber nicht bearbeitbar
  */
 function Edit_CheckBox($FeldName, $text, $InfoText = '', $FeldAttr = '')
 {
-    global $phase, $Edit_Funcs_Protect, $neu, $Err_msg, $module, $ed_lcnt  ;
+    global $phase, $Edit_Funcs_Protect, $neu, $Err_msg, $module, $ed_lcnt,  
+        $module, $sub_mod, $readOnly ;
 
     flow_add($module, "Edit_Funcs.inc Funct: Edit_CheckBox");
 
     $Err_msg; # array mit Fehlermeldungen
     Edit_Feld_Zeile_header($FeldName);
-    $InputParm = "id='$FeldName' name='$FeldName' value='Y' $FeldAttr";
+    $InputParm = "id='$FeldName' name='$FeldName' value='Y' $FeldAttr $readOnly ";
     if ($Edit_Funcs_Protect) {
         echo "$text";
     } else {
@@ -520,10 +531,11 @@ function Edit_CheckBox($FeldName, $text, $InfoText = '', $FeldAttr = '')
  * @global array $Tabellen_Spalten_COMMENT Global Array (Schlüssel: Spaltenname) mit Texten zu den Spalten
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_Msg mit $Feldname als Key
+ * 
  */
 function Edit_Check_Box($FeldName, array $Boxes, $InfoText = '')
 {
-    global $phase, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module, $ed_lcnt  ;
+    global $phase, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module, $sub_mod, $ed_lcnt, $readOnly  ;
 
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Check_Box");
 
@@ -537,7 +549,7 @@ function Edit_Check_Box($FeldName, array $Boxes, $InfoText = '')
         } else {
             $checked = '';
         }
-        echo "<label><input  class='w3-check' type='checkbox' name='F_Name[]' id='$FeldName' value='$value' $checked> $text <br> </label> ";  #  w3-input
+        echo "<label><input  class='w3-check' type='checkbox' name='F_Name[]' id='$FeldName' value='$value' $checked $readOnly > $text <br> </label> ";  #  w3-input
     }
 
     if (! empty($Err_msg[$FeldName])) {
@@ -568,15 +580,16 @@ function Edit_Check_Box($FeldName, array $Boxes, $InfoText = '')
  * @global boolean $Edit_Funcs_Protect True -> Nur Anzeige, keine Eingabe möglich
  * @global array $neu Eingelesene Daten Felder
  * @global array $Err_msg array mit Fehlermeldungen, $FeldName als Key
+ * @globale string >$readOnly wird Feld als Edit- Feld angezeigt, aber nicht bearbeitbar
  */
 function Edit_Select_Feld($FeldName, array $Options, $InfoText = '')
 {
-    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module , $ed_lcnt ;
+    global $phase, $Edit_Funcs_Protect, $Tabellen_Spalten_COMMENT, $neu, $Err_msg, $module, $sub_mod , $ed_lcnt, $readOnly ;
 
     flow_add($module, "Edit_Funcs.inc Funct: Edit_Select_Feld");
 
     Edit_Feld_Zeile_header($FeldName);
-    echo "<select id='$FeldName' name='$FeldName' id='$FeldName' size='1'>";
+    echo "<select id='$FeldName' name='$FeldName' id='$FeldName' size='1' $readOnly  >";
     foreach ($Options as $value => $text) {
         if ($neu[$FeldName] == $value) {
             $sel = ' selected';

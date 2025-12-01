@@ -251,7 +251,7 @@ function LinkDB($db_proj = "")
   # print_r($ini_s_arr); echo "<br>L 0251 ini_s_arr $hompg <br>";
 
     $server_name = $_SERVER['SERVER_NAME'];
-
+#echo "L 254 srvname $server_name <br>";
     if (isset($ini_arr)) { 
         if ($server_name == 'localhost') {
             if (isset($ini_arr[$server_name])) {
@@ -265,7 +265,7 @@ function LinkDB($db_proj = "")
             $s_a =  explode(".",$server_name);
             $cnt_s = count($s_a);
             $s_c =  explode(".",$hompg);
-            $cnt_s = count($s_c);
+            $cnt_c = count($s_c);
             if ($cnt_s < $cnt_c) {
                 if ($s_a[$cnt_s-2] == $s_c[$cnt_c-2]) {
                     $server_name = "HOST";
@@ -290,9 +290,7 @@ function LinkDB($db_proj = "")
         echo "Configurations-Fehler - keine Datenbank - Abbruch";
         exit();
     }
-}
-
-# ende linkDB
+} # ende linkDB
 
 /**
  * Ausgabe eines Verzeichnis.
@@ -345,9 +343,8 @@ function dir_sort($Pfad, $FType, $direkt_ausg)
         echo $thelist;
     }
     return ($thelist);
-}
+} // Ende von function dir_sort
 
-// Ende von function dir_sort
 /**
  * Unterprogramm zum Prüfen der eingegeben E-Mail_adresse
  *
