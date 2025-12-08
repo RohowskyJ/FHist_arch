@@ -115,6 +115,10 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" ) {
         echo "ab der 3. Zeile: Inhalte, z.B.: inh1|inh2| ....<br>";
         echo "<a href='VF_Z_DS_2_Table.php?sk=$sk' target='Flat-File Imp'>FlatFile Import in eine Tabelle</a><br>";
         echo "</div>";
+        
+        Edit_Separator_Zeile('Datenbank- Tabellen Exportieren und Importieren:');
+        echo "<a href='VF_Z_DB_backup.php?sk=$sk' target='DB_BU'>Datenbank Sichern und wieder Herstellen</a><br>";
+        echo "</div>";
     }
     
     Edit_Separator_Zeile('Sitzungs- Protokolle');

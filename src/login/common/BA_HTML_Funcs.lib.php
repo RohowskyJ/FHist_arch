@@ -273,7 +273,8 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 function BA_HTML_trailer()
 // --------------------------------------------------------------------------------
 {
-    global $module, $path2ROOT, $jq, $jqui,$BA_AJA,$jq_accordion, $jq_toggle, $jq_tabsort, $jq_fotoUp, $jq_MassUp ;
+    global $module, $path2ROOT, $jq, $jqui,$BA_AJA,$jq_accordion, $jq_toggle, $jq_tabsort, $jq_fotoUp, 
+    $jq_MassUp, $BA_SQLImp ;
 
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
     
@@ -308,6 +309,10 @@ function BA_HTML_trailer()
     if (isset($jq_MassUp) && $jq_MassUp) {
         echo "<script type='text/javascript' src='common/javascript/VF_C_MassUp.js' ></script>";
     }
+    if (isset($BA_SQLImp) && $BA_SQLImp) {
+        echo "<script type='text/javascript' src='common/javascript/BA_SQL_Import.js' ></script>";
+    }
+    echo "<script type='text/javascript' src='common/javascript/BA_chkbx_multi_sel.js' ></script>";
     
     ?>
   

@@ -1,0 +1,69 @@
+       /* Einfaches Styling für Fortschrittsbalken und Status */
+        #progressContainer {
+            width: 100%;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            height: 25px;
+            margin: 10px 0;
+            position: relative;
+        }
+        #progressBar {
+            height: 100%;
+            width: 0;
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        #progressSpinner {
+            display: none;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        #statusMessage.info {
+            color: #333;
+        }
+        #statusMessage.ok {
+            color: green;
+            font-weight: bold;
+        }
+        #statusMessage.error {
+            color: red;
+            font-weight: bold;
+        }
+        #logOutput {
+            border: 1px solid #ccc;
+            height: 150px;
+            overflow-y: auto;
+            padding: 5px;
+            font-family: monospace;
+            background: #f9f9f9;
+            margin-top: 10px;
+        }
+        #logOutput .err {
+            color: red;
+        }
+        #logOutput .ok {
+            color: green;
+        }
+        #logOutput .dim {
+            color: #666;
+            font-size: 0.9em;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="password"], input[type="file"] {
+            width: 300px;
+            padding: 5px;
+            font-size: 1em;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
