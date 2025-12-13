@@ -16,13 +16,24 @@ if ($debug) {
     echo "<pre class=debug>VF_FZ_MaG_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+$dataSetAct = "";
 if ($neu['ge_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
 
-echo "<input type='hidden' name='ge_id' value='$ge_id'/>";
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='ge_id' value='$ge_id'/>";
+echo "<input type='hidden' id='recEigner' name='ge_eignr' value='".$_SESSION['Eigner']['eig_eigner']."'/>";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."'/>";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
+
 echo "<input type='hidden' name='ge_invnr' value='".$neu['ge_invnr']."'/>";
 
 Edit_Tabellen_Header('Motorbetriebene Geräte des Eigentümers '.$_SESSION['Eigner']['eig_name']);
@@ -32,28 +43,22 @@ Edit_Daten_Feld('ge_id');
 Edit_Daten_Feld('ge_eignr');
 # Edit_Daten_Feld('ge_invnr');
 
-# =========================================================================================================
-$button = "";
-if ($hide_area != 0) {
-    // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
-}
-
-Edit_Separator_Zeile('Sammlung'.$button);
-# =========================================================================================================
-
 echo "<input type='hidden' id='ge_sammlg' name='ge_sammlg' value='".$neu['ge_sammlg']."'>";
-$Edit_Funcs_Protect = true;
-Edit_Daten_Feld('ge_sammlg', '');
+// accordion für Sammlung
+echo "<ul id='sa-accordion' class='accordionjs' $dataSetAct >"; // sa- für Sammlung
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; # $Edit_Funcs_Protect = true;
+Edit_Daten_Feld_Button('ge_sammlg', '20', '', '');
 Edit_Daten_Feld('sa_name', '');
-$Edit_Funcs_Protect = false;
-
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block10'>";
+# $Edit_Funcs_Protect = false;
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
+
 /**
  * Parameter für den Aufruf von Multi-Dropdown
  *
@@ -136,13 +141,13 @@ $checked_f = "";
 if ($hide_area == 0) {  //toggle??
     $checked_f = 'checked';
 }
-$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+$checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 echo "<div>";
 
 echo "<input type='hidden' id='sammlung' value='".$neu['ge_sammlg'] ."'>";
-echo "<input type='hidden' id='eigner' value='".$neu['ge_eignr'] ."'>";
+# echo "<input type='hidden' id='eigner' value='".$neu['ge_eignr'] ."'>";
 
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 echo "<input type='hidden' name='ge_foto_1' value='" . $neu['ge_foto_1'] . "'>";
@@ -191,9 +196,6 @@ echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 $pict_path = "AOrd_Verz/" . $_SESSION['Eigner']['eig_eigner']."/MaG/"; # . "/MaG/";
 
 $Feldlaenge = "100px";
-
-# $pict_path = VF_M_Upl_Pfad ($aufnDatum, $suffix, $aoPfad);
-# $pict_path = $path2ROOT."login/AOrd_Verz/";
 
 $_SESSION[$module]['Pct_Arr' ] = array();
 $num_foto = 4;

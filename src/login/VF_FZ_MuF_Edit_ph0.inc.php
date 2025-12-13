@@ -13,13 +13,23 @@ if ($debug) {
 
 $_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MuF_Edit_ph0.inc.php";
 
+$dataSetAct = "";
 if ($neu['fm_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
 
-echo "<input type='hidden' id='fm_id' name='fm_id' value='".$neu['fm_id']."' >";
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='fm_id' value='".$neu['fm_id']."' >";
+echo "<input type='hidden' id='recEigner' name='fm_eignr' value='".$_SESSION['Eigner']['eig_eigner']."' >";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."' >";
+
 # =========================================================================================================
 Edit_Tabellen_Header('Gerätebeschreibung Eigentümer: '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -28,31 +38,25 @@ Edit_Daten_Feld('fm_id');
 Edit_Daten_Feld('fm_eignr');
 # Edit_Daten_Feld('fm_invnr');
 
-# =========================================================================================================
-$button = "";
-if ($hide_area != 0) {
-    // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";   
-}
-Edit_Separator_Zeile('Sammlung'.$button);
-# =========================================================================================================
 
-$Edit_Funcs_Protect = true;
-// Edit_Daten_Feld_Button('fm_sammlg', '20','','');
+echo "<input type='hidden' id='sammlung'  name='fm_sammlg' value='".$neu['fm_sammlg']."'/>";
+
+# =========================================================================================================
+// accordion für Sammlung
+echo "<ul id='sa-accordion' class='accordionjs' $dataSetAct >"; // sa- für Sammlung
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; 
+Edit_Daten_Feld_Button('fm_sammlg', '20', '', '');
 Edit_Daten_Feld('sa_name', '');
-// $Edit_Funcs_Protect = False;
-#Edit_Daten_Feld('sa_name');
-$Edit_Funcs_Protect = false;
-echo "</div>";
-
-echo "<input type='hidden' id='fm_sammlg'  name='fm_sammlg' value='".$neu['fm_sammlg']."'/>";
-
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block10'>";
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
+# =========================================================================================================
+
 /**
  * Parameter für den Aufruf von Multi-Dropdown
  *
@@ -86,14 +90,16 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val, $titel);
 
-echo "</div>"; # ende toggle
-echo "</div>"; # ende dropdown Sammlung
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// Ende Acccordion für Sammlung
 
 # =========================================================================================================
 Edit_Separator_Zeile('Geräte- Beschreibung');
 # =========================================================================================================
 
-Edit_Daten_Feld('fm_bezeich', 100);
+Edit_Daten_Feld('fm_bezeich', 70);
 Edit_Daten_Feld('fm_type', 60);
 Edit_Daten_Feld('fm_indienst', 10, 'Datum oder zumindest Jahr der Indienst- Stellung');
 Edit_Daten_Feld('fm_ausdienst', 10, 'Datum oder zumindest Jahr der Ausserdienst- Stellung');
@@ -141,7 +147,7 @@ $checked_f = "";
 if ($hide_area == 0) {  //toggle??
     $checked_f = 'checked';
 }
-$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+$checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 
@@ -189,7 +195,6 @@ if ($_SESSION[$module]['all_upd']) {
 
 echo "<p><a href='VF_FZ_MuFG_List.php?ID=MU_F'>Zurück zur Liste</a></p>";
 
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 

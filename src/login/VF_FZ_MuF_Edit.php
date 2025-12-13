@@ -9,6 +9,8 @@
 session_start();
 
 $module = 'F_M'; 
+$sub_mod = 'all';
+
 $tabelle = 'mu_fahrzeug_';
 
 const Prefix = '';
@@ -41,6 +43,9 @@ $db = LinkDB('VFH');
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_accordion = true; // Accordion Display mit jquery
 
 $header = "";
 BA_HTML_header('Muskelbewegte Fahrzeuge', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width

@@ -49,7 +49,7 @@ echo "<input type='hidden' name='ab_id' value='".$neu['ab_id']."' />";
           echo "<button type='submit' name='phase' value='1' class='green'>Daten abspeichern</button></p>";
    }
   
-  echo "<p><a href='VF_Z_B_List.php'>Zurück zur Liste</a></p>";
+  echo "<p><a href='VF_Z_AB_List.php'>Zurück zur Liste</a></p>";
   
   
   echo "</div>";    

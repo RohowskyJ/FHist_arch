@@ -66,12 +66,13 @@ if ($neu['fu_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
         echo '<pre class=debug> L 0112: \$sql $sql </pre>';
     }
     
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    # echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
 }
-
-echo "<div class='toggle-SqlDisp'>";
-echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Unt Edit ph1 $sql </pre>";
-echo "</div>";
+if ($debug) {
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>M Unt Edit ph1 $sql </pre>";
+    echo "</div>";
+}
 
 $result = SQL_QUERY($db, $sql);
 

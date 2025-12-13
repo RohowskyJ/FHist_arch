@@ -45,6 +45,7 @@ $db = LinkDB('VFH');
 # Haeder ausgeben
 # ===========================================================================================================
 
+$jq_tabsort = $jq = true;
 BA_HTML_header('Buch- Beschreibungs- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<frameset>";
@@ -253,7 +254,7 @@ function modifyRow(array &$row,$tabelle)
                     break;
                 }
             }
-            echo "L 0259 aord_sp $aord_sp <br>";
+            
             if ($aord_sp == "") {
                 if ($dn_a['extension'] == 'mp3') {
                     $aord_sp = "02/";

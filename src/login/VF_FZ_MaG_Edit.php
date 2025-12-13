@@ -10,9 +10,10 @@
  *
  */
 session_start();
+ 
+$module = 'F_G';
+$sub_mod = 'all';
 
-const Module_Name = 'F_G';
-$module = Module_Name;
 $tabelle = '';
 
 const Prefix = '';
@@ -35,6 +36,7 @@ require  $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php' ;
 require  $path2ROOT . 'login/common/VF_Const.lib.php' ;
 require  $path2ROOT . 'login/common/VF_M_tab_creat.lib.php' ;
 
+require $path2ROOT . 'login/common/VF_Upload.lib.php';
 /**
  *
  * Includes-Liste
@@ -47,6 +49,9 @@ $flow_list = true;
 
 $jq = $jqui = true;
 $BA_AJA = true;
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_accordion = true; // Accordion Display mit jquery
+
 $header = "";
 BA_HTML_header('Geräte- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

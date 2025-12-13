@@ -46,6 +46,7 @@ $db = LinkDB('VFH');
 # Haeder ausgeben
 # ===========================================================================================================
 
+$jq_tabsort = $jq = true;
 BA_HTML_header('Marktplatz - Biete/Suche', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<main>";

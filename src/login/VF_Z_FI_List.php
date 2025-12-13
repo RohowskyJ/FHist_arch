@@ -26,15 +26,15 @@ $path2ROOT          = "../";
 $_SESSION[$module]['Inc_Arr']  = array();
 $_SESSION[$module]['Inc_Arr'][] = "VF_Z_FI_List.php";
 
-$debug = True;  $debug = False;  // Debug output Ein/Aus Schalter
+$debug = False;  // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -49,8 +49,9 @@ VF_Count_add();
 # ===========================================================================================================
 #                                            Haeder ausgeben
 # ===========================================================================================================
-$title = "Benutzer ";
+$title = "Firmen ";
 
+$jq_tabsort = $jq = true;
 $logo = 'NEIN';
 BA_HTML_header('Firmen- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

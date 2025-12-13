@@ -77,10 +77,13 @@ if ($bu_id == 0) { # Neuer Datensatz
     $sql = "UPDATE `bu_echer` SET `bu_frei_dat`=NOW(),bu_frei_id='$p_uid' $updas WHERE `bu_id`='$bu_id'";
 }
 
-echo "<div class='toggle-SqlDisp'>";
-echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O BU Edit ph1$sql </pre>";
-echo "</div>";
+if ($debug) {
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O BU Edit ph1$sql </pre>";
+    echo "</div>";
+}
 
 $result = SQL_QUERY($db, $sql);
+
 header("Location: VF_O_BU_List.php?Act=" . $_SESSION[$module]['Act']);
 

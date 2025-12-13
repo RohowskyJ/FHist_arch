@@ -1,10 +1,15 @@
 <?php
 
-#$debug = true;
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "Proj_Conf_Edit_ph1.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>Proj_Conf_Edit_ph1.inc.php ist gestarted</pre>";
 }
-
+console_log('proj start ph1');
 if ($neu['bild_datei_1'] != "") {
     $neu['c_bild_1'] = $neu['bild_datei_1'];
 }
@@ -126,7 +131,6 @@ foreach ($neu as $name => $value) { # fÃ¼r alle Felder aus der tabelle
 
 } # Ende der Schleife
 
-echo "L 0159 updas_s $updas_s <br>";
 $dsn = $path2ROOT."login/common/config_s.ini";
 
 $datei = fopen($dsn, 'w');
@@ -153,11 +157,13 @@ foreach ($neu as $fld => $value ) {
 }
 
 $sql = "UPDATE fh_proj_config SET  c_aenduid='".$_SESSION['VF_Prim']['p_uid']."'$updas WHERE `c_flnr`='1' ";
+
 if ($debug) {
-    echo '<pre class=debug> L 0197: \$sql $sql </pre>';
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Proj_Conf_Edit_ph1.inc.php $sql </pre>";
+    echo "</div>";
 }
 
-#echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
 $result = SQL_QUERY($db, $sql);
 
 if (isset($_SESSION[$module]['inst'])) {

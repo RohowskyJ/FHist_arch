@@ -121,7 +121,7 @@ if ($phase == 1) {
     foreach ($_POST as $name => $value) {
         $neu[$name] = trim(mysqli_real_escape_string($db, $value));
     }
-var_dump($neu);
+    
     $neu['mi_beitritt'] = date('Y-m-d');
 
     if ($neu['mi_mtyp'] == "UM" && $neu['mi_org_name'] != "") {

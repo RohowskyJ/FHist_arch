@@ -20,8 +20,6 @@ if ($debug) {
 foreach ($_POST as $name => $value) {
     $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
-var_dump($neu);
-# $uploaddir = "../VFH/scripts/updata/Biete_Suche/";
 
 if ( $neu['bild_datei_1'] != '') {
     $neu['bs_bild_1'] =  $neu['bild_datei_1'];
@@ -54,12 +52,7 @@ if ($bs_id == 0) { # Neuer Datensatz anlegen
                '$neu[bs_email_1]','$neu[bs_email_2]','$neu[bs_bild_1]','$neu[bs_bild_2]','$neu[bs_bild_3]','$neu[bs_bild_4]',
                '$p_uid'
                )";
-    
-    echo "<div class='toggle-SqlDisp'>";
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AN Edit ph1 $sql </pre>";
-    echo "</div>";
-    
-    $result = SQL_QUERY($db, $sql);
+
 } else { # Update betehender Satz
 
     $updas = ""; # assignemens for UPDATE xxxxx SET `variable` = 'Wert'
@@ -80,13 +73,14 @@ if ($bs_id == 0) { # Neuer Datensatz anlegen
     if ($debug) {
         echo '<pre class=debug> L 099: \$sql $sql </pre>';
     }
-    
+}
+
+if ($debug) {
     echo "<div class='toggle-SqlDisp'>";
     echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O AN Edit ph1 $sql </pre>";
-    echo "</div>";
-    
-    $result = SQL_QUERY($db, $sql);
+    echo "</div>";;
 }
+$result = SQL_QUERY($db, $sql);
 
 header("Location: VF_O_AN_List.php?Act=" . $_SESSION[$module]['Act'] );
 

@@ -26,15 +26,15 @@ $path2ROOT          = "../";
 $_SESSION[$module]['Inc_Arr']  = array();
 $_SESSION[$module]['Inc_Arr'][] = "VF_Z_B_List.php";
 
-$debug = True;  $debug = False;  // Debug output Ein/Aus Schalter
+$debug = False;  // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -65,7 +65,7 @@ $_SESSION['VF']['$select_string'] = $select_string;
 if (!isset($_SESSION['VF_LISTE'])) {
     $_SESSION['VF_LISTE']    = array(
         "select_string"       => "",
-        "DropdownAnzeige"     => "Ein",
+        "DropdownAnzeige"     => "Aus",
         "LangListe"           => "Ein",
         "VarTableHight"       => "Ein",
         "CSVDatei"            => "Aus"
@@ -76,6 +76,7 @@ if (!isset($_SESSION['VF_LISTE'])) {
 # ===========================================================================================================
 $title = "Benutzer ";
 
+$jq_tabsort = $jq = true;
 $logo = 'NEIN';
 BA_HTML_header('Benutzer- und Zugriffs- Verwaltung','','Admin','150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

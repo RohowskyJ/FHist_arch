@@ -18,11 +18,18 @@ if ($debug) {
 }
 
 $Inc_Arr[] = "VF_FO_Edit_ph0.inc.php";
-# var_dump($neu);
+
+$dataSetAct = "";
 if ($neu['md_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
+}
+
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
 }
 
 if (!isset($neu['sa_name'])) { /** initialisierung falls noch nicht existent */
@@ -70,13 +77,8 @@ if ($verz == 'J' || $neu['md_dsn_1'] == "0_Verz") {
     echo "<input type='hidden' name='MAX_FILE_SIZE' value='500000' />";
     
     # =========================================================================================================
-    $checked_f = "";
-    if ($hide_area == 0) {  //toggle??
-        $checked_f = 'checked';
-    }
-    // Der Button, der das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $button_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
-    Edit_Separator_Zeile('Fotos'.$button_f);
+    $checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
+    Edit_Separator_Zeile('Fotos',$checkbox_f);  #
     # =========================================================================================================
     echo "<div>";
     
@@ -89,12 +91,10 @@ if ($verz == 'J' || $neu['md_dsn_1'] == "0_Verz") {
         $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'md_beschreibg', 'bi' => 'md_dsn_1', 'rb' => '', 'up_err' => '','f1'=>'','f2'=>'');
         $i++;
     }
-    
-    
+
     VF_Upload_Form_M();
     
-    echo "</div>";
-    
+    echo "</div>"; 
 }
 
 
@@ -104,22 +104,24 @@ if ($hide_area != 0) {
     // Der Button, der das toggling übernimmt
     $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
 }
-Edit_Separator_Zeile('Sammlung'.$button);
+Edit_Separator_Zeile('Sammlung');
 # =========================================================================================================
 
 echo "<input type='hidden' name='md_sammlg' value='".$neu['md_sammlg']."'/>";
 
-// $Edit_Funcs_Protect = True;
-Edit_Daten_Feld('md_sammlg','30');
-// $Edit_Funcs_Protect = False;
-Edit_Daten_Feld('sa_name');
-
-if ($hide_area == 0 || mb_strlen($neu['md_sammlg']) <= 4) {
-    echo "<div>";
-} else {
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block10'>";
+// accordion für Sammlung
+echo "<ul id='sa-accordion' class='accordionjs' $dataSetAct >"; // sa- für Sammlung
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; # $Edit_Funcs_Protect = true;
+Edit_Daten_Feld_Button('md_sammlg', '20', '', '');
+Edit_Daten_Feld('sa_name', '');
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
 # =========================================================================================================
 
 /**
@@ -155,8 +157,10 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val,$titel);
 
-echo "</div>"; # ende toggle
-echo "</div>"; # ende dropdown Sammlung
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// Ende Acccordion für Sammlung
 
 if ($hide_area == 0) {  //toggle??
     $button = "";
@@ -197,8 +201,6 @@ if ($_SESSION[$module]['all_upd']) {
 }
 
 echo "<p><a href='VF_FO_List_Detail.php?md_aufn_d=" . $neu['md_aufn_datum'] . "'>Zurück zur Liste</a></p>";
-
-echo "<script src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
 
 # =========================================================================================================
 

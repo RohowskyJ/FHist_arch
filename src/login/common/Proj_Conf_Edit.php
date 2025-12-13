@@ -10,9 +10,10 @@
  */
 session_start();
 
-const Module_Name = 'Proj_Conf';
-$module = Module_Name;
-$tabelle = 'proj_config';
+$module = 'Proj_Conf';
+$sub_mod = 'all';
+
+$tabelle = 'fh_proj_config';
 
 const Prefix = '';
 
@@ -23,15 +24,25 @@ const Prefix = '';
  */
 $path2ROOT = "../../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "Proj_Conf_Edit.php";
+
+$_SESSION[$module]['all_upd'] = '1';
+ 
 $debug = false; // Debug output Ein/Aus Schalter
 
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
-require $path2ROOT . 'login/common/VF_Int_Conf_Const.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
+console_log('proj start');
 $jq = $jqui = true;
 $BA_AJA = true;
 BA_HTML_header('Konfigurations- Verwaltung', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
@@ -117,6 +128,7 @@ if ($phase == 0) {
         $neu['c_Module_4'] = $ini_arr["Modules"]['m_4'];
         $neu['c_Module_5'] = $ini_arr["Modules"]['m_5'];
         $neu['c_Module_6'] = $ini_arr["Modules"]['m_6'];
+        $neu['c_Module_7'] = $ini_arr["Modules"]['m_7'];
         $neu['c_Module_8'] = $ini_arr["Modules"]['m_8'];
         $neu['c_Module_9'] = $ini_arr["Modules"]['m_9'];
         $neu['c_Module_10'] = $ini_arr["Modules"]['m_10'];

@@ -174,7 +174,7 @@ if ($neu['mi_id'] == 0) { // Neu anlegen eines Mitglieds- Datensatzes
     } # Ende der Schleife
 
     $updas = "`mi_uidaend`='$p_uid'" . $updas;
-    echo "\$updas $updas <br>";
+    
     if ($_SESSION[$module]['all_upd'] || $_SESSION['VF_Prim']['p_uid'] == $neu['mi_id']) {
         $sql = "UPDATE `fh_mitglieder` SET  $updas WHERE `mi_id`='$mi_id'";
         if ($debug) {

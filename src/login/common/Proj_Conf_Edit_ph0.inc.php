@@ -7,10 +7,17 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "Proj_Conf_Edit_ph0.inc.php";
+var_dump($neu);
 if ($debug) {
     echo "<pre class=debug>Proj_Config_Edit_ph0.inc.php ist gestarted</pre>";
 }
-
+console_log('proj start ph0');
 echo "<div class='white'>";
 
 # =========================================================================================================
@@ -21,12 +28,12 @@ Edit_Tabellen_Header('Definitionen');
 Edit_Separator_Zeile('Betreiber- Daten');
 # =========================================================================================================
 # var_dump($Tabellen_Spalten_typ);
-Edit_Daten_Feld('c_Institution', 100);
+Edit_Daten_Feld('c_Institution', 65);
 
 Edit_Daten_Feld('c_Vereinsreg', 15);
 
 Edit_Daten_Feld('c_Eignr', 5);
-Edit_Daten_Feld('c_Verantwortl', 100);
+Edit_Daten_Feld('c_Verantwortl', 65);
 Edit_Daten_Feld('c_Ver_Tel', 30);
 Edit_Daten_Feld('c_email', 60);
 Edit_Daten_Feld('c_Homepage', 60);
@@ -51,7 +58,7 @@ Edit_Select_Feld('c_Wartung', array(
     "U" => "System in Sonderzustand - siehe Wartungsgrund"
 ));
 
-Edit_Daten_Feld('c_Wart_Grund', 100);
+Edit_Daten_Feld('c_Wart_Grund', 65);
 /*
 echo "<input type='hidden' name='c_bild_1' value='".$neu['c_bild_1']."' >";
 echo "<input type='hidden' name='c_bild_2' value='".$neu['c_bild_2']."' >";
@@ -94,7 +101,6 @@ while ($i <= $num_foto) {
 }
 
 VF_Upload_Form_M(); // _M im Original
-
 
 const Ja_Nein = array(
     'J' => 'Ja',

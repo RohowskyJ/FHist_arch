@@ -90,6 +90,7 @@ $title = "Muskelbedientes des Eigentümers " . $_SESSION['Eigner']['eig_eigner']
 $header = "";
 $jq = $jqui = true; // JQ-UI laden
 $BA_AJA = true; // AJAX- Scripts laden
+$jq_toggle = $jq_tabsort = $jq_accordion = true;
 BA_HTML_header('Muskelbedientes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -166,7 +167,6 @@ if (isset($_POST['level1'])) {
     }
 }
 
-# var_dump($_POST);
 /**
  * Einlesen der Sammlungs- Kürzeln in arr
  */
@@ -239,6 +239,8 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['fm_sammlung']
 
     echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
 
+    BA_HTML_trailer();
+    
 } else {
 
     /**

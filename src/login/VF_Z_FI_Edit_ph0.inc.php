@@ -52,7 +52,7 @@ echo "<input type='hidden' name='fi_id' value='".$neu['fi_id']."' />";
           echo "<button type='submit' name='phase' value='1' class='green'>Daten abspeichern</button></p>";
    }
   
-  echo "<p><a href='VF_Z_FI_Edit.php'>Zurück zur Liste</a></p>";
+  echo "<p><a href='VF_Z_FI_List.php'>Zurück zur Liste</a></p>";
   
   
   echo "</div>";    

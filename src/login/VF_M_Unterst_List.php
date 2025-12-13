@@ -107,8 +107,8 @@ $T_list_texte = array(
 # Haeder ausgeben
 # ===========================================================================================================
 $title = "Unterstützer Daten";
-# $heading = "<h1>Mitglieder Daten aus Tabelle <q>".$tabelle."</q></h1>";
 
+$jq_tabsort = $jq = true;
 $logo = 'NEIN';
 BA_HTML_header('Mitglieder- Verwaltung', '', 'Admin', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

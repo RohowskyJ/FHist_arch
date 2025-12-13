@@ -81,33 +81,14 @@ if ($md_id == 0) { # Neueingabe
                 '$neu[md_aenduid]'
                )";
         
-        echo "<div class='toggle-SqlDisp'>";
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto Edit ph1 $sql </pre>";
-        echo "</div>";
-        
-        $result = SQL_QUERY($db, $sql);
-        /*
-    } else  {
-        $sql = "INSERT INTO $tabelle (
-                md_eigner,md_urheber,md_aufn_datum,md_dsn_1,md_beschreibg,md_namen,
-                md_sammlg,md_fw_id,md_suchbegr,md_media,
-                md_aenduid
-              ) VALUE (
-                '$neu[md_eigner]','$neu[md_Urheber]','$neu[md_aufn_datum]','$neu[md_dsn_1]','$neu[md_beschreibg]','$neu[md_namen]',
-                '$neu[md_sammlg]','$neu[md_fw_id]','$neu[md_suchbegr]','$neu[md_media]',
-                '$neu[md_aenduid]'
-               )";
-        
-        echo "<div class='toggle-SqlDisp'>";
-        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto Edit ph1 $sql </pre>";
-        echo "</div>";
-        
-        $result = SQL_QUERY($db, $sql);
-        */
-        # }
-    /*
+        if ($debug) {
+            echo "<div class='toggle-SqlDisp'>";
+            echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto Edit ph1 $sql </pre>";
+            echo "</div>";
+        }
 
-*/
+        $result = SQL_QUERY($db, $sql);
+
     $recnr = mysqli_insert_id($db);
    
 } else { # update
@@ -134,10 +115,12 @@ if ($md_id == 0) { # Neueingabe
 
     $sql = "UPDATE $tabelle SET  $updas WHERE `md_id`='" . $_SESSION[$module]['md_id'] . "'";
     
-    echo "<div class='toggle-SqlDisp'>";
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto Edit ph1 $sql </pre>";
-    echo "</div>";
-    
+    if ($debug) {
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto Edit ph1 $sql </pre>";
+        echo "</div>";
+    }
+   
     $result = SQL_QUERY($db, $sql);
 
     $recnr = $_SESSION[$module]['md_id'];

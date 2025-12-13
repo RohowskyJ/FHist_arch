@@ -58,6 +58,9 @@ $db = LinkDB('VFH');
 $jq = $jqui = true;
 $BA_AJA = true;
 
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_accordion = true; // Accordion Display mit jquery
+
 $header = "";
 
 $A_Off = false;  # set autocomplete=off in Header
