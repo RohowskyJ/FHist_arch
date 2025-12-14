@@ -334,76 +334,6 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
         $logo = $ini_arr['Config']['sign'];
         echo "<img src='" . $path2ROOT . "login/common/imgs/$logo' alt='Signet Verein Feuerwehrhistoriker' style='border: 3px solid lightblue;  display: block; margin-left: auto; margin-right: auto; margin-top:6px;  width: 80%;'>";
         $OrgName = $ini_arr['Config']['inst'];
-        
-        /**
-         *  debug switch beginn
-         */
-        
-        if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' ) {
-            $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
-            $adm_cont = "
-                <ul style='margin: 0 1em 0em 1em; padding: 0;'>
-                $Hinweise
-               </ul>
-                ";
-                
-                ?>
-           <!-- opPopOver -->
-         
-           <div class="dropup w3-center">
-                <b class='dropupstrg' style='color:lightgrey; background-color:white;font-size: 10px; float: right;'>Dbg</b>
-               <div class="dropup-content" style='bottom: -100px; right: -340px;'>
-                   <b>Entwanzungs-Optionen</b> <br>
-                   <i>Script-Module</i><br>
-                   <?php
-                   /*
-                   if ($_SESSION['VF_Prim']['debug']['cPerr_A'] == 'A') {
-                       $EinAus = "I '>PHP Error Datei nicht schreiben";
-                   } else {
-                       $EinAus = "A '>PHP Error Datei schreiben";
-                   }
-                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cPerr_A=$EinAus'</a>";
-                   if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
-                       $EinAus = "I '>Debug Datei nicht schreiben";
-                   } else {
-                       $EinAus = "A '>Debug Datei schreiben";
-                   }
-                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cDeb_A=$EinAus'</a>";
-                   */
-                   if (isset($_SESSION[$module]['Inc_Arr']) && count($_SESSION[$module]['Inc_Arr']) > 0) {
-                       echo '<ul style="margin: 8px 0; padding-left: 20px; list-style: disc;">';
-                       foreach ($_SESSION[$module]['Inc_Arr'] as $key) {
-                           echo '<li style="margin: 4px 0; font-size: 0.9em;">' . htmlspecialchars($key) . '</li>';
-                       }
-                       echo '</ul>';
-                   } else {
-                       echo '<p style="color: #999; font-size: 0.9em; margin: 8px 0;">Keine Script Information enthalten</p>';
-                   }
-                   ?>
-                   <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #ddd;">
-                       SQL Befehl anzeigen <button id="toggleButt-sD" class='button-sm'>Einschalten</button><br>
-                   </div>
-         
-             </div>
-          </div>
-         <!-- 
-         <div id="popover" class="popover">
-         <div class="popover-content">
-         Hier ist der Inhalt des Popovers.
-         <! -- Hier können Sie weitere Elemente und Aktionen hinzufügen -- >
-         <button id="closePopover" class="button-sm">Schließen</button>
-         </div>
-         </div>
-       -->
-        
-            <!-- opPopOver ende -->
-            <?php 
-       
-        # echo "</div>"; // ende kurzer Teil
-        /**
-         *  debug switch ende
-         */
-        }
     }
 
     ?>
@@ -636,20 +566,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
                    <b>Entwanzungs-Optionen</b> <br>
                    <i>Script-Module</i><br>
                    <?php
-                   /*
-                   if ($_SESSION['VF_Prim']['debug']['cPerr_A'] == 'A') {
-                       $EinAus = "I '>PHP Error Datei nicht schreiben";
-                   } else {
-                       $EinAus = "A '>PHP Error Datei schreiben";
-                   }
-                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cPerr_A=$EinAus'</a>";
-                   if ($_SESSION['VF_Prim']['debug']['cDeb_A'] == 'A') {
-                       $EinAus = "I '>Debug Datei nicht schreiben";
-                   } else {
-                       $EinAus = "A '>Debug Datei schreiben";
-                   }
-                   echo "<a class='w3-bar-item w3-button' href='" . $_SERVER['PHP_SELF'] . " ?cDeb_A=$EinAus'</a>";
-                   */
+             
                    if (isset($_SESSION[$module]['Inc_Arr']) && count($_SESSION[$module]['Inc_Arr']) > 0) {
                        echo '<ul style="margin: 8px 0; padding-left: 20px; list-style: disc;">';
                        foreach ($_SESSION[$module]['Inc_Arr'] as $key) {
@@ -666,15 +583,7 @@ function List_Action_Bar($Tabellen_Name, $Heading, $T_List_Texte, $T_List, $Hinw
          
              </div>
           </div>
-         <!-- 
-         <div id="popover" class="popover">
-         <div class="popover-content">
-         Hier ist der Inhalt des Popovers.
-         <! -- Hier können Sie weitere Elemente und Aktionen hinzufügen -- >
-         <button id="closePopover" class="button-sm">Schließen</button>
-         </div>
-         </div>
-       -->
+
         
             <!-- opPopOver ende -->
             <?php 
