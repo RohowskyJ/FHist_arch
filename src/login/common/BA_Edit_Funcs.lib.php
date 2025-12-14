@@ -197,7 +197,7 @@ function Edit_Daten_Feld($FeldName, $FeldLaenge = 0, $InfoText = '', $FeldAttr =
 
     Edit_Feld_Zeile_header($FeldName);
 
-    $InputParm = " id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr" ."class='monitor'";
+    $InputParm = " id='$FeldName' name='$FeldName' value='" . $neu[$FeldName] . "' $FeldAttr '" ."class='monitor'";
     if (($FeldLaenge == 0 & $FeldAttr == '') or $phase != 0 or $Edit_Funcs_Protect) {
         echo $neu[$FeldName]; # ."<input type='hidden' $InputParm>";
     } else {

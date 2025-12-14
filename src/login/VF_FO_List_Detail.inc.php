@@ -19,7 +19,7 @@ $T_list_texte = array(
 );
 
 # ===========================================================================================================
-# Haeder ausgeben
+# Header ausgeben
 # ===========================================================================================================
 $title = "medien des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'] . " - " . $_SESSION[$module][$sub_mod]['eig_verant'];
 

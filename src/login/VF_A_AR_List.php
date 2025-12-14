@@ -317,7 +317,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     if ($_SESSION[$module]['List_Sel'] != "") {
         $sql_where = $_SESSION[$module]['List_Sel'];
     }
-
+    # var_dump($_SESSION[$module]);
     if (isset($_SESSION[$module]['ad_sg']) && $_SESSION[$module]['ad_sg'] != "") {
         if ($_SESSION[$module]['ad_sg'] == "Nix") {
             $_SESSION[$module]['ad_sg'] = '00';
@@ -363,9 +363,9 @@ if ($_SESSION['Eigner']['eig_eigner'] == "")
     $pref_eignr = substr("00000", 1, 5 - strlen($eignr)) . $eignr;
 
     echo "<div class='toggle-SqlDisp'>";
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'A AR List vor list_create $sql </pre>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'> A AR List vor list_create $sql </pre>";
     echo "</div>";
-
+   #  echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'> A AR List vor list_create $sql </pre>";
     $zus_text = "<div class='w3-container w3-sand'>  ";
     $zus_text .= "<br/>Archivaliennummer Prefix (Verein  Eigentümernummer Archivordnung) <font size='+1'>V:" . $pref_eignr . "</font> und der Nummern der Archivordnung und der Fortlaufenden Nummer <i>Inv.Nr.</i> (Keine Leerzeichen)</div>";
     

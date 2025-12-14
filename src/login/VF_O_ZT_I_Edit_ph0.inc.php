@@ -41,9 +41,10 @@ Edit_Select_Feld(Prefix . 'ih_sg', VF_ZT_Sachgeb, '');
 Edit_Select_Feld(Prefix . 'ih_ssg', VF_ZT_Sub_Sachg, '');
 
 Edit_Daten_Feld('ih_gruppe', 30);
-Edit_textarea_Feld('ih_titel');
-Edit_textarea_Feld('ih_titelerw');
-Edit_textarea_Feld('ih_autor');
+Edit_textarea_Feld('ih_titel',70);
+Edit_textarea_Feld('ih_titelerw',70);
+Edit_textarea_Feld('ih_autor',70);
+Edit_Daten_Feld('ih_email',60);
 
 Edit_Daten_Feld('ih_tel', 60);
 Edit_Daten_Feld('ih_fax', 60);

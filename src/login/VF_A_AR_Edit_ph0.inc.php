@@ -239,9 +239,7 @@ echo "</div>";
   }
 
   echo "<p><a href='VF_A_AR_List.php'>Zurück zur Liste</a></p>";
-           
-  echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/VF_toggle.js' ></script>";
-  
+
 # =========================================================================================================
  
 if ($debug) {echo "<pre class=debug>VF_A_AR_Edit_ph0.inc beendet</pre>";}

@@ -43,7 +43,11 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 {
     global $path2ROOT, $module, $logo, $jq, $jqui, $BA_AJA, $jq_accordion, $actor, $Anfix, $form_start,
      $A_Off;
-
+    
+    $deb_data = '0';
+    if (isset($_POST['phase']) && $_POST['phase'] == '1') {
+        $deb_data = '1';
+    }
     if (!isset($form_start)) {
         $form_start = true;
     }
@@ -152,7 +156,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
          *  debug switch beginn
          */
         
-         if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' ) {
+        if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' && $deb_data == '0') {
             $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
             $adm_cont = "
                 <ul style='margin: 0 1em 0em 1em; padding: 0;'>
@@ -199,16 +203,7 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
          
              </div>
           </div>
-         <!-- 
-         <div id="popover" class="popover">
-         <div class="popover-content">
-         Hier ist der Inhalt des Popovers.
-         <! -- Hier können Sie weitere Elemente und Aktionen hinzufügen -- >
-         <button id="closePopover" class="button-sm">Schließen</button>
-         </div>
-         </div>
-         -->
-        
+      
             <!-- opPopOver ende -->
             <?php 
             /**
@@ -274,7 +269,7 @@ function BA_HTML_trailer()
 // --------------------------------------------------------------------------------
 {
     global $module, $path2ROOT, $jq, $jqui,$BA_AJA,$jq_accordion, $jq_toggle, $jq_tabsort, $jq_fotoUp, 
-    $jq_MassUp, $BA_SQLImp ;
+    $jq_MassUp, $BA_SQLImp, $BA_LinkChk ;
 
     flow_add($module, "BA_HTML_Funcs.lib.php Funct: BA_HTML_trailer");
     
@@ -310,8 +305,12 @@ function BA_HTML_trailer()
         echo "<script type='text/javascript' src='common/javascript/VF_C_MassUp.js' ></script>";
     }
     if (isset($BA_SQLImp) && $BA_SQLImp) {
-        echo "<script type='text/javascript' src='common/javascript/BA_SQL_Import.js' ></script>";
+        echo "<script src='common/javascript/BA_SQL_Import.js' ></script>";
     }
+    if (isset($BA_LinkChk) && $BA_LinkChk) {
+        echo "<script  src='".$path2ROOT."login/common/javascript/BA_LinkCheck.js' ></script>";
+    }
+    
     echo "<script type='text/javascript' src='common/javascript/BA_chkbx_multi_sel.js' ></script>";
     
     ?>

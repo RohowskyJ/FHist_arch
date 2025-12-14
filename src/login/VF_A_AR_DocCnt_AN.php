@@ -39,6 +39,7 @@ require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
 
 VF_chk_valid();
 
+$jq_tabsort = $jq = true;
 BA_HTML_header("Anzahl der Dokumente je Archivordnungs Gruppe",'','Form','70em');
 
 initial_debug();

@@ -23,19 +23,28 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+$title = "medien des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'] . " - " . $_SESSION[$module][$sub_mod]['eig_verant'];
+
+$header = "";
+$jq_tabsort = $jq = true;
+BA_HTML_header($title, '', 'Admin', '180em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 

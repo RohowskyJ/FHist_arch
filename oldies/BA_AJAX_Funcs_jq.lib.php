@@ -299,6 +299,7 @@ $(document).ready(function() {
         $('#level4').val('Nix');
         $('#level5').val('Nix');
         $('#level6').val('Nix');
+        console.log('level 1 ',selectedVal);
     });
 
     // Event-Listener für Dropdown 2
@@ -309,6 +310,7 @@ $(document).ready(function() {
         $('#level4').val('Nix');
         $('#level5').val('Nix');
         $('#level6').val('Nix');
+        console.log('level 2 ',selectedVal);
     });
         // Event-Listener für Dropdown 3
     $('#leve3').change(function() {
@@ -317,6 +319,7 @@ $(document).ready(function() {
         $('#level4').val('Nix');
         $('#level5').val('Nix');
         $('#level6').val('Nix');
+        console.log('level 3 ',selectedVal);
     });
         // Event-Listener für Dropdown 4
     $('#level4').change(function() {
@@ -324,6 +327,7 @@ $(document).ready(function() {
         loadOptions(4, selectedVal);
         $('#level5').val('Nix');
         $('#level6').val('Nix');
+        console.log('level 4 ',selectedVal);
     });
         // Event-Listener für Dropdown 5
     $('#level5').change(function() {

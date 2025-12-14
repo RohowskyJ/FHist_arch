@@ -48,6 +48,7 @@ $BA_AJA = true;
 
 $jq_toggle = $jq_tabsort = $jq_accordion = true;
 */
+$jq_tabsort = $jq = true;
 BA_HTML_header('Museums- Daten- Verwaltung', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<fieldset>";

@@ -33,13 +33,14 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_ZT_I_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
+
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 # require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
@@ -47,6 +48,9 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+
+$header = "";
+HTML_header('Zeitungs- Inhalts- Verwaltung', 'Änderungsdienst', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -136,9 +140,6 @@ if ($phase == 1) {
         $neu[$name] = mysqli_real_escape_string($db, $value);
     }
 }
-
-$header = "";
-HTML_header('Zeitungs- Inhalts- Verwaltung', 'Änderungsdienst', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

@@ -46,7 +46,7 @@ echo "<input type='hidden' id='hide_area' value='$hide_area'>";
   Edit_Separator_Zeile('Aussendung');
   # =========================================================================================================
     
-  Edit_Daten_Feld(Prefix.'pr_datum',10,'',"'type='date'");
+  Edit_Daten_Feld(Prefix.'pr_datum',10,'',"type='date'");
   Edit_Daten_Feld(Prefix.'pr_name',50);
   Edit_Daten_Feld(Prefix.'pr_ausg',10);
   Edit_Radio_Feld(Prefix.'pr_medium',array ("PR"=>"Druck","TV"=>"Fensehen, Internet"));

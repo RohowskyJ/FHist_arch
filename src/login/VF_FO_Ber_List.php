@@ -79,20 +79,15 @@ if (! isset($_SESSION[$module]['all_upd'])) {
     $_SESSION[$module]['all_upd'] = False;
 }
 
-# var_dump($_GET);
-# var_dump($_SESSION[$module]);
-if (isset($_GET['Act'])) {
-    IF ( $_GET['Act'] == 1) {
-        $_SESSION[$module][$sub_mod]['Act'] = $Act = $_GET['Act'];
-        VF_chk_valid();
-        VF_set_module_p();
-    } else {
-        if (!isset($_SESSION[$module][$sub_mod]['Act'])){
-            $_SESSION[$module][$sub_mod]['Act'] = $Act = $_GET['Act'];
-            $_SESSION[$module][$sub_mod]['p_uid'] = 999999999;
-            $_SESSION[$module]['all_upd'] = False;
-        }
-    }
+if (isset($_GET['Act']) and $_GET['Act'] == 1) {
+    $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
+    VF_chk_valid();
+    VF_set_module_p();
+    $_SESSION['VF_LISTE']['LangListe'] = "Aus";
+} else {
+    $_SESSION[$module]['Act'] = $Act = 0;
+    $_SESSION['VF_Prim']['p_uid'] = 999999999;
+    $_SESSION[$module]['all_upd'] = False;
 }
 
 if (isset($_POST['phase'])) {

@@ -37,6 +37,16 @@ $flow_list = True;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+#$title = "Erweiterte Archivordnung des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
+
+$header = "";
+
+$jq_tabsort = $jq = true;
+BA_HTML_header('Erweiterte Archivordnung', $header, 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 /**
@@ -97,16 +107,6 @@ $_SESSION[$module]['$select_string'] = $select_string;
         "Alle" => "Archivordnung "
     );
 
-    # ===========================================================================================================
-    # Haeder ausgeben
-    # ===========================================================================================================
-    #$title = "Erweiterte Archivordnung des Eigentümers " . $_SESSION['Eigner']['eig_eigner'];
-    
-    $header = "";
-
-    $prot = True;
-    BA_HTML_header('Erweiterte Archivordnung', $header, 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-    
     echo "<main>";
     echo "<fieldset>";
 

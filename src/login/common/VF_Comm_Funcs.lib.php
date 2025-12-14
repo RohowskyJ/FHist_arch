@@ -1469,6 +1469,8 @@ function VF_set_module_p()
 
 /**
  * Einlesen der existierenden Tabellen in der Datenbank
+ * Neue Funktion table_exist() in BA_Funcs verwenden!
+ *   $ma_arr = table_exist('ma_');   - eine gruppe erfassen!
  *
  * Ausgabe der existierenden Tabellen (mittels SHOW_TABLES) in global Arrays je Prefix (fz_, fo_,...)
  *
@@ -2376,8 +2378,6 @@ function VF_Upload_Form_M()
             
             $ds_parts = pathinfo($fo);
             $ext = strtolower($ds_parts['extension']);
-            echo "L 2378 ext $ext <br>";
-            # var_dump(GrafFiles);
             $graffile = false;
             foreach (GrafFiles as $key => $val ) {
                 if ($val == $ext ) {
@@ -2386,7 +2386,6 @@ function VF_Upload_Form_M()
                 }
             }
             if ($graffile )  {
-                echo "L 2387 Datei ist Grafik- Datei <br>";
                 $fo_arr = explode("-", $neu[$p_a['bi']]);
                 $cnt_fo = count($fo_arr);
                 
@@ -2410,7 +2409,6 @@ function VF_Upload_Form_M()
                 echo "<a href='$p' target='Bild $j' > <img src='$p' alter='$p' height='200px'></a><br>";
                 echo $neu[$p_a['bi']];
             } else {
-                echo "L 2410 Datei ist KEINE Grafik- Datei <br>";
                 
                 $sdir = SubMod_Dirs[$subMod];
                 $p = "<a href='".$path2ROOT ."login/AOrd_Verz/$sdir/".$neu[$p_a['bi']]."'> ".$neu[$p_a['bi']]."</a>" ;
