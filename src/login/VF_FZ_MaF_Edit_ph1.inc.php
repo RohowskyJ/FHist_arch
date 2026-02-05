@@ -116,10 +116,11 @@ if ($neu['fz_id'] == 0) { # neueingabe
                 '$neu[fz_eigent_freig]','$neu[fz_verfueg_freig]',         \n
                 '$neu[fz_pruefg_id]','$neu[fz_pruefg]','$neu[fz_aenduid]'
                )";
-
-    echo "<div class='toggle-SqlDisp'>";
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Maf_Edit ph1 $sql </pre>";
-    echo "</div>"; 
+    if  ($debug) {
+        echo "<div class='toggle-SqlDisp'>";
+        echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Maf_Edit ph1 $sql </pre>";
+        echo "</div>"; 
+    }
     
     $result = SQL_QUERY($db, $sql);
     # echo mysqli_error($db) . "  L 0149: \$sql $sql <br/>";

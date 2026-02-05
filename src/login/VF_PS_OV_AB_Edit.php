@@ -7,8 +7,9 @@
  */
 session_start();
 
-const Module_Name = 'PSA';
-$module = Module_Name;
+$module = 'PSA';
+$sub_mod = 'all';
+
 $tabelle = 'aw_aermel_abz';
 
 const Prefix = '';
@@ -35,6 +36,8 @@ $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+BA_HTML_header('Orts- Wappen - Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -123,7 +126,7 @@ if ($phase == 1) {
 
     $neu['fo_fw_id'] = $_SESSION[$module]['fw_id'];
 
-    $uploaddir = $Path2ROOT."login/AOrd_Verz/PSA/AERM/Aermel_Abz/";
+    $uploaddir = $path2ROOT."login/AOrd_Verz/PSA/AERM/Aermel_Abz/";
 
     if (isset($_FILES['uploaddatei_1']) && $_FILES['uploaddatei_1']['name'] != "") {
         $neu['fo_ff_abzeich'] =  VF_Upload_Pic('fo_ff_abzeich', $uploaddir, "", "");
@@ -187,8 +190,6 @@ if ($phase == 1) {
 
     header("Location: VF_PS_OV_O_Edit.php?ID=$fw_id");
 }
-
-BA_HTML_header('Orts- Wappen - Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

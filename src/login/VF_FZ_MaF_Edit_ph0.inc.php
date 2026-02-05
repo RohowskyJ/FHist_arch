@@ -12,15 +12,23 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaF_Edit_ph0.inc.php";
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MA_Edit_ph0.inc.php gestartet </pre>";
 }
-echo "<input type='hidden' id='fz_id' name='fz_id' value='".$neu['fz_id']."'/>";
-echo "<input type='hidden' id='fz_eigner' name='fz_eignr' value='".$_SESSION['Eigner']['eig_eigner']."'/>";
 
+$dataSetAct = "";
 if ($neu['fz_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
-    $hide_area = 1;
+    $hide_area = 1; 
+    $dataSetAct = "data-active-index='false'";
 }
 
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='fz_id' value='".$neu['fz_id']."'/>";
+echo "<input type='hidden' id='recEigner' name='fz_eignr' value='".$_SESSION['Eigner']['eig_eigner']."'/>";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."'/>";
 echo "<input type='hidden' id='hide_area' value='$hide_area'>";
 # echo "Verstecken $hide_area <br>";
 # =========================================================================================================
@@ -30,34 +38,23 @@ Edit_Tabellen_Header('Motorisierte Fahrzeuge von Eigentümer '.$_SESSION['Eigner
 Edit_Daten_Feld('fz_id');
 Edit_Daten_Feld('fz_eignr');
 
-# =========================================================================================================
-$chkbox = "";
-if ($hide_area != 0) {
-    // Die Checkbox,ie das toggling steuert
-    $chkbox = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
-}
-Edit_Separator_Zeile('Sammlung'.$chkbox);
-# =========================================================================================================
-
-echo "<input type='hidden' id='fz_sammlg' name='fz_sammlg' value='".$neu['fz_sammlg']."'>";
-$Edit_Funcs_Protect = true;
+// accordion für Sammlung
+echo "<ul id='sa-accordion' class='accordionjs' $dataSetAct >"; // sa- für Sammlung
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; # $Edit_Funcs_Protect = true;
 Edit_Daten_Feld_Button('fz_sammlg', '20', '', '');
 Edit_Daten_Feld('sa_name', '');
-$Edit_Funcs_Protect = false;
-
-if ($hide_area == 0) {
-    echo "<div>";
-    
-} else {
-    # echo "<div id='unhide_sa' style='display:none'>";
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block10'>";
-    echo "Anzeige-Block 10";
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
 /**
  * Parameter für den Aufruf von Multi-Dropdown
  *
- * Benötigt Prototype<script type='text/javascript' src='common/javascript/prototype.js' ></script>";
+ * Benötigt jquery
  *
  *
  * @var array $MS_Init  Kostante mt den Initial- Werten (1. Level, die weiteren Dae kommen aus Tabellen) [Werte array(Key=>txt)]
@@ -94,43 +91,32 @@ $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeig
 
 VF_Multi_Dropdown($in_val, $titel);
 
-echo "</div>"; # ende toggle
-echo "</div>"; # ende dropdown Sammlung
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// Ende Acccordion für Sammlung
 
 # =========================================================================================================
 Edit_Separator_Zeile('Fahrzeug/Geräte- Beschreibung');
 # =========================================================================================================
-$taktbez = "";
-if ($neu['ab_bezeichn'] != "") {
-    $taktbez = $neu['ab_bezeichn'];
-    $neu['fz_taktbez'] .= " - $taktbez";
-}
 
-if ($hide_area == 0) {  //toggle??
-    $button = "";
-} else {
-    // Der Button, der das toggling übernimmt
-  
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock20' > zum anzeigen/ändern anklicken</label> ";
-
-}
-echo "<input type='hidden' name='fz_taktbez' value='".$neu['fz_taktbez']."' >";
-$Edit_Funcs_Protect = true;
-Edit_Daten_Feld_Button('fz_taktbez', 40, '', '', $button);
-$Edit_Funcs_Protect = false;
-
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-   #echo "<div id='unhide_taktb' style='display:none'>";
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block20'>";
-    echo "Anzeige-Block 20";
+// accordion für Takt. Bezeichnung
+echo "<ul id='ta-accordion' class='accordionjs' $dataSetAct >"; // ta- für Taktische Bezeichnung
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; # $Edit_Funcs_Protect = true;
+Edit_Daten_Feld_Button('fz_taktbez', 40, '', '');
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
 VF_Auto_Taktb($neu['fz_taktbez']);
-
-echo "</div>"; # ende toggle
-echo "</div>"; # ende hide taktb
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// ende accordion für Takt. Bez
 
 Edit_Daten_Feld('fz_name', 50);
 
@@ -148,30 +134,23 @@ Edit_Daten_Feld('fz_ausdienst', 10, 'Datum YYYY-MM-DD oder zumindest Jahr der Au
 
 Edit_Select_Feld(Prefix . 'fz_zustand', VF_Zustand, '');
 
-$button = "";
-if ($hide_area != 0) {  //toggle??
-    // Der Button, der das toggling übernimmt
-    #$button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_herst')\">zum anzeigen/ändern klicken!</button>";
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock30' > zum anzeigen/ändern anklicken</label> ";
+// accordion für Fahrgestell- Hersteller
+echo "<ul id='fg-accordion' class='accordionjs' $dataSetAct >"; // fg- für Fahrzeughersteller
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; #$Edit_Funcs_Protect = true;
+Edit_Daten_Feld_Button(Prefix . 'fz_herstell_fg', 70, '', '');
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
-echo "<input type='hidden' name='fz_herstell_fg' value='".$neu['fz_herstell_fg']."' >";
-# $Edit_Funcs_Protect = true;
-Edit_Daten_Feld_Button(Prefix . 'fz_herstell_fg', 70, '', '', $button);
-$Edit_Funcs_Protect = false;
-
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-    # echo "<div id='unhide_herst' style='display:none'>";
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block30'>";
-    echo "Anzeige-Block 30";
-}
-
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
 VF_Auto_Herstell();
-
-echo "</div>"; # ende toggle
-echo "</div>"; # ende hide herstb
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// ende accordion für  Fahrgestell- Hersteller
 
 Edit_Daten_Feld(Prefix . 'fz_typ', 70);
 Edit_Daten_Feld(Prefix . 'fz_modell', 50);
@@ -181,32 +160,25 @@ Edit_Daten_Feld(Prefix . 'fz_antrieb', 50);
 
 Edit_Daten_Feld(Prefix . 'fz_geschwindigkeit', 10, ' km/Std');
 
-if ($hide_area == 0) {  //toggle??
-    $button = "";
-} else {
-    // Der Button, der das toggling übernimmt
-    #$button = " &nbsp; &nbsp; <button type='button' class='button-sm' onclick=\"toggleVisibility('unhide_aufb')\">zum anzeigen/ändern klicken!</button>";
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock40' > zum anzeigen/ändern anklicken</label> ";
-}
-
 echo "<input type='hidden' name='fz_aufbauer' value='".$neu['fz_aufbauer']."' >";
-#$Edit_Funcs_Protect = True;
-Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 50,'','',$button); # ,'','',$button
-$Edit_Funcs_Protect = false;
 
-if ($hide_area == 0) {
-    echo "<div>";
-} else {
-    # echo "<div id='unhide_aufb' style='display:none'>";
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block40'>";
-    echo "Anzeige-Block 40";
+// accordion für Aufbauer
+echo "<ul id='au-accordion' class='accordionjs' $dataSetAct >"; // au- für Aufbauer
+echo "<li>";
+echo "<div>";
+// $readOnly = 'readonly'; #$Edit_Funcs_Protect = True;
+Edit_Daten_Feld_Button(Prefix . 'fz_aufbauer', 50,'','');
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
-
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
 VF_Auto_Aufbau();
-
-echo "</div>"; # ende toggle
-echo "</div>"; # ende hide aufbauer
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// ende accordion für Aufbauer
 
 Edit_Daten_Feld(Prefix . 'fz_aufb_typ', 50);
 Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
@@ -214,11 +186,7 @@ Edit_Daten_Feld(Prefix . 'fz_besatzung', 10);
 Edit_Daten_Feld(Prefix . 'fz_baujahr', 4);
 
 # =========================================================================================================
-$checked_f = "";
-if ($hide_area == 0) {  //toggle??
-    $checked_f = 'checked';
-}
-$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+$checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 /*
@@ -230,11 +198,11 @@ echo "<input type='hidden' name='fz_bild_2' value='".$neu['fz_bild_2']."' >";
 echo "<input type='hidden' name='fz_bild_3' value='".$neu['fz_bild_3']."' >";
 echo "<input type='hidden' name='fz_bild_4' value='".$neu['fz_bild_4']."' >";
 
-echo "<input type='hidden' id='sammlung' value='".$neu['fz_sammlg'] ."'>";
-echo "<input type='hidden' id='eigner' value='".$neu['fz_eignr'] ."'>";
+echo "<input type='hidden' id='sammlung' name= value='".$neu['fz_sammlg'] ."'>";
+# echo "<input type='hidden' id='eigner' value='".$neu['fz_eignr'] ."'>";
 
-echo "<input type='hidden' id='aOrd' value=''>";
-echo "<input type='hidden' id='urhNr' value=''>";
+echo "<input type='hidden' id='aOrd' name='aOrd' value'sammlung'=''>";
+echo "<input type='hidden' id='urhNr' name='urhNr' value=''>";
 
 $pict_path = "";
 
@@ -247,11 +215,13 @@ while ($i <= $num_foto) {
 }
 
 VF_Upload_Form_M();
+// ende Foto
 
-
-echo "<details name='my-accordion'>";
-echo "<summary>Fix Eingebaute Ausrüstung   <span style='align: right;  font-weight: normal;'; >(zum Anzeigen oder Ändern rechts auf den Pfeil klicken) </span>
-    </summary>";
+// accordion für eingebaute Ausrüstung
+echo "<ul id='eb-accordion' class='accordionjs' $dataSetAct >"; // ta- für Taktische Bezeichnung
+echo "<li>";
+echo "<div>Eingebaute Ausrüstung - für Details anklicken</div>";
+echo "<div>";
 Edit_Daten_Feld('fz_l_tank', 70);
 Edit_Daten_Feld('fz_l_monitor', 70);
 Edit_Daten_Feld('fz_l_pumpe', 70);
@@ -263,16 +233,24 @@ Edit_Daten_Feld('fz_t_beleuchtg', 70);
 Edit_Daten_Feld('fz_t_geraet', 70);
 Edit_Daten_Feld('fz_t_strom', 70);
 Edit_Daten_Feld('fz_g_atemsch', 70);
-echo "</details>";
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// ende accordion für eingebaute Ausrüstung
 
-echo "<details name='my-accordion'>";
-echo "<summary>CTIF Zertifizierung  <span style='align: right; font-weight: normal; ' >(zum Anzeigen oder Ändern rechts auf den Pfeil klicken) </span>
-    </summary>";
+// accordion für CTIF zertifikat
+echo "<ul id='ct-accordion' class='accordionjs' $dataSetAct >"; // ct- für ctif- Zertifizierung
+echo "<li>";
+echo "<div>CTIF Zertifizierung - für Details anklicken</div>";
+echo "<div>";
 Edit_Select_Feld('fz_ctif_klass', VF_CTIF_Class);
 Edit_Daten_Feld('fz_ctif_date', 10);
 Edit_Daten_Feld('fz_ctif_darst_jahr', 4);
 Edit_Daten_Feld('fz_ctif_juroren', 70);
-echo "</details>";
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// ende accordion für CTIF zertifikat
 
 # =========================================================================================================
 Edit_Separator_Zeile('Datenfreigabe');
@@ -298,10 +276,10 @@ Edit_Daten_Feld('fz_aenddat');
 Edit_Tabellen_Trailer();
 
 ?>
-<!-- Bereich zur Anzeige der aktuellen Werte
+<!-- Bereich zur Anzeige der aktuellen Werte -->
 <div id="anzeige"></div>
- -->
-<!-- Bereich für Debug-Infos -->
+
+<!-- Bereich für Debug-Infos  -->
 <div id="debug">Wartet auf Eingaben...
 </div>
 <?php
@@ -321,8 +299,6 @@ require "VF_FZ_EI_List.inc.php";
 #echo "</fieldset>";
 echo "</div>"; # ende dropdown Eigentümer
 #echo "</fieldset>";
-
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
 
 # =========================================================================================================
 

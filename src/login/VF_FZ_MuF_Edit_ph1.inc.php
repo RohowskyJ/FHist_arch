@@ -56,52 +56,6 @@ for ($i=1;$i<=$pic_cnt;$i++) {
     }
 }
 
-/*
-$uploaddir = VF_Upload_Pfad_M('');
-if (! file_exists($uploaddir)) {
-    mkdir($uploaddir, 0770, true);
-}
-
-if ($neu['bild_datei_1'] != "") {
-    $neu['fm_foto_1'] = $neu['bild_datei_1'];
-}
-
-if ($neu['bild_datei_2'] != "") {
-    $neu['fm_foto_2'] = $neu['bild_datei_2'];
-}
-
-if ($neu['bild_datei_3'] != "") {
-    $neu['fm_foto_3'] = $neu['bild_datei_3'];
-}
-
-if ($neu['bild_datei_4'] != "") {
-    $neu['fm_foto_4'] = $neu['bild_datei_4'];
-}
-
-if (isset($_FILES)) {
-    $i = 0;
-
-    foreach ($_FILES as $upLoad  => $file_arr) {
-        #var_dump($_FILES[$upLoad]);
-        # var_dump($_SESSION[$module]['Pct_Arr']);
-        if ($_FILES[$upLoad] != "") {
-            # $result = VF_Upload_M($uploaddir,$upLoad,$urh_abk,$fo_aufn_datum);
-            $result = VF_Upload_Save_M($uploaddir, $upLoad); # ,$urh_abk,$fo_aufn_datum
-
-            if ($result == "") {
-                continue;
-            }
-            if (substr($result, 0, 5) == 'Err: ') {
-                continue;
-            }
-            $neu["fm_foto_".$i + 1] = $result;
-
-            $i++;
-        }
-    }
-}
-*/
-
 $neu['fm_aenduid'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ($neu['fm_id'] == 0) { # neueingabe
@@ -141,31 +95,7 @@ if ($neu['fm_id'] == 0) { # neueingabe
         if ($name == "fm_aenduid" || $name == 'fm_id') {
             continue;
         } #
-        /*
-        if ($name == "fz_herst") {
-            continue;
-        } #
-        if ($name == "sammlg") {
-            continue;
-        } #
-        if ($name == "phase") {
-            continue;
-        } #
-        
-        if (substr($name, 0, 3) == "sel") {
-            continue;
-        }
-       
-        if (substr($name, 0, 3) == "lev") {
-            continue;
-        }
-        if (substr($name, 0, 3) == "sa_") {
-            continue;
-        } #
-        if (substr($name, 0, 3) == "fot") {
-            continue;
-        } #
-   */
+   
         $updas .= ",`$name`='" . $neu[$name] . "'"; # weiteres SET `variable` = 'Wert' fürs query
     } # Ende der Schleife
 
@@ -175,7 +105,7 @@ if ($neu['fm_id'] == 0) { # neueingabe
         echo '<pre class=debug> L 0150: \$sql $sql </pre>';
     }
 
-    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
+    #echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>$sql</pre>";
     $result = SQL_QUERY($db, $sql);
 
     unset($_SESSION[$module]['Pct_Arr']);

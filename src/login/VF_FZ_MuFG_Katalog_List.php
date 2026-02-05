@@ -11,8 +11,8 @@
      */
     session_start();
 
-const Module_Name = 'F_G';
-$module = Module_Name;
+$module = 'F_G';
+$sub_mod = 'all';
 if (! isset($tabelle_m)) {
     $tabelle_m = '';
 }
@@ -40,13 +40,13 @@ ini_set('error_log', $path2ROOT . "login/e_log/error.log"); // Stelle sicher, da
 
 $debug = false; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
-
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = true;
 if ($flow_list) {
@@ -55,6 +55,16 @@ if ($flow_list) {
 
 $LinkDB_database = '';
 $db = LinkDB('VFH');
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+$title = "Muskelbewegte Fahrzeuge ";
+;
+$header = "";
+$VF_logo = 'NEIN';
+$jq = true;
+BA_HTML_header('Katalog Muskelbewegte Fahrzeuge und Geräte ', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -121,15 +131,6 @@ $T_list_texte = array(
     "Alle" => "Alle bekannten Muskelgezogenen Fzg/Geräte nach Indienststellung (Auswahl)"
 );
 
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-$title = "Muskelbewegte Fahrzeuge ";
-;
-$header = "";
-$VF_logo = 'NEIN';
-$prot = true;
-HTML_header('Katalog Muskelbewegte Fahrzeuge und Geräte ', 'Auswahl', '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<fieldset>";
 
@@ -431,7 +432,7 @@ echo "  </table></div>";
 
 echo "</fieldset>";
 
-HTML_trailer();
+BA_HTML_trailer();
 
 /**
  * Diese Funktion verändert die Zellen- Inhalte für die Anzeige in der Liste

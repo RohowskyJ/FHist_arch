@@ -11,7 +11,7 @@
  * enthält alle jeweils includierten Scritpt Files
  */
 # $_SESSION[$module]['Inc_Arr']  = array();
-$_SESSION[$module]['Inc_Arr'][] = "VF_C_Massup_AR_ph2.inc.php.php";
+$_SESSION[$module]['Inc_Arr'][] = "VF_C_Massup_AR_ph2.inc.php";
 
 if ($debug) {
     echo "<pre class=debug>VF_C_MassUp_AR_ph2.inc.php ist gestarted</pre>";
@@ -76,10 +76,12 @@ $aOrd = $arr_ak[0]."/".$arr_ak[1];
 $basis_pfad = $pfad = $beschreibg = "";
 $eignr = $_SESSION['Eigner']['eig_eigner'];
 
+
 echo "<input type='hidden' id='eiId' name='eigner' value='$eignr'>";
 echo "<input type='hidden' id='aOrd' name='aOrd' value='$aOrd'>";
 echo "<input type='hidden' id='aoText' name='aoText' value='$AO_dat'>";
 echo "<input type='hidden' id='reSize' name='reSize' value='1754'>";
+echo "<input type='hidden' id='subMod' value='ARC|Upl' >";
 
 echo "<div class='white'>";
 

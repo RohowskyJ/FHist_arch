@@ -67,7 +67,7 @@ if ($neu['va_id'] == 0) { # Neueer Datensatz
                        '$neu[va_anmeld_end]',
                        now(),' $p_uid'
                        ) ";
-    
+ 
     echo "<div class='toggle-SqlDisp'>";
     echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>O TE Edit ph1 $sql </pre>";
     echo "</div>";

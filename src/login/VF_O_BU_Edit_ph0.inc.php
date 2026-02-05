@@ -16,19 +16,29 @@ if ($debug) {
     echo "<pre class=debug>VF_O_Bu_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+echo "<input type='hidden' name='bu_id' value='" . $neu['bu_id'] . "' > ";
+
+$dataSetAct = "";
 if ($neu['bu_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
 
-echo "<input type='hidden' name='bu_id' value='" . $neu['bu_id'] . "' > ";
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] != '1' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='bu_id' value='".$neu['bu_id']."' >";
+echo "<input type='hidden' id='recEigner' value='' >";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."' >";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
 # =========================================================================================================
 Edit_Tabellen_Header('Rezension');
 # =========================================================================================================
-if ($_SESSION[$module]['Act'] == 0) {
-    $Edit_Funcs_Protect = True;
-}
+
 Edit_Daten_Feld('bu_id');
 
 # =========================================================================================================
@@ -79,28 +89,22 @@ if ($_SESSION[$module]['all_upd']) {
     Edit_Daten_Feld('bu_frei_dat');
 }
 # =========================================================================================================
-$checked_f = "";
 $checkbox_f = "";
-if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
-    if ($hide_area == 0) {  //toggle??
-        $checked_f = 'checked';
-    }
-    // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+if ($_SESSION[$module]['all_upd'] == '1') {
+    $checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 }
-
-Edit_Separator_Zeile('Bilder und Bildbeschreibungen ',$checkbox_f);
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
 
 $pict_path = "../login/AOrd_Verz/Buch/";
 
-echo "<input type='hidden' name='bu_bild_1' value='" . $neu['bu_bild_1'] . "'>";
-echo "<input type='hidden' name='bu_bild_2' value='" . $neu['bu_bild_2'] . "'>";
-echo "<input type='hidden' name='bu_bild_3' value='" . $neu['bu_bild_3'] . "'>";
-echo "<input type='hidden' name='bu_bild_4' value='" . $neu['bu_bild_4'] . "'>";
-echo "<input type='hidden' name='bu_bild_5' value='" . $neu['bu_bild_5'] . "'>";
-echo "<input type='hidden' name='bu_bild_6' value='" . $neu['bu_bild_6'] . "'>";
+echo "<input type='hidden' name='bu_bild_1' value='" . $neu['bu_bild_1'] . "' >";
+echo "<input type='hidden' name='bu_bild_2' value='" . $neu['bu_bild_2'] . "' >";
+echo "<input type='hidden' name='bu_bild_3' value='" . $neu['bu_bild_3'] . "' >";
+echo "<input type='hidden' name='bu_bild_4' value='" . $neu['bu_bild_4'] . "' >";
+echo "<input type='hidden' name='bu_bild_5' value='" . $neu['bu_bild_5'] . "' >";
+echo "<input type='hidden' name='bu_bild_6' value='" . $neu['bu_bild_6'] . "' >";
 
 echo "<input type='hidden' id='urhNr' value=''>";
 echo "<input type='hidden' id='aOrd' value=''>";
@@ -113,30 +117,21 @@ $num_foto = 6;
 $i = 1;
 while ($i <= $num_foto) {
     $_SESSION[$module]['Pct_Arr' ][] = array('udir' => $pict_path, 'ko' => 'bu_text_'.$i, 'bi' => 'bu_bild_'.$i, 'rb' => '', 'up_err' => '','f1' => '','f2' => '');
-    
-    echo "<input type='hidden' id='aOrd_$i' value='Buch/'>";
     $i++;
 }
 
 VF_Upload_Form_M();
 
 # =========================================================================================================
-Edit_Separator_Zeile('Eigentümer');
-# =========================================================================================================
-Edit_Daten_Feld(Prefix . 'bu_eignr', 10);
-Edit_Daten_Feld(Prefix . 'bu_invnr', 10);
-
-# =========================================================================================================
 Edit_Tabellen_Trailer();
+
 if ($_SESSION[$module]['all_upd']) {
     echo "<p>Nach Eingabe aller Daten oder Änderungen  drücken Sie ";
     echo "<button type='submit' name='phase' value='1' class=green>Daten abspeichern</button></p>";
     # Edit_Send_Button(''); # definiert in Edit_Funcs_v2.php
 }
-# echo "<p><button type='submit' name='phase' value='99' class=green>Zurück zur Liste</button></p>";
-echo "<p><a href='VF_O_BU_List.php?Act=" . $_SESSION[$module]['Act'] . "'>Zurück zur Liste</a></p>";
 
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
+echo "<p><a href='VF_O_BU_List.php?Act=" . $_SESSION[$module]['Act'] . "'>Zurück zur Liste</a></p>";
 
 # =========================================================================================================
 

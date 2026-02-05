@@ -29,7 +29,6 @@ echo "<th colspan=\"7\">Verein der Feuerwehrhistoriker in NÖ,<br> Archivalienda
 echo "<tr><th width=\"15%\">Eigent.<hr/>Archiv-Nr.</th><th>Typ/Format</th><th>Beschreibung</th><th>Suchbegriffe<hr width=\"90%\">Namen</th><th></th></tr>";
 $select = "";
 $arr_arc = explode(',',$arc_liste);
-var_dump($arr_arc);
 for ($i=0;!empty($arr_arc[$i]);$i++) {
     $it_arr = explode("|",$arr_arc[$i]);
     $eig_arr = explode("_",$it_arr[0]);

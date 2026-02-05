@@ -9,8 +9,9 @@
  */
 session_start();
 
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module  = 'OEF';
+$sub_mod = 'MUS';
+
 $tabelle = 'mu_basis';
 
 const Prefix = '';
@@ -30,13 +31,13 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_MU_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -45,6 +46,10 @@ $db = LinkDB('VFH');
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_toggle = true;
+$jq_accordion = true;
 
 BA_HTML_header('Museums- Daten', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -100,7 +105,7 @@ if ($phase == 0) {
         $neu['mu_adresse_p'] = $neu['mu_plz_p'] = $neu['mu_ort_p'] = $neu['mu_eigner'] = "";
         $neu['mu_kustos_titel'] = $neu['mu_kustos_vname'] = $neu['mu_kustos_name'] = $neu['mu_kustos_dgr'] = $neu['mu_kustos_tel'] = "";
         $neu['mu_kustos_fax'] = $neu['mu_kustos_handy'] = $neu['mu_kustos_intern'] = $neu['mu_kustos_email'] = $neu['mu_sammlbeg'] = "";
-        $neu['mu_bildnam_1'] = $neu['mu_bildnam_2'] = $neu['mu_mustyp'] = $neu['mu_museigtyp'] = $neu['mu_sammlgschw'] = "";
+        $neu['mu_bild_1'] = $neu['mu_bild_2'] = $neu['mu_bibeschr_1']  = $neu['mu_bibeschr_2']  = $neu['mu_mustyp'] = $neu['mu_museigtyp'] = $neu['mu_sammlgschw'] = "";
         $neu['mu_besobj_1'] = $neu['mu_besobj_2'] = $neu['mu_besobj_3'] = $neu['mu_anz_obj'] = $neu['mu_archiv'] = "";
         $neu['mu_protbuch'] = $neu['mu_abzeich'] = $neu['mu_ausruest'] = $neu['mu_kleinger'] = $neu['mu_grossger'] = "";
         $neu['mu_toilett'] = $neu['mu_garderobe'] = $neu['mu_cafe'] = $neu['mu_sonst_anb'] = $neu['mu_rollst'] = "";

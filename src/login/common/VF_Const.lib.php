@@ -464,6 +464,19 @@ const TxtFiles  = array("csv","dbf","doc","log","pps","odp","odt","txt","xml");
 const AudioFiles = array("mp3", "aac", "wav"); // 09/02
 
 /**
+ * Verzeichnisse für die OEF- Daten
+ */
+const SubMod_Dirs = array(
+           'OEF|AN' => 'Biete_Suche',
+           'OEF|BU' => 'Buch',
+           'OEF|MUS' =>  'Museen',
+           'OEF|PR'  =>  'Presse',
+           'OEF|TE'  =>  'Termine',
+           'PSA|AERM' => 'PSA/AERM',
+           'PSA|AUSZ' => 'PSA/AUSZ',
+           'PSA|DA'   => 'PSA/DA'
+         );
+/**
  * Organisaionen
  *
  *

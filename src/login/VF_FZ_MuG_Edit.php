@@ -11,8 +11,9 @@
  */
 session_start();
 
-const Module_Name = 'F_M';
-$module = Module_Name;
+$module  = 'F_M';
+$sub_mod = 'all';
+
 $tabelle = 'mu_geraet';
 
 const Prefix = '';
@@ -26,7 +27,7 @@ $path2ROOT = "../";
 
 $debug = false; // Debug output Ein/Aus Schalter
 
-require  $path2ROOT . 'login/common/VF_M_tab_creat.lib.php' ;
+require $path2ROOT . 'login/common/VF_M_tab_creat.lib.php' ;
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
@@ -39,6 +40,9 @@ $flow_list = true;
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_accordion = true; // Accordion Display mit jquery
 
 $header = "";
 BA_HTML_header('Geräte- Verwaltung', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width

@@ -7,7 +7,9 @@ $(function() {
 		urhName: $('#urhName').val() || '',
 		aufnDat: $('#aufnDat').val() || '',
 		aOrd: $('#aOrd').val() || '',
-		reSize: $('#reSize').val() || '800'
+		reSize: $('#reSize').val() || '800',
+		eigner: $('#eiId').val() || '' ,
+		subMod: $('#subMod').val() || ''
 	};
 console.log('Meta ',meta);
 	// Vorschau und Auswahl generieren
@@ -67,14 +69,14 @@ console.log('Meta ',meta);
 			$('#message').append('Hochladen abgeschlossen.<br>');
 			$('#progressContainer').hide();
 			// Automatischer Submit der Form, falls gewünscht
-			
+
 			if($('#myform').length) {
 				$('<input>').attr({
 				        type: 'hidden',
 				        name: 'phase',
 				        value: '3'
 				   }).appendTo('#myform');
-				$('#myform').submit();
+ 				$('#myform').submit();
 			}
 			return;
 		}
@@ -88,6 +90,8 @@ console.log('Meta ',meta);
 		formData.append('reSize', meta.reSize);
 		formData.append('urhEinfgJa', item.watermark);
 		formData.append('rotation', item.rotation);
+		formData.append('eigner',meta.eigner);
+		formData.append('subMod',meta.subMod);
 console.log('formData ',formData);
 		$.ajax({
 			url: 'common/API/VF_C_MassUp.API.php',
@@ -107,8 +111,10 @@ console.log('formData ',formData);
 				return xhr;
 			},
 			success: function(resp) {
-				let response;
+				console.log('Resp ' , resp);
+				let response;			
 				try { response = typeof resp === 'string' ? JSON.parse(resp) : resp; } catch(e) { response = null; }
+				console.log('Response ' , response);
 				if(response && response.status === 'ok' && response.files && response.files.length > 0) {
 					let fname = response.files[0].filename || response.files[0].name;
 					$('#message').append(`Datei ${fname} erfolgreich hochgeladen.<br>`);

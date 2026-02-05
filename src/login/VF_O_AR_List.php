@@ -29,19 +29,20 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_AR_List.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+$jq_tabsort = $jq = true;
 BA_HTML_header('Archiv- und Bibliotheks- Links', '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 echo "<framework>";
@@ -74,18 +75,15 @@ if (! isset($_SESSION[$module]['all_upd'])) {
     $_SESSION[$module]['all_upd'] = False;
 }
 
-if (!isset($_GET['Act']) && $_SESSION[$module]['Act'] == 1)  {
+if (isset($_GET['Act']) and $_GET['Act'] == 1) {
+    $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
+    VF_chk_valid();
+    VF_set_module_p();
+    $_SESSION['VF_LISTE']['LangListe'] = "Aus";
 } else {
-    if (isset($_GET['Act']) and $_GET['Act'] == 1) {
-        $_SESSION[$module]['Act'] = $Act = $_GET['Act'];
-        VF_chk_valid();
-        VF_set_module_p();
-        $_SESSION['VF_LISTE']['LangListe'] = "Aus";
-    } else {
-        $_SESSION[$module]['Act'] = $Act = 0;
-        $_SESSION['VF_Prim']['p_uid'] = 999999999;
-        $_SESSION[$module]['all_upd'] = False;
-    }
+    $_SESSION[$module]['Act'] = $Act = 0;
+    $_SESSION['VF_Prim']['p_uid'] = 999999999;
+    $_SESSION[$module]['all_upd'] = False;
 }
 
 if (isset($_POST['phase'])) {

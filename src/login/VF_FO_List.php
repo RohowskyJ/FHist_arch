@@ -84,6 +84,9 @@ if ($phase == 0) {
 
 $jq = $jqui = True;
 $BA_AJA = true;
+
+$jq_toggle = $jq_tabsort = true; //  $jq_accordion =
+
 BA_HTML_header($title, '', 'List', '75em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -109,6 +112,7 @@ if ($phase == 0  ) {
     echo "<h3>".$_SESSION['VF_Prim']['OrgNam']."</h3>";
     echo "<h2>$title</h2>";
     VF_Auto_Eigent('U',True,1);
+    BA_HTML_trailer();
 }
 
 if ($phase  == "1")  {

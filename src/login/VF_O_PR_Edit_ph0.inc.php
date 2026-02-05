@@ -16,11 +16,24 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_PR_Edit_ph0.inc.php";
 
 if ($debug) {echo "<pre class=debug>VFH_O_PR_Edit_ph0.inc.php ist gestarted</pre>";}
 
+$dataSetAct = "";
 if ($neu['pr_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
+
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='pr_id' value='".$neu['pr_id']."' >";
+echo "<input type='hidden' id='recEigner'  value='r' >";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."' >";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
+# echo "Verstecken $hide_area <br>";
 # =========================================================================================================
   Edit_Tabellen_Header('Pressebericht ');
 # =========================================================================================================
@@ -33,7 +46,7 @@ if ($neu['pr_id'] == 0) { // Neueingabe
   Edit_Separator_Zeile('Aussendung');
   # =========================================================================================================
     
-  Edit_Daten_Feld(Prefix.'pr_datum',10,'',"'type='date'");
+  Edit_Daten_Feld(Prefix.'pr_datum',10,'',"type='date'");
   Edit_Daten_Feld(Prefix.'pr_name',50);
   Edit_Daten_Feld(Prefix.'pr_ausg',10);
   Edit_Radio_Feld(Prefix.'pr_medium',array ("PR"=>"Druck","TV"=>"Fensehen, Internet"));
@@ -57,17 +70,11 @@ if ($neu['pr_id'] == 0) { // Neueingabe
   Edit_Daten_Feld('pr_aenddat');
   
   # =========================================================================================================
-  $checked_f = "";
   $checkbox_f = "";
-  if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
-      if ($hide_area == 0) {  //toggle??
-          $checked_f = 'checked';
-      }
-      // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
-      $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+  if ($_SESSION[$module]['all_upd'] == '1') {
+      $checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
   }
-
-  Edit_Separator_Zeile('Bilder ' ,$checkbox_f);
+  Edit_Separator_Zeile('Fotos',$checkbox_f);  #
   # =========================================================================================================
   echo "<input type='hidden' name='MAX_FILE_SIZE' value='400000' />";
   $pict_path = $path2ROOT."login/AOrd_Verz/Presse/";
@@ -97,7 +104,7 @@ if ($neu['pr_id'] == 0) { // Neueingabe
  }
  
  VF_Upload_Form_M();
- #===================================================
+
 # =========================================================================================================
   Edit_Tabellen_Trailer();
   if ( $_SESSION[$module]['all_upd']      ) 
@@ -107,8 +114,6 @@ if ($neu['pr_id'] == 0) { // Neueingabe
   }
   
   echo "<p><a href='VF_O_PR_List.php?Act=".$_SESSION[$module]['Act']."'>Zurück zur Liste</a></p>";
-  
-  echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
   
 # =========================================================================================================
  

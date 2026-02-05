@@ -30,7 +30,6 @@ $path2ROOT = "../";
 $_SESSION[$module]['Inc_Arr']  = array();
 $_SESSION[$module]['Inc_Arr'][] = "VF_FZ_MaFG_List.php"; 
 
-$debug = false; // Debug output Ein/Aus Schalter
 $debug_log = true; // logging in datei per fputs
 
 require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
@@ -86,6 +85,7 @@ $header = "";
 
 $jq = $jqui = true; // JQ-UI laden
 $BA_AJA = true; // AJAX- Scripts laden
+$jq_toggle = $jq_tabsort = $jq_accordion = true;
 BA_HTML_header('Maschinengetriebenes des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'], $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
@@ -218,6 +218,7 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
 
     echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
 
+    BA_HTML_trailer();
 } else {
 
     /**

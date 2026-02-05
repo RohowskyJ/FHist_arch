@@ -82,6 +82,8 @@ if (!isset($_SESSION['Eigner'])) {
 
 $jq = $jqui = True;
 $BA_AJA = True;
+$jq_toggle = $jq_tabsort =  true; // $jq_accordion =
+
 $header = "";
 BA_HTML_header('Inventar des Eigentümers ' . $_SESSION['Eigner']['eig_eigner'],  $header, 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -205,7 +207,9 @@ if ($_SESSION['Eigner']['eig_eigner'] == "" || $_SESSION[$module]['sammlung'] ==
     }
 
    echo "<button type='submit' name='phase' value='1' class=green>Auswahl abspeichern</button></p>";
-    
+   
+   BA_HTML_trailer();
+   
 } else {
     
     /**

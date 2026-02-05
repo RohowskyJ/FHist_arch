@@ -64,11 +64,6 @@ switch ($T_List) {
 }
 $List_Hinweise .= '</ul></li>';
 
-
-echo "<div class='toggle-SqlDisp'>";
-echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>Foto List vor list_create $sql </pre>";
-echo "</div>";
-
 $zus_ausw = "";
 
 List_Action_Bar($tabelle,"Fotos/Videos des Urhebers " . $_SESSION[$module][$sub_mod]['eig_eigner'], $T_list_texte, $T_List, $List_Hinweise, $zus_ausw); # Action Bar ausgeben
@@ -86,7 +81,6 @@ if (isset($_SESSION[$module]['select_string']) and $_SESSION[$module]['select_st
 
 $sql .= $sql_where . $orderBy;
 
-echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO List inc vor list_create $sql </pre>";
 echo "<div class='toggle-SqlDisp'>";
 echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>FO List inc vor list_create $sql </pre>";
 echo "</div>";

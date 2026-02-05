@@ -7,7 +7,7 @@
 session_start();  # die SESSION am leben halten
  
 $module = 'OEF';
-$sub_mod = "";
+$sub_mod = "ARC";
 
 $tabelle = '';
 
@@ -46,6 +46,9 @@ $db = LinkDB('VFH');
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_MassUp = true;
+
 $header = "
 <style>
         #preview {

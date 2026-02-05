@@ -14,8 +14,7 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_Edit_ph1.inc.php";
 if ($debug) {
     echo "<pre class=debug>VF_A_AR_Edit_ph1.inc.php ist gestarted</pre>";
 }
-# var_dump($_POST);
-# var_dump($neu);
+
 $neu['ad_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 if ($debug) {
     echo '<pre class=debug>';
@@ -67,13 +66,21 @@ if (isset($neu['eigentuemer_1']) && $neu['eigentuemer_1'] != "") {
 }
 
 if ($neu['ad_id'] == 0) { # neueingabe
+    if (is_null($neu['ad_lcssg_s0'])) {
+        $neu['ad_lcssg_s0'] = '00';
+    }
+    if (is_null($neu['ad_lcssg_s1'])) {
+        $neu['ad_lcssg_s1'] = '00';
+    }
     $arcnewnr = "";
     $arcsg = $neu['ad_sg'];
     $arcssg = $neu['ad_subsg'];
     $arclcsg = $neu['ad_lcsg'];
     $arclcssg = $neu['ad_lcssg'];
+    $arclcssg_s0 = $neu['ad_lcssg_s0'];
+    $arclcssg_s1 = $neu['ad_lcssg_s1'];
     $sql_nr = "SELECT * FROM `$tabelle_a`
-                WHERE `ad_sg`='$arcsg' AND `ad_subsg`='$arcssg' AND `ad_lcsg`='$arclcsg' AND `ad_lcssg`='$arclcssg' ";
+                WHERE `ad_sg`='$arcsg' AND `ad_subsg`='$arcssg' AND `ad_lcsg`='$arclcsg' AND `ad_lcssg`='$arclcssg'  AND `ad_lcssg_s0`='$arclcssg_s0'  AND `ad_lcssg_s1`='$arclcssg_s1' ";
     $return_nr = SQL_QUERY($db, $sql_nr); 
     if ($return_nr) {
         $row = mysqli_fetch_object($return_nr);
@@ -85,7 +92,7 @@ if ($neu['ad_id'] == 0) { # neueingabe
     }
 
     $sql = "INSERT INTO $tabelle_a (
-                ad_eignr,ad_sg,ad_subsg,ad_lcsg,ad_lcssg,ad_ao_fortlnr,ad_sammlg,
+                ad_eignr,ad_sg,ad_subsg,ad_lcsg,ad_lcssg,ad_lcssg_s0,ad_lcssg_s1,ad_ao_fortlnr,ad_sammlg,
                 ad_doc_date,ad_type,ad_format,
                 ad_keywords,ad_beschreibg,ad_wert_orig,ad_orig_waehrung,ad_wert_kauf,ad_kauf_waehrung,
                 ad_wert_besch,ad_besch_waehrung,ad_namen,ad_doc_1,
@@ -93,7 +100,7 @@ if ($neu['ad_id'] == 0) { # neueingabe
                 ad_l_raum,ad_l_kasten,ad_l_fach,
                 ad_l_pos_x,ad_l_pos_y,ad_neueigner,ad_uidaend,ad_aenddat
               ) VALUE (
-                '$neu[ad_eignr]','$neu[ad_sg]','$neu[ad_subsg]','$neu[ad_lcsg]','$neu[ad_lcssg]','$neu[ad_ao_fortlnr]','$neu[ad_sammlg]',
+                '$neu[ad_eignr]','$neu[ad_sg]','$neu[ad_subsg]','$neu[ad_lcsg]','$neu[ad_lcssg]','$neu[ad_lcssg_s0]','$neu[ad_lcssg_s1]','$neu[ad_ao_fortlnr]','$neu[ad_sammlg]',
                 '$neu[ad_doc_date]','$neu[ad_type]','$neu[ad_format]',
                 '$neu[ad_keywords]','$neu[ad_beschreibg]','$neu[ad_wert_orig]','$neu[ad_orig_waehrung]','$neu[ad_wert_kauf]','$neu[ad_kauf_waehrung]',
                 '$neu[ad_wert_besch]','$neu[ad_besch_waehrung]','$neu[ad_namen]','$neu[ad_doc_1]',

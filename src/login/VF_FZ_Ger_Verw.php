@@ -31,15 +31,15 @@ require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 
-$flow_list = false;
-$jq = true;
+
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-
+$flow_list = false;
+$jq = true;
 BA_HTML_header('Fahrzeuge und Geräte', '', 'Form', '70em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();

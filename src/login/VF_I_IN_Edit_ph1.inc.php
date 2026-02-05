@@ -15,15 +15,17 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_I_IN_Edit_ph1.inv.php";
 if ($debug) {echo "<pre class=debug>VF_I_IN_Edit_ph1.inc ist gestarted</pre>";}
 
 foreach ($_POST as $name => $value)
-{ $neu[$name] = trim(mysqli_real_escape_string($db,$value)); }
-
+{
+    $neu[$name] = trim(mysqli_real_escape_string($db,$value)); 
+}
 $neu['in_uidaend'] = $_SESSION['VF_Prim']['p_uid'];
 
 if ( $debug ) { echo '<pre class=debug>';echo '<hr>$neu: ';     print_r($neu); echo '</pre>'; }
 
 $neu['in_eignr'] = $_SESSION['Eigner']['eig_eigner'];
-if ($neu['eigentuemer_1'] != '') {
-    $neu['in_neueigner'] = $neu['eigentuemer_1'];
+
+if ($neu['eigentuemer_99'] != '') {
+    $neu['in_neueigner'] = $neu['eigentuemer_99'];
    # unset ($neu['eigentuemer']);
 }
 /* Sammlung aufbereiten */

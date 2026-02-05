@@ -73,7 +73,7 @@ $Tabellen_Spalten['mi_name'] =  'mi_name' ;
 $Tabellen_Spalten_typ['mi_name'] =  'text' ;
 $Tabellen_Spalten_MAXLENGTH['mi_name'] =  '70' ;
 $Tabellen_Spalten_COMMENT['mi_name'] =  'Name' ;
-var_dump($Tabellen_Spalten_typ);
+
 # -------------------------------------------------------------------------------------------------------
 # Überschreibe die Werte in array $neu - weitere Modifikationen in Edit_tn_check_v2.php !
 # -------------------------------------------------------------------------------------------------------

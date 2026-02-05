@@ -1,0 +1,57 @@
+        /* CSS-Stile */
+        .dropup {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropup-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            padding: 10px; /* Fügt etwas Innenabstand hinzu */
+            border: 1px solid #ddd; /* Fügt einen Rahmen hinzu */
+            border-radius: 4px; /* Macht die Ecken abgerundet */
+        }
+
+        .dropup-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropup-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropup:hover .dropup-content {
+            display: block;
+        }
+
+        .button-sm {
+            font-size: 0.8em;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .popover {
+            display: none;
+            position: absolute;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .popover-content {
+            /* Hier können Sie den Inhalt des Popovers formatieren */
+        }

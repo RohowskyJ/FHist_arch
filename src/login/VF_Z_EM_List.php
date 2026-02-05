@@ -6,11 +6,11 @@
  * @author Josef Rohowsky - neu 2023
  * 
  */
-session_start();
+session_start(); # die SESSION aktivieren
 
-# die SESSION aktivieren
-const Module_Name = 'ADM';
-$module = Module_Name;
+$module  = 'ADM';
+$sub_mod = 'all';
+
 $tabelle = 'fh_m_mail';
 
 /**
@@ -22,13 +22,13 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -72,22 +72,24 @@ if (! isset($_SESSION['VF_LISTE'])) {
         "CSVDatei" => "Aus"
     );
 }
+
+$title = "E-Mail- Empfänger für automatische E-Mails ";
+
+$jq_tabsort = $jq = true;
+BA_HTML_header($title, '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
 $T_list_texte = array(
-    "Alle" => "Alle Benutzer ",
-    "NeuItem" => "<a href='VF_Z_EM_Edit.php?ID=0' >Neuen Benutzer eingeben</a>"
+    "Alle" => "Alle Benutzer "
 );
-
+$NeuRec = "<a href='VF_Z_EM_Edit.php?ID=0' >Neuen Benutzer eingeben</a>";
 # ===========================================================================================================
 # Haeder ausgeben
 # ===========================================================================================================
-$title = "E-Mail- Empfänger für automatische E-Mails ";
-
-BA_HTML_header($title, '', 'Admin', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 List_Prolog($module, $T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 

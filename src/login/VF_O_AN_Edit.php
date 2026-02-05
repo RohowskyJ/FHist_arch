@@ -29,12 +29,12 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_AN_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -53,6 +53,8 @@ $tinymce_header = "
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
 
 BA_HTML_header('Biete / Suche - Marktplatz', $tinymce_header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 

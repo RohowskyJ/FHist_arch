@@ -197,6 +197,7 @@ function modifyRow(array &$row,$tabelle)
         } elseif ($tabelle == "aw_aermel_abz") {}
         return True;
     }
+    return false;
 } # Ende von Function modifyRow
 
 if ($debug) {

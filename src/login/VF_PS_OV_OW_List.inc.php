@@ -28,8 +28,9 @@ $sql_ow = "SELECT * FROM `$table_ow` $select_ow  $sort_ow ";
 $csv = False;
 
 $T_list_texte = array(
-    "NeuItem" => "<a href='VF_PS_OV_OW_Edit.php?ID=0' >Neue Datensatz eingeben</a>"
 );
+
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_PS_OV_OW_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module,$T_list_texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -44,9 +45,7 @@ $List_Hinweise .= '</ul></li>';
 List_Action_Bar($table_ow,"", $T_list_texte, $T_List, $List_Hinweise); # Action Bar ausgeben
 
 $New_Link = "";
-if ($_SESSION[$module]['all_upd']) {
-    $New_Link = "<a href='VF_PS_OV_OW_Edit.php?ID=0' >Neuen Datensatz eingeben</a>";
-}
+
 List_Create($db, $sql_ow,'', $table_ow,'', $New_Link); # die liste ausgeben
 
 # HTML_trailer();

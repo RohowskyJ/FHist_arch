@@ -27,6 +27,8 @@
  *  - mb_ucfirst    - weil es derzeit in php keine unktion mb_ucfirst gibt
  *  - console_log   - Text information in console von WEB-Tools
  *  - flow_add      - Aufrufs- Mitschnitte
+ *  - table_bu      - DB Tabellen Backup je gruppe, Speichern in ADMIN- Bereich
+ *  - table_exists  - Festellen, welche Tabellen einer Gruppe existieren, Ersat für tableExists in vf_comm
  */
 flow_add('funcs', "Funcs.inc.php geladen");
 global $debug;
@@ -241,7 +243,7 @@ function LinkDB($db_proj = "")
 {
     global $debug, $module, $LinkDB_database, $path2ROOT;
 
-    flow_add($module, "Funcs.inc Funct: LinkDB_n");
+    flow_add($module, "BA_Funcs.lib.php Funct: LinkDB_n");
     # echo $path2ROOT."login/common/config_d.ini <br> ";
     $ini_s = $path2ROOT . "login/common/config_s.ini";
     $ini_s_arr = parse_ini_file($ini_s, true, INI_SCANNER_NORMAL);
@@ -251,7 +253,7 @@ function LinkDB($db_proj = "")
   # print_r($ini_s_arr); echo "<br>L 0251 ini_s_arr $hompg <br>";
 
     $server_name = $_SERVER['SERVER_NAME'];
-
+#echo "L 254 srvname $server_name <br>";
     if (isset($ini_arr)) { 
         if ($server_name == 'localhost') {
             if (isset($ini_arr[$server_name])) {
@@ -265,7 +267,7 @@ function LinkDB($db_proj = "")
             $s_a =  explode(".",$server_name);
             $cnt_s = count($s_a);
             $s_c =  explode(".",$hompg);
-            $cnt_s = count($s_c);
+            $cnt_c = count($s_c);
             if ($cnt_s < $cnt_c) {
                 if ($s_a[$cnt_s-2] == $s_c[$cnt_c-2]) {
                     $server_name = "HOST";
@@ -290,9 +292,7 @@ function LinkDB($db_proj = "")
         echo "Configurations-Fehler - keine Datenbank - Abbruch";
         exit();
     }
-}
-
-# ende linkDB
+} # ende linkDB
 
 /**
  * Ausgabe eines Verzeichnis.
@@ -345,9 +345,8 @@ function dir_sort($Pfad, $FType, $direkt_ausg)
         echo $thelist;
     }
     return ($thelist);
-}
+} // Ende von function dir_sort
 
-// Ende von function dir_sort
 /**
  * Unterprogramm zum Prüfen der eingegeben E-Mail_adresse
  *
@@ -842,6 +841,121 @@ function flow_add($id, $text)
         fclose($datei);
     }
 } # ende Function flow_add
+
+/**
+ * Funkton zum Sichern der Tabellen in Gruppen
+ * 
+ * @ param string $prefix Prefix des Tabellen- Namens
+ */
+function table_bu($prefix) {
+    global $flow_list, $path2ROOT, $db, $LinkDB_database, $module, $sub_mod;
+    
+    $tables = array();
+    $tables = table_exists($prefix);
+    
+    $backupSql = "-- MySQL Tabellen Backup\n-- Datenbank: $LinkDB_database\n\n";
+    #$mysqli = $db;
+    foreach ($tables as $table) {
+        // Struktur exportieren
+        $result = $db->query("SHOW CREATE TABLE `$table`");
+        $row = $result->fetch_assoc();
+        $backupSql .= "-- Struktur für Tabelle `$table`\n";
+        $backupSql .= "DROP TABLE IF EXISTS `$table`;\n";
+        $backupSql .= $row['Create Table'] . "; \n\n";
+        
+        // Daten exportieren
+        $result = $db->query("SELECT * FROM `$table`");
+        $numFields = $result->field_count;
+        
+        $backupSql .= "-- Daten für Tabelle `$table`\n";
+        
+        while ($row = $result->fetch_assoc()) {
+            $vals = array_map(function($val) use ($db) {
+                if ($val === null) return "NULL";
+                return "'" . $db->real_escape_string($val) . "'";
+            }, array_values($row));
+                $backupSql .= "INSERT INTO `$table` VALUES(" . implode(", ", $vals) . ");\n";
+        }
+        $backupSql .= "\n";
+    }
+    
+    // Backup in Datei speichern
+    $fileName = $prefix.'backup_' . date('Ymd_His') . '.sql';
+    file_put_contents($path2ROOT.'login/Downloads/b/'.$fileName, $backupSql);
+    
+   # echo "Backup erfolgreich erstellt: $fileName\n<br>";
+    return $fileName;
+    # mysqli_close($db);
+    
+}  // table_bu Ende
+
+/**
+ * Feststellen welche Tabelle existieren 
+ * 
+ * @param string $prefix
+ * 
+ * Das Ergebnis ist im globalen Array $tables
+ * 
+ * @param string $prefix , wenn == "" dann alle vorhandenen Tabellen anzeigen, sonst nur die des Prefix
+ * @response array Array mit den Tabellen- Namen
+ */
+function table_exists($prefix) {
+    global $flow_list, $path2ROOT, $db, $module, $sub_mod;
+    
+    if (!isset($prefix) ) {
+        $prefix = "";
+    }
+    
+    $like = "";
+    if ($prefix != "" ) {
+        $like = " LIKE '$prefix%' " ;
+    }
+    
+    $ret_1 = $db->query("SHOW TABLES $like ");
+    $tables = []; // Array initialisieren
+    
+    while ($row_1 = $ret_1->fetch_object()) {
+        $vars = get_object_vars($row_1);
+        $tablename = reset($vars);
+        $tables[] = $tablename;
+    }
+    # var_dump($tables);
+    return $tables;
+} // table_exists ende
+
+/**
+ * Funktion zum Auslesen der vorhandenen Datenbanken
+ * 
+ * @return array Tabelle mit den Namen der Datenbanken
+ */
+function db_exists () {
+    global $flow_list, $path2ROOT, $db, $module, $sub_mod, $dbts;
+    
+    $ret_d = $db->query("SHOW DATABASES ");
+    while ($row_d = $ret_d->fetch_object()) {
+        #var_dump($row_d);
+        $vars = get_object_vars($row_d);
+        $tablename = reset($vars);
+        $dbts[] = $tablename;
+    }
+    return $dbts;
+} // db_exists ende
+
+/** 
+ * Show DB Status
+ * 
+ */
+function db_status () {
+    global $flow_list, $path2ROOT, $db, $module, $sub_mod, $dbts;
+    $ret_d = $db->query("SHOW STATUS ");
+    while ($row_d = $ret_d->fetch_object()) {
+        #var_dump($row_d);
+       # $vars = get_object_vars($row_d);
+       # $tablename = reset($vars);
+        $stats[] = $row_d;
+    }
+    return $stats;
+} // ense show status
 
 /**
  * Ende der Bibliothek

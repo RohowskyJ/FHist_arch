@@ -5,11 +5,11 @@
  * @author josef Rohowsky - neu 2019
  *
  */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'ARC';
-$module = Module_Name;
+$module  = 'ARC';
+$sub_mod = 'all';
+
 $tabelle = 'ar_chivdat';
 
 const Prefix = '';
@@ -29,19 +29,28 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_A_AR_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$jq = $jqui = True;
+$BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_accordion = true; // Accordion Display mit jquery
+
+$header = "";
+BA_HTML_header('Archiv- Verwaltung ', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -112,6 +121,8 @@ if ($phase == 0) {
             'ad_subsg' => "$ao_arr[1]",
             'ad_lcsg' => "$ao_arr[2]",
             'ad_lcssg' => "$ao_arr[3]",
+            'ad_lcssg_s0' => "$ao_arr[4]",
+            'ad_lcssg_s1' => "$ao_arr[5]",
             "ad_ao_fortlnr" => "",
             'ad_doc_date' => "",
             "ad_type" => "",
@@ -216,18 +227,16 @@ if ($phase == 1) {
 
     if ($sql_where != '') {
         $sql_aol ="SELECT * FROM ar_ord_local $sql_where ";
-        echo "L 0209 $sql_aol <br>";
         $return_aol = SQL_QUERY($db,$sql_aol);
         if ($return_aol) {
             $row_aol = mysqli_fetch_object($return_aol);
-            var_dump($row_aol);
+            # var_dump($row_aol);
             if ($row_aol->al_sammlung != '') {
                 $neu['ad_sammlg'] = $row_aol->al_sammlung;
             } else {
                 $neu['ad_sammlg'] = '';
             }
         }
-       
     }
 
     If ($neu['ad_beschreibg'] == "") {
@@ -250,15 +259,6 @@ $Eigent = "Eigentümer: " . $_SESSION['Eigner']['eig_eigner'];
 if (! $_SESSION['Eigner']['eig_name'] == "") {
     $Eigent .= ", " . $_SESSION['Eigner']['eig_name'];
 }
-$Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
-
-$jq = $jqui = True;
-$BA_AJA = true;
-
-$header = ""; 
-BA_HTML_header('Archiv- Verwaltung <br>'.  $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
-echo " <form id='myform' name='myform' method='post' action='" . $_SERVER['PHP_SELF'] . "' enctype='multipart/form-data' >";
 
 switch ($phase) {
     case 0:

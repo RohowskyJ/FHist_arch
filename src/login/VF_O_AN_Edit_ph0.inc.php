@@ -14,21 +14,31 @@
 $_SESSION[$module]['Inc_Arr'][] = "VF_O_AN_Edit.ph0.inc.php";
 
 if ($debug) {
-    echo "<pre class=debug>VFH_O_An_Edit_ph0.inc.php ist gestarted</pre>";
+    echo "<pre class=debug>VFH_O_AN_Edit_ph0.inc.php ist gestarted</pre>";
 }
 
+$dataSetAct = "";
 if ($neu['bs_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
+
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] != '1' ){
+    $readOnly = 'readonly';
+}
+
+echo "<input type='hidden' id='recId' name='bs_id' value='".$neu['bs_id']."' >";
+echo "<input type='hidden' id='recEigner' value='' >";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."' >";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
 
 $today = date("Y-m_d");
 Edit_Tabellen_Header('Angebot / Nachfrage');
 # =========================================================================================================
-if ($_SESSION[$module]['Act'] == 0) {
-    $Edit_Funcs_Protect = True;
-}
+
 Edit_Daten_Feld('bs_id');
 echo "<input type='hidden'name='bs_id' value='" . $neu['bs_id'] . "' >";
 # =========================================================================================================
@@ -58,16 +68,11 @@ Edit_Daten_Feld('bs_aenduid', 5);
 Edit_Daten_Feld('bs_aenddate');
 
 # =========================================================================================================
-$checked_f = "";
 $checkbox_f = "";
-if (isset($_SESSION[$module]['Act']) && $_SESSION[$module]['Act'] == '1') {
-    if ($hide_area == 0) {  //toggle??
-        $checked_f = 'checked';
-    }
-    // Die Checkbox, die das toggling übernimmt, auswirkungen in VF_Foto_M()
-    $checkbox_f = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+if ($_SESSION[$module]['all_upd'] == '1') {
+    $checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 }
-Edit_Separator_Zeile('Bilder ',$checkbox_f);
+Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 echo "<input type='hidden' name='bs_bild_1' value='" . $neu['bs_bild_1'] . "'>";
 echo "<input type='hidden' name='bs_bild_2' value='" . $neu['bs_bild_2'] . "'>";
@@ -106,8 +111,6 @@ if ($_SESSION[$module]['all_upd']) {
 }
 
 echo "<p><a href='VF_O_AN_List.php?Act=".$_SESSION[$module]['Act']."'>Zurück zur Liste</a></p>";
-
-echo "<script type='text/javascript' src='" . $path2ROOT . "login/VZ_toggle.js' ></script>";
 
 if ($debug) {
     echo "<pre class=debug>VF_O_An_Edit_ph0.php beendet</pre>";

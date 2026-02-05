@@ -16,7 +16,7 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_Z_FI_Edit_ph1.php";
 if ($debug) {
     echo "<pre class=debug>VF_Z_B_Edit_ph1.inc.php ist gestarted</pre>";
 }
-var_dump($neu);
+
 $p_uid = $_SESSION['VF_Prim']['p_uid'];
 
 

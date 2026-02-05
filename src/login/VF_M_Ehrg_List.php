@@ -28,13 +28,13 @@ $path2ROOT = "../";
 $_SESSION[$module]['Inc_Arr'][] = "VF_M_Ehrg_List.php";
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -103,7 +103,11 @@ $T_list_texte = array(
 # Haeder ausgeben
 # ===========================================================================================================
 $title = "Ehrungen";
-# $heading = "<h1>Mitglieder Daten aus Tabelle <q>".$tabelle."</q></h1>";
+
+$jq = $jqui = True;
+$BA_AJA = true;
+
+$jq_toggle = $jq_tabsort = true;
 
 $logo = 'NEIN';
 BA_HTML_header('Ehrungen', '', 'Admin', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width

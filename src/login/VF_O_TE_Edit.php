@@ -30,13 +30,12 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_TE_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
-# require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -56,6 +55,8 @@ $header = "
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
 
 BA_HTML_header('Veranstaltungs Definition', $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -102,7 +103,6 @@ if ($phase == 0) {
             "va_id" => 0,
             "va_datum" => "0000-00-00",
             "va_begzt" => "00.´:00",
-            'va_dauer' => '0',
             'va_end_dat' => '0000-00-00',
             "va_endzt" => "00:00",
             "va_titel" => "",

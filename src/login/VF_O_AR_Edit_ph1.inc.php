@@ -18,15 +18,15 @@ if ($debug) {echo "<pre class=debug>VF_O_AR_Edit_ph1.inc.php ist gestarted</pre>
 
 foreach ($_POST as $name => $value)
 { $neu[$name] = mysqli_real_escape_string($db,$value);  }
-$p_uid = $_SESSION[$module]['p_uid'];
+$p_uid = $_SESSION['VF_Prim']['p_uid'];
 if ( $debug ) { echo '<pre class=debug>';echo '<hr>$neu: ';     print_r($neu); echo '</pre>'; }
 if ($fa_id == 0) { # neuengabe
     
     $sql = "INSERT INTO fh_falinks (
-              fa_link,fa_text,
+              fa_link,fa_text,fa_url_chkd, fa_url_obsolete,
               fa_aenduid,fa_aenddat
               ) VALUE (
-               '$neu[fa_link]','$neu[fa_text]',
+               '$neu[fa_link]','$neu[fa_text]','','',
                '$p_uid',now()
                )";
     

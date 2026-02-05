@@ -19,9 +19,9 @@ if ($debug) {
     echo 'VF_M_EZB.inc Neuanlegen Eigentümer, User und Berechtgung ';
 }
 
-$neu_mi_id = $_SESSION['neu_mitgl']['neu_mi_id'];
+$neu_mi_id = $_SESSION[$module]['neu_mitgl']['neu_mi_id'];
 
-$select = "WHERE  `mi_id`='" . $_SESSION['neu_mitgl']['neu_mi_id'] . "' ";
+$select = "WHERE  `mi_id`='" . $_SESSION[$module]['neu_mitgl']['neu_mi_id'] . "' ";
 
 $sql_mi = "SELECT * FROM fh_mitglieder $select ORDER BY `mi_name` ASC";
 $return_mi = SQL_QUERY($db, $sql_mi);
@@ -71,9 +71,9 @@ while ($row = mysqli_fetch_object($return_mi)) {
     $neu['ei_titel'] = $neu['ei_vname'] = $neu['ei_name'] = $neu['ei_dgr'] = "";
     $neu['ei_adresse'] = "";
     $neu['ei_plz'] = $neu['ei_ort'] = $neu['ei_tel'] = $neu['ei_fax'] = $neu['ei_handy'] = $neu['ei_email'] = "";
-    $neu['ei_internet'] = $neu['ei_sterbdat'] = $neu['ei_abgdat'] = $neu['ei_neueigner'] = "";
+    $neu['ei_internet'] = $neu['ei_url_chkd'] = $neu['ei_sterbdat'] = $neu['ei_abgdat'] = $neu['ei_neueigner'] = "";
     $neu['ei_urh_kurzz'] = $neu['ei_media'] = "";
-    $neu['ei_wlpriv'] = $neu['ei_vopriv'] = $neu['ei_wlmus'] = $neu['ei_vomus'] = $neu['ei_wlinv'] = $neu['ei_voinv'] = "N";
+    $neu['ei_wlpriv'] = $neu['ei_vopriv'] = $neu['ei_wlmus'] = $neu['ei_vomus'] = $neu['ei_wlinv'] = $neu['ei_voinv'] = $neu['ei_url_obsolete'] = "N";
     $neu['ei_voinf'] = $neu['ei_vofo'] = $neu['ei_voar'] = $neu['ei_drneu'] = "N";
     $neu['ei_drwvs'] = $neu['ei_uidaend'] = $neu['ei_aenddat'] = "";
 

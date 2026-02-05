@@ -9,18 +9,19 @@
  * 
  * 
  */
+
 if ($debug) {
     echo "<pre class=debug>VF_M_Anmeld_ph1.inc.php ist gestarted</pre>";
 }
-
+/*
 foreach ($_POST as $name => $value) {
-    $neu[$name] = mysqli_real_escape_string($db, $value);
+    $neu[$name] = trim(mysqli_real_escape_string($db, $value));
 }
-                                                                           # $neu['mi_'] = mb_convert_case($neu['mi_'] ,MB_CASE_TITLE,'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
-
+# $neu['mi_'] = mb_convert_case($neu['mi_'] ,MB_CASE_TITLE,'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
+*/
 if ($debug) {
     echo '<pre class=debug>';
-    echo '<hr>L 31 - $neu: ';
+    echo '<hr>L 23 - $neu: ';
     print_r($neu);
     echo '</pre>';
 }
@@ -51,7 +52,7 @@ $sql = "INSERT INTO fh_mitglieder (
 
 $result = SQL_QUERY($db, $sql);
 
-$_SESSION['neu_mitgl']['neu_mi_id'] = mysqli_insert_id($db);
+$_SESSION[$module]['neu_mitgl']['neu_mi_id'] = mysqli_insert_id($db);
 
 $datum = date("d.m.Y:");
 $zeit = date("H:i:s");
@@ -79,7 +80,7 @@ $log_rec .= "Organisation: " . $neu['mi_org_name'] . "\n";
 # $log_rec .= "Referatsmitarbeit: ".$neu['mi_ref_ma']."\n";
 # $log_rec .= "Referatsinormation: ".$neu['mi_ref_int']."\n";
 $log_rec .= "Einverstaendniserklaerung: " . $neu['mi_einversterkl'] . " $datum $zeit " . $neu['mi_einv_art'] . "\n";
-$log_rec .= "Mitgliedsnummer:  " . $_SESSION['neu_mitgl']['neu_mi_id'] . "\n";
+$log_rec .= "Mitgliedsnummer:  " . $_SESSION[$module]['neu_mitgl']['neu_mi_id'] . "\n";
 $text = " $log_rec ***** \"LOG ENDE\" *****\n";
 $text .= "Orig.TCP = " . $_SERVER['REMOTE_ADDR'] . "\n";
 
@@ -108,7 +109,7 @@ $text .= "\nBitte beobachten ob die Anmeldung korrekt beendet wurde\n";
 $text .= "und zu einem Teilnehmer Aufnameantrag geführt hat!\n";
 $text .= "Zum Ansehen des Logs folgenden Link anklicken:\n";
 $text .= "http://www.feuerwehrhistoriker.at/login/log/dir.php\n";
-$text .= "Mitgliedsnummer:  " . $_SESSION['neu_mitgl']['neu_mi_id'] . "\n";
+$text .= "Mitgliedsnummer:  " . $_SESSION[$module]['neu_mitgl']['neu_mi_id'] . "\n";
 $text .= "Anmeldelog  Mail Ende\n";
 
 $ini_arr = parse_ini_file($path2ROOT.'login/common/config_s.ini',True,INI_SCANNER_NORMAL);

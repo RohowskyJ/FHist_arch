@@ -196,7 +196,7 @@ if ($mi_m_abo_bez_bis != "") {
         $updas .= ",mi_m_abo_bez_bis = '$mi_m_abo_bez_bis'";
     }
 }
-$logtext = "Änderungen in " . Tabellen_Name . " für " . $row['mi_name'] . "  " . $row['mi_vname'] . " [mi_id]=$mi_id" . "\n[mi_m_beitr_bez] von '" . $row['mi_m_beitr_bez'] . "' auf '$mi_m_beitr_bez'" . "\n[mi_m_abo_bez] von '" . $row['mi_m_abo_bez'] . "' auf '$mi_m_abo_bez'";
+$logtext = "Änderungen in " . $tabelle . " für " . $row['mi_name'] . "  " . $row['mi_vname'] . " [mi_id]=$mi_id" . "\n[mi_m_beitr_bez] von '" . $row['mi_m_beitr_bez'] . "' auf '$mi_m_beitr_bez'" . "\n[mi_m_abo_bez] von '" . $row['mi_m_abo_bez'] . "' auf '$mi_m_abo_bez'";
 
 $sql = "UPDATE $tabelle SET  $updas ,mi_uidaend = '$p_uid'";
 

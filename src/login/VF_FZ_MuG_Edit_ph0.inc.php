@@ -12,15 +12,26 @@
 if ($debug) {
     echo "<pre class=debug>VF_FZ_MuG_Edit_ph0.inc.php ist gestarted</pre>";
 }
+
+$dataSetAct = "";
 if ($neu['mg_id'] == 0) { // Neueingabe
     $hide_area = 0;
 } else {
     $hide_area = 1;
+    $dataSetAct = "data-active-index='false'";
 }
 
+/** alle <input und <textara Felder werden als readonly gesetzt */
+if ($_SESSION[$module]['all_upd'] == '0' ){
+    $readOnly = 'readonly';
+}
 
 echo "<input type='hidden' id='mg_id' name='mg_id' value='".$neu['mg_id']."' >";
 echo "<input type='hidden' id='mg_id' name='mg_invnr' value='".$neu['mg_invnr']."' >";
+echo "<input type='hidden' id='recEigner' name='mg_eignr' value='".$_SESSION['Eigner']['eig_eigner']."'/>";
+echo "<input type='hidden' id='allUpd' name='allUpd' value='".$_SESSION[$module]['all_upd']."' >";
+echo "<input type='hidden' id='hide_area' value='$hide_area'>";
+
 # =========================================================================================================
 Edit_Tabellen_Header('Daten von '.$_SESSION['Eigner']['eig_name']);
 # =========================================================================================================
@@ -30,27 +41,22 @@ Edit_Daten_Feld('mg_eignr');
 # Edit_Daten_Feld('mg_invnr');
 
 # =========================================================================================================
-$button = "";
-if ($hide_area != 0) {
-    // Der Button, der das toggling übernimmt
-    $button = " &nbsp; &nbsp; <label><input type='checkbox' id='toggleBlock10' > zum anzeigen/ändern anklicken</label> ";
+// accordion für Sammlung
+echo "<ul id='sa-accordion' class='accordionjs' $dataSetAct >"; // sa- für Sammlung
+echo "<li>";
+echo "<div>";
+$readOnly = 'readonly'; # $Edit_Funcs_Protect = true;
+Edit_Daten_Feld_Button('mg_sammlg', '20', '', '');
+Edit_Daten_Feld('sa_name', '');
+if ($_SESSION[$module]['all_upd'] == '1' ){
+    $readOnly = '';
 }
-Edit_Separator_Zeile('Sammlung'.$button);
+echo "Zum Ändern / Suchen - hier anklicken";
+echo "</div>";
+echo "<div>";
 # =========================================================================================================
 
 echo "<input type='hidden' name='mg_sammlg' value='".$neu['mg_sammlg']."'/>";
-
-// $Edit_Funcs_Protect = True;
-Edit_Daten_Feld('mg_sammlg', '30');
-// $Edit_Funcs_Protect = False;
-Edit_Daten_Feld('sa_name');
-
-if ($hide_area == 0 || mb_strlen($neu['mg_sammlg']) <= 4) {
-    echo "<div>";
-} else {
-    echo "<div class='block-container' >";
-    echo "<div class='toggle-block' id='block10'>";
-}
 
 /**
  * Parameter für den Aufruf von Multi-Dropdown
@@ -91,8 +97,10 @@ switch ($MS_Opt) {
 $titel  = 'Suche nach der Sammlungs- Beschreibung ( oder Änderung der  angezeigten)';
 VF_Multi_Dropdown($in_val, $titel);
 
-echo "</div>"; # ende toggle
-echo " </div>";
+echo "</div>";
+echo "</li>";
+echo "</ul>";
+// Ende Acccordion für Sammlung
 
 # =========================================================================================================
 Edit_Separator_Zeile('Geräte- Beschreibung');
@@ -115,7 +123,7 @@ $checked_f = "";
 if ($hide_area == 0) {  //toggle??
     $checked_f = 'checked';
 }
-$checkbox_f = "<label> &nbsp; &nbsp; <input type='checkbox' id='toggleGroup1' $checked_f > Foto Daten eingeben/ändern </label>";
+$checkbox_f = "<a href='#' class='toggle-string' data-toggle-group='1'>Foto Daten eingeben/ändern</a>";
 Edit_Separator_Zeile('Fotos',$checkbox_f);  #
 # =========================================================================================================
 

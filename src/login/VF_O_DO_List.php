@@ -127,7 +127,7 @@ if (isset($_GET['T_List']) and $_GET['T_List'] == "Thema") {
 # ===========================================================================================
 
 $T_list_texte = array(
-    "Alle" => "Alle verfügbaren Dokumente",
+    "Alle" => "Alle verfügbaren Dokumente (Auswahl)",
     "Thema" => "<a href='VF_O_DO_List.php?thema=1' > Thema wechseln </a>"
 );
 

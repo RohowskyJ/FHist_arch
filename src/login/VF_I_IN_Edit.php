@@ -56,6 +56,10 @@ $Eigent .= ", " . $_SESSION['Eigner']['eig_verant'];
 
 $jq = $jqui = True;
 $BA_AJA = True;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
+$jq_accordion = true; // Accordion Display mit jquery
+
 $header = "";
 BA_HTML_header('Inventar- Verwaltung ' . $Eigent, $header, 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -247,15 +251,111 @@ $tabelle)
             case "in_venta":
                 
                 if ($row['in_foto_1'] != "") {
+                    /*
                     $pictpath = "AOrd_verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
                     
                     $in_foto_1 = $row['in_foto_1'];
                     $p1 = $pictpath . $row['in_foto_1'];
                     
                     $row['in_foto_1'] = "<a href='$p1' target='Bild 1' > <img src='$p1' alter='$in_foto_1' width='150px'> $in_foto_1 </a>";
+                    */
+                    $in_foto_1 = $row['in_foto_1'];
                     
+                    $dn_a = pathinfo(strtolower($in_foto_1));
+                    
+                    if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
+                        $image2 = "<a href='".$path2ROOT ."login/AOrd_Verz/INV/$in_foto_1' > $in_foto_1 </a>";
+                    } else {
+                        $aord_sp = "";
+                        $pict_path = $path2ROOT ."login/AOrd_Verz/";
+                        foreach (GrafFiles as $key => $val ){
+                            if ($dn_a['extension'] == $val) {
+                                $aord_sp = "06/";
+                                
+                            }
+                        }
+                        
+                        if ($aord_sp == "") {
+                            if ($dn_a['extension'] == 'mp3') {
+                                $aord_sp = "02/";
+                            } elseif ($dn_a['extension'] == 'mp4') {
+                                $aord_sp = "10/";
+                            } else {
+                                $aord_sp = "INV/";
+                            }
+                        }
+                        $fo_arr = explode("-", $in_foto_1);
+                        $cnt_fo = count($fo_arr);
+                        
+                        if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                            $urh = $fo_arr[0]."/";
+                            $verz = $fo_arr[1]."/";
+                            
+                            $image2 = $pict_path.$urh."09/".$aord_sp.$verz.$in_foto_1;
+                            
+                            if (!is_file($image2)) {
+                                $image2 = $pict_path . $in_foto_1;
+                            }
+                        } else {
+                            $image2 = $pict_path . "INV/". $in_foto_1;
+                        }
+                        $image2 = "<img src='$image2' alt='Bild 2' width='100px'/> ";
+                    }
+                    $row['in_foto_1'] = "<a href='".$pict_path . $in_foto_1."'  target='_blanc'> $image2 </a>";
                 }
-
+                
+                if ($row['in_foto_2'] != "") {
+                    $in_foto_2 = $row['in_foto_2'];
+                    
+                    $dn_a = pathinfo(strtolower($in_foto_2));
+                    
+                    if ($dn_a['extension'] == "pdf" || $dn_a['extension'] == 'doc') {
+                        $image2 = "<a href='".$path2ROOT ."login/AOrd_Verz/INV/$in_foto_2' > $in_foto_2 </a>";
+                    } else {
+                        $aord_sp = "";
+                        $pict_path = $path2ROOT ."login/AOrd_Verz/";
+                        foreach (GrafFiles as $key => $val ){
+                            if ($dn_a['extension'] == $val) {
+                                $aord_sp = "06/";
+                                
+                            }
+                        }
+                        
+                        if ($aord_sp == "") {
+                            if ($dn_a['extension'] == 'mp3') {
+                                $aord_sp = "02/";
+                            } elseif ($dn_a['extension'] == 'mp4') {
+                                $aord_sp = "10/";
+                            } else {
+                                $aord_sp = "INV/";
+                            }
+                        }
+                        $fo_arr = explode("-", $in_foto_2);
+                        $cnt_fo = count($fo_arr);
+                        
+                        if ($cnt_fo >= 3) {   // URH-Verz- Struktur de dsn
+                            $urh = $fo_arr[0]."/";
+                            $verz = $fo_arr[1]."/";
+                            
+                            $image2 = $pict_path.$urh."09/".$aord_sp.$verz.$in_foto_2;
+                            
+                            if (!is_file($image2)) {
+                                $image2 = $pict_path . $in_foto_2;
+                            }
+                        } else {
+                            $image2 = $pict_path . "INV/". $in_foto_2;
+                        }
+                        $image2 = "<img src='$image2' alt='Bild 2' width='100px'/> ";
+                    }
+                    $row['in_foto_2'] = "<a href='".$pict_path . $in_foto_2."'  target='_blanc'> $image2 </a>";
+                    $pictpath = "AOrd_verz/" . $_SESSION['Eigner']['eig_eigner'] . "/INV/";
+                    /*
+                    $in_foto_2 = $row['in_foto_1'];
+                    $p2 = $pictpath . $row['in_foto_2'];
+                    
+                    $row['in_foto_2'] = "<a href='$p2' target='Bild 2' > <img src='$p2' alter='$in_foto_2' width='150px'> $in_foto_2 </a>";
+                 */   
+                }
         }
     }
     return True;

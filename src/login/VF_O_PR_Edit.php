@@ -31,13 +31,12 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_O_PR_Edit.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
-# require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
@@ -46,6 +45,8 @@ $db = LinkDB('VFH');
 
 $jq = $jqui = true;
 $BA_AJA = true;
+
+$jq_fotoUp = true; // Foto upload oder Auswahl aus FotoLibs
 
 BA_HTML_header('Pressespiegel- Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -67,7 +68,6 @@ if (isset($_GET['ID'])) {
 
 $tabelle = Tabellen_Name;
 $Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
-#  $lowHeight = False; // Auswahl-- und Anzeige- Tabellen mit verschiedenen Höhen - je nach Record-Anzahl
 
 # --------------------------------------------------------
 # Lesen der Daten aus der sql Tabelle

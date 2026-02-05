@@ -7,6 +7,13 @@
  *
  *
  */
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_PS_OV_AD_Z_List_Standard.inc.php"; 
+
 if ($debug) {
     echo "<pre class=debug>VF_PS_OV_AD_Z_List_Standard.inc.php ist gestarted</pre>";
 }
@@ -34,7 +41,11 @@ while ($row = mysqli_fetch_array($return)) {
     }
     echo "</tr>";
     $sql_desc = "SELECT * FROM $tab_a_desc WHERE ad_ab_id='$ab_id' ";
-
+    
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>PS OV AD Standard List vor list_create $sql_desc </pre>";
+    echo "</div>";    
+    
     $return_desc = mysqli_query($db, $sql_desc);
     if ($return_desc) {
         WHILE ($row_desc = mysqli_fetch_assoc($return_desc)) {
