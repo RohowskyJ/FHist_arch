@@ -4,11 +4,11 @@
  * Laden der Daten in die Foto-Tabellen des gewählten Eigentümers
  *
  * @author  Josef Rohowsky - neu 2023, upd js/AJAX 202508 */
-session_start();
+session_start(); # die SESSION am leben halten
 
-# die SESSION am leben halten
-const Module_Name = 'OEF';
-$module = Module_Name;
+$module = 'OEF';
+$sub_mod = 'Foto';
+
 $tabelle = '';
 
 const Prefix = '';
@@ -19,6 +19,13 @@ const Prefix = '';
  * @var string $path2ROOT
  */
 $path2ROOT = "../";
+
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Media_Mass_Up.php"; 
 
 $debug = false; // Debug output Ein/Aus Schalter
 
@@ -191,10 +198,10 @@ switch ($phase) {
         break;
 
     case 1:
-        require 'VF_FO_Media_MassUp_ph1.inc.php'; // Ziel nach Archiv-Ordnung feststellen, Pfad der Source- Bilder abfragen
+        require '!VF_FO_Media_MassUp_ph1.inc.php'; // Ziel nach Archiv-Ordnung feststellen, Pfad der Source- Bilder abfragen
         break;
     case 2:
-        require 'VF_FO_Media_MassUp_ph2.inc.php'; // Pfade und Tabellen feststellen und die Tabeleninhalte erstellen (lassen)
+        require '!VF_FO_Media_MassUp_ph2.inc.php'; // Pfade und Tabellen feststellen und die Tabeleninhalte erstellen (lassen)
         break;
 }
 

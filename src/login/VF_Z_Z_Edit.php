@@ -192,7 +192,7 @@ if ($phase == 0) {
                 $neu['zu_MVW'] = $neu['zu_ADM'];
             }
         }
-var_dump($neu);
+
         if ($debug) {
             echo '<pre class=debug>';
             echo '<hr>$neu: ';

@@ -8,6 +8,12 @@ c<?php
  *
  */
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_FO_Media_Mass_Up_ph2.inc.php";
+
 if ($debug) {
     echo "<pre class=debug>VF_FO_MassUp_ph2.inc.php ist gestarted</pre>";
 }
@@ -169,6 +175,7 @@ $('#uploadButton').on('click', function() {
       filesToUpload.push({file: selectedFiles[i], index: i});
     }
   }
+  console.log('Files to Upload ',filesToUpload);
   uploadNext(0, filesToUpload);
 });
 
@@ -205,7 +212,7 @@ function uploadNext(i, files) {
   $('.rotateCheckbox[data-index="'+index+'"]:checked').each(function() {
     rotationVal = parseInt($(this).data('angle'));
   });
-  
+  if (watermark === 'on') {watermark = 'J';}
   // Daten für API
   var formData = new FormData();
   formData.append('file', file);
@@ -213,7 +220,7 @@ function uploadNext(i, files) {
   formData.append('urhName', $('#urhName').val());
   formData.append('aufnDat', $('#aufnDat').val());
   formData.append('rotation', rotationVal);
-  formData.append('watermark', watermark);
+  formData.append('urhEinfgJa', watermark);
   console.log('form_Date ',formData);
 
   $.ajax({
