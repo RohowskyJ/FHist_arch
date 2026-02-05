@@ -7,12 +7,14 @@
  *
  *
  */
-if ($debug) {
-    echo "<pre class=debug>VF_PS_OV_AD_Z_List_CTIF.inc ist gestarted</pre>";
-}
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_PS_OV_AD_Z_List_CTIF.inc.php"; 
 
 if ($debug) {
-    echo "<pre class=debug>VF_PS_OV_AD_Z_List_CTIF.inc ist gestarted<br> L 011 </pre>";
+    echo "<pre class=debug>VF_PS_OV_AD_Z_List_CTIF.inc.php ist gestarted<br> L 011 </pre>";
 }
 
 $proj = $_SESSION[$module]['proj'];
@@ -42,6 +44,10 @@ while ($row = mysqli_fetch_array($return)) {
 
     $sql_ausz = "SELECT * FROM $tab_a_ausz WHERE ac_ab_id='$ab_id' ORDER BY ac_stufe ASC";
 
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>PS OV AD VCTIF List vor list_create $sql_ausz </pre>";
+    echo "</div>";    
+    
     $return_ausz = mysqli_query($db, $sql_ausz);
 
     while ($row_ausz = mysqli_fetch_assoc($return_ausz)) {

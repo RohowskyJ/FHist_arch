@@ -7,7 +7,11 @@
  * 
  * 
  */
-
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_PS_OV_AE_List.inc.php"; 
 # ===========================================================================================
 # Definition der Auswahlmöglichkeiten (mittels radio Buttons)
 # ===========================================================================================
@@ -43,16 +47,10 @@ if ($_SESSION[$proj]['fw_bd_abk'] == "CTIF")  {
     $sql_az = "SELECT * FROM `$table_az` $select_az $sort_az ";
     
     $T_list_texte  = array(
-        "NeuItem" =>"<a href='VF_PS_OV_AE_Edit.php?ID=0' >Neuen Datensatz eingeben</a>"
-        ,"AuszList"=>"<a href='VF_PS_OV_AD_Z_List.php?fw_id=".$_SESSION[$module]['fw_id']."' >Liste der Auszeichnungen für Druck anzeigen</a>"
+        "AuszList"=>"<a href='VF_PS_OV_AD_Z_List.php?fw_id=".$_SESSION[$module]['fw_id']."' >Liste der Auszeichnungen für Druck anzeigen</a>"
     );
 }
-
-# ===========================================================================================================
-#                                            Haeder ausgeben
-# ===========================================================================================================
-
-   $logo = 'NEIN';
+$NeuRec = " &nbsp; &nbsp; &nbsp; <a href='VF_PS_OV_AE_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
 
   List_Prolog($module,$T_list_texte); #  Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -94,8 +92,11 @@ if ($_SESSION[$proj]['fw_bd_abk'] == "CTIF")  {
 #  Die Daten lesen und Ausgeben
 # ===========================================================================================================
 
- 
-      $New_Link = "";
+  echo "<div class='toggle-SqlDisp'>";
+  echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>PS OV AE List vor list_create $sql_az </pre>";
+  echo "</div>";
+  
+ $New_Link = "";
 
  List_Create($db,$sql_az,'',$table_az,'',$New_Link); # die liste ausgeben
 

@@ -109,7 +109,11 @@ $T_list_texte = array(
 # ===========================================================================================================
 $title = "Mitglieder Daten";
 
-$jq_tabsort = $jq = true;
+$jq = $jqui = True;
+$BA_AJA = true;
+
+$jq_toggle = $jq_tabsort = true; 
+
 $logo = 'NEIN';
 BA_HTML_header('Mitglieder- Verwaltung', '', 'Admin', '200em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
@@ -163,7 +167,7 @@ switch ($T_List) {
         $Tabellen_Spalten_COMMENT['mi_id'] = 'Nr. Typ';
         $Tabellen_Spalten_COMMENT['mi_name'] = 'Name Vorname';
         $Tabellen_Spalten_COMMENT['mi_anschr'] = 'Anschrift';
-        $Tabellen_Spalten_COMMENT['mi_gebtag'] = 'Geburtstag Eintrittsdatum';
+        $Tabellen_Spalten_COMMENT['mi_gebtag'] = 'Alter Geburtstag Eintrittsdatum';
         $Tabellen_Spalten_COMMENT['Ausg'] = 'Ausg';
         $Tabellen_Spalten_COMMENT['mi_ref_int_2'] = "Interesse Ref2, Ref3, Ref4";
         
@@ -395,6 +399,9 @@ BA_HTML_trailer();
 function modifyRow(array &$row, $tabelle)
 {
     global $path2ROOT, $T_List, $mitgl_einv_n, $bez_cnt, $abo_cnt;
+    
+    $heute = new DateTime();
+    $aktuellesJahr = (int)$heute->format('Y');
 
     $defjahr = date("y"); // Beitragsjahr, ist Gegenwärtiges Jahr
     
@@ -477,6 +484,24 @@ function modifyRow(array &$row, $tabelle)
         $mi_anschr = $row['mi_anschr'];
         $row['mi_anschr'] = $row['mi_plz']." ".$row['mi_ort']."<br>$mi_anschr";
         $row_csv['mi_anschr'] = $row['mi_plz']." ".$row['mi_ort']." $mi_anschr";
+        if ($row['mi_gebtag'] != "") {
+            $mi_gebtag = $row['mi_gebtag'];
+            $geburtsdatum_str = $row['mi_gebtag']; // z.B. '1985-07-15'
+            // Jahr, Monat, Tag extrahieren
+            $j_arr = explode('-', $geburtsdatum_str);
+            
+            // Geburtstag dieses Jahr zusammensetzen (als String)
+            $geburtstagDiesesJahr_str = $aktuellesJahr . '-' . $j_arr[1] . '-' . $j_arr[2] ; //. $monat . '-' . $tag;
+            // Alter berechnen
+            $alter = $aktuellesJahr - (int) $j_arr[0]; //(int)$jahr;
+            $color = "";
+            if (is_int($alter/5 )) {
+                console_log("alter $alter");
+                $color = "color: red";
+            }
+            $row['mi_gebtag'] = "<span style='$color'> $alter </span><br>" . $mi_gebtag ;
+            
+        }
         $gebtag = $row['mi_gebtag'];
         $row['mi_gebtag'] = "$gebtag <hr>".$row['mi_beitritt'];
         $row_csv['mi_gebtag'] = "$gebtag  ".$row['mi_beitritt'];

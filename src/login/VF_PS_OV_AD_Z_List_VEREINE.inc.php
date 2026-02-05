@@ -7,10 +7,11 @@
  *
  *
  */
-
-if ($debug) {
-    echo "<pre class=debug>VF_PS_OV_AD_Z_List_VEREINE.inc.php ist gestarted<br> L 011 </pre>";
-}
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr'][] = "VF_PS_OV_AD_Z_List_VEREINE.inc..php"; 
 
 $proj = $_SESSION[$module]['proj'];
 $pict_path = $pict_path = "AOrd_Verz/PSA/AUSZ/" . $_SESSION[$proj]['fw_bd_abk'] . "/";
@@ -39,10 +40,13 @@ while ($row = mysqli_fetch_array($return)) {
 
     $sql_ausz = "SELECT * FROM $tab_a_ausz WHERE av_ab_id='$ab_id' ORDER BY av_sort ASC";
 
+  
+    echo "<div class='toggle-SqlDisp'>";
+    echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>PS OV AD Vereine List vor list_create $sql_ausz </pre>";
+    echo "</div>";  
+    
     $return_ausz = SQL_QUERY($db, $sql_ausz);
-
-    # print_r($return_ausz);echo "<br>L 0039 \$sql_ausz $sql_ausz <br>";
-
+    
     while ($row_ausz = mysqli_fetch_assoc($return_ausz)) {
         if ($row_ausz['av_mat'] != "" || $row_ausz['av_beschr'] != "") {
             echo "<tr><td colspan='3'>" . $row_ausz['av_mat'] . "</td><td colspan='8'> <b>" . $row_ausz['av_beschr'] . "<b/></td></tr>";

@@ -68,6 +68,8 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
 
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/w3-5.02.css'  type='text/css'>"; 
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/add.css' type='text/css'>";
+    echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/BS_Druck.css' type='text/css'>";
+    
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/BA_sortable.css' type='text/css'>";
     # echo " <link rel='stylesheet' href='vz_drpdwnmenu.css' type='text/css'>";
     echo " <link rel='stylesheet' href='" . $path2ROOT . "login/common/css/dropup.css' type='text/css'>";
@@ -106,19 +108,19 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         );
     }
     if (is_file($path2ROOT . 'login/common/config_s.ini')) {
-        $ini_arr = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
+        $page_parm = parse_ini_file($path2ROOT . 'login/common/config_s.ini', true, INI_SCANNER_NORMAL);
         # var_dump($ini_arr);
-        if ($ini_arr['Config']['mode'] == "Single" && $ini_arr['Config']['eignr'] != "") {
-            $_SESSION['VF_Prim']['mode'] = $ini_arr['Config']['mode'];
-            $_SESSION['VF_Prim']['eignr'] = $ini_arr['Config']['eignr'];
-            VF_Displ_Eig($ini_arr['Config']['eignr']);
+        if ($page_parm['Config']['mode'] == "Single" && $page_parm['Config']['eignr'] != "") {
+            $_SESSION['VF_Prim']['mode'] = $page_parm['Config']['mode'];
+            $_SESSION['VF_Prim']['eignr'] = $page_parm['Config']['eignr'];
+            VF_Displ_Eig($page_parm['Config']['eignr']);
         }
-        $_SESSION['VF_Prim']['ptyp'] = $ini_arr['Config']['ptyp'];
-        $_SESSION['VF_Prim']['store'] = $ini_arr['Config']['store'];
+        $_SESSION['VF_Prim']['ptyp'] = $page_parm['Config']['ptyp'];
+        $_SESSION['VF_Prim']['store'] = $page_parm['Config']['store'];
         $c_Date = date("Ymd");
-        $_SESSION['VF_Prim']['cPerr'] = $path2ROOT."login/logs/debug/".$c_Date."_".$ini_arr['Config']['cPerr'];
-        $_SESSION['VF_Prim']['cDeb'] = $path2ROOT."login/logs/debug/".$c_Date."_".$ini_arr['Config']['cDeb'];
-        $_SESSION['VF_Prim']['OrgNam'] = $ini_arr['Config']['inst'];
+        $_SESSION['VF_Prim']['cPerr'] = $path2ROOT."login/logs/debug/".$c_Date."_".$page_parm['Config']['cPerr'];
+        $_SESSION['VF_Prim']['cDeb'] = $path2ROOT."login/logs/debug/".$c_Date."_".$page_parm['Config']['cDeb'];
+        $_SESSION['VF_Prim']['OrgNam'] = $page_parm['Config']['inst'];
         /** Aufdrehen des PHP Error Log to file */
         if ($_SESSION['VF_Prim']['cPerr'] != "") { 
             ini_set('log_errors', 1);
@@ -144,19 +146,19 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     if ($type == 'Form') {
         echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf Form start
         echo "<div class='w3-row'>";
-       #  echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
+       #  echo "<label><div style='float: left;'> <label>".$page_parm['Config']['inst']."</div></label><br>";
         echo "<div class='w3-col s9 m10 l11 '>"; // div langer Teil
-        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
+        echo "<label><div style='float: left;'> <label>".$page_parm['Config']['inst']."</div></label><br>";
         echo "<span class='w3-center w3-xlarge'> $title </span>";
         echo "</div>"; // Ende langer Teil
         echo "<div class='w3-col s3 m2 l1 ' >"; // div kurzer Teil
-        echo "<logo><img  src= '".$path2ROOT."login/common/imgs/".$ini_arr['Config']['sign']."' width='90%'></logo>"; 
+        echo "<logo><img  src= '".$path2ROOT."login/common/imgs/".$page_parm['Config']['sign']."' width='90%'></logo>"; 
         
          /**
          *  debug switch beginn
          */
         
-        if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' && $deb_data == '0') {
+        if ( isset($_SESSION['VF_Prim']['p_uid']) && $_SESSION['VF_Prim']['p_uid'] == '1' && $deb_data == '0') {   ##  && $deb_data == '0'
             $Hinweise = "<li>Blau unterstrichene Daten sind Klickbar <ul style='margin:0 1em 0em 1em;padding:0;'>  <li>Fahrzeug - Daten ändern: Auf die Zahl in Spalte <q>fz_id</q> Klicken.</li> ";
             $adm_cont = "
                 <ul style='margin: 0 1em 0em 1em; padding: 0;'>
@@ -212,14 +214,14 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
         }
         echo "</div>"; // ende kurzer Teil
         
-        if ($ini_arr['Config']['wart'] == "N") {
+        if ($page_parm['Config']['wart'] == "N") {
         } else {
 
-            if ($ini_arr['Config']['wart'] == "J") {
+            if ($page_parm['Config']['wart'] == "J") {
                 echo "<p class='error' style='font-size: 1.875em;'>Wartungsarbeiten - nur Abfragen möglich - keine Änderungen</p>";
             }
-            if ($ini_arr['Config']['wart'] == "U") {
-                echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
+            if ($page_parm['Config']['wart'] == "U") {
+                echo "<p class='error' style='font-size: 1.875em;'>" . $page_parm['Config']['warg'] . " </p>";
             }
         }
 
@@ -228,16 +230,16 @@ function BA_HTML_header($title, $head = '', $type = 'Form', $width = '90em')
     } elseif ($type == '1P') {    // 1st Page mit grossem Bild
         echo "<div class='w3-container' id='header'><fieldset>";  // Seitenkopf start 1.Seite
         echo "<div class='w3-row'>";
-        echo "<label><div style='float: left;'> <label>".$ini_arr['Config']['inst']."</div></label><br>";
-        echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/".$ini_arr['Config']['fpage']."' width='98%'>";
-        if ($ini_arr['Config']['wart'] == "N") {
+        echo "<label><div style='float: left;'> <label>".$page_parm['Config']['inst']."</div></label><br>";
+        echo "<img src='".$path2ROOT."login/common/imgs/2013_01_top_72_jr.png' alt='imgs/".$page_parm['Config']['fpage']."' width='98%'>";
+        if ($page_parm['Config']['wart'] == "N") {
         } else {
 
-            if ($ini_arr['Config']['wart'] == "J") {
+            if ($page_parm['Config']['wart'] == "J") {
                 echo "<p class='error' style='font-size: 1.875em;'>Wartungsarbeiten - nur Abfragen möglich - keine Änderungen</p>";
             }
-            if ($ini_arr['Config']['wart'] == "U") {
-                echo "<p class='error' style='font-size: 1.875em;'>" . $ini_arr['Config']['warg'] . " </p>";
+            if ($page_parm['Config']['wart'] == "U") {
+                echo "<p class='error' style='font-size: 1.875em;'>" . $page_parm['Config']['warg'] . " </p>";
             }
         }
         echo "</div>"; // Ende w3-row
@@ -294,7 +296,6 @@ function BA_HTML_trailer()
         echo "<script src='".$path2ROOT."login/common/javascript/VF_accordion.js' async></script>";
     }
     if (isset($jq_tabsort) && $jq_tabsort) {
-        # echo "<script type='text/javascript' src='" . $path2ROOT . "login/common/javascript/BA_sortable.js' ></script>";
         echo "<script src='".$path2ROOT."login/common/javascript/sortable.auto.min.js' async></script>";
     }
     if (isset($jq_fotoUp) && $jq_fotoUp) {
@@ -311,7 +312,7 @@ function BA_HTML_trailer()
         echo "<script  src='".$path2ROOT."login/common/javascript/BA_LinkCheck.js' ></script>";
     }
     
-    echo "<script type='text/javascript' src='common/javascript/BA_chkbx_multi_sel.js' ></script>";
+    echo "<script  src='".$path2ROOT."login/common/javascript/BA_chkbx_multi_sel.js' ></script>";
     
     ?>
   

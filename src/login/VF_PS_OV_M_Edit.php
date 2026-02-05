@@ -7,9 +7,10 @@
  */
 session_start();
 
-const Module_Name = 'PSA';
-$module = Module_Name;
-$tabelle = 'fh_fw_ort_ref';
+$module = 'PSA';
+$sub_mod = 'all';
+
+$tabelle = 'aw_ort_ref';
 
 const Prefix = '';
 
@@ -20,22 +21,38 @@ const Prefix = '';
  */
 $path2ROOT = "../";
 
-$debug = True;
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc';
-# require $path2ROOT . 'login/common/VF_4_Comm.inc';
-
-require $path2ROOT . 'login/common/const.inc';
-require $path2ROOT . 'login/common/Funcs.inc';
-require $path2ROOT . 'login/common/Edit_Funcs.inc';
-require $path2ROOT . 'login/common/List_Funcs.inc';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+$proj = $_SESSION[$module]['proj'];
+if (! isset($_SESSION[$proj]['fw_id'])) {
+    $SESSION[$proj]['fw_id'] = $fw_id;
+}
+
+switch ($_SESSION[$module]['proj']) {
+    case "AERM":
+        $htext = 'Orts- Struktur Verwaltung, Wappen, Ärmelabzeichen';
+        break;
+        
+    case "AUSZ":
+        $htext = 'Orts- Struktur Verwaltung, Auszeichnungen, Ehrenzeichen, ... ';
+        break;
+    default:
+}
+
+BA_HTML_header($htext, '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug();
 
@@ -70,10 +87,6 @@ if ($fw_id !== "") {
 } else {
     $fw_id = $_SESSION[$module]['fw_id'];
 }
-$proj = $_SESSION[$module]['proj'];
-if (! isset($_SESSION[$proj]['fw_id'])) {
-    $SESSION[$proj]['fw_id'] = $fw_id;
-}
 
 $Edit_Funcs_FeldName = False; // Feldname der Tabelle wird nicht angezeigt !!
 $lowHeight = False; // Auswahl-- und Anzeige- Tabellen mit verschiedenen Höhen - je nach Record-Anzahl
@@ -100,7 +113,7 @@ if ($_SESSION[$module]['all_upd']) {
 if ($phase == 0) {
     if ($_SESSION[$module]['fw_id'] == 0) {
         $neu = array(
-            'fw_id' => "NeuItem",
+            'fw_id' => "0",
             'fw_st_abk' => "AT",
             "fw_bd_abk" => "NOE",
             'fw_bz_abk' => "",
@@ -144,17 +157,6 @@ if ($phase == 1) {
     require "VF_PS_OV_M_Edit_ph1.inc";
 }
 
-switch ($_SESSION[$module]['proj']) {
-    case "AERM":
-        $htext = 'Orts- Struktur Verwaltung, Wappen, Ärmelabzeichen';
-        break;
-
-    case "AUSZ":
-        $htext = 'Orts- Struktur Verwaltung, Auszeichnungen, Ehrenzeichen, ... ';
-        break;
-    default:
-}
-HTML_header($htext, 'Änderungsdienst', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 switch ($phase) {
     case 0:

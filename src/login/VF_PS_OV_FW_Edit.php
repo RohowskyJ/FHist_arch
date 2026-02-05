@@ -8,8 +8,9 @@
  */
 session_start();
 
-const Module_Name = 'PSA';
-$module = Module_Name;
+$module = 'PSA';
+$sub_mod = 'all';
+
 $tabelle = 'aw_ff_wappen';
 
 const Prefix = '';
@@ -23,17 +24,21 @@ $path2ROOT = "../";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Const.inc.php';
-require $path2ROOT . 'login/common/Funcs.inc.php';
-require $path2ROOT . 'login/common/Edit_Funcs.inc.php';
-require $path2ROOT . 'login/common/List_Funcs.inc.php';
-require $path2ROOT . 'login/common/Tabellen_Spalten.inc.php';
-require $path2ROOT . 'login/common/VF_Comm_Funcs.inc.php';
+require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
+require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 
 $flow_list = False;
 
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
+
+
+BA_HTML_header('Orts- Wappen - Verwaltung', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
 
 initial_debug(); # Wenn $debug=true - Ausgabe von Debug Informationen: $_POST, $_GET, $_FILES
 setlocale(LC_CTYPE, "de_AT"); // für Klassifizierung und Umwandlung von Zeichen, zum Beispiel strtoupper
@@ -104,7 +109,7 @@ if ($phase == 1) {
     foreach ($_POST as $name => $value) {
         $neu[$name] = mysqli_real_escape_string($db, $value);
     }
-
+var_dump($neu);
     $neu['fo_ff_w_komm'] = mb_convert_case($neu['fo_ff_w_komm'], MB_CASE_TITLE, 'UTF-8'); // Wandelt jeden ersten Buchstaben eines Wortes in einen Großbuchstaben
 
     if (isset($_FILES['uploaddatei_1']['name'])) {
@@ -118,7 +123,7 @@ if ($phase == 1) {
             $neu['fo_ff_wappen'] =  VF_Upload_Pic('fo_ff_wappen', $uploaddir, $urh_abk="", $fo_aufn_datum="");
         }
     }
-
+var_dump($neu);
     if ($debug) {
         echo '<pre class=debug>';
         echo '<hr>$neu: ';
@@ -172,12 +177,10 @@ if ($phase == 1) {
     }
 }
 
-HTML_header('Orts- Wappen - Verwaltung', 'Änderungsdienst', '', 'Form', '90em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
-
 switch ($phase) {
     case 0:
         require ('VF_PS_OV_FW_Edit_ph0.inc.php');
         break;
 }
-HTML_trailer();
+BA_HTML_trailer();
 ?>

@@ -75,12 +75,14 @@ if ($_SESSION[$module]['p_zug'] == "V" or $_SESSION[$module]['p_zug'] == "A") {
     
     Edit_Separator_Zeile('Mitglieder- Zahlungseingangs- Verwaltung');
     echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-    echo "<tr><td>Hier werden die Zahlungseingänge (Mitgliedsbeitrag und ABO- Gebühr verwaltet). </td></tr>";
+    echo "Hier werden die Zahlungseingänge (Mitgliedsbeitrag und ABO- Gebühr verwaltet).";
+   
     echo "  </div>";  // Ende Feldname
     
     if ($_SESSION[$module]['p_zug'] == "V") {
         echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-        echo "<tr><td><a href='VF_MB_List.php?sk=$sk' target='M Bez.-Verwaltung'>Beitrags- Eingang</a></td></tr>";
+        echo "<a href='VF_MB_List.php?sk=$sk' target='M Bez.-Verwaltung'>Beitrags- Eingang</a> <br>";
+        echo "<a href='VF_MB_List_nL.php?sk=$sk' target='M Bez.-Verwaltung'>Beitrags- Eingang - NEUES FORMAT</a>";
         echo "  </div>";  // Ende Feldname
     }
     
@@ -89,11 +91,11 @@ if ($_SESSION[$module]['p_zug'] == "V" or $_SESSION[$module]['p_zug'] == "A") {
 Edit_Separator_Zeile('Mitglieder- E-Mail an');
 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "<tr><td>Mitglieder können E-Mails an andere Mitglieder senden, ohne das Sie die E-Mail Adresse kennen.</a></td></tr>";
+echo "Mitglieder können E-Mails an andere Mitglieder senden, ohne das Sie die E-Mail Adresse kennen.</a>";
 echo "  </div>";  // Ende Feldname
 
 echo "<div class='w3-row'>"; // Beginn der Einheit Ausgabe
-echo "<tr><td><a href='VF_M_Mail.php?sk=$sk' target='M-Mail'>Mail an andere Mitglieder senden </a></td></tr>";
+echo "<a href='VF_M_Mail.php?sk=$sk' target='M-Mail'>Mail an andere Mitglieder senden </a>";
 echo "  </div>";  // Ende Feldname
 
 Edit_Separator_Zeile('Mitglieder- Auskuft laut DSVGO');

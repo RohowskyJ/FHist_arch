@@ -7,8 +7,8 @@
  */
 session_start();
 
-const Module_Name = 'PSA';
-$module = Module_Name;
+$module = 'PSA';
+$sub_mod = 'all';
 
 const Tabellen_Name = 'aw_ort_ref';
 $tabelle = Tabellen_Name;
@@ -20,15 +20,22 @@ $tabelle = Tabellen_Name;
  */
 $path2ROOT = "../";
 
+/**
+ * Includes-Liste
+ * enthält alle jeweils includierten Scritpt Files
+ */
+$_SESSION[$module]['Inc_Arr']  = array();
+$_SESSION[$module]['Inc_Arr'][] = "VF_PS_OV_O_List.php"; 
+
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
-require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_List_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Tabellen_Spalten.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Const.lib.php';
 require $path2ROOT . 'login/common/VF_F_tab_creat.lib.php';
 
 $flow_list = False;
@@ -36,15 +43,67 @@ $flow_list = False;
 $LinkDB_database  = '';
 $db = LinkDB('VFH');
 
+if (isset($_GET['proj'])) {
+    $_SESSION[$module]['proj'] = $_GET['proj'];
+}
+
+# ===========================================================================================
+# Definition der Auswahlmöglichkeiten (mittels radio Buttons)
+# ===========================================================================================
+switch ($_SESSION[$module]['proj']) {
+    case "AERM":
+        $htext = 'Orts- und Feuerwehr- Daten- Anzeige'; // Text für Page- Titel
+        $ltext = "Orts-, Fahrzeug-Wappen, Ärmelabzeichen  "; // Text für Action . Bar
+        if ($_SESSION[$module]['all_upd']) {
+            $T_List_Texte = array(
+                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
+                "Alle" => "Alle Daten - mit Auswahl"
+            );
+            $NeuItem = "<a href='VF_PS_OV_O_Edit.php?ID=0' > Neuen Datensatz anlegen </a>";
+        } else {
+           
+            $T_List_Texte = array(
+                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
+                "Alle" => "Alle Daten - mit Auswahl"
+            );
+        }
+        
+        break;
+        
+    case "AUSZ":
+        $htext = 'Orts- Struktur Verwaltung, Auszeichnungen, Ehrenzeichen, ... '; // Text für Page- Titel
+        $ltext = "Orts-, Auszeichnungen, Ehrenzeichen, ...  "; // Text für Action . Bar
+        if ($_SESSION[$module]['all_upd']) {
+            
+            $T_List_Texte = array(
+                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
+                "Alle" => "Alle Daten - mit Auswahl"
+            );
+            $NeuItem = "<a href='VF_PS_OV_M_Edit.php?ID=0'";
+        } else {
+            
+            $T_List_Texte = array(
+                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. "
+            );
+        }
+        
+        break;
+    default:
+}
+
+# ===========================================================================================================
+# Haeder ausgeben
+# ===========================================================================================================
+
+$jq_tabsort = $jq = true;
+BA_HTML_header($htext,  '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+
 initial_debug();
 
 VF_chk_valid();
 
 VF_set_module_p();
 
-if (isset($_GET['proj'])) {
-    $_SESSION[$module]['proj'] = $_GET['proj'];
-}
 if (isset($_POST['phase'])) {
     $phase = $_POST['phase'];
 } else {
@@ -93,57 +152,7 @@ if (isset($_SESSION[$module]['List_Parm'])) {
     $VF_List_parm = $_SESSION[$module]['List_Parm'];
 }
 
-# ===========================================================================================
-# Definition der Auswahlmöglichkeiten (mittels radio Buttons)
-# ===========================================================================================
-switch ($_SESSION[$module]['proj']) {
-    case "AERM":
-        if ($_SESSION[$module]['all_upd']) {
-            $htext = 'Orts- und Feuerwehr- Daten- Verwaltung'; // Text für Page- Titel
-            $ltext = "Orts-, Fahrzeug-Wappen, Ärmelabzeichen - Administrator "; // Text für Action . Bar
-            $T_List_Texte = array(
-                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
-                "Alle" => "Alle Daten - mit Auswahl",
-                "NeuItem" => "<a href='VF_PS_OV_O_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
-            );
-        } else {
-            $htext = 'Orts- und Feuerwehr- Daten- Anzeige'; // Text für Page- Titel
-            $ltext = "Orts-, Fahrzeug-Wappen, Ärmelabzeichen  "; // Text für Action . Bar
-            $T_List_Texte = array(
-                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
-                "Alle" => "Alle Daten - mit Auswahl"
-            );
-        }
-
-        break;
-
-    case "AUSZ":
-        if ($_SESSION[$module]['all_upd']) {
-            $htext = 'Orts- Struktur Verwaltung, Auszeichnungen, Ehrenzeichen, ... '; // Text für Page- Titel
-            $ltext = "Orts-, Auszeichnungen, Ehrenzeichen, ...  "; // Text für Action . Bar
-            $T_List_Texte = array(
-                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
-                "Alle" => "Alle Daten - mit Auswahl",
-                "NeuItem" => "<a href='VF_PS_OV_M_Edit.php?ID=0' > Neuen Datensatz anlegen </a>"
-            );
-        } else {
-            $htext = 'Orts- Struktur Anzeige, Auszeichnungen, Ehrenzeichen, ... '; // Text für Page- Titel
-            $ltext = "Orts-, Auszeichnungen, Ehrenzeichen, ...  "; // Text für Action . Bar
-            $T_List_Texte = array(
-                "Name" => "Nach Name (Land/Bundesld/Bezirk/Ort/Feuerwehr) Mit Auswahl. ",
-                "Alle" => "Alle Daten - mit Auswahl"
-            );
-        }
-
-        break;
-    default:
-}
-
-# ===========================================================================================================
-# Haeder ausgeben
-# ===========================================================================================================
-
-BA_HTML_header($htext,  '', 'Admin', '150em'); # Parm: Titel,Subtitel,HeaderLine,Type,width
+$NeuRec = " &nbsp; &nbsp; &nbsp; $NeuItem > Neuen Datensatz anlegen </a>";
 
 List_Prolog($module,$T_List_Texte); # Paramerter einlesen und die Listen Auswahl anzeigen
 
@@ -256,6 +265,10 @@ if ($_SESSION[$module]['select_string'] != '') {
 }
 
 $sql .= $sql_where . $orderBy;
+
+echo "<div class='toggle-SqlDisp'>";
+echo "<pre class=debug style='background-color:lightblue;font-weight:bold;'>PS_OV_O List vor list_create $sql </pre>";
+echo "</div>";
 
 List_Create($db, $sql,'', $tabelle,''); # die liste ausgeben
 
