@@ -9,6 +9,7 @@ javascript/jqwidgets
 javascript/bootstrap
 imgs
 config_?.ini
+FS_Config_*.php
 Fonts
 bo*
 jq*
