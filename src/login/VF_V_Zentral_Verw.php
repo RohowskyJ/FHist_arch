@@ -25,10 +25,10 @@ $_SESSION[$module]['Inc_Arr'][] = "VF_V_Zentral_Verw.php";
 
 $debug = False; // Debug output Ein/Aus Schalter
 
-require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_HTML_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Funcs.lib.php';
 require $path2ROOT . 'login/common/BA_Edit_Funcs.lib.php';
+require $path2ROOT . 'login/common/VF_Comm_Funcs.lib.php';
 
 $flow_list = False;
 
@@ -82,7 +82,7 @@ if ($_SESSION['VF_Prim']['ADM'] == "V" ) {
     
     Edit_Separator_Zeile('Firmen (Fzg/Gerät - Hersteller/Aufbauer) ');
     echo "<div class='w3-row' >"; // Beginn der Einheit Ausgabe
-    echo "<tr><TD>Liste Fahrzeug- und Geräte- Heersteller und Aufbauer </d><br>";
+    echo "<tr><TD>Liste Fahrzeug- und Geräte- Hersteller und Aufbauer </d><br>";
     echo "<a href='VF_Z_FI_List.php?sk=$sk' target='Config'>Firmen</a>"; # neu OK
     echo "</div>";
     

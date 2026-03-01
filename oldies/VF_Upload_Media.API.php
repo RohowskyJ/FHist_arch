@@ -5,17 +5,19 @@
 require "../VF_Foto_Funcs.lib.php";
 require "../VF_Const.lib.php";
 
-/* für PHP-Logging
- * ini_set('display_errors', '1');
+/* für PHP-Logging  */
+ini_set('display_errors', '1');
 ini_set("log_errors", 1);
 ini_set("error_log", "MUP_php-error.log");
 error_log( "Hello, errors!" );
-*/
+$vard = var_export($_POST,true);
+error_log($vard);
+/* */
 
-$debug_log = false;
+$debug_log = true;
 
 if ($debug_log) {
-    file_put_contents('Media_up_debug.log', "VF_Upload_Media.API L 007 " . PHP_EOL, FILE_APPEND);
+    file_put_contents('Media_up_debug.log', "VF_Upload_Media.API L 018 " . PHP_EOL, FILE_APPEND);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { #) { # $_SERVER['REQUEST_METHOD'] === 'POST' ) { #
@@ -27,13 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { #) { # $_SERVER['REQUEST_METHOD'] =
     $aufnDat = $_POST['aufnDat'] ?? '';
 
     $uploadsArr = $_POST['upload'] ?? [];
-    $rotationArr = $_POST['rotation'] ?? [];
+    #$rotationArr = $_POST['rotation'] ?? [];
     $watermarkArr = $_POST['watermark'] ?? [];
+    if (!empty($_FILES['file']) && is_array($_FILES['file']['name'])) {
+        $fileCount = count($_FILES['file']['name']);
+        $rotations = isset($_POST['rotations']) ? $_POST['rotations'] : [];
+        for ($i = 0; $i < $fileCount; $i++) {
+            $tmpName = $_FILES['file']['tmp_name'][$i];
+            $fileName = $_FILES['file']['name'][$i];
+            $rotation = isset($rotations[$i]) ? $rotations[$i] : 0;
+            // Now you can move_uploaded_file($tmpName, ...) and use $rotation
+        }
+    }
+    
 
     /**  Testt- Parms für direkt- Aufruf
     $urhNr = '77';
     $urhName = 'Kasermandl';
-    $aufnDat  = '20250704_lo';
+    $aufnDat  = '20250704_lo'; 
     $uploadsArr = array('0' => '1','1' => '0');
     $rotationArr = array('0' => '0','1'=> '180');
     $watermarkArr = array('0' => '1','1' =>'0');
@@ -47,7 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { #) { # $_SERVER['REQUEST_METHOD'] =
         $eintragen .= "urh_name $urhName \n";
         $eintragen .= "urh_nr  \n";
         $eintragen .= "aufn_dat $aufnDat \n";
-        $eintragen .= "Basispfad = $basispfad\n";
+        $vard = var_export($rotations,true);
+        $eintragen .= "rotation $vard \n";
+        #$vard = var_export($files,true);
+        #$eintragen .= "$vard \n";
+        $vard = var_export($watermarkArr,true);
+        $eintragen .= "watermark $vard \n";
         file_put_contents('Media_up_debug.log', "L 039 $eintragen" . PHP_EOL, FILE_APPEND);
     }
 
